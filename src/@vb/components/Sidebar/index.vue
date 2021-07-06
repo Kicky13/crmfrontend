@@ -643,7 +643,7 @@
           <i class="fe fe-image" />
         </a>
       </a-tooltip>
-      <a-tooltip placement="left">
+      <!-- <a-tooltip placement="left">
         <template #title>
           <span>Switch Dark / Light Theme</span>
         </template>
@@ -655,7 +655,7 @@
           <i v-if="settings.theme === 'default'" class="fe fe-moon" />
           <i v-if="settings.theme !== 'default'" class="fe fe-sun" />
         </a>
-      </a-tooltip>
+      </a-tooltip> -->
       <a-tooltip placement="left">
         <template #title>
           <span>Set Primary Color</span>

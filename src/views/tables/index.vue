@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'VbDashboards',
+  name: 'VbTables',
   components: {},
 }
 </script>
