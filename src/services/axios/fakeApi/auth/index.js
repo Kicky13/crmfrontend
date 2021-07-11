@@ -9,6 +9,32 @@ const fakeJwt = {
   },
 }
 
+const adminAbility = [
+  {
+    action: 'manage',
+    subject: 'all',
+  },
+]
+
+const userAbility = [
+  {
+    action: 'manage',
+    subject: 'Dashboard',
+  },
+  {
+    action: 'manage',
+    subject: 'Apps',
+  },
+  {
+    action: 'manage',
+    subject: 'Ecommerce',
+  },
+  {
+    action: 'read',
+    subject: 'Auth',
+  },
+]
+
 const users = [
   {
     id: 1,
@@ -17,6 +43,16 @@ const users = [
     name: 'Tom Jones',
     avatar: '',
     role: 'admin',
+    ability: adminAbility,
+  },
+  {
+    id: 2,
+    email: 'demo@visualbuilder.user',
+    password: 'VisualBuilder',
+    name: 'Sadeena',
+    avatar: '',
+    role: 'user',
+    ability: userAbility,
   },
 ]
 
@@ -70,6 +106,7 @@ mock.onPost('/api/auth/register').reply(request => {
       name,
       avatar: '',
       role: 'admin',
+      ability: adminAbility,
     }
     users.push(user)
 
