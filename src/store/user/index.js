@@ -26,6 +26,12 @@ const DEV = process.env.VUE_APP_AUTHENTICATED
     role: 'admin',
     email: 'demo@sellpixels.com',
     avatar: '',
+    ability: [
+      {
+        action: 'read',
+        subject: 'Auth',
+      },
+    ],
     authorized: true,
     accountFetchIsTouched: true,
   }
@@ -39,6 +45,7 @@ export default {
     role: '',
     email: '',
     avatar: '',
+    ability: [],
     authorized: false,
     loading: false,
     accountFetchIsTouched: false,
@@ -104,15 +111,17 @@ export default {
       const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
       currentAccount().then(response => {
         if (response) {
-          const { id, email, name, avatar, role } = response
+          const { id, email, name, avatar, role, ability } = response
           commit('SET_STATE', {
             id,
             name,
             email,
             avatar,
             role,
+            ability,
             authorized: true,
           })
+          localStorage.setItem('userData', JSON.stringify(response))
         }
         commit('SET_STATE', {
           loading: false,
@@ -128,9 +137,16 @@ export default {
           role: '',
           email: '',
           avatar: '',
+          ability: [
+            {
+              action: 'read',
+              subject: 'Auth',
+            },
+          ],
           authorized: false,
           loading: false,
         })
+        localStorage.removeItem('userData')
         router.push('/auth/login')
       })
     },
