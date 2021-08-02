@@ -6,7 +6,7 @@ build:
   stage: build
   when: on_success
   only:
-    - dev
+    - DEV
   image: docker:stable
   services:
     - docker:dind
