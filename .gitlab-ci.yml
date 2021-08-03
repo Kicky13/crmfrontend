@@ -19,7 +19,7 @@ sonarqube-check:
     - sonar-scanner
   allow_failure: true
   only:
-    - dev # or the name of your main branch
+    - DEV # or the name of your main branch
     - merge_requests
 
 build:
