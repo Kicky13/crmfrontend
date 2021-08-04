@@ -25,6 +25,8 @@ sonarqube-check:
 build:
   stage: build
   when: on_success
+  variables:
+    NODE_ENV: "production"
   only:
     - DEV
   image: docker:stable
