@@ -3,10 +3,12 @@
 .vb__utils {
   // link
   &__link {
-    color: $primary;
+    // color: $primary;
+    color: $main;
     transition: all 0.2s ease-in-out;
     &:hover {
-      color: $blue-light;
+      // color: $blue-light;
+      color: $main-light;
     }
 
     &__underlined {
@@ -510,9 +512,11 @@
 [data-vb-theme='dark'] {
   .vb__utils {
     &__link {
-      color: $primary;
+      // color: $primary;
+      color: $main;
       &:hover {
-        color: $blue-light;
+        // color: $blue-light;
+        color: $main-light;
       }
       &__underlined {
         color: $primary;
