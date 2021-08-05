@@ -27,6 +27,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: center;
       height: rem(24);
       white-space: nowrap;
       width: 100%;
@@ -83,8 +84,9 @@
       display: block;
     }
     .descr {
-      margin-left: rem(13);
-      padding-left: rem(13);
+      // margin-left: rem(13);
+      // padding-left: rem(13);
+      padding-left: rem(5);
       height: rem(38);
       line-height: rem(38);
       border-left: 1px solid $gray-2;

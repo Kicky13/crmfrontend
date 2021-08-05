@@ -1,12 +1,19 @@
 @import '@/mixins.scss';
 
 .breadcrumbs {
-  padding: rem(20) rem(30) 0;
+  padding: rem(20) rem(30) rem(20);
   font-size: rem(17);
+  background-color: $main;
+  color: $white;
+
+  a {
+    color: $white;
+  }
 }
 
 .current {
-  color: $black;
+  // color: $black;
+  color: $white;
 }
 
 .arrow {
@@ -15,14 +22,16 @@
   &:after {
     display: inline-block;
     content: '·';
-    color: $gray-5;
+    // color: $gray-5;
+    color: $white;
   }
 }
 
 // dark theme
 [data-vb-theme='dark'] {
   .breadcrumbs {
-    color: $dark-gray-1;
+    // color: $dark-gray-1;
+    color: $white;
   }
 
   .current {
@@ -31,7 +40,8 @@
 
   .arrow {
     &:after {
-      color: $dark-gray-1;
+      // color: $dark-gray-1;
+      color: $white;
     }
   }
 }

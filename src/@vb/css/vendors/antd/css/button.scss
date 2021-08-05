@@ -37,6 +37,18 @@
       border-color: $gray-2 !important;
     }
   }
+  &-main {
+    background: $main !important;
+    border-color: $main !important;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: lighten($main-light, 5%) !important;
+      border-color: lighten($main-light, 5%) !important;
+      color: $white;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +79,18 @@
       &[disabled]:hover {
         background: #1d1b2c !important;
         border-color: #232135 !important;
+      }
+    }
+    &-main {
+      background: $main !important;
+      border-color: $main !important;
+  
+      &:hover,
+      &:active,
+      &:focus {
+        background: lighten($main-light, 0%) !important;
+        border-color: lighten($main-light, 0%) !important;
+        color: $white;
       }
     }
   }
