@@ -162,7 +162,7 @@
       color: $text;
 
       &:hover {
-        color: $primary;
+        color: $main;
       }
     }
 
@@ -183,10 +183,10 @@
         color: $text;
 
         &:hover {
-          color: $primary;
+          color: $main;
 
           .icon {
-            color: $primary;
+            color: $main;
           }
         }
       }
@@ -195,13 +195,13 @@
     :global(.ant-menu-submenu-selected) {
       :global(.ant-menu-submenu-title),
       .icon {
-        color: $primary;
+        color: $main;
       }
     }
 
     :global(.ant-menu-submenu-active) {
       .icon {
-        color: $primary;
+        color: $main;
       }
     }
 
@@ -212,7 +212,7 @@
     }
 
     :global(.ant-menu-item-selected) {
-      background: $primary !important;
+      background: $main !important;
 
       > a {
         color: $white !important;
@@ -374,7 +374,7 @@
       color: $dark-gray-2;
 
       &:hover {
-        color: $primary;
+        color: $main;
       }
     }
 
@@ -386,10 +386,10 @@
         color: $dark-gray-2;
 
         &:hover {
-          color: $primary;
+          color: $main;
 
           .icon {
-            color: $primary;
+            color: $main;
           }
         }
       }
@@ -406,7 +406,7 @@
         color: $primary;
       }
       &:global(.ant-menu-item-selected) {
-        background: $primary !important;
+        background: $main-light !important;
       }
     }
 

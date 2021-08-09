@@ -93,7 +93,7 @@
             </template>
           </template>
         </a-menu>
-        <div :class="$style.banner">
+        <!-- <div :class="$style.banner">
           <p>More components, more style, more themes, and premium support!</p>
           <a
             href="https://themeforest.net/item/clean-ui-react-admin-template/21938700"
@@ -102,7 +102,7 @@
             class="btn btn-sm btn-success btn-rounded px-3"
             >Buy Bundle</a
           >
-        </div>
+        </div> -->
       </perfect-scrollbar>
     </div>
   </a-layout-sider>

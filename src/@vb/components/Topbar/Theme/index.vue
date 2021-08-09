@@ -6,6 +6,7 @@
     <a
       href="javascript: void(0);"
       @click="changeSettingValue(settings.theme === 'default' ? 'dark' : 'default', 'theme')"
+      :class="$style.dropdown"
     >
       <i v-if="settings.theme === 'default'" class="fe fe-moon" :class="$style.icon" />
       <i v-if="settings.theme !== 'default'" class="fe fe-sun" :class="$style.icon" />

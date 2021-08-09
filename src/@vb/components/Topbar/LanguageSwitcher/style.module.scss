@@ -8,7 +8,8 @@
 
   &::after {
     opacity: 0.5;
-    color: $gray-5;
+    // color: $gray-5;
+    color: $white;
     position: absolute;
     top: 45%;
     right: 0;
@@ -26,10 +27,12 @@
   }
 
   &:hover {
-    color: $blue;
+    // color: $blue;
+    color: $dark-gray-1;
 
     &::after {
-      color: $gray-6;
+      // color: $gray-6;
+      color: $dark-gray-1;
     }
   }
 }
@@ -38,6 +41,7 @@
   vertical-align: top;
   text-transform: uppercase;
   padding-right: rem(5);
+  color: $white;
 
   img {
     height: rem(21);
@@ -54,11 +58,30 @@
 
 // dark theme
 [data-vb-theme='dark'] {
-  .dropdown {
+  /* .dropdown {
     color: $dark-gray-2;
 
     &:hover {
-      color: $primary;
+      color: $white;
+    }
+  } */
+
+  .dropdown {
+      
+    &::after {
+      color: $dark-gray-2;
+    }
+  
+    &:hover {
+      color: $white;
+  
+      &::after {
+        color: $white;
+      }
+  
+      .icon {
+        color: $white;
+      }
     }
   }
 }
