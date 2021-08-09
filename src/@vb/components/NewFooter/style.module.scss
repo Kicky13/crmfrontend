@@ -15,11 +15,11 @@
   }
 
   a {
-    color: $dark-gray-1;
+    color: $white;
   }
 
   a:hover {
-    color: $white;
+    color: $dark-gray-1;
   }
 }
 
@@ -114,5 +114,26 @@
   &:hover,
   &:focus {
     border-color: $blue;
+  }
+}
+
+// dark theme
+[data-vb-theme='dark'] {
+  .outer {
+    color: $dark-gray-1;
+
+    a {
+      color: $dark-gray-1;
+    }
+    
+    a:hover {
+      color: $white;
+    }
+  }
+
+  .logo {
+    &__name {
+      color: $white;
+    }
   }
 }

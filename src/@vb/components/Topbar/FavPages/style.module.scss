@@ -17,11 +17,13 @@
   position: relative;
   bottom: -2px;
   font-size: rem(17);
-  color: $gray-5;
+  // color: $gray-5;
+  color: $white;
   @include transition-slow;
 
   &:hover {
-    color: $primary;
+    // color: $primary;
+    color: $dark-gray-1;
   }
 }
 
@@ -67,7 +69,8 @@
     color: $dark-gray-2;
 
     &:hover {
-      color: $primary;
+      // color: $primary;
+      color: $white;
     }
   }
 

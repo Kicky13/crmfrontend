@@ -33,6 +33,24 @@ export const getMenuData = [
       },
     ],
   },
+  /* {
+    title: 'Marketing',
+    key: '__maerketing',
+    url: '/marketing',
+    icon: 'fe fe-home',
+    children: [
+      {
+        title: 'Berita',
+        key: 'iasepr',
+        url: '/dashboard/alpha',
+      },
+      {
+        title: 'Program Hari Ini',
+        key: 'oi2iv',
+        url: '/dashboard/beta',
+      },
+    ],
+  }, */
   {
     category: true,
     title: 'Apps & Pages',
