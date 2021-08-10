@@ -4,13 +4,12 @@
   padding: 0 rem(30);
   min-height: 64px;
   height: 64px;
-  // border-bottom: 1px solid $border;
+  border-bottom: 1px solid $border;
   color: $text;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: #343a40;
 
   @media (max-width: $sm-max-width) {
     padding: 0 rem(16);
@@ -29,9 +28,9 @@
 // dark theme
 [data-vb-theme='dark'] {
   .topbar {
-    // background: $dark-gray-6;
+    background: $dark-gray-6;
     color: $dark-gray-1;
-    // border-bottom: 1px solid $dark-gray-4;
+    border-bottom: 1px solid $dark-gray-4;
   }
 
   :global(.vb__layout__separatedHeader) {

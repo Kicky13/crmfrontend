@@ -27,7 +27,6 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
       height: rem(24);
       white-space: nowrap;
       width: 100%;
@@ -84,9 +83,8 @@
       display: block;
     }
     .descr {
-      // margin-left: rem(13);
-      // padding-left: rem(13);
-      padding-left: rem(5);
+      margin-left: rem(13);
+      padding-left: rem(13);
       height: rem(38);
       line-height: rem(38);
       border-left: 1px solid $gray-2;
@@ -162,7 +160,7 @@
       color: $text;
 
       &:hover {
-        color: $main;
+        color: $primary;
       }
     }
 
@@ -183,10 +181,10 @@
         color: $text;
 
         &:hover {
-          color: $main;
+          color: $primary;
 
           .icon {
-            color: $main;
+            color: $primary;
           }
         }
       }
@@ -195,13 +193,13 @@
     :global(.ant-menu-submenu-selected) {
       :global(.ant-menu-submenu-title),
       .icon {
-        color: $main;
+        color: $primary;
       }
     }
 
     :global(.ant-menu-submenu-active) {
       .icon {
-        color: $main;
+        color: $primary;
       }
     }
 
@@ -212,7 +210,7 @@
     }
 
     :global(.ant-menu-item-selected) {
-      background: $main !important;
+      background: $primary !important;
 
       > a {
         color: $white !important;
@@ -374,7 +372,7 @@
       color: $dark-gray-2;
 
       &:hover {
-        color: $main;
+        color: $primary;
       }
     }
 
@@ -386,10 +384,10 @@
         color: $dark-gray-2;
 
         &:hover {
-          color: $main;
+          color: $primary;
 
           .icon {
-            color: $main;
+            color: $primary;
           }
         }
       }
@@ -406,7 +404,7 @@
         color: $primary;
       }
       &:global(.ant-menu-item-selected) {
-        background: $main-light !important;
+        background: $primary !important;
       }
     }
 

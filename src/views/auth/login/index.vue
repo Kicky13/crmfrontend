@@ -1,17 +1,13 @@
 <template>
   <div>
-    <!-- <vb-login /> -->
-    <vb-new-login />
+    <vb-login />
   </div>
 </template>
 <script>
-// import VbLogin from '@/@vb/components/Auth/Login'
-import VbNewLogin from '@/@vb/components/Auth/NewLogin'
-
+import VbLogin from '@/@vb/components/Auth/Login'
 export default {
   components: {
-    // VbLogin,
-    VbNewLogin,
+    VbLogin,
   },
 }
 </script>

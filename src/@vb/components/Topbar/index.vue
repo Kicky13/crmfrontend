@@ -13,9 +13,6 @@
       <vb-project-management />
     </div>
     <div class="mr-3 d-none d-sm-block ml-auto">
-      <vb-theme />
-    </div>
-    <div class="mr-3 d-none d-sm-block">
       <vb-cart />
     </div>
     <div class="mr-3 d-none d-sm-block">
@@ -39,7 +36,6 @@ import VbActions from './Actions'
 import VbUserMenu from './UserMenu'
 import VbFavPages from './FavPages'
 import VbCart from './Cart'
-import VbTheme from './Theme'
 
 export default {
   components: {
@@ -51,7 +47,6 @@ export default {
     VbUserMenu,
     VbFavPages,
     VbCart,
-    VbTheme,
   },
 }
 </script>

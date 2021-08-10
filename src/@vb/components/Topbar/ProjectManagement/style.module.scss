@@ -4,13 +4,11 @@
   padding-right: 15px;
   position: relative;
   cursor: pointer;
-  color: $white;
   @include transition-slow;
 
   &::after {
     opacity: 0.5;
-    // color: $gray-5;
-    color: $white;
+    color: $gray-5;
     position: absolute;
     top: 45%;
     right: 0;
@@ -28,17 +26,14 @@
   }
 
   &:hover {
-    // color: $blue;
-    color: $dark-gray-1;
+    color: $blue;
 
     &::after {
-      // color: $gray-6;
-      color: $dark-gray-1;
+      color: $gray-6;
     }
 
     .icon {
-      // color: $primary;
-      color: $dark-gray-1;
+      color: $primary;
     }
   }
 }
@@ -48,8 +43,7 @@
   position: relative;
   bottom: -2px;
   font-size: rem(17);
-  // color: $gray-5;
-  color: $white;
+  color: $gray-5;
   @include transition-slow;
 }
 
@@ -58,32 +52,12 @@
   .dropdown {
     color: $dark-gray-2;
 
-    /* &:hover {
-      // color: $primary;
-      color: $white;
-    } */
+    &:hover {
+      color: $primary;
+    }
   }
 
   .icon {
     color: $dark-gray-2;
-  }
-
-  .dropdown {
-      
-    &::after {
-      color: $dark-gray-2;
-    }
-  
-    &:hover {
-      color: $white;
-  
-      &::after {
-        color: $white;
-      }
-  
-      .icon {
-        color: $white;
-      }
-    }
   }
 }

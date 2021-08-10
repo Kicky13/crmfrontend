@@ -34,7 +34,7 @@ build:
     - docker:dind
   script:
     - docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/robiyanto/crm-aksestoko-frontend -f dockerfiles/Dockerfile.dev . --no-cache	
+    - docker build -t $CI_REGISTRY/robiyanto/crm-aksestoko-frontend -f dockerfiles/Dockerfile.dev .
     - docker push $CI_REGISTRY/robiyanto/crm-aksestoko-frontend
 
 deploy-dev:
