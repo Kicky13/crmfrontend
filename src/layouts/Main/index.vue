@@ -15,8 +15,8 @@
       }"
     >
       <vb-variants />
-      <vb-sidebar />
-      <vb-support-chat />
+      <!-- <vb-sidebar />
+      <vb-support-chat /> -->
       <vb-menu-classic v-if="settings.layoutMenu === 'classic'" />
       <vb-menu-flyout v-if="settings.layoutMenu === 'flyout'" />
       <vb-menu-simply v-if="settings.layoutMenu === 'simply'" />
@@ -51,7 +51,8 @@
           <vb-footer3 />
         </a-layout-footer>
         <a-layout-footer v-if="settings.layoutFooter === 'v4'">
-          <vb-footer4 />
+          <!-- <vb-footer4 /> -->
+          <vb-new-footer />
         </a-layout-footer>
       </a-layout>
     </a-layout>
@@ -73,7 +74,8 @@ import VbBreadcrumbs2 from '@/@vb/components/Breadcrumbs2'
 import VbFooter from '@/@vb/components/Footer'
 import VbFooter2 from '@/@vb/components/Footer2'
 import VbFooter3 from '@/@vb/components/Footer3'
-import VbFooter4 from '@/@vb/components/Footer4'
+// import VbFooter4 from '@/@vb/components/Footer4'
+import VbNewFooter from '@/@vb/components/NewFooter'
 
 export default {
   name: 'MainLayout',
@@ -90,7 +92,8 @@ export default {
     VbFooter,
     VbFooter2,
     VbFooter3,
-    VbFooter4,
+    // VbFooter4,
+    VbNewFooter,
   },
   setup() {
     const store = useStore()
