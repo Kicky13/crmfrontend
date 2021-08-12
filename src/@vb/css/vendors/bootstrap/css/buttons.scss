@@ -111,7 +111,8 @@ label.btn {
   &.btn-info,
   &.btn-warning,
   &.btn-danger,
-  &.btn-dark {
+  &.btn-dark,
+  &.btn-main {
     color: $white !important;
   }
 
@@ -248,6 +249,21 @@ label.btn {
     &.active {
       background-color: darken($dark, 6%);
       border-color: darken($dark, 6%);
+    }
+  }
+  &.btn-main {
+    background-color: $main;
+    border-color: $main;
+    &:hover,
+    &:active {
+      background-color: $main-light;
+      border-color: $main-light;
+    }
+    &:hover:active,
+    &:focus,
+    &.active {
+      background-color: darken($main, 6%);
+      border-color: darken($main, 6%);
     }
   }
 
