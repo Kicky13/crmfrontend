@@ -30,6 +30,16 @@ const router = createRouter({
           component: () => import('@/views/dashboard'),
         },
         {
+          path: '/roles',
+          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
+          component: () => import('@/views/roles'),
+        },
+        {
+          path: '/permissions',
+          meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/permissions'),
+        },
+        {
           path: '/dashboard/alpha',
           meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
           component: () => import('@/views/dashboard/alpha'),

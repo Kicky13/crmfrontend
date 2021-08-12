@@ -47,7 +47,7 @@ export default {
       layoutMenu: 'classic',
       layoutTopbar: 'v1',
       layoutBreadcrumbs: 'v1',
-      layoutFooter: 'v4',
+      layoutFooter: 'v1',
       flyoutMenuType: 'flyout',
       flyoutMenuColor: 'blue',
 

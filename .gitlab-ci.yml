@@ -1,10 +1,32 @@
 stages:
+- test
 - build
 - deploy
+
+sonarqube-check:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - DEV # or the name of your main branch
+    - merge_requests
 
 build:
   stage: build
   when: on_success
+  variables:
+    NODE_ENV: "production"
   only:
     - DEV
   image: docker:stable
@@ -25,7 +47,7 @@ deploy-dev:
     - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    # login to gitlab registry       
+    # login to gitlab registry
     - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
     - ssh deployer@128.199.252.219 "cd /Web/crm-aksestoko-frontend && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
@@ -45,7 +67,7 @@ deploy-dev:
 #    - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
 #    - mkdir -p ~/.ssh
 #    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-#    # login to gitlab registry       
+#    # login to gitlab registry
 #    - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
 #    # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
 #    - ssh deployer@128.199.252.219 "cd /Web/front-bangun && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
