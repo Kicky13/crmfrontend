@@ -28,7 +28,9 @@
     >
       <div :class="$style.logoContainer">
         <div :class="$style.logo">
-          <svg
+          <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="75">
+          <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="75">
+          <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             version="1.1"
@@ -55,10 +57,11 @@
                 d="M10.4,23.6c-0.1,0-0.2,0-0.2-0.1l-8.2-4.7c-0.2-0.1-0.3-0.3-0.3-0.4V8.9c0-0.2,0.1-0.3,0.2-0.4c0.2-0.1,0.3-0.1,0.5,0      l8.2,4.7c0.2,0.1,0.2,0.3,0.2,0.4v9.5c0,0.2-0.1,0.3-0.2,0.4C10.5,23.6,10.5,23.6,10.4,23.6z M2.7,18.1l7.2,4.2v-8.3L2.7,9.8      V18.1z"
               />
             </g>
-          </svg>
-          <div :class="$style.name">{{ settings.logo }}</div>
+          </svg> -->
+          <!-- <div :class="$style.name">{{ settings.logo }}</div> -->
           <div :class="$style.descr" class="text-capitalize">
-            {{ settings.version }}
+            <!-- {{ settings.version }} -->
+            SEMEN INDONESIA GROUP
           </div>
         </div>
       </div>
@@ -90,7 +93,7 @@
             </template>
           </template>
         </a-menu>
-        <div :class="$style.banner">
+        <!-- <div :class="$style.banner">
           <p>More components, more style, more themes, and premium support!</p>
           <a
             href="https://themeforest.net/item/clean-ui-react-admin-template/21938700"
@@ -99,7 +102,7 @@
             class="btn btn-sm btn-success btn-rounded px-3"
             >Buy Bundle</a
           >
-        </div>
+        </div> -->
       </perfect-scrollbar>
     </div>
   </a-layout-sider>
