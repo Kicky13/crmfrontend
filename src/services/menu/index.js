@@ -33,24 +33,29 @@ export const getMenuData = [
       },
     ],
   },
-  /* {
-    title: 'Marketing',
-    key: '__maerketing',
-    url: '/marketing',
-    icon: 'fe fe-home',
+  {
+    category: true,
+    title: 'Berita',
+    key: '5hb7fe',
+  },
+  {
+    title: 'Berita',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
     children: [
       {
-        title: 'Berita',
-        key: 'iasepr',
-        url: '/dashboard/alpha',
+        title: 'Hari Ini',
+        key: 'jkr01l',
+        url: '/berita',
       },
       {
-        title: 'Program Hari Ini',
-        key: 'oi2iv',
-        url: '/dashboard/beta',
+        title: 'Tambah Berita',
+        key: 'pr43li',
+        url: '/berita/tambah',
       },
     ],
-  }, */
+  },
   {
     category: true,
     title: 'Roles & Permissions',

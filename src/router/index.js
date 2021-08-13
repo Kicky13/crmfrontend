@@ -30,6 +30,16 @@ const router = createRouter({
           component: () => import('@/views/dashboard'),
         },
         {
+          path: '/berita',
+          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita'),
+        },
+        {
+          path: '/berita/tambah',
+          meta: { title: 'Tambah Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/tambah'),
+        },
+        {
           path: '/roles',
           meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
           component: () => import('@/views/roles'),
