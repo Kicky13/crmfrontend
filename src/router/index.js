@@ -30,6 +30,23 @@ const router = createRouter({
           component: () => import('@/views/dashboard'),
         },
         {
+          path: '/berita',
+          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita'),
+        },
+        {
+          path: '/berita/tambah',
+          meta: { title: 'Tambah Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/tambah'),
+        },
+        {
+          path: '/roles/create',
+          name: 'roles-create',
+          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
+          component: () => import('@/views/roles/forms/Insert'),
+        },
+
+        {
           path: '/roles',
           meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
           component: () => import('@/views/roles'),
@@ -39,6 +56,13 @@ const router = createRouter({
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/permissions'),
         },
+        {
+          path: '/permissions/create',
+          name: 'permissions-create',
+          meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/permissions/forms/Insert'),
+        },
+
         {
           path: '/dashboard/alpha',
           meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
