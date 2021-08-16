@@ -2,7 +2,6 @@
 
 .item {
   border-bottom: 1px solid $gray-2;
-  padding-bottom: rem(25);
 
   &:first-child {
     .itemLink {
@@ -13,9 +12,9 @@
   &:last-child {
     border-bottom: none;
 
-    /* .itemLink {
+    .itemLink {
       padding-bottom: 0;
-    } */
+    }
   }
 }
 
