@@ -50,6 +50,13 @@ const router = createRouter({
           component: () => import('@/views/permissions'),
         },
         {
+          path: '/permissions/create',
+          name: 'permissions-create',
+          meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/permissions/forms/Insert'),
+        },
+
+        {
           path: '/dashboard/alpha',
           meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
           component: () => import('@/views/dashboard/alpha'),

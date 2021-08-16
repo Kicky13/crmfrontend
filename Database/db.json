@@ -1,0 +1,118 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "email": "demo@visualbuilder.cloud",
+        "password": "VisualBuilder",
+        "name": "Tom Jones",
+        "avatar": "",
+        "role": "admin",
+        "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
+        "ability": [
+          {
+            "action": "manage",
+            "subject": "all"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "email": "demo@visualbuilder.user",
+        "password": "VisualBuilder",
+        "name": "Alicia Key",
+        "avatar": "",
+        "role": "user",
+        "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
+        "ability": [
+          {
+            "action": "manage",
+            "subject": "Dashboard"
+          },
+          {
+            "action": "manage",
+            "subject": "Apps"
+          },
+          {
+            "action": "manage",
+            "subject": "Ecommerce"
+          },
+          {
+            "action": "read",
+            "subject": "Auth"
+          }
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "id": 1,
+        "role": "admin",
+        "code": "A29CG",
+        "createdAt": "02/03/2021"
+      },
+      {
+        "id": 2,
+        "role": "user",
+        "code": "CC789",
+        "createdAt": "06/04/2021"
+      },
+      {
+        "id": 3,
+        "role": "admin toko",
+        "code": "B77A9",
+        "createdAt": "26/04/2021"
+      }
+    ],
+    "permissions": [
+      {
+        "id": 1,
+        "actor": "admin",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "read"
+      },
+      {
+        "id": 2,
+        "actor": "admin",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "insert"
+      },
+      {
+        "id": 3,
+        "actor": "admin",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "update"
+      },
+      {
+        "id": 4,
+        "actor": "admin",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "delete"
+      },
+      {
+        "id": 5,
+        "actor": "admintoko",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "read"
+      },
+      {
+        "id": 6,
+        "actor": "admintoko",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "update"
+      },
+      {
+        "id": 7,
+        "actor": "user",
+        "pagename": "Dashboard",
+        "subject": "Dashboard",
+        "permission": "read"
+      }
+    ]
+  }
+  

@@ -1,17 +1,20 @@
 import apiClient from '@/services/axios'
 import store from 'store'
+import user from '../../store/user'
 
 export async function login(email, password) {
   return apiClient
-    .post('/auth/login', {
-      email,
-      password,
-    })
+    .get('/users?email=' + email + '&password=' + password)
     .then(response => {
       if (response) {
-        const { accessToken } = response.data
+        console.log(response.data)
+        const data = response.data[0]
+        const accessToken = data.id + "" + data.accessToken
         if (accessToken) {
+          localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
+          store.set('userID', data.id)
+          console.log(localStorage.getItem('userData'))
         }
         return response.data
       }
@@ -41,8 +44,14 @@ export async function register(email, password, name) {
 }
 
 export async function currentAccount() {
-  return apiClient
-    .get('/auth/account')
+  const userID = store.get('userID')
+  const id = JSON.parse(localStorage.getItem('userData'));
+  console.log(userID)
+  console.log(localStorage.getItem('userData'))
+
+  if (userID) {
+    return apiClient
+    .get('/users/' + userID)
     .then(response => {
       if (response) {
         const { accessToken } = response.data
@@ -54,6 +63,8 @@ export async function currentAccount() {
       return false
     })
     .catch(err => console.log(err))
+  }
+  return false
 }
 
 export async function logout() {
@@ -61,6 +72,7 @@ export async function logout() {
     .get('/auth/logout')
     .then(() => {
       store.remove('accessToken')
+      store.remove('userID')
       return true
     })
     .catch(err => console.log(err))
