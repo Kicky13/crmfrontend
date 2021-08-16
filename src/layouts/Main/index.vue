@@ -42,13 +42,16 @@
           </router-view>
         </a-layout-content>
         <a-layout-footer v-if="settings.layoutFooter === 'v1'">
-          <vb-footer />
+          <!-- <vb-footer /> -->
+          <vb-new-footer />
         </a-layout-footer>
         <a-layout-footer v-if="settings.layoutFooter === 'v2'">
-          <vb-footer2 />
+          <!-- <vb-footer2 /> -->
+          <vb-new-footer />
         </a-layout-footer>
         <a-layout-footer v-if="settings.layoutFooter === 'v3'">
-          <vb-footer3 />
+          <!-- <vb-footer3 /> -->
+          <vb-new-footer />
         </a-layout-footer>
         <a-layout-footer v-if="settings.layoutFooter === 'v4'">
           <!-- <vb-footer4 /> -->
@@ -71,10 +74,10 @@ import VbMenuFlyout from '@/@vb/components/MenuFlyout'
 import VbMenuSimply from '@/@vb/components/MenuSimply'
 import VbBreadcrumbs from '@/@vb/components/Breadcrumbs'
 import VbBreadcrumbs2 from '@/@vb/components/Breadcrumbs2'
-import VbFooter from '@/@vb/components/Footer'
+/* import VbFooter from '@/@vb/components/Footer'
 import VbFooter2 from '@/@vb/components/Footer2'
 import VbFooter3 from '@/@vb/components/Footer3'
-// import VbFooter4 from '@/@vb/components/Footer4'
+import VbFooter4 from '@/@vb/components/Footer4' */
 import VbNewFooter from '@/@vb/components/NewFooter'
 
 export default {
@@ -89,10 +92,10 @@ export default {
     VbVariants,
     VbBreadcrumbs,
     VbBreadcrumbs2,
-    VbFooter,
+    /* VbFooter,
     VbFooter2,
     VbFooter3,
-    // VbFooter4,
+    VbFooter4, */
     VbNewFooter,
   },
   setup() {
