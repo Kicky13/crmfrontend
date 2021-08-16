@@ -1,23 +1,65 @@
 <template>
   <div>
-    <div>
+    <div class="row">
+      <div class="col-xs-0 col-md-3">
+      </div>
+      <div class="col-xs-12 col-md-9">
+        <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%);
+    box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
+    border-radius: 5px;">
+          <!-- <div class="card-header">
+            <h5 class="mb-0">
+              <strong></strong>
+            </h5>
+          </div> -->
+          <div class="card-body">
+            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-black.png" alt="Logo SIG" width="200">
+            <img v-else src="@/assets/images/logo/crm-white.png" alt="Logo SIG" width="200">
+            <br>
+            <div class="text-dark font-size-24 mb-3">Selamat Datang</div>
+            <a-form
+              :model="loginForm"
+              :rules="rules"
+              layout="vertical"
+              class="mb-4"
+              @finish="handleFinish"
+              @finishFailed="handleFinishFailed"
+            >
+              <a-form-item name="email">
+                <a-input v-model:value="loginForm.email" addon-before="-" placeholder="Nama Pengguna" />
+              </a-form-item>
+              <a-form-item name="password">
+                <a-input v-model:value="loginForm.password" addon-before="-" placeholder="Kata Kunci" type="password" />
+              </a-form-item>
+              <a-button type="main" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
+                <strong>MASUK</strong>
+              </a-button>
+            </a-form>
+            <div class="text-center pt-2 mb-auto">
+              <span class="mr-2">Lupa Password?</span>
+              <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
+                Klik disini
+              </router-link>
+            </div>
+          </div>
+        </div>     
+        <!-- <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="200">
+        <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="200"> -->
+        
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <img src="@/assets/images/logo/app-store.png" alt="Logo SIG" width="170">            
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <img src="@/assets/images/logo/google-play.png" alt="Logo SIG" width="170">    
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div>
       <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="200">
       <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="200">
       <div class="text-dark font-size-32 mb-3">CRM DASHBOARD</div>
-      <!-- <div class="mb-4">
-        Login and password
-        <br />
-        <strong>demo@visualbuilder.cloud / VisualBuilder</strong>
-      </div>
-      <div class="mb-4">
-        <a-radio-group
-          :value="settings.authProvider"
-          @change="e => changeAuthProvider(e.target.value)"
-        >
-          <a-radio value="jwt">JWT</a-radio>
-          <a-radio value="firebase">Firebase</a-radio>
-        </a-radio-group>
-      </div> -->
       <a-form
         :model="loginForm"
         :rules="rules"
@@ -36,18 +78,13 @@
           <strong>MASUK</strong>
         </a-button>
       </a-form>
-      <div class="text-center">
-        <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
-          Lupa kata kunci?
-        </router-link>
-      </div>
     </div>
     <div class="text-center pt-2 mb-auto">
-      <span class="mr-2">Belum punya akun?</span>
-      <router-link to="/auth/register" class="vb__utils__link text-main">
-        Daftar
+      <span class="mr-2">Lupa Password?</span>
+      <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
+        Klik disini
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
