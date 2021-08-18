@@ -1,20 +1,23 @@
 <template>
   <div>
-    <div class="card-placeholder"><vb-headers-tag :data="{ title: 'List Berita' }" /></div>
+    <router-link to="/berita/tambah">
+      <button type="button" class="btn btn-main mb-3">
+        <i class="fa fa-plus" />
+        <span class="text-black"> Tambah Berita</span>
+      </button>
+    </router-link>
     <div class="card">
-      <div class="card-body"><vb-widgets-list-berita /></div>
+      <div class="card-body"><vb-list-berita /></div>
     </div>
   </div>
 </template>
 
 <script>
-import VbHeadersTag from '@/@vb/widgets/Headers/Tag'
-import VbWidgetsListBerita from '@/@vb/widgets/WidgetsLists/ListBerita'
+import VbListBerita from './ListBerita'
 
 export default {
   components: {
-    VbHeadersTag,
-    VbWidgetsListBerita,
+    VbListBerita,
   },
 }
 </script>
