@@ -91,13 +91,14 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { login } from '@/services/connection/apiService'
+import { notification } from 'ant-design-vue'
 
 export default {
   name: 'VbLogin',
   setup() {
-    const store = useStore()
-    const settings = computed(() => store.getters.settings)
-    const loading = computed(() => store.getters['user/user'].loading)
+    const storeState = useStore()
+    const settings = computed(() => storeState.getters.settings)
+    const loading = computed(() => storeState.getters['user/user'].loading)
     const rules = {
       email: [
         {
@@ -121,16 +122,17 @@ export default {
     })
 
     const changeAuthProvider = value => {
-      store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
+      storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
     const handleFinish = values => {
-      store.dispatch('user/LOGIN', { payload: values })
+      storeState.dispatch('user/LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
       console.log(errors)
     }
 
     return {
+      storeState,  
       settings,
       loading,
       rules,
@@ -145,6 +147,12 @@ export default {
       login(this.loginForm.email, this.loginForm.password)
       .then(response => {
         console.log(response)
+        this.$ability.update(response.ability)
+        notification.success({
+            message: 'Logged In',
+            description: 'You have successfully logged in!',
+        })
+        this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
       })
     },
   },
