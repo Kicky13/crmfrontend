@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import VbHeadersCardHeader from '@/@vb/widgets/Headers/CardHeader'
+import VbHeadersCardHeader from './Header.vue'
 import { reactive, toRaw } from 'vue'
 
 export default {
