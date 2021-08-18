@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive text-nowrap">
-    <a-table :row-selection="rowSelection" :columns="columns" :data-source="data">
+    <a-table :row-selection="rowSelection" :columns="columns" :data-source="permissions">
       <template #name="{ text }">
         <a href="javascript:;">{{ text }}</a>
       </template>
@@ -20,6 +20,8 @@
   </div>
 </template>
 <script>
+import { getPermissionList } from '@/services/connection/apiService'
+
 const columns = [
   {
     title: 'Actor',
@@ -27,7 +29,7 @@ const columns = [
   },
   {
     title: 'Page Name',
-    dataIndex: 'name',
+    dataIndex: 'pagename',
     slots: { customRender: 'name' },
   },
   {
@@ -36,41 +38,11 @@ const columns = [
   },
   {
     title: 'Permission',
-    dataIndex: 'action',
+    dataIndex: 'permission',
   },
   {
     title: 'Action',
     slots: { customRender: 'action' },
-  },
-]
-const data = [
-  {
-    key: '1',
-    actor: 'admin',
-    name: 'All Page',
-    subject: 'all',
-    action: 'manage',
-  },
-  {
-    key: '2',
-    actor: 'admintoko',
-    name: 'Management Toko',
-    subject: 'Shop',
-    action: 'manage',
-  },
-  {
-    key: '3',
-    actor: 'admintoko',
-    name: 'Dashboard',
-    subject: 'Dashboard',
-    action: 'read',
-  },
-  {
-    key: '4',
-    actor: 'admintoko',
-    name: 'Dashboard',
-    subject: 'Dashboard',
-    action: 'read',
   },
 ]
 
@@ -87,12 +59,28 @@ export default {
         },
       }),
     }
-
     return {
-      data,
       columns,
       rowSelection,
     }
+  },
+  data() {
+    return {
+      permissions: [],
+    }
+  },
+  mounted() {
+    this.fetchGetPermissionList()
+  },
+  methods: {
+    fetchGetPermissionList() {
+      getPermissionList()
+      .then(response => {
+        if (response) {
+          this.permissions = response
+        }
+      })
+    },
   },
 }
 </script>

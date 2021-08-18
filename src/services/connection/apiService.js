@@ -89,7 +89,7 @@ export async function getRoleList() {
     .catch(err => { console.error(err) })
 }
 
-export async function getPermissions() {
+export async function getPermissionList() {
     return apiClient
     .get('/permissions')
     .then(response => {

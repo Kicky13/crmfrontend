@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive text-nowrap">
-    <a-table :row-selection="rowSelection" :columns="columns" :data-source="data">
+    <a-table :row-selection="rowSelection" :columns="columns" :data-source="roles">
       <template #name="{ text }">
         <a href="javascript:;">{{ text }}</a>
       </template>
@@ -20,10 +20,12 @@
   </div>
 </template>
 <script>
+import { getRoleList } from '@/services/connection/apiService'
+
 const columns = [
   {
     title: 'Name',
-    dataIndex: 'name',
+    dataIndex: 'role',
     slots: { customRender: 'name' },
   },
   {
@@ -32,37 +34,11 @@ const columns = [
   },
   {
     title: 'Created Date',
-    dataIndex: 'date',
+    dataIndex: 'createdAt',
   },
   {
     title: 'Action',
     slots: { customRender: 'action' },
-  },
-]
-const data = [
-  {
-    key: '1',
-    name: 'admin',
-    code: 'ID829J',
-    date: '2021/07/08',
-  },
-  {
-    key: '2',
-    name: 'admintoko',
-    code: 'ID823A',
-    date: '2021/07/08',
-  },
-  {
-    key: '3',
-    name: 'pembeli',
-    code: 'ID876H',
-    date: '2021/07/08',
-  },
-  {
-    key: '4',
-    name: 'supervisor',
-    code: 'ID129B',
-    date: '2021/07/08',
   },
 ]
 
@@ -80,10 +56,28 @@ export default {
       }),
     }
     return {
-      data,
       columns,
       rowSelection,
     }
+  },
+  data() {
+    return {
+      roles: [],
+    }
+  },
+  mounted() {
+    this.fetchGetRoles()
+  },
+  methods: {
+    fetchGetRoles() {
+      getRoleList()
+      .then(response => {
+        if (response) {
+          this.roles = response
+        }
+      })
+      .catch(err => { console.error(err) })
+    },
   },
 }
 </script>
