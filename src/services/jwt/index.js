@@ -1,13 +1,11 @@
 import apiClient from '@/services/axios'
 import store from 'store'
-import user from '../../store/user'
 
 export async function login(email, password) {
   return apiClient
     .get('/users?email=' + email + '&password=' + password)
     .then(response => {
       if (response) {
-        console.log(response.data)
         const data = response.data[0]
         const accessToken = data.id + "" + data.accessToken
         if (accessToken) {
@@ -45,9 +43,6 @@ export async function register(email, password, name) {
 
 export async function currentAccount() {
   const userID = store.get('userID')
-  const id = JSON.parse(localStorage.getItem('userData'));
-  console.log(userID)
-  console.log(localStorage.getItem('userData'))
 
   if (userID) {
     return apiClient
@@ -68,9 +63,13 @@ export async function currentAccount() {
 }
 
 export async function logout() {
+  const userID = store.get('userID')
+
   return apiClient
-    .get('/auth/logout')
-    .then(() => {
+    .get('/users/' + userID)
+    .then(response => {
+      console.log(response)
+      localStorage.removeItem('userData')
       store.remove('accessToken')
       store.remove('userID')
       return true

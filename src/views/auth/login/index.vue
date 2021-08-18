@@ -6,7 +6,7 @@
 </template>
 <script>
 // import VbLogin from '@/@vb/components/Auth/Login'
-import VbNewLogin from '@/@vb/components/Auth/NewLogin'
+import VbNewLogin from '@/views/auth/login/LoginForm'
 
 export default {
   components: {

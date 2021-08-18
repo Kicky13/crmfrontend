@@ -40,6 +40,12 @@ const router = createRouter({
           component: () => import('@/views/berita/tambah'),
         },
         {
+          path: '/roles/create',
+          name: 'roles-create',
+          meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/roles/forms/Insert'),
+        },
+        {
           path: '/roles',
           meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
           component: () => import('@/views/roles'),
@@ -55,7 +61,6 @@ const router = createRouter({
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/permissions/forms/Insert'),
         },
-
         {
           path: '/dashboard/alpha',
           meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
