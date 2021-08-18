@@ -13,5 +13,13 @@ export default {
     // VbLogin,
     VbNewLogin,
   },
+  mounted() {
+    // this.checkRole()
+  },
+  methods: {
+    checkRole() {
+      console.log(this.$ability)
+    },
+  },
 }
 </script>

@@ -38,27 +38,15 @@
 
 <script>
 import Datatable from './Datatable.vue'
-import store from '@/store'
 
 export default {
   name: 'VbAntDesign',
   components: {
     Datatable,
   },
-  mounted() {
-    this.checkRole()
-  },
   methods: {
     createRole() {
       this.$router.push({ name: 'roles-create' })
-    },
-    checkRole() {
-      const role = this.$store.state.user
-      const lokal = JSON.parse(localStorage.getItem('userData'))
-      console.log('Store User')
-      console.log(role)
-      console.log('Local User')
-      console.log(lokal)
     },
   },
 }
