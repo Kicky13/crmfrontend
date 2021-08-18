@@ -15,13 +15,31 @@
         :style="{
           backgroundImage:
             settings.authPagesColor === 'image'
-              ? `url(resources/images/content/photos/8.jpeg)`
-              : 'none',
+              ? `url(resources/images/content/photos/bg-crm.jpg)`
+              : `url(resources/images/content/photos/bg-crm.jpg)`,
         }"
-      >
+      >        
+        <!-- <div class="row">
+          <div class="col-xs-12 col-md-8">
+            <div class="mb-4 px-3 py-2 bg-light">.col-xs-12 .col-md-8</div>
+          </div>
+          <div class="col-xs-6 col-md-4">
+            <div class="card card-top card-top-primary">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <strong></strong>
+                </h5>
+              </div>
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+        </div> -->
         <a-row style="height: 100vh;" class="text-center" align="middle">
           <a-col :lg="12" :md="12" :sm="24" :xs="24" class="d-none d-md-inline-block">
-            <img src="@/assets/images/logo/home.png" alt="" class="img-fluid height-400">
+            <!-- <img src="@/assets/images/logo/home.png" alt="" class="img-fluid height-400"> -->
+            <img src="@/assets/images/logo/preview-apps.png" alt="" class="img-fluid height-400">
           </a-col>
           <!-- <div
             :class="{
@@ -73,7 +91,7 @@
             </div>
           </div> -->
           <a-col :lg="12" :md="12" :sm="24" :xs="24">
-            <div class="px-5">
+            <div class="px-3">
               <router-view v-slot="{ Component }">
                 <transition :name="settings.routerAnimation" mode="out-in">
                   <component :is="Component" />
