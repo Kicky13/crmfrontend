@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-xs-0 col-md-3">
+      <div class="col-xs-0 col-md-2">
       </div>
-      <div class="col-xs-12 col-md-9">
+      <div class="col-xs-12 col-md-8">
         <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%);
     box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
     border-radius: 5px;">
@@ -46,6 +46,8 @@
             <img src="@/assets/images/logo/google-play.png" alt="Logo SIG" width="170">    
           </div>
         </div>
+      </div>
+      <div class="col-xs-0 col-md-2">
       </div>
     </div>
   </div>

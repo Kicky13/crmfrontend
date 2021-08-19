@@ -148,8 +148,11 @@
     }
 
     :global(.ant-menu-item-group-title) {
-      color: $gray-4 !important;
-      font-size: rem(12);
+      // color: $gray-4 !important;
+      color: $black !important;
+      // font-size: rem(12);
+      font-size: rem(14);
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2px;
       transition: none;
@@ -367,11 +370,13 @@
 
   .navigation {
     :global(.ant-menu-item-group-title) {
-      color: darken($dark-gray-3, 10%) !important;
+      // color: darken($dark-gray-3, 10%) !important;
+      color: darken($black, 10%) !important;
     }
 
     :global(.ant-menu-submenu-title) {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $black;
 
       &:hover {
         color: $main;
