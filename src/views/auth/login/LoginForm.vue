@@ -20,10 +20,19 @@
               @finishFailed="handleFinishFailed"
             >
               <a-form-item name="email">
-                <a-input v-model:value="loginForm.email" addon-before="-" placeholder="Nama Pengguna" />
+                <a-input v-model:value="loginForm.email" placeholder="Nama Pengguna">
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
               </a-form-item>
               <a-form-item name="password">
-                <a-input v-model:value="loginForm.password" addon-before="-" placeholder="Kata Kunci" type="password" />
+                <a-input-password v-model:value="loginForm.password" placeholder="Kata Kunci" type="password">                  
+                  <template #prefix>
+                    <!-- <KeyOutlined /> -->
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
               </a-form-item>
               <a-button type="main" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
                 <strong>MASUK</strong>
@@ -56,9 +65,19 @@ import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { login } from '@/services/connection/apiService'
 import { notification } from 'ant-design-vue'
+import {
+  UserOutlined,
+  // KeyOutlined,
+  LockOutlined,
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'VbLogin',
+  components: {
+    UserOutlined,
+    // KeyOutlined,
+    LockOutlined,
+  },
   setup() {
     const storeState = useStore()
     const settings = computed(() => storeState.getters.settings)
