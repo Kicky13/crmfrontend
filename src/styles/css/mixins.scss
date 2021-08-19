@@ -19,7 +19,8 @@ $green: #41b883;
 $main: rgb(178, 8, 56);
 $main-light: rgb(255, 28, 92);
 
-$text: $gray-6;
+// $text: $gray-6;
+$text: $black;
 $border: $gray-2;
 
 // Accent colors
@@ -34,7 +35,8 @@ $light: $gray-1;
 $dark: $black;
 
 // dark theme
-$dark-gray-1: #aeaee0;
+// $dark-gray-1: #aeaee0;
+$dark-gray-1: $main-light;
 $dark-gray-2: #7575a3;
 $dark-gray-3: #4f4f7a;
 $dark-gray-4: #232135;

@@ -181,11 +181,13 @@
     }
 
     :global(.ant-menu-item-group-title) {
-      color: darken($dark-gray-3, 10%) !important;
+      // color: darken($dark-gray-3, 10%) !important;
+      color: darken($black, 10%) !important;
     }
 
     :global(.ant-menu-submenu-title) {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $black;
 
       &:hover {
         color: $primary;
