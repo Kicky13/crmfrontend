@@ -8,10 +8,9 @@
     box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
     border-radius: 5px;">
           <div class="card-body">
-            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-black.png" alt="Logo SIG" width="200">
-            <img v-else src="@/assets/images/logo/crm-white.png" alt="Logo SIG" width="200">
-            <br>
-            <div class="text-dark font-size-24 mb-3">Selamat Datang</div>
+            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-icon-black.png" alt="Logo SIG" width="200">
+            <img v-else src="@/assets/images/logo/crm-icon-white.png" alt="Logo SIG" width="200">
+            <div class="text-dark font-size-18 mb-3" style="margin-top: 10px !important">Selamat Datang</div>
             <a-form
               :model="loginForm"
               :rules="rules"
