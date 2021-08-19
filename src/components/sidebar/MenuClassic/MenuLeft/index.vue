@@ -28,8 +28,10 @@
     >
       <div :class="$style.logoContainer">
         <div :class="$style.logo">
-          <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="75">
-          <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="75">
+          <!-- <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="75">
+          <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="75">           -->
+          <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-light-logo.png" alt="Logo SIG" width="50">
+          <img v-else src="@/assets/images/logo/crm-dark-logo.png" alt="Logo SIG" width="50">
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -59,9 +61,9 @@
             </g>
           </svg> -->
           <!-- <div :class="$style.name">{{ settings.logo }}</div> -->
-          <div :class="$style.descr" class="text-capitalize">
+          <div :class="$style.descr" class="text-capitalize" style="font-weight: 700 !important; font-size: large !important;">
             <!-- {{ settings.version }} -->
-            SEMEN INDONESIA GROUP
+            Akses<span style="color : #b20838 !important;">Toko</span>-CRM
           </div>
         </div>
       </div>
