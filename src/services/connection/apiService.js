@@ -89,6 +89,28 @@ export async function getRoleList() {
     .catch(err => { console.error(err) })
 }
 
+export async function insertRole(data) {
+  return apiClient
+  .post('/roles', data)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function deleteRole (id) {
+  return apiClient
+  .delete('/roles/' + id)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
 export async function getPermissionList() {
     return apiClient
     .get('/permissions')
@@ -98,4 +120,26 @@ export async function getPermissionList() {
         }
         return false
     })
+}
+
+export async function deletePermission(id) {
+  return apiClient
+  .delete('/permissions/' + id)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function insertPermission(data) {
+  return apiClient
+  .post('/permissions', data)
+  .then(response => {
+    if (response) {
+      return response
+    }
+    return false
+  })
 }

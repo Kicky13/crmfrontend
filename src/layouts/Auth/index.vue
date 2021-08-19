@@ -1,8 +1,6 @@
 <template>
   <a-layout class="vb__layout">
     <a-layout-content>
-      <!-- <vb-sidebar />
-      <vb-support-chat /> -->
       <div
         :class="{
           [$style.container]: true,
@@ -19,77 +17,10 @@
               : `url(resources/images/content/photos/bg-crm.jpg)`,
         }"
       >        
-        <!-- <div class="row">
-          <div class="col-xs-12 col-md-8">
-            <div class="mb-4 px-3 py-2 bg-light">.col-xs-12 .col-md-8</div>
-          </div>
-          <div class="col-xs-6 col-md-4">
-            <div class="card card-top card-top-primary">
-              <div class="card-header">
-                <h5 class="mb-0">
-                  <strong></strong>
-                </h5>
-              </div>
-              <div class="card-body">
-
-              </div>
-            </div>
-          </div>
-        </div> -->
         <a-row style="height: 100vh;" class="text-center" align="middle">
           <a-col :lg="12" :md="12" :sm="24" :xs="24" class="d-none d-md-inline-block">
-            <!-- <img src="@/assets/images/logo/home.png" alt="" class="img-fluid height-400"> -->
             <img src="@/assets/images/logo/preview-apps.png" alt="" class="img-fluid height-400">
           </a-col>
-          <!-- <div
-            :class="{
-              [$style.topbar]: true,
-              [$style.topbarGray]: settings.isGrayTopbar,
-            }"
-          >
-            <div :class="$style.logoContainer">
-              <div :class="$style.logo">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  version="1.1"
-                  height="24px"
-                  width="24px"
-                  class="mr-2"
-                >
-                  <g>
-                    <path
-                      fill="#4b7cf3"
-                      strokeWidth="1"
-                      stroke="#4b7cf3"
-                      d="M12,10.9c-0.1,0-0.2,0-0.2-0.1L3.5,6.1C3.4,6,3.3,5.8,3.3,5.6c0-0.2,0.1-0.3,0.2-0.4l8.2-4.7c0.2-0.1,0.3-0.1,0.5,0      l8.2,4.7c0.2,0.1,0.2,0.3,0.2,0.4S20.6,6,20.5,6.1l-8.2,4.7C12.2,10.8,12.1,10.9,12,10.9z M4.8,5.6L12,9.8l7.2-4.2L12,1.5      L4.8,5.6z"
-                    />
-                    <path
-                      fill="#4b7cf3"
-                      strokeWidth="1"
-                      stroke="#4b7cf3"
-                      d="M13.6,23.6c-0.1,0-0.2,0-0.2-0.1c-0.2-0.1-0.2-0.3-0.2-0.4v-9.5c0-0.2,0.1-0.3,0.2-0.4l8.2-4.7c0.2-0.1,0.3-0.1,0.5,0      c0.2,0.1,0.2,0.3,0.2,0.4v9.5c0,0.2-0.1,0.3-0.3,0.4l-8.2,4.7C13.8,23.6,13.7,23.6,13.6,23.6z M14.1,13.9v8.3l7.2-4.2V9.8      L14.1,13.9z"
-                    />
-                    <path
-                      fill="#4b7cf3"
-                      strokeWidth="1"
-                      stroke="#4b7cf3"
-                      d="M10.4,23.6c-0.1,0-0.2,0-0.2-0.1l-8.2-4.7c-0.2-0.1-0.3-0.3-0.3-0.4V8.9c0-0.2,0.1-0.3,0.2-0.4c0.2-0.1,0.3-0.1,0.5,0      l8.2,4.7c0.2,0.1,0.2,0.3,0.2,0.4v9.5c0,0.2-0.1,0.3-0.2,0.4C10.5,23.6,10.5,23.6,10.4,23.6z M2.7,18.1l7.2,4.2v-8.3L2.7,9.8      V18.1z"
-                    />
-                  </g>
-                </svg>
-                <div :class="$style.name">
-                  {{ settings.logo }}
-                </div>
-              </div>
-            </div>
-            <div class="d-none d-sm-block">
-              <span class="mr-2">Don't have an account?</span>
-              <router-link to="/auth/register" class="font-size-16 vb__utils__link">
-                Sign up
-              </router-link>
-            </div>
-          </div> -->
           <a-col :lg="12" :md="12" :sm="24" :xs="24">
             <div class="px-3">
               <router-view v-slot="{ Component }">
@@ -99,41 +30,6 @@
               </router-view>
             </div>
           </a-col>
-          <!-- <div class="mt-auto pb-5 pt-5">
-            <ul
-              class="list-unstyled d-flex mb-0 flex-wrap justify-content-center"
-              :class="[$style.footerNav]"
-            >
-              <li>
-                <a href="javascript: void(0);">Terms of Use</a>
-              </li>
-              <li class="active list-inline-item">
-                <a href="javascript: void(0);">Compliance</a>
-              </li>
-              <li>
-                <a href="javascript: void(0);">Support</a>
-              </li>
-              <li>
-                <a href="javascript: void(0);">Contacts</a>
-              </li>
-              <li>
-                <a href="javascript: void(0);">About</a>
-              </li>
-              <li>
-                <a href="javascript: void(0);">Advertising</a>
-              </li>
-            </ul>
-            <div class="text-center">
-              Copyright © {{ new Date().getFullYear() }}
-              <a href="https://sellpixels.com" target="_blank" rel="noopener noreferrer">
-                Sellpixels.com
-              </a>
-              |
-              <a href="https://sellpixels.com/privacy" target="_blank" rel="noopener noreferrer">
-                Privacy Policy
-              </a>
-            </div>
-          </div> -->
         </a-row>
       </div>
     </a-layout-content>
@@ -142,12 +38,9 @@
 
 <script>
 import { mapState } from 'vuex'
-/* import VbSidebar from '@/@vb/components/Sidebar'
-import VbSupportChat from '@/@vb/components/SupportChat' */
 
 export default {
   name: 'AuthLayout',
-  // components: { VbSidebar, VbSupportChat },
   computed: mapState(['settings']),
 }
 </script>

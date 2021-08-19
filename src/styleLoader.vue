@@ -5,8 +5,8 @@
 <script>
 // antd core & themes styles
 import 'ant-design-vue/lib/style/index.less'
-import '@/@vb/css/vendors/antd/themes/default.less'
-import '@/@vb/css/vendors/antd/themes/dark.less'
+import '@/styles/css/vendors/antd/themes/default.less'
+import '@/styles/css/vendors/antd/themes/dark.less'
 
 // third-party plugins styles
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -16,24 +16,24 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 
 // vb vendors styles
-import '@/@vb/css/vendors/antd/style.scss'
-import '@/@vb/css/vendors/bootstrap/style.scss'
-import '@/@vb/css/vendors/nprogress/style.scss'
-import '@/@vb/css/vendors/he-tree-vue/style.scss'
-import '@/@vb/css/vendors/perfect-scrollbar/style.scss'
-import '@/@vb/css/vendors/quill/style.scss'
+import '@/styles/css/vendors/antd/style.scss'
+import '@/styles/css/vendors/bootstrap/style.scss'
+import '@/styles/css/vendors/nprogress/style.scss'
+import '@/styles/css/vendors/he-tree-vue/style.scss'
+import '@/styles/css/vendors/perfect-scrollbar/style.scss'
+import '@/styles/css/vendors/quill/style.scss'
 
 // vb styles
-import '@/@vb/css/core.scss'
-import '@/@vb/css/measurements.scss'
-import '@/@vb/css/colors.scss'
-import '@/@vb/css/utils.scss'
-import '@/@vb/css/layout.scss'
-import '@/@vb/css/router.scss'
+import '@/styles/css/core.scss'
+import '@/styles/css/measurements.scss'
+import '@/styles/css/colors.scss'
+import '@/styles/css/utils.scss'
+import '@/styles/css/layout.scss'
+import '@/styles/css/router.scss'
 
 // vb extra styles
-import '@/@vb/css/extra/clean.scss' // clean styles
-import '@/@vb/css/extra/air.scss' // air styles
+import '@/styles/css/extra/clean.scss' // clean styles
+import '@/styles/css/extra/air.scss' // air styles
 
 // change theme & variant and url listeners logic
 import { computed, watch } from 'vue'
