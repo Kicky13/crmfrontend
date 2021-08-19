@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import VbRegister from '@/@vb/components/Auth/Register'
+import VbRegister from '@/components/main/Auth/Register'
 export default {
   components: {
     VbRegister,
