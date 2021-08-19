@@ -7,13 +7,13 @@
           <div class="card-body">
             <a-form :label-col="labelCol" :wrapper-col="wrapperCol" label-align="left">
               <a-form-item label="Role name">
-                <a-input placeholder="Insert Role name..." />
+                <a-input v-model:value="formState.role" placeholder="Insert Role name..." />
               </a-form-item>
               <a-form-item label="Role Code">
-                <a-input placeholder="Insert Role code..." />
+                <a-input v-model:value="formState.code" placeholder="Insert Role code..." />
               </a-form-item>
             </a-form>
-            <button type="submit" class="btn btn-success px-5">Submit Data</button>
+            <button @click="handleSubmit" type="submit" class="btn btn-success px-5">Submit Data</button>
           </div>
         </div>
       </div>
@@ -23,7 +23,8 @@
 
 <script>
 import VbHeadersCardHeader from './Header.vue'
-import { reactive, toRaw } from 'vue'
+import { toRaw } from 'vue'
+import { insertRole } from '@/services/connection/apiService'
 
 export default {
   name: 'VbFormExamples',
@@ -31,17 +32,6 @@ export default {
     VbHeadersCardHeader,
   },
   setup() {
-    const formState = reactive({
-      name: '',
-      email: '',
-      budget: '',
-      amount: 0,
-    })
-
-    const onSubmit = () => {
-      console.log('submit!', toRaw(formState))
-    }
-
     return {
       labelCol: {
         span: 4,
@@ -49,9 +39,29 @@ export default {
       wrapperCol: {
         span: 14,
       },
-      formState,
-      onSubmit,
     }
+  },
+  data() {
+    return {
+      formState: {
+        role: '',
+        code: '',
+        createdAt: '06/04/2021',
+      },
+    }
+  },
+  methods: {
+    handleSubmit() {
+      const formData = toRaw(this.formState)
+      insertRole(formData)
+      .then(response => {
+        if (response) {
+          console.log(response)
+          this.$router.push({ path: '/roles' })
+        }
+      })
+      .catch(err => { console.error(err) })
+    },
   },
 }
 </script>
