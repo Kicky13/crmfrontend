@@ -116,46 +116,6 @@
   ],
   "posts": [
     {
-      "post_date": "06-08-2021",
-      "post_title": "Post 6",
-      "post_detail": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur ex quis. Omnis, dignissimos magni in, velit numquam eligendi facere obcaecati officiis voluptas optio iure quo impedit at, tempore ad quasi. Impedit, quos soluta porro, mollitia magnam sint quaerat a nulla praesentium suscipit non. Incidunt ipsum fugit nemo non at, consectetur laborum sunt architecto delectus illum pariatur maiores debitis, illo reprehenderit! Quo numquam voluptatum iste amet laudantium nemo iusto officiis. Ducimus reiciendis amet deleniti sapiente.",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 6
-    },
-    {
-      "post_date": "07-08-2021",
-      "post_title": "Post 7",
-      "post_detail": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur ex quis. Omnis, dignissimos magni in, velit numquam eligendi facere obcaecati officiis voluptas optio iure quo impedit at, tempore ad quasi. Impedit, quos soluta porro, mollitia magnam sint quaerat a nulla praesentium suscipit non. Incidunt ipsum fugit nemo non at, consectetur laborum sunt architecto delectus illum pariatur maiores debitis, illo reprehenderit! Quo numquam voluptatum iste amet laudantium nemo iusto officiis. Ducimus reiciendis amet deleniti sapiente.",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 7
-    },
-    {
-      "post_date": "08-08-2021",
-      "post_title": "Post 8",
-      "post_detail": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur ex quis. Omnis, dignissimos magni in, velit numquam eligendi facere obcaecati officiis voluptas optio iure quo impedit at, tempore ad quasi. Impedit, quos soluta porro, mollitia magnam sint quaerat a nulla praesentium suscipit non. Incidunt ipsum fugit nemo non at, consectetur laborum sunt architecto delectus illum pariatur maiores debitis, illo reprehenderit! Quo numquam voluptatum iste amet laudantium nemo iusto officiis. Ducimus reiciendis amet deleniti sapiente.",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 8
-    },
-    {
-      "post_date": "09-08-2021",
-      "post_title": "Post 9",
-      "post_detail": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur ex quis. Omnis, dignissimos magni in, velit numquam eligendi facere obcaecati officiis voluptas optio iure quo impedit at, tempore ad quasi. Impedit, quos soluta porro, mollitia magnam sint quaerat a nulla praesentium suscipit non. Incidunt ipsum fugit nemo non at, consectetur laborum sunt architecto delectus illum pariatur maiores debitis, illo reprehenderit! Quo numquam voluptatum iste amet laudantium nemo iusto officiis. Ducimus reiciendis amet deleniti sapiente.",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 9
-    },
-    {
-      "post_date": "10-08-2021",
-      "post_title": "Post 10",
-      "post_detail": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur ex quis. Omnis, dignissimos magni in, velit numquam eligendi facere obcaecati officiis voluptas optio iure quo impedit at, tempore ad quasi. Impedit, quos soluta porro, mollitia magnam sint quaerat a nulla praesentium suscipit non. Incidunt ipsum fugit nemo non at, consectetur laborum sunt architecto delectus illum pariatur maiores debitis, illo reprehenderit! Quo numquam voluptatum iste amet laudantium nemo iusto officiis. Ducimus reiciendis amet deleniti sapiente.",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 10
-    },
-    {
       "post_date": "20-08-2021",
       "post_title": "Post 11",
       "post_slug": "judul_artikel",
