@@ -1,17 +1,16 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-xs-0 col-md-3">
+      <div class="col-xs-0 col-md-2">
       </div>
-      <div class="col-xs-12 col-md-9">
+      <div class="col-xs-12 col-md-8">
         <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%);
     box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
     border-radius: 5px;">
           <div class="card-body">
-            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-black.png" alt="Logo SIG" width="200">
-            <img v-else src="@/assets/images/logo/crm-white.png" alt="Logo SIG" width="200">
-            <br>
-            <div class="text-dark font-size-24 mb-3">Selamat Datang</div>
+            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-icon-black.png" alt="Logo SIG" width="200">
+            <img v-else src="@/assets/images/logo/crm-icon-white.png" alt="Logo SIG" width="200">
+            <div class="text-dark font-size-18 mb-3" style="margin-top: 10px !important">Selamat Datang</div>
             <a-form
               :model="loginForm"
               :rules="rules"
@@ -21,10 +20,19 @@
               @finishFailed="handleFinishFailed"
             >
               <a-form-item name="email">
-                <a-input v-model:value="loginForm.email" addon-before="-" placeholder="Nama Pengguna" />
+                <a-input v-model:value="loginForm.email" placeholder="Nama Pengguna">
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
               </a-form-item>
               <a-form-item name="password">
-                <a-input v-model:value="loginForm.password" addon-before="-" placeholder="Kata Kunci" type="password" />
+                <a-input-password v-model:value="loginForm.password" placeholder="Kata Kunci" type="password">                  
+                  <template #prefix>
+                    <!-- <KeyOutlined /> -->
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
               </a-form-item>
               <a-button type="main" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
                 <strong>MASUK</strong>
@@ -47,6 +55,8 @@
           </div>
         </div>
       </div>
+      <div class="col-xs-0 col-md-2">
+      </div>
     </div>
   </div>
 </template>
@@ -55,9 +65,19 @@ import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { login } from '@/services/connection/apiService'
 import { notification } from 'ant-design-vue'
+import {
+  UserOutlined,
+  // KeyOutlined,
+  LockOutlined,
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'VbLogin',
+  components: {
+    UserOutlined,
+    // KeyOutlined,
+    LockOutlined,
+  },
   setup() {
     const storeState = useStore()
     const settings = computed(() => storeState.getters.settings)

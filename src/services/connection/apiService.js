@@ -89,6 +89,28 @@ export async function getRoleList() {
     .catch(err => { console.error(err) })
 }
 
+export async function insertRole(data) {
+  return apiClient
+  .post('/roles', data)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function deleteRole (id) {
+  return apiClient
+  .delete('/roles/' + id)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
 export async function getPermissionList() {
     return apiClient
     .get('/permissions')
@@ -134,19 +156,41 @@ export async function deletePost(id) {
 }
 
 export async function addPost(post_date, post_title, post_slug, post_detail, publication_status, tag) {
-    return apiClient
-    .post('/posts', {
-      post_date,
-      post_title,
-      post_slug,
-      post_detail,
-      publication_status,
-      tag,
-    })
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
+  return apiClient
+  .post('/posts', {
+    post_date,
+    post_title,
+    post_slug,
+    post_detail,
+    publication_status,
+    tag,
+  })
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
+export async function deletePermission(id) {
+  return apiClient
+  .delete('/permissions/' + id)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function insertPermission(data) {
+  return apiClient
+  .post('/permissions', data)
+  .then(response => {
+    if (response) {
+      return response
+    }
+    return false
+  })
 }

@@ -55,12 +55,6 @@
       "role": "user",
       "code": "CC789",
       "createdAt": "06/04/2021"
-    },
-    {
-      "id": 3,
-      "role": "admin toko",
-      "code": "B77A9",
-      "createdAt": "26/04/2021"
     }
   ],
   "permissions": [
@@ -112,53 +106,60 @@
       "pagename": "Dashboard",
       "subject": "Dashboard",
       "permission": "read"
+    },
+    {
+      "actor": "admin",
+      "pagename": "TEST",
+      "subject": "TEST",
+      "permission": "manage",
+      "id": 8
     }
   ],
   "posts": [
     {
       "post_date": "20-08-2021",
-      "post_title": "Post 11",
+      "post_title": "Post 16",
       "post_slug": "judul_artikel",
       "post_detail": "<p><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">&nbsp;is simply dummy text of the printing and typesetting industry. </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> has been the industry's standard dummy text ever since the </span><em style=\"color: rgb(0, 0, 0);\"><u>1500s</u></em><span style=\"color: rgb(0, 0, 0);\">, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the </span><em style=\"color: rgb(0, 0, 0);\"><u>1960s</u></em><span style=\"color: rgb(0, 0, 0);\"> with the release of Letraset sheets containing </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> passages, and more recently with desktop publishing software like Aldus PageMaker including versions of </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">.</span></p>",
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 11
+      "id": 16
     },
     {
       "post_date": "20-08-2021",
-      "post_title": "Post 12",
+      "post_title": "Post 17",
       "post_slug": "judul_artikel",
       "post_detail": "<p><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">&nbsp;is simply dummy text of the printing and typesetting industry. </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> has been the industry's standard dummy text ever since the </span><em style=\"color: rgb(0, 0, 0);\"><u>1500s</u></em><span style=\"color: rgb(0, 0, 0);\">, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the </span><em style=\"color: rgb(0, 0, 0);\"><u>1960s</u></em><span style=\"color: rgb(0, 0, 0);\"> with the release of Letraset sheets containing </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> passages, and more recently with desktop publishing software like Aldus PageMaker including versions of </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">.</span></p>",
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 12
+      "id": 17
     },
     {
       "post_date": "20-08-2021",
-      "post_title": "Post 13",
+      "post_title": "Post 18",
       "post_slug": "judul_artikel",
       "post_detail": "<p><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">&nbsp;is simply dummy text of the printing and typesetting industry. </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> has been the industry's standard dummy text ever since the </span><em style=\"color: rgb(0, 0, 0);\"><u>1500s</u></em><span style=\"color: rgb(0, 0, 0);\">, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the </span><em style=\"color: rgb(0, 0, 0);\"><u>1960s</u></em><span style=\"color: rgb(0, 0, 0);\"> with the release of Letraset sheets containing </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> passages, and more recently with desktop publishing software like Aldus PageMaker including versions of </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">.</span></p>",
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 13
+      "id": 18
     },
     {
       "post_date": "20-08-2021",
-      "post_title": "Post 14",
+      "post_title": "Post 19",
       "post_slug": "judul_artikel",
       "post_detail": "<p><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">&nbsp;is simply dummy text of the printing and typesetting industry. </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> has been the industry's standard dummy text ever since the </span><em style=\"color: rgb(0, 0, 0);\"><u>1500s</u></em><span style=\"color: rgb(0, 0, 0);\">, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the </span><em style=\"color: rgb(0, 0, 0);\"><u>1960s</u></em><span style=\"color: rgb(0, 0, 0);\"> with the release of Letraset sheets containing </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> passages, and more recently with desktop publishing software like Aldus PageMaker including versions of </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">.</span></p>",
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 14
+      "id": 19
     },
     {
       "post_date": "20-08-2021",
-      "post_title": "Post 15",
+      "post_title": "Post 20",
       "post_slug": "judul_artikel",
       "post_detail": "<p><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">&nbsp;is simply dummy text of the printing and typesetting industry. </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> has been the industry's standard dummy text ever since the </span><em style=\"color: rgb(0, 0, 0);\"><u>1500s</u></em><span style=\"color: rgb(0, 0, 0);\">, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the </span><em style=\"color: rgb(0, 0, 0);\"><u>1960s</u></em><span style=\"color: rgb(0, 0, 0);\"> with the release of Letraset sheets containing </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\"> passages, and more recently with desktop publishing software like Aldus PageMaker including versions of </span><strong style=\"color: rgb(0, 0, 0);\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0);\">.</span></p>",
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 15
+      "id": 20
     }
   ]
 }

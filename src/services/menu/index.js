@@ -49,8 +49,14 @@ export const getMenuData = [
         key: 'jkr01l',
         url: '/berita',
       },
+      {
+        title: 'Program',
+        key: 'b4da55',
+        url: '/program',
+      },
     ],
   },
+  
   {
     category: true,
     title: 'Roles & Permissions',
