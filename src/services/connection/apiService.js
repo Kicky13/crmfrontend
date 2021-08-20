@@ -99,3 +99,54 @@ export async function getPermissionList() {
         return false
     })
 }
+
+export async function getPostList() {
+    return apiClient
+    .get('/posts')
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
+
+export async function getPost(id) {
+    return apiClient
+    .get(`/posts/${id}`)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
+
+export async function deletePost(id) {
+    return apiClient
+    .delete(`/posts/${id}`)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
+
+export async function addPost(post_date, post_title, post_slug, post_detail, publication_status, tag) {
+    return apiClient
+    .post('/posts', {
+      post_date,
+      post_title,
+      post_slug,
+      post_detail,
+      publication_status,
+      tag,
+    })
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
