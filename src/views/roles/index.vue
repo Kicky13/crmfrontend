@@ -14,13 +14,19 @@
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <a @click="createRole">Create New</a>
+                    <i class="fa fa-plus-square-o">
+                    <a @click="createRole"> Tambah baru</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="javascript:;">Delete Marks</a>
+                    <i class="fa fa-trash">
+                    <a href="javascript:;"> Hapus ditandai</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="javascript:;">Delete All</a>
+                    <i class="fa fa-ban">
+                    <a href="javascript:;"> Hapus semua</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-divider />
                 </a-menu>
