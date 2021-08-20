@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import VbForgotPassword from '@/@vb/components/Auth/ForgotPassword'
+import VbForgotPassword from '@/components/main/Auth/ForgotPassword'
 export default {
   components: {
     VbForgotPassword,

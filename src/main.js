@@ -7,6 +7,8 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import { i18n } from './localization'
+import ability from '@/services/ability/ability'
+import { abilitiesPlugin } from '@casl/vue'
 import './services/axios/fakeApi' // mocking api
 
 createApp(App)
@@ -15,4 +17,7 @@ createApp(App)
   .use(i18n)
   .use(Antd)
   .use(PerfectScrollbar)
+  .use(abilitiesPlugin, ability, {
+    useGlobalProperties: true,
+  })
   .mount('#app')

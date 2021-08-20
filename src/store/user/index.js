@@ -2,7 +2,7 @@ import router from '@/router'
 import { notification } from 'ant-design-vue'
 
 import * as firebase from '@/services/firebase'
-import * as jwt from '@/services/jwt'
+import * as jwt from '@/services/connection/apiService'
 import { vModelCheckbox } from 'vue'
 
 const mapAuthProviders = {

@@ -8,7 +8,7 @@
 
 <script>
 // import VbHeadersCardHeader from '@/@vb/widgets/Headers/CardHeader'
-import VbFormTambahProgram from '@/@vb/widgets/Forms/FormTambahProgram'
+import VbFormTambahProgram from './FormTambahProgram'
 
 export default {
   components: {

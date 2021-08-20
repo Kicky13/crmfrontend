@@ -7,14 +7,29 @@
             </span>Add New Program</a>
         </div><br><br>
         <!-- <div class="card-placeholder"><vb-headers-tag :data="{ title: 'List Program' }" /></div> -->
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">TES</div>
-                    <div class="col-md-4">TES</div>
-                    <div class="col-md-4">TES</div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <vb-widgets-list-program /> -->
+                    </div>
                 </div>
-                <!-- <vb-widgets-list-program /> -->
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <vb-widgets-list-program /> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <vb-widgets-list-program /> -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>

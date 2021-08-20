@@ -3,15 +3,16 @@ import store from 'store'
 
 export async function login(email, password) {
   return apiClient
-    .post('/auth/login', {
-      email,
-      password,
-    })
+    .get('/users?email=' + email + '&password=' + password)
     .then(response => {
       if (response) {
-        const { accessToken } = response.data
+        const data = response.data[0]
+        const accessToken = data.id + "" + data.accessToken
         if (accessToken) {
+          localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
+          store.set('userID', data.id)
+          console.log(localStorage.getItem('userData'))
         }
         return response.data
       }
@@ -41,8 +42,11 @@ export async function register(email, password, name) {
 }
 
 export async function currentAccount() {
-  return apiClient
-    .get('/auth/account')
+  const userID = store.get('userID')
+
+  if (userID) {
+    return apiClient
+    .get('/users/' + userID)
     .then(response => {
       if (response) {
         const { accessToken } = response.data
@@ -54,13 +58,20 @@ export async function currentAccount() {
       return false
     })
     .catch(err => console.log(err))
+  }
+  return false
 }
 
 export async function logout() {
+  const userID = store.get('userID')
+
   return apiClient
-    .get('/auth/logout')
-    .then(() => {
+    .get('/users/' + userID)
+    .then(response => {
+      console.log(response)
+      localStorage.removeItem('userData')
       store.remove('accessToken')
+      store.remove('userID')
       return true
     })
     .catch(err => console.log(err))
