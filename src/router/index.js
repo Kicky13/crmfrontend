@@ -49,7 +49,8 @@ const router = createRouter({
           path: '/program/tambah',
           meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program/tambah'),
-
+        },
+        {
           path: '/roles/create',
           name: 'roles-create',
           meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
