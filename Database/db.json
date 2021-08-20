@@ -55,12 +55,6 @@
       "role": "user",
       "code": "CC789",
       "createdAt": "06/04/2021"
-    },
-    {
-      "id": 3,
-      "role": "admin toko",
-      "code": "B77A9",
-      "createdAt": "26/04/2021"
     }
   ],
   "permissions": [
@@ -112,6 +106,13 @@
       "pagename": "Dashboard",
       "subject": "Dashboard",
       "permission": "read"
+    },
+    {
+      "actor": "admin",
+      "pagename": "TEST",
+      "subject": "TEST",
+      "permission": "manage",
+      "id": 8
     }
   ],
   "posts": [
