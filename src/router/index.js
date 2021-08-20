@@ -40,10 +40,22 @@ const router = createRouter({
           component: () => import('@/views/berita/tambah'),
         },
         {
+
+          path: '/program',
+          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/program'),
+        },
+        {
+          path: '/program/tambah',
+          meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/program/tambah'),
+        },
+        {
           path: '/roles/create',
           name: 'roles-create',
           meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/roles/forms/Insert'),
+
         },
         {
           path: '/roles',
