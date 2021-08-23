@@ -51,7 +51,7 @@ export const getMenuData = [
       },
       {
         title: 'Program',
-        key: 'b4da55',
+        key: 'jkr02l',
         url: '/program',
       },
     ],

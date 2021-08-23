@@ -1,47 +1,72 @@
 <template>
-  <a-modal
-    title="Tambah Berita"
-    :visible="showModalTambah"
-    @ok="handleOkModal"
-    @cancel="handleCancelModal"
-    ok-text="Tambah"
-    cancel-text="Batal"
-    style="top: 20px;"
+  <a-form
+    :model="formState"
+    label-align="left"
+    layout="vertical"
   >
-    <a-form :model="formState" label-align="left" layout="vertical">
-      <a-form-item label="Judul">
-        <a-input v-model:value="formState.title" />
-      </a-form-item>
-      <a-form-item label="Konten">
-        <quill-editor style="height: 200px" v-model:value="formState.detail"></quill-editor>
-      </a-form-item>
-      <a-form-item label="Upload Gambar">
-        <div class="clearfix">
-          <a-upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            list-type="picture-card"
-            :file-list="fileList"
-            @preview="handlePreview"
-            @change="handleChange"
-          >
-            <div v-if="fileList.length < 8">
-              <i class="fa fa-plus" />
-              <div class="ant-upload-text">
-                Upload
-              </div>
-            </div>
-          </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-            <img alt="example" style="width: 100%" :src="previewImage" />
-          </a-modal>
+    <a-form-item label="Judul">
+      <a-input
+        v-model:value="formState.post_title"
+        class="input-style"
+      />
+    </a-form-item>
+    <a-form-item label="Detail">
+      <quill-editor
+        style="height: 200px"
+        v-model:value="formState.post_detail"
+      />
+    </a-form-item>
+    <a-form-item label="Gambar">
+      <a-upload
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        list-type="picture-card"
+        :file-list="fileList"
+        @preview="handlePreview"
+        @change="handleChange"
+      >
+        <i class="fe fe-plus" />
+        <div class="ant-upload-text">
+          Upload
         </div>
-      </a-form-item>
-    </a-form>
-  </a-modal>
+      </a-upload>
+      <a-modal
+        :visible="previewVisible"
+        :footer="null"
+        @cancel="handleCancel"
+      >
+        <img
+          alt="Default"
+          style="width: 100%"
+          :src="previewImage"
+        />
+      </a-modal>
+    </a-form-item>
+    <a-form-item>
+      <a-button
+        type="primary"
+        html-type="submit"
+        @click="onSubmit"
+      >
+        Tambah
+      </a-button>
+      <router-link
+        to="/berita"
+        style="margin-left: 10px;"
+      >
+        <a-button>
+          Cancel
+        </a-button>
+      </router-link>
+    </a-form-item>
+  </a-form>
 </template>
+
 <script>
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
+import { storePost } from '@/services/connection/apiService'
+import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -56,15 +81,60 @@ export default defineComponent({
   components: {
     quillEditor,
   },
-  props: ['showModalTambah'],
   setup() {
+    const router = useRouter()
+
+    const getCurrentDate = () => {
+      const today = new Date()
+      const date = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const year = today.getFullYear()
+
+      return `${date}-${month}-${year}`
+    }
+
+    const getCurrentTime = () => {
+      const today = new Date();
+      const hour = String(today.getHours()).padStart(2, '0')
+      const minute = String(today.getMinutes()).padStart(2, '0')
+
+      return `${hour}:${minute}`
+    }
+
+    const addNewPost = (param, config) => {
+      storePost(param, config)
+      .then(response => {
+        if (response) {}
+      })
+    }
+
     const formState = reactive({
-      title: '',
-      detail: '',
+      post_date: getCurrentDate(),
+      post_time: getCurrentTime(),
+      post_title: '',
+      post_slug: 'judul_artikel',
+      post_detail: '',
+      publication_status: 'Draft',
+      tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
     })
 
     const onSubmit = () => {
-      console.log('submit!', toRaw(formState))
+      const config = {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      addNewPost(toRaw(formState), config)
+      formState.post_date = ''
+      formState.post_time = ''
+      formState.post_title = ''
+      formState.post_slug = 'judul_artikel'
+      formState.post_detail = ''
+      formState.publication_status = 'Draft'
+      formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+      formState.image = ''
+      router.push('/berita')
+      message.success('Berita berhasil ditambahkan')
     }
 
     return {
@@ -79,29 +149,15 @@ export default defineComponent({
       fileList: [
         {
           uid: '-1',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-2',
-          name: 'image.png',
+          name: '.jpg/.png',
           status: 'error',
         },
       ],
     };
   },
   methods: {
-    handleOkModal(e) {
-      this.$emit('handleOk', this.formState)
-      this.formState.title = ''
-      this.formState.detail = ''
-    },
-    handleCancelModal(e) {
-      this.$emit('handleCancel')
-    },
     handleCancel() {
-      this.previewVisible = false;
+      this.previewVisible = false
     },
     async handlePreview(file) {
       if (!file.url && !file.preview) {
@@ -110,14 +166,33 @@ export default defineComponent({
       this.previewImage = file.url || file.preview;
       this.previewVisible = true;
     },
-    handleChange({ fileList }) {
-      this.fileList = fileList;
+    handleChange(info) {
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1)
+      fileList = fileList.map(file => {
+        if (file.response) {
+          file.url = file.response.url
+        }
+        return file
+      })
+      if (!fileList.length) {
+        this.fileList = [
+          {
+            uid: '-1',
+            name: '.jpg/.png',
+            status: 'error',
+          },
+        ]
+      } else {
+        this.fileList = fileList
+        this.formState.image = this.fileList[0]
+      }
     },
   },
 })
 </script>
+
 <style scoped>
-/* you can make up upload button and sample style by using stylesheets */
 .ant-upload-select-picture-card i {
   font-size: 32px;
   color: #999;
@@ -126,5 +201,11 @@ export default defineComponent({
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+.input-style:hover,
+.input-style:focus,
+.input-style:active {
+  border-color: #b20838;
 }
 </style>

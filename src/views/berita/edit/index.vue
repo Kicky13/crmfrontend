@@ -1,49 +1,146 @@
 <template>
-  <a-form :model="formState" label-align="left" layout="vertical">
+  <a-form
+    :model="formState"
+    label-align="left"
+    layout="vertical"
+  >
     <a-form-item label="Judul">
-      <a-input v-model:value="formState.title" />
+      <a-input
+        v-model:value="formState.post_title"
+        class="input-style"
+      />
     </a-form-item>
-    <a-form-item label="Konten">
-      <quill-editor style="height: 200px"></quill-editor>
+    <a-form-item label="Detail">
+      <quill-editor
+        style="height: 200px"
+        v-model:value="formState.post_detail"
+      />
     </a-form-item>
-    <a-form-item label="Unggah Gambar">
-      <a-upload-dragger>
-        <p class="ant-upload-drag-icon">
-          <inbox-outlined></inbox-outlined>
-        </p>
-        <p class="ant-upload-text">Klik atau seret gambar di sini untuk mengunggah</p>
-        <p class="ant-upload-hint">
-          Mendukung untuk unggahan satu atau lebih dari satu gambar. Dilarang keras mengunggah data perusahaan atau
-          berkas penting lainnya
-        </p>
-      </a-upload-dragger>
+    <a-form-item label="Gambar">
+      <a-upload
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        list-type="picture-card"
+        :file-list="fileList"
+        @preview="handlePreview"
+        @change="handleChange"
+      >
+        <i class="fe fe-plus" />
+        <div class="ant-upload-text">
+          Upload
+        </div>
+      </a-upload>
+      <a-modal
+        :visible="previewVisible"
+        :footer="null"
+        @cancel="handleCancel"
+      >
+        <img
+          alt="Default"
+          style="width: 100%"
+          :src="previewImage"
+        />
+      </a-modal>
+    </a-form-item>
+    <a-form-item>
+      <a-button
+        type="primary"
+        html-type="submit"
+        @click="onSubmit"
+      >
+        Edit
+      </a-button>
+      <router-link
+        to="/berita"
+        style="margin-left: 10px;"
+      >
+        <a-button>
+          Cancel
+        </a-button>
+      </router-link>
     </a-form-item>
   </a-form>
 </template>
 <script>
 import { quillEditor } from 'vue3-quill'
-import { InboxOutlined } from '@ant-design/icons-vue'
-import { defineComponent, reactive, toRaw } from 'vue'
+import { defineComponent, onMounted, reactive, toRaw } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { showPost, updatePost } from '@/services/connection/apiService'
+import { message } from 'ant-design-vue';
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 export default defineComponent({
   components: {
-    InboxOutlined,
     quillEditor,
   },
   setup() {
+    onMounted(() => {
+      getPostById()
+    })
+
+    const route = useRoute()
+
+    const router = useRouter()
+
+    const getPostById = () => {
+      const id = route.params.userId
+      showPost(id)
+      .then(response => {
+        if (response) {
+          formState.id = response.id
+          formState.post_date = response.post_date
+          formState.post_time = response.post_time
+          formState.post_title = response.post_title
+          formState.post_slug = response.post_slug
+          formState.post_detail = response.post_detail
+          formState.publication_status = response.publication_status
+          formState.tag = response.tag
+          formState.image = response.image
+        }
+      })
+    }
+
+    const updatePostById = (id, param, config) => {
+      updatePost(id, param, config)
+      .then(response => {
+        if (response) {}
+      })
+    }
+
     const formState = reactive({
-      email: '',
-      password: '',
-      address: '',
-      address2: '',
-      state: '',
-      city: [],
-      zip: '',
-      agree: false,
+      post_date: '',
+      post_time: '',
+      post_title: '',
+      post_slug: 'judul_artikel',
+      post_detail: '',
+      publication_status: 'Draft',
+      tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
     })
 
     const onSubmit = () => {
-      console.log('submit!', toRaw(formState))
+       const config = {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      updatePostById(formState.id, toRaw(formState), config)
+      formState.post_date = ''
+      formState.post_time = ''
+      formState.post_title = ''
+      formState.post_slug = 'judul_artikel'
+      formState.post_detail = ''
+      formState.publication_status = 'Draft'
+      formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+      formState.image = ''
+      router.push('/berita')
+      message.success('Berita berhasil diupate')
     }
 
     return {
@@ -51,5 +148,86 @@ export default defineComponent({
       onSubmit,
     }
   },
+  data() {
+    return {
+      previewVisible: false,
+      previewImage: '',
+      fileList: [],
+    };
+  },
+  mounted() {
+    this.getPostById()
+  },
+  methods: {
+    getPostById() {
+      const id = this.$route.params.userId
+      showPost(id)
+      .then(response => {
+        if (response) {
+          const info = {
+            fileList: [
+              {
+                uid: '-1',
+                name: '.jpg/.png',
+                status: 'error',
+              },
+              { ...response.image },
+            ],
+          }
+          this.handleChange(info)
+        }
+      })
+    },
+    handleCancel() {
+      this.previewVisible = false
+    },
+    async handlePreview(file) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      this.previewImage = file.url || file.preview;
+      this.previewVisible = true;
+    },
+    handleChange(info) {
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1)
+      fileList = fileList.map(file => {
+        if (file.response) {
+          file.url = file.response.url
+        }
+        return file
+      })
+      if (!fileList.length) {
+        this.fileList = [
+          {
+            uid: '-1',
+            name: '.jpg/.png',
+            status: 'error',
+          },
+        ]
+      } else {
+        this.fileList = fileList
+        this.formState.image = this.fileList[0]
+      }
+    },
+  },
 })
 </script>
+
+<style scoped>
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+
+.input-style:hover,
+.input-style:focus,
+.input-style:active {
+  border-color: #b20838;
+}
+</style>

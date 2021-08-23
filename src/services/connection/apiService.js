@@ -122,7 +122,7 @@ export async function getPermissionList() {
     })
 }
 
-export async function getPostList() {
+export async function listPost() {
     return apiClient
     .get('/posts')
     .then(response => {
@@ -133,7 +133,7 @@ export async function getPostList() {
     })
 }
 
-export async function getPost(id) {
+export async function showPost(id) {
     return apiClient
     .get(`/posts/${id}`)
     .then(response => {
@@ -155,16 +155,20 @@ export async function deletePost(id) {
     })
 }
 
-export async function addPost(post_date, post_title, post_slug, post_detail, publication_status, tag) {
+export async function storePost(formData, config) {
   return apiClient
-  .post('/posts', {
-    post_date,
-    post_title,
-    post_slug,
-    post_detail,
-    publication_status,
-    tag,
+  .post('/posts', formData, config)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
   })
+}
+
+export async function updatePost(id, formData, config) {
+  return apiClient
+  .put(`/posts/${id}`, formData, config)
   .then(response => {
       if (response) {
           return response.data
