@@ -3,7 +3,7 @@
     <div :class="$style.head" class="bg-light d-flex flex-column">
       <div class="card-header card-header-flex border-bottom-0">
         <div class="d-flex flex-column justify-content-center">
-          <h5 class="mb-0 text-color-6">Permissions</h5>
+          <h5 class="mb-0 text-color-6">Role Management</h5>
         </div>
         <div class="ml-auto d-flex flex-column justify-content-center">
           <div class="dropdown d-inline-block">
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { getRoleList, deleteRole } from '@/services/connection/apiService'
+import { getRoleList, deleteRole } from '@/services/connection/roles-permissions/api'
 
 const columns = [
   {

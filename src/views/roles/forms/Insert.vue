@@ -24,7 +24,7 @@
 <script>
 import VbHeadersCardHeader from './Header.vue'
 import { toRaw } from 'vue'
-import { insertRole } from '@/services/connection/apiService'
+import { insertRole } from '@/services/connection/roles-permissions/api'
 
 export default {
   name: 'VbFormExamples',
