@@ -342,11 +342,13 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 /* DARK THEME */
 .dark {
-  color: $dark-gray-2;
+  // color: $dark-gray-2;
+  color: $white;
   background: $dark-gray-6 !important;
 
   .icon {
-    color: $dark-gray-2;
+    // color: $dark-gray-2;
+    color: $white;
   }
 
   .logoContainer {
@@ -354,7 +356,8 @@
       color: $white;
     }
     .descr {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $white;
       border-left: 1px solid $dark-gray-4;
     }
   }
@@ -371,30 +374,32 @@
   .navigation {
     :global(.ant-menu-item-group-title) {
       // color: darken($dark-gray-3, 10%) !important;
-      color: darken($black, 10%) !important;
+      color: darken($white, 10%) !important;
     }
 
     :global(.ant-menu-submenu-title) {
       // color: $dark-gray-2;
-      color: $black;
+      color: $white;
 
       &:hover {
-        color: $main;
+        color: $red;
       }
     }
 
     :global(.ant-menu-item) {
       > span {
-        color: $dark-gray-2;
+        // color: $dark-gray-2;
+        color: $white;
       }
       > a {
-        color: $dark-gray-2;
+        // color: $dark-gray-2;
+        color: $white;
 
         &:hover {
-          color: $main;
+          color: $red;
 
           .icon {
-            color: $main;
+            color: $red;
           }
         }
       }
@@ -403,7 +408,7 @@
     :global(.ant-menu-submenu-open),
     :global(.ant-menu-submenu-active),
     :global(.ant-menu-item-active) {
-      background: $dark-gray-4 !important;
+      background: $dark-gray-2 !important;
     }
 
     :global(.ant-menu-item-active) {
