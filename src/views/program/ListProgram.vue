@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-4" v-for="post in posts" :key="post.id"> 
-        <div class="card"  >
+        <div class="card"  style="border-top:8px solid red">
             <div class="card-header" style="font-weight:bold">{{post.post_title}}</div>
             <div class="card-body">
                 <small style="color:red;">Berlaku : {{post.post_date}}</small>
