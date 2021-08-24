@@ -1,36 +1,65 @@
 <template>
-  <transition name="fade">
-    <a-alert
-      v-if="alertVisible"
-      message="Artikel berhasil dihapus"
-      type="success"
-      closable
-      class="mb-4"
-    />
-  </transition>
   <ul class="list-unstyled mb-0">
-    <li :class="$style.item" v-for="post in posts" :key="post.id">
-      <a href="javascript:;" :class="$style.itemLink">
-        <div :class="$style.itemCover" class="mr-3">
-          <img src="@/assets/images/news/1.jpg" alt="Hands" />
+    <li
+      :class="$style.item"
+      v-for="postItem in postItems"
+      :key="postItem.id"
+    >
+      <a
+        href="javascript:;"
+        :class="$style.itemLink"
+      >
+        <div
+          :class="$style.itemCover"
+          class="mr-3"
+        >
+          <template v-if="postItem.image && postItem.image.status !== 'removed'">
+            <img
+              :src="postItem.image.thumbUrl"
+              :alt="postItem.image.name"
+            />
+          </template>
+          <template v-else>
+            <img src="@/assets/images/logo/default-image.jpg" alt="Default">
+          </template>
         </div>
         <div>
-          <div class="font-size-18 font-weight-bold text-main" v-text="post.title" />
-          <div class="font-size-12">03/08/2021, 20:10 WIB</div>
-          <div class="text-dark" v-text="post.detail" />
+          <div
+            class="font-size-18 font-weight-bold text-main"
+            v-text="postItem.post_title"
+          />
+          <div
+            class="font-size-12">
+            {{postItem.post_date}}, {{postItem.post_time}} WIB
+          </div>
+          <div
+            class="text-dark"
+            v-html="postItem.post_detail"
+          />
         </div>
-        <div class="nav-item dropdown">
-          <a-dropdown placement="bottomRight" :trigger="['click']">
-            <a class="nav-link pt-sm-0" href="javascript: void(0);">
+        <div
+          class="nav-item dropdown"
+          style="margin-left: auto;"
+        >
+          <a-dropdown
+            placement="bottomRight"
+            :trigger="['click']"
+          >
+            <a
+              class="nav-link pt-sm-0"
+              href="javascript: void(0);"
+            >
               <i class="fe fe-more-horizontal" />
             </a>
             <template #overlay>
               <a-menu>
+                <router-link :to="{ path: `/berita/edit/${postItem.id}` }">
+                  <a-menu-item>
+                    <a>Edit</a>
+                  </a-menu-item>
+                </router-link>
                 <a-menu-item>
-                  <a href="javascript:;">Edit</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="deletePost(post.id)">Hapus</a>
+                  <a @click="deleteConfirm(postItem.id)">Hapus</a>
                 </a-menu-item>
               </a-menu>
             </template>
@@ -40,55 +69,38 @@
     </li>
   </ul>
 </template>
+
 <script>
-import axios from 'axios'
+import { showPost, deletePost } from '@/services/connection/apiService'
 
 export default {
-  data() {
-    return {
-      posts: [],
-      alertVisible: false,
-    }
-  },
-  mounted() {
-    this.getPosts()
-  },
+  props:['postItems'],
   methods: {
-    getPosts() {
-      axios
-      .get('http://localhost:2000/posts')
-      .then(response => this.posts = response.data)
+    deletePostById(id) {
+      deletePost(id)
+      .then(response => {
+        if (response) {
+          this.$emit('deleteMessage')
+        }
+      })
     },
-    deletePost(id) {
-      const deleteConfirm = confirm('Apakah anda yakin?')
-      if (deleteConfirm) {
-        axios
-        .delete(`http://localhost:2000/posts/${id}`)
-        .then(response => {
-          this.posts = response.data
-          this.getPosts()
-          this.alertVisible = true
-          setTimeout(() => {
-            this.alertVisible = false
-          }, 5000)
-        })
-      }
+    deleteConfirm(id) {
+      const deleteMethod = this.deletePostById
+      this.$confirm({
+        title: 'Hapus Berita',
+        content: 'Apakah anda yakin?',
+        okText: 'Ya',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk() {
+          deleteMethod(id)
+        },
+      });
     },
   },
 }
 </script>
+
 <style lang="scss" module>
 @import './style.module.scss';
-</style>
-
-<style scoped>
-.nav-item {
-  margin-left: auto;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 </style>

@@ -5,8 +5,8 @@
   &:hover,
   &:active,
   &:focus {
-    border-color: lighten($blue-light, 0%);
-    color: lighten($blue-light, 0%);
+    border-color: $primary !important;
+    color: $primary !important;
   }
   &-primary {
     background: $primary !important;
@@ -15,9 +15,9 @@
     &:hover,
     &:active,
     &:focus {
-      background: lighten($blue-light, 0%) !important;
-      border-color: lighten($blue-light, 0%) !important;
-      color: $white;
+      background: lighten($main-light, 0%) !important;
+      border-color: lighten($main-light, 0%) !important;
+      color: $white !important;
     }
   }
   &-danger {
@@ -35,18 +35,6 @@
     &[disabled]:hover {
       background: $gray-2 !important;
       border-color: $gray-2 !important;
-    }
-  }
-  &-main {
-    background: $main !important;
-    border-color: $main !important;
-
-    &:hover,
-    &:active,
-    &:focus {
-      background: lighten($main-light, 5%) !important;
-      border-color: lighten($main-light, 5%) !important;
-      color: $white;
     }
   }
 }
