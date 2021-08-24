@@ -63,7 +63,7 @@
 <script>
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { login } from '@/services/connection/apiService'
+import { login } from '@/services/connection/authService'
 import { notification } from 'ant-design-vue'
 import {
   UserOutlined,

@@ -78,6 +78,11 @@ export const getMenuData = [
         key: 'echa2a',
         url: '/permissions',
       },
+      {
+        title: 'Assign Roles',
+        key: 'acc441',
+        url: '/assignrole',
+      },
     ],
   },
   // {
