@@ -47,7 +47,7 @@
         html-type="submit"
         @click="onSubmit"
       >
-        Tambah
+        Edit
       </a-button>
       <router-link
         to="/berita"
@@ -60,12 +60,11 @@
     </a-form-item>
   </a-form>
 </template>
-
 <script>
 import { quillEditor } from 'vue3-quill'
-import { defineComponent, reactive, toRaw } from 'vue'
-import { storePost } from '@/services/connection/apiService'
-import { useRouter } from 'vue-router'
+import { defineComponent, onMounted, reactive, toRaw } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { showPost, updatePost } from '@/services/connection/apiService'
 import { message } from 'ant-design-vue';
 
 function getBase64(file) {
@@ -82,35 +81,42 @@ export default defineComponent({
     quillEditor,
   },
   setup() {
+    onMounted(() => {
+      getPostById()
+    })
+
+    const route = useRoute()
+
     const router = useRouter()
 
-    const getCurrentDate = () => {
-      const today = new Date()
-      const date = String(today.getDate()).padStart(2, '0')
-      const month = String(today.getMonth() + 1).padStart(2, '0')
-      const year = today.getFullYear()
-
-      return `${date}-${month}-${year}`
+    const getPostById = () => {
+      const id = route.params.userId
+      showPost(id)
+      .then(response => {
+        if (response) {
+          formState.id = response.id
+          formState.post_date = response.post_date
+          formState.post_time = response.post_time
+          formState.post_title = response.post_title
+          formState.post_slug = response.post_slug
+          formState.post_detail = response.post_detail
+          formState.publication_status = response.publication_status
+          formState.tag = response.tag
+          formState.image = response.image
+        }
+      })
     }
 
-    const getCurrentTime = () => {
-      const today = new Date();
-      const hour = String(today.getHours()).padStart(2, '0')
-      const minute = String(today.getMinutes()).padStart(2, '0')
-
-      return `${hour}:${minute}`
-    }
-
-    const addNewPost = (param, config) => {
-      storePost(param, config)
+    const updatePostById = (id, param, config) => {
+      updatePost(id, param, config)
       .then(response => {
         if (response) {}
       })
     }
 
     const formState = reactive({
-      post_date: getCurrentDate(),
-      post_time: getCurrentTime(),
+      post_date: '',
+      post_time: '',
       post_title: '',
       post_slug: 'judul_artikel',
       post_detail: '',
@@ -119,12 +125,12 @@ export default defineComponent({
     })
 
     const onSubmit = () => {
-      const config = {
+       const config = {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       }
-      addNewPost(toRaw(formState), config)
+      updatePostById(formState.id, toRaw(formState), config)
       formState.post_date = ''
       formState.post_time = ''
       formState.post_title = ''
@@ -134,7 +140,7 @@ export default defineComponent({
       formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
       formState.image = ''
       router.push('/berita')
-      message.success('Berita berhasil ditambahkan')
+      message.success('Berita berhasil diupate')
     }
 
     return {
@@ -146,16 +152,32 @@ export default defineComponent({
     return {
       previewVisible: false,
       previewImage: '',
-      fileList: [
-        {
-          uid: '-1',
-          name: '.jpg/.png',
-          status: 'error',
-        },
-      ],
+      fileList: [],
     };
   },
+  mounted() {
+    this.getPostById()
+  },
   methods: {
+    getPostById() {
+      const id = this.$route.params.userId
+      showPost(id)
+      .then(response => {
+        if (response) {
+          const info = {
+            fileList: [
+              {
+                uid: '-1',
+                name: '.jpg/.png',
+                status: 'error',
+              },
+              { ...response.image },
+            ],
+          }
+          this.handleChange(info)
+        }
+      })
+    },
     handleCancel() {
       this.previewVisible = false
     },

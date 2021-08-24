@@ -15,7 +15,7 @@ export default {
       // Read docs for available values: https://docs.visualbuilder.cloud
       // VB:REPLACE-START:SETTINGS
       authProvider: 'jwt',
-      logo: 'Visual Builder',
+      logo: 'AksesToko-CRM',
       version: 'fluent',
       theme: 'default',
       locale: 'en-US',

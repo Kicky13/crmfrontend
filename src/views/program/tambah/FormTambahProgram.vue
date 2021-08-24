@@ -1,17 +1,12 @@
 <template>
   <a-form :model="formState" label-align="left" layout="vertical">
-    <a-form-item label="Judul">
-      <a-input v-model:value="formState.title" />
+    <a-form-item label="Program Name" style="font-weight:bold">
+      <a-input v-model:value="formState.title" placeholder="Enter Program Name"/>
     </a-form-item>
-    <a-form-item label="Kategori">
-      <a-select v-model:value="formState.category">
-        <a-select-option value="bola">Bola</a-select-option>
-        <a-select-option value="lifestyle">Lifestyle</a-select-option>
-        <a-select-option value="teknologi">Teknologi</a-select-option>
-        <a-select-option value="travel">Travel</a-select-option>
-      </a-select>
+    <a-form-item label="Description" style="font-weight:bold">
+      <textarea v-model="description" placeholder="Enter Description" rows="5" style="width:100%;border-radius:15px"></textarea>
     </a-form-item>
-    <a-form-item label="Konten">
+    <!-- <a-form-item label="Konten">
       <quill-editor style="height: 200px"></quill-editor>
     </a-form-item>
     <a-form-item label="Unggah Gambar">
@@ -25,14 +20,27 @@
           berkas penting lainnya
         </p>
       </a-upload-dragger>
+    </a-form-item> -->
+    <a-form-item label="Start Date" style="font-weight:bold">
+      <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"/>
+    </a-form-item>
+    <a-form-item label="Finish Date" style="font-weight:bold">
+      <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"/>
     </a-form-item>
     <a-form-item>
-      <button class="btn btn-main btn-with-addon text-nowrap" type="submit">
+        <a class="btn btn-default btn-with-addon text-nowrap pull-right ml-3" href="#/program">
+        <span class="btn-addon">
+          <i class="btn-addon-icon fa fa-window-close"></i>
+        </span>
+        Cancel
+      </a>
+      <button class="btn btn-main btn-with-addon text-nowrap pull-right" type="submit">
         <span class="btn-addon">
           <i class="btn-addon-icon fe fe-plus-circle"></i>
         </span>
         Tambah
       </button>
+      
     </a-form-item>
   </a-form>
 </template>
@@ -43,8 +51,8 @@ import { defineComponent, reactive, toRaw } from 'vue'
 
 export default defineComponent({
   components: {
-    InboxOutlined,
-    quillEditor,
+    // InboxOutlined,
+    // quillEditor,
   },
   setup() {
     const formState = reactive({

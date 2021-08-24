@@ -11,12 +11,14 @@
 // DARK THEME STYLES
 [data-vb-theme='dark'] {
   .ant-dropdown-menu-item-group-title {
-    color: $dark-gray-2 !important;
+    // color: $dark-gray-2 !important;
+    color: $black !important;
   }
   .ant-select-dropdown {
     &-menu-item-selected {
       color: $text;
-      background: lighten($gray-6, 7%);
+      // background: lighten($gray-6, 7%);
+      background: $black;
     }
   }
 }

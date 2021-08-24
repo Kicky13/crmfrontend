@@ -14,13 +14,19 @@
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <a @click="createRole">Create New</a>
+                    <i class="fa fa-plus-square-o">
+                    <a @click="createRole"> Tambah baru</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-item>
-                    <a @click="deleteMarks">Delete Marks</a>
+                    <i class="fa fa-trash">
+                    <a @click="deleteMarks"> Hapus ditandai</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="javascript:;">Delete All</a>
+                    <i class="fa fa-ban">
+                    <a href="javascript:;"> Hapus Semua</a>
+                    </i>
                   </a-menu-item>
                   <a-menu-divider />
                 </a-menu>
@@ -58,16 +64,16 @@ import { getPermissionList, deletePermission } from '@/services/connection/apiSe
 
 const columns = [
   {
-    title: 'Actor',
+    title: 'Role',
     dataIndex: 'actor',
     slots: { customRender: 'name' },
   },
   {
-    title: 'Page',
+    title: 'Nama Laman',
     dataIndex: 'pagename',
   },
   {
-    title: 'Subject',
+    title: 'Module',
     dataIndex: 'subject',
   },
   {

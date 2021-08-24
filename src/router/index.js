@@ -36,8 +36,23 @@ const router = createRouter({
         },
         {
           path: '/berita/tambah',
-          meta: { title: 'Tambah Berita', resource: 'Berita', action: 'manage' },
+          meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
           component: () => import('@/views/berita/tambah'),
+        },
+        {
+          path: '/berita/edit/:userId',
+          meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
+          component: () => import('@/views/berita/edit'),
+        },
+        {
+          path: '/program',
+          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/program'),
+        },
+        {
+          path: '/program/tambah',
+          meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/program/tambah'),
         },
         {
           path: '/roles/create',
