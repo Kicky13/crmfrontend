@@ -94,7 +94,8 @@
     /////////////////////////////////////////////////////////////////////////////////////////
     /* ICON */
     .icon {
-      color: $gray-5;
+      // color: $gray-5;
+      color: $white;
       margin-right: rem(10);
       font-size: rem(17);
       transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
