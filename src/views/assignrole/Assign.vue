@@ -3,7 +3,7 @@
     <div :class="$style.head" class="bg-light d-flex flex-column">
       <div class="card-header card-header-flex border-bottom-0">
         <div class="d-flex flex-column justify-content-center">
-          <h5 class="mb-0 text-color-6">Permissions</h5>
+          <h5 class="mb-0 text-color-6">Assign Role</h5>
         </div>
         <div class="ml-auto d-flex flex-column justify-content-center">
           <div class="dropdown d-inline-block">
@@ -20,12 +20,12 @@
                   </a-menu-item>
                   <a-menu-item>
                     <i class="fa fa-trash">
-                    <a @click="deleteMarks"> Hapus ditandai</a>
+                    <a href="javascript:;"> Hapus ditandai</a>
                     </i>
                   </a-menu-item>
                   <a-menu-item>
                     <i class="fa fa-ban">
-                    <a href="javascript:;"> Hapus Semua</a>
+                    <a href="javascript:;"> Hapus semua</a>
                     </i>
                   </a-menu-item>
                   <a-menu-divider />
@@ -38,12 +38,9 @@
     </div>
     <div class="card border-0">
       <div class="table-responsive text-nowrap">
-        <a-table :row-selection="rowSelection" :columns="columns" :data-source="permissions">
-          <template #name="{ text }">
-            <a href="javascript:;">{{ text }}</a>
-          </template>
-          <template #action="{ text }">
-            <div>
+      <a-table :row-selection="rowSelection" :columns="columns" :data-source="assigns">
+      <template #action="{ text }">
+          <div>
               <button type="button" class="btn btn-light">
                 <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
               ><button type="button" class="btn btn-warning">
@@ -52,33 +49,24 @@
                 <i class="fa fa-trash"></i><span> Hapus</span>
               </button>
             </div>
-          </template>
-        </a-table>
-      </div>
+        </template>
+    </a-table>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getPermissionList, deletePermission } from '@/services/connection/roles-permissions/api'
+import { getAssignList, deleteAssign } from '@/services/connection/roles-permissions/api'
 
 const columns = [
   {
+    title: 'User Name',
+    dataIndex: 'user',
+  },
+  {
     title: 'Role',
-    dataIndex: 'actor',
-    slots: { customRender: 'name' },
-  },
-  {
-    title: 'Nama Laman',
-    dataIndex: 'pagename',
-  },
-  {
-    title: 'Module',
-    dataIndex: 'subject',
-  },
-  {
-    title: 'Permission',
-    dataIndex: 'permission',
+    dataIndex: 'role',
   },
   {
     title: 'Action',
@@ -94,7 +82,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -108,42 +96,36 @@ export default {
   },
   data() {
     return {
-      permissions: [],
+      assigns: [],
     }
   },
   mounted() {
-    this.fetchGetPermissions()
+    this.fetchGetAssign()
   },
   methods: {
     createRole() {
-      this.$router.push({ name: 'permissions-create' })
+      this.$router.push({ name: 'assignrole-create' })
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
-    deleteAll() {},
     deleteRow(id) {
       console.log("Deleted ID: " + id)
-      deletePermission(id)
+      deleteAssign(id)
       .then(response => {
         console.log(response)
-        const dataSource = [...this.permissions]
-        this.permissions = dataSource.filter(item => item.id !== id)
+        const dataSource = [...this.assigns]
+        this.assigns = dataSource.filter(item => item.id !== id)
       })
       .catch(err => {
         console.error(err)
       })
     },
-    fetchGetPermissions() {
-      getPermissionList()
-        .then((response) => {
-          if (response) {
-            this.permissions = response
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+    fetchGetAssign() {
+      getAssignList()
+      .then(response => {
+        if (response) {
+          this.assigns = response
+        }
+      })
+      .catch(err => { console.error(err) })
     },
   },
 }

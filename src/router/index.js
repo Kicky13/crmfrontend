@@ -76,6 +76,17 @@ const router = createRouter({
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/permissions/forms/Insert'),
         },
+        {
+          path: '/assignrole',
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/assignrole/Assign'),
+        },
+        {
+          path: '/assignrole/create',
+          name: 'assignrole-create',
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/assignrole/forms/Insert'),
+        },
         // {
         //   path: '/dashboard/alpha',
         //   meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
