@@ -55,6 +55,12 @@
       "role": "user",
       "code": "CC789",
       "createdAt": "06/04/2021"
+    },
+    {
+      "id": 3,
+      "role": "admintoko",
+      "code": "AC756",
+      "createdAt": "06/04/2021"
     }
   ],
   "permissions": [
@@ -63,56 +69,117 @@
       "actor": "admin",
       "pagename": "Dashboard",
       "subject": "Dashboard",
-      "permission": "read"
+      "permission": "read, insert, update, delete"
     },
     {
       "id": 2,
-      "actor": "admin",
+      "actor": "admintoko",
       "pagename": "Dashboard",
       "subject": "Dashboard",
-      "permission": "insert"
+      "permission": "read, update"
     },
     {
       "id": 3,
-      "actor": "admin",
-      "pagename": "Dashboard",
-      "subject": "Dashboard",
-      "permission": "update"
-    },
-    {
-      "id": 4,
-      "actor": "admin",
-      "pagename": "Dashboard",
-      "subject": "Dashboard",
-      "permission": "delete"
-    },
-    {
-      "id": 5,
-      "actor": "admintoko",
-      "pagename": "Dashboard",
-      "subject": "Dashboard",
-      "permission": "read"
-    },
-    {
-      "id": 6,
-      "actor": "admintoko",
-      "pagename": "Dashboard",
-      "subject": "Dashboard",
-      "permission": "update"
-    },
-    {
-      "id": 7,
       "actor": "user",
       "pagename": "Dashboard",
       "subject": "Dashboard",
       "permission": "read"
     },
     {
+      "id": 4,
       "actor": "admin",
-      "pagename": "TEST",
-      "subject": "TEST",
-      "permission": "manage",
-      "id": 8
+      "pagename": "Role Management",
+      "subject": "Roles",
+      "permission": "read, insert, update, delete"
+    },
+    {
+      "id": 5,
+      "actor": "admin",
+      "pagename": "Permissions",
+      "subject": "News",
+      "permission": "read, insert, update, delete"
+    },
+    {
+      "id": 6,
+      "actor": "admin",
+      "pagename": "Berita",
+      "subject": "News",
+      "permission": "read, insert, update, delete"
+    },
+    {
+      "id": 7,
+      "actor": "user",
+      "pagename": "Berita",
+      "subject": "News",
+      "permission": "read"
+    },
+    {
+      "id": 8,
+      "actor": "admintoko",
+      "pagename": "Berita",
+      "subject": "News",
+      "permission": "read"
+    }
+  ],
+  "assignuser": [
+    {
+      "id": 1,
+      "name": "Jonn"
+    },
+    {
+      "id": 2,
+      "name": "Jean"
+    },
+    {
+      "id": 3,
+      "name": "Tom"
+    },
+    {
+      "id": 4,
+      "name": "Dave"
+    },
+    {
+      "id": 5,
+      "name": "Alice"
+    },
+    {
+      "id": 6,
+      "name": "Tommy"
+    },
+    {
+      "id": 7,
+      "name": "Sarah"
+    },
+    {
+      "id": 8,
+      "name": "Alicia"
+    }
+  ],
+  "assignrole": [
+    {
+      "id": 1,
+      "user": "Jonn",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "user": "Jean",
+      "role": "admintoko"
+    },
+    {
+      "id": 3,
+      "user": "Tom",
+      "role": "admintoko"
+    },
+    {
+      "id": 4,
+      "user": "Dave",
+      "role": "user"
+    },
+    {
+      "user": "Tommy",
+      "role": "admintoko",
+      "id": 5
     }
   ],
   "posts": [
