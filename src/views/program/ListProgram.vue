@@ -1,14 +1,14 @@
 <template>
     <div class="col-md-4" v-for="post in posts" :key="post.id"> 
         <div class="card"  >
-            <div class="card-header" style="font-weight:bold">{{post.title}}</div>
+            <div class="card-header" style="font-weight:bold">{{post.post_title}}</div>
             <div class="card-body">
                 <small style="color:red;">Berlaku : {{post.post_date}}</small>
                 <div>
-                    <small style="color:black">{{post.detail}}</small>
+                    <small style="color:black">{{post.post_detail}}</small>
                 </div>
                 <div>
-                    <small style="color:red">Status : {{post.status}}</small>
+                    <small style="color:red">Status : {{post.publication_status}}</small>
                 </div>
             </div>
         </div>   
