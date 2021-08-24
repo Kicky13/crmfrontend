@@ -65,12 +65,15 @@
 
 // dark theme
 [data-vb-theme='dark'] {
+  a {
+    color: $white;
+  }
   .icon {
-    color: $dark-gray-2;
+    color: $white;
 
     &:hover {
       // color: $primary;
-      color: $white;
+      color: $main;
     }
   }
 
@@ -78,7 +81,16 @@
     background: $dark-gray-6;
 
     &:hover {
-      background: $dark-gray-5;
+      background: $main;
+      color: $white;
+
+      &::after {
+        color: $white;
+      }
+  
+      .icon {
+        color: $white;
+      }
     }
   }
 }

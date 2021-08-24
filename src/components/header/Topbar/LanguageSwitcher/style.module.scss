@@ -58,29 +58,31 @@
 
 // dark theme
 [data-vb-theme='dark'] {
-  /* .dropdown {
-    color: $dark-gray-2;
+  .dropdown {
+    // color: $dark-gray-2;
+    color: $white;
 
     &:hover {
-      color: $white;
+      color: $main;
     }
-  } */
+  } 
 
   .dropdown {
       
     &::after {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $white;
     }
   
     &:hover {
-      color: $white;
+      color: $main;
   
       &::after {
-        color: $white;
+        color: $main;
       }
   
       .icon {
-        color: $white;
+        color: $main;
       }
     }
   }
