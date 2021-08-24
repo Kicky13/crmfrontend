@@ -295,6 +295,30 @@
         }
       },
       "id": 4
+    },
+    {
+      "post_date": "24-08-2021",
+      "post_time": "14:32",
+      "post_title": "test 1",
+      "post_slug": "judul_artikel",
+      "description": "test 1",
+      "startDate": "2021-08-24",
+      "FinishDate": "2021-08-24",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 5
+    },
+    {
+      "post_date": "24-08-2021",
+      "post_time": "14:37",
+      "post_title": "TEST PERCOBAAN PROGRAM",
+      "post_slug": "judul_artikel",
+      "post_detail": "INI HANYA UNTUK MENGUJI FUNGSI INSERT",
+      "startDate": "2021-08-24",
+      "FinishDate": "2021-08-24",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 6
     }
   ]
 }
