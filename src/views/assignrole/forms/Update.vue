@@ -38,7 +38,7 @@ import VbHeadersCardHeader from './Header.vue'
 import { toRaw } from 'vue'
 import { notification } from 'ant-design-vue'
 import {
-  insertAssign,
+  updateAssign,
   getUserList,
   getRoleList,
   getAssignList,
@@ -48,6 +48,20 @@ export default {
   name: 'VbFormExamples',
   components: {
     VbHeadersCardHeader,
+  },
+  props: {
+      id: {
+          type: String,
+          required: true,
+      },
+      user: {
+          type: String,
+          required: true,
+      },
+      role: {
+          type: String,
+          required: true,
+      },
   },
   setup() {
     return {
@@ -77,11 +91,15 @@ export default {
     this.fetchGetAssign()
   },
   methods: {
+    initiateForm() {
+        this.formState.user = this.user
+        this.formState.role = this.role
+    },  
     handleSubmit() {
       const formData = toRaw(this.formState)
       if (this.formValidation(formData)) {
         this.isLoading = true
-        insertAssign(formData).then((response) => {
+        updateAssign(this.id, formData).then((response) => {
           if (response) {
             console.log(response)
             this.$router.push({ path: '/assignrole' })
@@ -114,6 +132,7 @@ export default {
         .then((response) => {
           if (response) {
             this.userOption = response
+            this.initiateForm()
           }
           this.isLoading = false
         })
