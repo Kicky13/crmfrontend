@@ -302,5 +302,259 @@
         }
       }
     }
+  ],
+  "visitplan": [
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "Non WPM"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "failed"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "failed"
+    },
+    {
+      "id": 13487,
+      "name": "MJP.8648494.S01",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "failed"
+    }
+  ],
+  "mappingcustomer": [
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },    
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },    
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    }
+  ],
+  "settingradius": [
+    {
+      "id": 1,
+      "rownum": 1,
+      "distributorid": 1000872678,
+      "distributorname": "Jawa Timur",
+      "radius": 1000000
+    },
+    {
+      "id": 2,
+      "rownum": 2,
+      "distributorid": 1000872678,
+      "distributorname": "Jawa Tengah",
+      "radius": 1000000
+    },
+    {
+      "id": 3,
+      "rownum": 3,
+      "distributorid": 1000872678,
+      "distributorname": "Jawa Barat",
+      "radius": 1000000
+    }
   ]
 }

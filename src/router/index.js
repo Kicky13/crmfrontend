@@ -30,9 +30,29 @@ const router = createRouter({
           component: () => import('@/views/dashboard'),
         },
         {
-          path: '/marketing/berita',
-          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
-          component: () => import('@/views/berita/Berita'),
+          path: '/radiusdistrik',
+          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          component: () => import('@/views/radiusdistrik'),
+        },
+        {
+          path: '/mappingcustomer',
+          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        {
+          path: '/uploadvisit',
+          meta: { title: 'Mapping Customer', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        {
+          path: '/otomatisasivisit',
+          meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        {
+          path: '/berita',
+          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita'),
         },
         {
           path: '/berita/tambah',

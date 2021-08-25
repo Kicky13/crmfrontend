@@ -56,7 +56,52 @@ export const getMenuData = [
       },
     ],
   },
-  
+  // {
+  //   category: true,
+  //   title: 'Settings & Configuration',
+  //   key: 'St00Cf',
+  // },
+  {
+    title: 'Settings & Configuration',
+    key: 'St01Cf',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Radius Distrik',
+        key: 'St11Cf',
+        url: '/radiusdistrik',
+      },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
+    ],
+  },
+  // {
+  //   category: true,
+  //   title: 'Visit Plan',
+  //   key: 'Vs00Pl',
+  // },
+  {
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisit',
+      },
+      {
+        title: 'Otomatisasi Visit Plan',
+        key: 'Vs12Pl',
+        url: '/otomatisasivisit',
+      },
+    ],
+  },
   {
     category: true,
     title: 'Roles & Permissions',
