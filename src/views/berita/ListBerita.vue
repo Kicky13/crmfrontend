@@ -20,7 +20,10 @@
             />
           </template>
           <template v-else>
-            <img src="@/assets/images/logo/default-image.jpg" alt="Default">
+            <img
+              src="@/assets/images/logo/default-image.jpg"
+              alt="Default"
+            />
           </template>
         </div>
         <div>
@@ -71,7 +74,7 @@
 </template>
 
 <script>
-import { showPost, deletePost } from '@/services/connection/apiService'
+import { deletePost } from '@/services/connection/berita/api'
 
 export default {
   props:['postItems'],

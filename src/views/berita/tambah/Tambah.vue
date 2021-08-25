@@ -1,72 +1,80 @@
 <template>
-  <a-form
-    :model="formState"
-    label-align="left"
-    layout="vertical"
-  >
-    <a-form-item label="Judul">
-      <a-input
-        v-model:value="formState.post_title"
-        class="input-style"
-      />
-    </a-form-item>
-    <a-form-item label="Detail">
-      <quill-editor
-        style="height: 200px"
-        v-model:value="formState.post_detail"
-      />
-    </a-form-item>
-    <a-form-item label="Gambar">
-      <a-upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        list-type="picture-card"
-        :file-list="fileList"
-        @preview="handlePreview"
-        @change="handleChange"
+  <div class="card card-top card-top-primary">
+    <div class="card-header">
+      <vb-headers-card-header :data="{ title: 'Form Tambah Berita' }" />
+    </div>
+    <div class="card-body">
+      <a-form
+        :model="formState"
+        label-align="left"
+        layout="vertical"
       >
-        <i class="fe fe-plus" />
-        <div class="ant-upload-text">
-          Upload
-        </div>
-      </a-upload>
-      <a-modal
-        :visible="previewVisible"
-        :footer="null"
-        @cancel="handleCancel"
-      >
-        <img
-          alt="Default"
-          style="width: 100%"
-          :src="previewImage"
-        />
-      </a-modal>
-    </a-form-item>
-    <a-form-item>
-      <a-button
-        type="primary"
-        html-type="submit"
-        @click="onSubmit"
-      >
-        Tambah
-      </a-button>
-      <router-link
-        to="/berita"
-        style="margin-left: 10px;"
-      >
-        <a-button>
-          Cancel
-        </a-button>
-      </router-link>
-    </a-form-item>
-  </a-form>
+        <a-form-item label="Judul">
+          <a-input
+            v-model:value="formState.post_title"
+            class="input-style"
+          />
+        </a-form-item>
+        <a-form-item label="Detail">
+          <quill-editor
+            style="height: 200px"
+            v-model:value="formState.post_detail"
+          />
+        </a-form-item>
+        <a-form-item label="Gambar">
+          <a-upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            list-type="picture-card"
+            :file-list="fileList"
+            @preview="handlePreview"
+            @change="handleChange"
+          >
+            <i class="fe fe-plus" />
+            <div class="ant-upload-text">
+              Upload
+            </div>
+          </a-upload>
+          <a-modal
+            :visible="previewVisible"
+            :footer="null"
+            @cancel="handleCancel"
+          >
+            <img
+              alt="Default"
+              style="width: 100%"
+              :src="previewImage"
+            />
+          </a-modal>
+        </a-form-item>
+        <a-form-item>
+          <a-button
+            type="primary"
+            html-type="submit"
+            @click="onSubmit"
+          >
+            Tambah
+          </a-button>
+          <router-link
+            to="/berita"
+            style="margin-left: 10px;"
+          >
+            <a-button>
+              Cancel
+            </a-button>
+          </router-link>
+        </a-form-item>
+      </a-form>
+    </div>
+  </div>
 </template>
 
 <script>
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
-import { storePost } from '@/services/connection/apiService'
+import { storePost } from '@/services/connection/berita/api'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
+import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -80,6 +88,7 @@ function getBase64(file) {
 export default defineComponent({
   components: {
     quillEditor,
+    VbHeadersCardHeader,
   },
   setup() {
     const router = useRouter()

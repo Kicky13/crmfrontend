@@ -31,18 +31,18 @@ const router = createRouter({
         },
         {
           path: '/berita',
-          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
-          component: () => import('@/views/berita'),
+          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/Berita'),
         },
         {
           path: '/berita/tambah',
           meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
-          component: () => import('@/views/berita/tambah'),
+          component: () => import('@/views/berita/tambah/Tambah'),
         },
         {
           path: '/berita/edit/:userId',
           meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
-          component: () => import('@/views/berita/edit'),
+          component: () => import('@/views/berita/edit/Edit'),
         },
         {
           path: '/program',
