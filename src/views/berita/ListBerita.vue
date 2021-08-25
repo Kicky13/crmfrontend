@@ -1,76 +1,62 @@
 <template>
-  <ul class="list-unstyled mb-0">
-    <li
-      :class="$style.item"
+  <a-row :gutter="[40, 40]">
+    <a-col
+      :xs="24"
+      :sm="24"
+      :md="12"
+      :lg="8"
       v-for="postItem in postItems"
       :key="postItem.id"
     >
-      <a
-        href="javascript:;"
-        :class="$style.itemLink"
-      >
-        <div
-          :class="$style.itemCover"
-          class="mr-3"
-        >
-          <template v-if="postItem.image && postItem.image.status !== 'removed'">
-            <img
-              :src="postItem.image.thumbUrl"
-              :alt="postItem.image.name"
-            />
-          </template>
-          <template v-else>
-            <img
-              src="@/assets/images/logo/default-image.jpg"
-              alt="Default"
-            />
-          </template>
-        </div>
-        <div>
-          <div
-            class="font-size-18 font-weight-bold text-main"
+      <div class="card card-top card-top-primary h-100">
+        <div class="card-header d-flex justify-content-between">
+          <h5
+            class="card-title title-ellipsis"
             v-text="postItem.post_title"
           />
-          <div
-            class="font-size-12">
-            {{postItem.post_date}}, {{postItem.post_time}} WIB
+          <div class="nav-item dropdown">
+            <a-dropdown
+              placement="bottomCenter"
+              :trigger="['click']"
+            >
+              <a
+                class="nav-link pt-sm-0"
+                href="javascript: void(0);"
+              >
+                <i class="fa fa-caret-down" />
+              </a>
+              <template #overlay>
+                <a-menu>
+                  <router-link :to="{ path: `/berita/edit/${postItem.id}` }">
+                    <a-menu-item>
+                      <a>Edit</a>
+                    </a-menu-item>
+                  </router-link>
+                  <a-menu-item>
+                    <a @click="deleteConfirm(postItem.id)">Hapus</a>
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
           </div>
+        </div>
+        <div class="card-body pb-0">
           <div
-            class="text-dark"
+            class="card-text detail-ellipsis"
             v-html="postItem.post_detail"
           />
         </div>
-        <div
-          class="nav-item dropdown"
-          style="margin-left: auto;"
-        >
-          <a-dropdown
-            placement="bottomRight"
-            :trigger="['click']"
+        <div class="card-footer bg-transparent d-flex justify-content-between">
+          <div class="text-main align-self-center">{{postItem.post_date}} {{postItem.post_time}}</div>
+          <a-button
+            type="primary"
           >
-            <a
-              class="nav-link pt-sm-0"
-              href="javascript: void(0);"
-            >
-              <i class="fe fe-more-horizontal" />
-            </a>
-            <template #overlay>
-              <a-menu>
-                <router-link :to="{ path: `/berita/edit/${postItem.id}` }">
-                  <a-menu-item>
-                    <a>Edit</a>
-                  </a-menu-item>
-                </router-link>
-                <a-menu-item>
-                  <a @click="deleteConfirm(postItem.id)">Hapus</a>
-                </a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
+            Read More
+          </a-button>
         </div>
-      </a>
-    </li>
-  </ul>
+      </div>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
@@ -106,4 +92,19 @@ export default {
 
 <style lang="scss" module>
 @import './style.module.scss';
+</style>
+
+<style scoped>
+.title-ellipsis,
+.detail-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.detail-ellipsis {
+  -webkit-line-clamp: 4;
+}
 </style>

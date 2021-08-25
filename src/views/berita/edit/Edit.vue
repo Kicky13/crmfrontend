@@ -55,7 +55,7 @@
             Edit
           </a-button>
           <router-link
-            to="/berita"
+            to="/marketing/berita"
             style="margin-left: 10px;"
           >
             <a-button>
@@ -148,7 +148,7 @@ export default defineComponent({
       formState.publication_status = 'Draft'
       formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
       formState.image = ''
-      router.push('/berita')
+      router.push('/marketing/berita')
       message.success('Berita berhasil diupate')
     }
 

@@ -3,20 +3,16 @@
     <router-link to="/berita/tambah">
       <a-button
         type="primary"
-        class="mb-3"
+        class="mb-4"
       >
         <i class="fa fa-plus mr-2" />
         Tambah Berita
       </a-button>
     </router-link>
-    <div class="card">
-      <div class="card-body">
-        <vb-list-berita
-          :post-items="posts"
-          @delete-message="deleteSuccess"
-        />
-      </div>
-    </div>
+    <vb-list-berita
+      :post-items="posts"
+      @delete-message="deleteSuccess"
+    />
   </div>
 </template>
 

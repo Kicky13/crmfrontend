@@ -30,7 +30,7 @@ const router = createRouter({
           component: () => import('@/views/dashboard'),
         },
         {
-          path: '/berita',
+          path: '/marketing/berita',
           meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
           component: () => import('@/views/berita/Berita'),
         },

@@ -55,7 +55,7 @@
             Tambah
           </a-button>
           <router-link
-            to="/berita"
+            to="/marketing/berita"
             style="margin-left: 10px;"
           >
             <a-button>
@@ -106,8 +106,9 @@ export default defineComponent({
       const today = new Date();
       const hour = String(today.getHours()).padStart(2, '0')
       const minute = String(today.getMinutes()).padStart(2, '0')
+      const second = String(today.getSeconds()).padStart(2, '0')
 
-      return `${hour}:${minute}`
+      return `${hour}:${minute}:${second}`
     }
 
     const addNewPost = (param, config) => {
@@ -142,7 +143,7 @@ export default defineComponent({
       formState.publication_status = 'Draft'
       formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
       formState.image = ''
-      router.push('/berita')
+      router.push('/marketing/berita')
       message.success('Berita berhasil ditambahkan')
     }
 

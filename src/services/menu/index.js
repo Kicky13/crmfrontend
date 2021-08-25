@@ -35,11 +35,11 @@ export const getMenuData = [
   },
   {
     category: true,
-    title: 'Berita & Program',
+    title: 'Marketing',
     key: '5hb7fe',
   },
   {
-    title: 'Berita & Program',
+    title: 'Marketing',
     key: 'aw57eky',
     url: '/berita',
     icon: 'fa fa-newspaper-o',
@@ -47,7 +47,7 @@ export const getMenuData = [
       {
         title: 'Berita',
         key: 'jkr01l',
-        url: '/berita',
+        url: '/marketing/berita',
       },
       {
         title: 'Program',
