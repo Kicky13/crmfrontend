@@ -34,7 +34,7 @@
                   </template>
                 </a-input-password>
               </a-form-item>
-              <a-button type="main" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
+              <a-button type="main" style="background: #b20838 !important" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
                 <strong>MASUK</strong>
               </a-button>
             </a-form>
