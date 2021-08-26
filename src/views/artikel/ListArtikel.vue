@@ -27,7 +27,7 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <router-link :to="{ path: `/berita/edit/${postItem.id}` }">
+                  <router-link :to="{ path: `/marketing/artikel/edit/${postItem.id}` }">
                     <a-menu-item>
                       <a>Edit</a>
                     </a-menu-item>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { deletePost } from '@/services/connection/berita/api'
+import { deletePost } from '@/services/connection/artikel/api'
 
 export default {
   props:['postItems'],

@@ -301,6 +301,16 @@
           "isTrusted": true
         }
       }
+    },
+    {
+      "post_date": "26-08-2021",
+      "post_time": "12:56:15",
+      "post_title": "Coba Judul",
+      "post_slug": "judul_artikel",
+      "post_detail": "<p>Coba <strong>detail</strong></p>",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 6
     }
   ]
 }

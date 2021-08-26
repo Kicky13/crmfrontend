@@ -45,9 +45,9 @@ export const getMenuData = [
     icon: 'fa fa-newspaper-o',
     children: [
       {
-        title: 'Berita',
+        title: 'News',
         key: 'jkr01l',
-        url: '/marketing/berita',
+        url: '/marketing/artikel',
       },
       {
         title: 'Program',
@@ -56,7 +56,24 @@ export const getMenuData = [
       },
     ],
   },
-  
+  {
+    category: true,
+    title: 'Manajemen Menu',
+    key: '2t2ghm',
+  },
+  {
+    title: 'Manajemen Menu',
+    key: '6rq4ze6',
+    url: '/user',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Level User',
+        key: 'e38wke',
+        url: '/user/level_user',
+      },
+    ],
+  },
   {
     category: true,
     title: 'Roles & Permissions',
