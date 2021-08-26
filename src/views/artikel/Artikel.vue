@@ -1,15 +1,15 @@
 <template>
   <div>
-    <router-link to="/berita/tambah">
+    <router-link to="/marketing/artikel/tambah">
       <a-button
         type="primary"
         class="mb-4"
       >
         <i class="fa fa-plus mr-2" />
-        Tambah Berita
+        Tambah Artikel
       </a-button>
     </router-link>
-    <vb-list-berita
+    <vb-list-artikel
       :post-items="posts"
       @delete-message="deleteSuccess"
     />
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import { listPost } from '@/services/connection/berita/api'
-import VbListBerita from './ListBerita'
+import { listPost } from '@/services/connection/artikel/api'
+import VbListArtikel from './ListArtikel'
 import { message } from 'ant-design-vue';
 
 export default {
   components: {
-    VbListBerita,
+    VbListArtikel,
   },
   data() {
     return {

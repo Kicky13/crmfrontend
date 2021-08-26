@@ -52,19 +52,19 @@ const router = createRouter({
         },
         // Fauzan ============ End ===================>>
         {
-          path: '/marketing/berita',
-          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
-          component: () => import('@/views/berita/Berita'),
+          path: '/marketing/artikel',
+          meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
+          component: () => import('@/views/artikel/Artikel'),
         },
         {
-          path: '/berita/tambah',
-          meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
-          component: () => import('@/views/berita/tambah/Tambah'),
+          path: '/marketing/artikel/tambah',
+          meta: { title: 'Tambah Artikel', resource: 'Tambah Artikel', action: 'manage' },
+          component: () => import('@/views/artikel/tambah/Tambah'),
         },
         {
-          path: '/berita/edit/:userId',
-          meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
-          component: () => import('@/views/berita/edit/Edit'),
+          path: '/marketing/artikel/edit/:userId',
+          meta: { title: 'Edit Artikel', resource: 'Edit Artikel', action: 'manage' },
+          component: () => import('@/views/artikel/edit/Edit'),
         },
         {
           path: '/program',
@@ -75,6 +75,11 @@ const router = createRouter({
           path: '/program/tambah',
           meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program/tambah'),
+        },
+        {
+          path: '/user/level_user',
+          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
+          component: () => import('@/views/user/LevelUser'),
         },
         {
           path: '/roles/create',
