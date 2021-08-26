@@ -29,6 +29,28 @@ const router = createRouter({
           meta: { title: 'Dashboards', resource: 'Dashboard', action: 'manage' },
           component: () => import('@/views/dashboard'),
         },
+        // Fauzan ============ Start ===================>>
+        {
+          path: '/radiusdistrik',
+          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          component: () => import('@/views/radiusdistrik'),
+        },
+        {
+          path: '/mappingcustomer',
+          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        {
+          path: '/uploadvisit',
+          meta: { title: 'Mapping Customer', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        {
+          path: '/otomatisasivisit',
+          meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/mappingcustomer'),
+        },
+        // Fauzan ============ End ===================>>
         {
           path: '/marketing/artikel',
           meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },

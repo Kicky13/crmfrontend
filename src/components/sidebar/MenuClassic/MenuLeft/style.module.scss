@@ -368,7 +368,8 @@
   }
 
   :global(.ant-layout-sider-trigger) {
-    background: lighten($dark-gray-6, 5%);
+    // background: lighten($dark-gray-6, 5%);
+    background: $main;
   }
 
   .navigation {
