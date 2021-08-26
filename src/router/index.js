@@ -29,6 +29,7 @@ const router = createRouter({
           meta: { title: 'Dashboards', resource: 'Dashboard', action: 'manage' },
           component: () => import('@/views/dashboard'),
         },
+        // Fauzan ============ Start ===================>>
         {
           path: '/radiusdistrik',
           meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
@@ -49,10 +50,11 @@ const router = createRouter({
           meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
           component: () => import('@/views/mappingcustomer'),
         },
+        // Fauzan ============ End ===================>>
         {
-          path: '/berita',
-          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
-          component: () => import('@/views/berita'),
+          path: '/marketing/berita',
+          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/Berita'),
         },
         {
           path: '/berita/tambah',
