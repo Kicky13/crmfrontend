@@ -50,9 +50,9 @@ const router = createRouter({
           component: () => import('@/views/mappingcustomer'),
         },
         {
-          path: '/berita',
-          meta: { title: 'Berita Hari Ini', resource: 'Berita', action: 'manage' },
-          component: () => import('@/views/berita'),
+          path: '/marketing/berita',
+          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/Berita'),
         },
         {
           path: '/berita/tambah',
