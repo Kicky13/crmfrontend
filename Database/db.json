@@ -311,6 +311,30 @@
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
       "id": 6
+    },
+    {
+      "post_date": "27-08-2021",
+      "post_time": "09:40",
+      "post_title": "",
+      "post_slug": "judul_artikel",
+      "post_detail": "",
+      "startDate": "",
+      "FinishDate": "",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 7
+    },
+    {
+      "post_date": "27-08-2021",
+      "post_time": "10:40",
+      "post_title": "Program Hari Ini",
+      "post_slug": "judul_artikel",
+      "post_detail": "<p>Program Hari ini adalah ...</p>",
+      "startDate": "2021-08-27",
+      "FinishDate": "2021-08-27",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 8
     }
   ],
   "uploadvisitplan": [
@@ -542,7 +566,7 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
+    },
     {
       "id": 2,
       "rownum": 2,
@@ -608,7 +632,7 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
+    },
     {
       "id": 8,
       "rownum": 8,
