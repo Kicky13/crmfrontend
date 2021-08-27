@@ -63,8 +63,8 @@ const columns = [
   },
   {
     title: 'Nama Distrik',
-    dataIndex: 'distributorname',
-    key: 'distributorname',
+    dataIndex: 'distrikname',
+    key: 'distrikname',
   },
   {
     title: 'Radius Lock (Meter)',

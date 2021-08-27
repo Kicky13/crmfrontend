@@ -89,7 +89,7 @@ export const getMenuData = [
       {
         title: 'Upload Visit Plan',
         key: 'Vs11Pl',
-        url: '/uploadvisit',
+        url: '/uploadvisitplan',
       },
       {
         title: 'Otomatisasi Visit Plan',
