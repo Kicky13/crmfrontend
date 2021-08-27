@@ -9,7 +9,8 @@
     </router-link>
     <div class="row">
         
-            <vb-list-program />
+            <vb-list-program :post-items="posts"
+      @delete-message="deleteSuccess"/>
         
     </div>
   </div>

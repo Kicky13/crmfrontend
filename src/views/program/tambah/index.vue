@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <!-- <div class="card-header"><vb-headers-card-header :data="{ title: 'Add New Program' }" /></div> -->
-    <div style="height:8px;background-color:#b20838"></div>
-    <div class="card-body"><vb-form-tambah-program /></div>
+    
+    <vb-form-tambah-program />
   </div>
 </template>
 

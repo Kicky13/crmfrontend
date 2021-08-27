@@ -311,6 +311,18 @@
       "publication_status": "Draft",
       "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
       "id": 6
+    },
+    {
+      "post_date": "27-08-2021",
+      "post_time": "09:40",
+      "post_title": "",
+      "post_slug": "judul_artikel",
+      "post_detail": "",
+      "startDate": "",
+      "FinishDate": "",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 7
     }
   ],
   "visitplan": [
@@ -434,15 +446,6 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
-    {
-      "id": 13487,
-      "username": "MJP.8648494.S01",
-      "customerid": 1000872651,
-      "customername": "Jawa Timur",
-      "distributorid": 1000872678,
-      "distributorname": "PT. Maju Jaya Purnama",
-      "status": "success"
     },
     {
       "id": 13487,
@@ -488,7 +491,16 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
     {
       "id": 13487,
       "username": "MJP.8648494.S01",
