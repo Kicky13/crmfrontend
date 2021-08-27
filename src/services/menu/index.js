@@ -30,7 +30,7 @@ export const getMenuData = [
       {
         title: 'Program',
         key: 'jkr02l',
-        url: '/program',
+        url: '/marketing/program',
       },
     ],
   },

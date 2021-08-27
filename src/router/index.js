@@ -67,12 +67,12 @@ const router = createRouter({
           component: () => import('@/views/artikel/edit/Edit'),
         },
         {
-          path: '/program',
+          path: '/marketing/program',
           meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program'),
         },
         {
-          path: '/program/tambah',
+          path: '/marketing/program/tambah',
           meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program/tambah'),
         },

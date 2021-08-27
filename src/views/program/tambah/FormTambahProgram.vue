@@ -36,18 +36,15 @@
           <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date" />
         </a-form-item>
         <a-form-item>
-          <router-link class="btn btn-default btn-with-addon text-nowrap pull-right ml-3" to="/program">
-            <span class="btn-addon">
-              <i class="btn-addon-icon fa fa-window-close"></i>
-            </span>
-            Cancel
-          </router-link>
-          <button class="btn btn-main btn-with-addon text-nowrap pull-right" @click="onSubmit">
-            <span class="btn-addon">
-              <i class="btn-addon-icon fe fe-plus-circle"></i>
-            </span>
+          <button class="btn btn-main text-nowrap pull-left" @click="onSubmit">
+            
             Tambah
           </button>
+          <router-link class="btn text-nowrap pull-left ml-3" to="/marketing/program">
+            
+            Cancel
+          </router-link>
+          
 
         </a-form-item>
       </a-form>
