@@ -2,50 +2,63 @@
   <div>    
     <div class="card card-top card-top-primary">
       <div class="card-header">
-        <strong>Import Mapping Toko Sales Distributor</strong>
+        <strong>Otomatisasi Visit Plan</strong>
       </div>
       <div class="card-body">
-        <a-button
-          type="primary"
-          class="mb-3"
-        >
-          <i class="fa fa-download mr-2" />
-          Download Template Mapping Customer
-        </a-button>
+        <div class="row">
+          <div class="col-xs-4 col-md-4">            
+            <a-form-item label="Pilih Tahun" style="width:100% !important">
+              <a-select style="width:100% !important" placeholder="<-- Tahun -->">
+                <a-select-option value="2021">2021</a-select-option>
+                <a-select-option value="2020">2020</a-select-option>
+                <a-select-option value="2019">2019</a-select-option>
+              </a-select>
+            </a-form-item> 
+          </div>
+          <div class="col-xs-4 col-md-4">            
+            <a-form-item label="Pilih Bulan" style="width:100% !important">
+              <a-select style="width:100% !important" placeholder="<-- Bulan -->">
+                <a-select-option value="1">Januari</a-select-option>
+                <a-select-option value="2">Februari</a-select-option>
+                <a-select-option value="3">Maret</a-select-option>
+                <a-select-option value="4">April</a-select-option>
+                <a-select-option value="5">Mei</a-select-option>
+                <a-select-option value="6">Juni</a-select-option>
+                <a-select-option value="7">Juli</a-select-option>
+                <a-select-option value="8">Agustus</a-select-option>
+                <a-select-option value="9">September</a-select-option>
+                <a-select-option value="10">Oktober</a-select-option>
+                <a-select-option value="11">November</a-select-option>
+                <a-select-option value="12">Desember</a-select-option>
+              </a-select>
+            </a-form-item> 
+          </div>
+          <div class="col-xs-2 col-md-2">
+            <a-button
+              type="primary"
+              class="mb-3"
+            >
+              <i class="fa fa-eye mr-2" />
+              View
+            </a-button>
+          </div>
+        </div>
         
-        <a-button
-          type="primary"
-          class="mb-3 float-right"
-        >
-          <i class="fa fa-eye mr-2" />
-          Preview
-        </a-button>
-        <!-- <a-upload
-          class="float-right"
-          v-model:file-list="fileList"
-          name="file"
-          :multiple="true"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :headers="headers"
-        >
-          <a-button>
-            <upload-outlined></upload-outlined>
-            Click to Upload
-          </a-button>
-        </a-upload>
-        <b-form-file
-          v-model="file1"
-          :state="Boolean(file1)"
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
-        />         -->
-        <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
-        </a-form-item>
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }">
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
+            </template>            
+            <template #status="{ text }">
+              <div v-if="text==sukses">
+                <a-tag color="green">{{ text }}</a-tag>
+              </div>              
+              <div v-else-if="text==gagal">
+                <a-tag color="red">{{ text }}</a-tag>
+              </div>              
+              <div v-else-if="text==nonwpm">
+                <a-tag color="yellow">{{ text }}</a-tag>
+              </div>
             </template>
             <template #action="{ text }">
               <div>
@@ -66,61 +79,64 @@
 </template>
 
 <script>
-import { getPermissionList, deletePermission } from '@/services/connection/roles-permissions/api'
-// import { UploadOutlined } from '@ant-design/icons-vue';
-// import { message } from 'ant-design-vue';
+import { getPermissionList, deletePermission } from '@/services/connection/otomatisasi-visit/api'
 
 const columns = [
   {
     title: 'IdSales',
-    dataIndex: 'actor',
+    dataIndex: 'idsales',
+    key: 'username',
     width: 100,
     fixed: 'left',
-    slots: { customRender: 'name' },
+    // slots: { customRender: 'name' },
   },
   {
     title: 'Nama Sales',
-    dataIndex: 'actor',
+    dataIndex: 'name',
+    key: 'name',
     width: 150,
     fixed: 'left',
-    slots: { customRender: 'name' },
+    // slots: { customRender: 'name' },
   },
   {
     title: 'Distributor',
-    dataIndex: 'actor',
-    slots: { customRender: 'name' },
+    dataIndex: 'distributor',
+    key: 'distributor',
+    // slots: { customRender: 'name' },
   },
   {
     title: 'Distrik',
-    dataIndex: 'pagename',
+    dataIndex: 'distrik',
+    key: 'distrik',
   },
   {
     title: 'TSO',
-    dataIndex: 'subject',
+    dataIndex: 'tso',
+    key: 'tso',
   },
   {
     title: 'Tahun',
-    dataIndex: 'permission',
+    dataIndex: 'tahun',
+    key: 'tahun',
   },
   {
     title: 'Bulan',
-    dataIndex: 'permission',
+    dataIndex: 'bulan',
+    key: 'bulan',
   },
   {
     title: 'N Jadwal',
-    dataIndex: 'permission',
+    dataIndex: 'njadwal',
+    key: 'njadwal',
   },
   {
     title: 'Status',
     fixed: 'right',
-    width: 150,
-    dataIndex: 'permission',
+    width: 100,
+    dataIndex: 'status',
+    key: 'status',
+    slots: { customRender: 'status' },
   },
-  // {
-  //   title: 'Action',
-  //   dataIndex: 'id',
-  //   slots: { customRender: 'action' },
-  // },
 ]
 
 export default {
@@ -152,6 +168,9 @@ export default {
   },
   data() {
     return {
+      sukses: "success",
+      gagal: "failed",
+      nonwpm: "Non WPM",
       file1: null,
       file2: null,
       permissions: [],

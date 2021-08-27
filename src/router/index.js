@@ -33,22 +33,22 @@ const router = createRouter({
         {
           path: '/radiusdistrik',
           meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
-          component: () => import('@/views/radiusdistrik'),
+          component: () => import('@/views/radiusdistrik/radiusdistrikindex'),
         },
         {
           path: '/mappingcustomer',
           meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          component: () => import('@/views/mappingcustomer/mappingcustomerindex'),
         },
         {
-          path: '/uploadvisit',
-          meta: { title: 'Mapping Customer', resource: 'Visit Plan', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          path: '/uploadvisitplan',
+          meta: { title: 'Upload Visit', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/uploadvisitplan/uploadvisitplanindex'),
         },
         {
           path: '/otomatisasivisit',
           meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          component: () => import('@/views/otomatisasivisitplan/otomatisasivisitplanindex'),
         },
         // Fauzan ============ End ===================>>
         {
