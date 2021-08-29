@@ -114,6 +114,15 @@ const router = createRouter({
           meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/assignrole/forms/Insert'),
         },
+
+        /*  ROBI VIEW */
+        {
+          path: '/customerscyn',
+          name: 'sync-customer',
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/customersync'),
+        },
+
         // {
         //   path: '/dashboard/alpha',
         //   meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
@@ -522,14 +531,14 @@ router.beforeEach((to, from, next) => {
       if (canNavigate(to)) {
         next()
       } else {
-        next({ name: 'route500' })  
-      }    
+        next({ name: 'route500' })
+      }
     }
   } else {
     if (canNavigate(to)) {
         next()
     } else {
-        next({ name: 'route500' })  
+        next({ name: 'route500' })
     }
   }
 })

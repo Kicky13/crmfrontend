@@ -434,15 +434,6 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
-    {
-      "id": 13487,
-      "username": "MJP.8648494.S01",
-      "customerid": 1000872651,
-      "customername": "Jawa Timur",
-      "distributorid": 1000872678,
-      "distributorname": "PT. Maju Jaya Purnama",
-      "status": "success"
     },
     {
       "id": 13487,
@@ -488,7 +479,16 @@
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
-    },    
+    },
+    {
+      "id": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Jawa Timur",
+      "distributorid": 1000872678,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "status": "success"
+    },
     {
       "id": 13487,
       "username": "MJP.8648494.S01",
@@ -565,6 +565,45 @@
       "distributorid": 1000872678,
       "distributorname": "Jawa Barat",
       "radius": 1000000
+    }
+  ],
+  "distributor": [
+    {
+      "id": 247,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 248,
+      "distributorname": "PT. Citra Bina Niaga",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 249,
+      "distributorname": "ERLANG DIST",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 510,
+      "distributorname": "PT. Albirru Gentama",
+      "alamat": 1000872651,
+      "status": "active"
+    }
+  ],
+  "customerscyn": [
+    {
+      "id": 13487,
+      "namatoko": "Robi Tko",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "failed"
     }
   ]
 }
