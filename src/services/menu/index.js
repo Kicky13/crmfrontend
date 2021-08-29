@@ -73,6 +73,11 @@ export const getMenuData = [
         key: 'St12Cf',
         url: '/mappingcustomer',
       },
+      {
+        title: 'Sync Customer',
+        key: 'St13Cf',
+        url: '/customerscyn',
+      },
     ],
   },
   // {
