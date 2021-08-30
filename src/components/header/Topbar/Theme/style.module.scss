@@ -26,15 +26,18 @@
   } */
 
   &:hover {
-    color: $blue;
+    // color: $blue;
+    color: $main;
 
     &::after {
-      color: $gray-6;
+      // color: $gray-6;
+      color: $black;
     }
 
     .icon {
       // color: $primary;
-      color: $dark-gray-1;
+      // color: $dark-gray-1;
+      color: $black;
     }
   }
 }
@@ -52,20 +55,21 @@
 // dark theme
 [data-vb-theme='dark'] {
   .icon {
-    color: $dark-gray-2;
+    // color: $dark-gray-2;
+    color: $white;
   }
   
   .dropdown {
   
     &:hover {
-      color: $blue;
+      color: $main;
   
       &::after {
-        color: $gray-6;
+        color: $main;
       }
   
       .icon {
-        color: $white;
+        color: $main;
       }
     }
   }

@@ -94,7 +94,8 @@
     /////////////////////////////////////////////////////////////////////////////////////////
     /* ICON */
     .icon {
-      color: $gray-5;
+      // color: $gray-5;
+      color: $white;
       margin-right: rem(10);
       font-size: rem(17);
       transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -153,7 +154,7 @@
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-/* GRAY THEME */
+/* GRAY THEME */ 
 .gray {
   background: $gray-1 !important;
 }
@@ -161,7 +162,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 /* DARK THEME */
 .dark {
-  color: $dark-gray-1;
+  // color: $dark-gray-1;
+  color: $white;
   background: $dark-gray-6 !important;
   border-bottom: 1px solid $dark-gray-4;
 
@@ -170,39 +172,45 @@
       color: $white;
     }
     .descr {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $white;
       border-left: 1px solid $dark-gray-4;
     }
   }
 
   .navigation {
     .icon {
-      color: $dark-gray-2;
+      // color: $dark-gray-2;
+      color: $white;
     }
 
     :global(.ant-menu-item-group-title) {
       // color: darken($dark-gray-3, 10%) !important;
-      color: darken($black, 10%) !important;
+      color: darken($white, 10%) !important;
     }
 
     :global(.ant-menu-submenu-title) {
       // color: $dark-gray-2;
-      color: $black;
+      color: $white;
 
       &:hover {
-        color: $primary;
+        // color: $primary;
+        color: $main;
       }
     }
 
     :global(.ant-menu-item) {
       > a {
-        color: $dark-gray-2;
+        // color: $dark-gray-2;
+        color: $white;
 
         &:hover {
-          color: $primary;
+          // color: $primary;
+          color: $main;
 
           .icon {
-            color: $primary;
+            // color: $primary;
+            color: $main;
           }
         }
       }

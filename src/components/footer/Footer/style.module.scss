@@ -120,14 +120,18 @@
 // dark theme
 [data-vb-theme='dark'] {
   .outer {
-    color: $dark-gray-1;
+    color: $white;
+    // color: $dark-gray-1;
 
     a {
-      color: $dark-gray-1;
+      color: $white;
+      // color: $dark-gray-1;
     }
     
     a:hover {
-      color: $white;
+      // color: $white;
+      // color: $dark-gray-1;
+      color: $main;
     }
   }
 
