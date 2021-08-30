@@ -77,6 +77,11 @@ const router = createRouter({
           component: () => import('@/views/program/tambah'),
         },
         {
+          path: '/marketing/program/edit/:userId',
+          meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
+          component: () => import('@/views/program/edit/Edit'),
+        },
+        {
           path: '/user/level_user',
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
           component: () => import('@/views/user/LevelUser'),

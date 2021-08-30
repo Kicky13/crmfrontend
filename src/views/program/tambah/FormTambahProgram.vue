@@ -148,7 +148,7 @@
         formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
         formState.startDate = ''
         formState.FinishDate = ''
-        router.push('/program')
+        router.push('/marketing/program')
         message.success('Program berhasil ditambahkan')
       }
 
