@@ -14,7 +14,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="dataSourceTable">
+          <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
@@ -32,6 +32,7 @@
         </div>
         <a-modal v-model:visible="visible" title="Form Setting Radius" @ok="handleOk">
           <a-form :model="formState" label-align="left" layout="vertical">
+            <a-input-number style="width:100% !important" v-model="radiusLock" :min="100" :max="1000000" />
             <a-form-item label="Pilih Distrik">
               <!-- <a-input type="file" placeholder="Pilih Distrik yang akan Dikunci"/> -->
               <a-select v-model="selectedDistrik" @change="setSelectMethod" placeholder=" -- Pilih Distrik -- ">
@@ -46,7 +47,7 @@
             </a-form-item> 
             <a-form-item label="Jarak Target">
               <!-- <a-input type="number" placeholder="Masukkan Jarak Maksimal (M)"/> -->
-              <a-input-number style="width:100% !important" id="inputNumber" :min="100" :max="1000000" />
+              <a-input-number style="width:100% !important" v-model="radiusLock" :min="0" :max="1000000" />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -116,7 +117,9 @@ export default {
     return {
       file1: null,
       file2: null,      
-      selectedDistrik: null,
+      selectedDistrik: null,   
+      idLock: null,
+      radiusLock: 0,
       dataSourceTable: [],
       visible: false,
       loading: false,

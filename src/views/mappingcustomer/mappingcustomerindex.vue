@@ -24,7 +24,7 @@
           <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
         </a-form-item>
         <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="dataSourceTable">
+          <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
