@@ -6,19 +6,27 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-xs-4 col-md-4">            
-            <a-form-item label="Pilih Tahun" style="width:100% !important">
-              <a-select style="width:100% !important" placeholder="<-- Tahun -->">
-                <a-select-option value="2021">2021</a-select-option>
+          <div class="col-xs-3 col-md-3">            
+            <a-form-item label="Pilih Tahun">
+              <a-select v-model="selectedTahun" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Tahun -- ">
+                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                <a-select-option v-for="(tahun,index) in listTahun" :value="tahun.id" :key="index">
+                  {{ tahun.tahun }}
+                </a-select-option>
+                <!-- <a-select-option value="2021">2021</a-select-option>
                 <a-select-option value="2020">2020</a-select-option>
-                <a-select-option value="2019">2019</a-select-option>
+                <a-select-option value="2019">2019</a-select-option> -->
               </a-select>
             </a-form-item> 
           </div>
-          <div class="col-xs-4 col-md-4">            
-            <a-form-item label="Pilih Bulan" style="width:100% !important">
-              <a-select style="width:100% !important" placeholder="<-- Bulan -->">
-                <a-select-option value="1">Januari</a-select-option>
+          <div class="col-xs-3 col-md-3">            
+            <a-form-item label="Pilih Bulan">
+              <a-select v-model="selectedBulan" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Bulan -- ">
+                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                <a-select-option v-for="(bulan,index) in listBulan" :value="bulan.id" :key="index">
+                  {{ bulan.bulan }}
+                </a-select-option>
+                <!-- <a-select-option value="1">Januari</a-select-option>
                 <a-select-option value="2">Februari</a-select-option>
                 <a-select-option value="3">Maret</a-select-option>
                 <a-select-option value="4">April</a-select-option>
@@ -29,7 +37,7 @@
                 <a-select-option value="9">September</a-select-option>
                 <a-select-option value="10">Oktober</a-select-option>
                 <a-select-option value="11">November</a-select-option>
-                <a-select-option value="12">Desember</a-select-option>
+                <a-select-option value="12">Desember</a-select-option> -->
               </a-select>
             </a-form-item> 
           </div>
@@ -80,6 +88,7 @@
 
 <script>
 import { getPermissionList, deletePermission } from '@/services/connection/otomatisasi-visit/api'
+import { getTahunList, getBulanList } from '@/services/connection/master-data/api'
 
 const columns = [
   {
@@ -173,11 +182,17 @@ export default {
       nonwpm: "Non WPM",
       file1: null,
       file2: null,
+      selectedTahun: null,
+      selectedBulan: null,
       permissions: [],
+      listTahun: [],
+      listBulan: [],
     }
   },
   mounted() {
     this.fetchGetPermissions()
+    this.fetchGetDataTahun()
+    this.fetchGetDataBulan()
   },
   methods: {
     createRole() {
@@ -204,6 +219,28 @@ export default {
         .then((response) => {
           if (response) {
             this.permissions = response
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    fetchGetDataBulan() {
+      getBulanList()
+        .then((response) => {
+          if (response) {
+            this.listBulan = response
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    fetchGetDataTahun() {
+      getTahunList()
+        .then((response) => {
+          if (response) {
+            this.listTahun = response
           }
         })
         .catch((err) => {

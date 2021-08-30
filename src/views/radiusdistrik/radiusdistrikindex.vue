@@ -34,10 +34,14 @@
           <a-form :model="formState" label-align="left" layout="vertical">
             <a-form-item label="Pilih Distrik">
               <!-- <a-input type="file" placeholder="Pilih Distrik yang akan Dikunci"/> -->
-              <a-select>
-                <a-select-option value="1">Jawa Timur</a-select-option>
+              <a-select v-model="selectedDistrik" @change="setSelectMethod" placeholder=" -- Pilih Distrik --">
+                <!-- <a-select-option value="1">Jawa Timur</a-select-option>
                 <a-select-option value="2">Jawa Tengah</a-select-option>
-                <a-select-option value="3">Jawa Barat</a-select-option>
+                <a-select-option value="3">Jawa Barat</a-select-option> -->
+                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                <a-select-option v-for="(distrik,index) in listDistrik" :value="distrik.id" :key="index">
+                  {{ distrik.id }} - {{ distrik.distrik }}
+                </a-select-option>
               </a-select>
             </a-form-item> 
             <a-form-item label="Jarak Target">
@@ -53,6 +57,7 @@
 
 <script>
 import { getDataList, deleteData } from '@/services/connection/radius-distrik/api'
+import { getDistrikList } from '@/services/connection/master-data/api'
 import { Modal } from 'ant-design-vue'
 
 const columns = [
@@ -110,14 +115,17 @@ export default {
   data() {
     return {
       file1: null,
-      file2: null,
+      file2: null,      
+      selectedDistrik: null,
       dataSourceTable: [],
       visible: false,
       loading: false,
+      listDistrik: [],
     }
   },
   mounted() {
     this.fetchGetDataSource()
+    this.fetchGetDataDistrik()
   },
   methods: {
     showModal() {
@@ -147,6 +155,9 @@ export default {
         },
         class: 'test',
       })
+    },    
+    setSelectMethod(value) {
+      this.selectValue = value
     },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
@@ -172,6 +183,17 @@ export default {
         .then((response) => {
           if (response) {
             this.dataSourceTable = response
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    fetchGetDataDistrik() {
+      getDistrikList()
+        .then((response) => {
+          if (response) {
+            this.listDistrik = response
           }
         })
         .catch((err) => {

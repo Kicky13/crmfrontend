@@ -49,11 +49,14 @@
 <script>
 import {select} from 'ant-design-vue';
 import {
-  getDistributorList,
+  // getDistributorList,
   getDataList,
   deleteData,
   getDataTokoDistributor,
 } from '@/services/connection/customer-sync/api'
+import {
+  getDistributorList,
+} from '@/services/connection/master-data/api'
 // import { UploadOutlined } from '@ant-design/icons-vue';
 
 const columns = [
