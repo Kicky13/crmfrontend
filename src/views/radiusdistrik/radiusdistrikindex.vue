@@ -1,5 +1,6 @@
 <template>
-  <div>    
+  <div> 
+    <loading v-model:active="isLoading" :is-full-page="fullPage"/>   
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Setting Radius Lock Distrik</strong>
@@ -58,6 +59,8 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import { getDataList, deleteData, insertData, updateData } from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
 import { Modal } from 'ant-design-vue'
@@ -89,7 +92,10 @@ const columns = [
 ]
 
 export default {
-  name: 'VbAntDesign',
+  name: 'VbAntDesign',  
+  components: {
+      Loading,
+  },
   setup() {    
     const rules = {
       distrik: [
@@ -143,7 +149,9 @@ export default {
       isSave: 1,
       isUpdate: 2,
       stateForm: 1,
-      listDistrik: [],
+      listDistrik: [],      
+      isLoading: false,
+      fullPage: true,
     }
   },
   mounted() {
@@ -177,10 +185,6 @@ export default {
         .catch((err) => {
           console.error(err)
         })
-      // setTimeout(() => {
-      //   this.visible = false
-      //   this.confirmLoading = false;
-      // }, 2000);
     },
     handleUpdate(e) {
       console.log(e)
@@ -202,7 +206,10 @@ export default {
       console.log(e)
       this.visible = false
     },
-    deleteDataById(id) {      
+    deleteDataById(id) {           
+      this.isLoading = true;
+      // setTimeout(() => {
+      // }, 2000);
       console.log("Deleted ID: " + id)
       deleteData(id)
       .then(response => {
@@ -210,6 +217,7 @@ export default {
           console.log(response)
           const dataSource = [...this.dataSourceTable]
           this.dataSourceTable = dataSource.filter(item => item.id !== id)
+          this.isLoading = false
         }
       })
       .catch(err => {
@@ -224,7 +232,7 @@ export default {
         okText: 'Ya',
         okType: 'primary',
         cancelText: 'Batal',
-        onOk() {
+        onOk() {          
           deleteMethod(id)
         },
       });
