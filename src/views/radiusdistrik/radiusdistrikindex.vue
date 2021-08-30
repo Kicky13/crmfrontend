@@ -6,7 +6,7 @@
         <a-button
           type="primary"
           class="mb-3 float-right"
-          @click="showModal"
+          @click="openModal"
         >
           <i class="fa fa-plus mr-2" />
           Tambah Setting Radius
@@ -20,25 +20,27 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-warning" @click="showModal">
+                <button @click="fetchUpdateData(text)" type="button" class="btn btn-warning">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                 </button>
-                <button @click="showConfirm(text)" type="button" class="btn btn-outline-danger">
+                <button @click="deleteSelected(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
                 </button>
               </div>
             </template>
           </a-table>
         </div>
-        <a-modal v-model:visible="visible" title="Form Setting Radius" :confirm-loading="confirmLoading" @ok="handleOk">
-          <a-form :model="formState" label-align="left" layout="vertical">
-            <a-input-number style="width:100% !important" v-model="radiusLock" :min="100" :max="1000000" />
+        <!-- <a-modal v-model:visible="visible" title="Form Setting Radius" :closable="false" :maskClosable="false" :confirm-loading="confirmLoading" @ok="handleOk"> -->          
+        <a-modal v-model:visible="visible" title="Form Setting Radius" :closable="false" :mask-closable="false">
+          <template #footer>
+            <a-button key="back" @click="handleCancel" id="cancelForm" :loading="confirmLoading">Batal</a-button>
+            <a-button v-if="stateForm==isSave" key="submit" type="primary" id="submitForm" :loading="confirmLoading" @click="handleSave">Simpan</a-button>
+            <a-button v-else-if="stateForm==isUpdate" key="update" type="primary" id="updateForm" :loading="confirmLoading" @click="handleUpdate">Ubah</a-button>
+          </template>
+          <a-form label-align="left" layout="vertical" :rules="rules">
+            <a-input-number style="width:100% !important; display: none;" v-model:value="idLock" />
             <a-form-item label="Pilih Distrik">
-              <!-- <a-input type="file" placeholder="Pilih Distrik yang akan Dikunci"/> -->
-              <a-select v-model="selectedDistrik" @change="setSelectMethod" placeholder=" -- Pilih Distrik -- ">
-                <!-- <a-select-option value="1">Jawa Timur</a-select-option>
-                <a-select-option value="2">Jawa Tengah</a-select-option>
-                <a-select-option value="3">Jawa Barat</a-select-option> -->
+              <a-select v-model:value="selectedDistrik" @change="setSelectMethod" placeholder=" -- Pilih Distrik -- " name="distrik">
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option v-for="(distrik,index) in listDistrik" :value="distrik.id" :key="index">
                   {{ distrik.id }} - {{ distrik.distrik }}
@@ -46,8 +48,7 @@
               </a-select>
             </a-form-item> 
             <a-form-item label="Jarak Target">
-              <!-- <a-input type="number" placeholder="Masukkan Jarak Maksimal (M)"/> -->
-              <a-input-number style="width:100% !important" v-model="radiusLock" :min="0" :max="1000000" />
+              <a-input-number style="width:100% !important" v-model:value="radiusLock" class="input-style" :min="0" :max="1000000" name="radius"/>
             </a-form-item>
           </a-form>
         </a-modal>
@@ -57,9 +58,10 @@
 </template>
 
 <script>
-import { getDataList, deleteData } from '@/services/connection/radius-distrik/api'
+import { getDataList, deleteData, insertData, updateData } from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
 import { Modal } from 'ant-design-vue'
+import { toRaw } from 'vue'
 
 const columns = [
   {
@@ -88,10 +90,23 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
-  // components: {
-  //   UploadOutlined,
-  // },
-  setup() {
+  setup() {    
+    const rules = {
+      distrik: [
+        {
+          required: true,
+          message: 'Pilih Salah Satu Distrik',
+          type: 'string',
+        },
+      ],
+      radius: [
+        {
+          required: true,
+          message: 'Masukkan Nilai Radius',
+          type: 'string',
+        },
+      ],
+    }
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
@@ -105,6 +120,7 @@ export default {
     }
     const fileList = [];
     return {
+      rules,
       columns,
       rowSelection,
       fileList,
@@ -117,13 +133,16 @@ export default {
     return {
       file1: null,
       file2: null,      
-      selectedDistrik: null,   
+      selectedDistrik: null,
       idLock: null,
-      radiusLock: 0,
+      radiusLock: null,
       dataSourceTable: [],
       visible: false,
       loading: false,
       confirmLoading: false,
+      isSave: 1,
+      isUpdate: 2,
+      stateForm: 1,
       listDistrik: [],
     }
   },
@@ -132,18 +151,52 @@ export default {
     this.fetchGetDataDistrik()
   },
   methods: {
-    showModal() {
-      console.log(this.visible)
+    openModal() {
+      this.stateForm = 1
+      this.selectedDistrik = null 
+      this.idLock = null
+      this.radiusLock = null
       this.visible = true
-      console.log(this.visible)
     },
-    handleOk(e) {
+    showModal() {
+      this.stateForm = 2
+      this.visible = true
+    },
+    handleSave(e) {
       console.log(e)
       this.confirmLoading = true;
-      setTimeout(() => {
-        this.visible = false
-        this.confirmLoading = false;
-      }, 2000);
+      const params = { id: '', distrikid: this.selectedDistrik, radius: this.radiusLock }
+      insertData(toRaw(params))
+        .then((response) => {
+          if (response) {
+            console.log(response)
+            this.visible = false
+            this.confirmLoading = false
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+      // setTimeout(() => {
+      //   this.visible = false
+      //   this.confirmLoading = false;
+      // }, 2000);
+    },
+    handleUpdate(e) {
+      console.log(e)
+      this.confirmLoading = true;
+      const params = { id: this.idLock, distrikid: this.selectedDistrik, radius: this.radiusLock }
+      updateData(this.idLock, toRaw(params))
+        .then((response) => {
+          if (response) {
+            console.log(response)
+            this.visible = false
+            this.confirmLoading = false
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     },
     handleCancel(e) {
       console.log(e)
@@ -163,7 +216,7 @@ export default {
         console.error(err)
       })
     },
-    showConfirm(id) {
+    deleteSelected(id) {
       const deleteMethod = this.deleteDataById
       this.$confirm({
         title: 'Hapus Setting Radius',
@@ -179,25 +232,6 @@ export default {
     setSelectMethod(value) {
       this.selectValue = value
     },
-    createRole() {
-      this.$router.push({ name: 'permissions-create' })
-    },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
-    deleteAll() {},
-    // deleteRow(id) {
-    //   console.log("Deleted ID: " + id)
-    //   deleteData(id)
-    //   .then(response => {
-    //     console.log(response)
-    //     const dataSource = [...this.dataSourceTable]
-    //     this.dataSourceTable = dataSource.filter(item => item.id !== id)
-    //   })
-    //   .catch(err => {
-    //     console.error(err)
-    //   })
-    // },
     fetchGetDataSource() {
       getDataList()
         .then((response) => {
@@ -219,6 +253,14 @@ export default {
         .catch((err) => {
           console.error(err)
         })
+    },
+    fetchUpdateData(id) {
+      const dataSource = [...this.dataSourceTable]
+      const currentData = dataSource.filter(x => x.id === id)
+      this.showModal()
+      this.selectedDistrik = currentData[0].distrikid 
+      this.idLock = currentData[0].id
+      this.radiusLock = currentData[0].radius
     },
   },
 }
