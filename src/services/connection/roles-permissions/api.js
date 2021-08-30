@@ -24,6 +24,17 @@ export async function insertRole(data) {
   })
 }
 
+export async function updateRole(id, data) {
+  return apiClient
+  .put('/roles/' + id, data)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
 export async function deleteRole (id) {
   return apiClient
   .delete('/roles/' + id)
@@ -93,6 +104,17 @@ export async function getUserList() {
 export async function insertAssign(data) {
   return apiClient
   .post('/assignrole', data)
+  .then(response => {
+    if (response) {
+      return response
+    }
+    return false
+  })
+}
+
+export async function updateAssign(id, data) {
+  return apiClient
+  .put('/assignrole/' + id, data)
   .then(response => {
     if (response) {
       return response
