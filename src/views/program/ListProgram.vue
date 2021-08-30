@@ -14,7 +14,7 @@
             class="card-title title-ellipsis"
             v-text="postItem.post_title"
           />
-          <!--<div class="nav-item dropdown">
+          <div class="nav-item dropdown">
              <a-dropdown
               placement="bottomCenter"
               :trigger="['click']"
@@ -27,7 +27,7 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <router-link :to="{ path: `/marketing/artikel/edit/${postItem.id}` }">
+                  <router-link :to="{ path: `/marketing/program/edit/${postItem.id}` }">
                     <a-menu-item>
                       <a>Edit</a>
                     </a-menu-item>
@@ -38,7 +38,7 @@
                 </a-menu>
               </template>
             </a-dropdown> 
-          </div>-->
+          </div>
         </div>
         <div class="card-body pb-0">
           <div
@@ -60,37 +60,31 @@
 </template>
 <script>
 import axios from 'axios'
+import { deletePost } from '@/services/connection/program/api'
 
 export default {
-  data() {
-    return {
-      postItems: [],
-      alertVisible: false,
-    }
-  },
-  mounted() {
-    this.getPosts()
-  },
+ props:['postItems'],
   methods: {
-    getPosts() {
-      axios
-      .get('http://localhost:2000/posts')
-      .then(response => this.postItems = response.data)
+    deletePostById(id) {
+      deletePost(id)
+      .then(response => {
+        if (response) {
+          this.$emit('deleteMessage')
+        }
+      })
     },
-    deletePost(id) {
-      const deleteConfirm = confirm('Apakah anda yakin?')
-      if (deleteConfirm) {
-        axios
-        .delete(`http://localhost:2000/posts/${id}`)
-        .then(response => {
-          this.postItems = response.data
-          this.getPosts()
-          this.alertVisible = true
-          setTimeout(() => {
-            this.alertVisible = false
-          }, 5000)
-        })
-      }
+    deleteConfirm(id) {
+      const deleteMethod = this.deletePostById
+      this.$confirm({
+        title: 'Hapus Berita',
+        content: 'Apakah anda yakin?',
+        okText: 'Ya',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk() {
+          deleteMethod(id)
+        },
+      });
     },
   },
 }
