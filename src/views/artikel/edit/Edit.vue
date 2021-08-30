@@ -8,20 +8,30 @@
         :model="formState"
         label-align="left"
         layout="vertical"
+        :rules="rules"
       >
-        <a-form-item label="Judul">
+        <a-form-item
+          label="Judul"
+          name="post_title"
+        >
           <a-input
             v-model:value="formState.post_title"
             class="input-style"
           />
         </a-form-item>
-        <a-form-item label="Detail">
+        <a-form-item
+          label="Detail"
+          name="post_detail"
+        >
           <quill-editor
             style="height: 200px"
             v-model:value="formState.post_detail"
           />
         </a-form-item>
-        <a-form-item label="Gambar">
+        <a-form-item
+          label="Gambar"
+          name="image"
+        >
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
@@ -90,14 +100,34 @@ export default defineComponent({
     VbHeadersCardHeader,
   },
   setup() {
+    const rules = {
+      post_title: [
+        {
+          required: true,
+          message: 'Masukkan judul artikel!',
+          type: 'string',
+        },
+      ],
+      post_detail: [
+        {
+          required: true,
+          message: 'Masukkan detail artikel!',
+          type: 'string',
+        },
+      ],
+      image: [
+        {
+          required: true,
+          message: 'Upload gambar artikel!',
+          type: 'object',
+        },
+      ],
+    }
+    const route = useRoute()
+    const router = useRouter()
     onMounted(() => {
       getPostById()
     })
-
-    const route = useRoute()
-
-    const router = useRouter()
-
     const getPostById = () => {
       const id = route.params.userId
       showPost(id)
@@ -115,14 +145,12 @@ export default defineComponent({
         }
       })
     }
-
     const updatePostById = (id, param, config) => {
       updatePost(id, param, config)
       .then(response => {
-        if (response) {}
+        console.log(response)
       })
     }
-
     const formState = reactive({
       post_date: '',
       post_time: '',
@@ -131,28 +159,38 @@ export default defineComponent({
       post_detail: '',
       publication_status: 'Draft',
       tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+      image: null,
     })
-
     const onSubmit = () => {
-       const config = {
+      const config = {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       }
-      updatePostById(formState.id, toRaw(formState), config)
-      formState.post_date = ''
-      formState.post_time = ''
-      formState.post_title = ''
-      formState.post_slug = 'judul_artikel'
-      formState.post_detail = ''
-      formState.publication_status = 'Draft'
-      formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-      formState.image = ''
-      router.push('/marketing/artikel')
-      message.success('Artikel berhasil diupate')
+      if (formState.post_title && formState.post_detail && formState.image) {
+        if (!(formState.image.status === 'removed')) {
+          updatePostById(formState.id, toRaw(formState), config)
+          formState.post_date = ''
+          formState.post_time = ''
+          formState.post_title = ''
+          formState.post_slug = 'judul_artikel'
+          formState.post_detail = ''
+          formState.publication_status = 'Draft'
+          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+          formState.image = null
+          router.push('/marketing/artikel')
+          message.success('Artikel berhasil diupate')
+        } else {
+          formState.image = null
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
 
     return {
+      rules,
       formState,
       onSubmit,
     }
@@ -224,10 +262,12 @@ export default defineComponent({
               status: 'error',
             },
           ]
+          this.formState.image = null
         } else {
           this.formState.image = this.fileList[0]
         }
       }
+      console.log(this.formState)
     },
   },
 })
@@ -238,12 +278,10 @@ export default defineComponent({
   font-size: 32px;
   color: #999;
 }
-
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
 }
-
 .input-style:hover,
 .input-style:focus,
 .input-style:active {

@@ -51,6 +51,7 @@ const router = createRouter({
           component: () => import('@/views/mappingcustomer'),
         },
         // Fauzan ============ End ===================>>
+        // Start of Marketing
         {
           path: '/marketing/artikel',
           meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
@@ -66,6 +67,7 @@ const router = createRouter({
           meta: { title: 'Edit Artikel', resource: 'Edit Artikel', action: 'manage' },
           component: () => import('@/views/artikel/edit/Edit'),
         },
+        // End of Marketing
         {
           path: '/program',
           meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
@@ -76,11 +78,13 @@ const router = createRouter({
           meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program/tambah'),
         },
+        // Start of Menu Management
         {
           path: '/user/level_user',
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
           component: () => import('@/views/user/LevelUser'),
         },
+        // End of Menu Management
         {
           path: '/roles/create',
           name: 'roles-create',
@@ -114,6 +118,13 @@ const router = createRouter({
           meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/assignrole/forms/Insert'),
         },
+        // Start of Supervisory Visit
+        {
+          path: '/sales/survey_sales',
+          meta: { title: 'Survey Sales', resource: 'Survey Sales', action: 'manage' },
+          component: () => import('@/views/surveysales/SurveySales'),
+        },
+        // End of Supervisory Visit
         // {
         //   path: '/dashboard/alpha',
         //   meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },

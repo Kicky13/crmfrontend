@@ -1,21 +1,21 @@
 export const getMenuData = [
   // VB:REPLACE-START:MENU-CONFIG
-  {
-    category: true,
-    title: 'Dashboards',
-    key: 'q7r3hr',
-  },
+  // {
+  //   category: true,
+  //   title: 'Dashboards',
+  //   key: 'q7r3hr',
+  // },
   {
     title: 'Dashboards',
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
   },
-  {
-    category: true,
-    title: 'Marketing',
-    key: '5hb7fe',
-  },
+  // {
+  //   category: true,
+  //   title: 'Marketing',
+  //   key: '5hb7fe',
+  // },
   {
     title: 'Marketing',
     key: 'aw57eky',
@@ -34,11 +34,11 @@ export const getMenuData = [
       },
     ],
   },
-  {
-    category: true,
-    title: 'Manajemen Menu',
-    key: '2t2ghm',
-  },
+  // {
+  //   category: true,
+  //   title: 'Manajemen Menu',
+  //   key: '2t2ghm',
+  // },
   {
     title: 'Manajemen Menu',
     key: '6rq4ze6',
@@ -98,11 +98,11 @@ export const getMenuData = [
       },
     ],
   },
-  {
-    category: true,
-    title: 'Roles & Permissions',
-    key: '2h83od',
-  },
+  // {
+  //   category: true,
+  //   title: 'Roles & Permissions',
+  //   key: '2h83od',
+  // },
   {
     title: 'Roles & Permissions',
     key: '82hska',
@@ -123,6 +123,24 @@ export const getMenuData = [
         title: 'Assign Roles',
         key: 'acc441',
         url: '/assignrole',
+      },
+    ],
+  },
+  // {
+  //   category: true,
+  //   title: 'Supervisory Visit',
+  //   key: 'hsu3894',
+  // },
+  {
+    title: 'Supervisory Visit',
+    key: '78ehnf',
+    url: '/sales',
+    icon: 'fa fa-user',
+    children: [
+      {
+        title: 'Master Penilaian Sales',
+        key: '8sugn8',
+        url: '/sales/survey_sales',
       },
     ],
   },

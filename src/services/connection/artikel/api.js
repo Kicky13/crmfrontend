@@ -1,25 +1,25 @@
 import apiClient from '@/services/axios'
 
 export async function listPost() {
-  return apiClient
-  .get('/posts')
-  .then(response => {
-      if (response) {
-          return response.data
-      }
-      return false
-  })
+    return apiClient
+    .get('/posts')
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
 }
 
 export async function showPost(id) {
-  return apiClient
-  .get(`/posts/${id}`)
-  .then(response => {
-      if (response) {
-          return response.data
-      }
-      return false
-  })
+    return apiClient
+    .get(`/posts/${id}`)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
 }
 
 export async function deletePost(id) {
@@ -34,23 +34,23 @@ export async function deletePost(id) {
 }
 
 export async function storePost(formData, config) {
-return apiClient
-.post('/posts', formData, config)
-.then(response => {
-    if (response) {
-        return response.data
-    }
-    return false
-})
+    return apiClient
+    .post('/posts', formData, config)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
 }
 
 export async function updatePost(id, formData, config) {
-return apiClient
-.put(`/posts/${id}`, formData, config)
-.then(response => {
-    if (response) {
-        return response.data
-    }
-    return false
-})
+    return apiClient
+    .put(`/posts/${id}`, formData, config)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
 }

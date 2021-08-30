@@ -10,19 +10,28 @@
         layout="vertical"
         :rules="rules"
       >
-        <a-form-item label="Judul" name="judul">
+        <a-form-item
+          label="Judul"
+          name="post_title"
+        >
           <a-input
             v-model:value="formState.post_title"
             class="input-style"
           />
         </a-form-item>
-        <a-form-item label="Detail" name="detail">
+        <a-form-item
+          label="Detail"
+          name="post_detail"
+        >
           <quill-editor
             style="height: 200px"
             v-model:value="formState.post_detail"
           />
         </a-form-item>
-        <a-form-item label="Gambar" name="gambar">
+        <a-form-item
+          label="Gambar"
+          name="image"
+        >
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
@@ -93,31 +102,35 @@ export default defineComponent({
   },
   setup() {
     const rules = {
-      judul: [
+      post_title: [
         {
           required: true,
           message: 'Masukkan judul artikel!',
           type: 'string',
         },
       ],
-      detail: [
+      post_detail: [
         {
           required: true,
           message: 'Masukkan detail artikel!',
           type: 'string',
         },
       ],
-      gambar: [
+      image: [
         {
           required: true,
           message: 'Upload gambar artikel!',
-          type: 'string',
+          type: 'object',
         },
       ],
     }
-    
     const router = useRouter()
-
+    const addNewPost = (param, config) => {
+      storePost(param, config)
+      .then(response => {
+        console.log(response)
+      })
+    }
     const getCurrentDate = () => {
       const today = new Date()
       const date = String(today.getDate()).padStart(2, '0')
@@ -126,7 +139,6 @@ export default defineComponent({
 
       return `${date}-${month}-${year}`
     }
-
     const getCurrentTime = () => {
       const today = new Date();
       const hour = String(today.getHours()).padStart(2, '0')
@@ -135,14 +147,6 @@ export default defineComponent({
 
       return `${hour}:${minute}:${second}`
     }
-
-    const addNewPost = (param, config) => {
-      storePost(param, config)
-      .then(response => {
-        if (response) {}
-      })
-    }
-
     const formState = reactive({
       post_date: getCurrentDate(),
       post_time: getCurrentTime(),
@@ -151,8 +155,8 @@ export default defineComponent({
       post_detail: '',
       publication_status: 'Draft',
       tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+      image: null,
     })
-
     const onSubmit = () => {
       const config = {
         header: {
@@ -160,17 +164,22 @@ export default defineComponent({
         },
       }
       if (formState.post_title && formState.post_detail && formState.image) {
-        addNewPost(toRaw(formState), config)
-        formState.post_date = ''
-        formState.post_time = ''
-        formState.post_title = ''
-        formState.post_slug = 'judul_artikel'
-        formState.post_detail = ''
-        formState.publication_status = 'Draft'
-        formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-        formState.image = ''
-        router.push('/marketing/artikel')
-        message.success('Artikel berhasil ditambahkan')
+        if (!(formState.image.status === 'removed')) {
+          addNewPost(toRaw(formState), config)
+          formState.post_date = ''
+          formState.post_time = ''
+          formState.post_title = ''
+          formState.post_slug = 'judul_artikel'
+          formState.post_detail = ''
+          formState.publication_status = 'Draft'
+          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+          formState.image = null
+          router.push('/marketing/artikel')
+          message.success('Artikel berhasil ditambahkan')
+        } else {
+          formState.image = null
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
