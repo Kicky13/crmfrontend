@@ -32,9 +32,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <a-form-item label="Permission">
-                    <a-select v-model:value="formState.permission">
-                      <a-select-option v-for="data in permitOption" :key="data.id" :value="data.text">{{data.text}}</a-select-option>
-                    </a-select>
+                    <a-checkbox-group :options="permitOption" v-model="checkedList" @change="checkUpdate"></a-checkbox-group>
                   </a-form-item>
                 </div>
               </div>
@@ -78,28 +76,8 @@ export default {
         permission: '',
       },
       roleOption: [],
-      permitOption: [
-        {
-          id: 1,
-          text: 'read',
-        },
-        {
-          id: 2,
-          text: 'create',
-        },
-        {
-          id: 3,
-          text: 'update',
-        },
-        {
-          id: 4,
-          text: 'delete',
-        },
-        {
-          id: 5,
-          text: 'manage',
-        },
-      ],
+      checkedList: ['read', 'delete'],
+      permitOption: ['read', 'insert', 'update', 'delete'],
     }
   },
   mounted() {
@@ -118,6 +96,10 @@ export default {
         .catch((err) => {
           console.error(err)
         })
+    },
+    checkUpdate(checkedList) {
+      this.checkedList = checkedList
+      console.log(toRaw(this.checkedList))
     },
     fetchGetRoleList() {
       getRoleList()

@@ -86,6 +86,12 @@ const router = createRouter({
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
           component: () => import('@/views/user/LevelUser'),
         },
+        // Kikik ====================================================================
+        {
+          path: '/roles',
+          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
+          component: () => import('@/views/roles'),
+        },
         {
           path: '/roles/create',
           name: 'roles-create',
@@ -99,12 +105,6 @@ const router = createRouter({
             meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
             component: () => import('@/views/roles/forms/Update'),
           },
-  
-        {
-          path: '/roles',
-          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
-          component: () => import('@/views/roles'),
-        },
         {
           path: '/permissions',
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
@@ -134,8 +134,7 @@ const router = createRouter({
             meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
             component: () => import('@/views/assignrole/forms/Update'),
           },
-  
-
+          // Kikik ============================================================================
         /*  ROBI VIEW */
         {
           path: '/customerscyn',
