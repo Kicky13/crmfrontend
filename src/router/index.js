@@ -48,6 +48,7 @@ const router = createRouter({
         {
           path: '/roles/update',
           name: 'roles-update',
+          props: true,
           meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/roles/forms/Update'),
         },
