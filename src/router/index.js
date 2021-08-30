@@ -33,22 +33,22 @@ const router = createRouter({
         {
           path: '/radiusdistrik',
           meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
-          component: () => import('@/views/radiusdistrik'),
+          component: () => import('@/views/radiusdistrik/radiusdistrikindex'),
         },
         {
           path: '/mappingcustomer',
           meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          component: () => import('@/views/mappingcustomer/mappingcustomerindex'),
         },
         {
-          path: '/uploadvisit',
-          meta: { title: 'Mapping Customer', resource: 'Visit Plan', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          path: '/uploadvisitplan',
+          meta: { title: 'Upload Visit', resource: 'Visit Plan', action: 'manage' },
+          component: () => import('@/views/uploadvisitplan/uploadvisitplanindex'),
         },
         {
           path: '/otomatisasivisit',
           meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
-          component: () => import('@/views/mappingcustomer'),
+          component: () => import('@/views/otomatisasivisitplan/otomatisasivisitplanindex'),
         },
         // Fauzan ============ End ===================>>
         // Start of Marketing
@@ -69,16 +69,21 @@ const router = createRouter({
         },
         // End of Marketing
         {
-          path: '/program',
+          path: '/marketing/program',
           meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program'),
         },
         {
-          path: '/program/tambah',
+          path: '/marketing/program/tambah',
           meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program/tambah'),
         },
         // Start of Menu Management
+        {
+          path: '/marketing/program/edit/:userId',
+          meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
+          component: () => import('@/views/program/edit/Edit'),
+        },
         {
           path: '/user/level_user',
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
@@ -125,6 +130,13 @@ const router = createRouter({
           component: () => import('@/views/surveysales/SurveySales'),
         },
         // End of Supervisory Visit
+        /*  ROBI VIEW */
+        {
+          path: '/customerscyn',
+          name: 'sync-customer',
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/customersync'),
+        },
         // {
         //   path: '/dashboard/alpha',
         //   meta: { title: 'Dashboard Alpha', resource: 'Dashboard', action: 'manage' },
@@ -533,14 +545,14 @@ router.beforeEach((to, from, next) => {
       if (canNavigate(to)) {
         next()
       } else {
-        next({ name: 'route500' })  
-      }    
+        next({ name: 'route500' })
+      }
     }
   } else {
     if (canNavigate(to)) {
         next()
     } else {
-        next({ name: 'route500' })  
+        next({ name: 'route500' })
     }
   }
 })

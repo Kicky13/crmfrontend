@@ -30,7 +30,7 @@ export const getMenuData = [
       {
         title: 'Program',
         key: 'jkr02l',
-        url: '/program',
+        url: '/marketing/program',
       },
     ],
   },
@@ -73,6 +73,11 @@ export const getMenuData = [
         key: 'St12Cf',
         url: '/mappingcustomer',
       },
+      {
+        title: 'Sync Customer',
+        key: 'St13Cf',
+        url: '/customerscyn',
+      },
     ],
   },
   // {
@@ -89,7 +94,7 @@ export const getMenuData = [
       {
         title: 'Upload Visit Plan',
         key: 'Vs11Pl',
-        url: '/uploadvisit',
+        url: '/uploadvisitplan',
       },
       {
         title: 'Otomatisasi Visit Plan',

@@ -2,15 +2,24 @@
   <div>    
     <div class="card card-top card-top-primary">
       <div class="card-header">
-        <strong>Import Mapping Toko Sales Distributor</strong>
+        <strong>Import Visit Plan Sales Distributor</strong>
       </div>
       <div class="card-body">
+        <div class="col-xs-12 col-md-12" style="margin-bottom: 10px;">
+          <strong>Lihat Data</strong> : Sales Distributor dan Mapping Toko
+          <a-button
+            type="primary"
+            class="mb-3"
+          >
+            Disini
+          </a-button>
+        </div>
         <a-button
           type="primary"
           class="mb-3"
         >
           <i class="fa fa-download mr-2" />
-          Download Template Mapping Customer
+          Download Template Visit Plan
         </a-button>
         
         <a-button
@@ -20,25 +29,6 @@
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
-        <!-- <a-upload
-          class="float-right"
-          v-model:file-list="fileList"
-          name="file"
-          :multiple="true"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :headers="headers"
-        >
-          <a-button>
-            <upload-outlined></upload-outlined>
-            Click to Upload
-          </a-button>
-        </a-upload>
-        <b-form-file
-          v-model="file1"
-          :state="Boolean(file1)"
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
-        />         -->
         <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
           <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
         </a-form-item>
@@ -46,6 +36,14 @@
           <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }">
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
+            </template>
+            <template #days="{ text }">
+              <div v-if="text==istrue">
+                <a-checkbox checked="true"/>
+              </div>              
+              <div v-else-if="text==isfalse">
+                <a-checkbox checked="true" disabled />
+              </div>
             </template>
             <template #action="{ text }">
               <div>
@@ -60,67 +58,112 @@
             </template>
           </a-table>
         </div>
+        <a-button
+          type="primary"
+          class="mb-3 float-right"
+        >
+          <i class="fa fa-upload mr-2" />
+          Commit to Database
+        </a-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getPermissionList, deletePermission } from '@/services/connection/roles-permissions/api'
-// import { UploadOutlined } from '@ant-design/icons-vue';
-// import { message } from 'ant-design-vue';
+import { getPermissionList, deletePermission } from '@/services/connection/upload-visit/api'
 
 const columns = [
   {
-    title: 'IdSales',
-    dataIndex: 'actor',
+    title: 'Id Sales',
+    dataIndex: 'idsales',
     width: 100,
     fixed: 'left',
-    slots: { customRender: 'name' },
   },
   {
-    title: 'Nama Sales',
-    dataIndex: 'actor',
+    title: 'Username',
+    dataIndex: 'username',
     width: 150,
     fixed: 'left',
-    slots: { customRender: 'name' },
+  },
+  {
+    title: 'Id Toko',
+    dataIndex: 'customerid',
+    width: 100,
+    fixed: 'left',
+  },
+  {
+    title: 'Nama Toko',
+    dataIndex: 'customername',
+    width: 150,
+    fixed: 'left',
   },
   {
     title: 'Distributor',
-    dataIndex: 'actor',
-    slots: { customRender: 'name' },
-  },
-  {
-    title: 'Distrik',
-    dataIndex: 'pagename',
-  },
-  {
-    title: 'TSO',
-    dataIndex: 'subject',
-  },
-  {
-    title: 'Tahun',
-    dataIndex: 'permission',
-  },
-  {
-    title: 'Bulan',
-    dataIndex: 'permission',
-  },
-  {
-    title: 'N Jadwal',
-    dataIndex: 'permission',
-  },
-  {
-    title: 'Status',
-    fixed: 'right',
+    dataIndex: 'distributor',
     width: 150,
-    dataIndex: 'permission',
+    fixed: 'left',
   },
-  // {
-  //   title: 'Action',
-  //   dataIndex: 'id',
-  //   slots: { customRender: 'action' },
-  // },
+  {
+    title: 'Min',
+    dataIndex: 'day1',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Sen',
+    dataIndex: 'day2',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Sel',
+    dataIndex: 'day3',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Rab',
+    dataIndex: 'day4',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Kam',
+    dataIndex: 'day5',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Jum',
+    dataIndex: 'day6',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'Sab',
+    dataIndex: 'day7',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'W1',
+    dataIndex: 'week1',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'W2',
+    dataIndex: 'week2',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'W3',
+    dataIndex: 'week3',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'W4',
+    dataIndex: 'week4',
+    slots: { customRender: 'days' },
+  },
+  {
+    title: 'W5',
+    dataIndex: 'week5',
+    slots: { customRender: 'days' },
+  },
 ]
 
 export default {
@@ -152,6 +195,8 @@ export default {
   },
   data() {
     return {
+      isfalse: 0,
+      istrue: 1,
       file1: null,
       file2: null,
       permissions: [],

@@ -162,11 +162,6 @@
       "role": "admin"
     },
     {
-      "id": 2,
-      "user": "Jean",
-      "role": "admintoko"
-    },
-    {
       "id": 3,
       "user": "Tom",
       "role": "admintoko"
@@ -211,9 +206,97 @@
       "id": 1
     }
   ],
-  "visitplan": [
+  "uploadvisitplan": [
     {
-      "id": 13487,
+      "id": 1,
+      "rownum": 1,
+      "idsales": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Tb. Ladju Artha Lancar",
+      "distributor": "PT. Maju Jaya Purnama",
+      "day1": 1,
+      "day2": 1,
+      "day3": 1,
+      "day4": 0,
+      "day5": 0,
+      "day6": 0,
+      "day7": 1,
+      "week1": 0,
+      "week2": 0,
+      "week3": 1,
+      "week4": 1,
+      "week5": 0
+    },
+    {
+      "id": 2,
+      "rownum": 2,
+      "idsales": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Tb. Ladju Artha Lancar",
+      "distributor": "PT. Maju Jaya Purnama",
+      "day1": 1,
+      "day2": 1,
+      "day3": 1,
+      "day4": 0,
+      "day5": 0,
+      "day6": 0,
+      "day7": 1,
+      "week1": 0,
+      "week2": 0,
+      "week3": 1,
+      "week4": 1,
+      "week5": 0
+    },
+    {
+      "id": 3,
+      "rownum": 3,
+      "idsales": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Tb. Ladju Artha Lancar",
+      "distributor": "PT. Maju Jaya Purnama",
+      "day1": 1,
+      "day2": 1,
+      "day3": 1,
+      "day4": 0,
+      "day5": 0,
+      "day6": 0,
+      "day7": 1,
+      "week1": 0,
+      "week2": 0,
+      "week3": 1,
+      "week4": 1,
+      "week5": 0
+    },
+    {
+      "id": 4,
+      "rownum": 4,
+      "idsales": 13487,
+      "username": "MJP.8648494.S01",
+      "customerid": 1000872651,
+      "customername": "Tb. Ladju Artha Lancar",
+      "distributor": "PT. Maju Jaya Purnama",
+      "day1": 1,
+      "day2": 1,
+      "day3": 1,
+      "day4": 0,
+      "day5": 0,
+      "day6": 0,
+      "day7": 1,
+      "week1": 0,
+      "week2": 0,
+      "week3": 1,
+      "week4": 1,
+      "week5": 0
+    }
+  ],
+  "otomatisasivisitplan": [
+    {
+      "id": 1,
+      "rownum": 1,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -224,7 +307,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 2,
+      "rownum": 2,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -235,7 +320,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 3,
+      "rownum": 3,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -246,7 +333,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 4,
+      "rownum": 4,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -257,7 +346,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 5,
+      "rownum": 5,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -268,7 +359,9 @@
       "status": "Non WPM"
     },
     {
-      "id": 13487,
+      "id": 6,
+      "rownum": 6,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -279,7 +372,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 7,
+      "rownum": 7,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -290,7 +385,9 @@
       "status": "failed"
     },
     {
-      "id": 13487,
+      "id": 8,
+      "rownum": 8,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -301,7 +398,9 @@
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 9,
+      "rownum": 9,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -312,7 +411,9 @@
       "status": "failed"
     },
     {
-      "id": 13487,
+      "id": 10,
+      "rownum": 10,
+      "idsales": 13487,
       "name": "MJP.8648494.S01",
       "distributor": "PT. Maju Jaya Purnama",
       "distrik": "Jawa Timur",
@@ -322,121 +423,243 @@
       "njadwal": "150",
       "status": "failed"
     }
+  ],  
+  "distrik": [
+    {
+      "id": 1,
+      "distrik": "Jawa Timur",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "distrik": "Jawa Barat",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "distrik": "Jawa Tengah",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "distrik": "Jogjakarta",
+      "status": "active"
+    }
+  ],
+  "tahun": [
+    {
+      "id": 2021,
+      "tahun": "2021",
+      "status": "active"
+    },
+    {
+      "id": 2020,
+      "tahun": "2020",
+      "status": "active"
+    }
+  ],
+  "bulan": [
+    {
+      "id": 1,
+      "bulan": "Januari",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "bulan": "Februari",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "bulan": "Maret",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "bulan": "April",
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "bulan": "Mei",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "bulan": "Juni",
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "bulan": "Juli",
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "bulan": "Agustus",
+      "status": "active"
+    },
+    {
+      "id": 9,
+      "bulan": "September",
+      "status": "active"
+    },
+    {
+      "id": 10,
+      "bulan": "Oktober",
+      "status": "active"
+    },
+    {
+      "id": 11,
+      "bulan": "November",
+      "status": "active"
+    },
+    {
+      "id": 12,
+      "bulan": "Desember",
+      "status": "active"
+    }
   ],
   "mappingcustomer": [
     {
-      "id": 13487,
+      "id": 1,
+      "rownum": 1,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 2,
+      "rownum": 2,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 3,
+      "rownum": 3,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 4,
+      "rownum": 4,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 5,
+      "rownum": 5,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 6,
+      "rownum": 6,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 7,
+      "rownum": 7,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 8,
+      "rownum": 8,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 9,
+      "rownum": 9,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 10,
+      "rownum": 10,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 11,
+      "rownum": 11,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 12,
+      "rownum": 12,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
     },
     {
-      "id": 13487,
+      "id": 13,
+      "rownum": 13,
+      "idsales": 13487,
       "username": "MJP.8648494.S01",
       "customerid": 1000872651,
-      "customername": "Jawa Timur",
+      "customername": "Tb. Ladju Artha Lancar",
       "distributorid": 1000872678,
       "distributorname": "PT. Maju Jaya Purnama",
       "status": "success"
@@ -446,22 +669,22 @@
     {
       "id": 1,
       "rownum": 1,
-      "distributorid": 1000872678,
-      "distributorname": "Jawa Timur",
+      "distrikid": 1000872678,
+      "distrikname": "Jawa Timur",
       "radius": 1000000
     },
     {
       "id": 2,
       "rownum": 2,
-      "distributorid": 1000872678,
-      "distributorname": "Jawa Tengah",
+      "distrikid": 1000872678,
+      "distrikname": "Jawa Tengah",
       "radius": 1000000
     },
     {
       "id": 3,
       "rownum": 3,
-      "distributorid": 1000872678,
-      "distributorname": "Jawa Barat",
+      "distrikid": 1000872678,
+      "distrikname": "Jawa Barat",
       "radius": 1000000
     }
   ],
@@ -510,6 +733,45 @@
       "id": 9,
       "id_user": "2343",
       "nama_user": "SPC"
+    }
+  ],
+  "distributor": [
+    {
+      "id": 247,
+      "distributorname": "PT. Maju Jaya Purnama",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 248,
+      "distributorname": "PT. Citra Bina Niaga",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 249,
+      "distributorname": "ERLANG DIST",
+      "alamat": 1000872651,
+      "status": "active"
+    },
+    {
+      "id": 510,
+      "distributorname": "PT. Albirru Gentama",
+      "alamat": 1000872651,
+      "status": "active"
+    }
+  ],
+  "customerscyn": [
+    {
+      "id": 13487,
+      "namatoko": "Robi Tko",
+      "distributor": "PT. Maju Jaya Purnama",
+      "distrik": "Jawa Timur",
+      "tso": "Ahmad Jainuri",
+      "tahun": "2021",
+      "bulan": "Agustus",
+      "njadwal": "150",
+      "status": "failed"
     }
   ]
 }

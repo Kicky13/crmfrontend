@@ -28,6 +28,17 @@
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
+            <template #status="{ text }">
+              <div v-if="text==sukses">
+                <a-tag color="green">{{ text }}</a-tag>
+              </div>              
+              <div v-else-if="text==gagal">
+                <a-tag color="red">{{ text }}</a-tag>
+              </div>              
+              <div v-else-if="text==nonwpm">
+                <a-tag color="yellow">{{ text }}</a-tag>
+              </div>
+            </template>
             <template #action="{ text }">
               <div>
                 <button type="button" class="btn btn-light">
@@ -99,6 +110,7 @@ const columns = [
     // fixed: 'right',
     dataIndex: 'status',
     key: 'status',
+    slots: { customRender: 'status' },
   },
 ]
 
@@ -131,6 +143,9 @@ export default {
   },
   data() {
     return {
+      sukses: "success",
+      gagal: "failed",
+      nonwpm: "Non WPM",
       file1: null,
       file2: null,
       dataSourceTable: [],
