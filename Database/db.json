@@ -67,6 +67,18 @@
       "code": "456789",
       "createdAt": "06/04/2021",
       "id": 4
+    },
+    {
+      "role": "TEST",
+      "code": "8732892",
+      "createdAt": "06/04/2021",
+      "id": 5
+    },
+    {
+      "role": "TEST2",
+      "code": "3828383",
+      "createdAt": "06/04/2021",
+      "id": 6
     }
   ],
   "permissions": [
@@ -764,13 +776,6 @@
     }
   ],
   "settingradius": [
-    {
-      "id": 1,
-      "rownum": 1,
-      "distrikid": 1000872678,
-      "distrikname": "Jawa Timur",
-      "radius": 1000000
-    },
     {
       "id": 2,
       "rownum": 2,
