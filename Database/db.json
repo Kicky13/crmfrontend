@@ -777,17 +777,31 @@
   ],
   "settingradius": [
     {
+      "id": 1,
+      "rownum": 1,
+      "distrikid": 3,
+      "distrikname": "Jawa Tengah",
+      "radius": 1000000
+    },
+    {
       "id": 2,
       "rownum": 2,
-      "distrikid": 1000872678,
-      "distrikname": "Jawa Tengah",
+      "distrikid": 1,
+      "distrikname": "Jawa Timur",
       "radius": 1000000
     },
     {
       "id": 3,
       "rownum": 3,
-      "distrikid": 1000872678,
+      "distrikid": 2,
       "distrikname": "Jawa Barat",
+      "radius": 1000000
+    },
+    {
+      "id": 4,
+      "rownum": 4,
+      "distrikid": 4,
+      "distrikname": "Jogjakarta",
       "radius": 1000000
     }
   ],
