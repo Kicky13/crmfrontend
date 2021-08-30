@@ -423,7 +423,7 @@
       "njadwal": "150",
       "status": "failed"
     }
-  ],  
+  ],
   "distrik": [
     {
       "id": 1,
@@ -733,6 +733,21 @@
       "id": 9,
       "id_user": "2343",
       "nama_user": "SPC"
+    },
+    {
+      "id_user": "1897",
+      "nama_user": "User Baru",
+      "id": 10
+    },
+    {
+      "id_user": "7363",
+      "nama_user": "User Baru",
+      "id": 12
+    },
+    {
+      "id_user": "6415",
+      "nama_user": "User Baru Lagi",
+      "id": 13
     }
   ],
   "distributor": [

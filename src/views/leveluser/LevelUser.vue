@@ -8,8 +8,13 @@
         <a-input
           placeholder="Nama jenis user"
           class="mx-3"
-          style="width: 200px" />
-        <a-button type="primary">
+          style="width: 200px"
+          v-model:value="userBaru"
+        />
+        <a-button
+          type="primary"
+          @click="tambahUserBaru"
+        >
           <i class="fa fa-save mr-2" />
           Save
         </a-button>
@@ -91,7 +96,7 @@
 </template>
 
 <script>
-import { getUser, deleteUser, updateUser } from '@/services/connection/user/api'
+import { getUser, deleteUser, updateUser, addUser } from '@/services/connection/user/api'
 import { message } from 'ant-design-vue'
 
 const itemsPerPage = [5, 10, 15, 20]
@@ -137,6 +142,7 @@ export default {
         nama_user: '',
       },
       inputValueUser: '',
+      userBaru: '',
     }
   },
   mounted() {
@@ -181,6 +187,17 @@ export default {
         console.error(err)
       })
     },
+    addNewUser(data) {
+      addUser(data)
+      .then(response => {
+        console.log(response)
+        this.fetchGetUser()
+        message.success('User berhasil ditambah')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     deleteConfirm(id) {
       const deleteMethod = this.deleteUserById
       this.$confirm({
@@ -220,6 +237,23 @@ export default {
       this.editItem.id_user = row.id_user
       this.editItem.nama_user = row.nama_user
       this.inputValueUser = row.nama_user
+    },
+    makeIdUser() {
+      let id = ''
+      for (let i = 0; i < 4; i++) {
+        const random = Math.floor(Math.random() * 9) + 1
+        id += random
+      }
+
+      return id
+    },
+    tambahUserBaru() {
+      const data = {
+        id_user: this.makeIdUser(),
+        nama_user: this.userBaru,
+      }
+      this.addNewUser(data)
+      this.userBaru = ''
     },
   },
 }

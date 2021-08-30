@@ -32,3 +32,14 @@ export async function updateUser(id, data) {
       return false
   })
 }
+
+export async function addUser(data) {
+  return apiClient
+  .post(`/user`, data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
