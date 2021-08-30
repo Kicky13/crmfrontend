@@ -43,7 +43,7 @@
           <div>
               <button type="button" class="btn btn-light">
                 <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-              ><button type="button" class="btn btn-warning">
+              ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
                 <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
               ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
                 <i class="fa fa-trash"></i><span> Hapus</span>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { toRaw } from 'vue'
 import { getAssignList, deleteAssign } from '@/services/connection/roles-permissions/api'
 
 const columns = [
@@ -126,6 +127,11 @@ export default {
         }
       })
       .catch(err => { console.error(err) })
+    },
+    goUpdate(id) {
+      const dataSource = [...this.assigns]
+      const currData = dataSource.filter(x => x.id === id)
+      this.$router.push({ name: 'assignrole-update', params: { id: id, user: currData[0].user, role: currData[0].role } })
     },
   },
 }

@@ -28,12 +28,27 @@
 <script>
 import VbHeadersCardHeader from './Header.vue'
 import { toRaw } from 'vue'
-import { insertRole, getRoleList } from '@/services/connection/roles-permissions/api'
+import { notification } from 'ant-design-vue'
+import { updateRole, getRoleList } from '@/services/connection/roles-permissions/api'
 
 export default {
   name: 'VbFormExamples',
   components: {
     VbHeadersCardHeader,
+  },
+  props: {
+      id: {
+          type: String,
+          required: true,
+      },
+      role: {
+          type: String,
+          required: true,
+      },
+      code: {
+          type: String,
+          required: true,
+      },
   },
   setup() {
     return {
@@ -58,12 +73,13 @@ export default {
   },
   mounted() {
     this.fetchGetRoleList()
+    this.initiateForm()
   },
   methods: {
     handleSubmit() {
       const formData = toRaw(this.formState)
       if (this.formValidation(formData)) {
-        insertRole(formData)
+        updateRole(this.id, formData)
           .then((response) => {
             if (response) {
               console.log(response)
@@ -73,7 +89,16 @@ export default {
           .catch((err) => {
             console.error(err)
           })
+      } else {
+          notification.error({
+              message: 'Error!',
+              description: 'Data already Exist',
+          })
       }
+    },
+    initiateForm() {
+        this.formState.role = this.role
+        this.formState.code = this.code
     },
     formValidation(formData) {
       const dataSource = [...this.roleList]
