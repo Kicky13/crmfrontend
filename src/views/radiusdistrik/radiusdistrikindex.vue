@@ -30,7 +30,7 @@
             </template>
           </a-table>
         </div>
-        <a-modal v-model:visible="visible" title="Form Setting Radius" @ok="handleOk">
+        <a-modal v-model:visible="visible" title="Form Setting Radius" :confirm-loading="confirmLoading" @ok="handleOk">
           <a-form :model="formState" label-align="left" layout="vertical">
             <a-input-number style="width:100% !important" v-model="radiusLock" :min="100" :max="1000000" />
             <a-form-item label="Pilih Distrik">
@@ -123,6 +123,7 @@ export default {
       dataSourceTable: [],
       visible: false,
       loading: false,
+      confirmLoading: false,
       listDistrik: [],
     }
   },
@@ -138,7 +139,11 @@ export default {
     },
     handleOk(e) {
       console.log(e)
-      this.visible = false
+      this.confirmLoading = true;
+      setTimeout(() => {
+        this.visible = false
+        this.confirmLoading = false;
+      }, 2000);
     },
     handleCancel(e) {
       console.log(e)
