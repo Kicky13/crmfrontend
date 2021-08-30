@@ -33,7 +33,7 @@
           <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
         </a-form-item>
         <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }">
+          <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }" row-key="id">
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
