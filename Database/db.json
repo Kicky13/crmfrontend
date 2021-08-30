@@ -162,11 +162,6 @@
       "role": "admin"
     },
     {
-      "id": 2,
-      "user": "Jean",
-      "role": "admintoko"
-    },
-    {
       "id": 3,
       "user": "Tom",
       "role": "admintoko"
@@ -553,6 +548,102 @@
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "failed"
+    }
+  ],  
+  "distrik": [
+    {
+      "id": 1,
+      "distrik": "Jawa Timur",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "distrik": "Jawa Barat",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "distrik": "Jawa Tengah",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "distrik": "Jogjakarta",
+      "status": "active"
+    }
+  ],
+  "tahun": [
+    {
+      "id": 2021,
+      "tahun": "2021",
+      "status": "active"
+    },
+    {
+      "id": 2020,
+      "tahun": "2020",
+      "status": "active"
+    }
+  ],
+  "bulan": [
+    {
+      "id": 1,
+      "bulan": "Januari",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "bulan": "Februari",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "bulan": "Maret",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "bulan": "April",
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "bulan": "Mei",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "bulan": "Juni",
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "bulan": "Juli",
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "bulan": "Agustus",
+      "status": "active"
+    },
+    {
+      "id": 9,
+      "bulan": "September",
+      "status": "active"
+    },
+    {
+      "id": 10,
+      "bulan": "Oktober",
+      "status": "active"
+    },
+    {
+      "id": 11,
+      "bulan": "November",
+      "status": "active"
+    },
+    {
+      "id": 12,
+      "bulan": "Desember",
+      "status": "active"
     }
   ],
   "mappingcustomer": [
