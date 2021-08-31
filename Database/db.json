@@ -45,10 +45,10 @@
   ],
   "roles": [
     {
-      "id": 1,
       "role": "admin",
-      "code": "A29CG",
-      "createdAt": "02/03/2021"
+      "code": "A29AA",
+      "createdAt": "06/04/2021",
+      "id": 1
     },
     {
       "id": 2,
@@ -73,12 +73,6 @@
       "code": "8732892",
       "createdAt": "06/04/2021",
       "id": 5
-    },
-    {
-      "role": "TEST2",
-      "code": "3828383",
-      "createdAt": "06/04/2021",
-      "id": 6
     }
   ],
   "permissions": [
@@ -855,11 +849,6 @@
     }
   ],
   "user": [
-    {
-      "id_user": "1209",
-      "nama_user": "Administrator",
-      "id": 1
-    },
     {
       "id_user": "2234",
       "nama_user": "Admin SMI",
