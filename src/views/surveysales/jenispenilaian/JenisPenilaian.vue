@@ -6,16 +6,45 @@
     </div>
     <div class="card-body">
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 1 - Perencanaan dan Persiapan [13]</a>
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 2 - Membuka Kunjungan [6]</a>
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 3 - Menentukan Kebutuhan [5]</a>
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 4 - Presentasi [4]</a>
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 5 - Tutup Penjualan [1]</a>
-        <a href="#" class="list-group-item list-group-item-action">Tahapan 6 - Membuat Laporan [5]</a>
+        <template
+          v-for="survey in surveyList"
+          :key="survey.id"
+        >
+          <a
+            class="list-group-item list-group-item-action"
+            @click="pilihPenilaian(survey.id)"
+          >
+            {{survey.jenis_penilaian}} [{{survey.pertanyaan.length}}]
+          </a>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getSurvey } from '@/services/connection/survey-sales/api'
+
+export default {
+  data() {
+    return {
+      surveyList: [],
+    }
+  },
+  mounted() {
+    this.fetchSurveyList()
+  },
+  methods: {
+    fetchSurveyList() {
+      getSurvey()
+      .then(response => {
+        this.surveyList = response
+      })
+    },
+    pilihPenilaian(id) {
+      const questionList = this.surveyList.find(survey => survey.id === id)
+      this.$emit('evaluationSelected', questionList)
+    },
+  },
+}
 </script>

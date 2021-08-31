@@ -1,10 +1,10 @@
 <template>
   <a-row :gutter="16">
     <a-col :span="9">
-      <vb-jenis-penilaian />
+      <vb-jenis-penilaian @evaluation-selected="getQuestionList" />
     </a-col>
     <a-col :span="15">
-      <vb-daftar-pertanyaan />
+      <vb-daftar-pertanyaan :questions="questionList" />
     </a-col>
   </a-row>
 </template>
@@ -17,6 +17,16 @@ export default {
   components: {
     VbJenisPenilaian,
     VbDaftarPertanyaan,
+  },
+  data() {
+    return {
+      questionList: [],
+    }
+  },
+  methods: {
+    getQuestionList(list) {
+      this.questionList = list
+    },
   },
 }
 </script>

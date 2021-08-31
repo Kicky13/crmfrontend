@@ -248,12 +248,17 @@ export default {
       return id
     },
     tambahUserBaru() {
-      const data = {
+      const dataForm = {
         id_user: this.makeIdUser(),
         nama_user: this.userBaru,
       }
-      this.addNewUser(data)
-      this.userBaru = ''
+      const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
+      if (!exist) {
+        this.addNewUser(dataForm)
+        this.userBaru = ''
+      } else {
+        message.error('User sudah tersedia')
+      }
     },
   },
 }
