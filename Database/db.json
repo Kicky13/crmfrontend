@@ -554,6 +554,16 @@
       "id": 4,
       "distrik": "Jogjakarta",
       "status": "active"
+    },
+    {
+      "id": 5,
+      "distrik": "Jakarta",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "distrik": "Sumatra",
+      "status": "active"
     }
   ],
   "tahun": [
@@ -799,10 +809,10 @@
     },
     {
       "id": 4,
-      "rownum": 4,
+      "rownum": null,
       "distrikid": 4,
       "distrikname": "Jogjakarta",
-      "radius": 1000000
+      "radius": 15000
     }
   ],
   "distributor": [
