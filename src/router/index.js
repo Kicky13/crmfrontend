@@ -51,6 +51,7 @@ const router = createRouter({
           component: () => import('@/views/otomatisasivisitplan/otomatisasivisitplanindex'),
         },
         // Fauzan ============ End ===================>>
+        // ========== Start of Varis View ==========
         {
           path: '/marketing/artikel',
           meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
@@ -67,6 +68,17 @@ const router = createRouter({
           component: () => import('@/views/artikel/edit/Edit'),
         },
         {
+          path: '/user/level_user',
+          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
+          component: () => import('@/views/leveluser/LevelUser'),
+        },
+        {
+          path: '/sales/survey_sales',
+          meta: { title: 'Survey Sales', resource: 'Survey Sales', action: 'manage' },
+          component: () => import('@/views/surveysales/SurveySales'),
+        },
+        // ========== End of Varis View ==========
+        {
           path: '/marketing/program',
           meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program'),
@@ -80,11 +92,6 @@ const router = createRouter({
           path: '/marketing/program/edit/:userId',
           meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
           component: () => import('@/views/program/edit/Edit'),
-        },
-        {
-          path: '/user/level_user',
-          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
-          component: () => import('@/views/user/LevelUser'),
         },
         // Kikik ====================================================================
         {
@@ -142,6 +149,8 @@ const router = createRouter({
           meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/customersync'),
         },
+
+        // VB:REPLACE-END:ROUTER-CONFIG
       ],
     },
 
