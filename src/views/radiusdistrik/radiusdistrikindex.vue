@@ -38,10 +38,10 @@
             <a-button v-if="stateForm==isSave" key="submit" type="primary" id="submitForm" :loading="confirmLoading" @click="handleSave">Simpan</a-button>
             <a-button v-else-if="stateForm==isUpdate" key="update" type="primary" id="updateForm" :loading="confirmLoading" @click="handleUpdate">Ubah</a-button>
           </template>
-          <a-form label-align="left" layout="vertical" :rules="rules">
-            <a-input-number style="width:100% !important; display: none;" v-model:value="idLock" />
+          <a-form :model="formState" label-align="left" layout="vertical" :rules="rules">
+            <a-input-number style="width:100% !important; display: none;" v-model:value="formState.id" />
             <a-form-item label="Pilih Distrik">
-              <a-select v-model:value="selectedDistrik" @change="setSelectMethod" placeholder=" -- Pilih Distrik -- " name="distrik">
+              <a-select v-model:value="formState.distrikid" show-search @change="setSelectMethod" placeholder=" -- Pilih Distrik -- " name="distrik">
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option v-for="(distrik,index) in listDistrik" :value="distrik.id" :key="index">
                   {{ distrik.id }} - {{ distrik.distrik }}
@@ -49,7 +49,7 @@
               </a-select>
             </a-form-item> 
             <a-form-item label="Jarak Target">
-              <a-input-number style="width:100% !important" v-model:value="radiusLock" class="input-style" :min="0" :max="1000000" name="radius"/>
+              <a-input-number style="width:100% !important" v-model:value="formState.radius" class="input-style" :min="0" :max="1000000" name="radius"/>
             </a-form-item>
           </a-form>
         </a-modal>
@@ -63,14 +63,15 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import { getDataList, deleteData, insertData, updateData } from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
-import { Modal } from 'ant-design-vue'
-import { toRaw } from 'vue'
+import { message } from 'ant-design-vue'
+// import { Modal } from 'ant-design-vue'
+import { defineComponent, reactive, toRaw } from 'vue'
 
 const columns = [
   {
     title: 'No.',
-    dataIndex: 'rownum',
-    key: 'rownum',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
     title: 'Nama Distrik',
@@ -86,12 +87,12 @@ const columns = [
     title: 'Action',
     dataIndex: 'id',
     width: 150,
-    key: 'id',
+    // key: 'id',
     slots: { customRender: 'action' },
   },
 ]
 
-export default {
+export default defineComponent({
   name: 'VbAntDesign',  
   components: {
       Loading,
@@ -113,23 +114,17 @@ export default {
         },
       ],
     }
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      },
-      getCheckboxProps: (record) => ({
-        props: {
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        },
-      }),
-    }
-    const fileList = [];
+    const formState = reactive({
+      id: null,
+      rownum: null,
+      distrikid: null,
+      distrikname: '',
+      radius: 0,
+    })
     return {
+      formState,
       rules,
       columns,
-      rowSelection,
-      fileList,
       headers: {
         authorization: 'authorization-text',
       },
@@ -159,11 +154,18 @@ export default {
     this.fetchGetDataDistrik()
   },
   methods: {
+    resetFormState() {
+      this.formState.id = null
+      this.formState.rownum = null
+      this.formState.distrikid = null
+      this.formState.distrikname = ''
+      this.formState.radius = 0      
+      this.fetchGetDataSource()
+      this.fetchGetDataDistrik()
+    },
     openModal() {
       this.stateForm = 1
-      this.selectedDistrik = null 
-      this.idLock = null
-      this.radiusLock = null
+      this.resetFormState()
       this.visible = true
     },
     showModal() {
@@ -171,36 +173,60 @@ export default {
       this.visible = true
     },
     handleSave(e) {
-      console.log(e)
+      console.log(e)       
+      this.isLoading = true;
       this.confirmLoading = true;
-      const params = { id: '', distrikid: this.selectedDistrik, radius: this.radiusLock }
-      insertData(toRaw(params))
-        .then((response) => {
-          if (response) {
-            console.log(response)
-            this.visible = false
-            this.confirmLoading = false
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+      if (this.formState.distrikid && this.formState.radius) {
+        insertData(toRaw(this.formState))
+          .then((response) => {
+            if (response) {
+              console.log(response)
+              this.resetFormState()
+              this.visible = false
+              this.confirmLoading = false 
+              this.isLoading = false              
+              message.success('Lock Radius Distrik Berhasil Disimpan')
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            this.confirmLoading = false 
+            this.isLoading = false      
+            message.error('Lock Radius Distrik Gagal Disimpan')
+          })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        this.confirmLoading = false 
+        this.isLoading = false      
+      }    
     },
     handleUpdate(e) {
-      console.log(e)
+      console.log(e) 
+      this.isLoading = true;
       this.confirmLoading = true;
-      const params = { id: this.idLock, distrikid: this.selectedDistrik, radius: this.radiusLock }
-      updateData(this.idLock, toRaw(params))
-        .then((response) => {
-          if (response) {
-            console.log(response)
-            this.visible = false
-            this.confirmLoading = false
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+      if (this.formState.id && this.formState.distrikid && this.formState.radius) {
+        updateData(this.formState.id, toRaw(this.formState))
+          .then((response) => {
+            if (response) {
+              console.log(response)
+              this.resetFormState()
+              this.visible = false
+              this.confirmLoading = false 
+              this.isLoading = false              
+              message.success('Lock Radius Distrik Berhasil Diubah')
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            this.confirmLoading = false 
+            this.isLoading = false
+            message.error('Lock Radius Distrik Gagal Diubah')
+          })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        this.confirmLoading = false 
+        this.isLoading = false      
+      }
     },
     handleCancel(e) {
       console.log(e)
@@ -208,8 +234,6 @@ export default {
     },
     deleteDataById(id) {           
       this.isLoading = true;
-      // setTimeout(() => {
-      // }, 2000);
       console.log("Deleted ID: " + id)
       deleteData(id)
       .then(response => {
@@ -218,10 +242,12 @@ export default {
           const dataSource = [...this.dataSourceTable]
           this.dataSourceTable = dataSource.filter(item => item.id !== id)
           this.isLoading = false
+          message.success('Lock Radius Distrik Berhasil Dihapus')
         }
       })
       .catch(err => {
         console.error(err)
+        message.error('Lock Radius Distrik Gagal Dihapus')
       })
     },
     deleteSelected(id) {
@@ -237,8 +263,13 @@ export default {
         },
       });
     }, 
-    setSelectMethod(value) {
-      this.selectValue = value
+    setSelectMethod(value) {      
+      const dataSource = [...this.listDistrik]
+      const currentData = dataSource.filter(x => x.id === value)
+      this.formState.distrikid = currentData[0].id
+      this.formState.distrikname = currentData[0].distrik
+      console.log(this.formState.distrikid)
+      console.log(this.formState.distrikname)
     },
     fetchGetDataSource() {
       getDataList()
@@ -266,12 +297,12 @@ export default {
       const dataSource = [...this.dataSourceTable]
       const currentData = dataSource.filter(x => x.id === id)
       this.showModal()
-      this.selectedDistrik = currentData[0].distrikid 
-      this.idLock = currentData[0].id
-      this.radiusLock = currentData[0].radius
+      this.formState.distrikid = currentData[0].distrikid 
+      this.formState.id = currentData[0].id
+      this.formState.radius = currentData[0].radius
     },
   },
-}
+})
 </script>
 <style lang="scss" module>
 @import './style.module.scss';

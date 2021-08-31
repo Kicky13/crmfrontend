@@ -5,8 +5,7 @@
         <strong>SYNC DATA TOKO FROM LIFERAY</strong>
       </div>
       <div class="card-body">
-        <a-select v-model="selected" class="col-lg-5 col-md-5 pr-2" @change="setSelectMethod"
-                  placeholder=" -- Pilih Distributor --">
+        <a-select v-model="selected" show-search class="col-lg-5 col-md-5 pr-2" @change="setSelectMethod" placeholder=" -- Pilih Distributor --">
           <a-select-option disabled value="">Please Select</a-select-option>
           <a-select-option v-for="(distri,index) in listDistributor" :value="distri.id" :key="index">
             {{ distri.id }} - {{ distri.distributorname }}
