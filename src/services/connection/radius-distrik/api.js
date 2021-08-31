@@ -22,3 +22,25 @@ export async function deleteData(id) {
     return false
   })
 }
+
+export async function insertData(data) {
+  return apiClient
+  .post('/settingradius', data)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function updateData(id, data) {
+  return apiClient
+  .put('/settingradius/' + id, data)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
