@@ -28,7 +28,7 @@ import { getSurvey } from '@/services/connection/survey-sales/api'
 export default {
   data() {
     return {
-      surveyList: [],
+      surveyList: {},
     }
   },
   mounted() {
@@ -42,8 +42,13 @@ export default {
       })
     },
     pilihPenilaian(id) {
-      const questionList = this.surveyList.find(survey => survey.id === id)
-      this.$emit('evaluationSelected', questionList)
+      const question_list = this.surveyList.find(survey => survey.id === id)
+      const question_title = question_list.jenis_penilaian
+      const data = {
+        question_list: question_list.pertanyaan,
+        question_title,
+      }
+      this.$emit('evaluationSelected', data)
     },
   },
 }

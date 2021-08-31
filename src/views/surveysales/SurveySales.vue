@@ -4,7 +4,7 @@
       <vb-jenis-penilaian @evaluation-selected="getQuestionList" />
     </a-col>
     <a-col :span="15">
-      <vb-daftar-pertanyaan :questions="questionList" />
+      <vb-daftar-pertanyaan :data="questionList" />
     </a-col>
   </a-row>
 </template>
