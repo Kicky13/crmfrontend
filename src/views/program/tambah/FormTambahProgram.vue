@@ -61,7 +61,7 @@
   } from 'vue'
   import {
     storePost,
-  } from '@/services/connection/apiService'
+  } from '@/services/connection/program/api'
   import {
     useRouter,
   } from 'vue-router'

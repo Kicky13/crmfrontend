@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { listPost } from '@/services/connection/artikel/api'
+import { listPost } from '@/services/connection/program/api'
 import VbListProgram from './ListProgram'
 import { message } from 'ant-design-vue';
 
@@ -51,7 +51,7 @@ export default {
     deleteSuccess() {
       this.getListPost()
       
-      message.success('Berita berhasil dihapus')
+      message.success('Program Name berhasil dihapus')
     },
   },
 }
