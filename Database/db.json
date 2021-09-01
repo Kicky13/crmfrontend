@@ -904,6 +904,30 @@
       "hargaJualMax": "60000",
       "issig": true,
       "status": "active"
+    },
+    {
+      "id": 5,
+      "idproduk": 2000,
+      "rownum": "",
+      "namaproduk": "Semen Padang",
+      "hargaBeliMin": "1000",
+      "hargaBeliMax": "2000",
+      "hargaJualMin": "3000",
+      "hargaJualMax": "4000",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "idproduk": 3000,
+      "rownum": "",
+      "namaproduk": "Semen Tonasa",
+      "hargaBeliMin": "1500",
+      "hargaBeliMax": "32345",
+      "hargaJualMin": "3500",
+      "hargaJualMax": "4500",
+      "issig": "true",
+      "status": "active"
     }
   ]
 }

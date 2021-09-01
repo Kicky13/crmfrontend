@@ -55,6 +55,32 @@
             </a-form-item>
           </a-form>
         </a-modal>
+        
+        <a-modal v-model:visible="visible2" title="Form Validasi Harga Survey" :confirm-loading="confirmLoading" @ok="handleUpdate">
+          <a-form :model="formState" label-align="left" layout="vertical">
+            <a-form-item label="Pilih Produk">
+              <a-select v-model:value="formState.idproduk" @change="setSelectMethod"  placeholder=" -- Pilih Produk -- ">
+                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                <a-select-option v-for="(produk,index) in listProduk" :value="produk.id" :key="index">
+                  {{ produk.id }} - {{ produk.namaproduk }}
+                </a-select-option>
+              </a-select>
+            </a-form-item> 
+            <a-input type="hidden" v-model:value="formState.namaproduk"/>
+            <a-form-item label="Harga Beli Minimal">
+              <a-input type="number" v-model:value="formState.hargaBeliMin" placeholder="Harga Beli Minimal"/>
+            </a-form-item>
+            <a-form-item label="Harga Beli Maksimal">
+              <a-input type="number" v-model:value="formState.hargaBeliMax" placeholder="Harga Beli Maksimal"/>
+            </a-form-item>
+            <a-form-item label="Harga Jual Minimal">
+              <a-input type="number" v-model:value="formState.hargaJualMin" placeholder="Harga Jual Minimal"/>
+            </a-form-item>
+            <a-form-item label="Harga Jual Maksimal">
+              <a-input type="number" v-model:value="formState.hargaJualMax" placeholder="Harga Jual Maksimal"/>
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </div>
     </div>
   </div>
@@ -64,7 +90,7 @@
 // import { getDataList, deleteData } from '@/services/connection/radius-distrik/api'
 import { toRaw } from 'vue'
 import { getProdukList,getSelectProdukList,getNamaProdukList,deleteData,showpost } from '@/services/connection/master-data/api'
-import { insertProduk } from '@/services/connection/validasiHargaProduk/api'
+import { insertProduk,updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal } from 'ant-design-vue'
 
 const columns = [
@@ -131,6 +157,7 @@ export default {
     return {
       dataSourceTable: [],
       visible: false,
+      visible2: false,
       loading: false,
       confirmLoading: false,
       listProduk: [],
@@ -160,11 +187,12 @@ export default {
     },
     showModalEdit(id) {
       console.log(id)
-      this.visible = true
+      this.visible2 = true
       showpost(id)     
       .then(response => {
         if (response) {
           console.log(response)
+          this.formState.id = response.id
           this.formState.idproduk = response.idproduk
           this.formState.namaproduk = response.namaproduk
           this.formState.hargaBeliMin = response.hargaBeliMin
@@ -185,7 +213,7 @@ export default {
         .then((response) => {
           if (response) {
             console.log(response)
-            this.$router.push({ name: '/validasiharga' })
+            this.fetchGetDataSource()
           }
         })
         .catch((err) => {
@@ -193,6 +221,26 @@ export default {
         })
       setTimeout(() => {
         this.visible = false
+        this.confirmLoading = false;
+      }, 2000);
+    },
+    handleUpdate(e) {
+      console.log(e)
+      this.confirmLoading = true;
+      const formData = toRaw(this.formState)
+      console.log(formData)
+      updateProduk(this.formState.id,formData)
+        .then((response) => {
+          if (response) {
+            console.log(response)
+            this.fetchGetDataSource()
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+      setTimeout(() => {
+        this.visible2 = false
         this.confirmLoading = false;
       }, 2000);
     },
