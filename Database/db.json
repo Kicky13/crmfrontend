@@ -860,7 +860,6 @@
     {
       "id": 1,
       "idproduk": 1000,
-      "rownum": 1,
       "namaproduk": "Semen Gresik",
       "hargaBeliMin": "47500",
       "hargaBeliMax": "52500",
@@ -872,7 +871,6 @@
     {
       "id": 2,
       "idproduk": 2000,
-      "rownum": 2,
       "namaproduk": "Semen Padang",
       "hargaBeliMin": "49000",
       "hargaBeliMax": "52000",
@@ -884,7 +882,6 @@
     {
       "id": 3,
       "idproduk": 3000,
-      "rownum": 3,
       "namaproduk": "Semen Tonasa",
       "hargaBeliMin": "47000",
       "hargaBeliMax": "51000",
@@ -896,7 +893,6 @@
     {
       "id": 4,
       "idproduk": 4000,
-      "rownum": 4,
       "namaproduk": "Dynamix",
       "hargaBeliMin": "48000",
       "hargaBeliMax": "50000",
@@ -908,7 +904,6 @@
     {
       "id": 5,
       "idproduk": 2000,
-      "rownum": "",
       "namaproduk": "Semen Padang",
       "hargaBeliMin": "1000",
       "hargaBeliMax": "2000",
@@ -920,12 +915,33 @@
     {
       "id": 6,
       "idproduk": 3000,
-      "rownum": "",
       "namaproduk": "Semen Tonasa",
       "hargaBeliMin": "1500",
       "hargaBeliMax": "32345",
       "hargaJualMin": "3500",
       "hargaJualMax": "4500",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "idproduk": 1000,
+      "namaproduk": "Semen Gresik",
+      "hargaBeliMin": "500",
+      "hargaBeliMax": "2500",
+      "hargaJualMin": "3000",
+      "hargaJualMax": "4000",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "idproduk": 4000,
+      "namaproduk": "Dynamix",
+      "hargaBeliMin": "3032",
+      "hargaBeliMax": "4987",
+      "hargaJualMin": "5000",
+      "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
     }

@@ -30,8 +30,8 @@
             </template>
           </a-table>
         </div>
-        <a-modal v-model:visible="visible" title="Form Validasi Harga Survey" :confirm-loading="confirmLoading" @ok="handleOk">
-          <a-form :model="formState" label-align="left" layout="vertical">
+        <a-modal v-model:visible="visible" title="Form Validasi Harga Survey" :confirm-loading="confirmLoading" @ok="statusModal ? handleUpdate() : handleOk()">
+          <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
             <a-form-item label="Pilih Produk">
               <a-select v-model:value="formState.idproduk" @change="setSelectMethod"  placeholder=" -- Pilih Produk -- ">
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
@@ -42,42 +42,16 @@
             </a-form-item> 
             <a-input type="hidden" v-model:value="formState.namaproduk"/>
             <a-form-item label="Harga Beli Minimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMin" placeholder="Harga Beli Minimal"/>
+              <a-input type="number" v-model:value="formState.hargaBeliMin" />
             </a-form-item>
             <a-form-item label="Harga Beli Maksimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMax" placeholder="Harga Beli Maksimal"/>
+              <a-input type="number" v-model:value="formState.hargaBeliMax" />
             </a-form-item>
             <a-form-item label="Harga Jual Minimal">
-              <a-input type="number" v-model:value="formState.hargaJualMin" placeholder="Harga Jual Minimal"/>
+              <a-input type="number" v-model:value="formState.hargaJualMin"/>
             </a-form-item>
             <a-form-item label="Harga Jual Maksimal">
-              <a-input type="number" v-model:value="formState.hargaJualMax" placeholder="Harga Jual Maksimal"/>
-            </a-form-item>
-          </a-form>
-        </a-modal>
-        
-        <a-modal v-model:visible="visible2" title="Form Validasi Harga Survey" :confirm-loading="confirmLoading" @ok="handleUpdate">
-          <a-form :model="formState" label-align="left" layout="vertical">
-            <a-form-item label="Pilih Produk">
-              <a-select v-model:value="formState.idproduk" @change="setSelectMethod"  placeholder=" -- Pilih Produk -- ">
-                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
-                <a-select-option v-for="(produk,index) in listProduk" :value="produk.id" :key="index">
-                  {{ produk.id }} - {{ produk.namaproduk }}
-                </a-select-option>
-              </a-select>
-            </a-form-item> 
-            <a-input type="hidden" v-model:value="formState.namaproduk"/>
-            <a-form-item label="Harga Beli Minimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMin" placeholder="Harga Beli Minimal"/>
-            </a-form-item>
-            <a-form-item label="Harga Beli Maksimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMax" placeholder="Harga Beli Maksimal"/>
-            </a-form-item>
-            <a-form-item label="Harga Jual Minimal">
-              <a-input type="number" v-model:value="formState.hargaJualMin" placeholder="Harga Jual Minimal"/>
-            </a-form-item>
-            <a-form-item label="Harga Jual Maksimal">
-              <a-input type="number" v-model:value="formState.hargaJualMax" placeholder="Harga Jual Maksimal"/>
+              <a-input type="number" v-model:value="formState.hargaJualMax"/>
             </a-form-item>
           </a-form>
         </a-modal>
@@ -157,14 +131,12 @@ export default {
     return {
       dataSourceTable: [],
       visible: false,
-      visible2: false,
       loading: false,
       confirmLoading: false,
       listProduk: [],
       formState: {
         id:'',
         idproduk:'',
-        rownum : '',
         namaproduk:'',
         hargaBeliMin: '',
         hargaBeliMax: '',
@@ -173,6 +145,7 @@ export default {
         issig : 'true',
         status:'active',
       },
+      statusModal:false,
     }
   },
   mounted() {
@@ -183,11 +156,12 @@ export default {
     showModal() {
       console.log(this.visible)
       this.visible = true
-      console.log(this.visible)
+      this.statusModal = false
     },
     showModalEdit(id) {
       console.log(id)
-      this.visible2 = true
+      this.visible = true
+      this.statusModal = true
       showpost(id)     
       .then(response => {
         if (response) {
@@ -213,7 +187,7 @@ export default {
         .then((response) => {
           if (response) {
             console.log(response)
-            this.fetchGetDataSource()
+            this.fetchGetDataSource() 
           }
         })
         .catch((err) => {
@@ -240,13 +214,14 @@ export default {
           console.error(err)
         })
       setTimeout(() => {
-        this.visible2 = false
+        this.visible = false
         this.confirmLoading = false;
       }, 2000);
     },
     handleCancel(e) {
       console.log(e)
       this.visible = false
+      this.statusModal = false
     },
     deleteDataById(id) {      
       console.log("Deleted ID: " + id)
@@ -313,6 +288,18 @@ export default {
         .then((response) => {
           if (response) {
             this.dataSourceTable = response
+            this.formState = {
+            id:'',
+            idproduk:'',
+            rownum : '',
+            namaproduk:'',
+            hargaBeliMin: '',
+            hargaBeliMax: '',
+            hargaJualMin: '',
+            hargaJualMax: '',
+            issig : 'true',
+            status:'active',
+          }
           }
         })
         .catch((err) => {
