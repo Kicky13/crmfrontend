@@ -1,59 +1,50 @@
 <template>
   <div>
-    <div :class="$style.head" class="bg-light d-flex flex-column">
-      <div class="card-header card-header-flex border-bottom-0">
-        <div class="d-flex flex-column justify-content-center">
-          <h5 class="mb-0 text-color-6">Permissions</h5>
-        </div>
-        <div class="ml-auto d-flex flex-column justify-content-center">
-          <div class="dropdown d-inline-block">
-            <a-dropdown placement="bottomRight" :trigger="['click']">
-              <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-noarrow">
-                <i class="fe fe-more-horizontal" />
-              </button>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    <i class="fa fa-plus-square-o">
-                    <a @click="createRole"> Tambah baru</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <i class="fa fa-trash">
-                    <a @click="deleteMarks"> Hapus ditandai</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <i class="fa fa-ban">
-                    <a href="javascript:;"> Hapus Semua</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-divider />
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </div>
-        </div>
+    <div class="card card-top card-top-primary">
+      <div class="card-header d-flex">
+        <strong>PERMISSIONS</strong>
       </div>
-    </div>
-    <div class="card border-0">
-      <div class="table-responsive text-nowrap">
-        <a-table :row-selection="rowSelection" :columns="columns" :data-source="permissions">
-          <template #name="{ text }">
-            <a href="javascript:;">{{ text }}</a>
-          </template>
-          <template #action="{ text }">
-            <div>
-              <button type="button" class="btn btn-light">
-                <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-              ><button type="button" class="btn btn-warning">
-                <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-              ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
-                <i class="fa fa-trash"></i><span> Hapus</span>
-              </button>
+      <div class="card-body">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Show :</span>
             </div>
-          </template>
-        </a-table>
+            <a-select :default-value="itemsPerPage[1]" class="mx-2" @change="handlePaginationSize">
+              <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
+            </div>
+          </div>
+          <a-input-search placeholder="input search text" style="width: 200px" />
+        </div>
+        <div class="table-responsive text-nowrap">
+          <a-table
+            :row-selection="rowSelection"
+            :columns="columns"
+            :data-source="permissions"
+            :row-key="(permissions) => permissions.id"
+            :pagination="pagination"
+          >
+            <template #name="{ text }">
+              <a href="javascript:;">{{ text }}</a>
+            </template>
+            <template #action="{ text }">
+              <div>
+                <button type="button" class="btn btn-light">
+                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
+                ><button type="button" class="btn btn-warning">
+                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
+                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
+                  <i class="fa fa-trash"></i><span> Hapus</span>
+                </button>
+              </div>
+            </template>
+          </a-table>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +53,7 @@
 <script>
 import { getPermissionList, deletePermission } from '@/services/connection/roles-permissions/api'
 
+const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
     title: 'Role',
@@ -109,6 +101,8 @@ export default {
   data() {
     return {
       permissions: [],
+      itemsPerPage,
+      pagination: {},
     }
   },
   mounted() {
@@ -118,21 +112,24 @@ export default {
     createRole() {
       this.$router.push({ name: 'permissions-create' })
     },
+    handlePaginationSize(size) {
+      this.pagination.pageSize = size
+    },
     deleteMarks() {
       console.log(this.rowSelection)
     },
     deleteAll() {},
     deleteRow(id) {
-      console.log("Deleted ID: " + id)
+      console.log('Deleted ID: ' + id)
       deletePermission(id)
-      .then(response => {
-        console.log(response)
-        const dataSource = [...this.permissions]
-        this.permissions = dataSource.filter(item => item.id !== id)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+        .then((response) => {
+          console.log(response)
+          const dataSource = [...this.permissions]
+          this.permissions = dataSource.filter((item) => item.id !== id)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     },
     fetchGetPermissions() {
       getPermissionList()
