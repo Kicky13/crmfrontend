@@ -40,16 +40,16 @@
           </template>
           <a-form :model="formState" label-align="left" layout="vertical" :rules="rules">
             <a-input-number style="width:100% !important; display: none;" v-model:value="formState.id" />
-            <a-form-item label="Pilih Distrik">
-              <a-select v-model:value="formState.distrikid" show-search @change="setSelectMethod" placeholder=" -- Pilih Distrik -- " name="distrik">
-                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+            <a-form-item label="Pilih Distrik" name="distrikid">
+              <a-select v-model:value="formState.distrikid" show-search @change="setSelectMethod" placeholder=" -- Pilih Distrik -- " name="distrikval">
+                <!-- <a-select-option disabled value="">Pilih Salah Satu</a-select-option> -->
                 <a-select-option v-for="(distrik,index) in listDistrik" :value="distrik.id" :key="index">
                   {{ distrik.id }} - {{ distrik.distrik }}
                 </a-select-option>
               </a-select>
             </a-form-item> 
-            <a-form-item label="Jarak Target">
-              <a-input-number style="width:100% !important" v-model:value="formState.radius" class="input-style" :min="0" :max="1000000" name="radius"/>
+            <a-form-item label="Jarak Target" name="radius">
+              <a-input-number style="width:100% !important" v-model:value="formState.radius" class="input-style" :min="0" :max="1000000" name="radiusval"/>
             </a-form-item>
           </a-form>
         </a-modal>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-// import Loading from 'vue-loading-overlay';
+import Loading from 'vue-loading-overlay';
 // import 'vue-loading-overlay/dist/vue-loading.css';
 import { getDataList, deleteData, insertData, updateData } from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
@@ -99,25 +99,25 @@ export default defineComponent({
   },
   setup() {    
     const rules = {
-      distrik: [
+      distrikid: [
         {
           required: true,
           message: 'Pilih Salah Satu Distrik',
-          type: 'string',
+          type: 'number',
         },
       ],
       radius: [
         {
           required: true,
           message: 'Masukkan Nilai Radius',
-          type: 'string',
+          type: 'number',
         },
       ],
     }
     const formState = reactive({
       id: null,
       rownum: null,
-      distrikid: null,
+      distrikid: undefined,
       distrikname: '',
       radius: 0,
     })
@@ -157,7 +157,7 @@ export default defineComponent({
     resetFormState() {
       this.formState.id = null
       this.formState.rownum = null
-      this.formState.distrikid = null
+      this.formState.distrikid = undefined
       this.formState.distrikname = ''
       this.formState.radius = 0      
       this.fetchGetDataSource()
@@ -174,30 +174,32 @@ export default defineComponent({
     },
     handleSave(e) {
       console.log(e)       
-      this.isLoading = true;
-      this.confirmLoading = true;
+      // this.isLoading = true;
+      // this.confirmLoading = true;
       if (this.formState.distrikid && this.formState.radius) {
-        insertData(toRaw(this.formState))
-          .then((response) => {
-            if (response) {
-              console.log(response)
-              this.resetFormState()
-              this.visible = false
-              this.confirmLoading = false 
-              this.isLoading = false              
-              message.success('Lock Radius Distrik Berhasil Disimpan')
-            }
-          })
-          .catch((err) => {
-            console.error(err)
-            this.confirmLoading = false 
-            this.isLoading = false      
-            message.error('Lock Radius Distrik Gagal Disimpan')
-          })
+        console.log(this.formState.distrikid)
+        console.log(this.formState.radius)
+        // insertData(toRaw(this.formState))
+        //   .then((response) => {
+        //     if (response) {
+        //       console.log(response)
+        //       this.resetFormState()
+        //       this.visible = false
+        //       this.confirmLoading = false 
+        //       this.isLoading = false              
+        //       message.success('Lock Radius Distrik Berhasil Disimpan')
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     console.error(err)
+        //     this.confirmLoading = false 
+        //     this.isLoading = false      
+        //     message.error('Lock Radius Distrik Gagal Disimpan')
+        //   })
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' })
-        this.confirmLoading = false 
-        this.isLoading = false      
+        // this.confirmLoading = false 
+        // this.isLoading = false      
       }    
     },
     handleUpdate(e) {
@@ -296,8 +298,10 @@ export default defineComponent({
     fetchUpdateData(id) {
       const dataSource = [...this.dataSourceTable]
       const currentData = dataSource.filter(x => x.id === id)
+      console.log(currentData[0])
       this.showModal()
-      this.formState.distrikid = currentData[0].distrikid 
+      this.formState.distrikid = currentData[0].distrikid      
+      this.formState.distrikname = currentData[0].distrikname 
       this.formState.id = currentData[0].id
       this.formState.radius = currentData[0].radius
     },
