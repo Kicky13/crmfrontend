@@ -61,18 +61,6 @@
       "role": "admintoko",
       "code": "AC756",
       "createdAt": "06/04/2021"
-    },
-    {
-      "role": "AFA1",
-      "code": "456789",
-      "createdAt": "06/04/2021",
-      "id": 4
-    },
-    {
-      "role": "TEST",
-      "code": "8732892",
-      "createdAt": "06/04/2021",
-      "id": 5
     }
   ],
   "permissions": [
@@ -883,11 +871,6 @@
       "id_user": "1234",
       "nama_user": "Distributor",
       "id": 8
-    },
-    {
-      "id_user": "2343",
-      "nama_user": "SPC",
-      "id": 9
     }
   ],
   "survey": [

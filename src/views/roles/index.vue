@@ -7,7 +7,7 @@
       <div class="card-body">
         <div class="d-flex justify-content" style="margin-bottom: 10px">
           <div class="align-self-center">
-            <strong>Tambah Role :</strong>
+            <strong>{{id == null ? "Tambah Role : " : "Update Role : "}}</strong>
           </div>
           <a-input placeholder="Nama role" class="mx-3" style="width: 200px" v-model:value="role" />
           <a-input placeholder="Kode role" class="mx-3" style="width: 200px" v-model:value="code" />
@@ -53,7 +53,7 @@
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
                 ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
+                ><button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
                 </button>
               </div>
@@ -131,6 +131,19 @@ export default {
   methods: {
     createRole() {
       this.$router.push({ name: 'roles-create' })
+    },
+    handleDelete(id) {
+      const confirmDelete = this.deleteRow
+      this.$confirm({
+        title: 'Hapus Role',
+        content: 'Apakah anda yakin?',
+        okText: 'Ya',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk() {
+          confirmDelete(id)
+        },
+      })
     },
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
