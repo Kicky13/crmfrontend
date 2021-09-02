@@ -149,8 +149,12 @@ const router = createRouter({
           meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/customersync'),
         },
-
-        // VB:REPLACE-END:ROUTER-CONFIG
+        {
+          path: '/validasiharga',
+          name: 'validasi-harga',
+          meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/validasiharga'),
+        },
       ],
     },
 

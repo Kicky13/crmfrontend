@@ -78,6 +78,11 @@ export const getMenuData = [
         key: 'St13Cf',
         url: '/customerscyn',
       },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'St14Cf',
+        url: '/validasiharga',
+      },
     ],
   },
   // {
