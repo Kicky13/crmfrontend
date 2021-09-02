@@ -36,7 +36,7 @@
             Edit
           </a-button>
           <router-link
-            to="/marketing/artikel"
+            to="/marketing/program"
             style="margin-left: 10px;"
           >
             <a-button>
@@ -52,7 +52,7 @@
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { showPost, updatePost } from '@/services/connection/artikel/api'
+import { showPost, updatePost } from '@/services/connection/program/api'
 import { message } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
