@@ -41,3 +41,53 @@ export async function getBulanList() {
         return false
     })
 }
+export async function getProdukList() {
+    return apiClient
+    .get('/produk')
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
+export async function getSelectProdukList() {
+    return apiClient
+    .get('/ListSelectproduk')
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+}
+export async function getNamaProdukList(id) {
+    return apiClient
+    .get('/ListSelectproduk/' + id)
+    .then(response => {
+      if (response) {
+        return response.data
+      }
+      return false
+    })
+}
+export async function showpost(id) {
+    return apiClient
+    .get('/produk/' + id)
+    .then(response => {
+      if (response) {
+        return response.data
+      }
+      return false
+    })
+}
+export async function deleteData(id) {
+    return apiClient
+    .delete('/produk/' + id)
+    .then(response => {
+      if (response) {
+        return true
+      }
+      return false
+    })
+  }
