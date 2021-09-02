@@ -844,6 +844,125 @@
       "status": "failed"
     }
   ],
+  "user": [
+    {
+      "id_user": "1209",
+      "nama_user": "Administrator",
+      "id": 1
+    },
+    {
+      "id_user": "2234",
+      "nama_user": "Admin SMI",
+      "id": 2
+    },
+    {
+      "id_user": "3234",
+      "nama_user": "General Sales Manager",
+      "id": 3
+    },
+    {
+      "id_user": "4234",
+      "nama_user": "Regional Sales Manager",
+      "id": 4
+    },
+    {
+      "id_user": "5576",
+      "nama_user": "Area Sales Manager",
+      "id": 5
+    },
+    {
+      "id_user": "6657",
+      "nama_user": "Teritory Sales Officer",
+      "id": 6
+    },
+    {
+      "id_user": "7344",
+      "nama_user": "Sales Distributor",
+      "id": 7
+    },
+    {
+      "id_user": "1234",
+      "nama_user": "Distributor",
+      "id": 8
+    },
+    {
+      "id_user": "2343",
+      "nama_user": "SPC",
+      "id": 9
+    }
+  ],
+  "survey": [
+    {
+      "jenis_penilaian": "Tahapan 1 - Perencanaan dan Persiapan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog",
+        "Membawa Data Tagihan",
+        "Membawa Form Pemesanan dan Form Stock Card",
+        "Membawa Brosur / e-Brosur",
+        "Tujuan Smart (Memiliki Tujuan yang Spesifik)",
+        "Tujuan Mampu Diukur",
+        "Memiliki Tujuan yang Ambisius",
+        "Memiliki Tujuan yang Realistis",
+        "Memiliki Tujuan yang Jelas Tenggat Waktu"
+      ],
+      "id": 1
+    },
+    {
+      "jenis_penilaian": "Tahapan 2 - Membuka Kunjungan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog",
+        "Membawa Data Tagihan"
+      ],
+      "id": 2
+    },
+    {
+      "jenis_penilaian": "Tahapan 3 - Menentukan Kebutuhan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog"
+      ],
+      "id": 3
+    },
+    {
+      "jenis_penilaian": "Tahapan 4 - Presentasi",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail"
+      ],
+      "id": 4
+    },
+    {
+      "jenis_penilaian": "Tahapan 5 - Tutup Penjualan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi"
+      ],
+      "id": 5
+    },
+    {
+      "jenis_penilaian": "Tahapan 6 - Membuat Laporan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog"
+      ],
+      "id": 6
+    }
+  ],
   "ListSelectproduk": [
     {
       "id": 1000,
