@@ -21,37 +21,6 @@ export async function getDistrikList() {
         return false
     })
 }
-
-export async function getProvinsiList(regionId = '') {
-    return apiClient
-    .get('/provinsi/' + regionId)
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
-}
-export async function getRegionList() {
-    return apiClient
-    .get('/region')
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
-}
-export async function getdistributorSBIList(provinsiId) {
-    return apiClient
-    .get('/distributorSBI/' + provinsiId)
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
-}
 export async function getTahunList() {
     return apiClient
     .get('/tahun')
@@ -72,9 +41,9 @@ export async function getBulanList() {
         return false
     })
 }
-export async function getProdukList() {
+export async function getDataSalesList() {
     return apiClient
-    .get('/produk')
+    .get('/datasales')
     .then(response => {
         if (response) {
             return response.data

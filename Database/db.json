@@ -959,5 +959,102 @@
       "issig": "true",
       "status": "active"
     }
+  ],
+  "datasales": [{
+    "id": 1,
+    "idsales": 1000,
+    "namasales": "Semen Gresik",
+    "username": "47500",
+    "regionId": "52500",
+    "regionName": "52500",
+    "provinsiId": "60000",
+    "provinsiName": "60000",
+    "distributorid": "62000",
+    "distributorName": "62000",
+    "namaSO": "active",
+    "namaSM": "active",
+    "namaSSM": "active",
+    "namaGSM": "active",
+    "areaId": "active",
+    "areaName": "active",
+    "distrikId": "active",
+    "distrikName": "active"
+  }],
+  "region": [{
+      "id": 1,
+      "regionName": "Region 1",
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "regionName": "Region 2",
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "regionName": "Region 3",
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "regionName": "Region 4",
+      "deleteMark": 0
+    }
+  ],
+  "provinsi": [{
+      "id": 1,
+      "provinsiName": "DKI JAKARTA",
+      "regionId": 21,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "provinsiName": "BOGOR",
+      "regionId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "provinsiName": "JAWA TENGAH",
+      "regionId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "provinsiName": "JAWA TIMUR",
+      "regionId": 3,
+      "deleteMark": 0
+    },
+    {
+      "id": 5,
+      "provinsiName": "JAWA BARAT",
+      "regionId": 4,
+      "deleteMark": 0
+    }
+  ],
+  "distributorSBI": [{
+      "id": 1,
+      "distributorName": "PT. Maju Jaya Purnama I",
+      "provinsiId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "distributorName": "PT. Maju Jaya Purnama II",
+      "provinsiId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "distributorName": "PT. Maju Jaya Purnama III",
+      "provinsiId": 3,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "distributorName": "PT. Maju Jaya Purnama IV",
+      "provinsiId": 4,
+      "deleteMark": 0
+    }
   ]
 }

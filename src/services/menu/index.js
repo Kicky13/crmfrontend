@@ -122,7 +122,7 @@ export const getMenuData = [
       {
         title: 'Data Sales SBI',
         key: 'a32jab',
-        url: '/dataSales',
+        url: '/datasales',
       },
     ],
   },
