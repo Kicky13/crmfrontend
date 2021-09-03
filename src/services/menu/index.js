@@ -154,4 +154,17 @@ export const getMenuData = [
       },
     ],
   },
+  {
+    title: 'Report Admin',
+    key: '12seaw',
+    url: '/report',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+    ],
+  },
 ]
