@@ -2,7 +2,12 @@
   <div>
     <div class="card card-top card-top-primary">
       <div class="card-header d-flex">
-        <strong>PERMISSIONS</strong>
+        <a-tabs :default-active-key="1" @change="changeTabs" class="vb-tabs-bold justify-content-between mb-3">
+          <a-tab-pane v-for="menutab in menutabs" :key="menutab.id" :tab="menutab.role" />
+        </a-tabs>
+      </div>
+      <div class="card-header d-flex">
+        <strong>{{ "Daftar User " +  selectedTitle + " (" + selectedShorthand + ")"}}</strong>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -25,8 +30,8 @@
           <a-table
             :row-selection="rowSelection"
             :columns="columns"
-            :data-source="permissions"
-            :row-key="(permissions) => permissions.id"
+            :data-source="users"
+            :row-key="(user) => user.id"
             :pagination="pagination"
           >
             <template #name="{ text }">
@@ -51,26 +56,74 @@
 </template>
 
 <script>
-import { getPermissionList, deletePermission } from '@/services/connection/roles-permissions/api'
+import { getUserList } from '@/services/connection/user-management/api'
 
 const itemsPerPage = [5, 10, 15, 20]
+const menutabs = [
+  {
+    id: 1,
+    role: 'General Sales Manager',
+    shorthand: 'GSM',
+  },
+  {
+    id: 2,
+    role: 'Senior Sales Manager',
+    shorthand: 'SSM',
+  },
+  {
+    id: 3,
+    role: 'Sales Manager',
+    shorthand: 'SM',
+  },
+  {
+    id: 4,
+    role: 'Area Manager',
+    shorthand: 'AM',
+  },
+  {
+    id: 5,
+    role: 'Sales Dist',
+    shorthand: 'SD',
+  },
+  {
+    id: 6,
+    role: 'Distributor',
+    shorthand: 'Dist',
+  },
+  {
+    id: 7,
+    role: 'SPC',
+    shorthand: 'SPC',
+  },
+]
 const columns = [
   {
-    title: 'Role',
-    dataIndex: 'actor',
-    slots: { customRender: 'name' },
+    title: 'No',
+    dataIndex: 'id',
   },
   {
-    title: 'Nama Laman',
-    dataIndex: 'pagename',
+    title: 'ID User',
+    dataIndex: 'userid',
   },
   {
-    title: 'Module',
-    dataIndex: 'subject',
+    title: 'Nama Sales',
+    dataIndex: 'name',
   },
   {
-    title: 'Permission',
-    dataIndex: 'permission',
+    title: 'Username',
+    dataIndex: 'username',
+  },
+  {
+    title: 'Password',
+    dataIndex: 'password',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+  },
+  {
+    title: 'No. HP',
+    dataIndex: 'nohp',
   },
   {
     title: 'Action',
@@ -100,15 +153,29 @@ export default {
   },
   data() {
     return {
-      permissions: [],
+      actiiveTabs: {},
+      users: [],
+      selectedTabId: 1,
+      selectedTitle: 'General Sales Manager',
+      selectedShorthand: 'GSM',
       itemsPerPage,
+      menutabs,
       pagination: {},
     }
   },
   mounted() {
-    this.fetchGetPermissions()
+    this.fetchGetUsers()
   },
   methods: {
+    changeTabs(key) {
+      console.log(key)
+      const dataRes = [...this.menutabs]
+      const filtered = dataRes.filter((x) => x.id == key)
+      this.actiiveTabs = filtered[0]
+      this.selectedTitle = this.actiiveTabs.role
+      this.selectedShorthand = this.actiiveTabs.shorthand
+      this.selectedTabId = key
+    },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
     },
@@ -121,21 +188,21 @@ export default {
     deleteAll() {},
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
-      deletePermission(id)
-        .then((response) => {
-          console.log(response)
-          const dataSource = [...this.permissions]
-          this.permissions = dataSource.filter((item) => item.id !== id)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+      // deletePermission(id)
+      //   .then((response) => {
+      //     console.log(response)
+      //     const dataSource = [...this.users]
+      //     this.users = dataSource.filter((item) => item.id !== id)
+      //   })
+      //   .catch((err) => {
+      //     console.error(err)
+      //   })
     },
-    fetchGetPermissions() {
-      getPermissionList()
+    fetchGetUsers() {
+      getUserList()
         .then((response) => {
           if (response) {
-            this.permissions = response
+            this.users = response
           }
         })
         .catch((err) => {

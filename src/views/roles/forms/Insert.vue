@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-lg-12">
-        <div class="card">
+        <div class="card card-top card-top-primary">
           <div class="card-header">
             <vb-headers-card-header :data="{ title: 'Create New Role' }" />
           </div>
