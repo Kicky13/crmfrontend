@@ -63,6 +63,35 @@
       "createdAt": "06/04/2021"
     }
   ],
+  "usercrm": [
+    {
+      "userid": 2231,
+      "name": "Adam",
+      "username": "adam13",
+      "password": "dcdcda123",
+      "email": "adam@gmail.com",
+      "nohp": "08293819238",
+      "id": 1
+    },
+    {
+      "userid": 3211,
+      "name": "Ahmad",
+      "username": "ahmad03",
+      "password": "dcdcda123",
+      "email": "ahmad@gmail.com",
+      "nohp": "08288873328",
+      "id": 2
+    },
+    {
+      "userid": 6736,
+      "name": "Burhan",
+      "username": "burhan24",
+      "password": "dcdcda123",
+      "email": "burhan@gmail.com",
+      "nohp": "08287231498",
+      "id": 3
+    }
+  ],
   "permissions": [
     {
       "id": 1,

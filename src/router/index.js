@@ -106,12 +106,12 @@ const router = createRouter({
           component: () => import('@/views/roles/forms/Insert'),
         },
         {
-            path: '/roles/update',
-            name: 'roles-update',
-            props: true,
-            meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
-            component: () => import('@/views/roles/forms/Update'),
-          },
+          path: '/roles/update',
+          name: 'roles-update',
+          props: true,
+          meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/roles/forms/Update'),
+        },
         {
           path: '/permissions',
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
@@ -135,13 +135,19 @@ const router = createRouter({
           component: () => import('@/views/assignrole/forms/Insert'),
         },
         {
-            path: '/assignrole/update',
-            name: 'assignrole-update',
-            props: true,
-            meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
-            component: () => import('@/views/assignrole/forms/Update'),
-          },
-          // Kikik ============================================================================
+          path: '/assignrole/update',
+          name: 'assignrole-update',
+          props: true,
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/assignrole/forms/Update'),
+        },
+        {
+          path: '/users',
+          name: 'user-management',
+          meta: { title: 'User Management', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/User'),
+        },
+        // Kikik ============================================================================
         /*  ROBI VIEW */
         {
           path: '/customerscyn',
@@ -256,9 +262,9 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if (canNavigate(to)) {
-        next()
+      next()
     } else {
-        next({ name: 'route500' })
+      next({ name: 'route500' })
     }
   }
 })
