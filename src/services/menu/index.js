@@ -110,6 +110,24 @@ export const getMenuData = [
   },
   {
     category: true,
+    title: 'Report Admin',
+    key: '2h83ot12',
+  },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        url: '/dataSales',
+      },
+    ],
+  },
+  {
+    category: true,
     title: 'Roles & Permissions',
     key: '2h83od',
   },

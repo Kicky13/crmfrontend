@@ -148,6 +148,12 @@ const router = createRouter({
           meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/validasiharga'),
         },
+        {
+          path: '/dataSales',
+          name: 'data-sales',
+          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          component: () => import('@/views/datasales'),
+        },
       ],
     },
 
