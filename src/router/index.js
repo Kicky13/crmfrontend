@@ -149,6 +149,12 @@ const router = createRouter({
           meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/assignrole/forms/Update'),
         },
+        {
+          path: '/users',
+          name: 'user-management',
+          meta: { title: 'User Management', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/User'),
+        },
         // Kikik ============================================================================
         /*  ROBI VIEW */
         {
