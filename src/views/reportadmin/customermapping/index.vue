@@ -7,14 +7,14 @@
       <div class="card-body">
         <div class="filter_data mb-4">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="row d-flex">
-                <div class="col-md-4 col-xs-12 align-self-center">
+                <div class="col-md-3 col-xs-12 align-self-center">
                   <span>Filter By</span>
                 </div>
-                <div class="col-md-8 col-xs-12">
-                  <a-select v-model="selected" show-search class="w-100 pr-2">
-                    <a-select-option value="All" selecte>All</a-select-option>
+                <div class="col-md-9 col-xs-12">
+                  <a-select v-model="filter_by" show-search class="w-100 pr-2">
+                    <a-select-option value="All" selected>All</a-select-option>
                     <a-select-option value="Region">Region</a-select-option>
                     <a-select-option value="Provinsi">Provinsi</a-select-option>
                     <a-select-option value="Area">Area</a-select-option>
@@ -29,12 +29,14 @@
                   <span>Filter Set</span>
                 </div>
                 <div class="col-md-7 col-xs-12">
-                  <a-select v-model="selected" show-search class="w-100 pr-2">
-                    <a-select-option value="All" selecte>All</a-select-option>
-                    <a-select-option value="Region">Region</a-select-option>
-                    <a-select-option value="Provinsi">Provinsi</a-select-option>
-                    <a-select-option value="Area">Area</a-select-option>
-                    <a-select-option value="Distributor">Distributor</a-select-option>
+                  <a-select v-model="filter_set_search" show-search class="w-100 pr-2">
+                    <a-select-option value="All" selected>All</a-select-option>
+                    <a-select-option
+                      v-for="(items, index) in filter_set"
+                      :key="`filter_set_${index}`"
+                      :value="items.value"
+                      >{{ items.value }}</a-select-option
+                    >
                   </a-select>
                 </div>
                 <div class="col-md-2 col-xs-12">
@@ -45,7 +47,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="row">
                 <div class="col-md-6"></div>
                 <div class="col-md-6 col-xs-12">
@@ -168,7 +170,15 @@ export default {
       itemsPerPage: [5, 10, 15, 20],
       dataSourceTable: [],
       pagination: {},
+      filter_set: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }],
+      filter_set_search: {},
+      filter_by: {},
     }
+  },
+  methods: {
+    handlePaginationSize(size) {
+      this.pagination.pageSize = size
+    },
   },
 }
 </script>
