@@ -1,67 +1,80 @@
 <template>
   <div>
-    <div :class="$style.head" class="bg-light d-flex flex-column">
-      <div class="card-header card-header-flex border-bottom-0">
-        <div class="d-flex flex-column justify-content-center">
-          <h5 class="mb-0 text-color-6">Role Management</h5>
-        </div>
-        <div class="ml-auto d-flex flex-column justify-content-center">
-          <div class="dropdown d-inline-block">
-            <a-dropdown placement="bottomRight" :trigger="['click']">
-              <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-noarrow">
-                <i class="fe fe-more-horizontal" />
-              </button>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    <i class="fa fa-plus-square-o">
-                    <a @click="createRole"> Tambah baru</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <i class="fa fa-trash">
-                    <a href="javascript:;"> Hapus ditandai</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <i class="fa fa-ban">
-                    <a href="javascript:;"> Hapus semua</a>
-                    </i>
-                  </a-menu-item>
-                  <a-menu-divider />
-                </a-menu>
-              </template>
-            </a-dropdown>
+    <div class="card card-top card-top-primary">
+      <div class="card-header d-flex">
+        <strong>ROLES MANAGEMENT</strong>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content" style="margin-bottom: 10px">
+          <div class="align-self-center">
+            <strong>{{id == null ? "Tambah Role : " : "Update Role : "}}</strong>
           </div>
+          <a-input placeholder="Nama role" class="mx-3" style="width: 200px" v-model:value="role" />
+          <a-input placeholder="Kode role" class="mx-3" style="width: 200px" v-model:value="code" />
+          <a-button type="primary" @click="handleSave">
+            <i class="fa fa-save mr-2" />
+            Save
+          </a-button>
+          <a-button :hidden="id == null ? true : false" type="button" style="margin-left: 5px;" class="btn btn-outline-danger" @click="clearForm">
+            <i class="fa fa-times" />
+            Cancel
+          </a-button>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Show :</span>
+            </div>
+            <a-select :default-value="itemsPerPage[1]" class="mx-2" @change="handlePaginationSize">
+              <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
+            </div>
+          </div>
+          <a-input-search placeholder="input search text" style="width: 200px" />
+        </div>
+        <div class="table-responsive text-nowrap">
+          <a-table
+            :row-selection="rowSelection"
+            :columns="columns"
+            :data-source="roles"
+            :row-key="(roles) => roles.id"
+            :pagination="pagination"
+          >
+            <template #name="{ text }">
+              <a href="javascript:;">{{ text }}</a>
+            </template>
+            <template #action="{ text }">
+              <div>
+                <button type="button" class="btn btn-light">
+                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
+                ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
+                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
+                ><button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
+                  <i class="fa fa-trash"></i><span> Hapus</span>
+                </button>
+              </div>
+            </template>
+          </a-table>
         </div>
       </div>
-    </div>
-    <div class="card border-0">
-      <div class="table-responsive text-nowrap">
-      <a-table :row-selection="rowSelection" :columns="columns" :data-source="roles">
-      <template #name="{ text }">
-        <a href="javascript:;">{{ text }}</a>
-      </template>
-      <template #action="{ text }">
-          <div>
-              <button type="button" class="btn btn-light">
-                <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-              ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
-                <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-              ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
-                <i class="fa fa-trash"></i><span> Hapus</span>
-              </button>
-            </div>
-        </template>
-    </a-table>
-    </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getRoleList, deleteRole } from '@/services/connection/roles-permissions/api'
+import {
+  getRoleList,
+  deleteRole,
+  insertRole,
+  updateRole,
+} from '@/services/connection/roles-permissions/api'
+import { notification, message } from 'ant-design-vue'
 
+const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
     title: 'Name',
@@ -90,7 +103,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -98,6 +111,7 @@ export default {
       }),
     }
     return {
+      itemsPerPage,
       columns,
       rowSelection,
     }
@@ -105,6 +119,10 @@ export default {
   data() {
     return {
       roles: [],
+      pagination: {},
+      role: '',
+      code: '',
+      id: null,
     }
   },
   mounted() {
@@ -114,32 +132,125 @@ export default {
     createRole() {
       this.$router.push({ name: 'roles-create' })
     },
-    deleteRow(id) {
-      console.log("Deleted ID: " + id)
-      deleteRole(id)
-      .then(response => {
-        console.log(response)
-        const dataSource = [...this.roles]
-        this.roles = dataSource.filter(item => item.id !== id)
-      })
-      .catch(err => {
-        console.error(err)
+    handleDelete(id) {
+      const confirmDelete = this.deleteRow
+      this.$confirm({
+        title: 'Hapus Role',
+        content: 'Apakah anda yakin?',
+        okText: 'Ya',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk() {
+          confirmDelete(id)
+        },
       })
     },
-    fetchGetRoles() {
-      getRoleList()
-      .then(response => {
-        if (response) {
-          this.roles = response
+    deleteRow(id) {
+      console.log('Deleted ID: ' + id)
+      deleteRole(id)
+        .then((response) => {
+          console.log(response)
+          const dataSource = [...this.roles]
+          this.roles = dataSource.filter((item) => item.id !== id)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    handlePaginationSize(size) {
+      this.pagination.pageSize = size
+    },
+    clearForm() {
+      this.role = ''
+      this.code = ''
+      this.id = null
+    },
+    handleSave() {
+      if (this.formValidation()) {
+        if (this.id !== null) {
+          this.updateRole()
+        } else {
+          this.insertRole()
         }
-      })
-      .catch(err => { console.error(err) })
+      }
+    },
+    insertRole() {
+      const formData = {
+        role: this.role,
+        code: this.code,
+        createdAt: '06/04/2021',
+      }
+      insertRole(formData)
+        .then((response) => {
+          if (response) {
+            console.log(response)
+            message.success('Role berhasil ditambahkan')
+            this.fetchGetRoles()
+            this.clearForm()
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+          message.error('Oops, sepertinya ada masalah')
+        })
+    },
+    updateRole() {
+      const formData = {
+        role: this.role,
+        code: this.code,
+        createdAt: '06/04/2021',
+      }
+      updateRole(this.id, formData)
+        .then((response) => {
+          if (response) {
+            console.log(response)
+            message.success('Role berhasil ditambahkan')
+            this.fetchGetRoles()
+            this.clearForm()
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+          message.error('Oops, sepertinya ada masalah')
+        })
+    },
+    formValidation() {
+      const dataSource = [...this.roles]
+      const currentData = dataSource.filter((x) => x.code === this.code)
+      if (this.role === '' && this.code === '') {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        return false
+      }
+      if (currentData.length !== 0) {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Data sudah ada',
+        })
+        return false
+      }
+      return true
+    },
+    fetchGetRoles() {
+      this.roles = []
+      getRoleList()
+        .then((response) => {
+          if (response) {
+            this.roles = response
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     },
     goUpdate(id) {
       const dataSource = [...this.roles]
-      const currentData = dataSource.filter(x => x.id === id)
-
-      this.$router.push({ name: 'roles-update', params: { id: id, role: currentData[0].role, code: currentData[0].code } })
+      const currentData = dataSource.filter((x) => x.id === id)
+      this.role = currentData[0].role
+      this.code = currentData[0].code
+      this.id = id
     },
   },
 }

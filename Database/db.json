@@ -45,10 +45,10 @@
   ],
   "roles": [
     {
-      "id": 1,
       "role": "admin",
-      "code": "A29CG",
-      "createdAt": "02/03/2021"
+      "code": "A29AA",
+      "createdAt": "06/04/2021",
+      "id": 1
     },
     {
       "id": 2,
@@ -61,24 +61,35 @@
       "role": "admintoko",
       "code": "AC756",
       "createdAt": "06/04/2021"
+    }
+  ],
+  "usercrm": [
+    {
+      "userid": 2231,
+      "name": "Adam",
+      "username": "adam13",
+      "password": "dcdcda123",
+      "email": "adam@gmail.com",
+      "nohp": "08293819238",
+      "id": 1
     },
     {
-      "role": "AFA1",
-      "code": "456789",
-      "createdAt": "06/04/2021",
-      "id": 4
+      "userid": 3211,
+      "name": "Ahmad",
+      "username": "ahmad03",
+      "password": "dcdcda123",
+      "email": "ahmad@gmail.com",
+      "nohp": "08288873328",
+      "id": 2
     },
     {
-      "role": "TEST",
-      "code": "8732892",
-      "createdAt": "06/04/2021",
-      "id": 5
-    },
-    {
-      "role": "TEST2",
-      "code": "3828383",
-      "createdAt": "06/04/2021",
-      "id": 6
+      "userid": 6736,
+      "name": "Burhan",
+      "username": "burhan24",
+      "password": "dcdcda123",
+      "email": "burhan@gmail.com",
+      "nohp": "08287231498",
+      "id": 3
     }
   ],
   "permissions": [
@@ -870,11 +881,6 @@
   ],
   "user": [
     {
-      "id_user": "1209",
-      "nama_user": "Administrator",
-      "id": 1
-    },
-    {
       "id_user": "2234",
       "nama_user": "Admin SMI",
       "id": 2
@@ -908,11 +914,6 @@
       "id_user": "1234",
       "nama_user": "Distributor",
       "id": 8
-    },
-    {
-      "id_user": "2343",
-      "nama_user": "SPC",
-      "id": 9
     }
   ],
   "survey": [
