@@ -11,6 +11,28 @@ export async function getSurvey() {
   })
 }
 
+export async function addSurvey(data) {
+  return apiClient
+  .post(`/survey`, data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
+export async function updateSurvey(id, data) {
+  return apiClient
+  .put(`/survey/${id}`, data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
 // export async function deleteUser(id) {
 //   return apiClient
 //   .delete(`/user/${id}`)
@@ -19,27 +41,5 @@ export async function getSurvey() {
 //       return true
 //     }
 //     return false
-//   })
-// }
-
-// export async function updateUser(id, data) {
-//   return apiClient
-//   .put(`/user/${id}`, data)
-//   .then(response => {
-//       if (response) {
-//           return response.data
-//       }
-//       return false
-//   })
-// }
-
-// export async function addUser(data) {
-//   return apiClient
-//   .post(`/user`, data)
-//   .then(response => {
-//       if (response) {
-//           return response.data
-//       }
-//       return false
 //   })
 // }

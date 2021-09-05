@@ -856,9 +856,9 @@
   ],
   "user": [
     {
+      "id": 1,
       "id_user": "1209",
-      "nama_user": "Administrator",
-      "id": 1
+      "nama_user": "Administrator"
     },
     {
       "id_user": "2234",
@@ -971,6 +971,27 @@
         "Membawa Katalog Promosi / e-Katalog"
       ],
       "id": 6
+    },
+    {
+      "jenis_penilaian": "Tahapan Update Lagi",
+      "pertanyaan": [],
+      "id": 7
+    },
+    {
+      "jenis_penilaian": "Tambah Tahapan Update",
+      "pertanyaan": [],
+      "id": 8
+    },
+    {
+      "id": 9,
+      "jenis_penilaian": "Halo",
+      "pertanyaan": [
+        "Tanya Halo",
+        "Jawab Halo",
+        "Haha",
+        "Hehe",
+        "Oke"
+      ]
     }
   ],
   "produk": [
