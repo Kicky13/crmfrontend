@@ -13,7 +13,12 @@
                   <span>Filter By</span>
                 </div>
                 <div class="col-md-9 col-xs-12">
-                  <a-select v-model="filter_by" placeholder="Wilayah" show-search class="w-100 pr-2">
+                  <a-select
+                    v-model="filter_by"
+                    placeholder="Wilayah"
+                    show-search
+                    class="w-100 pr-2"
+                  >
                     <a-select-option value="All" selected>All</a-select-option>
                     <a-select-option value="Region">Region</a-select-option>
                     <a-select-option value="Provinsi">Provinsi</a-select-option>
@@ -29,7 +34,12 @@
                   <span>Filter Set</span>
                 </div>
                 <div class="col-md-7 col-xs-12">
-                  <a-select v-model="filter_set_search" placeholder="Pilih Filter" show-search class="w-100 pr-2">
+                  <a-select
+                    v-model="filter_set_search"
+                    placeholder="Pilih Filter"
+                    show-search
+                    class="w-100 pr-2"
+                  >
                     <a-select-option value="All" selected>All</a-select-option>
                     <a-select-option
                       v-for="(items, index) in filter_set"
@@ -207,6 +217,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

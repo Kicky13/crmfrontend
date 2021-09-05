@@ -1129,5 +1129,95 @@
       "nama_gsm": "iqbal",
       "create_at": "-"
     }
+  ],
+  "log_sync_customer": [
+    {
+      "id": 1,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 2,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 3,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 4,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 5,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 6,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 7,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 8,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 9,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 10,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 11,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    }
   ]
 }
