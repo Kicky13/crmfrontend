@@ -13,7 +13,7 @@
                   <span>Filter By</span>
                 </div>
                 <div class="col-md-9 col-xs-12">
-                  <a-select v-model="filter_by" show-search class="w-100 pr-2">
+                  <a-select v-model="filter_by" placeholder="Wilayah" show-search class="w-100 pr-2">
                     <a-select-option value="All" selected>All</a-select-option>
                     <a-select-option value="Region">Region</a-select-option>
                     <a-select-option value="Provinsi">Provinsi</a-select-option>
@@ -29,7 +29,7 @@
                   <span>Filter Set</span>
                 </div>
                 <div class="col-md-7 col-xs-12">
-                  <a-select v-model="filter_set_search" show-search class="w-100 pr-2">
+                  <a-select v-model="filter_set_search" placeholder="Pilih Filter" show-search class="w-100 pr-2">
                     <a-select-option value="All" selected>All</a-select-option>
                     <a-select-option
                       v-for="(items, index) in filter_set"
@@ -92,8 +92,12 @@
           <a-table
             :columns="columns"
             :pagination="pagination"
+            :data-source="dataSourceTable"
             :row-key="dataSourceTable => dataSourceTable.id"
           >
+            <template #no="{ text }">
+              <a href="javascript:;">{{ text }}</a>
+            </template>
           </a-table>
         </div>
       </div>
@@ -101,6 +105,7 @@
   </div>
 </template>
 <script>
+import { getDataTableList } from '@/services/connection/customer-mapping/api'
 const columns = [
   {
     title: 'No.',
@@ -175,9 +180,29 @@ export default {
       filter_by: {},
     }
   },
+  mounted() {
+    this.getDataTable()
+  },
   methods: {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
+    },
+
+    getDataTable() {
+      getDataTableList()
+        .then(response => {
+          let i = 1
+          this.dataSourceTable = []
+          if (response) {
+            response.forEach(item => {
+              item.no = i++
+              this.dataSourceTable.push(item)
+            })
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
   },
 }
