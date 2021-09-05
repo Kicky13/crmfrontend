@@ -102,3 +102,13 @@ $sm-max-width: 575px;
     color: $white !important;
   }
 }
+
+.btn_search {
+  background-color: $green !important;
+  color: $white !important;
+  border-color: $green;
+  &:hover {
+    border-color: $green !important;
+    color: $white !important;
+  }
+}
