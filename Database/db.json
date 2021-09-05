@@ -45,10 +45,10 @@
   ],
   "roles": [
     {
-      "id": 1,
       "role": "admin",
-      "code": "A29CG",
-      "createdAt": "02/03/2021"
+      "code": "A29AA",
+      "createdAt": "06/04/2021",
+      "id": 1
     },
     {
       "id": 2,
@@ -61,24 +61,35 @@
       "role": "admintoko",
       "code": "AC756",
       "createdAt": "06/04/2021"
+    }
+  ],
+  "usercrm": [
+    {
+      "userid": 2231,
+      "name": "Adam",
+      "username": "adam13",
+      "password": "dcdcda123",
+      "email": "adam@gmail.com",
+      "nohp": "08293819238",
+      "id": 1
     },
     {
-      "role": "AFA1",
-      "code": "456789",
-      "createdAt": "06/04/2021",
-      "id": 4
+      "userid": 3211,
+      "name": "Ahmad",
+      "username": "ahmad03",
+      "password": "dcdcda123",
+      "email": "ahmad@gmail.com",
+      "nohp": "08288873328",
+      "id": 2
     },
     {
-      "role": "TEST",
-      "code": "8732892",
-      "createdAt": "06/04/2021",
-      "id": 5
-    },
-    {
-      "role": "TEST2",
-      "code": "3828383",
-      "createdAt": "06/04/2021",
-      "id": 6
+      "userid": 6736,
+      "name": "Burhan",
+      "username": "burhan24",
+      "password": "dcdcda123",
+      "email": "burhan@gmail.com",
+      "nohp": "08287231498",
+      "id": 3
     }
   ],
   "permissions": [
@@ -314,6 +325,20 @@
           "isTrusted": true
         }
       }
+    }
+  ],
+  "posts_program": [
+    {
+      "post_date": "01-09-2021",
+      "post_time": "14:35",
+      "post_title": "Contoh dan Cara Membuat Berita Tentang Virus Corona dan Unsur 5w 1H",
+      "post_slug": "judul_artikel",
+      "post_detail": "<p><span style=\"color: rgb(51, 51, 51);\">COVID-19 di Indonesia saat ini sedang mengalami kenaikan kasus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Salah satu penyebabnya adalah munculnya virus corona muatsi baru yang dikenal dengan varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Sekarang,&nbsp;kembali muncul varian baru, yaitu varian Delta Plus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian Delta Plus ditemukan di Jambi dan Mamuju. Hal ini disampaikan oleh&nbsp;Direktur Lembaga Biologi Molekuler Eijkman Prof Amin Subandrio pada Rabu (28/7/21).</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian ini diidentivikasi sebagai B.1.617.2.1 atau AY.1&nbsp;dan merupakan sub-garis keturunan dari varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Disebut Delta Plus karena varian ini masih berhubungan dengan varian Delta.</span></p>",
+      "startDate": "2021-09-01",
+      "FinishDate": "2021-09-02",
+      "publication_status": "Draft",
+      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+      "id": 1
     }
   ],
   "uploadvisitplan": [
@@ -894,11 +919,6 @@
       "id_user": "1234",
       "nama_user": "Distributor",
       "id": 8
-    },
-    {
-      "id_user": "2343",
-      "nama_user": "SPC",
-      "id": 9
     }
   ],
   "survey": [
@@ -994,29 +1014,119 @@
       ]
     }
   ],
-  "produk": [
+  "ListSelectproduk": [
     {
-      "id": 1,
+      "id": 1000,
       "namaproduk": "Semen Gresik",
       "issig": true,
       "status": "active"
     },
     {
-      "id": 2,
+      "id": 2000,
       "namaproduk": "Semen Padang",
       "issig": true,
       "status": "active"
     },
     {
-      "id": 3,
+      "id": 3000,
       "namaproduk": "Semen Tonasa",
       "issig": true,
       "status": "active"
     },
     {
-      "id": 4,
+      "id": 4000,
       "namaproduk": "Dynamix",
       "issig": true,
+      "status": "active"
+    }
+  ],
+  "produk": [
+    {
+      "id": 1,
+      "idproduk": 1000,
+      "namaproduk": "Semen Gresik",
+      "hargaBeliMin": "47500",
+      "hargaBeliMax": "52500",
+      "hargaJualMin": "60000",
+      "hargaJualMax": "62000",
+      "issig": true,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "idproduk": 2000,
+      "namaproduk": "Semen Padang",
+      "hargaBeliMin": "49000",
+      "hargaBeliMax": "52000",
+      "hargaJualMin": "59000",
+      "hargaJualMax": "66000",
+      "issig": true,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "idproduk": 3000,
+      "namaproduk": "Semen Tonasa",
+      "hargaBeliMin": "47000",
+      "hargaBeliMax": "51000",
+      "hargaJualMin": "57000",
+      "hargaJualMax": "61000",
+      "issig": true,
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "idproduk": 4000,
+      "namaproduk": "Dynamix",
+      "hargaBeliMin": "48000",
+      "hargaBeliMax": "50000",
+      "hargaJualMin": "58000",
+      "hargaJualMax": "60000",
+      "issig": true,
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "idproduk": 2000,
+      "namaproduk": "Semen Padang",
+      "hargaBeliMin": "1000",
+      "hargaBeliMax": "2000",
+      "hargaJualMin": "3000",
+      "hargaJualMax": "4000",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "idproduk": 3000,
+      "namaproduk": "Semen Tonasa",
+      "hargaBeliMin": "1500",
+      "hargaBeliMax": "32345",
+      "hargaJualMin": "3500",
+      "hargaJualMax": "4500",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "idproduk": 1000,
+      "namaproduk": "Semen Gresik",
+      "hargaBeliMin": "500",
+      "hargaBeliMax": "2500",
+      "hargaJualMin": "3000",
+      "hargaJualMax": "4000",
+      "issig": "true",
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "idproduk": 4000,
+      "namaproduk": "Dynamix",
+      "hargaBeliMin": "3032",
+      "hargaBeliMax": "4987",
+      "hargaJualMin": "5000",
+      "hargaJualMax": "6000",
+      "issig": "true",
       "status": "active"
     }
   ]

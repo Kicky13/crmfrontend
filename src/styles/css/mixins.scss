@@ -91,3 +91,14 @@ $md-min-width: 768px;
 $md-max-width: 767px;
 $sm-min-width: 576px;
 $sm-max-width: 575px;
+
+.btn_export {
+  background-color: $green !important;
+  color: $white !important;
+  border-color: $green;
+  width: 100% !important;
+  &:hover {
+    border-color: $green !important;
+    color: $white !important;
+  }
+}

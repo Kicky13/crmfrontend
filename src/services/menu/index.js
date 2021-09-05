@@ -1,21 +1,10 @@
 export const getMenuData = [
-  // VB:REPLACE-START:MENU-CONFIG
-  // {
-  //   category: true,
-  //   title: 'Dashboards',
-  //   key: 'q7r3hr',
-  // },
   {
     title: 'Dashboards',
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
   },
-  // {
-  //   category: true,
-  //   title: 'Marketing',
-  //   key: '5hb7fe',
-  // },
   {
     title: 'Marketing',
     key: 'aw57eky',
@@ -34,11 +23,19 @@ export const getMenuData = [
       },
     ],
   },
-  // {
-  //   category: true,
-  //   title: 'Manajemen Menu',
-  //   key: '2t2ghm',
-  // },
+  {
+    title: 'User Management',
+    key: 'aw67ac',
+    url: '/users',
+    icon: 'fa fa-user',
+    children: [
+      {
+        title: 'Management User CRM',
+        key: 'jty2ap',
+        url: '/users',
+      },
+    ],
+  },
   {
     title: 'Manajemen Menu',
     key: '6rq4ze6',
@@ -52,11 +49,6 @@ export const getMenuData = [
       },
     ],
   },
-  // {
-  //   category: true,
-  //   title: 'Settings & Configuration',
-  //   key: 'St00Cf',
-  // },
   {
     title: 'Settings & Configuration',
     key: 'St01Cf',
@@ -78,13 +70,13 @@ export const getMenuData = [
         key: 'St13Cf',
         url: '/customerscyn',
       },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'St14Cf',
+        url: '/validasiharga',
+      },
     ],
   },
-  // {
-  //   category: true,
-  //   title: 'Visit Plan',
-  //   key: 'Vs00Pl',
-  // },
   {
     title: 'Visit Plan',
     key: 'Vs01Pl',
@@ -103,11 +95,6 @@ export const getMenuData = [
       },
     ],
   },
-  // {
-  //   category: true,
-  //   title: 'Roles & Permissions',
-  //   key: '2h83od',
-  // },
   {
     title: 'Roles & Permissions',
     key: '82hska',
@@ -131,11 +118,6 @@ export const getMenuData = [
       },
     ],
   },
-  // {
-  //   category: true,
-  //   title: 'Supervisory Visit',
-  //   key: 'hsu3894',
-  // },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',
@@ -146,6 +128,19 @@ export const getMenuData = [
         title: 'Master Penilaian Sales',
         key: '8sugn8',
         url: '/sales/survey_sales',
+      },
+    ],
+  },
+  {
+    title: 'Report Admin',
+    key: '12seaw',
+    url: '/report',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
       },
     ],
   },

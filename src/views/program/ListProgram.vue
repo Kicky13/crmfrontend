@@ -76,7 +76,7 @@ export default {
     deleteConfirm(id) {
       const deleteMethod = this.deletePostById
       this.$confirm({
-        title: 'Hapus Berita',
+        title: 'Hapus Program Name',
         content: 'Apakah anda yakin?',
         okText: 'Ya',
         okType: 'primary',
