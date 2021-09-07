@@ -9,11 +9,11 @@
           placeholder="Nama jenis user"
           class="mx-3"
           style="width: 200px"
-          v-model:value="userBaru"
+          v-model:value="newUsername"
         />
         <a-button
           type="primary"
-          @click="tambahUserBaru"
+          @click="addNewUsername"
         >
           <i class="fa fa-save mr-2" />
           Save
@@ -31,10 +31,10 @@
               @change="handlePaginationSize"
             >
               <a-select-option
-                v-for="itemPerPage in itemsPerPage"
-                :key="itemPerPage"
+                v-for="(itemPerPage, i) in itemsPerPage"
+                :key="i"
               >
-                {{itemPerPage}}
+                {{ itemPerPage }}
               </a-select-option>
             </a-select>
             <div class="align-self-center">
@@ -61,7 +61,7 @@
                 <button
                   type="button"
                   class="btn btn-warning mr-1"
-                  @click="showEditUserModal(text)"
+                  @click="showUserEditModal(text)"
                 >
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
@@ -80,24 +80,22 @@
         </div>        
       </div>
     </div>
-    <a-modal
-      :title="`Edit Menu: ${editItem.nama_user}`"
-      :visible="editUserModalVisible"
-      @ok="editUserModalHandleOk"
-      @cancel="editUserModalHandleCancel"
-    >
-      <a-form>
-        <a-form-item label="Jenis User">
-          <a-input v-model:value="inputValueUser" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <!-- User Edit Modal Start -->
+    <vb-user-edit-modal
+      :modal-visible="userEditModalVisible"
+      :username="editItem.nama_user"
+      :edit-username="editUsername"
+      @handle-ok="userEditModalHandleOk"
+      @handle-cancel="userEditModalVisible = false"
+    />
+    <!-- User Edit Modal End -->
   </div>
 </template>
 
 <script>
 import { getUser, deleteUser, updateUser, addUser } from '@/services/connection/user/api'
-import { message } from 'ant-design-vue'
+import VbUserEditModal from './modals/UserEditModal'
+import { notification } from 'ant-design-vue'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -125,6 +123,9 @@ const columns = [
 ]
 
 export default {
+  components: {
+    VbUserEditModal,
+  },
   setup() {
     return {
       itemsPerPage,
@@ -135,21 +136,17 @@ export default {
     return {
       dataSourceTable: [],
       pagination: {},
-      editUserModalVisible: false,
-      editItem: {
-        id: null,
-        id_user: '',
-        nama_user: '',
-      },
-      inputValueUser: '',
-      userBaru: '',
+      userEditModalVisible: false,
+      editUsername: '',
+      editItem: {},
+      newUsername: '',
     }
   },
   mounted() {
-    this.fetchGetUser()
+    this.fetchUsers()
   },
   methods: {
-    fetchGetUser() {
+    fetchUsers() {
       getUser()
         .then((response) => {
           let i = 1
@@ -165,12 +162,21 @@ export default {
           console.error(err)
         })
     },
+    addNewUser(data) {
+      addUser(data)
+      .then(response => {
+        console.log(response)
+        this.fetchUsers()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     deleteUserById(id) {
       deleteUser(id)
       .then(response => {
         console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil dihapus')
+        this.fetchUsers()
       })
       .catch(err => {
         console.error(err)
@@ -180,22 +186,10 @@ export default {
       updateUser(id, data)
       .then(response => {
         console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil diupdate')
+        this.fetchUsers()
       })
       .catch(err => {
         console.error(err)
-      })
-    },
-    addNewUser(data) {
-      addUser(data)
-      .then(response => {
-        console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil ditambah')
-      })
-      .catch(err => {
-        console.log(err)
       })
     },
     deleteConfirm(id) {
@@ -208,35 +202,12 @@ export default {
         cancelText: 'Batal',
         onOk() {
           deleteMethod(id)
+          notification.success({
+            message: 'Hapus User',
+            description: 'User berhasil dihapus',
+          })
         },
       });
-    },
-    handlePaginationSize(size) {
-      this.pagination.pageSize = size
-    },
-    showEditUserModal(id) {
-      this.getUserEdit(id)
-      this.editUserModalVisible = true
-    },
-    editUserModalHandleOk() {
-      this.editItem.nama_user = this.inputValueUser
-      this.updateUserById(this.editItem.id, this.editItem)
-      this.editItem = {
-        id: null,
-        id_user: '',
-        nama_user: '',
-      }
-      this.editUserModalVisible = false
-    },
-    editUserModalHandleCancel() {
-      this.editUserModalVisible = false
-    },
-    getUserEdit(id) {
-      const row = this.dataSourceTable.find(data => data.id === id)
-      this.editItem.id = row.id
-      this.editItem.id_user = row.id_user
-      this.editItem.nama_user = row.nama_user
-      this.inputValueUser = row.nama_user
     },
     makeIdUser() {
       let id = ''
@@ -247,18 +218,53 @@ export default {
 
       return id
     },
-    tambahUserBaru() {
+    addNewUsername() {
       const dataForm = {
         id_user: this.makeIdUser(),
-        nama_user: this.userBaru,
+        nama_user: this.newUsername,
       }
       const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
       if (!exist) {
         this.addNewUser(dataForm)
-        this.userBaru = ''
+        notification.success({
+          message: 'Tambah User',
+          description: 'User berhasil ditambah',
+        })
+        this.newUsername = ''
       } else {
-        message.error('User sudah tersedia')
+        notification.warning({
+          message: 'Tambah User',
+          description: 'User sudah tersedia',
+        })
       }
+    },
+    handlePaginationSize(size) {
+      this.pagination.pageSize = size
+    },
+    getUserEdit(id) {
+      const row = this.dataSourceTable.find(data => data.id === id)
+      this.editItem.id = row.id
+      this.editItem.id_user = row.id_user
+      this.editItem.nama_user = row.nama_user
+      this.editUsername = row.nama_user
+    },
+    showUserEditModal(id) {
+      this.getUserEdit(id)
+      this.userEditModalVisible = true
+    },
+    userEditModalHandleOk(newEditUsername) {
+      this.editItem.nama_user = newEditUsername
+      this.updateUserById(this.editItem.id, this.editItem)
+      notification.success({
+          message: 'Update User',
+          description: 'User berhasil diupdate',
+        })
+      this.resetAfterSubmit()
+      this.userEditModalVisible = false
+    },
+    resetAfterSubmit() {
+      this.editItem = {}
+      this.editUsername = ''
     },
   },
 }

@@ -1,60 +1,81 @@
 <template>
-  <div class="card">
+  <div class="card border-radius-card">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
       <a
         class="fa fa-plus-circle fa-lg align-self-center text-white"
-        @click="showModal"
+        @click="tambahJenisPenilaianModalVisible = true"
       />
     </div>
     <div class="card-body">
-      <div class="list-group">
+      <a-collapse
+        accordion
+        :bordered="false"
+        style="background: white !important;"
+        @change="changeActiveKey"
+      >
         <template
-          v-for="survey in list"
-          :key="survey.id"
+          v-for="(survey, i) in list"
+          :key="i + 1"
         >
-          <a
-            class="list-group-item list-group-item-action"
-            @click="getPenilaian(survey.id)"
-          >
-            {{survey.jenis_penilaian}} [{{survey.pertanyaan.length}}]
-          </a>
+          <a-collapse-panel
+            :header="`${survey.jenis_penilaian} [${survey.pertanyaan.length}]`"
+            :show-arrow="false"
+            :style="customStyle"
+            class="text-center"
+            :class="i + 1 === activeKey ? { active: true } : { active: false }"
+            @click="getJenisPenilaianById(survey.id)"
+          />
         </template>
-      </div>
+      </a-collapse>
     </div>
   </div>
-  <a-modal
-    :visible="modalVisible"
-    title="Tambah Jenis Penilaian"
-    @ok="handleOk"
-    @cancel="handleCancel"
-  >
-    <a-form
-      :label-col="{span: 6}"
-      :wrapper-col="{span: 18}"
-    >
-      <a-form-item label="Jenis Penilaian">
-        <a-input
-          placeholder="Masukkan jenis penilaian"
-          v-model:value="inputPenilaianBaru"
-        />
-      </a-form-item>
-    </a-form>
-  </a-modal>
+  <!-- Tambah Jenis Penilaian Modal Start -->
+  <vb-tambah-jenis-penilaian-modal
+    :modal-visible="tambahJenisPenilaianModalVisible"
+    :new-jenis-penilaian="jenisPenilaian"
+    @handle-ok="tambahJenisPenilaianHandleOk"
+    @handle-cancel="tambahJenisPenilaianModalVisible = false"
+  />
+  <!-- Tambah Jenis Penilaian Modal End -->
 </template>
 
 <script>
+import { notification } from 'ant-design-vue'
+import VbTambahJenisPenilaianModal from './modals/TambahJenisPenilaianModal'
+
 export default {
-  props: ['list'],
+  components: {
+    VbTambahJenisPenilaianModal,
+  },
+  props: {
+    list: {
+      type: Array,
+      default: function () {
+        return []
+      },
+    },
+  },
+  emits: [
+    'selectedJenisPenilaian',
+    'addSurvey',
+  ],
   data() {
     return {
-      modalVisible: false,
-      inputPenilaianBaru: '',
+      activeKey: 1,
+      tambahJenisPenilaianModalVisible: false,
+      customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
+      jenisPenilaian: '',
       newSurvey: {},
     }
   },
   methods: {
-    getPenilaian(id) {
+    changeActiveKey(key) {
+      if (!(key === undefined)) {
+        this.activeKey = key
+      }
+    },
+    getJenisPenilaianById(id) {
       const survey = this.list.find(survey => survey.id === id)
       const jenis_penilaian = survey.jenis_penilaian
       const data = {
@@ -62,26 +83,36 @@ export default {
         jenis_penilaian,
         pertanyaan: survey.pertanyaan,
       }
-      this.$emit('selectedPenilaian', data)
+      this.$emit('selectedJenisPenilaian', data)
     },
-    showModal() {
-      this.modalVisible = true
-    },
-    handleOk() {
-      this.modalVisible = false
-      console.log(this.inputPenilaianBaru)
-      this.newSurvey.jenis_penilaian = this.inputPenilaianBaru
+    tambahJenisPenilaianHandleOk(newJenisPenilaian) {
+      this.newSurvey.jenis_penilaian = newJenisPenilaian
       this.newSurvey.pertanyaan = []
       this.$emit('addSurvey', this.newSurvey)
+      notification.success({
+        message: 'Jenis Penilaian',
+        description: 'Jenis penilaian berhasil ditambah',
+      })
       this.resetAfterSubmit()
-    },
-    handleCancel() {
-      this.modalVisible = false
+      this.tambahJenisPenilaianModalVisible = false
     },
     resetAfterSubmit() {
       this.newSurvey = {}
-      this.inputPenilaianBaru = ''
+      this.jenisPenilaian = ''
     },
   },
 }
 </script>
+
+<style>
+.border-radius-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ant-collapse-content .ant-collapse-content-box {
+  padding: 0 !important;
+}
+.active {
+  background: #f0f0f0 !important;
+}
+</style>

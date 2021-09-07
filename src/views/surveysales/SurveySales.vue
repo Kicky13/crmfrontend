@@ -4,24 +4,27 @@
       <vb-jenis-penilaian
         :list="surveyList"
         @add-survey="addNewSurvey"
-        @selected-penilaian="getQuestionList"
+        @selected-jenis-penilaian="fetchQuestionList"
       />
     </a-col>
     <a-col :span="15">
       <vb-daftar-pertanyaan
         :list="questionList"
+        @tambah-pertanyaan="updatePertanyaanById"
+        @hapus-pertanyaan="updateSurveyById"
+        @update-pertanyaan="updateSurveyById"
         @update-survey="updateSurveyById"
-        @update-pertanyaan="updatePertanyaanById"
+        @hapus-jenis-penilaian="deleteSurveyById"
+        @tambah-opsi="updateSurveyById"
       />
     </a-col>
   </a-row>
 </template>
 
 <script>
-import { getSurvey, addSurvey, updateSurvey } from '@/services/connection/survey-sales/api'
+import { getSurvey, addSurvey, updateSurvey, deleteSurvey } from '@/services/connection/survey-sales/api'
 import VbJenisPenilaian from './jenispenilaian/JenisPenilaian'
 import VbDaftarPertanyaan from './daftarpertanyaan/DaftarPertanyaan'
-import { message } from 'ant-design-vue'
 
 export default {
   components: {
@@ -47,31 +50,56 @@ export default {
         this.questionList.pertanyaan = response[0].pertanyaan
       })
     },
+    fetchAfterUpdate() {
+      getSurvey()
+      .then(response => {
+        this.surveyList = response
+      })
+    },
     addNewSurvey(data) {
       addSurvey(data)
       .then(response => {
         console.log(response)
-        this.fetchSurveyList()
-        message.success('Jenis penilaian berhasil ditambahkan')
+        this.fetchAfterUpdate()
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     updateSurveyById(id, data) {
       updateSurvey(id, data)
       .then(response => {
         console.log(response)
-        this.fetchSurveyList()
-        message.success('Jenis penilaian berhasil diupdate')
+        this.fetchAfterUpdate()
+        this.questionList.id = response.id
+        this.questionList.jenis_penilaian = response.jenis_penilaian
+        this.questionList.pertanyaan = response.pertanyaan
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     updatePertanyaanById(id, data) {
       updateSurvey(id, data)
       .then(response => {
         console.log(response)
-        this.fetchSurveyList()
-        message.success('Pertanyaan berhasil ditambahkan')
+        this.fetchAfterUpdate()
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
-    getQuestionList(list) {
+    deleteSurveyById(id) {
+      deleteSurvey(id)
+      .then(response => {
+        console.log(response)
+        this.fetchSurveyList()
+      })
+      .catch(err => {
+        consoel.log(err)
+      })
+    },
+    fetchQuestionList(list) {
       this.questionList = list
     },
   },

@@ -122,7 +122,7 @@ export const getMenuData = [
     title: 'Supervisory Visit',
     key: '78ehnf',
     url: '/sales',
-    icon: 'fa fa-user',
+    icon: 'fa fa-book',
     children: [
       {
         title: 'Master Penilaian Sales',

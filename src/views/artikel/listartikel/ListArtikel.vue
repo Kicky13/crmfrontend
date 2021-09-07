@@ -5,14 +5,14 @@
       :sm="24"
       :md="12"
       :lg="8"
-      v-for="postItem in postItems"
-      :key="postItem.id"
+      v-for="post in posts"
+      :key="post.id"
     >
       <div class="card card-top card-top-primary h-100">
         <div class="card-header d-flex justify-content-between">
           <h5
             class="card-title title-ellipsis"
-            v-text="postItem.post_title"
+            v-text="post.post_title"
           />
           <div class="nav-item dropdown">
             <a-dropdown
@@ -27,13 +27,13 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <router-link :to="{ path: `/marketing/artikel/edit/${postItem.id}` }">
+                  <router-link :to="{ path: `/marketing/artikel/edit/${ post.id }` }">
                     <a-menu-item>
                       <a>Edit</a>
                     </a-menu-item>
                   </router-link>
                   <a-menu-item>
-                    <a @click="deleteConfirm(postItem.id)">Hapus</a>
+                    <a @click="deleteConfirm(post.id)">Hapus</a>
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -41,13 +41,14 @@
           </div>
         </div>
         <div class="card-body pb-0">
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="card-text detail-ellipsis"
-            v-html="postItem.post_detail"
+            v-html="post.post_detail"
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.post_date}} {{postItem.post_time}}</div>
+          <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
           <a-button
             type="primary"
           >
@@ -63,14 +64,25 @@
 import { deletePost } from '@/services/connection/artikel/api'
 
 export default {
-  props:['postItems'],
+  props: {
+    posts: {
+      type: Array,
+      default: function () {
+        return []
+      },
+    },
+  },
+  emits: ['deleteSuccess'],
   methods: {
     deletePostById(id) {
       deletePost(id)
       .then(response => {
         if (response) {
-          this.$emit('deleteMessage')
+          this.$emit('deleteSuccess')
         }
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     deleteConfirm(id) {
@@ -79,8 +91,8 @@ export default {
         title: 'Hapus Berita',
         content: 'Apakah anda yakin?',
         okText: 'Ya',
-        okType: 'primary',
         cancelText: 'Batal',
+        okType: 'primary',
         onOk() {
           deleteMethod(id)
         },
