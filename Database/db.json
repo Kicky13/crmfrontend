@@ -971,9 +971,7 @@
     },
     {
       "jenis_penilaian": "Tahapan 5 - Tutup Penjualan",
-      "pertanyaan": [
-        "Menggunakan Pakaian Bersih dan Rapi"
-      ],
+      "pertanyaan": ["Menggunakan Pakaian Bersih dan Rapi"],
       "id": 5
     },
     {
@@ -1102,6 +1100,124 @@
       "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
+    }
+  ],
+  "customer_mapping": [
+    {
+      "id": 1,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    },
+    {
+      "id": 2,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    }
+  ],
+  "log_sync_customer": [
+    {
+      "id": 1,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 2,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 3,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 4,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 5,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 6,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 7,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 8,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 9,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 10,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 11,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
     }
   ]
 }

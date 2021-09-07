@@ -71,6 +71,11 @@ export const getMenuData = [
         url: '/customerscyn',
       },
       {
+        title: 'Log Sync Customer',
+        key: 'St15Cf',
+        url: '/log-sync-customer',
+      },
+      {
         title: 'Validasi Harga Survey',
         key: 'St14Cf',
         url: '/validasiharga',
