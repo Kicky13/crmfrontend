@@ -183,6 +183,11 @@ const router = createRouter({
           meta: { title: 'Customer Mapping', resource: 'Mapping', action: 'manage' },
           component: () => import('@/views/reportadmin/customermapping'),
         },
+        {
+          path: '/log-sync-customer',
+          meta: { title: 'Log Sync Customer', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/logasyncustomer'),
+        },
         // ========== End of iqbal View ==========
       ],
     },

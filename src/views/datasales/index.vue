@@ -11,10 +11,10 @@
       <div class="card-body">
         <a-form :model="form">
           <a-row>
-            <a-col md="6" class="mr-4">
+            <a-col md="3" class="mr-4">
               <a-form-item label="Region">
                 <a-select v-model:value="formState.regionId" @change="setSelectMethodRegion" placeholder=" -- ALL -- "
-                  style="width: 250px">
+                  style="width: 200px">
                   <a-select-option value="">ALL</a-select-option>
                   <a-select-option v-for="(region,index) in listRegion" :value="region.id" :key="index">
                     {{ region.regionName }}
@@ -22,10 +22,10 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col md="6" class="mr-4">
+            <a-col md="3" class="mr-4">
               <a-form-item label="Provinsi">
                 <a-select v-model:value="formState.provinsiId" @change="setSelectMethodProvinsi"
-                  placeholder=" -- ALL -- " style="width: 250px">
+                  placeholder=" -- ALL -- " style="width: 200px">
                   <a-select-option value="">ALL</a-select-option>
                   <a-select-option v-for="(provinsi,index) in listProvinsi" :value="provinsi.id" :key="index">
                     {{ provinsi.provinsiName }}
@@ -33,9 +33,9 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col md="6" class="mr-4">
+            <a-col md="3" class="mr-4">
               <a-form-item label="Distributor">
-                <a-select v-model:value="formState.distributorId" placeholder=" -- ALL -- " style="width: 250px">
+                <a-select v-model:value="formState.distributorId" placeholder=" -- ALL -- " style="width: 200px">
                   <a-select-option value="">ALL</a-select-option>
                   <a-select-option v-for="(distributor,index) in listDistributor" :value="distributor.id" :key="index">
                     {{ distributor.distributorName }}
@@ -43,15 +43,15 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col md="6" class="mr-4 mb-2">
+            <a-col md="3" class="mr-4 mb-2">
               <a-row>
-                <a-col md="12" class="ml-2 mr-4">
+                <a-col md="6" class="ml-2 mr-4">
                   <a-button type="primary" @click="handleOk()">
                     <i class="fa fa-eye mr-1" />
                     View
                   </a-button>
                 </a-col>
-                <a-col md="11">
+                <a-col md="5">
                   <a-button type="btn btn-success" @click="showModal">
                     <i class="fa fa-download mr-1" />
                     Export
