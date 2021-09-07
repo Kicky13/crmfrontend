@@ -43,6 +43,148 @@
       ]
     }
   ],
+  "regionlock": [
+    {
+      "id": 1,
+      "provinsi": "Jawa Timur",
+      "kabupatens": [
+        {
+          "id": 1,
+          "kabupaten": "Surabaya"
+        },
+        {
+          "id": 2,
+          "kabupaten": "Sidoarjo"
+        },
+        {
+          "id": 3,
+          "kabupaten": "Gresik"
+        },
+        {
+          "id": 4,
+          "kabupaten": "Madura"
+        },
+        {
+          "id": 5,
+          "kabupaten": "Pasuruan"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "provinsi": "Jawa Tengah",
+      "kabupatens": [
+        {
+          "id": 6,
+          "kabupaten": "Solo"
+        },
+        {
+          "id": 7,
+          "kabupaten": "Semarang"
+        },
+        {
+          "id": 8,
+          "kabupaten": "Pekalongan"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "provinsi": "Jawa Barat",
+      "kabupatens": [
+        {
+          "id": 9,
+          "kabupaten": "Bandung"
+        },
+        {
+          "id": 10,
+          "kabupaten": "Bogor"
+        },
+        {
+          "id": 11,
+          "kabupaten": "Bekasi"
+        },
+        {
+          "id": 12,
+          "kabupaten": "Depok"
+        }
+      ]
+    }
+  ],
+  "customerlock": [
+    {
+      "id": 1,
+      "customerid": 1222,
+      "name": "Toko Makmur",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Surabaya",
+      "area": "Area 1",
+      "kecamatan": "Kecamatan 2",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.9027381, 8.923819",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 2,
+      "customerid": 7839,
+      "name": "Toko Maju Jaya",
+      "provinsi": "Jawa Tengah",
+      "kabupaten": "Semarang",
+      "area": "Area 2",
+      "kecamatan": "Kecamatan 1",
+      "alamat": "Jln Abc no 01",
+      "koordinat": "9.7628382, -3.538102",
+      "statuslock": "Unlocked"
+    },
+    {
+      "id": 3,
+      "customerid": 8834,
+      "name": "Toko Besok Tutup",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Gresik",
+      "area": "Area 5",
+      "kecamatan": "Kecamatan 3",
+      "alamat": "Jln Jalan no 5",
+      "koordinat": "-7.526782, 8.1239892",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 4,
+      "customerid": 9092,
+      "name": "Toko Langkah Maju",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Gresik",
+      "area": "Area 3",
+      "kecamatan": "Kecamatan 3",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.872381, 8.0902931",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 5,
+      "customerid": 5525,
+      "name": "Toko ABC",
+      "provinsi": "Jawa Tengah",
+      "kabupaten": "Solo",
+      "area": "Area 8",
+      "kecamatan": "Kecamatan 9",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-6.28938222, 3.9882392",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 6,
+      "customerid": 7231,
+      "name": "Toko Terbaik",
+      "provinsi": "Jawa Barat",
+      "kabupaten": "Bandung",
+      "area": "Area 6",
+      "kecamatan": "Kecamatan 8",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.9027381, 8.923819",
+      "statuslock": "Unlocked"
+    }
+  ],
   "roles": [
     {
       "role": "admin",
@@ -90,6 +232,15 @@
       "email": "burhan@gmail.com",
       "nohp": "08287231498",
       "id": 3
+    },
+    {
+      "name": "Kikik",
+      "username": "kikik13",
+      "password": "12123",
+      "email": "demo@visualbuilder.user",
+      "nohp": "083923231212",
+      "userid": 1341,
+      "id": 4
     }
   ],
   "permissions": [
