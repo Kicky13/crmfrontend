@@ -45,10 +45,10 @@
   ],
   "roles": [
     {
-      "id": 1,
       "role": "admin",
-      "code": "A29CG",
-      "createdAt": "02/03/2021"
+      "code": "A29AA",
+      "createdAt": "06/04/2021",
+      "id": 1
     },
     {
       "id": 2,
@@ -61,24 +61,35 @@
       "role": "admintoko",
       "code": "AC756",
       "createdAt": "06/04/2021"
+    }
+  ],
+  "usercrm": [
+    {
+      "userid": 2231,
+      "name": "Adam",
+      "username": "adam13",
+      "password": "dcdcda123",
+      "email": "adam@gmail.com",
+      "nohp": "08293819238",
+      "id": 1
     },
     {
-      "role": "AFA1",
-      "code": "456789",
-      "createdAt": "06/04/2021",
-      "id": 4
+      "userid": 3211,
+      "name": "Ahmad",
+      "username": "ahmad03",
+      "password": "dcdcda123",
+      "email": "ahmad@gmail.com",
+      "nohp": "08288873328",
+      "id": 2
     },
     {
-      "role": "TEST",
-      "code": "8732892",
-      "createdAt": "06/04/2021",
-      "id": 5
-    },
-    {
-      "role": "TEST2",
-      "code": "3828383",
-      "createdAt": "06/04/2021",
-      "id": 6
+      "userid": 6736,
+      "name": "Burhan",
+      "username": "burhan24",
+      "password": "dcdcda123",
+      "email": "burhan@gmail.com",
+      "nohp": "08287231498",
+      "id": 3
     }
   ],
   "permissions": [
@@ -568,6 +579,16 @@
       "id": 4,
       "distrik": "Jogjakarta",
       "status": "active"
+    },
+    {
+      "id": 5,
+      "distrik": "Jakarta",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "distrik": "Sumatra",
+      "status": "active"
     }
   ],
   "tahun": [
@@ -791,6 +812,13 @@
   ],
   "settingradius": [
     {
+      "id": 1,
+      "rownum": 1,
+      "distrikid": 1000872678,
+      "distrikname": "Jawa Timur",
+      "radius": 1000000
+    },
+    {
       "id": 2,
       "rownum": 2,
       "distrikid": 1000872678,
@@ -803,6 +831,13 @@
       "distrikid": 1000872678,
       "distrikname": "Jawa Barat",
       "radius": 1000000
+    },
+    {
+      "id": 4,
+      "rownum": null,
+      "distrikid": 4,
+      "distrikname": "Jogjakarta",
+      "radius": 15000
     }
   ],
   "distributor": [
@@ -842,6 +877,115 @@
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "failed"
+    }
+  ],
+  "user": [
+    {
+      "id_user": "2234",
+      "nama_user": "Admin SMI",
+      "id": 2
+    },
+    {
+      "id_user": "3234",
+      "nama_user": "General Sales Manager",
+      "id": 3
+    },
+    {
+      "id_user": "4234",
+      "nama_user": "Regional Sales Manager",
+      "id": 4
+    },
+    {
+      "id_user": "5576",
+      "nama_user": "Area Sales Manager",
+      "id": 5
+    },
+    {
+      "id_user": "6657",
+      "nama_user": "Teritory Sales Officer",
+      "id": 6
+    },
+    {
+      "id_user": "7344",
+      "nama_user": "Sales Distributor",
+      "id": 7
+    },
+    {
+      "id_user": "1234",
+      "nama_user": "Distributor",
+      "id": 8
+    }
+  ],
+  "survey": [
+    {
+      "jenis_penilaian": "Tahapan 1 - Perencanaan dan Persiapan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog",
+        "Membawa Data Tagihan",
+        "Membawa Form Pemesanan dan Form Stock Card",
+        "Membawa Brosur / e-Brosur",
+        "Tujuan Smart (Memiliki Tujuan yang Spesifik)",
+        "Tujuan Mampu Diukur",
+        "Memiliki Tujuan yang Ambisius",
+        "Memiliki Tujuan yang Realistis",
+        "Memiliki Tujuan yang Jelas Tenggat Waktu"
+      ],
+      "id": 1
+    },
+    {
+      "jenis_penilaian": "Tahapan 2 - Membuka Kunjungan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog",
+        "Membawa Data Tagihan"
+      ],
+      "id": 2
+    },
+    {
+      "jenis_penilaian": "Tahapan 3 - Menentukan Kebutuhan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog"
+      ],
+      "id": 3
+    },
+    {
+      "jenis_penilaian": "Tahapan 4 - Presentasi",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail"
+      ],
+      "id": 4
+    },
+    {
+      "jenis_penilaian": "Tahapan 5 - Tutup Penjualan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi"
+      ],
+      "id": 5
+    },
+    {
+      "jenis_penilaian": "Tahapan 6 - Membuat Laporan",
+      "pertanyaan": [
+        "Menggunakan Pakaian Bersih dan Rapi",
+        "Penggunaan Sepatu",
+        "Penggunaan Pena dan Kalkulator",
+        "Penggunaan Sistem / Aplikasi CRM Retail",
+        "Membawa Katalog Promosi / e-Katalog"
+      ],
+      "id": 6
     }
   ],
   "ListSelectproduk": [
@@ -965,12 +1109,31 @@
     "idsales": 1000,
     "namasales": "Semen Gresik",
     "username": "47500",
-    "regionId": "52500",
-    "regionName": "52500",
-    "provinsiId": "60000",
-    "provinsiName": "60000",
-    "distributorid": "62000",
-    "distributorName": "62000",
+    "regionId": "1",
+    "regionName": "Region 1",
+    "provinsiId": "1",
+    "provinsiName": "DKI JAKARTA",
+    "distributorid": "1",
+    "distributorName": "PT. Maju Jaya Purnama I",
+    "namaSO": "active",
+    "namaSM": "active",
+    "namaSSM": "active",
+    "namaGSM": "active",
+    "areaId": "active",
+    "areaName": "active",
+    "distrikId": "active",
+    "distrikName": "active"
+    }, {
+      "id": 2,
+      "idsales": 1987,
+      "namasales": "Dynamix",
+      "username": "47500",
+      "regionId": "2",
+      "regionName": "Region 2",
+      "provinsiId": "2",
+      "provinsiName": "BOGOR",
+      "distributorid": "2",
+      "distributorName": "PT. Maju Jaya Purnama II",
     "namaSO": "active",
     "namaSM": "active",
     "namaSSM": "active",
@@ -1004,7 +1167,7 @@
   "provinsi": [{
       "id": 1,
       "provinsiName": "DKI JAKARTA",
-      "regionId": 21,
+      "regionId": 1,
       "deleteMark": 0
     },
     {
@@ -1047,7 +1210,7 @@
     {
       "id": 3,
       "distributorName": "PT. Maju Jaya Purnama III",
-      "provinsiId": 3,
+      "provinsiId": 1,
       "deleteMark": 0
     },
     {

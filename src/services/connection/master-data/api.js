@@ -24,7 +24,7 @@ export async function getDistrikList() {
 
 export async function getProvinsiList(regionId = '') {
     return apiClient
-    .get('/provinsi/' + regionId)
+    .get('/provinsi?regionId=' + regionId)
     .then(response => {
         if (response) {
             return response.data
@@ -42,9 +42,9 @@ export async function getRegionList() {
         return false
     })
 }
-export async function getdistributorSBIList(provinsiId) {
+export async function getdistributorSBIList(provinsiId = '') {
     return apiClient
-    .get('/distributorSBI/' + provinsiId)
+    .get('/distributorSBI?provinsiId=' + provinsiId)
     .then(response => {
         if (response) {
             return response.data

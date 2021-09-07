@@ -32,12 +32,20 @@ const router = createRouter({
         // Fauzan ============ Start ===================>>
         {
           path: '/radiusdistrik',
-          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          meta: {
+            title: 'Mapping Customer',
+            resource: 'Settings & Configuration',
+            action: 'manage',
+          },
           component: () => import('@/views/radiusdistrik/radiusdistrikindex'),
         },
         {
           path: '/mappingcustomer',
-          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          meta: {
+            title: 'Mapping Customer',
+            resource: 'Settings & Configuration',
+            action: 'manage',
+          },
           component: () => import('@/views/mappingcustomer/mappingcustomerindex'),
         },
         {
@@ -51,6 +59,7 @@ const router = createRouter({
           component: () => import('@/views/otomatisasivisitplan/otomatisasivisitplanindex'),
         },
         // Fauzan ============ End ===================>>
+        // ========== Start of Varis View ==========
         {
           path: '/marketing/artikel',
           meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
@@ -67,6 +76,17 @@ const router = createRouter({
           component: () => import('@/views/artikel/edit/Edit'),
         },
         {
+          path: '/user/level_user',
+          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
+          component: () => import('@/views/leveluser/LevelUser'),
+        },
+        {
+          path: '/sales/survey_sales',
+          meta: { title: 'Survey Sales', resource: 'Survey Sales', action: 'manage' },
+          component: () => import('@/views/surveysales/SurveySales'),
+        },
+        // ========== End of Varis View ==========
+        {
           path: '/marketing/program',
           meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
           component: () => import('@/views/program'),
@@ -81,11 +101,6 @@ const router = createRouter({
           meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
           component: () => import('@/views/program/edit/Edit'),
         },
-        {
-          path: '/user/level_user',
-          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
-          component: () => import('@/views/user/LevelUser'),
-        },
         // Kikik ====================================================================
         {
           path: '/roles',
@@ -99,12 +114,12 @@ const router = createRouter({
           component: () => import('@/views/roles/forms/Insert'),
         },
         {
-            path: '/roles/update',
-            name: 'roles-update',
-            props: true,
-            meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
-            component: () => import('@/views/roles/forms/Update'),
-          },
+          path: '/roles/update',
+          name: 'roles-update',
+          props: true,
+          meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/roles/forms/Update'),
+        },
         {
           path: '/permissions',
           meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
@@ -128,13 +143,19 @@ const router = createRouter({
           component: () => import('@/views/assignrole/forms/Insert'),
         },
         {
-            path: '/assignrole/update',
-            name: 'assignrole-update',
-            props: true,
-            meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
-            component: () => import('@/views/assignrole/forms/Update'),
-          },
-          // Kikik ============================================================================
+          path: '/assignrole/update',
+          name: 'assignrole-update',
+          props: true,
+          meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+          component: () => import('@/views/assignrole/forms/Update'),
+        },
+        {
+          path: '/users',
+          name: 'user-management',
+          meta: { title: 'User Management', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/User'),
+        },
+        // Kikik ============================================================================
         /*  ROBI VIEW */
         {
           path: '/customerscyn',
@@ -148,12 +169,21 @@ const router = createRouter({
           meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/validasiharga'),
         },
+
         {
           path: '/datasales',
           name: 'data-sales',
           meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
           component: () => import('@/views/datasales'),
         },
+
+        // ========== Start of Iqbal View ==========
+        {
+          path: '/report/customer_mapping',
+          meta: { title: 'Customer Mapping', resource: 'Mapping', action: 'manage' },
+          component: () => import('@/views/reportadmin/customermapping'),
+        },
+        // ========== End of iqbal View ==========
       ],
     },
 
@@ -255,9 +285,9 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if (canNavigate(to)) {
-        next()
+      next()
     } else {
-        next({ name: 'route500' })
+      next({ name: 'route500' })
     }
   }
 })

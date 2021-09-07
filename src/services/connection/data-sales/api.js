@@ -71,9 +71,9 @@ export async function getNamaProdukList(id) {
       return false
     })
 }
-export async function showpost(id) {
+export async function tableFilter(regionId,provinsiId,distributorId) {
     return apiClient
-    .get('/produk/' + id)
+    .get('/datasales?regionId=' + regionId + '&provinsiId=' + provinsiId + '&distributorid=' + distributorId)
     .then(response => {
       if (response) {
         return response.data
