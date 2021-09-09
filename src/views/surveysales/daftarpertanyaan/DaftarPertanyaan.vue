@@ -31,6 +31,7 @@
     </div>
     <div class="card-body">
       <a-collapse
+        accordion
         v-model="activeKey"
         :bordered="false"
         style="background: white !important;"
@@ -54,7 +55,7 @@
               />
               <a
                 class="btn btn-outline-danger fa fa-trash"
-                @click="hapusPertanyaan(i)"
+                @click="hapusPertanyaan(question)"
               />
             </div>
           </div>
@@ -68,10 +69,15 @@
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
-            <template #action>
+            <template #action="{ text }">
               <div>
-                <i class="btn btn-warning fa fa-pencil-square-o mr-1" />
-                <i class="btn btn-outline-danger fa fa-trash" />
+                <a
+                  class="btn btn-warning fa fa-pencil-square-o mr-1"
+                />
+                <i
+                  class="btn btn-outline-danger fa fa-trash"
+                  @click="hapusJawaban(i, text)"
+                />
               </div>
             </template>
           </a-table>
@@ -79,15 +85,6 @@
       </a-collapse>
     </div>
   </div>
-  <!-- Tambah Pertanyaan Modal Start -->
-  <vb-tambah-pertanyaan-modal
-    :modal-visible="tambahPertanyaanModalVisible"
-    :jenis-penilaian-title="list.jenis_penilaian"
-    :new-pertanyaan="pertanyaan"
-    @handle-ok="tambahPertanyaanModalHandleOk"
-    @handle-cancel="tambahPertanyaanModalVisible = false"
-  />
-  <!-- Tambah Pertanyaan Modal End -->
   <!-- Start of Edit Jenis Penilaian Modal -->
   <vb-edit-jenis-penilaian-modal
     :modal-visible="editJenisPenilaianModalVisible"
@@ -96,6 +93,15 @@
     @handle-cancel="editJenisPenilaianModalVisible = false"
   />
   <!-- End of Edit Jenis Penilaian Modal -->
+  <!-- Start of Tambah Pertanyaan Modal -->
+  <vb-tambah-pertanyaan-modal
+    :modal-visible="tambahPertanyaanModalVisible"
+    :jenis-penilaian-title="list.jenis_penilaian"
+    :new-pertanyaan="pertanyaan"
+    @handle-ok="tambahPertanyaanModalHandleOk"
+    @handle-cancel="tambahPertanyaanModalVisible = false"
+  />
+  <!-- End of Tambah Pertanyaan Modal End -->
   <!-- Start of Edit Pertanyaan Modal -->
   <vb-edit-pertanyaan-modal
     :modal-visible="editPertanyaanModalVisible"
@@ -105,36 +111,14 @@
   />
   <!-- End of Edit Pertanyaan Modal -->
   <!-- Start of Tambah Opsional Jawaban Modal -->
-  <a-modal
-    :visible="tambahOpsionalModalVisible"
-    :title="`Tambah Opsional Jawaban [${judulPertanyaan}]`"
-    @ok="tambahOpsionalModalHandleOk"
-    @cancel="tambahOpsionalModalVisible = false"
-  >
-    <a-form
-      :label-col="{span: 6}"
-      :wrapper-col="{span: 18}"
-    >
-      <a-form-item
-        label="Pertanyaan"
-        label-align="left"
-      >
-        <a-input
-          placeholder="Masukkan opsi jawaban"
-          v-model:value="opsi"
-        />
-      </a-form-item>
-      <a-form-item
-        label="Poin"
-        label-align="left"
-      >
-        <a-input
-          placeholder="Masukkan poin"
-          v-model:value="point"
-        />
-      </a-form-item>
-    </a-form>
-  </a-modal>
+  <vb-tambah-opsional-jawaban
+    :modal-visible="tambahOpsionalModalVisible"
+    :pertanyaan-title="judulPertanyaan"
+    :new-jawaban="opsi"
+    :new-poin="poin"
+    @handle-ok="tambahOpsionalModalHandleOk"
+    @handle-cancel="tambahOpsionalModalVisible = false"
+  />
   <!-- End of Tambah Opsional Jawaban Modal -->
 </template>
 
@@ -142,28 +126,24 @@
 import VbTambahPertanyaanModal from './modals/TambahPertanyaanModal'
 import VbEditPertanyaanModal from './modals/EditPertanyaanModal'
 import VbEditJenisPenilaianModal from './modals/EditJenisPenilaianModal'
+import VbTambahOpsionalJawaban from './modals/TambahOpsionalJawabanModal'
 import { notification } from 'ant-design-vue'
 
 const columns = [
-  {
-    title: 'No.',
-    dataIndex: 'no',
-    key: 'no',
-  },
   {
     title: 'Jawaban',
     dataIndex: 'title',
     key: 'title',
   },
   {
-    title: 'Point',
-    dataIndex: 'point',
-    key: 'point',
+    title: 'Poin',
+    dataIndex: 'poin',
+    key: 'poin',
   },
   {
     title: 'Action',
-    dataIndex: 'id',
-    key: 'id',
+    dataIndex: 'key',
+    key: 'key',
     slots: { customRender: 'action' },
   },
 ]
@@ -173,6 +153,7 @@ export default {
     VbTambahPertanyaanModal,
     VbEditPertanyaanModal,
     VbEditJenisPenilaianModal,
+    VbTambahOpsionalJawaban,
   },
   props: {
     list: {
@@ -185,6 +166,10 @@ export default {
   emits: [
     'tambahPertanyaan',
     'updateSurvey',
+    'updatePertanyaan',
+    'tambahOpsi',
+    'hapusPertanyaan',
+    'hapusJenisPenilaian',
   ],
   setup() {
     return {
@@ -201,14 +186,14 @@ export default {
       indexPertanyaan: null,
       editJenisPenilaian: '',
       opsi: '',
-      point: '',
+      poin: '',
       customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
       tempData: {},
       dataSourceTable: [],
     }
   },
   methods: {
-    // Start of Show Modal
+    // ========== Start of Show Modal ==========
     showEditJenisPenilaianModal() {
       this.editJenisPenilaianModalVisible = true
       this.editJenisPenilaian = this.list.jenis_penilaian
@@ -223,19 +208,19 @@ export default {
       this.indexPertanyaan = i
       this.judulPertanyaan = pertanyaan
     },
-    // End of Show Modal
-    // Start of Handle Ok
+    // ========== End of Show Modal ==========
+    // ========== Start of Handle Ok ==========
     tambahPertanyaanModalHandleOk(newPertanyaan) {
       const pertanyaanData = {}
       pertanyaanData.title = newPertanyaan
       pertanyaanData.jawaban = [
         {
           title: "Ya",
-          point: 1,
+          poin: 1,
         },
         {
           title: "Tidak",
-          point: 0,
+          poin: 0,
         },
       ]
       this.tempData = this.list
@@ -273,10 +258,10 @@ export default {
       this.resetAfterSubmit()
       this.editPertanyaanModalVisible = false
     },
-    tambahOpsionalModalHandleOk() {
+    tambahOpsionalModalHandleOk(data) {
       const opsi = {
-        title: this.opsi,
-        point: this.point,
+        title: data.jawaban,
+        poin: data.poin,
       }
       this.tempData.id = this.list.id
       this.tempData.jenis_penilaian = this.list.jenis_penilaian
@@ -290,7 +275,26 @@ export default {
       this.resetAfterSubmit()
       this.tambahOpsionalModalVisible = false
     },
-    // End of Handle Cancel
+    // ========== End of Handle Cancel ==========
+    // ========== Start of Delete Modal ==========
+    hapusJenisPenilaian() {
+      const list = this.$props.list
+      const obj = this
+      this.$confirm({
+        title: 'Hapus Jenis Penilaian',
+        content: 'Apakah anda yakin?',
+        okText: 'Ya',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk() {
+          obj.$emit('hapusJenisPenilaian', list.id)
+          notification.success({
+            message: 'Hapus Jenis Penilaian',
+            description: 'Jenis penilaian berhasil dihapus',
+          })
+        },
+      });
+    },
     hapusPertanyaan(i) {
       const list = this.$props.list
       const obj = this
@@ -310,24 +314,26 @@ export default {
         },
       });
     },
-    hapusJenisPenilaian() {
+    hapusJawaban(i, e) {
       const list = this.$props.list
       const obj = this
+      const indexJawaban = list.pertanyaan[i].jawaban
       this.$confirm({
-        title: 'Hapus Jenis Penilaian',
+        title: 'Hapus Jawaban',
         content: 'Apakah anda yakin?',
         okText: 'Ya',
         okType: 'primary',
         cancelText: 'Batal',
         onOk() {
-          obj.$emit('hapusJenisPenilaian', list.id)
+          console.log(list.pertanyaan[i].jawaban)
           notification.success({
-            message: 'Hapus Jenis Penilaian',
-            description: 'Jenis penilaian berhasil dihapus',
+            message: 'Hapus Jawaban',
+            description: 'Jawaban berhasil dihapus',
           })
         },
       });
     },
+    // ========== Start of Delete Modal ==========
     resetAfterSubmit() {
       this.pertanyaan = ''
       this.tempData = {}

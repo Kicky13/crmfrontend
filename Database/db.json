@@ -934,12 +934,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -947,12 +949,14 @@
           "title": "Penggunaan Sepatu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -960,12 +964,14 @@
           "title": "Penggunaan Pena dan Kalkulator",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -973,12 +979,14 @@
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -986,12 +994,14 @@
           "title": "Membawa Katalog Promosi / e-Katalog",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -999,12 +1009,14 @@
           "title": "Membawa Data Tagihan",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1012,12 +1024,14 @@
           "title": "Membawa Form Pemesanan dan Form Stock Card",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1025,12 +1039,14 @@
           "title": "Membawa Brosur / e-Brosur",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1038,12 +1054,14 @@
           "title": "Tujuan Smart (Memiliki Tujuan yang Spesifik)",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1051,12 +1069,14 @@
           "title": "Memiliki Tujuan yang Ambisius",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1064,12 +1084,14 @@
           "title": "Memiliki Tujuan yang Realistis",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1077,12 +1099,14 @@
           "title": "Memiliki Tujuan yang Jelas Tenggat Waktu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1096,12 +1120,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1109,12 +1135,14 @@
           "title": "Penggunaan Sepatu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1122,12 +1150,14 @@
           "title": "Penggunaan Pena dan Kalkulator",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1135,12 +1165,14 @@
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1148,12 +1180,14 @@
           "title": "Membawa Katalog Promosi / e-Katalog",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1161,12 +1195,14 @@
           "title": "Membawa Data Tagihan",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1180,12 +1216,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1193,12 +1231,14 @@
           "title": "Penggunaan Sepatu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1206,12 +1246,14 @@
           "title": "Penggunaan Pena dan Kalkulator",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1219,12 +1261,14 @@
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1232,12 +1276,14 @@
           "title": "Membawa Katalog Promosi / e-Katalog",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1251,12 +1297,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1264,12 +1312,14 @@
           "title": "Penggunaan Sepatu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1277,12 +1327,14 @@
           "title": "Penggunaan Pena dan Kalkulator",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1290,12 +1342,14 @@
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1309,12 +1363,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1328,12 +1384,14 @@
           "title": "Menggunakan Pakaian Bersih dan Rapi",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1341,12 +1399,14 @@
           "title": "Penggunaan Sepatu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1354,12 +1414,14 @@
           "title": "Penggunaan Pena dan Kalkulator",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1367,12 +1429,14 @@
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         },
@@ -1380,12 +1444,14 @@
           "title": "Membawa Katalog Promosi / e-Katalog",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
@@ -1400,16 +1466,14 @@
           "title": "Pertanyaan Satu",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
-            },
-            {
-              "title": "Opsional Baru",
-              "point": "3"
+              "poin": "0"
             }
           ]
         },
@@ -1417,12 +1481,19 @@
           "title": "Pertanyaan Dua Update",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
+            },
+            {
+              "key": 3,
+              "title": "Jawaban Baru",
+              "poin": "3"
             }
           ]
         },
@@ -1430,12 +1501,14 @@
           "title": "Pertanyaan Tiga",
           "jawaban": [
             {
+              "key": 1,
               "title": "Ya",
-              "point": 1
+              "poin": "1"
             },
             {
+              "key": 2,
               "title": "Tidak",
-              "point": 0
+              "poin": "0"
             }
           ]
         }
