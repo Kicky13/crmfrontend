@@ -101,6 +101,35 @@ export const getMenuData = [
     ],
   },
   {
+
+    category: true,
+    title: 'Report Admin',
+    key: '2h83ot12',
+  },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+  {
     title: 'Roles & Permissions',
     key: '82hska',
     url: '/roles-permissions',
@@ -133,19 +162,6 @@ export const getMenuData = [
         title: 'Master Penilaian Sales',
         key: '8sugn8',
         url: '/sales/survey_sales',
-      },
-    ],
-  },
-  {
-    title: 'Report Admin',
-    key: '12seaw',
-    url: '/report',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Customer Mapping',
-        key: '12sa2s',
-        url: '/report/customer_mapping',
       },
     ],
   },
