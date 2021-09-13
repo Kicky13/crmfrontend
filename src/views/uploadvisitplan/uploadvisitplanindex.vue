@@ -53,7 +53,11 @@
             </template>
           </a-table>
         </div>
-        <a-button type="primary" class="mb-3 float-right">
+
+        <a-button
+          type="primary"
+          :class="permissions.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
+        >
           <i class="fa fa-upload mr-2" />
           Commit to Database
         </a-button>
