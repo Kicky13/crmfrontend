@@ -169,6 +169,14 @@ const router = createRouter({
           meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/validasiharga'),
         },
+
+        {
+          path: '/datasales',
+          name: 'data-sales',
+          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          component: () => import('@/views/datasales'),
+        },
+
         // ========== Start of Iqbal View ==========
         {
           path: '/report/customer_mapping',
