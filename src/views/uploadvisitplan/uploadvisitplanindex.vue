@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div>
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Import Visit Plan Sales Distributor</strong>
@@ -7,30 +7,25 @@
       <div class="card-body">
         <div class="col-xs-12 col-md-12" style="margin-bottom: 10px;">
           <strong>Lihat Data</strong> : Sales Distributor dan Mapping Toko
-          <a-button
-            type="primary"
-            class="mb-3"
-          >
+          <a-button type="primary" class="mb-3">
             Disini
           </a-button>
         </div>
-        <a-button
-          type="primary"
-          class="mb-3"
-        >
+        <a-button type="primary" class="mb-3">
           <i class="fa fa-download mr-2" />
           Download Template Visit Plan
         </a-button>
-        
-        <a-button
-          type="primary"
-          class="mb-3 float-right"
-        >
+
+        <a-button type="primary" class="mb-3 float-right">
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
         <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
+          <a-input
+            type="file"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            placeholder="Pilih File yang Akan diupload"
+          />
         </a-form-item>
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }" row-key="id">
@@ -38,10 +33,10 @@
               <a href="javascript:;">{{ text }}</a>
             </template>
             <template #days="{ text }">
-              <div v-if="text==istrue">
-                <a-checkbox checked="true"/>
-              </div>              
-              <div v-else-if="text==isfalse">
+              <div v-if="text == istrue">
+                <a-checkbox checked="true" />
+              </div>
+              <div v-else-if="text == isfalse">
                 <a-checkbox checked="true" disabled />
               </div>
             </template>
@@ -58,10 +53,7 @@
             </template>
           </a-table>
         </div>
-        <a-button
-          type="primary"
-          class="mb-3 float-right"
-        >
+        <a-button type="primary" class="mb-3 float-right">
           <i class="fa fa-upload mr-2" />
           Commit to Database
         </a-button>
@@ -176,14 +168,14 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
         },
       }),
     }
-    const fileList = [];
+    const fileList = []
     return {
       columns,
       rowSelection,
@@ -214,25 +206,25 @@ export default {
     },
     deleteAll() {},
     deleteRow(id) {
-      console.log("Deleted ID: " + id)
+      console.log('Deleted ID: ' + id)
       deletePermission(id)
-      .then(response => {
-        console.log(response)
-        const dataSource = [...this.permissions]
-        this.permissions = dataSource.filter(item => item.id !== id)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+        .then(response => {
+          console.log(response)
+          const dataSource = [...this.permissions]
+          this.permissions = dataSource.filter(item => item.id !== id)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
     fetchGetPermissions() {
       getPermissionList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.permissions = response
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
