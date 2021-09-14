@@ -1,6 +1,5 @@
 {
-  "users": [
-    {
+  "users": [{
       "id": 1,
       "email": "demo@visualbuilder.cloud",
       "password": "VisualBuilder",
@@ -8,12 +7,10 @@
       "avatar": "",
       "role": "admin",
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
-      "ability": [
-        {
-          "action": "manage",
-          "subject": "all"
-        }
-      ]
+      "ability": [{
+        "action": "manage",
+        "subject": "all"
+      }]
     },
     {
       "id": 2,
@@ -23,8 +20,7 @@
       "avatar": "",
       "role": "user",
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
-      "ability": [
-        {
+      "ability": [{
           "action": "manage",
           "subject": "Dashboard"
         },
@@ -43,150 +39,7 @@
       ]
     }
   ],
-  "regionlock": [
-    {
-      "id": 1,
-      "provinsi": "Jawa Timur",
-      "kabupatens": [
-        {
-          "id": 1,
-          "kabupaten": "Surabaya"
-        },
-        {
-          "id": 2,
-          "kabupaten": "Sidoarjo"
-        },
-        {
-          "id": 3,
-          "kabupaten": "Gresik"
-        },
-        {
-          "id": 4,
-          "kabupaten": "Madura"
-        },
-        {
-          "id": 5,
-          "kabupaten": "Pasuruan"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "provinsi": "Jawa Tengah",
-      "kabupatens": [
-        {
-          "id": 6,
-          "kabupaten": "Solo"
-        },
-        {
-          "id": 7,
-          "kabupaten": "Semarang"
-        },
-        {
-          "id": 8,
-          "kabupaten": "Pekalongan"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "provinsi": "Jawa Barat",
-      "kabupatens": [
-        {
-          "id": 9,
-          "kabupaten": "Bandung"
-        },
-        {
-          "id": 10,
-          "kabupaten": "Bogor"
-        },
-        {
-          "id": 11,
-          "kabupaten": "Bekasi"
-        },
-        {
-          "id": 12,
-          "kabupaten": "Depok"
-        }
-      ]
-    }
-  ],
-  "customerlock": [
-    {
-      "id": 1,
-      "customerid": 1222,
-      "name": "Toko Makmur",
-      "provinsi": "Jawa Timur",
-      "kabupaten": "Surabaya",
-      "area": "Area 1",
-      "kecamatan": "Kecamatan 2",
-      "alamat": "Jln Ikan cupang no 11",
-      "koordinat": "-7.9027381, 8.923819",
-      "statuslock": "Locked"
-    },
-    {
-      "id": 2,
-      "customerid": 7839,
-      "name": "Toko Maju Jaya",
-      "provinsi": "Jawa Tengah",
-      "kabupaten": "Semarang",
-      "area": "Area 2",
-      "kecamatan": "Kecamatan 1",
-      "alamat": "Jln Abc no 01",
-      "koordinat": "9.7628382, -3.538102",
-      "statuslock": "Unlocked"
-    },
-    {
-      "id": 3,
-      "customerid": 8834,
-      "name": "Toko Besok Tutup",
-      "provinsi": "Jawa Timur",
-      "kabupaten": "Gresik",
-      "area": "Area 5",
-      "kecamatan": "Kecamatan 3",
-      "alamat": "Jln Jalan no 5",
-      "koordinat": "-7.526782, 8.1239892",
-      "statuslock": "Locked"
-    },
-    {
-      "id": 4,
-      "customerid": 9092,
-      "name": "Toko Langkah Maju",
-      "provinsi": "Jawa Timur",
-      "kabupaten": "Gresik",
-      "area": "Area 3",
-      "kecamatan": "Kecamatan 3",
-      "alamat": "Jln Ikan cupang no 11",
-      "koordinat": "-7.872381, 8.0902931",
-      "statuslock": "Locked"
-    },
-    {
-      "id": 5,
-      "customerid": 5525,
-      "name": "Toko ABC",
-      "provinsi": "Jawa Tengah",
-      "kabupaten": "Solo",
-      "area": "Area 8",
-      "kecamatan": "Kecamatan 9",
-      "alamat": "Jln Ikan cupang no 11",
-      "koordinat": "-6.28938222, 3.9882392",
-      "statuslock": "Locked"
-    },
-    {
-      "id": 6,
-      "customerid": 7231,
-      "name": "Toko Terbaik",
-      "provinsi": "Jawa Barat",
-      "kabupaten": "Bandung",
-      "area": "Area 6",
-      "kecamatan": "Kecamatan 8",
-      "alamat": "Jln Ikan cupang no 11",
-      "koordinat": "-7.9027381, 8.923819",
-      "statuslock": "Unlocked"
-    }
-  ],
-  "roles": [
-    {
+  "roles": [{
       "role": "admin",
       "code": "A29AA",
       "createdAt": "06/04/2021",
@@ -205,8 +58,7 @@
       "createdAt": "06/04/2021"
     }
   ],
-  "usercrm": [
-    {
+  "usercrm": [{
       "userid": 2231,
       "name": "Adam",
       "username": "adam13",
@@ -243,8 +95,7 @@
       "id": 4
     }
   ],
-  "permissions": [
-    {
+  "permissions": [{
       "id": 1,
       "actor": "admin",
       "pagename": "Dashboard",
@@ -301,8 +152,7 @@
       "permission": "read"
     }
   ],
-  "assignuser": [
-    {
+  "assignuser": [{
       "id": 1,
       "name": "Jonn"
     },
@@ -335,8 +185,7 @@
       "name": "Alicia"
     }
   ],
-  "assignrole": [
-    {
+  "assignrole": [{
       "id": 1,
       "user": "Jonn",
       "role": "admin"
@@ -357,8 +206,7 @@
       "id": 5
     }
   ],
-  "posts": [
-    {
+  "posts": [{
       "post_date": "25-08-2021",
       "post_time": "12:14:44",
       "post_title": "Berita Satu Judul Panjang Sekali",
@@ -478,22 +326,19 @@
       }
     }
   ],
-  "posts_program": [
-    {
-      "post_date": "01-09-2021",
-      "post_time": "14:35",
-      "post_title": "Contoh dan Cara Membuat Berita Tentang Virus Corona dan Unsur 5w 1H",
-      "post_slug": "judul_artikel",
-      "post_detail": "<p><span style=\"color: rgb(51, 51, 51);\">COVID-19 di Indonesia saat ini sedang mengalami kenaikan kasus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Salah satu penyebabnya adalah munculnya virus corona muatsi baru yang dikenal dengan varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Sekarang,&nbsp;kembali muncul varian baru, yaitu varian Delta Plus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian Delta Plus ditemukan di Jambi dan Mamuju. Hal ini disampaikan oleh&nbsp;Direktur Lembaga Biologi Molekuler Eijkman Prof Amin Subandrio pada Rabu (28/7/21).</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian ini diidentivikasi sebagai B.1.617.2.1 atau AY.1&nbsp;dan merupakan sub-garis keturunan dari varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Disebut Delta Plus karena varian ini masih berhubungan dengan varian Delta.</span></p>",
-      "startDate": "2021-09-01",
-      "FinishDate": "2021-09-02",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 1
-    }
-  ],
-  "uploadvisitplan": [
-    {
+  "posts_program": [{
+    "post_date": "01-09-2021",
+    "post_time": "14:35",
+    "post_title": "Contoh dan Cara Membuat Berita Tentang Virus Corona dan Unsur 5w 1H",
+    "post_slug": "judul_artikel",
+    "post_detail": "<p><span style=\"color: rgb(51, 51, 51);\">COVID-19 di Indonesia saat ini sedang mengalami kenaikan kasus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Salah satu penyebabnya adalah munculnya virus corona muatsi baru yang dikenal dengan varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Sekarang,&nbsp;kembali muncul varian baru, yaitu varian Delta Plus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian Delta Plus ditemukan di Jambi dan Mamuju. Hal ini disampaikan oleh&nbsp;Direktur Lembaga Biologi Molekuler Eijkman Prof Amin Subandrio pada Rabu (28/7/21).</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian ini diidentivikasi sebagai B.1.617.2.1 atau AY.1&nbsp;dan merupakan sub-garis keturunan dari varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Disebut Delta Plus karena varian ini masih berhubungan dengan varian Delta.</span></p>",
+    "startDate": "2021-09-01",
+    "FinishDate": "2021-09-02",
+    "publication_status": "Draft",
+    "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+    "id": 1
+  }],
+  "uploadvisitplan": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -578,8 +423,7 @@
       "week5": 0
     }
   ],
-  "otomatisasivisitplan": [
-    {
+  "otomatisasivisitplan": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -710,8 +554,7 @@
       "status": "failed"
     }
   ],
-  "distrik": [
-    {
+  "distrik": [{
       "id": 1,
       "distrik": "Jawa Timur",
       "status": "active"
@@ -742,8 +585,7 @@
       "status": "active"
     }
   ],
-  "tahun": [
-    {
+  "tahun": [{
       "id": 2021,
       "tahun": "2021",
       "status": "active"
@@ -754,8 +596,7 @@
       "status": "active"
     }
   ],
-  "bulan": [
-    {
+  "bulan": [{
       "id": 1,
       "bulan": "Januari",
       "status": "active"
@@ -816,8 +657,7 @@
       "status": "active"
     }
   ],
-  "mappingcustomer": [
-    {
+  "mappingcustomer": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -961,8 +801,7 @@
       "status": "success"
     }
   ],
-  "settingradius": [
-    {
+  "settingradius": [{
       "id": 1,
       "rownum": 1,
       "distrikid": 1000872678,
@@ -991,8 +830,7 @@
       "radius": 15000
     }
   ],
-  "distributor": [
-    {
+  "distributor": [{
       "id": 247,
       "distributorname": "PT. Maju Jaya Purnama",
       "alamat": 1000872651,
@@ -1017,21 +855,18 @@
       "status": "active"
     }
   ],
-  "customerscyn": [
-    {
-      "id": 13487,
-      "namatoko": "Robi Tko",
-      "distributor": "PT. Maju Jaya Purnama",
-      "distrik": "Jawa Timur",
-      "tso": "Ahmad Jainuri",
-      "tahun": "2021",
-      "bulan": "Agustus",
-      "njadwal": "150",
-      "status": "failed"
-    }
-  ],
-  "user": [
-    {
+  "customerscyn": [{
+    "id": 13487,
+    "namatoko": "Robi Tko",
+    "distributor": "PT. Maju Jaya Purnama",
+    "distrik": "Jawa Timur",
+    "tso": "Ahmad Jainuri",
+    "tahun": "2021",
+    "bulan": "Agustus",
+    "njadwal": "150",
+    "status": "failed"
+  }],
+  "user": [{
       "id_user": "2234",
       "nama_user": "Admin SMI",
       "id": 2
@@ -1067,8 +902,7 @@
       "id": 8
     }
   ],
-  "survey": [
-    {
+  "survey": [{
       "jenis_penilaian": "Tahapan 1 - Perencanaan dan Persiapan",
       "pertanyaan": [
         "Menggunakan Pakaian Bersih dan Rapi",
@@ -1122,9 +956,7 @@
     },
     {
       "jenis_penilaian": "Tahapan 5 - Tutup Penjualan",
-      "pertanyaan": [
-        "Menggunakan Pakaian Bersih dan Rapi"
-      ],
+      "pertanyaan": ["Menggunakan Pakaian Bersih dan Rapi"],
       "id": 5
     },
     {
@@ -1139,8 +971,7 @@
       "id": 6
     }
   ],
-  "ListSelectproduk": [
-    {
+  "ListSelectproduk": [{
       "id": 1000,
       "namaproduk": "Semen Gresik",
       "issig": true,
@@ -1165,8 +996,7 @@
       "status": "active"
     }
   ],
-  "produk": [
-    {
+  "produk": [{
       "id": 1,
       "idproduk": 1000,
       "namaproduk": "Semen Gresik",
@@ -1253,6 +1083,240 @@
       "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
+    }
+  ],
+
+  "datasales": [{
+    "id": 1,
+    "idsales": 1000,
+    "namasales": "Semen Gresik",
+    "username": "47500",
+    "regionId": "1",
+    "regionName": "Region 1",
+    "provinsiId": "1",
+    "provinsiName": "DKI JAKARTA",
+    "distributorid": "1",
+    "distributorName": "PT. Maju Jaya Purnama I",
+    "namaSO": "active",
+    "namaSM": "active",
+    "namaSSM": "active",
+    "namaGSM": "active",
+    "areaId": "active",
+    "areaName": "active",
+    "distrikId": "active",
+    "distrikName": "active"
+  }, {
+    "id": 2,
+    "idsales": 1987,
+    "namasales": "Dynamix",
+    "username": "47500",
+    "regionId": "2",
+    "regionName": "Region 2",
+    "provinsiId": "2",
+    "provinsiName": "BOGOR",
+    "distributorid": "2",
+    "distributorName": "PT. Maju Jaya Purnama II",
+    "namaSO": "active",
+    "namaSM": "active",
+    "namaSSM": "active",
+    "namaGSM": "active",
+    "areaId": "active",
+    "areaName": "active",
+    "distrikId": "active",
+    "distrikName": "active"
+  }],
+  "region": [{
+      "id": 1,
+      "regionName": "Region 1",
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "regionName": "Region 2",
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "regionName": "Region 3",
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "regionName": "Region 4",
+      "deleteMark": 0
+    }
+  ],
+  "provinsi": [{
+      "id": 1,
+      "provinsiName": "DKI JAKARTA",
+      "regionId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "provinsiName": "BOGOR",
+      "regionId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "provinsiName": "JAWA TENGAH",
+      "regionId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "provinsiName": "JAWA TIMUR",
+      "regionId": 3,
+      "deleteMark": 0
+    },
+    {
+      "id": 5,
+      "provinsiName": "JAWA BARAT",
+      "regionId": 4,
+      "deleteMark": 0
+    }
+  ],
+  "distributorSBI": [{
+      "id": 1,
+      "distributorName": "PT. Maju Jaya Purnama I",
+      "provinsiId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "distributorName": "PT. Maju Jaya Purnama II",
+      "provinsiId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "distributorName": "PT. Maju Jaya Purnama III",
+      "provinsiId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "distributorName": "PT. Maju Jaya Purnama IV",
+      "provinsiId": 4,
+      "deleteMark": 0
+    }
+  ],
+  "customer_mapping": [{
+      "id": 1,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    },
+    {
+      "id": 2,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    }
+  ],
+  "log_sync_customer": [{
+      "id": 1,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 2,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 3,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 4,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 5,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 6,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 7,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 8,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 9,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 10,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 11,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+
     }
   ]
 }

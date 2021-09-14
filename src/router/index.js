@@ -32,12 +32,20 @@ const router = createRouter({
         // Fauzan ============ Start ===================>>
         {
           path: '/radiusdistrik',
-          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          meta: {
+            title: 'Mapping Customer',
+            resource: 'Settings & Configuration',
+            action: 'manage',
+          },
           component: () => import('@/views/radiusdistrik/radiusdistrikindex'),
         },
         {
           path: '/mappingcustomer',
-          meta: { title: 'Mapping Customer', resource: 'Settings & Configuration', action: 'manage' },
+          meta: {
+            title: 'Mapping Customer',
+            resource: 'Settings & Configuration',
+            action: 'manage',
+          },
           component: () => import('@/views/mappingcustomer/mappingcustomerindex'),
         },
         {
@@ -179,6 +187,26 @@ const router = createRouter({
           meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/validasiharga'),
         },
+
+        {
+          path: '/datasales',
+          name: 'data-sales',
+          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          component: () => import('@/views/datasales'),
+        },
+
+        // ========== Start of Iqbal View ==========
+        {
+          path: '/report/customer_mapping',
+          meta: { title: 'Customer Mapping', resource: 'Mapping', action: 'manage' },
+          component: () => import('@/views/reportadmin/customermapping'),
+        },
+        {
+          path: '/log-sync-customer',
+          meta: { title: 'Log Sync Customer', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/logasyncustomer'),
+        },
+        // ========== End of iqbal View ==========
       ],
     },
 

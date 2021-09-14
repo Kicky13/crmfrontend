@@ -76,6 +76,11 @@ export const getMenuData = [
         url: '/customerscyn',
       },
       {
+        title: 'Log Sync Customer',
+        key: 'St15Cf',
+        url: '/log-sync-customer',
+      },
+      {
         title: 'Validasi Harga Survey',
         key: 'St14Cf',
         url: '/validasiharga',
@@ -99,6 +104,35 @@ export const getMenuData = [
         url: '/otomatisasivisit',
       },
     ],
+  },
+  {
+
+    category: true,
+    title: 'Report Admin',
+    key: '2h83ot12',
+  },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
   },
   {
     title: 'Roles & Permissions',
