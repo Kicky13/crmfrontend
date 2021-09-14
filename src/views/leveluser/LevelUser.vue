@@ -44,12 +44,13 @@
           <a-input-search
             placeholder="input search text"
             style="width: 200px"
+            v-model:value="keyword"
           />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="columns"
-            :data-source="dataSourceTable"
+            :data-source="dataTable"
             :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
           >
@@ -140,7 +141,13 @@ export default {
       editUsername: '',
       editItem: {},
       newUsername: '',
+      keyword: '',
     }
+  },
+  computed: {
+    dataTable() {
+      return this.dataSourceTable.filter(dataSource => dataSource.nama_user.toLowerCase().includes(this.keyword.toLowerCase()))
+    },
   },
   mounted() {
     this.fetchUsers()
@@ -265,6 +272,7 @@ export default {
     resetAfterSubmit() {
       this.editItem = {}
       this.editUsername = ''
+      this.keyword = ''
     },
   },
 }

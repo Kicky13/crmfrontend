@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    :title="`Tambah Opsional Jawaban [${ pertanyaanTitle }]`"
+    :title="`Edit Opsional Jawaban [${ pertanyaanTitle }]`"
     :visible="modalVisible"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -42,10 +42,7 @@ export default {
       default: '',
     },
   },
-  emits: [
-    'handleOk',
-    'handleCancel',
-  ],
+  emits: [],
   data() {
     return {
       isNewJawaban: '',
@@ -62,10 +59,9 @@ export default {
   },
   methods: {
     handleOk() {
-      const dataForm = {
-        jawaban: this.isNewJawaban,
-        poin: this.isNewPoin,
-      }
+      const dataForm = {}
+      dataForm.jawaban = this.isNewJawaban
+      dataForm.poin = this.isNewPoin
       this.$emit('handleOk', dataForm)
       this.isNewJawaban = ''
       this.isNewPoin = ''

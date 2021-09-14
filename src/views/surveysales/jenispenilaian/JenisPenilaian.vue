@@ -4,14 +4,14 @@
       <h5 class="text-white">Jenis Penilaian</h5>
       <a
         class="fa fa-plus-circle fa-lg align-self-center text-white"
-        @click="tambahJenisPenilaianModalVisible = true"
+        @click="modalVisible = true"
       />
     </div>
     <div class="card-body">
       <a-collapse
         accordion
-        :bordered="false"
         style="background: white !important;"
+        :bordered="false"
         @change="changeActiveKey"
       >
         <template
@@ -19,25 +19,23 @@
           :key="i + 1"
         >
           <a-collapse-panel
-            :header="`${survey.jenis_penilaian} [${survey.pertanyaan.length}]`"
+            class="text-center"
+            :class="i + 1 === getActiveMenu ? { active: true } : { active: false }"
+            :header="`${ survey.jenis_penilaian } [${ survey.pertanyaan.length }]`"
             :show-arrow="false"
             :style="customStyle"
-            class="text-center"
-            :class="i + 1 === activeKey ? { active: true } : { active: false }"
             @click="getJenisPenilaianById(survey.id)"
           />
         </template>
       </a-collapse>
     </div>
   </div>
-  <!-- Tambah Jenis Penilaian Modal Start -->
   <vb-tambah-jenis-penilaian-modal
-    :modal-visible="tambahJenisPenilaianModalVisible"
+    :modal-visible="modalVisible"
     :new-jenis-penilaian="jenisPenilaian"
-    @handle-ok="tambahJenisPenilaianHandleOk"
-    @handle-cancel="tambahJenisPenilaianModalVisible = false"
+    @handle-ok="handleOk"
+    @handle-cancel="modalVisible = false"
   />
-  <!-- Tambah Jenis Penilaian Modal End -->
 </template>
 
 <script>
@@ -55,50 +53,51 @@ export default {
         return []
       },
     },
+    getActiveMenu: {
+      type: Number,
+      default: 1,
+    },
   },
   emits: [
     'selectedJenisPenilaian',
-    'addSurvey',
+    'addJenisPenilaian',
+    'activeKey',
   ],
   data() {
     return {
+      modalVisible: false,
       activeKey: 1,
-      tambahJenisPenilaianModalVisible: false,
       customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
       jenisPenilaian: '',
-      newSurvey: {},
     }
   },
   methods: {
     changeActiveKey(key) {
       if (!(key === undefined)) {
-        this.activeKey = key
+        this.$emit('activeKey', key)
       }
     },
     getJenisPenilaianById(id) {
       const survey = this.list.find(survey => survey.id === id)
       const jenis_penilaian = survey.jenis_penilaian
+      const pertanyaan = survey.pertanyaan
       const data = {
         id,
         jenis_penilaian,
-        pertanyaan: survey.pertanyaan,
+        pertanyaan,
       }
       this.$emit('selectedJenisPenilaian', data)
     },
-    tambahJenisPenilaianHandleOk(newJenisPenilaian) {
-      this.newSurvey.jenis_penilaian = newJenisPenilaian
-      this.newSurvey.pertanyaan = []
-      this.$emit('addSurvey', this.newSurvey)
+    handleOk(newJenisPenilaian) {
+      const dataForm = {}
+      dataForm.jenis_penilaian = newJenisPenilaian
+      dataForm.pertanyaan = []
+      this.$emit('addJenisPenilaian', dataForm)
       notification.success({
         message: 'Jenis Penilaian',
         description: 'Jenis penilaian berhasil ditambah',
       })
-      this.resetAfterSubmit()
-      this.tambahJenisPenilaianModalVisible = false
-    },
-    resetAfterSubmit() {
-      this.newSurvey = {}
-      this.jenisPenilaian = ''
+      this.modalVisible = false
     },
   },
 }

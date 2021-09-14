@@ -23,7 +23,7 @@
 export default {
   props: {
     modalVisible: Boolean,
-    newJenisPilihan: {
+    newJenisPenilaian: {
       type: String,
       default: '',
     },

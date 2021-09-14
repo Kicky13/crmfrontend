@@ -883,7 +883,7 @@
     {
       "id": 1,
       "id_user": "1209",
-      "nama_user": "Administrator"
+      "nama_user": "Admin"
     },
     {
       "id_user": "2234",
@@ -1460,55 +1460,65 @@
     },
     {
       "id": 7,
-      "jenis_penilaian": "Jenis Penilaian Baru",
+      "jenis_penilaian": "satu",
       "pertanyaan": [
         {
-          "title": "Pertanyaan Satu",
+          "title": "satu satu update",
           "jawaban": [
             {
-              "key": 1,
               "title": "Ya",
-              "poin": "1"
+              "poin": "1",
+              "key": 1
             },
             {
-              "key": 2,
               "title": "Tidak",
-              "poin": "0"
+              "poin": "0",
+              "key": 2
             }
           ]
         },
         {
-          "title": "Pertanyaan Dua Update",
+          "title": "satu dua update",
           "jawaban": [
             {
-              "key": 1,
               "title": "Ya",
-              "poin": "1"
+              "poin": "1",
+              "key": 1
             },
             {
-              "key": 2,
               "title": "Tidak",
-              "poin": "0"
-            },
-            {
-              "key": 3,
-              "title": "Jawaban Baru",
-              "poin": "3"
+              "poin": "0",
+              "key": 2
             }
           ]
         },
         {
-          "title": "Pertanyaan Tiga",
+          "title": "satu tiga update",
           "jawaban": [
             {
-              "key": 1,
               "title": "Ya",
-              "poin": "1"
+              "poin": "1",
+              "key": 1
             },
             {
-              "key": 2,
               "title": "Tidak",
-              "poin": "0"
+              "poin": "0",
+              "key": 2
+            }
+          ]
+        },
+        {
+          "title": "satu empat",
+          "jawaban": [
+            {
+              "title": "Ya",
+              "poin": "1",
+              "key": 1
+            },
+            {
+              "title": "Tidak",
+              "poin": "0",
+              "key": 2
             }
           ]
         }

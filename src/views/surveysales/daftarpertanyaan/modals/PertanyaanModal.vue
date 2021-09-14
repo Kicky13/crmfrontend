@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="Edit Pertanyaan"
+    :title="`${ modalStatus ? 'Tambah Pertanyaan [' + jenisPenilaianTitle + ']' : 'Edit Pertanyaan'}`"
     :visible="modalVisible"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -23,7 +23,12 @@
 export default {
   props: {
     modalVisible: Boolean,
+    modalStatus: Boolean,
     newPertanyaan: {
+      type: String,
+      default: '',
+    },
+    jenisPenilaianTitle: {
       type: String,
       default: '',
     },
@@ -44,7 +49,7 @@ export default {
   },
   methods: {
     handleOk() {
-      this.$emit('handleOk', this.isNewPertanyaan)
+      this.$emit('handleOk', this.modalStatus, this.isNewPertanyaan)
       this.isNewPertanyaan = ''
     },
     handleCancel() {
