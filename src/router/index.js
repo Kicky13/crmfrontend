@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import AuthLayout from '@/layouts/Auth'
 import MainLayout from '@/layouts/Main'
+import LandingPage from '../views/LandingPage'
 import store from '@/store'
 import { canNavigate } from '@/services/ability/routeProtection'
 
@@ -12,8 +13,24 @@ const router = createRouter({
   },
   history: createWebHashHistory(),
   routes: [
+    // ======================= Start Iqbal ====================
     {
       path: '/',
+      name: 'LandingPage',
+      redirect: '/landingpage',
+      component: LandingPage,
+      children: [
+        {
+          path: '/landingpage',
+          name: 'LandingPage',
+          component: () => import(/* webpackChunkName: "landing-page" */ '../views/LandingPage'),
+        },
+      ],
+    },
+    // ======================= Start Iqbal ====================
+
+    {
+      path: '/dashboard',
       name: 'home',
       // VB:REPLACE-NEXT-LINE:ROUTER-REDIRECT
       redirect: '/dashboard',
@@ -292,6 +309,7 @@ router.beforeEach((to, from, next) => {
     if (canNavigate(to)) {
       next()
     } else {
+      console.log(`===================2`, to)
       next({ name: 'route500' })
     }
   }
