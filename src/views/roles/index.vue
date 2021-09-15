@@ -123,7 +123,7 @@ export default {
       role: '',
       code: '',
       id: null,
-      isLoading: true,
+      isLoading: false,
     }
   },
   mounted() {
@@ -235,14 +235,17 @@ export default {
       return true
     },
     fetchGetRoles() {
+      this.isLoading = true
       this.roles = []
       getRoleList()
         .then((response) => {
           if (response) {
             this.roles = response
           }
+          this.isLoading = false
         })
         .catch((err) => {
+          this.isLoading = false
           console.error(err)
         })
     },
