@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
         <strong>ROLES MANAGEMENT</strong>
       </div>
@@ -61,7 +61,7 @@
           </a-table>
         </div>
       </div>
-    </div>
+    </a-card>
   </div>
 </template>
 
@@ -123,6 +123,7 @@ export default {
       role: '',
       code: '',
       id: null,
+      isLoading: false,
     }
   },
   mounted() {
@@ -234,14 +235,17 @@ export default {
       return true
     },
     fetchGetRoles() {
+      this.isLoading = true
       this.roles = []
       getRoleList()
         .then((response) => {
           if (response) {
             this.roles = response
           }
+          this.isLoading = false
         })
         .catch((err) => {
+          this.isLoading = false
           console.error(err)
         })
     },

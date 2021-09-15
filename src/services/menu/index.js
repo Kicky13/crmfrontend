@@ -56,6 +56,11 @@ export const getMenuData = [
     icon: 'fa fa-gear',
     children: [
       {
+        title: 'Penguncian Koordinat Toko',
+        key: 'gh898s',
+        url: '/koordinatlock',
+      },
+      {
         title: 'Radius Distrik',
         key: 'St11Cf',
         url: '/radiusdistrik',
