@@ -25,7 +25,7 @@
           Preview
         </a-button>
         <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input type="file" placeholder="Pilih File yang Akan diupload"/>
+          <a-input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" placeholder="Pilih File yang Akan diupload"/>
         </a-form-item>
         <div v-if="isVisible" class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
@@ -47,7 +47,7 @@
         </div>        
         <a-button v-if="isVisible"
           type="primary"
-          class="mb-3 float-right"
+          :class="dataSourceTable.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
           @click="submitDataUpload"
         >
           <i class="fa fa-upload mr-2" />
@@ -151,7 +151,7 @@ export default defineComponent({
   mounted() {
   },
   methods: {
-    previewDataUpload() {      
+    previewDataUpload() {     
       this.isLoading = true
       this.fetchGetDataSource()
       this.isVisible = true

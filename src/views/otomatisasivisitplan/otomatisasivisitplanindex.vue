@@ -6,9 +6,10 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-xs-3 col-md-3">            
+          <div class="col-xs-3 col-md-3"> 
+                      
             <a-form-item label="Pilih Tahun">
-              <a-select v-model="selectedTahun" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Tahun -- ">
+              <a-select v-model:value="selectedTahun" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Tahun -- ">
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option v-for="(tahun,index) in listTahun" :value="tahun.id" :key="index">
                   {{ tahun.tahun }}
@@ -21,7 +22,7 @@
           </div>
           <div class="col-xs-3 col-md-3">            
             <a-form-item label="Pilih Bulan">
-              <a-select v-model="selectedBulan" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Bulan -- ">
+              <a-select v-model:value="selectedBulan" @change="setSelectMethod" class="col-lg-12 col-md-12 pr-2" style="width: 100% !important;" placeholder=" -- Bulan -- ">
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option v-for="(bulan,index) in listBulan" :value="bulan.id" :key="index">
                   {{ bulan.bulan }}
@@ -45,11 +46,13 @@
             <a-button
               type="primary"
               class="mb-3"
+              @click="handleOk()"
             >
               <i class="fa fa-eye mr-2" />
               View
             </a-button>
           </div>
+         
         </div>
         
         <div class="table-responsive text-nowrap">
@@ -87,7 +90,7 @@
 </template>
 
 <script>
-import { getPermissionList, deletePermission } from '@/services/connection/otomatisasi-visit/api'
+import { getPermissionList, deletePermission,tableFilter } from '@/services/connection/otomatisasi-visit/api'
 import { getTahunList, getBulanList } from '@/services/connection/master-data/api'
 
 const columns = [
@@ -195,6 +198,23 @@ export default {
     this.fetchGetDataBulan()
   },
   methods: {
+    handleOk(){
+      // alert('berhasil')
+      const bulan = this.selectedBulan
+        const tahun = this.selectedTahun
+        tableFilter(bulan, tahun)
+
+          .then(response => {
+            if (response) {
+              console.log(response)
+              this.permissions = response
+              // this.dataSourceTable = response
+            }
+          })
+          .catch(err => {
+            console.error(err)
+          })
+    },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
     },
