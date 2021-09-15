@@ -49,11 +49,9 @@
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
           <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
-          <a-button
-            type="primary"
-          >
-            Read More
-          </a-button>
+          <router-link :to="`/marketing/artikel/${ post.id }`">
+            <a-button type="primary">Read More</a-button>
+          </router-link>
         </div>
       </div>
     </a-col>

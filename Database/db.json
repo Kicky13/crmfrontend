@@ -879,51 +879,51 @@
       "status": "failed"
     }
   ],
-  "user": [
+  "leveluser": [
     {
       "id": 1,
       "id_user": "1209",
       "nama_user": "Admin"
     },
     {
+      "id": 2,
       "id_user": "2234",
-      "nama_user": "Admin SMI",
-      "id": 2
+      "nama_user": "Admin SMI"
     },
     {
+      "id": 3,
       "id_user": "3234",
-      "nama_user": "General Sales Manager",
-      "id": 3
+      "nama_user": "General Sales Manager"
     },
     {
+      "id": 4,
       "id_user": "4234",
-      "nama_user": "Regional Sales Manager",
-      "id": 4
+      "nama_user": "Regional Sales Manager"
     },
     {
+      "id": 5,
       "id_user": "5576",
-      "nama_user": "Area Sales Manager",
-      "id": 5
+      "nama_user": "Area Sales Manager"
     },
     {
+      "id": 6,
       "id_user": "6657",
-      "nama_user": "Teritory Sales Officer",
-      "id": 6
+      "nama_user": "Teritory Sales Officer"
     },
     {
+      "id": 7,
       "id_user": "7344",
-      "nama_user": "Sales Distributor",
-      "id": 7
+      "nama_user": "Sales Distributor"
     },
     {
+      "id": 8,
       "id_user": "1234",
-      "nama_user": "Distributor",
-      "id": 8
+      "nama_user": "Distributor"
     },
     {
+      "id": 9,
       "id_user": "5868",
-      "nama_user": "User Baru",
-      "id": 9
+      "nama_user": "User Baru"
     }
   ],
   "survey": [

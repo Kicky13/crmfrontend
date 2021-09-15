@@ -83,18 +83,18 @@
     </div>
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
-      :modal-visible="userEditModalVisible"
+      :modal-visible="modalVisible"
       :username="editItem.nama_user"
       :edit-username="editUsername"
-      @handle-ok="userEditModalHandleOk"
-      @handle-cancel="userEditModalVisible = false"
+      @handle-ok="handleOk"
+      @handle-cancel="modalVisible = false"
     />
     <!-- User Edit Modal End -->
   </div>
 </template>
 
 <script>
-import { getUser, deleteUser, updateUser, addUser } from '@/services/connection/user/api'
+import { getLevelUser, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 
@@ -137,7 +137,7 @@ export default {
     return {
       dataSourceTable: [],
       pagination: {},
-      userEditModalVisible: false,
+      modalVisible: false,
       editUsername: '',
       editItem: {},
       newUsername: '',
@@ -150,11 +150,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchUsers()
+    this.fetchLevelUsers()
   },
   methods: {
-    fetchUsers() {
-      getUser()
+    fetchLevelUsers() {
+      getLevelUser()
         .then((response) => {
           let i = 1
           this.dataSourceTable = []
@@ -169,38 +169,38 @@ export default {
           console.error(err)
         })
     },
-    addNewUser(data) {
-      addUser(data)
+    addNewLevelUser(data) {
+      addLevelUser(data)
       .then(response => {
         console.log(response)
-        this.fetchUsers()
+        this.fetchLevelUsers()
       })
       .catch(err => {
         console.log(err)
       })
     },
-    deleteUserById(id) {
-      deleteUser(id)
+    deleteLevelUserById(id) {
+      deleteLevelUser(id)
       .then(response => {
         console.log(response)
-        this.fetchUsers()
+        this.fetchLevelUsers()
       })
       .catch(err => {
         console.error(err)
       })
     },
-    updateUserById(id, data) {
-      updateUser(id, data)
+    updateLevelUserById(id, data) {
+      updateLevelUser(id, data)
       .then(response => {
         console.log(response)
-        this.fetchUsers()
+        this.fetchLevelUsers()
       })
       .catch(err => {
         console.error(err)
       })
     },
     deleteConfirm(id) {
-      const deleteMethod = this.deleteUserById
+      const deleteMethod = this.deleteLevelUserById
       this.$confirm({
         title: 'Hapus User',
         content: 'Apakah anda yakin?',
@@ -232,7 +232,7 @@ export default {
       }
       const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
       if (!exist) {
-        this.addNewUser(dataForm)
+        this.addNewLevelUser(dataForm)
         notification.success({
           message: 'Tambah User',
           description: 'User berhasil ditambah',
@@ -257,17 +257,17 @@ export default {
     },
     showUserEditModal(id) {
       this.getUserEdit(id)
-      this.userEditModalVisible = true
+      this.modalVisible = true
     },
-    userEditModalHandleOk(newEditUsername) {
+    handleOk(newEditUsername) {
       this.editItem.nama_user = newEditUsername
-      this.updateUserById(this.editItem.id, this.editItem)
+      this.updateLevelUserById(this.editItem.id, this.editItem)
       notification.success({
           message: 'Update User',
           description: 'User berhasil diupdate',
         })
       this.resetAfterSubmit()
-      this.userEditModalVisible = false
+      this.modalVisible = false
     },
     resetAfterSubmit() {
       this.editItem = {}
