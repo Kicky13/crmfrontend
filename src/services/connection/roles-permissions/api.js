@@ -68,6 +68,17 @@ export async function deletePermission(id) {
   })
 }
 
+export async function updatePermission(id, data) {
+  return apiClient
+  .put('/permissions/' + id, data)
+  .then(response => {
+    if (response) {
+      return response
+    }
+    return false
+  })
+}
+
 export async function insertPermission(data) {
   return apiClient
   .post('/permissions', data)
