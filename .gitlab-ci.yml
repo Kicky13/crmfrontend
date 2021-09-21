@@ -1,26 +1,26 @@
 stages:
-- test
+# - test
 - build
 - deploy
 
-sonarqube-check:
-  stage: test
-  image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-    - sonar-scanner
-  allow_failure: true
-  only:
-    - DEV # or the name of your main branch
-    - merge_requests
+# sonarqube-check:
+#   stage: test
+#   image:
+#     name: sonarsource/sonar-scanner-cli:latest
+#     entrypoint: [""]
+#   variables:
+#     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#   cache:
+#     key: "${CI_JOB_NAME}"
+#     paths:
+#       - .sonar/cache
+#   script:
+#     - sonar-scanner
+#   allow_failure: true
+#   only:
+#     - DEV # or the name of your main branch
+#     - merge_requests
 
 build:
   stage: build
@@ -34,8 +34,8 @@ build:
     - docker:dind
   script:
     - docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/robiyanto/crm-aksestoko-frontend -f dockerfiles/Dockerfile.dev .
-    - docker push $CI_REGISTRY/robiyanto/crm-aksestoko-frontend
+    - docker build -t $CI_REGISTRY/robiyanto/crm-aksestoko-frontend:dev -f dockerfiles/Dockerfile.dev .
+    - docker push $CI_REGISTRY/robiyanto/crm-aksestoko-frontend:dev
 
 deploy-dev:
   stage: deploy
@@ -45,12 +45,16 @@ deploy-dev:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - echo "$SSH_DEV_PRIVATE_KEY_188" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     # login to gitlab registry
     - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
     - ssh deployer@128.199.252.219 "cd /Web/crm-aksestoko-frontend && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
+    - ssh deployer@188.166.184.213 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
+    # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
+    - ssh deployer@188.166.184.213 "cd /Web/crm-fe-dev && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
   environment:
       name: dev
   only:
