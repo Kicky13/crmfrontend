@@ -35,6 +35,7 @@
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
+            accept="image/png, image/jpg, image/jpeg"
             :file-list="fileList"
             @preview="handlePreview"
             @change="handleChange"
@@ -83,7 +84,7 @@ import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { storePost } from '@/services/connection/artikel/api'
 import { useRouter } from 'vue-router'
-import { message } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
@@ -130,6 +131,9 @@ export default defineComponent({
       .then(response => {
         console.log(response)
       })
+      .catch(err => {
+        console.log(err)
+      })
     }
     const getCurrentDate = () => {
       const today = new Date()
@@ -148,8 +152,8 @@ export default defineComponent({
       return `${hour}:${minute}:${second}`
     }
     const formState = reactive({
-      post_date: getCurrentDate(),
-      post_time: getCurrentTime(),
+      post_date: '',
+      post_time: '',
       post_title: '',
       post_slug: 'judul_artikel',
       post_detail: '',
@@ -165,17 +169,14 @@ export default defineComponent({
       }
       if (formState.post_title && formState.post_detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
+          formState.post_date = getCurrentDate(),
+          formState.post_time = getCurrentTime(),
           addNewPost(toRaw(formState), config)
-          formState.post_date = ''
-          formState.post_time = ''
-          formState.post_title = ''
-          formState.post_slug = 'judul_artikel'
-          formState.post_detail = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-          formState.image = null
           router.push('/marketing/artikel')
-          message.success('Artikel berhasil ditambahkan')
+          notification.success({
+            message: 'Tambah Artikel',
+            description: 'Artikel berhasil ditambah',
+          })
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -246,12 +247,10 @@ export default defineComponent({
   font-size: 32px;
   color: #999;
 }
-
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
 }
-
 .input-style:hover,
 .input-style:focus,
 .input-style:active {

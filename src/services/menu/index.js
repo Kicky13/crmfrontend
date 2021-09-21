@@ -56,6 +56,11 @@ export const getMenuData = [
     icon: 'fa fa-gear',
     children: [
       {
+        title: 'Penguncian Koordinat Toko',
+        key: 'gh898s',
+        url: '/koordinatlock',
+      },
+      {
         title: 'Radius Distrik',
         key: 'St11Cf',
         url: '/radiusdistrik',
@@ -156,7 +161,7 @@ export const getMenuData = [
     title: 'Supervisory Visit',
     key: '78ehnf',
     url: '/sales',
-    icon: 'fa fa-user',
+    icon: 'fa fa-book',
     children: [
       {
         title: 'Master Penilaian Sales',

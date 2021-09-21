@@ -77,6 +77,11 @@ const router = createRouter({
           component: () => import('@/views/artikel/edit/Edit'),
         },
         {
+          path: '/marketing/artikel/:artikelId',
+          meta: { title: 'Detail Artikel', resource: 'Detail Artikel', action: 'manage' },
+          component: () => import('@/views/artikel/detailartikel/DetailArtikel'),
+        },
+        {
           path: '/user/level_user',
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
           component: () => import('@/views/leveluser/LevelUser'),
@@ -155,6 +160,24 @@ const router = createRouter({
           name: 'user-management',
           meta: { title: 'User Management', resource: 'User', action: 'manage' },
           component: () => import('@/views/usermanagement/User'),
+        },
+        {
+          path: '/users/export',
+          name: 'user-management-export',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/forms/Export'),
+        },
+        {
+          path: '/users/profile',
+          name: 'user-management-profile',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/profile/Profile'),
+        },
+        {
+          path: '/koordinatlock',
+          name: 'koordinat-lock',
+          meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+          component: () => import('@/views/coordinatelock/Lock'),
         },
         // Kikik ============================================================================
         /*  ROBI VIEW */
