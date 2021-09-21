@@ -35,6 +35,7 @@
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
+            accept="image/png, image/jpg, image/jpeg"
             :file-list="fileList"
             @preview="handlePreview"
             @change="handleChange"
@@ -77,12 +78,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import { showPost, updatePost } from '@/services/connection/artikel/api'
-import { message } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
@@ -144,11 +146,17 @@ export default defineComponent({
           formState.image = response.image
         }
       })
+      .catch(err => {
+        console.log(err)
+      })
     }
     const updatePostById = (id, param, config) => {
       updatePost(id, param, config)
       .then(response => {
         console.log(response)
+      })
+      .catch(err => {
+        console.log(err)
       })
     }
     const formState = reactive({
@@ -170,16 +178,11 @@ export default defineComponent({
       if (formState.post_title && formState.post_detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
           updatePostById(formState.id, toRaw(formState), config)
-          formState.post_date = ''
-          formState.post_time = ''
-          formState.post_title = ''
-          formState.post_slug = 'judul_artikel'
-          formState.post_detail = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-          formState.image = null
           router.push('/marketing/artikel')
-          message.success('Artikel berhasil diupate')
+          notification.success({
+            message: 'Update Artikel',
+            description: 'Artikel berhasil diupdate',
+          })
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -267,7 +270,6 @@ export default defineComponent({
           this.formState.image = this.fileList[0]
         }
       }
-      console.log(this.formState)
     },
   },
 })

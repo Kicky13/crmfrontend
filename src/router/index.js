@@ -76,6 +76,11 @@ const router = createRouter({
           component: () => import('@/views/artikel/edit/Edit'),
         },
         {
+          path: '/marketing/artikel/:artikelId',
+          meta: { title: 'Detail Artikel', resource: 'Detail Artikel', action: 'manage' },
+          component: () => import('@/views/artikel/detailartikel/DetailArtikel'),
+        },
+        {
           path: '/user/level_user',
           meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
           component: () => import('@/views/leveluser/LevelUser'),

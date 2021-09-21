@@ -10,16 +10,16 @@
       </a-button>
     </router-link>
     <vb-list-artikel
-      :post-items="posts"
-      @delete-message="deleteSuccess"
+      :posts="posts"
+      @delete-success="deleteSuccess"
     />
   </div>
 </template>
 
 <script>
-import { listPost } from '@/services/connection/artikel/api'
-import VbListArtikel from './ListArtikel'
-import { message } from 'ant-design-vue';
+import { postList } from '@/services/connection/artikel/api'
+import VbListArtikel from './listartikel/ListArtikel'
+import { notification } from 'ant-design-vue';
 
 export default {
   components: {
@@ -32,21 +32,27 @@ export default {
     };
   },
   mounted() {
-    this.getListPost()
+    this.fetchPostList()
   },
   methods: {
-    getListPost() {
+    fetchPostList() {
       this.posts = []
-      listPost()
+      postList()
       .then(response => {
         if (response) {
           response.forEach(item => this.posts.unshift(item))
         }
       })
+      .catch(err => {
+        console.log(err)
+      })
     },
     deleteSuccess() {
-      this.getListPost()
-      message.success('Berita berhasil dihapus')
+      this.fetchPostList()
+      notification.success({
+        message: 'Hapus Berita',
+        description: 'Berita berhasil dihapus',
+      })
     },
   },
 }
