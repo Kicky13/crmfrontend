@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
-        <strong>ASSIGN ROLE</strong>
+        <strong>Assign Role</strong>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content" style="margin-bottom: 10px">
@@ -74,7 +74,7 @@
           </a-table>
         </div>
       </div>
-    </div>
+    </a-card>
   </div>
 </template>
 
@@ -134,6 +134,7 @@ export default {
       pagination: {},
       id: null,
       isLoading: false,
+      isSubmit: false,
       formState: {
         user: 'disabled',
         role: 'disabled',
@@ -215,7 +216,7 @@ export default {
         })
     },
     fetchSubmitUpdate(formData) {
-      this.isLoading = true
+      this.isSubmit = true
       updateAssign(this.id, formData)
         .then((response) => {
           if (response) {
@@ -223,10 +224,10 @@ export default {
             this.fetchGetAssign()
             message.success('Data berhasil diperbaharui')
           }
-          this.isLoading = false
+          this.isSubmit = false
         })
         .catch((err) => {
-          this.isLoading = false
+          this.isSubmit = false
           console.error(err)
         })
     },

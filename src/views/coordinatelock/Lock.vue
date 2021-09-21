@@ -29,7 +29,7 @@
               >{{ data.kabupaten }}</a-select-option
             >
           </a-select>
-          <a-button type="primary" @click="handleView">
+          <a-button type="primary" @click="handleView" :loading="isSubmit">
             <i class="fa fa-eye mr-2" />
             View
           </a-button>
@@ -168,6 +168,7 @@ export default {
       selectedProvinsi: null,
       selectedKabupaten: null,
       isLoading: false,
+      isSubmit: false,
     }
   },
   mounted() {
@@ -186,13 +187,16 @@ export default {
       console.log(this.kabupatenOption)
     },
     handleView() {
+      this.isSubmit = true
       if (this.selectedProvinsi && this.selectedProvinsi) {
         const dataSource = [...this.customers]
         this.displays = dataSource.filter(
           (x) => x.provinsi == this.selectedProvinsi && x.kabupaten == this.selectedKabupaten,
         )
+        this.isSubmit = false
       } else {
         message.error('Provinsi & Kabupaten wajib diisi')
+        this.isSubmit = false
       }
     },
     fetchGetRegion() {
