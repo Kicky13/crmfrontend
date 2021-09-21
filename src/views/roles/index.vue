@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
-        <strong>ROLES MANAGEMENT</strong>
+        <strong>Roles Management</strong>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content" style="margin-bottom: 10px">
@@ -11,7 +11,7 @@
           </div>
           <a-input placeholder="Nama role" class="mx-3" style="width: 200px" v-model:value="role" />
           <a-input placeholder="Kode role" class="mx-3" style="width: 200px" v-model:value="code" />
-          <a-button type="primary" @click="handleSave">
+          <a-button type="primary" @click="handleSave" :loading="isSubmitForm">
             <i class="fa fa-save mr-2" />
             Save
           </a-button>
@@ -61,7 +61,7 @@
           </a-table>
         </div>
       </div>
-    </div>
+    </a-card>
   </div>
 </template>
 
@@ -123,6 +123,8 @@ export default {
       role: '',
       code: '',
       id: null,
+      isLoading: false,
+      isSubmitForm: false,
     }
   },
   mounted() {
@@ -175,6 +177,7 @@ export default {
       }
     },
     insertRole() {
+      this.isSubmitForm = true
       const formData = {
         role: this.role,
         code: this.code,
@@ -188,13 +191,16 @@ export default {
             this.fetchGetRoles()
             this.clearForm()
           }
+          this.isSubmitForm = false
         })
         .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
+          this.isSubmitForm = false
         })
     },
     updateRole() {
+      this.isSubmitForm = true
       const formData = {
         role: this.role,
         code: this.code,
@@ -208,10 +214,12 @@ export default {
             this.fetchGetRoles()
             this.clearForm()
           }
+          this.isSubmitForm = false
         })
         .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
+          this.isSubmitForm = false
         })
     },
     formValidation() {
@@ -234,14 +242,17 @@ export default {
       return true
     },
     fetchGetRoles() {
+      this.isLoading = true
       this.roles = []
       getRoleList()
         .then((response) => {
           if (response) {
             this.roles = response
           }
+          this.isLoading = false
         })
         .catch((err) => {
+          this.isLoading = false
           console.error(err)
         })
     },

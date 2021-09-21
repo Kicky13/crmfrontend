@@ -90,6 +90,42 @@
       "email": "burhan@gmail.com",
       "nohp": "08287231498",
       "id": 3
+    },
+    {
+      "name": "Kikik",
+      "username": "kikik13",
+      "password": "12123",
+      "email": "demo@visualbuilder.user",
+      "nohp": "083923231212",
+      "userid": 1341,
+      "id": 4
+    },
+    {
+      "name": "List Interco",
+      "username": "rizki.wahono@sisi.id",
+      "password": "asdasd",
+      "email": "kicky120@gmail.com",
+      "nohp": "083923231212",
+      "userid": 2059,
+      "id": 5
+    },
+    {
+      "name": "List Interco",
+      "username": "rizki.wahono@sisi.id",
+      "password": "asdasd",
+      "email": "kicky120@gmail.com",
+      "nohp": "083923231212",
+      "userid": 9630,
+      "id": 6
+    },
+    {
+      "name": "List Interco",
+      "username": "rizki.wahono@sisi.id",
+      "password": "asdasd",
+      "email": "demo@visualbuilder.user",
+      "nohp": "083923231212",
+      "userid": 5052,
+      "id": 7
     }
   ],
   "permissions": [
@@ -136,18 +172,11 @@
       "permission": "read, insert, update, delete"
     },
     {
-      "id": 7,
       "actor": "user",
       "pagename": "Berita",
       "subject": "News",
-      "permission": "read"
-    },
-    {
-      "id": 8,
-      "actor": "admintoko",
-      "pagename": "Berita",
-      "subject": "News",
-      "permission": "read"
+      "permission": "read",
+      "id": 7
     }
   ],
   "assignuser": [
@@ -188,22 +217,172 @@
     {
       "id": 1,
       "user": "Jonn",
-      "role": "admin"
+      "userid": 2,
+      "role": "admin",
+      "roleid": 1
     },
     {
       "id": 3,
       "user": "Tom",
-      "role": "admintoko"
+      "userid": 4,
+      "role": "admintoko",
+      "roleid": 5
     },
     {
       "id": 4,
       "user": "Dave",
-      "role": "user"
+      "userid": 11,
+      "role": "user",
+      "roleid": 2
     },
     {
+      "id": 5,
       "user": "Tommy",
+      "userid": 21,
       "role": "admintoko",
-      "id": 5
+      "roleid": 5
+    }
+  ],
+  "regionlock": [
+    {
+      "id": 1,
+      "provinsi": "Jawa Timur",
+      "kabupatens": [
+        {
+          "id": 1,
+          "kabupaten": "Surabaya"
+        },
+        {
+          "id": 2,
+          "kabupaten": "Sidoarjo"
+        },
+        {
+          "id": 3,
+          "kabupaten": "Gresik"
+        },
+        {
+          "id": 4,
+          "kabupaten": "Madura"
+        },
+        {
+          "id": 5,
+          "kabupaten": "Pasuruan"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "provinsi": "Jawa Tengah",
+      "kabupatens": [
+        {
+          "id": 6,
+          "kabupaten": "Solo"
+        },
+        {
+          "id": 7,
+          "kabupaten": "Semarang"
+        },
+        {
+          "id": 8,
+          "kabupaten": "Pekalongan"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "provinsi": "Jawa Barat",
+      "kabupatens": [
+        {
+          "id": 9,
+          "kabupaten": "Bandung"
+        },
+        {
+          "id": 10,
+          "kabupaten": "Bogor"
+        },
+        {
+          "id": 11,
+          "kabupaten": "Bekasi"
+        },
+        {
+          "id": 12,
+          "kabupaten": "Depok"
+        }
+      ]
+    }
+  ],
+  "customerlock": [
+    {
+      "id": 1,
+      "customerid": 1222,
+      "name": "Toko Makmur",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Surabaya",
+      "area": "Area 1",
+      "kecamatan": "Kecamatan 2",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.9027381, 8.923819",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 2,
+      "customerid": 7839,
+      "name": "Toko Maju Jaya",
+      "provinsi": "Jawa Tengah",
+      "kabupaten": "Semarang",
+      "area": "Area 2",
+      "kecamatan": "Kecamatan 1",
+      "alamat": "Jln Abc no 01",
+      "koordinat": "9.7628382, -3.538102",
+      "statuslock": "Unlocked"
+    },
+    {
+      "id": 3,
+      "customerid": 8834,
+      "name": "Toko Besok Tutup",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Gresik",
+      "area": "Area 5",
+      "kecamatan": "Kecamatan 3",
+      "alamat": "Jln Jalan no 5",
+      "koordinat": "-7.526782, 8.1239892",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 4,
+      "customerid": 9092,
+      "name": "Toko Langkah Maju",
+      "provinsi": "Jawa Timur",
+      "kabupaten": "Gresik",
+      "area": "Area 3",
+      "kecamatan": "Kecamatan 3",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.872381, 8.0902931",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 5,
+      "customerid": 5525,
+      "name": "Toko ABC",
+      "provinsi": "Jawa Tengah",
+      "kabupaten": "Solo",
+      "area": "Area 8",
+      "kecamatan": "Kecamatan 9",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-6.28938222, 3.9882392",
+      "statuslock": "Locked"
+    },
+    {
+      "id": 6,
+      "customerid": 7231,
+      "name": "Toko Terbaik",
+      "provinsi": "Jawa Barat",
+      "kabupaten": "Bandung",
+      "area": "Area 6",
+      "kecamatan": "Kecamatan 8",
+      "alamat": "Jln Ikan cupang no 11",
+      "koordinat": "-7.9027381, 8.923819",
+      "statuslock": "Unlocked"
     }
   ],
   "posts": [
@@ -464,6 +643,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -477,6 +657,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -490,6 +671,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -503,6 +685,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -516,6 +699,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "Non WPM"
@@ -529,6 +713,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -542,6 +727,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "failed"
@@ -555,6 +741,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "success"
@@ -568,6 +755,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "failed"
@@ -581,6 +769,7 @@
       "distrik": "Jawa Timur",
       "tso": "Ahmad Jainuri",
       "tahun": "2021",
+      "bulan_id": "8",
       "bulan": "Agustus",
       "njadwal": "150",
       "status": "failed"
@@ -1661,6 +1850,246 @@
       "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
+    }
+  ],
+  "datasales": [
+    {
+      "id": 1,
+      "idsales": 1000,
+      "namasales": "Semen Gresik",
+      "username": "47500",
+      "regionId": "1",
+      "regionName": "Region 1",
+      "provinsiId": "1",
+      "provinsiName": "DKI JAKARTA",
+      "distributorid": "1",
+      "distributorName": "PT. Maju Jaya Purnama I",
+      "namaSO": "active",
+      "namaSM": "active",
+      "namaSSM": "active",
+      "namaGSM": "active",
+      "areaId": "active",
+      "areaName": "active",
+      "distrikId": "active",
+      "distrikName": "active"
+    },
+    {
+      "id": 2,
+      "idsales": 1987,
+      "namasales": "Dynamix",
+      "username": "47500",
+      "regionId": "2",
+      "regionName": "Region 2",
+      "provinsiId": "2",
+      "provinsiName": "BOGOR",
+      "distributorid": "2",
+      "distributorName": "PT. Maju Jaya Purnama II",
+      "namaSO": "active",
+      "namaSM": "active",
+      "namaSSM": "active",
+      "namaGSM": "active",
+      "areaId": "active",
+      "areaName": "active",
+      "distrikId": "active",
+      "distrikName": "active"
+    }
+  ],
+  "region": [
+    {
+      "id": 1,
+      "regionName": "Region 1",
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "regionName": "Region 2",
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "regionName": "Region 3",
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "regionName": "Region 4",
+      "deleteMark": 0
+    }
+  ],
+  "provinsi": [
+    {
+      "id": 1,
+      "provinsiName": "DKI JAKARTA",
+      "regionId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "provinsiName": "BOGOR",
+      "regionId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "provinsiName": "JAWA TENGAH",
+      "regionId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "provinsiName": "JAWA TIMUR",
+      "regionId": 3,
+      "deleteMark": 0
+    },
+    {
+      "id": 5,
+      "provinsiName": "JAWA BARAT",
+      "regionId": 4,
+      "deleteMark": 0
+    }
+  ],
+  "distributorSBI": [
+    {
+      "id": 1,
+      "distributorName": "PT. Maju Jaya Purnama I",
+      "provinsiId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 2,
+      "distributorName": "PT. Maju Jaya Purnama II",
+      "provinsiId": 2,
+      "deleteMark": 0
+    },
+    {
+      "id": 3,
+      "distributorName": "PT. Maju Jaya Purnama III",
+      "provinsiId": 1,
+      "deleteMark": 0
+    },
+    {
+      "id": 4,
+      "distributorName": "PT. Maju Jaya Purnama IV",
+      "provinsiId": 4,
+      "deleteMark": 0
+    }
+  ],
+  "customer_mapping": [
+    {
+      "id": 1,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    },
+    {
+      "id": 2,
+      "kd_customer": 1000,
+      "nama_customer": "Semen Gresik",
+      "alamat": "47500",
+      "distributor": "52500",
+      "sales": "60000",
+      "nama_so": "62000",
+      "nama_sm": "iqbal",
+      "nama_ssm": "iqbal",
+      "nama_gsm": "iqbal",
+      "create_at": "-"
+    }
+  ],
+  "log_sync_customer": [
+    {
+      "id": 1,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 2,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 3,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 4,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 5,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 6,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 7,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 8,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 9,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 10,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
+    },
+    {
+      "id": 11,
+      "kd_distributor": 1212,
+      "nama_distributor": "Bina Bangun Bangsa",
+      "tgl_terakhir": "2021-07-08 07:21",
+      "status": "Done",
+      "user": "Titis"
     }
   ]
 }

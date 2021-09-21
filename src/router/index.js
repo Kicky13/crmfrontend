@@ -160,6 +160,24 @@ const router = createRouter({
           meta: { title: 'User Management', resource: 'User', action: 'manage' },
           component: () => import('@/views/usermanagement/User'),
         },
+        {
+          path: '/users/export',
+          name: 'user-management-export',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/forms/Export'),
+        },
+        {
+          path: '/users/profile',
+          name: 'user-management-profile',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/profile/Profile'),
+        },
+        {
+          path: '/koordinatlock',
+          name: 'koordinat-lock',
+          meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+          component: () => import('@/views/coordinatelock/Lock'),
+        },
         // Kikik ============================================================================
         /*  ROBI VIEW */
         {
@@ -174,11 +192,24 @@ const router = createRouter({
           meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
           component: () => import('@/views/validasiharga'),
         },
+
+        {
+          path: '/datasales',
+          name: 'data-sales',
+          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          component: () => import('@/views/datasales'),
+        },
+
         // ========== Start of Iqbal View ==========
         {
           path: '/report/customer_mapping',
           meta: { title: 'Customer Mapping', resource: 'Mapping', action: 'manage' },
           component: () => import('@/views/reportadmin/customermapping'),
+        },
+        {
+          path: '/log-sync-customer',
+          meta: { title: 'Log Sync Customer', resource: 'Program', action: 'manage' },
+          component: () => import('@/views/logasyncustomer'),
         },
         // ========== End of iqbal View ==========
       ],

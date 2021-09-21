@@ -1,8 +1,8 @@
 import apiClient from '@/services/axios'
 
-export async function getUserList() {
+export async function getRegionList() {
     return apiClient
-    .get('/usercrm')
+    .get('/regionlock')
     .then(response => {
         if (response) {
             return response.data
@@ -12,12 +12,12 @@ export async function getUserList() {
     .catch(err => { console.error(err) })
 }
 
-export async function insertUser(formData) {
+export async function getTokoList() {
     return apiClient
-    .post('/usercrm', formData)
+    .get('/customerlock')
     .then(response => {
         if (response) {
-            return response
+            return response.data
         }
         return false
     })
