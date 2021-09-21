@@ -34,8 +34,11 @@
               <a class="nav-link" href="#about">About<span class="sr-only"></span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="data_login.length == 0">
               <router-link class="nav-link special" :to="`/auth/login`">Login</router-link>
+            </li>
+            <li class="nav-item" v-else>
+              <router-link class="nav-link special" :to="`/dashboard`">Dashboard</router-link>
             </li>
           </ul>
         </div>
@@ -43,7 +46,7 @@
     </nav>
     <section
       class="main-header demo1"
-      :style="'background-image: url(' + require('@/assets/LandingPage/images/bg-crm.jpg')"
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.png')"
       id="main"
     >
       <div class="home-cont">
@@ -244,8 +247,8 @@
               <div class="service-left-bg"></div>
               <div class="service-icon">
                 <img
-                  class="icon center-block"
-                  src="../../assets/LandingPage/images/icons/feature-2.svg"
+                  class="icon iconscenter-block"
+                  src="@/assets/LandingPage/images/Verifikasi.png"
                   alt=""
                 />
               </div>
@@ -267,11 +270,7 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img
-                  class="icon center-block"
-                  src="../../assets/LandingPage/images/icons/feature-3.svg"
-                  alt=""
-                />
+                <img class="icon center-block" src="@/assets/LandingPage/images/Touch.png" alt="" />
               </div>
               <div class="service-text">
                 <h4><a href="#">Start Using</a></h4>
@@ -289,10 +288,40 @@
 
     <div class="clearfix"></div>
 
-    <section class="money-exchange" id="about">
+    <section
+      class="information-mobile"
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="image_mobile">
+              <img src="@/assets/LandingPage/images/MobileView.png" alt="" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="information">
+              <h2 class="text-white font-weight-bold">CEPAT. MUDAH.</h2>
+              <h2 class="text-white font-weight-bold">LEBIH MENGUNTUNGKAN.</h2>
+              <p class="text-white">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the leap into electronic
+                typesetting, remaining essentially unchanged. It was popularised in the 1960s with
+                the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+                with desktop publishing software like Aldus PageMaker including versions of Lorem
+                Ipsum.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <section class="money-exchange" id="about">
       <img
         class="bg-shape-bot"
-        src="../../assets/LandingPage/svg/homepage_bg.svg"
+        src="@/assets/LandingPage/images/FooterBG.png"
         alt=" bg bottom"
       />
       <div class="container">
@@ -331,18 +360,14 @@
           </div>
           <div class="col-md-6">
             <div class="money-exchange-left">
-              <!-- <img
-                class="center-block"
-                src="../../assets/LandingPage/images/phone.png"
-                alt="Phone"
-              /> -->
+              <img src="@/assets/LandingPage/images/MobileView.png" alt="">
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="ico-distribution bird-background" id="sale">
+    <!-- <section class="ico-distribution bird-background" id="sale">
       <div class="container">
         <div class="text-center">
           <div class="section-title">
@@ -357,7 +382,6 @@
         </div>
         <div class="row">
           <div class="col-lg-6 col-md-12 col-xs-12 ">
-            <!--<img src="img/chart.png" class="pie"-->
             <div id="container"></div>
             <div class="center-values">
               <span class="phx trix">Tohfa</span><br />
@@ -367,7 +391,6 @@
           </div>
 
           <div class="col-lg-6 col-md-12 col-xs-12 progress-div">
-            <!-- Blue -->
             <h6 class="angle-round">
               Token Pre-Sale <span class="middle-span1">17-03-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -376,7 +399,6 @@
               <div class="progress-bar background-one wid-46">0.7 $</div>
             </div>
 
-            <!-- Green -->
             <h6 class="angle-round">
               Round 1 <span class="color-ccc ml-126">30-03-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -385,7 +407,6 @@
               <div class="progress-bar background-two wid-52 bg1">0.9 $</div>
             </div>
 
-            <!-- Turquoise -->
             <h6 class="angle-round">
               Round 2 <span class="color-ccc ml-126">04-04-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -394,7 +415,6 @@
               <div class="progress-bar background-three wid-64 bg2">0.95 $</div>
             </div>
 
-            <!-- Orange -->
             <h6 class="angle-round">
               Round 3 <span class="color-ccc ml-126">09-04-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -403,7 +423,6 @@
               <div class="progress-bar wid-75 bg3">1.05 $</div>
             </div>
 
-            <!-- Red -->
             <h6 class="angle-round">
               Round 4 <span class="color-ccc ml-126">14-04-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -412,7 +431,6 @@
               <div class="progress-bar wid-87 bg4">1.10 $</div>
             </div>
 
-            <!-- Red -->
             <h6 class="angle-round">
               Round 5 <span class="color-ccc ml-126">19-04-2021</span
               ><span class="number">1,000,000 Tohfa</span>
@@ -423,11 +441,11 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <div class="clearfix"></div>
+    <!-- <div class="clearfix"></div> -->
 
-    <div
+    <!-- <div
       class="two-wrapper"
       :style="{
         background:
@@ -437,11 +455,6 @@
       }"
       id="close"
     >
-      <!-- :style="
-        'background-image: url(' +
-          require('@/assets/images/elements/shape-3.png') +
-          'no-repeat top center'
-      " -->
       <section class="roadmap pb-0" id="roadmap">
         <div class="title-box">
           <h2
@@ -531,7 +544,6 @@
                 </div>
               </div>
 
-              <!--Services Block Four-->
               <div class="services-block-four">
                 <div class="inner-box">
                   <div class="icon-box">
@@ -546,7 +558,6 @@
                 </div>
               </div>
 
-              <!--Services Block Four-->
               <div class="services-block-four">
                 <div class="inner-box">
                   <div class="icon-box">
@@ -569,9 +580,9 @@
           </div>
         </div>
       </section>
-    </div>
+    </div> -->
 
-    <section class="intro o-hidden no-padding-top">
+    <!-- <section class="intro o-hidden no-padding-top">
       <div class="container">
         <div class="intro-wrapper has-gradient o-hidden">
           <div class="single-info-item col-md-3 col-xs-12">
@@ -622,9 +633,9 @@
       </div>
     </section>
 
-    <div class="clearfix"></div>
+    <div class="clearfix"></div> -->
 
-    <section class="testimonial" id="testimonial">
+    <!-- <section class="testimonial" id="testimonial">
       <div class="title-box">
         <h2
           class="title-center"
@@ -746,9 +757,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section
+    <!-- <section
       class="team features"
       :style="{
         'background-image':
@@ -1029,7 +1040,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- End Content -->
     <!-- Footer -->
@@ -1135,6 +1146,29 @@ export default {
   components: {
     Footer,
   },
+  data() {
+    return {
+      data_login: localStorage.getItem('userData'),
+    }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('scroll', function() {
+        var navbar = document.getElementById('minify_nav')
+        var nav_classes = navbar.classList
+        if (document.documentElement.scrollTop >= 150) {
+          if (nav_classes.contains('shrink') === false) {
+            nav_classes.toggle('shrink')
+          }
+        } else {
+          if (nav_classes.contains('shrink') === true) {
+            nav_classes.toggle('shrink')
+          }
+        }
+      })
+    })
+  },
+  methods: {},
 }
 </script>
 <style lang="scss" scoped>
