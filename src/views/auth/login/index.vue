@@ -4,7 +4,8 @@
   </div>
 </template>
 <script>
-import VbLogin from '@/@vb/components/Auth/Login'
+import VbLogin from '@/views/auth/login/LoginForm'
+
 export default {
   components: {
     VbLogin,

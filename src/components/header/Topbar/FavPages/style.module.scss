@@ -1,0 +1,96 @@
+@import '@/mixins.scss';
+
+.item {
+  cursor: pointer;
+  margin-right: rem(8);
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  > div {
+    display: inline;
+  }
+}
+
+.icon {
+  position: relative;
+  bottom: -2px;
+  font-size: rem(17);
+  // color: $gray-5;
+  color: $white;
+  @include transition-slow;
+
+  &:hover {
+    // color: $primary;
+    color: $dark-gray-1;
+  }
+}
+
+.setIcon {
+  float: right;
+  opacity: 0.3;
+  @include transition-slow;
+  font-size: rem(17);
+  line-height: 1;
+  position: relative;
+  top: 2px;
+
+  &:hover,
+  &.setIconActive {
+    opacity: 1;
+    color: $primary;
+  }
+}
+
+.link {
+  display: block;
+  padding: rem(5) rem(8);
+  background: $white;
+  @include transition-slow;
+  border-radius: 3px;
+
+  > span {
+    display: block;
+    width: calc(100% - 20px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: $gray-1;
+  }
+}
+
+// dark theme
+[data-vb-theme='dark'] {
+  a {
+    color: $white;
+  }
+  .icon {
+    color: $white;
+
+    &:hover {
+      // color: $primary;
+      color: $main;
+    }
+  }
+
+  .link {
+    background: $dark-gray-6;
+
+    &:hover {
+      background: $main;
+      color: $white;
+
+      &::after {
+        color: $white;
+      }
+  
+      .icon {
+        color: $white;
+      }
+    }
+  }
+}

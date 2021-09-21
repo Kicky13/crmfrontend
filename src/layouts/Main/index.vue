@@ -14,15 +14,9 @@
         vb__layout__borderless: settings.isBorderless,
       }"
     >
-      <vb-variants />
-      <vb-sidebar />
-      <vb-support-chat />
-      <vb-menu-classic v-if="settings.layoutMenu === 'classic'" />
-      <vb-menu-flyout v-if="settings.layoutMenu === 'flyout'" />
-      <vb-menu-simply v-if="settings.layoutMenu === 'simply'" />
+      <vb-menu-classic />
       <a-layout>
         <a-layout-header
-          v-if="settings.layoutTopbar === 'v1'"
           :class="{
             vb__layout__header: true,
             vb__layout__fixedHeader: settings.isTopbarFixed,
@@ -32,8 +26,7 @@
         >
           <vb-topbar />
         </a-layout-header>
-        <vb-breadcrumbs v-if="settings.layoutBreadcrumbs === 'v1'" />
-        <vb-breadcrumbs2 v-if="settings.layoutBreadcrumbs === 'v2'" />
+        <vb-breadcrumbs />
         <a-layout-content class="vb__layout__content">
           <router-view v-slot="{ Component }">
             <transition :name="settings.routerAnimation" mode="out-in">
@@ -41,17 +34,8 @@
             </transition>
           </router-view>
         </a-layout-content>
-        <a-layout-footer v-if="settings.layoutFooter === 'v1'">
+        <a-layout-footer>
           <vb-footer />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v2'">
-          <vb-footer2 />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v3'">
-          <vb-footer3 />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v4'">
-          <vb-footer4 />
         </a-layout-footer>
       </a-layout>
     </a-layout>
@@ -61,36 +45,18 @@
 <script>
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import VbTopbar from '@/@vb/components/Topbar'
-import VbSidebar from '@/@vb/components/Sidebar'
-import VbSupportChat from '@/@vb/components/SupportChat'
-import VbVariants from '@/@vb/components/Variants'
-import VbMenuClassic from '@/@vb/components/MenuClassic'
-import VbMenuFlyout from '@/@vb/components/MenuFlyout'
-import VbMenuSimply from '@/@vb/components/MenuSimply'
-import VbBreadcrumbs from '@/@vb/components/Breadcrumbs'
-import VbBreadcrumbs2 from '@/@vb/components/Breadcrumbs2'
-import VbFooter from '@/@vb/components/Footer'
-import VbFooter2 from '@/@vb/components/Footer2'
-import VbFooter3 from '@/@vb/components/Footer3'
-import VbFooter4 from '@/@vb/components/Footer4'
+import VbTopbar from '@/components/header/Topbar'
+import VbMenuClassic from '@/components/sidebar/MenuClassic'
+import VbBreadcrumbs from '@/components/main/Breadcrumbs'
+import VbFooter from '@/components/footer/Footer'
 
 export default {
   name: 'MainLayout',
   components: {
-    VbMenuClassic,
-    VbMenuFlyout,
-    VbMenuSimply,
     VbTopbar,
-    VbSidebar,
-    VbSupportChat,
-    VbVariants,
+    VbMenuClassic,
     VbBreadcrumbs,
-    VbBreadcrumbs2,
     VbFooter,
-    VbFooter2,
-    VbFooter3,
-    VbFooter4,
   },
   setup() {
     const store = useStore()

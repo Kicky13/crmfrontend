@@ -2,7 +2,8 @@ import router from '@/router'
 import { notification } from 'ant-design-vue'
 
 import * as firebase from '@/services/firebase'
-import * as jwt from '@/services/jwt'
+import * as jwt from '@/services/connection/authService'
+import { vModelCheckbox } from 'vue'
 
 const mapAuthProviders = {
   firebase: {
@@ -26,6 +27,7 @@ const DEV = process.env.VUE_APP_AUTHENTICATED
     role: 'admin',
     email: 'demo@sellpixels.com',
     avatar: '',
+    ability: [],
     authorized: true,
     accountFetchIsTouched: true,
   }
@@ -39,6 +41,7 @@ export default {
     role: '',
     email: '',
     avatar: '',
+    ability: [],
     authorized: false,
     loading: false,
     accountFetchIsTouched: false,
@@ -104,13 +107,15 @@ export default {
       const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
       currentAccount().then(response => {
         if (response) {
-          const { id, email, name, avatar, role } = response
+          localStorage.setItem('userData', JSON.stringify(response))
+          const { id, email, name, avatar, role, ability } = response
           commit('SET_STATE', {
             id,
             name,
             email,
             avatar,
             role,
+            ability,
             authorized: true,
           })
         }
@@ -128,9 +133,11 @@ export default {
           role: '',
           email: '',
           avatar: '',
+          ability: [],
           authorized: false,
           loading: false,
         })
+        localStorage.removeItem('userData')
         router.push('/auth/login')
       })
     },
