@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
         <a-tabs
           :default-active-key="1"
@@ -77,7 +77,7 @@
         >
           <template #footer>
             <a-button key="back" @click="closeModal">Batal</a-button>
-            <a-button @click="handleSubmit" key="submit" type="primary">Simpan</a-button>
+            <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary">Simpan</a-button>
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Nama User" name="name">
@@ -98,7 +98,7 @@
           </a-form>
         </a-modal>
       </div>
-    </div>
+    </a-card>
   </div>
 </template>
 
@@ -238,6 +238,8 @@ export default {
       menutabs,
       pagination: {},
       modalVisible: false,
+      isLoading: false,
+      isSubmit: false,
     }
   },
   mounted() {
@@ -272,6 +274,7 @@ export default {
       }
     },
     fetchSubmitForm() {
+      this.isSubmit = true
       this.formState.userid = Math.floor(Math.random() * 10000)
       const formData = toRaw(this.formState)
 
@@ -281,11 +284,13 @@ export default {
           message.success('User berhasil Ditambahkan')
           this.fetchGetUsers()
         }
+        this.isSubmit = false
         this.closeModal()
       })
       .catch(err => {
         console.error(err)
         message.error('Oops, sepertinya ada masalah')
+        this.isSubmit = false
         this.closeModal()
       })
     },
@@ -322,14 +327,17 @@ export default {
       //   })
     },
     fetchGetUsers() {
+      this.isLoading = true
       getUserList()
         .then((response) => {
           if (response) {
             this.users = response
           }
+          this.isLoading = false
         })
         .catch((err) => {
           console.error(err)
+          this.isLoading = false
         })
     },
     goImport() {
