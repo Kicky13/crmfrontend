@@ -34,6 +34,10 @@
         },
         {
           "action": "manage",
+          "subject": "Berita"
+        },
+        {
+          "action": "manage",
           "subject": "Ecommerce"
         },
         {

@@ -42,7 +42,10 @@ export default {
       default: '',
     },
   },
-  emits: [],
+  emits: [
+    'handleOk',
+    'handleCancel',
+  ],
   data() {
     return {
       isNewJawaban: '',

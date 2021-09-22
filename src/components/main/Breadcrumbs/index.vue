@@ -19,7 +19,7 @@
 <script>
 import { ref, watch, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { getMenuData } from '@/services/menu'
+import { getAdminMenuData } from '@/services/menu'
 import reduce from 'lodash/reduce'
 
 export default {
@@ -28,7 +28,7 @@ export default {
     const route = useRoute()
     const breadcrumb = ref([])
     const activeItem = ref([])
-    const menuData = getMenuData
+    const menuData = getAdminMenuData
     const routePath = computed(() => route.path)
 
     const getPath = (data, url, parents = []) => {

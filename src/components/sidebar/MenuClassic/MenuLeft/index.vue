@@ -116,7 +116,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { default as localStore } from 'store'
 import find from 'lodash/find'
-import { getMenuData } from '@/services/menu'
+import { getAdminMenuData, getUserMenuData } from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
 
@@ -126,7 +126,7 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const menuData = computed(() => getMenuData)
+    const menuData = computed(() => user.value.role === 'admin' ? getAdminMenuData : getUserMenuData)
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)
