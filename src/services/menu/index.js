@@ -1,4 +1,4 @@
-export const getMenuData = [
+export const getAdminMenuData = [
   {
     title: 'Dashboards',
     key: '__dashboard',
@@ -8,13 +8,13 @@ export const getMenuData = [
   {
     title: 'Marketing',
     key: 'aw57eky',
-    url: '/berita',
+    url: '/marketing',
     icon: 'fa fa-newspaper-o',
     children: [
       {
         title: 'News',
         key: 'jkr01l',
-        url: '/marketing/artikel',
+        url: '/marketing/berita',
       },
       {
         title: 'Program',
@@ -167,6 +167,33 @@ export const getMenuData = [
         title: 'Master Penilaian Sales',
         key: '8sugn8',
         url: '/sales/survey_sales',
+      },
+    ],
+  },
+]
+
+export const getUserMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
       },
     ],
   },

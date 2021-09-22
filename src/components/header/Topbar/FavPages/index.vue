@@ -71,7 +71,7 @@
 import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import store from 'store'
-import { getMenuData } from '@/services/menu'
+import { getAdminMenuData } from '@/services/menu'
 
 export default {
   setup() {
@@ -80,7 +80,7 @@ export default {
     const favs = ref(store.get('app.topbar.favs') || [])
     const pagesList = ref([])
     const filteredPagesList = ref([])
-    const menuData = getMenuData
+    const menuData = getAdminMenuData
 
     const loadPagesList = () => {
       const getPagesList = () => {
