@@ -62,24 +62,24 @@ const router = createRouter({
         // Fauzan ============ End ===================>>
         // ========== Start of Varis View ==========
         {
-          path: '/marketing/artikel',
-          meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/Artikel'),
+          path: '/marketing/berita',
+          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/Berita'),
         },
         {
-          path: '/marketing/artikel/tambah',
-          meta: { title: 'Tambah Artikel', resource: 'Tambah Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/tambah/Tambah'),
+          path: '/marketing/berita/tambah',
+          meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
+          component: () => import('@/views/berita/tambah/Tambah'),
         },
         {
-          path: '/marketing/artikel/edit/:userId',
-          meta: { title: 'Edit Artikel', resource: 'Edit Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/edit/Edit'),
+          path: '/marketing/berita/edit/:userId',
+          meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
+          component: () => import('@/views/berita/edit/Edit'),
         },
         {
-          path: '/marketing/artikel/:artikelId',
-          meta: { title: 'Detail Artikel', resource: 'Detail Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/detailartikel/DetailArtikel'),
+          path: '/marketing/berita/:artikelId',
+          meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
+          component: () => import('@/views/berita/detailberita/DetailBerita'),
         },
         {
           path: '/user/level_user',

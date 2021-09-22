@@ -31,8 +31,8 @@
               @change="handlePaginationSize"
             >
               <a-select-option
-                v-for="(itemPerPage, i) in itemsPerPage"
-                :key="i"
+                v-for="itemPerPage in itemsPerPage"
+                :key="itemPerPage"
               >
                 {{ itemPerPage }}
               </a-select-option>
@@ -84,7 +84,7 @@
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
       :modal-visible="modalVisible"
-      :username="editItem.nama_user"
+      :username="editItem.namaJenisUser"
       :edit-username="editUsername"
       @handle-ok="handleOk"
       @handle-cancel="modalVisible = false"
@@ -107,13 +107,13 @@ const columns = [
   },
   {
     title: 'ID Jenis User',
-    dataIndex: 'id_user',
-    key: 'id_user',
+    dataIndex: 'idJenisUser',
+    key: 'idJenisUser',
   },
   {
     title: 'Nama Jenis User',
-    dataIndex: 'nama_user',
-    key: 'nama_user',
+    dataIndex: 'namaJenisUser',
+    key: 'namaJenisUser',
   },
   {
     title: 'Action',
@@ -146,7 +146,7 @@ export default {
   },
   computed: {
     dataTable() {
-      return this.dataSourceTable.filter(dataSource => dataSource.nama_user.toLowerCase().includes(this.keyword.toLowerCase()))
+      return this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(this.keyword.toLowerCase()))
     },
   },
   mounted() {
@@ -227,10 +227,10 @@ export default {
     },
     addNewUsername() {
       const dataForm = {
-        id_user: this.makeIdUser(),
-        nama_user: this.newUsername,
+        idJenisUser: this.makeIdUser(),
+        namaJenisUser: this.newUsername,
       }
-      const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
+      const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
       if (!exist) {
         this.addNewLevelUser(dataForm)
         notification.success({
@@ -251,16 +251,16 @@ export default {
     getUserEdit(id) {
       const row = this.dataSourceTable.find(data => data.id === id)
       this.editItem.id = row.id
-      this.editItem.id_user = row.id_user
-      this.editItem.nama_user = row.nama_user
-      this.editUsername = row.nama_user
+      this.editItem.idJenisUser = row.idJenisUser
+      this.editItem.namaJenisUser = row.namaJenisUser
+      this.editUsername = row.namaJenisUser
     },
     showUserEditModal(id) {
       this.getUserEdit(id)
       this.modalVisible = true
     },
     handleOk(newEditUsername) {
-      this.editItem.nama_user = newEditUsername
+      this.editItem.namaJenisUser = newEditUsername
       this.updateLevelUserById(this.editItem.id, this.editItem)
       notification.success({
           message: 'Update User',
