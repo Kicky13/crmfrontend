@@ -35,7 +35,7 @@
               <a class="nav-link" href="#about">About<span class="sr-only"></span></a>
             </li>
 
-            <li class="nav-item" v-if="!adata_login">
+            <li class="nav-item" v-if="!data_login">
               <router-link class="nav-link special" :to="`/auth/login`">Login</router-link>
             </li>
             <li class="nav-item" v-else>
