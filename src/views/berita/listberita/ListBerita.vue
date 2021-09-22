@@ -14,7 +14,10 @@
             class="card-title title-ellipsis"
             v-text="post.post_title"
           />
-          <div class="nav-item dropdown">
+          <div
+            class="nav-item dropdown"
+            v-if="editPermission"
+          >
             <a-dropdown
               placement="bottomCenter"
               :trigger="['click']"
@@ -27,7 +30,7 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <router-link :to="{ path: `/marketing/artikel/edit/${ post.id }` }">
+                  <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
                     <a-menu-item>
                       <a>Edit</a>
                     </a-menu-item>
@@ -49,7 +52,7 @@
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
           <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
-          <router-link :to="`/marketing/artikel/${ post.id }`">
+          <router-link :to="`/marketing/berita/${ post.id }`">
             <a-button type="primary">Read More</a-button>
           </router-link>
         </div>
@@ -60,6 +63,7 @@
 
 <script>
 import { deletePost } from '@/services/connection/artikel/api'
+import { getPermissionList } from '@/services/connection/roles-permissions/api'
 
 export default {
   props: {
@@ -71,7 +75,25 @@ export default {
     },
   },
   emits: ['deleteSuccess'],
+  data() {
+    return {
+      editPermission: false,
+    }
+  },
+  mounted() {
+    this.getPermissionByRole()
+  },
   methods: {
+    getRole() {
+      this.role = JSON.parse(localStorage.getItem('userData')).role
+    },
+    getPermissionByRole() {
+      this.getRole()
+      getPermissionList()
+      .then(response => {
+        this.editPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0].permission.includes('update')
+      })
+    },
     deletePostById(id) {
       deletePost(id)
       .then(response => {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="insertPermission">
-      <router-link to="/marketing/artikel/tambah">
+      <router-link to="/marketing/berita/tambah">
         <a-button
           type="primary"
           class="mb-4"
@@ -48,7 +48,7 @@ export default {
       this.getRole()
       getPermissionList()
       .then(response => {
-        this.insertPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0].permission.includes('insert')
+        this.insertPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0]
       })
     },
     fetchPostList() {
