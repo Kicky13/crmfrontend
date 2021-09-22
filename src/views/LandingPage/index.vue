@@ -3,11 +3,12 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-base dark" id="minify_nav">
       <div class="container">
         <a class="navbar-brand" href="index-2.html">
-          <img
+          <!-- <img
             class="toggle-logo logo-white"
             src="../../assets/LandingPage/images/logo.png"
             alt=""
-          />
+          /> -->
+          <h1 for="" class="toggle-logo logo-white">SIG</h1>
           <img
             class="toggle-logo logo-blue"
             src="../../assets/LandingPage/images/toggle-logo.png"
@@ -34,7 +35,7 @@
               <a class="nav-link" href="#about">About<span class="sr-only"></span></a>
             </li>
 
-            <li class="nav-item" v-if="!data_login">
+            <li class="nav-item" v-if="!adata_login">
               <router-link class="nav-link special" :to="`/auth/login`">Login</router-link>
             </li>
             <li class="nav-item" v-else>
@@ -224,7 +225,7 @@
               <div class="service-icon">
                 <img
                   class="icon center-block"
-                  src="../../assets/LandingPage/images/icons/feature-1.svg"
+                  src="@/assets/LandingPage/images/Getapps.png"
                   alt=""
                 />
               </div>
