@@ -29,8 +29,8 @@
           "subject": "Dashboard"
         },
         {
-          "action": "manage",
-          "subject": "Apps"
+          "action": "read",
+          "subject": "Roles"
         },
         {
           "action": "manage",

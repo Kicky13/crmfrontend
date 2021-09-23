@@ -5,7 +5,8 @@
         <strong>Roles Management</strong>
       </div>
       <div class="card-body">
-        <div class="d-flex justify-content" style="margin-bottom: 10px">
+        <Can i="create" a="Roles">
+          <div class="d-flex justify-content" style="margin-bottom: 10px">
           <div class="align-self-center">
             <strong>{{id == null ? "Tambah Role : " : "Update Role : "}}</strong>
           </div>
@@ -20,6 +21,7 @@
             Cancel
           </a-button>
         </div>
+        </Can>
         <div class="d-flex justify-content-between mb-3">
           <div class="d-flex">
             <div class="align-self-center">
