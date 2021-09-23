@@ -8,7 +8,7 @@ import router from './router'
 import store from './store'
 import { i18n } from './localization'
 import ability from '@/services/ability/ability'
-import { abilitiesPlugin } from '@casl/vue'
+import { Can, abilitiesPlugin } from '@casl/vue'
 import './services/axios/fakeApi' // mocking api
 
 createApp(App)
@@ -20,4 +20,5 @@ createApp(App)
   .use(abilitiesPlugin, ability, {
     useGlobalProperties: true,
   })
+  .component(Can.name, Can)
   .mount('#app')
