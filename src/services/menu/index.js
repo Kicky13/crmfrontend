@@ -197,6 +197,67 @@ export const getUserMenuData = [
     ],
   },
   {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      // {
+      //   title: 'Penguncian Koordinat Toko',
+      //   key: 'awqsaw',
+      //   url: '/koordinatlock',
+      // },
+      // {
+      //   title: 'Radius Distrik',
+      //   key: 'Adawsd',
+      //   url: '/radiusdistrik',
+      // },
+      // {
+      //   title: 'Mapping Customer',
+      //   key: 'Adaws1',
+      //   url: '/mappingcustomer',
+      // },
+      // {
+      //   title: 'Sync Customer',
+      //   key: 'Adaws2',
+      //   url: '/customerscyn',
+      // },
+      {
+        title: 'Log Sync Customer',
+        key: 'Adaws3',
+        url: '/log-sync-customer',
+      },
+      // {
+      //   title: 'Validasi Harga Survey',
+      //   key: 'Adaws5',
+      //   url: '/validasiharga',
+      // },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        url: '/report/customer_mapping',
+      },
+    ],
+  },
+  {
     category: true,
     title: 'Roles & Permissions',
     key: '2h83od',
@@ -221,29 +282,6 @@ export const getUserMenuData = [
         title: 'Assign Roles',
         key: 'acc441',
         url: '/assignrole',
-      },
-    ],
-  },
-  {
-    category: true,
-    title: 'Report Admin',
-    key: '1231sa',
-  },
-  {
-    title: 'Report Admin',
-    key: '1131sa',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        url: '/datasales',
-      },
-      {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        url: '/report/customer_mapping',
       },
     ],
   },
