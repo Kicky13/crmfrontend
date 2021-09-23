@@ -48,7 +48,7 @@ export default {
       this.getRole()
       getPermissionList()
       .then(response => {
-        this.insertPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0]
+        this.insertPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0].permission.includes('insert')
       })
     },
     fetchPostList() {
