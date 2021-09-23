@@ -1,25 +1,43 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
-        <strong>ROLES MANAGEMENT</strong>
+        <strong>Roles Management</strong>
       </div>
       <div class="card-body">
-        <div class="d-flex justify-content" style="margin-bottom: 10px">
-          <div class="align-self-center">
-            <strong>{{id == null ? "Tambah Role : " : "Update Role : "}}</strong>
+        <Can i="create" a="Roles">
+          <div class="d-flex justify-content" style="margin-bottom: 10px">
+            <div class="align-self-center">
+              <strong>{{ id == null ? 'Tambah Role : ' : 'Update Role : ' }}</strong>
+            </div>
+            <a-input
+              placeholder="Nama role"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="role"
+            />
+            <a-input
+              placeholder="Kode role"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="code"
+            />
+            <a-button type="primary" @click="handleSave" :loading="isSubmitForm">
+              <i class="fa fa-save mr-2" />
+              Save
+            </a-button>
+            <a-button
+              :hidden="id == null ? true : false"
+              type="button"
+              style="margin-left: 5px"
+              class="btn btn-outline-danger"
+              @click="clearForm"
+            >
+              <i class="fa fa-times" />
+              Cancel
+            </a-button>
           </div>
-          <a-input placeholder="Nama role" class="mx-3" style="width: 200px" v-model:value="role" />
-          <a-input placeholder="Kode role" class="mx-3" style="width: 200px" v-model:value="code" />
-          <a-button type="primary" @click="handleSave">
-            <i class="fa fa-save mr-2" />
-            Save
-          </a-button>
-          <a-button :hidden="id == null ? true : false" type="button" style="margin-left: 5px;" class="btn btn-outline-danger" @click="clearForm">
-            <i class="fa fa-times" />
-            Cancel
-          </a-button>
-        </div>
+        </Can>
         <div class="d-flex justify-content-between mb-3">
           <div class="d-flex">
             <div class="align-self-center">
@@ -49,19 +67,24 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-light">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
-                  <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
+                <!-- <button type="button" class="btn btn-light">
+                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button> -->
+                <Can i="update" a="Roles">
+                  <button @click="goUpdate(text)" type="button" class="btn btn-warning">
+                    <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
+                  </button>
+                </Can>
+                <Can i="delete" a="Roles">
+                  <button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
+                    <i class="fa fa-trash"></i><span> Hapus</span>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>
         </div>
       </div>
-    </div>
+    </a-card>
   </div>
 </template>
 
@@ -123,6 +146,8 @@ export default {
       role: '',
       code: '',
       id: null,
+      isLoading: false,
+      isSubmitForm: false,
     }
   },
   mounted() {
@@ -175,6 +200,7 @@ export default {
       }
     },
     insertRole() {
+      this.isSubmitForm = true
       const formData = {
         role: this.role,
         code: this.code,
@@ -188,13 +214,16 @@ export default {
             this.fetchGetRoles()
             this.clearForm()
           }
+          this.isSubmitForm = false
         })
         .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
+          this.isSubmitForm = false
         })
     },
     updateRole() {
+      this.isSubmitForm = true
       const formData = {
         role: this.role,
         code: this.code,
@@ -208,10 +237,12 @@ export default {
             this.fetchGetRoles()
             this.clearForm()
           }
+          this.isSubmitForm = false
         })
         .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
+          this.isSubmitForm = false
         })
     },
     formValidation() {
@@ -234,14 +265,17 @@ export default {
       return true
     },
     fetchGetRoles() {
+      this.isLoading = true
       this.roles = []
       getRoleList()
         .then((response) => {
           if (response) {
             this.roles = response
           }
+          this.isLoading = false
         })
         .catch((err) => {
+          this.isLoading = false
           console.error(err)
         })
     },

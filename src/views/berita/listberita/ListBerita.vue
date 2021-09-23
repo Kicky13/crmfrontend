@@ -5,16 +5,19 @@
       :sm="24"
       :md="12"
       :lg="8"
-      v-for="postItem in postItems"
-      :key="postItem.id"
+      v-for="post in posts"
+      :key="post.id"
     >
       <div class="card card-top card-top-primary h-100">
         <div class="card-header d-flex justify-content-between">
           <h5
             class="card-title title-ellipsis"
-            v-text="postItem.post_title"
+            v-text="post.post_title"
           />
-          <div class="nav-item dropdown">
+          <div
+            class="nav-item dropdown"
+            v-if="editPermission"
+          >
             <a-dropdown
               placement="bottomCenter"
               :trigger="['click']"
@@ -27,13 +30,13 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <router-link :to="{ path: `/marketing/artikel/edit/${postItem.id}` }">
+                  <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
                     <a-menu-item>
                       <a>Edit</a>
                     </a-menu-item>
                   </router-link>
                   <a-menu-item>
-                    <a @click="deleteConfirm(postItem.id)">Hapus</a>
+                    <a @click="deleteConfirm(post.id)">Hapus</a>
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -41,18 +44,17 @@
           </div>
         </div>
         <div class="card-body pb-0">
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="card-text detail-ellipsis"
-            v-html="postItem.post_detail"
+            v-html="post.post_detail"
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.post_date}} {{postItem.post_time}}</div>
-          <a-button
-            type="primary"
-          >
-            Read More
-          </a-button>
+          <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
+          <router-link :to="`/marketing/berita/${ post.id }`">
+            <a-button type="primary">Read More</a-button>
+          </router-link>
         </div>
       </div>
     </a-col>
@@ -61,16 +63,46 @@
 
 <script>
 import { deletePost } from '@/services/connection/artikel/api'
+import { getPermissionList } from '@/services/connection/roles-permissions/api'
 
 export default {
-  props:['postItems'],
+  props: {
+    posts: {
+      type: Array,
+      default: function () {
+        return []
+      },
+    },
+  },
+  emits: ['deleteSuccess'],
+  data() {
+    return {
+      editPermission: false,
+    }
+  },
+  mounted() {
+    this.getPermissionByRole()
+  },
   methods: {
+    getRole() {
+      this.role = JSON.parse(localStorage.getItem('userData')).role
+    },
+    getPermissionByRole() {
+      this.getRole()
+      getPermissionList()
+      .then(response => {
+        this.editPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0].permission.includes('update')
+      })
+    },
     deletePostById(id) {
       deletePost(id)
       .then(response => {
         if (response) {
-          this.$emit('deleteMessage')
+          this.$emit('deleteSuccess')
         }
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     deleteConfirm(id) {
@@ -79,8 +111,8 @@ export default {
         title: 'Hapus Berita',
         content: 'Apakah anda yakin?',
         okText: 'Ya',
-        okType: 'primary',
         cancelText: 'Batal',
+        okType: 'primary',
         onOk() {
           deleteMethod(id)
         },

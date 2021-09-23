@@ -13,24 +13,8 @@ const router = createRouter({
   },
   history: createWebHashHistory(),
   routes: [
-    // ======================= Start Iqbal ====================
     {
-      path: '/',
-      name: 'LandingPage',
-      redirect: '/landingpage',
-      component: LandingPage,
-      children: [
-        {
-          path: '/landingpage',
-          name: 'LandingPage',
-          component: () => import(/* webpackChunkName: "landing-page" */ '../views/LandingPage'),
-        },
-      ],
-    },
-    // ======================= Start Iqbal ====================
-
-    {
-      path: '/dashboard',
+      path: '/login',
       name: 'home',
       // VB:REPLACE-NEXT-LINE:ROUTER-REDIRECT
       redirect: '/dashboard',
@@ -78,19 +62,24 @@ const router = createRouter({
         // Fauzan ============ End ===================>>
         // ========== Start of Varis View ==========
         {
-          path: '/marketing/artikel',
-          meta: { title: 'Artikel', resource: 'Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/Artikel'),
+          path: '/marketing/berita',
+          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          component: () => import('@/views/berita/Berita'),
         },
         {
-          path: '/marketing/artikel/tambah',
-          meta: { title: 'Tambah Artikel', resource: 'Tambah Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/tambah/Tambah'),
+          path: '/marketing/berita/tambah',
+          meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
+          component: () => import('@/views/berita/tambah/Tambah'),
         },
         {
-          path: '/marketing/artikel/edit/:userId',
-          meta: { title: 'Edit Artikel', resource: 'Edit Artikel', action: 'manage' },
-          component: () => import('@/views/artikel/edit/Edit'),
+          path: '/marketing/berita/edit/:userId',
+          meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
+          component: () => import('@/views/berita/edit/Edit'),
+        },
+        {
+          path: '/marketing/berita/:artikelId',
+          meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
+          component: () => import('@/views/berita/detailberita/DetailBerita'),
         },
         {
           path: '/user/level_user',
@@ -105,29 +94,29 @@ const router = createRouter({
         // ========== End of Varis View ==========
         {
           path: '/marketing/program',
-          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
+          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'read' },
           component: () => import('@/views/program'),
         },
         {
           path: '/marketing/program/tambah',
-          meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
+          meta: { title: 'Tambah Program', resource: 'Add_Program', action: 'create' },
           component: () => import('@/views/program/tambah'),
         },
         {
           path: '/marketing/program/edit/:userId',
-          meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
+          meta: { title: 'Edit Program', resource: 'Edit_Program', action: 'update' },
           component: () => import('@/views/program/edit/Edit'),
         },
         // Kikik ====================================================================
         {
           path: '/roles',
-          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
+          meta: { title: 'Role Management', resource: 'Roles', action: 'read' },
           component: () => import('@/views/roles'),
         },
         {
           path: '/roles/create',
           name: 'roles-create',
-          meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+          meta: { title: 'Role Management', resource: 'Permissions', action: 'read' },
           component: () => import('@/views/roles/forms/Insert'),
         },
         {
@@ -172,6 +161,24 @@ const router = createRouter({
           meta: { title: 'User Management', resource: 'User', action: 'manage' },
           component: () => import('@/views/usermanagement/User'),
         },
+        {
+          path: '/users/export',
+          name: 'user-management-export',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/forms/Export'),
+        },
+        {
+          path: '/users/profile',
+          name: 'user-management-profile',
+          meta: { title: 'Export User', resource: 'User', action: 'manage' },
+          component: () => import('@/views/usermanagement/profile/Profile'),
+        },
+        {
+          path: '/koordinatlock',
+          name: 'koordinat-lock',
+          meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+          component: () => import('@/views/coordinatelock/Lock'),
+        },
         // Kikik ============================================================================
         /*  ROBI VIEW */
         {
@@ -183,14 +190,14 @@ const router = createRouter({
         {
           path: '/validasiharga',
           name: 'validasi-harga',
-          meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
+          meta: { title: 'Validasi Harga', resource: 'validasiHarga', action: 'read' },
           component: () => import('@/views/validasiharga'),
         },
 
         {
           path: '/datasales',
           name: 'data-sales',
-          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          meta: { title: 'Data Sales', resource: 'DataSales', action: 'read' },
           component: () => import('@/views/datasales'),
         },
 
@@ -210,6 +217,27 @@ const router = createRouter({
     },
 
     // System Pages
+    // ======================= Start Iqbal ====================
+    {
+      path: '/',
+      name: 'LandingPage',
+      redirect: '/',
+      component: LandingPage,
+      children: [
+        {
+          path: '/',
+          name: 'LandingPage',
+          meta: {
+            title: 'Landing Page',
+            resource: 'Auth',
+            action: 'read',
+          },
+          component: () => import(/* webpackChunkName: "landing-page" */ '@/views/LandingPage'),
+        },
+      ],
+    },
+    // ======================= Start Iqbal ====================
+
     {
       path: '/auth',
       component: AuthLayout,

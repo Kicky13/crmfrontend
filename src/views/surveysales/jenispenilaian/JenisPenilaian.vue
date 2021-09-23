@@ -1,55 +1,117 @@
 <template>
-  <div class="card">
+  <div class="card border-radius-card">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
-      <i class="fa fa-plus-circle fa-lg align-self-center" />
+      <a
+        class="fa fa-plus-circle fa-lg align-self-center text-white"
+        @click="modalVisible = true"
+      />
     </div>
     <div class="card-body">
-      <div class="list-group">
+      <a-collapse
+        accordion
+        style="background: white !important;"
+        :bordered="false"
+        @change="changeActiveKey"
+      >
         <template
-          v-for="survey in surveyList"
-          :key="survey.id"
+          v-for="(survey, i) in list"
+          :key="i + 1"
         >
-          <a
-            class="list-group-item list-group-item-action"
-            @click="pilihPenilaian(survey.id)"
-          >
-            {{survey.jenis_penilaian}} [{{survey.pertanyaan.length}}]
-          </a>
+          <a-collapse-panel
+            class="text-center"
+            :class="i + 1 === getActiveMenu ? { active: true } : { active: false }"
+            :header="`${ survey.jenis_penilaian } [${ survey.pertanyaan.length }]`"
+            :show-arrow="false"
+            :style="customStyle"
+            @click="getJenisPenilaianById(survey.id)"
+          />
         </template>
-      </div>
+      </a-collapse>
     </div>
   </div>
+  <vb-tambah-jenis-penilaian-modal
+    :modal-visible="modalVisible"
+    :new-jenis-penilaian="jenisPenilaian"
+    @handle-ok="handleOk"
+    @handle-cancel="modalVisible = false"
+  />
 </template>
 
 <script>
-import { getSurvey } from '@/services/connection/survey-sales/api'
+import { notification } from 'ant-design-vue'
+import VbTambahJenisPenilaianModal from './modals/TambahJenisPenilaianModal'
 
 export default {
+  components: {
+    VbTambahJenisPenilaianModal,
+  },
+  props: {
+    list: {
+      type: Array,
+      default: function () {
+        return []
+      },
+    },
+    getActiveMenu: {
+      type: Number,
+      default: 1,
+    },
+  },
+  emits: [
+    'selectedJenisPenilaian',
+    'addJenisPenilaian',
+    'activeKey',
+  ],
   data() {
     return {
-      surveyList: {},
+      modalVisible: false,
+      activeKey: 1,
+      customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
+      jenisPenilaian: '',
     }
   },
-  mounted() {
-    this.fetchSurveyList()
-  },
   methods: {
-    fetchSurveyList() {
-      getSurvey()
-      .then(response => {
-        this.surveyList = response
-      })
-    },
-    pilihPenilaian(id) {
-      const question_list = this.surveyList.find(survey => survey.id === id)
-      const question_title = question_list.jenis_penilaian
-      const data = {
-        question_list: question_list.pertanyaan,
-        question_title,
+    changeActiveKey(key) {
+      if (!(key === undefined)) {
+        this.$emit('activeKey', key)
       }
-      this.$emit('evaluationSelected', data)
+    },
+    getJenisPenilaianById(id) {
+      const survey = this.list.find(survey => survey.id === id)
+      const jenis_penilaian = survey.jenis_penilaian
+      const pertanyaan = survey.pertanyaan
+      const data = {
+        id,
+        jenis_penilaian,
+        pertanyaan,
+      }
+      this.$emit('selectedJenisPenilaian', data)
+    },
+    handleOk(newJenisPenilaian) {
+      const dataForm = {}
+      dataForm.jenis_penilaian = newJenisPenilaian
+      dataForm.pertanyaan = []
+      this.$emit('addJenisPenilaian', dataForm)
+      notification.success({
+        message: 'Jenis Penilaian',
+        description: 'Jenis penilaian berhasil ditambah',
+      })
+      this.modalVisible = false
     },
   },
 }
 </script>
+
+<style>
+.border-radius-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ant-collapse-content .ant-collapse-content-box {
+  padding: 0 !important;
+}
+.active {
+  background: #f0f0f0 !important;
+}
+</style>

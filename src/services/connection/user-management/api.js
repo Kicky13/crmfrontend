@@ -1,5 +1,4 @@
 import apiClient from '@/services/axios'
-import store from 'store'
 
 export async function getUserList() {
     return apiClient
@@ -7,6 +6,18 @@ export async function getUserList() {
     .then(response => {
         if (response) {
             return response.data
+        }
+        return false
+    })
+    .catch(err => { console.error(err) })
+}
+
+export async function insertUser(formData) {
+    return apiClient
+    .post('/usercrm', formData)
+    .then(response => {
+        if (response) {
+            return response
         }
         return false
     })

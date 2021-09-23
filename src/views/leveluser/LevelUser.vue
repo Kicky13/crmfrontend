@@ -9,11 +9,11 @@
           placeholder="Nama jenis user"
           class="mx-3"
           style="width: 200px"
-          v-model:value="userBaru"
+          v-model:value="newUsername"
         />
         <a-button
           type="primary"
-          @click="tambahUserBaru"
+          @click="addNewUsername"
         >
           <i class="fa fa-save mr-2" />
           Save
@@ -34,7 +34,7 @@
                 v-for="itemPerPage in itemsPerPage"
                 :key="itemPerPage"
               >
-                {{itemPerPage}}
+                {{ itemPerPage }}
               </a-select-option>
             </a-select>
             <div class="align-self-center">
@@ -44,12 +44,13 @@
           <a-input-search
             placeholder="input search text"
             style="width: 200px"
+            v-model:value="keyword"
           />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="columns"
-            :data-source="dataSourceTable"
+            :data-source="dataTable"
             :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
           >
@@ -61,7 +62,7 @@
                 <button
                   type="button"
                   class="btn btn-warning mr-1"
-                  @click="showEditUserModal(text)"
+                  @click="showUserEditModal(text)"
                 >
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
@@ -80,24 +81,22 @@
         </div>        
       </div>
     </div>
-    <a-modal
-      :title="`Edit Menu: ${editItem.nama_user}`"
-      :visible="editUserModalVisible"
-      @ok="editUserModalHandleOk"
-      @cancel="editUserModalHandleCancel"
-    >
-      <a-form>
-        <a-form-item label="Jenis User">
-          <a-input v-model:value="inputValueUser" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <!-- User Edit Modal Start -->
+    <vb-user-edit-modal
+      :modal-visible="modalVisible"
+      :username="editItem.namaJenisUser"
+      :edit-username="editUsername"
+      @handle-ok="handleOk"
+      @handle-cancel="modalVisible = false"
+    />
+    <!-- User Edit Modal End -->
   </div>
 </template>
 
 <script>
-import { getUser, deleteUser, updateUser, addUser } from '@/services/connection/user/api'
-import { message } from 'ant-design-vue'
+import { getLevelUser, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
+import VbUserEditModal from './modals/UserEditModal'
+import { notification } from 'ant-design-vue'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -108,13 +107,13 @@ const columns = [
   },
   {
     title: 'ID Jenis User',
-    dataIndex: 'id_user',
-    key: 'id_user',
+    dataIndex: 'idJenisUser',
+    key: 'idJenisUser',
   },
   {
     title: 'Nama Jenis User',
-    dataIndex: 'nama_user',
-    key: 'nama_user',
+    dataIndex: 'namaJenisUser',
+    key: 'namaJenisUser',
   },
   {
     title: 'Action',
@@ -125,6 +124,9 @@ const columns = [
 ]
 
 export default {
+  components: {
+    VbUserEditModal,
+  },
   setup() {
     return {
       itemsPerPage,
@@ -135,22 +137,24 @@ export default {
     return {
       dataSourceTable: [],
       pagination: {},
-      editUserModalVisible: false,
-      editItem: {
-        id: null,
-        id_user: '',
-        nama_user: '',
-      },
-      inputValueUser: '',
-      userBaru: '',
+      modalVisible: false,
+      editUsername: '',
+      editItem: {},
+      newUsername: '',
+      keyword: '',
     }
   },
+  computed: {
+    dataTable() {
+      return this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(this.keyword.toLowerCase()))
+    },
+  },
   mounted() {
-    this.fetchGetUser()
+    this.fetchLevelUsers()
   },
   methods: {
-    fetchGetUser() {
-      getUser()
+    fetchLevelUsers() {
+      getLevelUser()
         .then((response) => {
           let i = 1
           this.dataSourceTable = []
@@ -165,41 +169,38 @@ export default {
           console.error(err)
         })
     },
-    deleteUserById(id) {
-      deleteUser(id)
+    addNewLevelUser(data) {
+      addLevelUser(data)
       .then(response => {
         console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil dihapus')
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    },
-    updateUserById(id, data) {
-      updateUser(id, data)
-      .then(response => {
-        console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil diupdate')
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    },
-    addNewUser(data) {
-      addUser(data)
-      .then(response => {
-        console.log(response)
-        this.fetchGetUser()
-        message.success('User berhasil ditambah')
+        this.fetchLevelUsers()
       })
       .catch(err => {
         console.log(err)
       })
     },
+    deleteLevelUserById(id) {
+      deleteLevelUser(id)
+      .then(response => {
+        console.log(response)
+        this.fetchLevelUsers()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    updateLevelUserById(id, data) {
+      updateLevelUser(id, data)
+      .then(response => {
+        console.log(response)
+        this.fetchLevelUsers()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     deleteConfirm(id) {
-      const deleteMethod = this.deleteUserById
+      const deleteMethod = this.deleteLevelUserById
       this.$confirm({
         title: 'Hapus User',
         content: 'Apakah anda yakin?',
@@ -208,35 +209,12 @@ export default {
         cancelText: 'Batal',
         onOk() {
           deleteMethod(id)
+          notification.success({
+            message: 'Hapus User',
+            description: 'User berhasil dihapus',
+          })
         },
       });
-    },
-    handlePaginationSize(size) {
-      this.pagination.pageSize = size
-    },
-    showEditUserModal(id) {
-      this.getUserEdit(id)
-      this.editUserModalVisible = true
-    },
-    editUserModalHandleOk() {
-      this.editItem.nama_user = this.inputValueUser
-      this.updateUserById(this.editItem.id, this.editItem)
-      this.editItem = {
-        id: null,
-        id_user: '',
-        nama_user: '',
-      }
-      this.editUserModalVisible = false
-    },
-    editUserModalHandleCancel() {
-      this.editUserModalVisible = false
-    },
-    getUserEdit(id) {
-      const row = this.dataSourceTable.find(data => data.id === id)
-      this.editItem.id = row.id
-      this.editItem.id_user = row.id_user
-      this.editItem.nama_user = row.nama_user
-      this.inputValueUser = row.nama_user
     },
     makeIdUser() {
       let id = ''
@@ -247,18 +225,54 @@ export default {
 
       return id
     },
-    tambahUserBaru() {
+    addNewUsername() {
       const dataForm = {
-        id_user: this.makeIdUser(),
-        nama_user: this.userBaru,
+        idJenisUser: this.makeIdUser(),
+        namaJenisUser: this.newUsername,
       }
-      const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
+      const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
       if (!exist) {
-        this.addNewUser(dataForm)
-        this.userBaru = ''
+        this.addNewLevelUser(dataForm)
+        notification.success({
+          message: 'Tambah User',
+          description: 'User berhasil ditambah',
+        })
+        this.newUsername = ''
       } else {
-        message.error('User sudah tersedia')
+        notification.warning({
+          message: 'Tambah User',
+          description: 'User sudah tersedia',
+        })
       }
+    },
+    handlePaginationSize(size) {
+      this.pagination.pageSize = size
+    },
+    getUserEdit(id) {
+      const row = this.dataSourceTable.find(data => data.id === id)
+      this.editItem.id = row.id
+      this.editItem.idJenisUser = row.idJenisUser
+      this.editItem.namaJenisUser = row.namaJenisUser
+      this.editUsername = row.namaJenisUser
+    },
+    showUserEditModal(id) {
+      this.getUserEdit(id)
+      this.modalVisible = true
+    },
+    handleOk(newEditUsername) {
+      this.editItem.namaJenisUser = newEditUsername
+      this.updateLevelUserById(this.editItem.id, this.editItem)
+      notification.success({
+          message: 'Update User',
+          description: 'User berhasil diupdate',
+        })
+      this.resetAfterSubmit()
+      this.modalVisible = false
+    },
+    resetAfterSubmit() {
+      this.editItem = {}
+      this.editUsername = ''
+      this.keyword = ''
     },
   },
 }

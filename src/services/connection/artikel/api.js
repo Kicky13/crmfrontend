@@ -1,6 +1,6 @@
 import apiClient from '@/services/axios'
 
-export async function listPost() {
+export async function postList() {
     return apiClient
     .get('/posts')
     .then(response => {
@@ -13,7 +13,7 @@ export async function listPost() {
 
 export async function showPost(id) {
     return apiClient
-    .get(`/posts/${id}`)
+    .get(`/posts/${ id }`)
     .then(response => {
         if (response) {
             return response.data
@@ -24,7 +24,7 @@ export async function showPost(id) {
 
 export async function deletePost(id) {
   return apiClient
-  .delete(`/posts/${id}`)
+  .delete(`/posts/${ id }`)
   .then(response => {
       if (response) {
           return response.data
@@ -46,7 +46,7 @@ export async function storePost(formData, config) {
 
 export async function updatePost(id, formData, config) {
     return apiClient
-    .put(`/posts/${id}`, formData, config)
+    .put(`/posts/${ id }`, formData, config)
     .then(response => {
         if (response) {
             return response.data

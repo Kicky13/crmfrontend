@@ -1,4 +1,4 @@
-export const getMenuData = [
+export const getAdminMenuData = [
   {
     title: 'Dashboards',
     key: '__dashboard',
@@ -8,13 +8,13 @@ export const getMenuData = [
   {
     title: 'Marketing',
     key: 'aw57eky',
-    url: '/berita',
+    url: '/marketing',
     icon: 'fa fa-newspaper-o',
     children: [
       {
         title: 'News',
         key: 'jkr01l',
-        url: '/marketing/artikel',
+        url: '/marketing/berita',
       },
       {
         title: 'Program',
@@ -55,6 +55,11 @@ export const getMenuData = [
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
+      {
+        title: 'Penguncian Koordinat Toko',
+        key: 'gh898s',
+        url: '/koordinatlock',
+      },
       {
         title: 'Radius Distrik',
         key: 'St11Cf',
@@ -156,12 +161,67 @@ export const getMenuData = [
     title: 'Supervisory Visit',
     key: '78ehnf',
     url: '/sales',
-    icon: 'fa fa-user',
+    icon: 'fa fa-book',
     children: [
       {
         title: 'Master Penilaian Sales',
         key: '8sugn8',
         url: '/sales/survey_sales',
+      },
+    ],
+  },
+]
+
+export const getUserMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+  {
+    title: 'Roles & Permissions',
+    key: '82hska',
+    url: '/roles-permissions',
+    icon: 'fe fe-database',
+    children: [
+      {
+        title: 'Roles',
+        key: 'a32jaa',
+        url: '/roles',
+      },
+      {
+        title: 'Permissions',
+        key: 'echa2a',
+        url: '/permissions',
+      },
+      {
+        title: 'Assign Roles',
+        key: 'acc441',
+        url: '/assignrole',
       },
     ],
   },

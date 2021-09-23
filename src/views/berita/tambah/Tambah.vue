@@ -1,7 +1,7 @@
 <template>
   <div class="card card-top card-top-primary">
     <div class="card-header">
-      <vb-headers-card-header :data="{ title: 'Form Edit Artikel' }" />
+      <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
       <a-form
@@ -35,6 +35,7 @@
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
+            accept="image/png, image/jpg, image/jpeg"
             :file-list="fileList"
             @preview="handlePreview"
             @change="handleChange"
@@ -62,7 +63,7 @@
             html-type="submit"
             @click="onSubmit"
           >
-            Edit
+            Tambah
           </a-button>
           <router-link
             to="/marketing/artikel"
@@ -77,12 +78,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import { quillEditor } from 'vue3-quill'
-import { defineComponent, onMounted, reactive, toRaw } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
-import { showPost, updatePost } from '@/services/connection/artikel/api'
-import { message } from 'ant-design-vue';
+import { defineComponent, reactive, toRaw } from 'vue'
+import { storePost } from '@/services/connection/artikel/api'
+import { useRouter } from 'vue-router'
+import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
@@ -123,33 +125,31 @@ export default defineComponent({
         },
       ],
     }
-    const route = useRoute()
     const router = useRouter()
-    onMounted(() => {
-      getPostById()
-    })
-    const getPostById = () => {
-      const id = route.params.userId
-      showPost(id)
-      .then(response => {
-        if (response) {
-          formState.id = response.id
-          formState.post_date = response.post_date
-          formState.post_time = response.post_time
-          formState.post_title = response.post_title
-          formState.post_slug = response.post_slug
-          formState.post_detail = response.post_detail
-          formState.publication_status = response.publication_status
-          formState.tag = response.tag
-          formState.image = response.image
-        }
-      })
-    }
-    const updatePostById = (id, param, config) => {
-      updatePost(id, param, config)
+    const addNewPost = (param, config) => {
+      storePost(param, config)
       .then(response => {
         console.log(response)
       })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+    const getCurrentDate = () => {
+      const today = new Date()
+      const date = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const year = today.getFullYear()
+
+      return `${date}-${month}-${year}`
+    }
+    const getCurrentTime = () => {
+      const today = new Date();
+      const hour = String(today.getHours()).padStart(2, '0')
+      const minute = String(today.getMinutes()).padStart(2, '0')
+      const second = String(today.getSeconds()).padStart(2, '0')
+
+      return `${hour}:${minute}:${second}`
     }
     const formState = reactive({
       post_date: '',
@@ -169,17 +169,14 @@ export default defineComponent({
       }
       if (formState.post_title && formState.post_detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
-          updatePostById(formState.id, toRaw(formState), config)
-          formState.post_date = ''
-          formState.post_time = ''
-          formState.post_title = ''
-          formState.post_slug = 'judul_artikel'
-          formState.post_detail = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-          formState.image = null
+          formState.post_date = getCurrentDate(),
+          formState.post_time = getCurrentTime(),
+          addNewPost(toRaw(formState), config)
           router.push('/marketing/artikel')
-          message.success('Artikel berhasil diupate')
+          notification.success({
+            message: 'Tambah Artikel',
+            description: 'Artikel berhasil ditambah',
+          })
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -199,32 +196,16 @@ export default defineComponent({
     return {
       previewVisible: false,
       previewImage: '',
-      fileList: [],
+      fileList: [
+        {
+          uid: '-1',
+          name: '.jpg/.png',
+          status: 'error',
+        },
+      ],
     };
   },
-  mounted() {
-    this.getPostById()
-  },
   methods: {
-    getPostById() {
-      const id = this.$route.params.userId
-      showPost(id)
-      .then(response => {
-        if (response) {
-          const info = {
-            fileList: [
-              {
-                uid: '-1',
-                name: '.jpg/.png',
-                status: 'error',
-              },
-              { ...response.image },
-            ],
-          }
-          this.handleChange(info)
-        }
-      })
-    },
     handleCancel() {
       this.previewVisible = false
     },
@@ -254,20 +235,8 @@ export default defineComponent({
         ]
       } else {
         this.fileList = fileList
-        if (!Object.keys(this.fileList[0]).length) {
-          this.fileList = [
-            {
-              uid: '-1',
-              name: '.jpg/.png',
-              status: 'error',
-            },
-          ]
-          this.formState.image = null
-        } else {
-          this.formState.image = this.fileList[0]
-        }
+        this.formState.image = this.fileList[0]
       }
-      console.log(this.formState)
     },
   },
 })
