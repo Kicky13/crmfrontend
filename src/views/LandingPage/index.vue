@@ -48,6 +48,7 @@
     <section
       class="main-header demo1"
       :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.png')"
+      style="background-color: #b20838;"
       id="main"
     >
       <div class="home-cont">
@@ -291,7 +292,8 @@
 
     <section
       class="information-mobile"
-      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"      
+      style="background-color: #b20838;"
     >
       <div class="container">
         <div class="row">
