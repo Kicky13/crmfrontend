@@ -204,12 +204,12 @@ const router = createRouter({
         // ========== Start of Iqbal View ==========
         {
           path: '/report/customer_mapping',
-          meta: { title: 'Customer Mapping', resource: 'Mapping', action: 'manage' },
+          meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'manage' },
           component: () => import('@/views/reportadmin/customermapping'),
         },
         {
           path: '/log-sync-customer',
-          meta: { title: 'Log Sync Customer', resource: 'Program', action: 'manage' },
+          meta: { title: 'Log Sync Customer', resource: 'LogSyncCustomer', action: 'manage' },
           component: () => import('@/views/logasyncustomer'),
         },
         // ========== End of iqbal View ==========

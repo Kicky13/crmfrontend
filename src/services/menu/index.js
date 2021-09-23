@@ -106,7 +106,6 @@ export const getAdminMenuData = [
     ],
   },
   {
-
     category: true,
     title: 'Report Admin',
     key: '2h83ot12',
@@ -222,6 +221,29 @@ export const getUserMenuData = [
         title: 'Assign Roles',
         key: 'acc441',
         url: '/assignrole',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        url: '/report/customer_mapping',
       },
     ],
   },
