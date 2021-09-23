@@ -1136,6 +1136,18 @@
       "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
+    },
+    {
+      "id": 9,
+      "idproduk": 2000,
+      "rownum": "",
+      "namaproduk": "Semen Padang",
+      "hargaBeliMin": "1002",
+      "hargaBeliMax": "2000",
+      "hargaJualMin": "1500",
+      "hargaJualMax": "2500",
+      "issig": "true",
+      "status": "active"
     }
   ],
   "datasales": [
