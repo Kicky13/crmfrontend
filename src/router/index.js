@@ -110,13 +110,13 @@ const router = createRouter({
         // Kikik ====================================================================
         {
           path: '/roles',
-          meta: { title: 'Role Management', resource: 'Roles', action: 'manage' },
+          meta: { title: 'Role Management', resource: 'Roles', action: 'read' },
           component: () => import('@/views/roles'),
         },
         {
           path: '/roles/create',
           name: 'roles-create',
-          meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+          meta: { title: 'Role Management', resource: 'Permissions', action: 'read' },
           component: () => import('@/views/roles/forms/Insert'),
         },
         {

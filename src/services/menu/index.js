@@ -197,4 +197,32 @@ export const getUserMenuData = [
       },
     ],
   },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+  {
+    title: 'Roles & Permissions',
+    key: '82hska',
+    url: '/roles-permissions',
+    icon: 'fe fe-database',
+    children: [
+      {
+        title: 'Roles',
+        key: 'a32jaa',
+        url: '/roles',
+      },
+      {
+        title: 'Permissions',
+        key: 'echa2a',
+        url: '/permissions',
+      },
+      {
+        title: 'Assign Roles',
+        key: 'acc441',
+        url: '/assignrole',
+      },
+    ],
+  },
 ]
