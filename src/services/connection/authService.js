@@ -1,4 +1,5 @@
 import apiClient from '@/services/axios'
+import serverClient from '@/services/axios/axios'
 import store from 'store'
 
 export async function login(email, password) {
@@ -7,6 +8,26 @@ export async function login(email, password) {
     .then(response => {
       if (response) {
         const data = response.data[0]
+        const accessToken = data.id + "" + data.accessToken
+        if (accessToken) {
+          localStorage.setItem('userData', JSON.stringify(data));
+          store.set('accessToken', accessToken)
+          store.set('userID', data.id)
+          console.log(localStorage.getItem('userData'))
+        }
+        return data
+      }
+      return false
+    })
+    .catch(err => console.log(err))
+}
+
+export async function newlogin(formData) {
+  return serverClient
+    .post('login', formData)
+    .then(response => {
+      if (response) {
+        const data = response.data
         const accessToken = data.id + "" + data.accessToken
         if (accessToken) {
           localStorage.setItem('userData', JSON.stringify(data));
