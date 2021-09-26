@@ -43,6 +43,10 @@
         {
           "action": "read",
           "subject": "Auth"
+        },
+        {
+          "action": "manage",
+          "subject": "CustomerMapping"
         }
       ]
     }

@@ -51,12 +51,12 @@ const router = createRouter({
         },
         {
           path: '/uploadvisitplan',
-          meta: { title: 'Upload Visit', resource: 'Visit Plan', action: 'manage' },
+          meta: { title: 'Upload Visit', resource: 'VisitPlan', action: 'manage' },
           component: () => import('@/views/uploadvisitplan/uploadvisitplanindex'),
         },
         {
           path: '/otomatisasivisit',
-          meta: { title: 'Otomatisasi Visit', resource: 'Visit Plan', action: 'manage' },
+          meta: { title: 'Otomatisasi Visit', resource: 'VisitPlan', action: 'manage' },
           component: () => import('@/views/otomatisasivisitplan/otomatisasivisitplanindex'),
         },
         // Fauzan ============ End ===================>>
@@ -88,7 +88,7 @@ const router = createRouter({
         },
         {
           path: '/sales/survey_sales',
-          meta: { title: 'Survey Sales', resource: 'Survey Sales', action: 'manage' },
+          meta: { title: 'Survey Sales', resource: 'SurveySales', action: 'manage' },
           component: () => import('@/views/surveysales/SurveySales'),
         },
         // ========== End of Varis View ==========
@@ -104,7 +104,7 @@ const router = createRouter({
         },
         {
           path: '/marketing/program/edit/:userId',
-          meta: { title: 'Edit Program', resource: 'Edit Program', action: 'manage' },
+          meta: { title: 'Edit Program', resource: 'EditProgram', action: 'manage' },
           component: () => import('@/views/program/edit/Edit'),
         },
         // Kikik ====================================================================
