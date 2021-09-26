@@ -47,6 +47,10 @@
         {
           "action": "manage",
           "subject": "CustomerMapping"
+        },
+        {
+          "action": "manage",
+          "subject": "SynCustomer"
         }
       ]
     }

@@ -224,7 +224,7 @@ export const getUserMenuData = [
       // },
       {
         title: 'Log Sync Customer',
-        key: 'Adaws3',
+        key: '1121sw',
         url: '/log-sync-customer',
       },
       // {
@@ -245,11 +245,11 @@ export const getUserMenuData = [
     url: '/roles-permissions',
     icon: 'fa fa-list-ul',
     children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        url: '/datasales',
-      },
+      // {
+      //   title: 'Data Sales SBI',
+      //   key: 'asa123',
+      //   url: '/datasales',
+      // },
       {
         title: 'Customer Mapping',
         key: 'xca132',

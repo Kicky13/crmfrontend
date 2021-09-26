@@ -209,7 +209,7 @@ const router = createRouter({
         },
         {
           path: '/log-sync-customer',
-          meta: { title: 'Log Sync Customer', resource: 'LogSyncCustomer', action: 'manage' },
+          meta: { title: 'Log Sync Customer', resource: 'SynCustomer', action: 'manage' },
           component: () => import('@/views/logasyncustomer'),
         },
         // ========== End of iqbal View ==========
