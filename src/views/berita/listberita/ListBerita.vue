@@ -14,34 +14,33 @@
             class="card-title title-ellipsis"
             v-text="post.post_title"
           />
-          <div
-            class="nav-item dropdown"
-            v-if="editPermission"
-          >
-            <a-dropdown
-              placement="bottomCenter"
-              :trigger="['click']"
-            >
-              <a
-                class="nav-link pt-sm-0"
-                href="javascript: void(0);"
+          <Can do="create" on="News">
+            <div class="nav-item dropdown">
+              <a-dropdown
+                placement="bottomCenter"
+                :trigger="['click']"
               >
-                <i class="fa fa-caret-down" />
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
+                <a
+                  class="nav-link pt-sm-0"
+                  href="javascript: void(0);"
+                >
+                  <i class="fa fa-caret-down" />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
+                      <a-menu-item>
+                        <a>Edit</a>
+                      </a-menu-item>
+                    </router-link>
                     <a-menu-item>
-                      <a>Edit</a>
+                      <a @click="deleteConfirm(post.id)">Hapus</a>
                     </a-menu-item>
-                  </router-link>
-                  <a-menu-item>
-                    <a @click="deleteConfirm(post.id)">Hapus</a>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </div>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </div>
+          </Can>
         </div>
         <div class="card-body pb-0">
           <!-- eslint-disable vue/no-v-html -->
@@ -63,7 +62,6 @@
 
 <script>
 import { deletePost } from '@/services/connection/artikel/api'
-import { getPermissionList } from '@/services/connection/roles-permissions/api'
 
 export default {
   props: {
@@ -75,25 +73,7 @@ export default {
     },
   },
   emits: ['deleteSuccess'],
-  data() {
-    return {
-      editPermission: false,
-    }
-  },
-  mounted() {
-    this.getPermissionByRole()
-  },
   methods: {
-    getRole() {
-      this.role = JSON.parse(localStorage.getItem('userData')).role
-    },
-    getPermissionByRole() {
-      this.getRole()
-      getPermissionList()
-      .then(response => {
-        this.editPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0].permission.includes('update')
-      })
-    },
     deletePostById(id) {
       deletePost(id)
       .then(response => {
