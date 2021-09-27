@@ -33,7 +33,10 @@
           "subject": "Berita"
         },
         {
-          "action": "manage",
+          "action": "read",
+          "subject": "Program"
+          }, {
+            "action": "manage",
           "subject": "Ecommerce"
         },
         {
@@ -47,6 +50,12 @@
         {
           "action": "manage",
           "subject": "SynCustomer"
+        }, {
+          "action": "read",
+          "subject": "validasiHarga"
+        }, {
+          "action": "read",
+          "subject": "DataSales"
         }
       ]
     }

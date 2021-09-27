@@ -1,12 +1,13 @@
 <template>
   <div>
-      
+      <Can do="create" on="Program">
     <router-link to="/marketing/program/tambah">
       <button type="button" class="btn btn-main mb-3">
         <i class="fa fa-plus" />
         <span class="text-black"> Tambah Program</span>
       </button>
     </router-link>
+    </Can>
     <vb-list-artikel
       :post-items="posts"
       @delete-message="deleteSuccess"
