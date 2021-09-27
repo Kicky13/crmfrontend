@@ -226,22 +226,30 @@ export default {
       return id
     },
     addNewUsername() {
-      const dataForm = {
-        idJenisUser: this.makeIdUser(),
-        namaJenisUser: this.newUsername,
-      }
-      const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
-      if (!exist) {
-        this.addNewLevelUser(dataForm)
-        notification.success({
-          message: 'Tambah User',
-          description: 'User berhasil ditambah',
-        })
-        this.newUsername = ''
+      let check = this.newUsername.trim()
+      if (check) {
+        const dataForm = {
+          idJenisUser: this.makeIdUser(),
+          namaJenisUser: this.newUsername,
+        }
+        const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
+        if (!exist) {
+          this.addNewLevelUser(dataForm)
+          notification.success({
+            message: 'Tambah User',
+            description: 'User berhasil ditambah',
+          })
+          this.newUsername = ''
+        } else {
+          notification.warning({
+            message: 'Tambah User',
+            description: 'User sudah tersedia',
+          })
+        }
       } else {
-        notification.warning({
+        notification.error({
           message: 'Tambah User',
-          description: 'User sudah tersedia',
+          description: 'Kolom tambah user masih kosong',
         })
       }
     },

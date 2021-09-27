@@ -261,9 +261,19 @@ export default {
       let message = ''
       let description = ''
       if (status) {
-        this.tambahPertanyaanModalHandleOk(newPertanyaan)
-        message = 'Tambah Pertanyaan'
-        description = 'Pertanyaan berhasil ditambah'
+        let check = newPertanyaan.trim()
+        if (check) {
+          this.tambahPertanyaanModalHandleOk(newPertanyaan)
+          message = 'Tambah Pertanyaan'
+          description = 'Pertanyaan berhasil ditambah'
+        } else {
+          notification.error({
+            message: 'Tambah Pertanyaan',
+            description: 'Kolom tambah pertanyaan masih kosong',
+          })
+
+          return false
+        }
       } else {
         this.editPertanyaanModalHandleOk(newPertanyaan)
         message = 'Edit Pertanyaan'
@@ -314,19 +324,28 @@ export default {
       this.editJenisPenilaianModalVisible = false
     },
     tambahOpsionalModalHandleOk(newJawaban) {
-      const dataForm = this.list
-      const lastJawabanIndex = dataForm.pertanyaan[this.indexPertanyaan].jawaban.length - 1
-      const jawaban = {
-        title: newJawaban.jawaban,
-        poin: newJawaban.poin,
+      let checkJawaban = newJawaban.jawaban.trim()
+      let checkPoin = newJawaban.poin.trim()
+      if (checkJawaban && checkPoin) {
+        const dataForm = this.list
+        const lastJawabanIndex = dataForm.pertanyaan[this.indexPertanyaan].jawaban.length - 1
+        const jawaban = {
+          title: newJawaban.jawaban,
+          poin: newJawaban.poin,
+        }
+        jawaban.key = dataForm.pertanyaan[this.indexPertanyaan].jawaban[lastJawabanIndex].key + 1
+        dataForm.pertanyaan[this.indexPertanyaan].jawaban.push(jawaban)
+        this.$emit('addJawaban', dataForm.id, dataForm)
+        notification.success({
+          message: 'Tambah Opsi Jawaban',
+          description: 'Opsi jawaban berhasil ditambah',
+        })
+      } else {
+        notification.error({
+          message: 'Tambah Opsi Jawaban',
+          description: 'Semua kolom wajib diisi',
+        })
       }
-      jawaban.key = dataForm.pertanyaan[this.indexPertanyaan].jawaban[lastJawabanIndex].key + 1
-      dataForm.pertanyaan[this.indexPertanyaan].jawaban.push(jawaban)
-      this.$emit('addJawaban', dataForm.id, dataForm)
-      notification.success({
-        message: 'Tambah Opsi Jawaban',
-        description: 'Opsi jawaban berhasil ditambah',
-      })
       this.indexJawaban = null
       this.judulPertanyaan = ''
       this.tambahOpsionalJawabanVisible = false

@@ -5,7 +5,7 @@
         <strong>Roles Management</strong>
       </div>
       <div class="card-body">
-        <Can i="create" a="Roles">
+        <Can do="create" on="Roles">
           <div class="d-flex justify-content" style="margin-bottom: 10px">
             <div class="align-self-center">
               <strong>{{ id == null ? 'Tambah Role : ' : 'Update Role : ' }}</strong>
@@ -69,12 +69,12 @@
               <div>
                 <!-- <button type="button" class="btn btn-light">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button> -->
-                <Can i="update" a="Roles">
+                <Can do="update" on="Roles">
                   <button @click="goUpdate(text)" type="button" class="btn btn-warning">
                     <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                   </button>
                 </Can>
-                <Can i="delete" a="Roles">
+                <Can do="delete" on="Roles">
                   <button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
                     <i class="fa fa-trash"></i><span> Hapus</span>
                   </button>
