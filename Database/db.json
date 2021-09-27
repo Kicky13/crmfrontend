@@ -43,6 +43,14 @@
         {
           "action": "read",
           "subject": "Auth"
+        },
+        {
+          "action": "manage",
+          "subject": "CustomerMapping"
+        },
+        {
+          "action": "manage",
+          "subject": "SynCustomer"
         }
       ]
     }

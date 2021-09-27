@@ -60,7 +60,7 @@
             <div class="col-md-3">
               <div class="row">
                 <div class="col-md-6"></div>
-                <div class="col-md-6 col-xs-12">
+                <div v-if="$store.state.user.role != `user`" class="col-md-6 col-xs-12">
                   <a-button class="btn_export float-right" @click="buttonGet">
                     <i class="fa fa-download mr-2" />
                     Export
