@@ -8,23 +8,24 @@
         :model="formState"
         label-align="left"
         layout="vertical"
+        :rules="rules"
       >
-        <a-form-item label="Judul">
+        <a-form-item label="Program Name" name="post_title">
           <a-input
             v-model:value="formState.post_title"
             class="input-style"
           />
         </a-form-item>
-        <a-form-item label="Description" name="Description">
+        <a-form-item label="Description" name="post_detail">
           <quill-editor
             style="height: 200px"
             v-model:value="formState.post_detail"
           />
         </a-form-item>
-        <a-form-item label="Start Date" style="font-weight:bold">
+        <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
           <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date" />
         </a-form-item>
-        <a-form-item label="Finish Date" style="font-weight:bold">
+        <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
           <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date" />
         </a-form-item>
         <a-form-item>
@@ -67,6 +68,28 @@ export default defineComponent({
     onMounted(() => {
       getPostById()
     })
+    const rules = {
+        post_title: [{
+          required: true,
+          message: 'Masukkan Program Name!',
+          type: 'string',
+        } ],
+        post_detail: [{
+          required: true,
+          message: 'Masukkan Description!',
+          type: 'string',
+        } ],
+        startDate: [{
+          required: true,
+          message: 'Masukkan Tanggal Mulai!',
+          type: 'date',
+        } ],
+        FinishDate: [{
+          required: true,
+          message: 'Masukkan Tanggal Selesai!',
+          type: 'date',
+        } ],
+      }
 
     const route = useRoute()
 
@@ -103,7 +126,7 @@ export default defineComponent({
       post_date: '',
       post_time: '',
       post_title: '',
-      post_slug: 'judul_artikel',
+      post_slug: 'program_name',
       post_detail: '',
       startDate: '',
       FinishDate: '',
@@ -117,11 +140,12 @@ export default defineComponent({
           'Content-Type': 'multipart/form-data',
         },
       }
+      if (formState.post_title && formState.post_detail && formState.startDate && formState.FinishDate) {
       updatePostById(formState.id, toRaw(formState), config)
       formState.post_date = ''
       formState.post_time = ''
       formState.post_title = ''
-      formState.post_slug = 'judul_artikel'
+      formState.post_slug = 'program_name'
       formState.post_detail = ''
       formState.startDate = ''
       formState.FinishDate = ''
@@ -129,10 +153,18 @@ export default defineComponent({
       formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
       formState.image = ''
       router.push('/marketing/program')
-      message.success('Artikel berhasil diupate')
+      message.success('Program berhasil diupate')
+        } else {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          })
+        }
+      
     }
 
     return {
+      rules,
       formState,
       onSubmit,
     }
