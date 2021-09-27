@@ -89,15 +89,23 @@ export default {
       this.$emit('selectedJenisPenilaian', data)
     },
     handleOk(newJenisPenilaian) {
-      const dataForm = {}
-      dataForm.jenis_penilaian = newJenisPenilaian
-      dataForm.pertanyaan = []
-      this.$emit('addJenisPenilaian', dataForm)
-      notification.success({
-        message: 'Jenis Penilaian',
-        description: 'Jenis penilaian berhasil ditambah',
-      })
-      this.modalVisible = false
+      let check = newJenisPenilaian.trim()
+      if (check) {
+        const dataForm = {}
+        dataForm.jenis_penilaian = newJenisPenilaian
+        dataForm.pertanyaan = []
+        this.$emit('addJenisPenilaian', dataForm)
+        notification.success({
+          message: 'Jenis Penilaian',
+          description: 'Jenis penilaian berhasil ditambah',
+        })
+        this.modalVisible = false
+      } else {
+        notification.error({
+          message: 'Tambah Jenis Penilaian',
+          description: 'Kolom tambah jenis penilaian masih kosong',
+        })
+      }
     },
   },
 }

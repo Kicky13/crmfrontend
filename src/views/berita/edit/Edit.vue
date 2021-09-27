@@ -66,7 +66,7 @@
             Edit
           </a-button>
           <router-link
-            to="/marketing/artikel"
+            to="/marketing/berita"
             style="margin-left: 10px;"
           >
             <a-button>
@@ -178,7 +178,7 @@ export default defineComponent({
       if (formState.post_title && formState.post_detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
           updatePostById(formState.id, toRaw(formState), config)
-          router.push('/marketing/artikel')
+          router.push('/marketing/berita')
           notification.success({
             message: 'Update Artikel',
             description: 'Artikel berhasil diupdate',

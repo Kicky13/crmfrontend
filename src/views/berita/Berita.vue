@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="insertPermission">
+    <Can do="create" on="News">
       <router-link to="/marketing/berita/tambah">
         <a-button
           type="primary"
@@ -10,7 +10,7 @@
           Tambah Artikel
         </a-button>
       </router-link>
-    </template>
+    </Can>
     <vb-list-berita
       :posts="posts"
       @delete-success="deleteSuccess"
@@ -20,7 +20,6 @@
 
 <script>
 import { postList } from '@/services/connection/artikel/api'
-import { getPermissionList } from '@/services/connection/roles-permissions/api'
 import VbListBerita from './listberita/ListBerita'
 import { notification } from 'ant-design-vue';
 
@@ -32,25 +31,12 @@ export default {
     return {
       posts: [],
       editPostItem: {},
-      role: '',
-      insertPermission: false,
     };
   },
   mounted() {
     this.fetchPostList()
-    this.getPermissionByRole()
   },
   methods: {
-    getRole() {
-      this.role = JSON.parse(localStorage.getItem('userData')).role
-    },
-    getPermissionByRole() {
-      this.getRole()
-      getPermissionList()
-      .then(response => {
-        this.insertPermission = response.filter(item => item.actor === this.role && item.pagename === 'Berita')[0]
-      })
-    },
     fetchPostList() {
       this.posts = []
       postList()
