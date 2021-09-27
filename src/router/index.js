@@ -94,17 +94,17 @@ const router = createRouter({
         // ========== End of Varis View ==========
         {
           path: '/marketing/program',
-          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'manage' },
+          meta: { title: 'Program Hari Ini', resource: 'Program', action: 'read' },
           component: () => import('@/views/program'),
         },
         {
           path: '/marketing/program/tambah',
-          meta: { title: 'Tambah Program', resource: 'Program', action: 'manage' },
+          meta: { title: 'Tambah Program', resource: 'Add_Program', action: 'create' },
           component: () => import('@/views/program/tambah'),
         },
         {
           path: '/marketing/program/edit/:userId',
-          meta: { title: 'Edit Program', resource: 'EditProgram', action: 'manage' },
+          meta: { title: 'Edit Program', resource: 'Edit_Program', action: 'update' },
           component: () => import('@/views/program/edit/Edit'),
         },
         // Kikik ====================================================================
@@ -190,14 +190,14 @@ const router = createRouter({
         {
           path: '/validasiharga',
           name: 'validasi-harga',
-          meta: { title: 'Validasi Harga', resource: 'Permissions', action: 'manage' },
+          meta: { title: 'Validasi Harga', resource: 'validasiHarga', action: 'read' },
           component: () => import('@/views/validasiharga'),
         },
 
         {
           path: '/datasales',
           name: 'data-sales',
-          meta: { title: 'Data Sales', resource: 'Data Sales', action: 'manage' },
+          meta: { title: 'Data Sales', resource: 'DataSales', action: 'read' },
           component: () => import('@/views/datasales'),
         },
 

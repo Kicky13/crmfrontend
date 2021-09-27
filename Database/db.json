@@ -1,6 +1,5 @@
 {
-  "users": [
-    {
+  "users": [{
       "id": 1,
       "email": "demo@visualbuilder.cloud",
       "password": "VisualBuilder",
@@ -8,12 +7,10 @@
       "avatar": "",
       "role": "admin",
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
-      "ability": [
-        {
-          "action": "manage",
-          "subject": "all"
-        }
-      ]
+      "ability": [{
+        "action": "manage",
+        "subject": "all"
+      }]
     },
     {
       "id": 2,
@@ -23,8 +20,7 @@
       "avatar": "",
       "role": "user",
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
-      "ability": [
-        {
+      "ability": [{
           "action": "manage",
           "subject": "Dashboard"
         },
@@ -55,8 +51,7 @@
       ]
     }
   ],
-  "roles": [
-    {
+  "roles": [{
       "role": "admin",
       "code": "A29AA",
       "createdAt": "06/04/2021",
@@ -75,8 +70,7 @@
       "createdAt": "06/04/2021"
     }
   ],
-  "usercrm": [
-    {
+  "usercrm": [{
       "userid": 2231,
       "name": "Adam",
       "username": "adam13",
@@ -140,8 +134,7 @@
       "id": 7
     }
   ],
-  "permissions": [
-    {
+  "permissions": [{
       "id": 1,
       "actor": "admin",
       "pagename": "Dashboard",
@@ -191,8 +184,7 @@
       "id": 7
     }
   ],
-  "assignuser": [
-    {
+  "assignuser": [{
       "id": 1,
       "name": "Jonn"
     },
@@ -225,8 +217,7 @@
       "name": "Alicia"
     }
   ],
-  "assignrole": [
-    {
+  "assignrole": [{
       "id": 1,
       "user": "Jonn",
       "userid": 2,
@@ -255,12 +246,11 @@
       "roleid": 5
     }
   ],
-  "regionlock": [
-    {
+
+  "regionlock": [{
       "id": 1,
       "provinsi": "Jawa Timur",
-      "kabupatens": [
-        {
+      "kabupatens": [{
           "id": 1,
           "kabupaten": "Surabaya"
         },
@@ -285,8 +275,7 @@
     {
       "id": 2,
       "provinsi": "Jawa Tengah",
-      "kabupatens": [
-        {
+      "kabupatens": [{
           "id": 6,
           "kabupaten": "Solo"
         },
@@ -303,8 +292,7 @@
     {
       "id": 3,
       "provinsi": "Jawa Barat",
-      "kabupatens": [
-        {
+      "kabupatens": [{
           "id": 9,
           "kabupaten": "Bandung"
         },
@@ -323,8 +311,7 @@
       ]
     }
   ],
-  "customerlock": [
-    {
+  "customerlock": [{
       "id": 1,
       "customerid": 1222,
       "name": "Toko Makmur",
@@ -397,8 +384,8 @@
       "statuslock": "Unlocked"
     }
   ],
-  "posts": [
-    {
+
+  "posts": [{
       "post_date": "25-08-2021",
       "post_time": "12:14:44",
       "post_title": "Berita Satu Judul Panjang Sekali",
@@ -518,22 +505,19 @@
       "id": 5
     }
   ],
-  "posts_program": [
-    {
-      "post_date": "01-09-2021",
-      "post_time": "14:35",
-      "post_title": "Contoh dan Cara Membuat Berita Tentang Virus Corona dan Unsur 5w 1H",
-      "post_slug": "judul_artikel",
-      "post_detail": "<p><span style=\"color: rgb(51, 51, 51);\">COVID-19 di Indonesia saat ini sedang mengalami kenaikan kasus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Salah satu penyebabnya adalah munculnya virus corona muatsi baru yang dikenal dengan varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Sekarang,&nbsp;kembali muncul varian baru, yaitu varian Delta Plus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian Delta Plus ditemukan di Jambi dan Mamuju. Hal ini disampaikan oleh&nbsp;Direktur Lembaga Biologi Molekuler Eijkman Prof Amin Subandrio pada Rabu (28/7/21).</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian ini diidentivikasi sebagai B.1.617.2.1 atau AY.1&nbsp;dan merupakan sub-garis keturunan dari varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Disebut Delta Plus karena varian ini masih berhubungan dengan varian Delta.</span></p>",
-      "startDate": "2021-09-01",
-      "FinishDate": "2021-09-02",
-      "publication_status": "Draft",
-      "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
-      "id": 1
-    }
-  ],
-  "uploadvisitplan": [
-    {
+  "posts_program": [{
+    "post_date": "01-09-2021",
+    "post_time": "14:35",
+    "post_title": "Contoh dan Cara Membuat Berita Tentang Virus Corona dan Unsur 5w 1H",
+    "post_slug": "judul_artikel",
+    "post_detail": "<p><span style=\"color: rgb(51, 51, 51);\">COVID-19 di Indonesia saat ini sedang mengalami kenaikan kasus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Salah satu penyebabnya adalah munculnya virus corona muatsi baru yang dikenal dengan varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Sekarang,&nbsp;kembali muncul varian baru, yaitu varian Delta Plus.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian Delta Plus ditemukan di Jambi dan Mamuju. Hal ini disampaikan oleh&nbsp;Direktur Lembaga Biologi Molekuler Eijkman Prof Amin Subandrio pada Rabu (28/7/21).</span></p><p><span style=\"color: rgb(51, 51, 51);\">Varian ini diidentivikasi sebagai B.1.617.2.1 atau AY.1&nbsp;dan merupakan sub-garis keturunan dari varian Delta.</span></p><p><span style=\"color: rgb(51, 51, 51);\">Disebut Delta Plus karena varian ini masih berhubungan dengan varian Delta.</span></p>",
+    "startDate": "2021-09-01",
+    "FinishDate": "2021-09-02",
+    "publication_status": "Draft",
+    "tag": "bcd542e2-3292-45bc-8c82-27832cb80171",
+    "id": 1
+  }],
+  "uploadvisitplan": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -618,8 +602,7 @@
       "week5": 0
     }
   ],
-  "otomatisasivisitplan": [
-    {
+  "otomatisasivisitplan": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -760,8 +743,7 @@
       "status": "failed"
     }
   ],
-  "distrik": [
-    {
+  "distrik": [{
       "id": 1,
       "distrik": "Jawa Timur",
       "status": "active"
@@ -792,8 +774,7 @@
       "status": "active"
     }
   ],
-  "tahun": [
-    {
+  "tahun": [{
       "id": 2021,
       "tahun": "2021",
       "status": "active"
@@ -804,8 +785,7 @@
       "status": "active"
     }
   ],
-  "bulan": [
-    {
+  "bulan": [{
       "id": 1,
       "bulan": "Januari",
       "status": "active"
@@ -866,8 +846,7 @@
       "status": "active"
     }
   ],
-  "mappingcustomer": [
-    {
+  "mappingcustomer": [{
       "id": 1,
       "rownum": 1,
       "idsales": 13487,
@@ -1011,8 +990,7 @@
       "status": "success"
     }
   ],
-  "settingradius": [
-    {
+  "settingradius": [{
       "id": 1,
       "rownum": 1,
       "distrikid": 1000872678,
@@ -1041,8 +1019,7 @@
       "radius": 15000
     }
   ],
-  "distributor": [
-    {
+  "distributor": [{
       "id": 247,
       "distributorname": "PT. Maju Jaya Purnama",
       "alamat": 1000872651,
@@ -1067,24 +1044,27 @@
       "status": "active"
     }
   ],
-  "customerscyn": [
-    {
-      "id": 13487,
-      "namatoko": "Robi Tko",
-      "distributor": "PT. Maju Jaya Purnama",
-      "distrik": "Jawa Timur",
-      "tso": "Ahmad Jainuri",
-      "tahun": "2021",
-      "bulan": "Agustus",
-      "njadwal": "150",
-      "status": "failed"
-    }
-  ],
-  "leveluser": [
-    {
+  "customerscyn": [{
+    "id": 13487,
+    "namatoko": "Robi Tko",
+    "distributor": "PT. Maju Jaya Purnama",
+    "distrik": "Jawa Timur",
+    "tso": "Ahmad Jainuri",
+    "tahun": "2021",
+    "bulan": "Agustus",
+    "njadwal": "150",
+    "status": "failed"
+  }],
+  "user": [{
+    "id_user": "2234",
+    "nama_user": "Admin SMI",
+    "id": 2
+  }],
+  "leveluser": [{
       "id": 1,
       "idJenisUser": "1209",
       "namaJenisUser": "Admin"
+
     },
     {
       "id": 2,
@@ -1122,14 +1102,11 @@
       "namaJenisUser": "Distributor"
     }
   ],
-  "survey": [
-    {
+  "survey": [{
       "jenis_penilaian": "Tahapan 1 - Perencanaan dan Persiapan",
-      "pertanyaan": [
-        {
+      "pertanyaan": [{
           "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1143,8 +1120,7 @@
         },
         {
           "title": "Penggunaan Sepatu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1158,8 +1134,7 @@
         },
         {
           "title": "Penggunaan Pena dan Kalkulator",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1173,8 +1148,7 @@
         },
         {
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1188,8 +1162,7 @@
         },
         {
           "title": "Membawa Katalog Promosi / e-Katalog",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1203,8 +1176,7 @@
         },
         {
           "title": "Membawa Data Tagihan",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1218,8 +1190,7 @@
         },
         {
           "title": "Membawa Form Pemesanan dan Form Stock Card",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1233,8 +1204,7 @@
         },
         {
           "title": "Membawa Brosur / e-Brosur",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1248,8 +1218,7 @@
         },
         {
           "title": "Tujuan Smart (Memiliki Tujuan yang Spesifik)",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1263,8 +1232,7 @@
         },
         {
           "title": "Memiliki Tujuan yang Ambisius",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1278,8 +1246,7 @@
         },
         {
           "title": "Memiliki Tujuan yang Realistis",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1293,8 +1260,7 @@
         },
         {
           "title": "Memiliki Tujuan yang Jelas Tenggat Waktu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1311,11 +1277,9 @@
     },
     {
       "jenis_penilaian": "Tahapan 2 - Membuka Kunjungan",
-      "pertanyaan": [
-        {
+      "pertanyaan": [{
           "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1329,8 +1293,7 @@
         },
         {
           "title": "Penggunaan Sepatu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1344,8 +1307,7 @@
         },
         {
           "title": "Penggunaan Pena dan Kalkulator",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1359,8 +1321,7 @@
         },
         {
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1374,8 +1335,7 @@
         },
         {
           "title": "Membawa Katalog Promosi / e-Katalog",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1389,8 +1349,7 @@
         },
         {
           "title": "Membawa Data Tagihan",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1407,11 +1366,9 @@
     },
     {
       "jenis_penilaian": "Tahapan 3 - Menentukan Kebutuhan",
-      "pertanyaan": [
-        {
+      "pertanyaan": [{
           "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1425,8 +1382,7 @@
         },
         {
           "title": "Penggunaan Sepatu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1440,8 +1396,7 @@
         },
         {
           "title": "Penggunaan Pena dan Kalkulator",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1455,8 +1410,7 @@
         },
         {
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1470,8 +1424,7 @@
         },
         {
           "title": "Membawa Katalog Promosi / e-Katalog",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1488,11 +1441,9 @@
     },
     {
       "jenis_penilaian": "Tahapan 4 - Presentasi",
-      "pertanyaan": [
-        {
+      "pertanyaan": [{
           "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1506,8 +1457,7 @@
         },
         {
           "title": "Penggunaan Sepatu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1521,8 +1471,7 @@
         },
         {
           "title": "Penggunaan Pena dan Kalkulator",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1536,8 +1485,7 @@
         },
         {
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1554,32 +1502,27 @@
     },
     {
       "jenis_penilaian": "Tahapan 5 - Tutup Penjualan",
-      "pertanyaan": [
-        {
-          "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
-              "key": 1,
-              "title": "Ya",
-              "poin": "1"
-            },
-            {
-              "key": 2,
-              "title": "Tidak",
-              "poin": "0"
-            }
-          ]
-        }
-      ],
+      "pertanyaan": [{
+        "title": "Menggunakan Pakaian Bersih dan Rapi",
+        "jawaban": [{
+            "key": 1,
+            "title": "Ya",
+            "poin": "1"
+          },
+          {
+            "key": 2,
+            "title": "Tidak",
+            "poin": "0"
+          }
+        ]
+      }],
       "id": 5
     },
     {
       "jenis_penilaian": "Tahapan 6 - Membuat Laporan",
-      "pertanyaan": [
-        {
+      "pertanyaan": [{
           "title": "Menggunakan Pakaian Bersih dan Rapi",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1593,8 +1536,7 @@
         },
         {
           "title": "Penggunaan Sepatu",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1608,8 +1550,7 @@
         },
         {
           "title": "Penggunaan Pena dan Kalkulator",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1623,8 +1564,7 @@
         },
         {
           "title": "Penggunaan Sistem / Aplikasi CRM Retail",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1638,8 +1578,7 @@
         },
         {
           "title": "Membawa Katalog Promosi / e-Katalog",
-          "jawaban": [
-            {
+          "jawaban": [{
               "key": 1,
               "title": "Ya",
               "poin": "1"
@@ -1653,10 +1592,70 @@
         }
       ],
       "id": 6
+    },
+    {
+      "id": 7,
+      "jenis_penilaian": "satu",
+      "pertanyaan": [{
+          "title": "satu satu update",
+          "jawaban": [{
+              "title": "Ya",
+              "poin": "1",
+              "key": 1
+            },
+            {
+              "title": "Tidak",
+              "poin": "0",
+              "key": 2
+            }
+          ]
+        },
+        {
+          "title": "satu dua update",
+          "jawaban": [{
+              "title": "Ya",
+              "poin": "1",
+              "key": 1
+            },
+            {
+              "title": "Tidak",
+              "poin": "0",
+              "key": 2
+            }
+          ]
+        },
+        {
+          "title": "satu tiga update",
+          "jawaban": [{
+              "title": "Ya",
+              "poin": "1",
+              "key": 1
+            },
+            {
+              "title": "Tidak",
+              "poin": "0",
+              "key": 2
+            }
+          ]
+        },
+        {
+          "title": "satu empat",
+          "jawaban": [{
+              "title": "Ya",
+              "poin": "1",
+              "key": 1
+            },
+            {
+              "title": "Tidak",
+              "poin": "0",
+              "key": 2
+            }
+          ]
+        }
+      ]
     }
   ],
-  "ListSelectproduk": [
-    {
+  "ListSelectproduk": [{
       "id": 1000,
       "namaproduk": "Semen Gresik",
       "issig": true,
@@ -1681,8 +1680,7 @@
       "status": "active"
     }
   ],
-  "produk": [
-    {
+  "produk": [{
       "id": 1,
       "idproduk": 1000,
       "namaproduk": "Semen Gresik",
@@ -1769,10 +1767,21 @@
       "hargaJualMax": "6000",
       "issig": "true",
       "status": "active"
+    },
+    {
+      "id": 9,
+      "idproduk": 2000,
+      "rownum": "",
+      "namaproduk": "Semen Padang",
+      "hargaBeliMin": "1002",
+      "hargaBeliMax": "2000",
+      "hargaJualMin": "1500",
+      "hargaJualMax": "2500",
+      "issig": "true",
+      "status": "active"
     }
   ],
-  "datasales": [
-    {
+  "datasales": [{
       "id": 1,
       "idsales": 1000,
       "namasales": "Semen Gresik",
@@ -1797,8 +1806,8 @@
       "idsales": 1987,
       "namasales": "Dynamix",
       "username": "47500",
-      "regionId": "2",
-      "regionName": "Region 2",
+      "regionId": "1",
+      "regionName": "Region 1",
       "provinsiId": "2",
       "provinsiName": "BOGOR",
       "distributorid": "2",
@@ -1813,8 +1822,10 @@
       "distrikName": "active"
     }
   ],
-  "region": [
-    {
+
+
+
+  "region": [{
       "id": 1,
       "regionName": "Region 1",
       "deleteMark": 0
@@ -1835,8 +1846,7 @@
       "deleteMark": 0
     }
   ],
-  "provinsi": [
-    {
+  "provinsi": [{
       "id": 1,
       "provinsiName": "DKI JAKARTA",
       "regionId": 1,
@@ -1867,8 +1877,7 @@
       "deleteMark": 0
     }
   ],
-  "distributorSBI": [
-    {
+  "distributorSBI": [{
       "id": 1,
       "distributorName": "PT. Maju Jaya Purnama I",
       "provinsiId": 1,
@@ -1893,8 +1902,7 @@
       "deleteMark": 0
     }
   ],
-  "customer_mapping": [
-    {
+  "customer_mapping": [{
       "id": 1,
       "kd_customer": 1000,
       "nama_customer": "Semen Gresik",
@@ -1921,8 +1929,7 @@
       "create_at": "-"
     }
   ],
-  "log_sync_customer": [
-    {
+  "log_sync_customer": [{
       "id": 1,
       "kd_distributor": 1212,
       "nama_distributor": "Bina Bangun Bangsa",
