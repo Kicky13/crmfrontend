@@ -286,3 +286,117 @@ export const getUserMenuData = [
     ],
   },
 ]
+
+export const getTsoMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/marketing',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      {
+        title: 'Otomatisasi Visit Plan',
+        key: 'Vs12Pl',
+        url: '/otomatisasivisit',
+      },
+    ],
+  },
+  {
+    title: 'Peta Kunjungan',
+    key: 'iw82km',
+    url: '/mappedVisit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Route Complient',
+        key: 'acs293',
+        url: '/mappedVisit/route',
+      },
+    ],
+  },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/report-admin',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+      {
+        title: 'Laporan Toko Dikunjungi',
+        key: '872ksj',
+        url: '/report/toko_dikunjungi',
+      },
+      {
+        title: 'Laporan Visit Plan - Actual',
+        key: '888sja',
+        url: '/report/visit_actual',
+      },
+      {
+        title: 'Laporan Kapasitas Toko',
+        key: 'jsdj22',
+        url: '/report/kapasitasToko',
+      },
+      {
+        title: 'Hasil Survey',
+        key: '98ksds',
+        url: '/report/hasilSurvey',
+      },
+    ],
+  },
+  {
+    title: 'Supervisory Visit',
+    key: '78ehnf',
+    url: '/sales',
+    icon: 'fa fa-book',
+    children: [
+      {
+        title: 'Master Penilaian Sales',
+        key: '8sugn8',
+        url: '/sales/survey_sales',
+      },
+      {
+        title: 'Report Supervisory Visit',
+        key: '23jsu2',
+        url: '/sales/report_supervisory',
+      },
+    ],
+  },
+]
