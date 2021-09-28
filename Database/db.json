@@ -51,8 +51,9 @@
         {
           "action": "read",
           "subject": "Program"
-          }, {
-            "action": "read",
+        },
+        {
+          "action": "read",
           "subject": "Ecommerce"
         },
         {
@@ -66,10 +67,12 @@
         {
           "action": "read",
           "subject": "SynCustomer"
-        }, {
+        },
+        {
           "action": "read",
           "subject": "validasiHarga"
-        }, {
+        },
+        {
           "action": "read",
           "subject": "DataSales"
         }
@@ -276,7 +279,6 @@
       "roleid": 5
     }
   ],
-
   "regionlock": [
     {
       "id": 1,
@@ -419,7 +421,6 @@
       "statuslock": "Unlocked"
     }
   ],
-
   "posts": [
     {
       "post_date": "25-08-2021",
@@ -1921,7 +1922,6 @@
       "distrikName": "active"
     }
   ],
-
   "region": [
     {
       "id": 1,

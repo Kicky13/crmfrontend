@@ -1,5 +1,5 @@
 <template>
-  <div class="card card-top card-top-primary">
+  <a-card class="card card-top card-top-primary" :loading="isLoading">
     <div class="card-header">
       <vb-headers-card-header :data="{ title: 'Form Edit Artikel' }" />
     </div>
@@ -76,7 +76,7 @@
         </a-form-item>
       </a-form>
     </div>
-  </div>
+  </a-card>
 </template>
 
 <script>
@@ -203,6 +203,7 @@ export default defineComponent({
       previewVisible: false,
       previewImage: '',
       fileList: [],
+      isLoading: false,
     };
   },
   mounted() {
@@ -210,6 +211,7 @@ export default defineComponent({
   },
   methods: {
     getPostById() {
+      this.isLoading = true
       const id = this.$route.params.userId
       showPost(id)
       .then(response => {
@@ -225,7 +227,16 @@ export default defineComponent({
             ],
           }
           this.handleChange(info)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 800)
         }
+      })
+      .catch(err => {
+        console.error(err)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 800)
       })
     },
     handleCancel() {

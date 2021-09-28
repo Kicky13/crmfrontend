@@ -77,7 +77,7 @@ const router = createRouter({
           component: () => import('@/views/berita/edit/Edit'),
         },
         {
-          path: '/marketing/berita/:artikelId',
+          path: '/marketing/berita/:id',
           meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
           component: () => import('@/views/berita/detailberita/DetailBerita'),
         },

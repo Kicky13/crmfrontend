@@ -1,23 +1,28 @@
 <template>
-  <div>    
-    <div class="card card-top card-top-primary">
-      <div class="card-header d-flex">
-        <div class="align-self-center">
-          <strong>Tambah Jenis User :</strong>
-        </div>
-        <a-input
-          placeholder="Nama jenis user"
-          class="mx-3"
-          style="width: 200px"
-          v-model:value="newUsername"
-        />
-        <a-button
-          type="primary"
-          @click="addNewUsername"
-        >
-          <i class="fa fa-save mr-2" />
-          Save
-        </a-button>
+  <div>
+    <a-card class="card card-top card-top-primary" :loading="isLoading">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <strong>Level User</strong>
+        <Can do="create" on="News">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Tambah Jenis User :</span>
+            </div>
+            <a-input
+              placeholder="Nama jenis user"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="newUsername"
+            />
+            <a-button
+              type="primary"
+              @click="addNewUsername"
+            >
+              <i class="fa fa-save mr-2" />
+              Save
+            </a-button>
+          </div>
+        </Can>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -80,7 +85,7 @@
           </a-table>
         </div>        
       </div>
-    </div>
+    </a-card>
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
       :modal-visible="modalVisible"
@@ -99,29 +104,6 @@ import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No.',
-    dataIndex: 'no',
-    key: 'no',
-  },
-  {
-    title: 'ID Jenis User',
-    dataIndex: 'idJenisUser',
-    key: 'idJenisUser',
-  },
-  {
-    title: 'Nama Jenis User',
-    dataIndex: 'namaJenisUser',
-    key: 'namaJenisUser',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'id',
-    key: 'id',
-    slots: { customRender: 'action' },
-  },
-]
 
 export default {
   components: {
@@ -130,7 +112,6 @@ export default {
   setup() {
     return {
       itemsPerPage,
-      columns,
     }
   },
   data() {
@@ -142,6 +123,30 @@ export default {
       editItem: {},
       newUsername: '',
       keyword: '',
+      isLoading: false,
+      columns: [
+        {
+          title: 'No.',
+          dataIndex: 'no',
+          key: 'no',
+        },
+        {
+          title: 'ID Jenis User',
+          dataIndex: 'idJenisUser',
+          key: 'idJenisUser',
+        },
+        {
+          title: 'Nama Jenis User',
+          dataIndex: 'namaJenisUser',
+          key: 'namaJenisUser',
+        },
+        {
+          title: 'Action',
+          dataIndex: 'id',
+          key: 'id',
+          slots: { customRender: 'action' },
+        },
+      ],
     }
   },
   computed: {
@@ -151,9 +156,11 @@ export default {
   },
   mounted() {
     this.fetchLevelUsers()
+    this.removeAction()
   },
   methods: {
     fetchLevelUsers() {
+      this.isLoading = true
       getLevelUser()
         .then((response) => {
           let i = 1
@@ -162,11 +169,17 @@ export default {
             response.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
+              setTimeout(() => {
+                this.isLoading = false
+              }, 800)
             })
           }
         })
         .catch((err) => {
           console.error(err)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 800)
         })
     },
     addNewLevelUser(data) {
@@ -276,6 +289,13 @@ export default {
         })
       this.resetAfterSubmit()
       this.modalVisible = false
+    },
+    removeAction() {
+      const abilityUser = this.$store.state.user.ability
+      const check = abilityUser.filter(ability => ability.action === 'update' || ability.action === 'delete')
+      if (!check.length) {
+        this.columns.pop()
+      }
     },
     resetAfterSubmit() {
       this.editItem = {}
