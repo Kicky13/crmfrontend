@@ -10,7 +10,19 @@
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
       "ability": [
         {
-          "action": "manage",
+          "action": "read",
+          "subject": "all"
+        },
+        {
+          "action": "create",
+          "subject": "all"
+        },
+        {
+          "action": "update",
+          "subject": "all"
+        },
+        {
+          "action": "delete",
           "subject": "all"
         }
       ]
@@ -25,7 +37,7 @@
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
       "ability": [
         {
-          "action": "manage",
+          "action": "read",
           "subject": "Dashboard"
         },
         {
@@ -33,14 +45,14 @@
           "subject": "Roles"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "Berita"
         },
         {
           "action": "read",
           "subject": "Program"
           }, {
-            "action": "manage",
+            "action": "read",
           "subject": "Ecommerce"
         },
         {
@@ -48,11 +60,11 @@
           "subject": "Auth"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "CustomerMapping"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "SynCustomer"
         }, {
           "action": "read",
