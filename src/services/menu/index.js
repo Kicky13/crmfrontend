@@ -227,11 +227,11 @@ export const getUserMenuData = [
         key: '1121sw',
         url: '/log-sync-customer',
       },
-      // {
-      //   title: 'Validasi Harga Survey',
-      //   key: 'Adaws5',
-      //   url: '/validasiharga',
-      // },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
     ],
   },
   {
@@ -245,11 +245,11 @@ export const getUserMenuData = [
     url: '/roles-permissions',
     icon: 'fa fa-list-ul',
     children: [
-      // {
-      //   title: 'Data Sales SBI',
-      //   key: 'asa123',
-      //   url: '/datasales',
-      // },
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        url: '/datasales',
+      },
       {
         title: 'Customer Mapping',
         key: 'xca132',
