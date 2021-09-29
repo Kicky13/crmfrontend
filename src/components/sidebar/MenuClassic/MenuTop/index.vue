@@ -77,13 +77,12 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const role = user.value.role.toLowerCase()
-    const menuData = computed(() => role === 'admin' ? getAdminMenuData : role === 'tso' ? getTsoMenuData : getUserMenuData)
+    const user = computed(() => store.getters['user/user'])
+    const menuData = computed(() => user.value.role.toLowerCase() === 'admin' ? getAdminMenuData : user.value.role.toLowerCase() === 'tso' ? getTsoMenuData : getUserMenuData)
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)
     const isMenuCollapsed = computed(() => store.getters.settings.isMenuCollapsed)
-    const user = computed(() => store.getters['user/user'])
     const pathname = computed(() => route.pathname)
 
     const onCollapse = (collapsed, type) => {

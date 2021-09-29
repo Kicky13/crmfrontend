@@ -26,10 +26,11 @@ export async function login(formData) {
   return serverClient
     .post('login', formData)
     .then(response => {
-      console.log(response)
-      if (response) {
-        const data = response.data
-        const accessToken = data.id + "" + data.accessToken
+      console.log(response.data)
+      if (response && response.data.status !== 'error') {
+        const data = response.data.data
+        const accessToken = data.accesstoken
+        console.log(accessToken)
         if (accessToken) {
           localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
@@ -86,18 +87,21 @@ export async function currentAccountOld() {
 
 export async function currentAccount() {
   const userID = store.get('userID')
+  const token = store.get('accessToken')
+
+  console.log(token)
 
   if (userID) {
     return serverClient
-    .get('sessionUpdate')
+    .post('sessionUpdate')
     .then(response => {
-      console.log(response)
-      if (response) {
-        const { accessToken } = response.data
-        if (accessToken) {
-          store.set('accessToken', accessToken)
+      if (response && response.data.status !== 'error') {
+        console.log(response.data.data)
+        const { accesstoken } = response.data.data
+        if (accesstoken) {
+          store.set('accessToken', accesstoken)
         }
-        return response.data
+        return response.data.data
       }
       return false
     })

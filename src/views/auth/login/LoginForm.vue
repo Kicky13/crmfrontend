@@ -5,7 +5,11 @@
       <div class="col-xs-12 col-md-8">
         <div
           class="card card-top card-top-primary"
-          style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;"
+          style="
+            background-color: rgb(255 255 255 / 90%);
+            box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
+            border-radius: 5px;
+          "
         >
           <div class="card-body">
             <img
@@ -120,13 +124,13 @@ export default {
       password: 'VisualBuilder',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       console.log(errors)
     }
 
@@ -143,15 +147,22 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         console.log(response)
-        this.$ability.update(response.ability)
-        window.location.href = '#/dashboard'
-        notification.success({
-          message: 'Logged In',
-          description: 'You have successfully logged in!',
-        })
-        this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+        if (response) {
+          this.$ability.update(response.ability)
+          window.location.href = '#/dashboard'
+          notification.success({
+            message: 'Logged In',
+            description: 'Anda berhasil Login!',
+          })
+          this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+        } else {
+          notification.error({
+            message: 'Login Failed',
+            description: 'Username/password salah!',
+          })
+        }
       })
     },
   },
