@@ -2,7 +2,7 @@ import apiClient from '@/services/axios'
 import serverClient from '@/services/axios/axios'
 import store from 'store'
 
-export async function login(email, password) {
+export async function oldlogin(email, password) {
   return apiClient
     .get('/users?email=' + email + '&password=' + password)
     .then(response => {
@@ -22,10 +22,11 @@ export async function login(email, password) {
     .catch(err => console.log(err))
 }
 
-export async function newlogin(formData) {
+export async function login(formData) {
   return serverClient
     .post('login', formData)
     .then(response => {
+      console.log(response)
       if (response) {
         const data = response.data
         const accessToken = data.id + "" + data.accessToken
@@ -62,7 +63,7 @@ export async function register(email, password, name) {
     .catch(err => console.log(err))
 }
 
-export async function currentAccount() {
+export async function currentAccountOld() {
   const userID = store.get('userID')
 
   if (userID) {
@@ -78,7 +79,29 @@ export async function currentAccount() {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
+  }
+  return false
+}
+
+export async function currentAccount() {
+  const userID = store.get('userID')
+
+  if (userID) {
+    return serverClient
+    .get('sessionUpdate')
+    .then(response => {
+      console.log(response)
+      if (response) {
+        const { accessToken } = response.data
+        if (accessToken) {
+          store.set('accessToken', accessToken)
+        }
+        return response.data
+      }
+      return false
+    })
+    .catch(err => console.error(err))
   }
   return false
 }

@@ -5,7 +5,7 @@ import { notification } from 'ant-design-vue'
 const apiClient = axios.create({
   baseURL: 'https://api-dev.aksessales.id/api/',
   // timeout: 1000,
-  // headers: { 'X-Custom-Header': 'foobar' }
+  headers: { 'Access-Control-Allow-Origin': '*', 'Content-type': 'application/json' },
 })
 
 apiClient.interceptors.request.use(request => {
