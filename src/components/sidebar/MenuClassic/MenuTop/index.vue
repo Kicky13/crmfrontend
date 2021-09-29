@@ -77,7 +77,8 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const menuData = computed(() => user.value.role === 'admin' ? getAdminMenuData : user.value.role === 'tso' ? getTsoMenuData : getUserMenuData)
+    const role = user.value.role.toLowerCase()
+    const menuData = computed(() => role === 'admin' ? getAdminMenuData : role === 'tso' ? getTsoMenuData : getUserMenuData)
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)

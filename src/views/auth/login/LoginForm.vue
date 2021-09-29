@@ -26,8 +26,8 @@
               @finish="login"
               @finishFailed="handleFinishFailed"
             >
-              <a-form-item name="email">
-                <a-input v-model:value="loginForm.email" placeholder="Nama Pengguna">
+              <a-form-item name="username">
+                <a-input v-model:value="loginForm.username" placeholder="Nama Pengguna">
                   <template #prefix>
                     <UserOutlined />
                   </template>
@@ -100,7 +100,7 @@ export default {
     const settings = computed(() => storeState.getters.settings)
     const loading = computed(() => storeState.getters['user/user'].loading)
     const rules = {
-      email: [
+      username: [
         {
           required: true,
           message: 'Silahkan masukkan nama pengguna',
@@ -116,7 +116,7 @@ export default {
       ],
     }
     const loginForm = reactive({
-      email: 'demo@visualbuilder.cloud',
+      username: 'demo@visualbuilder.cloud',
       password: 'VisualBuilder',
     })
 
@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm.email, this.loginForm.password).then(response => {
+      login(this.loginForm).then(response => {
         console.log(response)
         this.$ability.update(response.ability)
         window.location.href = '#/dashboard'
