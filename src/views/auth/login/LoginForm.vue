@@ -3,10 +3,7 @@
     <div class="row">
       <div class="col-xs-0 col-md-2"></div>
       <div class="col-xs-12 col-md-8">
-        <div
-          class="card card-top card-top-primary"
-          style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;"
-        >
+        <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;">
           <div class="card-body">
             <img
               v-if="settings.theme === 'default'"
@@ -40,7 +37,6 @@
                   type="password"
                 >
                   <template #prefix>
-                    <!-- <KeyOutlined /> -->
                     <LockOutlined />
                   </template>
                 </a-input-password>
@@ -60,6 +56,12 @@
               <span class="mr-2">Lupa Password?</span>
               <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
                 Klik disini
+              </router-link>
+            </div>
+            <div class="text-center pt-2 mb-auto">
+
+              <router-link to="/" class="vb__utils__link text-main">
+                <span class="mr-2">Kembali ke Beranda</span>
               </router-link>
             </div>
           </div>
