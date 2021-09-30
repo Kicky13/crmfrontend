@@ -3,13 +3,17 @@
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Data Sales SBI</strong>
+        
         <a-button type="btn btn-success" @click="resetData()" class="btn pull-right">
           <i class="fa fa-refresh mr-1" />
           Reset
         </a-button>
+       
       </div>
+      
       <div class="card-body">
         <a-form :model="form">
+          
           <a-row>
             <a-col md="3" class="mr-4">
               <a-form-item label="Region">
@@ -52,14 +56,18 @@
                   </a-button>
                 </a-col>
                 <a-col md="5">
+                  <Can do="create" on="DataSales">
                   <a-button type="btn btn-success" @click="showModal">
                     <i class="fa fa-download mr-1" />
                     Export
                   </a-button>
+                  </Can>
                 </a-col>
               </a-row>
+              
             </a-col>
           </a-row>
+          
         </a-form>
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
@@ -80,6 +88,7 @@
         </div>
 
       </div>
+      
     </div>
   </div>
 </template>

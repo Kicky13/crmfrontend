@@ -2,7 +2,7 @@ import apiClient from '@/services/axios'
 import serverClient from '@/services/axios/axios'
 import store from 'store'
 
-export async function login(email, password) {
+export async function oldlogin(email, password) {
   return apiClient
     .get('/users?email=' + email + '&password=' + password)
     .then(response => {
@@ -22,13 +22,15 @@ export async function login(email, password) {
     .catch(err => console.log(err))
 }
 
-export async function newlogin(formData) {
+export async function login(formData) {
   return serverClient
     .post('login', formData)
     .then(response => {
-      if (response) {
-        const data = response.data
-        const accessToken = data.id + "" + data.accessToken
+      console.log(response.data)
+      if (response && response.data.status !== 'error') {
+        const data = response.data.data
+        const accessToken = data.accesstoken
+        console.log(accessToken)
         if (accessToken) {
           localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
@@ -62,7 +64,7 @@ export async function register(email, password, name) {
     .catch(err => console.log(err))
 }
 
-export async function currentAccount() {
+export async function currentAccountOld() {
   const userID = store.get('userID')
 
   if (userID) {
@@ -78,7 +80,32 @@ export async function currentAccount() {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
+  }
+  return false
+}
+
+export async function currentAccount() {
+  const userID = store.get('userID')
+  const token = store.get('accessToken')
+
+  console.log(token)
+
+  if (userID) {
+    return serverClient
+    .post('sessionUpdate')
+    .then(response => {
+      if (response && response.data.status !== 'error') {
+        console.log(response.data.data)
+        const { accesstoken } = response.data.data
+        if (accesstoken) {
+          store.set('accessToken', accesstoken)
+        }
+        return response.data.data
+      }
+      return false
+    })
+    .catch(err => console.error(err))
   }
   return false
 }

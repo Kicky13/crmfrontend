@@ -14,6 +14,7 @@
             class="card-title title-ellipsis"
             v-text="postItem.post_title"
           />
+          <Can do="update" on="Program">
           <div class="nav-item dropdown">
              <a-dropdown
               placement="bottomCenter"
@@ -39,6 +40,7 @@
               </template>
             </a-dropdown> 
           </div>
+          </Can>
         </div>
         <div class="card-body pb-0">
           <div
@@ -47,7 +49,7 @@
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.post_date}} {{postItem.post_time}}</div>
+          <div class="text-main align-self-center">{{postItem.startDate}} - {{postItem.FinishDate}}</div>
           <a-button
             type="primary"
           >

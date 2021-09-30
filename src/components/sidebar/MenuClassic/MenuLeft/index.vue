@@ -116,7 +116,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { default as localStore } from 'store'
 import find from 'lodash/find'
-import { getAdminMenuData, getUserMenuData } from '@/services/menu'
+import { getAdminMenuData, getUserMenuData, getTsoMenuData } from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
 
@@ -126,12 +126,12 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const menuData = computed(() => user.value.role === 'admin' ? getAdminMenuData : getUserMenuData)
+    const user = computed(() => store.getters['user/user'])
+    const menuData = computed(() => user.value.role.toLowerCase() === 'admin' ? getAdminMenuData : user.value.role.toLowerCase() === 'tso' ? getTsoMenuData : getUserMenuData)
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)
     const isMenuCollapsed = computed(() => store.getters.settings.isMenuCollapsed)
-    const user = computed(() => store.getters['user/user'])
     const pathname = computed(() => route.pathname)
 
     const onCollapse = (collapsed, type) => {

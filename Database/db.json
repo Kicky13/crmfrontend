@@ -10,7 +10,19 @@
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
       "ability": [
         {
-          "action": "manage",
+          "action": "read",
+          "subject": "all"
+        },
+        {
+          "action": "create",
+          "subject": "all"
+        },
+        {
+          "action": "update",
+          "subject": "all"
+        },
+        {
+          "action": "delete",
           "subject": "all"
         }
       ]
@@ -21,11 +33,11 @@
       "password": "VisualBuilder",
       "name": "Alicia Key",
       "avatar": "",
-      "role": "user",
+      "role": "tso",
       "accesstoken": ".366be641c17cb6d9c5d8944e00bfce3189d8b1515a",
       "ability": [
         {
-          "action": "manage",
+          "action": "read",
           "subject": "Dashboard"
         },
         {
@@ -33,11 +45,14 @@
           "subject": "Roles"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "Berita"
         },
         {
-          "action": "manage",
+          "action": "read",
+          "subject": "Program"
+          }, {
+            "action": "read",
           "subject": "Ecommerce"
         },
         {
@@ -45,12 +60,18 @@
           "subject": "Auth"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "CustomerMapping"
         },
         {
-          "action": "manage",
+          "action": "read",
           "subject": "SynCustomer"
+        }, {
+          "action": "read",
+          "subject": "validasiHarga"
+        }, {
+          "action": "read",
+          "subject": "DataSales"
         }
       ]
     }
