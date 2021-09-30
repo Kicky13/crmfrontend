@@ -3,10 +3,7 @@
     <div class="row">
       <div class="col-xs-0 col-md-2"></div>
       <div class="col-xs-12 col-md-8">
-        <div
-          class="card card-top card-top-primary"
-          style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;"
-        >
+        <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;">
           <div class="card-body">
             <img
               v-if="settings.theme === 'default'"
@@ -26,8 +23,8 @@
               @finish="login"
               @finishFailed="handleFinishFailed"
             >
-              <a-form-item name="email">
-                <a-input v-model:value="loginForm.email" placeholder="Nama Pengguna">
+              <a-form-item name="username">
+                <a-input v-model:value="loginForm.username" placeholder="Nama Pengguna">
                   <template #prefix>
                     <UserOutlined />
                   </template>
@@ -40,7 +37,6 @@
                   type="password"
                 >
                   <template #prefix>
-                    <!-- <KeyOutlined /> -->
                     <LockOutlined />
                   </template>
                 </a-input-password>
@@ -60,6 +56,12 @@
               <span class="mr-2">Lupa Password?</span>
               <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
                 Klik disini
+              </router-link>
+            </div>
+            <div class="text-center pt-2 mb-auto">
+
+              <router-link to="/" class="vb__utils__link text-main">
+                <span class="mr-2">Kembali ke Beranda</span>
               </router-link>
             </div>
           </div>
@@ -100,7 +102,7 @@ export default {
     const settings = computed(() => storeState.getters.settings)
     const loading = computed(() => storeState.getters['user/user'].loading)
     const rules = {
-      email: [
+      username: [
         {
           required: true,
           message: 'Silahkan masukkan nama pengguna',
@@ -116,17 +118,17 @@ export default {
       ],
     }
     const loginForm = reactive({
-      email: 'demo@visualbuilder.cloud',
+      username: 'demo@visualbuilder.cloud',
       password: 'VisualBuilder',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       console.log(errors)
     }
 
@@ -143,15 +145,22 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm.email, this.loginForm.password).then(response => {
+      login(this.loginForm).then((response) => {
         console.log(response)
-        this.$ability.update(response.ability)
-        window.location.href = '#/dashboard'
-        notification.success({
-          message: 'Logged In',
-          description: 'You have successfully logged in!',
-        })
-        this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+        if (response) {
+          this.$ability.update(response.ability)
+          window.location.href = '#/dashboard'
+          notification.success({
+            message: 'Logged In',
+            description: 'Anda berhasil Login!',
+          })
+          this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+        } else {
+          notification.error({
+            message: 'Login Failed',
+            description: 'Username/password salah!',
+          })
+        }
       })
     },
   },

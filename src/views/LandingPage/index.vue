@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-base dark" id="minify_nav">
       <div class="container">
-        <a class="navbar-brand" href="index-2.html">
+        <a class="navbar-brand">
           <!-- <img
             class="toggle-logo logo-white"
             src="../../assets/LandingPage/images/logo.png"
@@ -28,13 +28,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navigation">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-ite">
-              <a class="nav-link" href="#start">Get started<span class="sr-only"></span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#about">About<span class="sr-only"></span></a>
-            </li>
-
             <li class="nav-item" v-if="!data_login">
               <router-link class="nav-link special" :to="`/auth/login`">Login</router-link>
             </li>
@@ -67,7 +60,6 @@
                     Segera daftar dengan ID bisnis Kokoh Anda !
                   </h3>
                   <div class="current-ico-bouns">
-                    <!-- <a href="#" class="buy-now"><i class="fa fa-shopping-cart"></i></a> -->
                     <div class="bouns-progress">
                       <ul class="bouns-labels-list list-unstyled list-inline">
                         <li>
@@ -292,7 +284,7 @@
 
     <section
       class="information-mobile"
-      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"      
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"
       style="background-color: #b20838;"
     >
       <div class="container">
@@ -1086,7 +1078,7 @@
                 </div>
               </div>
             </div>
-           
+
             <div class="footer-column col-md-4 col-sm-6 col-xs-12">
               <div class="footer-widget contact-widget">
                 <h3 class="has-line-center">Contact Us</h3>
@@ -1108,7 +1100,7 @@
                 </div>
               </div>
             </div>
-           
+
             <div class="footer-column col-md-4 col-sm-12 col-xs-12">
               <div class="footer-widget newsletter-widget">
                 <h3 class="has-line-center">Newsletter</h3>

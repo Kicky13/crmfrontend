@@ -337,7 +337,6 @@ router.beforeEach((to, from, next) => {
     if (canNavigate(to)) {
       next()
     } else {
-      console.log(`===================2`, to)
       next({ name: 'route500' })
     }
   }
