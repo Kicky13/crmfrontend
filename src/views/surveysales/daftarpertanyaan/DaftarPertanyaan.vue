@@ -1,41 +1,43 @@
 <template>
-  <div class="card border-radius-card">
+  <a-card class="card border-radius-card" :loading="loading">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Daftar Pertanyaan {{ list.jenis_penilaian }}</h5>
-      <div class="nav-item dropdown">
-        <a-dropdown
-          placement="bottomLeft"
-          :trigger="['click']"
-        >
-          <a
-            class="nav-link pt-sm-0"
-            href="javascript: void(0);"
+      <Can do="update" on="Survey Sales">
+        <div class="nav-item dropdown">
+          <a-dropdown
+            placement="bottomLeft"
+            :trigger="['click']"
           >
-            <i class="fa fa-list text-white" />
-          </a>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item>
-                <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="deleteConfirm
-                (
-                  'Hapus Jenis Penilaian',
-                  'Jenis penilaian berhasil dihapus',
-                  hapusJenisPenilaian
-                )"
-                >
-                  Hapus Jenis Penilaian
-                </a>
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-      </div>
+            <a
+              class="nav-link pt-sm-0"
+              href="javascript: void(0);"
+            >
+              <i class="fa fa-list text-white" />
+            </a>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item>
+                  <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="deleteConfirm
+                  (
+                    'Hapus Jenis Penilaian',
+                    'Jenis penilaian berhasil dihapus',
+                    hapusJenisPenilaian
+                  )"
+                  >
+                    Hapus Jenis Penilaian
+                  </a>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+      </Can>
     </div>
     <div class="card-body">
       <a-collapse
@@ -54,7 +56,7 @@
             :style="customStyle"
           >
             <div class="d-flex justify-content-between mx-3">
-              <a @click="showTambahJawabanModal(i, question.title)">
+              <a @click="showTambahOpsionalJawabanModal(i, question.title)">
                 <i class="fa fa-plus-circle fa-lg text-main align-self-center mr-2" />
                 <span class="align-self-center">Opsional Jawaban Atas Pertanyaan</span>
               </a>
@@ -104,7 +106,7 @@
         </template>
       </a-collapse>
     </div>
-  </div>
+  </a-card>
   <!-- Start of Edit Jenis Penilaian Modal -->
   <vb-edit-jenis-penilaian-modal
     :modal-visible="editJenisPenilaianModalVisible"
@@ -124,32 +126,22 @@
   />
   <!-- End of Tambah Pertanyaan Modal End -->
   <!-- Start of Tambah Opsional Jawaban Modal -->
-  <vb-tambah-opsional-jawaban-modal
-    :modal-visible="tambahOpsionalJawabanVisible"
+  <vb-opsional-jawaban-modal
+    :modal-visible="opsionalJawabanModalVisible"
+    :modal-status="opsionalJawabanModalStatus"
     :pertanyaan-title="judulPertanyaan"
     :new-jawaban="jawaban"
     :new-poin="poin"
-    @handle-ok="tambahOpsionalModalHandleOk"
-    @handle-cancel="tambahOpsionalJawabanVisible = false"
+    @handle-ok="opsionalJawabanModalHandleOk"
+    @handle-cancel="opsionalJawabanModalVisible = false"
   />
   <!-- End of Tambah Opsional Jawaban Modal -->
-  <!-- Start of Edit Opsional Jawaban Modal -->
-  <vb-edit-opsional-jawaban-modal
-    :modal-visible="editOpsionalJawabanModalVisible"
-    :pertanyaan-title="judulPertanyaan"
-    :new-jawaban="jawaban"
-    :new-poin="poin"
-    @handle-ok="editOpsionalJawabanModalHandleOk"
-    @handle-cancel="editOpsionalJawabanModalVisible = false"
-  />
-  <!-- End of Edit Opsional Jawaban Modal -->
 </template>
 
 <script>
 import VbPertanyaanModal from './modals/PertanyaanModal'
 import VbEditJenisPenilaianModal from './modals/EditJenisPenilaianModal'
-import VbTambahOpsionalJawabanModal from './modals/TambahOpsionalJawabanModal'
-import VbEditOpsionalJawabanModal from './modals/EditOpsionalJawabanModal'
+import VbOpsionalJawabanModal from './modals/TambahOpsionalJawabanModal'
 import { notification } from 'ant-design-vue'
 
 const columns = [
@@ -175,8 +167,7 @@ export default {
   components: {
     VbPertanyaanModal,
     VbEditJenisPenilaianModal,
-    VbTambahOpsionalJawabanModal,
-    VbEditOpsionalJawabanModal,
+    VbOpsionalJawabanModal,
   },
   props: {
     list: {
@@ -184,6 +175,9 @@ export default {
       default: function () {
         return {}
       },
+    },
+    loading: {
+      type: Boolean,
     },
   },
   emits: [
@@ -205,7 +199,8 @@ export default {
     return {
       pertanyaanModalStatus: true,
       pertanyaanModalVisible: false,
-      tambahOpsionalJawabanVisible: false,
+      opsionalJawabanModalStatus: true,
+      opsionalJawabanModalVisible: false,
       editOpsionalJawabanModalVisible: false,
       editJenisPenilaianModalVisible: false,
       pertanyaan: '',
@@ -238,22 +233,24 @@ export default {
       this.pertanyaanModalStatus = false
       this.pertanyaanModalVisible = true
     },
-    showTambahJawabanModal(index, pertanyaan) {
+    showTambahOpsionalJawabanModal(index, pertanyaan) {
       this.jawaban = ''
       this.poin = ''
-      this.tambahOpsionalJawabanVisible = true
       this.indexPertanyaan = index
       this.judulPertanyaan = pertanyaan
+      this.opsionalJawabanModalStatus = true
+      this.opsionalJawabanModalVisible = true
     },
     showEditOpsionalJawabanModal(index, pertanyaan, key) {
-      this.editOpsionalJawabanModalVisible = true
-      this.indexPertanyaan = index
-      this.judulPertanyaan = pertanyaan
       const indexJawaban = this.list.pertanyaan[index].jawaban.map(pertanyaan => pertanyaan.key).indexOf(key)
       const jawaban = this.list.pertanyaan[index].jawaban[indexJawaban]
       this.indexJawaban = indexJawaban
       this.jawaban = jawaban.title
       this.poin = jawaban.poin
+      this.indexPertanyaan = index
+      this.judulPertanyaan = pertanyaan
+      this.opsionalJawabanModalStatus = false
+      this.opsionalJawabanModalVisible = true
     },
     // ========== End of Show Modal ==========
     // ========== Start of Handle Ok ==========
@@ -277,7 +274,7 @@ export default {
       } else {
         this.editPertanyaanModalHandleOk(newPertanyaan)
         message = 'Edit Pertanyaan'
-        description = 'Pertanyaan berhasil diedit'
+        description = 'Pertanyaan berhasil diupdate'
       }
       notification.success({
         message,
@@ -312,7 +309,6 @@ export default {
       dataForm.pertanyaan[this.indexPertanyaan].title = newPertanyaan
       this.$emit('updatePertanyaan', dataForm.id, dataForm)
     },
-
     editJenisPenilaianModalHandleOk(newJenisPenilaian) {
       const dataForm = this.list
       dataForm.jenis_penilaian = newJenisPenilaian
@@ -323,7 +319,40 @@ export default {
       })
       this.editJenisPenilaianModalVisible = false
     },
-    tambahOpsionalModalHandleOk(newJawaban) {
+    opsionalJawabanModalHandleOk(status, newJawaban) {
+      let message = ''
+      let description = ''
+      if (status) {
+        let check = {
+          jawaban: newJawaban.jawaban.trim(),
+          poin: newJawaban.poin.trim(),
+        }
+        if (check.jawaban && check.poin) {
+          this.tambahOpsionalJawabanModalHandleOk(newPertanyaan)
+          message = 'Tambah Opsional Jawaban'
+          description = 'Opsional jawaban berhasil ditambah'
+        } else {
+          notification.error({
+            message: 'Tambah Opsional Jawaban',
+            description: 'Kolom tambah jawaban atau poin masih kosong',
+          })
+
+          return false
+        }
+      } else {
+        this.editOpsionalJawabanModalHandleOk(newPertanyaan)
+        message = 'Edit Opsional Jawaban'
+        description = 'Opsional jawaban berhasil diupdate'
+      }
+      notification.success({
+        message,
+        description,
+      })
+      this.pertanyaan = ''
+      this.indexPertanyaan = null
+      this.pertanyaanModalVisible = false
+    },
+    tambahOpsionalJawabanModalHandleOk(newJawaban) {
       let checkJawaban = newJawaban.jawaban.trim()
       let checkPoin = newJawaban.poin.trim()
       if (checkJawaban && checkPoin) {
@@ -337,13 +366,13 @@ export default {
         dataForm.pertanyaan[this.indexPertanyaan].jawaban.push(jawaban)
         this.$emit('addJawaban', dataForm.id, dataForm)
         notification.success({
-          message: 'Tambah Opsi Jawaban',
+          message: 'Tambah Opsional Jawaban',
           description: 'Opsi jawaban berhasil ditambah',
         })
       } else {
         notification.error({
-          message: 'Tambah Opsi Jawaban',
-          description: 'Semua kolom wajib diisi',
+          message: 'Tambah Opsional Jawaban',
+          description: 'Kolom tambah jawaban atau poin masih kosong',
         })
       }
       this.indexJawaban = null
@@ -405,10 +434,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.border-radius-card {
-  border-radius: 10px;
-  overflow: hidden;
-}
-</style>

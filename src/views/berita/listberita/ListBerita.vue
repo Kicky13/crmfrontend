@@ -30,7 +30,7 @@
                   <a-menu>
                     <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
                       <a-menu-item>
-                        <a>Edit</a>
+                        <a>Update</a>
                       </a-menu-item>
                     </router-link>
                     <a-menu-item>
@@ -43,6 +43,13 @@
           </Can>
         </div>
         <div class="card-body pb-0">
+          <img
+            width="90"
+            height="90"
+            src="@/assets/images/logo/default-image.jpg"
+            alt="Gambar"
+            class="img-thumbnail float-left mr-2"
+          >
           <!-- eslint-disable vue/no-v-html -->
           <div
             class="card-text detail-ellipsis"
@@ -52,7 +59,7 @@
         <div class="card-footer bg-transparent d-flex justify-content-between">
           <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
           <router-link :to="`/marketing/berita/${ post.id }`">
-            <a-button type="primary">Read More</a-button>
+            <a-button type="primary">Selengkapnya</a-button>
           </router-link>
         </div>
       </div>
