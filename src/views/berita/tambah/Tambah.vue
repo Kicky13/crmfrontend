@@ -4,33 +4,14 @@
       <vb-headers-card-header :data="{ title: 'Form Tambah Berita' }" />
     </div>
     <div class="card-body">
-      <a-form
-        label-align="left"
-        layout="vertical"
-        
-      >
-        <a-form-item
-          label="Judul"
-          name="judul"
-        >
-          <a-input
-            class="input-style"
-            v-model:value="postTitle"
-          />
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Judul" name="judul">
+          <a-input class="input-style" v-model:value="postTitle" />
         </a-form-item>
-        <a-form-item
-          label="Detail"
-          name="detail"
-        >
-          <quill-editor
-            style="height: 200px"
-            v-model:value="postDetail"
-          />
+        <a-form-item label="Detail" name="detail">
+          <quill-editor style="height: 200px" v-model:value="postDetail" />
         </a-form-item>
-        <a-form-item
-          label="Gambar"
-          name="image"
-        >
+        <a-form-item label="Gambar" name="image">
           <!-- <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
@@ -55,19 +36,13 @@
               :src="previewImage"
             />
           </a-modal> -->
-          <input type="file" @change="onFileSelected">
+          <input type="file" ref="file" @change="onFileSelected" />
         </a-form-item>
         <a-form-item>
-          <a-button
-            type="primary"
-            @click="onSubmit"
-          >
+          <a-button type="primary" @click="onSubmit">
             Tambah
           </a-button>
-          <router-link
-            to="/marketing/berita"
-            style="margin-left: 10px;"
-          >
+          <router-link to="/marketing/berita" style="margin-left: 10px;">
             <a-button>
               Cancel
             </a-button>
@@ -83,16 +58,16 @@ import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { storePost, newStorePost } from '@/services/connection/artikel/api'
 import { useRouter } from 'vue-router'
-import { notification } from 'ant-design-vue';
+import { notification } from 'ant-design-vue'
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
 }
 
 export default defineComponent({
@@ -116,7 +91,7 @@ export default defineComponent({
           status: 'error',
         },
       ],
-    };
+    }
   },
   methods: {
     getCurrentDate() {
@@ -128,7 +103,7 @@ export default defineComponent({
       return `${date}-${month}-${year}`
     },
     getCurrentTime() {
-      const today = new Date();
+      const today = new Date()
       const hour = String(today.getHours()).padStart(2, '0')
       const minute = String(today.getMinutes()).padStart(2, '0')
       const second = String(today.getSeconds()).padStart(2, '0')
@@ -138,12 +113,12 @@ export default defineComponent({
     addNewPost(param) {
       // storePost(param, config)
       newStorePost(param)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     onSubmit() {
       this.postDate = `${this.getCurrentDate()} ${this.getCurrentTime()}`
@@ -153,24 +128,25 @@ export default defineComponent({
       //   detail: this.postDetail,
       //   image: this.postImage,
       // }
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } }
       const param = new FormData()
       param.append('date', this.postDate)
       param.append('judul', this.postTitle)
       param.append('detail', this.postDetail)
-      param.append('image', this.postImage, this.postImage.name)
+      param.append('image', this.postImage)
       this.addNewPost(param, config)
       notification.success({
         message: 'Tambah Berita',
         description: 'Berita berhasil ditambah',
       })
     },
-    onFileSelected(event) {
-      this.postImage = event.target.files[0]
+    onFileSelected() {
+      this.postImage = this.$refs.file.files[0]
     },
     handleCancel() {
       this.previewVisible = false
     },
+
     // async handlePreview(file) {
     //   if (!file.url && !file.preview) {
     //     file.preview = await getBase64(file.originFileObj);
