@@ -1,7 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary" :loading="isLoading">
     <div class="card-header">
-      <vb-headers-card-header :data="{ title: 'Form Edit Artikel' }" />
+      <vb-headers-card-header :data="{ title: 'Form Update Berita' }" />
     </div>
     <div class="card-body">
       <a-form
@@ -63,7 +63,7 @@
             html-type="submit"
             @click="onSubmit"
           >
-            Edit
+            Update
           </a-button>
           <router-link
             to="/marketing/berita"
@@ -106,21 +106,21 @@ export default defineComponent({
       post_title: [
         {
           required: true,
-          message: 'Masukkan judul artikel!',
+          message: 'Masukkan judul berita!',
           type: 'string',
         },
       ],
       post_detail: [
         {
           required: true,
-          message: 'Masukkan detail artikel!',
+          message: 'Masukkan detail berita!',
           type: 'string',
         },
       ],
       image: [
         {
           required: true,
-          message: 'Upload gambar artikel!',
+          message: 'Upload gambar berita!',
           type: 'object',
         },
       ],
@@ -180,8 +180,8 @@ export default defineComponent({
           updatePostById(formState.id, toRaw(formState), config)
           router.push('/marketing/berita')
           notification.success({
-            message: 'Update Artikel',
-            description: 'Artikel berhasil diupdate',
+            message: 'Update Berita',
+            description: 'Berita berhasil diupdate',
           })
         } else {
           formState.image = null

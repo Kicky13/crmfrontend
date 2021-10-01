@@ -63,32 +63,56 @@ const router = createRouter({
         // ========== Start of Varis View ==========
         {
           path: '/marketing/berita',
-          meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+          meta: {
+            title: 'Berita',
+            resource: 'berita',
+            action: 'manage',
+          },
           component: () => import('@/views/berita/Berita'),
         },
         {
           path: '/marketing/berita/tambah',
-          meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
+          meta: {
+            title: 'Tambah Berita',
+            resource: 'tambah_berita',
+            action: 'manage',
+          },
           component: () => import('@/views/berita/tambah/Tambah'),
         },
         {
           path: '/marketing/berita/edit/:userId',
-          meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
+          meta: {
+            title: 'Edit Berita',
+            resource: 'edit_berita',
+            action: 'manage',
+          },
           component: () => import('@/views/berita/edit/Edit'),
         },
         {
           path: '/marketing/berita/:id',
-          meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
+          meta: {
+            title: 'Detail Berita',
+            resource: 'detail_berita',
+            action: 'manage',
+          },
           component: () => import('@/views/berita/detailberita/DetailBerita'),
         },
         {
           path: '/user/level_user',
-          meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
+          meta: {
+            title: 'Level User',
+            resource: 'level_user',
+            action: 'manage',
+          },
           component: () => import('@/views/leveluser/LevelUser'),
         },
         {
           path: '/sales/survey_sales',
-          meta: { title: 'Survey Sales', resource: 'SurveySales', action: 'manage' },
+          meta: {
+            title: 'Survey Sales',
+            resource: 'survey_sales',
+            action: 'manage',
+          },
           component: () => import('@/views/surveysales/SurveySales'),
         },
         // ========== End of Varis View ==========

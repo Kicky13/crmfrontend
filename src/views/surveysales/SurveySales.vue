@@ -5,6 +5,7 @@
       :md="24"
     >
       <vb-jenis-penilaian
+        :loading="isLoading"
         :list="surveyList"
         :get-active-menu="activeMenu"
         @active-key="setActiveKey"
@@ -17,6 +18,7 @@
       :md="24"
     >
       <vb-daftar-pertanyaan
+        :loading="isLoading"
         :list="questionList"
         @add-pertanyaan="updateSurveyById"
         @delete-pertanyaan="updateSurveyById"
@@ -45,6 +47,7 @@ export default {
       surveyList: [],
       questionList: {},
       activeMenu: 1,
+      isLoading: false,
     }
   },
   mounted() {
@@ -52,13 +55,20 @@ export default {
   },
   methods: {
     fetchSurveyListOnMounted() {
+      this.isLoading = true
       getSurvey()
       .then(response => {
         this.surveyList = response
         this.questionList = response[0]
+        setTimeout(() => {
+          this.isLoading = false
+        }, 800)
       })
       .catch(err => {
         console.log(err)
+        setTimeout(() => {
+          this.isLoading = false
+        }, 800)
       })
     },
     fetchSurveyListOnUpdated() {
