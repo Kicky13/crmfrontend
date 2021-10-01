@@ -9,11 +9,12 @@
             alt=""
           /> -->
           <h1 for="" class="toggle-logo logo-white">SIG</h1>
-          <img
+
+          <!-- <img
             class="toggle-logo logo-blue"
             src="../../assets/LandingPage/images/toggle-logo.png"
             alt=""
-          />
+          /> -->
         </a>
         <button
           class="navbar-toggler"
