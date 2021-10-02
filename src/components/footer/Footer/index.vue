@@ -16,7 +16,7 @@
             :xs="24"
           >
             <img
-              src="@/assets/images/logo/logo-akses-toko.png"
+              src="@/assets/images/logo/logo-akses-toko.webp"
               alt="Logo Akses Toko"
               width="150"
             />
@@ -104,12 +104,12 @@
                 >
                   <img
                     class="img-fluid mb-3 d-none d-md-inline-block"
-                    src="@/assets/images/logo/google-play.png"
+                    src="@/assets/images/logo/google-play.webp"
                     alt="Logo Google Play"
                   />
                   <img
                     class="img-fluid mb-3 d-md-none"
-                    src="@/assets/images/logo/google-play.png"
+                    src="@/assets/images/logo/google-play.webp"
                     alt="Logo Google Play"
                     width="150"
                   />
@@ -122,12 +122,12 @@
                 >
                   <img
                     class="img-fluid d-none d-md-inline-block"
-                    src="@/assets/images/logo/app-store.png"
+                    src="@/assets/images/logo/app-store.webp"
                     alt="Logo App Store"
                   />
                   <img
                     class="img-fluid d-md-none"
-                    src="@/assets/images/logo/app-store.png"
+                    src="@/assets/images/logo/app-store.webp"
                     alt="Logo App Store"
                     width="150"
                   />

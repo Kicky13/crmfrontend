@@ -38,8 +38,8 @@
             :style="{
               backgroundImage:
                 settings.authPagesColor === 'image'
-                  ? `url(` + require('@/assets/LandingPage/images/MainBG.png')
-                  : `url(` + require('@/assets/LandingPage/images/MainBG.png'),
+                  ? `url(` + require('@/assets/LandingPage/images/MainBG.webp')
+                  : `url(` + require('@/assets/LandingPage/images/MainBG.webp'),
             }"
             style="background-color: #b20838; height: 100vh;"
             :lg="12"
@@ -48,7 +48,7 @@
             :xs="24"
             class="d-none d-md-inline-block left_side"
           >
-            <img src="@/assets/images/logo/meeting-cuate.svg" alt="" class="img-fluid height-600" />
+            <img src="@/assets/images/logo/meeting-cuate.webp" alt="" class="img-fluid height-600" />
           </a-col>
           <a-col :lg="12" :md="12" :sm="24" :xs="24">
             <div class="px-3">

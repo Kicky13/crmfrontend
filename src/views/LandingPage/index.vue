@@ -41,7 +41,7 @@
     </nav>
     <section
       class="main-header demo1"
-      :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.png')"
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.webp')"
       style="background-color: #b20838;"
       id="main"
     >
@@ -118,7 +118,7 @@
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-right">
                             <img
-                              src="@/assets/images/logo/google-play.png"
+                              src="@/assets/images/logo/google-play.webp"
                               alt="Logo SIG"
                               width="170"
                             />
@@ -127,7 +127,7 @@
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-left">
                             <img
-                              src="@/assets/images/logo/app-store.png"
+                              src="@/assets/images/logo/app-store.webp"
                               alt="Logo SIG"
                               width="170"
                             />
@@ -142,7 +142,7 @@
             <div class="col-xl-5 col-lg-6 col-md-12">
               <div class="counter-down">
                 <img
-                  src="@/assets/images/logo/preview-apps.png"
+                  src="@/assets/images/logo/preview-apps.webp"
                   alt=""
                   class="img-fluid height-400"
                 />
@@ -219,7 +219,7 @@
               <div class="service-icon">
                 <img
                   class="icon center-block"
-                  src="@/assets/LandingPage/images/Getapps.png"
+                  src="@/assets/LandingPage/images/Getapps.webp"
                   alt=""
                 />
               </div>
@@ -243,7 +243,7 @@
               <div class="service-icon">
                 <img
                   class="icon iconscenter-block"
-                  src="@/assets/LandingPage/images/Verifikasi.png"
+                  src="@/assets/LandingPage/images/Verifikasi.webp  "
                   alt=""
                 />
               </div>
@@ -265,7 +265,7 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img class="icon center-block" src="@/assets/LandingPage/images/Touch.png" alt="" />
+                <img class="icon center-block" src="@/assets/LandingPage/images/Touch.webp" alt="" />
               </div>
               <div class="service-text">
                 <h4><a href="#">Start Using</a></h4>
@@ -285,14 +285,14 @@
 
     <section
       class="information-mobile"
-      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.png')"
+      :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.webp')"
       style="background-color: #b20838;"
     >
       <div class="container">
         <div class="row">
           <div class="col-md-6">
             <div class="image_mobile">
-              <img src="@/assets/LandingPage/images/MobileView.png" alt="" />
+              <img src="@/assets/LandingPage/images/MobileView.webp" alt="" />
             </div>
           </div>
           <div class="col-md-6">

@@ -7,12 +7,12 @@
           <div class="card-body">
             <img
               v-if="settings.theme === 'default'"
-              src="@/assets/images/logo/crm-icon-black.png"
+              src="@/assets/images/logo/crm-icon-black.webp"
               alt="Logo SIG"
               width="200"
               class="mb-3"
             />
-            <img v-else src="@/assets/images/logo/crm-icon-white.png" alt="Logo SIG" width="200" />
+            <img v-else src="@/assets/images/logo/crm-icon-white.webp" alt="Logo SIG" width="200" />
 
             <a-form
               :model="loginForm"
@@ -71,10 +71,17 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-6">
-            <img src="@/assets/images/logo/app-store.png" alt="Logo SIG" width="170" />
+            <a href="https://aksestoko.id/application/ios" target="_blank">
+              <img src="@/assets/images/logo/app-store.webp" alt="Logo App Store" width="170" />
+            </a>
           </div>
           <div class="col-xs-12 col-md-6">
-            <img src="@/assets/images/logo/google-play.png" alt="Logo SIG" width="170" />
+            <a
+              href="https://play.google.com/store/apps/details?id=id.sisi.aksestokomobile"
+              target="_blank"
+            >
+              <img src="@/assets/images/logo/google-play.webp" alt="Logo Google Play" width="170" />
+            </a>
           </div>
         </div>
       </div>
