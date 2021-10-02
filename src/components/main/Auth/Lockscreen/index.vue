@@ -4,7 +4,7 @@
       <div class="text-dark text-center font-size-32 mb-3">Account Locked</div>
       <div class="text-center">
         <div class="vb__utils__avatar vb__utils__avatar--size64 d-inline-block mb-2">
-          <img src="resources/images/avatars/2.jpg" alt="Mary Stanform" />
+          <img lazy="loading" v-once src="resources/images/avatars/2.jpg" alt="Mary Stanform" />
         </div>
         <div class="font-size-18 text-dark mb-4">
           <strong>Mary Stanform</strong>

@@ -50,7 +50,7 @@
             :footer="null"
             @cancel="handleCancel"
           >
-            <img
+            <img lazy="loading" v-once
               alt="Default"
               style="width: 100%"
               :src="previewImage"

@@ -9,7 +9,12 @@
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
               <div class="vb__utils__avatar vb__utils__avatar--size64 mb-3">
-                <img src="resources/images/avatars/5.jpg" alt="Mary Stanform" />
+                <img
+                  lazy="loading"
+                  v-once
+                  src="resources/images/avatars/5.jpg"
+                  alt="Mary Stanform"
+                />
               </div>
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20">Mary Stanform</div>
@@ -71,15 +76,12 @@
               <a-table
                 :columns="columns"
                 :data-source="users"
-                :row-key="(users) => users.id"
+                :row-key="users => users.id"
                 :pagination="pagination"
               >
                 <template #action>
                   <div>
-                    <button
-                      type="button"
-                      class="btn btn-outline-danger"
-                    >
+                    <button type="button" class="btn btn-outline-danger">
                       <i class="fa fa-trash"></i><span> Hapus</span>
                     </button>
                   </div>
@@ -126,7 +128,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -150,7 +152,7 @@ export default {
     }
   },
   mounted() {
-      this.fetchGetUsers()
+    this.fetchGetUsers()
   },
   methods: {
     handlePaginationSize(size) {
@@ -158,13 +160,13 @@ export default {
     },
     fetchGetUsers() {
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
             this.userOption = response
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },

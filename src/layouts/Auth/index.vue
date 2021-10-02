@@ -48,7 +48,7 @@
             :xs="24"
             class="d-none d-md-inline-block left_side"
           >
-            <img src="@/assets/images/logo/meeting-cuate.webp" alt="" class="img-fluid height-600" />
+            <img lazy="loading" v-once src="@/assets/images/logo/meeting-cuate.webp" alt="" class="img-fluid height-600" />
           </a-col>
           <a-col :lg="12" :md="12" :sm="24" :xs="24">
             <div class="px-3">

@@ -117,7 +117,7 @@
                       <div class="row">
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-right">
-                            <img
+                            <img lazy="loading" v-once
                               src="@/assets/images/logo/google-play.webp"
                               alt="Logo SIG"
                               width="170"
@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-left">
-                            <img
+                            <img lazy="loading" v-once
                               src="@/assets/images/logo/app-store.webp"
                               alt="Logo SIG"
                               width="170"
@@ -141,7 +141,7 @@
             </div>
             <div class="col-xl-5 col-lg-6 col-md-12">
               <div class="counter-down">
-                <img
+                <img lazy="loading" v-once
                   src="@/assets/images/logo/preview-apps.webp"
                   alt=""
                   class="img-fluid height-400"
@@ -217,7 +217,7 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img
+                <img lazy="loading" v-once
                   class="icon center-block"
                   src="@/assets/LandingPage/images/Getapps.webp"
                   alt=""
@@ -241,9 +241,9 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img
+                <img lazy="loading" v-once
                   class="icon iconscenter-block"
-                  src="@/assets/LandingPage/images/Verifikasi.webp  "
+                  src="@/assets/LandingPage/images/Verifikasi.webp"
                   alt=""
                 />
               </div>
@@ -265,7 +265,7 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img class="icon center-block" src="@/assets/LandingPage/images/Touch.webp" alt="" />
+                <img lazy="loading" v-once class="icon center-block" src="@/assets/LandingPage/images/Touch.webp" alt="" />
               </div>
               <div class="service-text">
                 <h4><a href="#">Start Using</a></h4>
@@ -292,7 +292,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="image_mobile">
-              <img src="@/assets/LandingPage/images/MobileView.webp" alt="" />
+              <img lazy="loading" v-once src="@/assets/LandingPage/images/MobileView.webp" alt="" />
             </div>
           </div>
           <div class="col-md-6">
