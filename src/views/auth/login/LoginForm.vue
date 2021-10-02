@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-xs-12 col-md-6">
             <a href="https://aksestoko.id/application/ios" target="_blank">
               <img lazy="loading" v-once src="@/assets/images/logo/app-store.webp" alt="Logo App Store" width="170" />
@@ -92,7 +92,7 @@
               <img lazy="loading" v-once src="@/assets/images/logo/google-play.webp" alt="Logo Google Play" width="170" />
             </a>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col-xs-0 col-md-2"></div>
     </div>
