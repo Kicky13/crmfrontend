@@ -1,23 +1,19 @@
 <template>
-  <div>
+  <div class="right_side">
     <div class="row">
       <div class="col-xs-0 col-md-2"></div>
       <div class="col-xs-12 col-md-8">
-        <div
-          class="card card-top card-top-primary"
-          style="background-color: rgb(255 255 255 / 90%); box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%); border-radius: 5px;"
-        >
+        <div class="card card-top card-top-primary">
           <div class="card-body">
             <img
               v-if="settings.theme === 'default'"
               src="@/assets/images/logo/crm-icon-black.png"
               alt="Logo SIG"
               width="200"
+              class="mb-3"
             />
             <img v-else src="@/assets/images/logo/crm-icon-white.png" alt="Logo SIG" width="200" />
-            <div class="text-dark font-size-18 mb-3" style="margin-top: 10px !important">
-              Selamat Datang
-            </div>
+
             <a-form
               :model="loginForm"
               :rules="rules"
@@ -27,7 +23,11 @@
               @finishFailed="handleFinishFailed"
             >
               <a-form-item name="username">
-                <a-input v-model:value="loginForm.username" placeholder="Nama Pengguna">
+                <a-input
+                  class="input_username"
+                  v-model:value="loginForm.username"
+                  placeholder="Nama Pengguna"
+                >
                   <template #prefix>
                     <UserOutlined />
                   </template>
@@ -35,6 +35,7 @@
               </a-form-item>
               <a-form-item name="password">
                 <a-input-password
+                  class="p-2 input_password"
                   v-model:value="loginForm.password"
                   placeholder="Kata Kunci"
                   type="password"
@@ -46,23 +47,23 @@
               </a-form-item>
               <a-button
                 type="main"
-                style="background: #b20838 !important"
                 html-type="submit"
-                class="text-center text-white w-100"
-                shape="round"
+                class="text-center text-white w-100 button_login"
                 :loading="loading"
               >
                 <strong>MASUK</strong>
               </a-button>
             </a-form>
-            <div class="text-center pt-2 mb-auto">
-              <span class="mr-2">Lupa Password?</span>
-              <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
-                Klik disini
+            <div class="text-center mb-auto">
+              <router-link
+                to="/auth/forgot-password"
+                class="vb__utils__link text-main font-weight-bold"
+              >
+                Lupa Password?
               </router-link>
             </div>
-            <div class="text-center pt-2 mb-auto">
-              <router-link to="/" class="vb__utils__link text-main">
+            <div class="text-center mt-3 mb-auto">
+              <router-link to="/" class="vb__utils__link back_beranda">
                 <span class="mr-2">Kembali ke Beranda</span>
               </router-link>
             </div>
@@ -200,4 +201,7 @@ export default {
 </script>
 <style lang="scss" module>
 @import '@/components/main/Auth/style.module.scss';
+</style>
+<style lang="scss" scoped>
+@import '@/assets/scss/Login/index.scss';
 </style>
