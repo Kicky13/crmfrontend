@@ -14,7 +14,7 @@ export async function listPost() {
 
 export async function showPost(id) {
   return serverClient
-  .get(`/program/list/${id}`)
+  .post(`/program/list/${id}`)
   .then(response => {
       if (response) {
           return response.data
@@ -45,9 +45,9 @@ return serverClient
 })
 }
 
-export async function updatePost(id, formData, config) {
+export async function updatePost(formData, config) {
 return serverClient
-.put(`/program/update/${id}`, formData, config)
+.post('/program/update', formData, config)
 .then(response => {
     if (response) {
         return response.data
