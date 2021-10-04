@@ -1,13 +1,16 @@
 <template>
   <div>
-    <Can do="create" on="News">
+    <Can
+      do="create"
+      on="News"
+    >
       <router-link to="/marketing/berita/tambah">
         <a-button
           type="primary"
           class="mb-4"
         >
           <i class="fa fa-plus mr-2" />
-          Tambah Artikel
+          Tambah Berita
         </a-button>
       </router-link>
     </Can>
@@ -19,7 +22,10 @@
 </template>
 
 <script>
-import { postList } from '@/services/connection/artikel/api'
+import {
+  postList,
+  newPostList,
+} from '@/services/connection/artikel/api'
 import VbListBerita from './listberita/ListBerita'
 import { notification } from 'ant-design-vue';
 
@@ -30,13 +36,19 @@ export default {
   data() {
     return {
       posts: [],
-      editPostItem: {},
     };
   },
   mounted() {
     this.fetchPostList()
+    this.fetchNewPostList()
   },
   methods: {
+    fetchNewPostList() {
+      newPostList()
+      .then(response => {
+        console.log(response)
+      })
+    },
     fetchPostList() {
       this.posts = []
       postList()

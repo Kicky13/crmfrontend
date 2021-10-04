@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-5 pt-2">
+  <div class="mt-5 pt-2 forgot_password">
     <div class="card" :class="$style.container">
       <div class="text-dark font-size-32 mb-3">Reset Password</div>
       <a-form ref="registerForm" :model="forgotForm" :rules="rules" layout="vertical" class="mb-4">
         <a-form-item name="email">
-          <a-input v-model:value="forgotForm.email" placeholder="Email Address" />
+          <a-input class="input_email" v-model:value="forgotForm.email" placeholder="Email Address" />
         </a-form-item>
-        <a-button type="primary" class="text-center w-100" html-type="submit">
+        <a-button type="primary" class="text-center w-100 button_forgot" html-type="submit">
           <strong>Reset my password</strong>
         </a-button>
       </a-form>
@@ -43,6 +43,10 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+@import '@/assets/scss/Login/index.scss';
+</style>
+
 <style lang="scss" module>
 @import '@/components/main/Auth/style.module.scss';
 </style>
