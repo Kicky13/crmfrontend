@@ -84,7 +84,7 @@
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { updatePost, newPostList, newUpdatePost } from '@/services/connection/artikel/api'
+import { updatePost, postList } from '@/services/connection/berita/api'
 import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
@@ -133,7 +133,7 @@ export default defineComponent({
     })
     const getPostById = () => {
       const id = route.params.userId
-      newPostList()
+      postList()
       .then(response => {
         if (response) {
           console.log(response.data)
@@ -150,7 +150,7 @@ export default defineComponent({
       })
     }
     const updatePostById = (id, param, config) => {
-      newUpdatePost(id, param, config)
+      updatePost(id, param, config)
       .then(response => {
         console.log(response)
       })
@@ -215,7 +215,7 @@ export default defineComponent({
     getPostById() {
       this.isLoading = true
       const id = this.$route.params.userId
-      newPostList()
+      postList()
       .then(response => {
         if (response) {
           const info = {

@@ -14,7 +14,10 @@
             class="card-title title-ellipsis"
             v-text="post.post_title"
           />
-          <Can do="create" on="News">
+          <Can
+            do="create"
+            on="News"
+          >
             <div class="nav-item dropdown">
               <a-dropdown
                 placement="bottomCenter"
@@ -46,7 +49,7 @@
           <!-- <img
             width="90"
             height="90"
-            :src="post.post_image}"
+            :src="post.post_image"
             alt="Gambar"
             class="img-thumbnail float-left mr-2"
           > -->
@@ -57,7 +60,7 @@
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
+          <div class="text-main align-self-center">{{ post.post_date }} {{post.post_time}}</div>
           <router-link :to="`/marketing/berita/${ post.id }`">
             <a-button type="primary">Selengkapnya</a-button>
           </router-link>
@@ -68,7 +71,7 @@
 </template>
 
 <script>
-import { newDeletePost } from '@/services/connection/artikel/api'
+import { deletePost } from '@/services/connection/berita/api'
 
 export default {
   props: {
@@ -82,7 +85,7 @@ export default {
   emits: ['deleteSuccess'],
   methods: {
     deletePostById(id) {
-      newDeletePost(id)
+      deletePost(id)
       .then(response => {
         if (response) {
           this.$emit('deleteSuccess')

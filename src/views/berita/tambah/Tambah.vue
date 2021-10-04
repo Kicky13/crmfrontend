@@ -34,8 +34,8 @@
         >
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            list-type="picture-card"
             accept="image/png, image/jpg, image/jpeg"
+            list-type="picture-card"
             :transform-file="transformFile"
             :file-list="fileList"
             @preview="handlePreview"
@@ -47,9 +47,9 @@
             </div>
           </a-upload>
           <a-modal
-            :visible="previewVisible"
             :footer="null"
-            @cancel="handleCancel"
+            :visible="previewVisible"
+            @cancel="previewVisible = false"
           >
             <img
               alt="Default"
@@ -60,18 +60,16 @@
         </a-form-item>
         <a-form-item>
           <a-button
-            type="primary"
+            class="mr-2"
             html-type="submit"
+            type="primary"
             @click="onSubmit"
           >
             Tambah
           </a-button>
-          <router-link
-            to="/marketing/artikel"
-            style="margin-left: 10px;"
-          >
+          <router-link to="/marketing/berita">
             <a-button>
-              Cancel
+              Batal
             </a-button>
           </router-link>
         </a-form-item>
@@ -81,11 +79,14 @@
 </template>
 
 <script>
-import { quillEditor } from 'vue3-quill'
-import { defineComponent, reactive, toRaw } from 'vue'
-import { newStorePost } from '@/services/connection/artikel/api'
+import { 
+  defineComponent,
+  reactive,
+} from 'vue'
+import { storePost } from '@/services/connection/berita/api'
 import { useRouter } from 'vue-router'
 import { notification } from 'ant-design-vue';
+import { quillEditor } from 'vue3-quill'
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
@@ -128,9 +129,15 @@ export default defineComponent({
     }
     const router = useRouter()
     const addNewPost = (param, config) => {
-      newStorePost(param, config)
+      storePost(param, config)
       .then(response => {
-        console.log(response)
+        if (response) {
+          router.push('/marketing/berita')
+          notification.success({
+            message: 'Tambah Berita',
+            description: 'Berita berhasil ditambah',
+          })
+        }
       })
       .catch(err => {
         console.log(err)
@@ -168,16 +175,11 @@ export default defineComponent({
         if (!(formState.image.status === 'removed')) {
           formState.date = `${getCurrentDate()} ${getCurrentTime()}`
           const param = new FormData()
-          param.append('date', formState.date)
           param.append('judul', formState.judul)
           param.append('detail', formState.detail)
+          param.append('date', formState.date)
           param.append('image', formState.image)
           addNewPost(param, config)
-          router.push('/marketing/berita')
-          notification.success({
-            message: 'Tambah Berita',
-            description: 'Berita berhasil ditambah',
-          })
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -207,9 +209,6 @@ export default defineComponent({
     };
   },
   methods: {
-    handleCancel() {
-      this.previewVisible = false
-    },
     async handlePreview(file) {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj);
@@ -234,9 +233,9 @@ export default defineComponent({
             status: 'error',
           },
         ]
+        this.formState.image = null
       } else {
         this.fileList = fileList
-        // this.formState.image = this.fileList[0]
       }
     },
     transformFile(file) {

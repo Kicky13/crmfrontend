@@ -3,13 +3,12 @@
 </template>
 
 <script>
-import { showPost } from '@/services/connection/artikel/api'
+import { postList } from '@/services/connection/berita/api'
 
 export default { 
   data() {
     return {
       post: {},
-      imageSrc: '',
     }
   },
   mounted() {
@@ -18,10 +17,11 @@ export default {
   methods: {
     getPostById() {
       const artikelId = this.$route.params.id
-      showPost(artikelId)
+      postList(artikelId)
       .then(response => {
-        this.post = response
-        this.imageSrc = response.image.thumbUrl
+        if (response) {
+          console.log(response)
+        }
       })
     },
   },
