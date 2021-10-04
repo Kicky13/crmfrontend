@@ -1,11 +1,13 @@
 <template>
-  <div class="card border-radius-card">
+  <a-card class="card border-radius-card" :loading="loading">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
-      <a
-        class="fa fa-plus-circle fa-lg align-self-center text-white"
-        @click="modalVisible = true"
-      />
+      <Can do="create" on="Survey Sales">
+        <a
+          class="fa fa-plus-circle fa-lg align-self-center text-white"
+          @click="modalVisible = true"
+        />
+      </Can>
     </div>
     <div class="card-body">
       <a-collapse
@@ -29,7 +31,7 @@
         </template>
       </a-collapse>
     </div>
-  </div>
+  </a-card>
   <vb-tambah-jenis-penilaian-modal
     :modal-visible="modalVisible"
     :new-jenis-penilaian="jenisPenilaian"
@@ -56,6 +58,9 @@ export default {
     getActiveMenu: {
       type: Number,
       default: 1,
+    },
+    loading: {
+      type: Boolean,
     },
   },
   emits: [
@@ -112,12 +117,11 @@ export default {
 </script>
 
 <style>
-.border-radius-card {
-  border-radius: 10px;
-  overflow: hidden;
-}
 .ant-collapse-content .ant-collapse-content-box {
   padding: 0 !important;
+}
+.ant-collapse-header:hover {
+  background: #f0f0f0;
 }
 .active {
   background: #f0f0f0 !important;

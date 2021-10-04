@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    :title="`Tambah Opsional Jawaban [${ pertanyaanTitle }]`"
+    :title="`${ modalStatus ? 'Tambah Opsional Jawaban [' + pertanyaanTitle + ']' : 'Edit Opsional Jawaban'}`"
     :visible="modalVisible"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -29,6 +29,7 @@
 export default {
   props: {
     modalVisible: Boolean,
+    modalStatus: Boolean,
     pertanyaanTitle: {
       type: String,
       default: '',

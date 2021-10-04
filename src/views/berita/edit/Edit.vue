@@ -1,7 +1,7 @@
 <template>
-  <div class="card card-top card-top-primary">
+  <a-card class="card card-top card-top-primary" :loading="isLoading">
     <div class="card-header">
-      <vb-headers-card-header :data="{ title: 'Form Edit Artikel' }" />
+      <vb-headers-card-header :data="{ title: 'Form Update Berita' }" />
     </div>
     <div class="card-body">
       <a-form
@@ -50,7 +50,7 @@
             :footer="null"
             @cancel="handleCancel"
           >
-            <img
+            <img lazy="loading" v-once
               alt="Default"
               style="width: 100%"
               :src="previewImage"
@@ -63,7 +63,7 @@
             html-type="submit"
             @click="onSubmit"
           >
-            Edit
+            Update
           </a-button>
           <router-link
             to="/marketing/berita"
@@ -76,7 +76,7 @@
         </a-form-item>
       </a-form>
     </div>
-  </div>
+  </a-card>
 </template>
 
 <script>
@@ -106,21 +106,21 @@ export default defineComponent({
       post_title: [
         {
           required: true,
-          message: 'Masukkan judul artikel!',
+          message: 'Masukkan judul berita!',
           type: 'string',
         },
       ],
       post_detail: [
         {
           required: true,
-          message: 'Masukkan detail artikel!',
+          message: 'Masukkan detail berita!',
           type: 'string',
         },
       ],
       image: [
         {
           required: true,
-          message: 'Upload gambar artikel!',
+          message: 'Upload gambar berita!',
           type: 'object',
         },
       ],
@@ -180,8 +180,8 @@ export default defineComponent({
           updatePostById(formState.id, toRaw(formState), config)
           router.push('/marketing/berita')
           notification.success({
-            message: 'Update Artikel',
-            description: 'Artikel berhasil diupdate',
+            message: 'Update Berita',
+            description: 'Berita berhasil diupdate',
           })
         } else {
           formState.image = null
@@ -203,6 +203,7 @@ export default defineComponent({
       previewVisible: false,
       previewImage: '',
       fileList: [],
+      isLoading: false,
     };
   },
   mounted() {
@@ -210,6 +211,7 @@ export default defineComponent({
   },
   methods: {
     getPostById() {
+      this.isLoading = true
       const id = this.$route.params.userId
       showPost(id)
       .then(response => {
@@ -225,7 +227,16 @@ export default defineComponent({
             ],
           }
           this.handleChange(info)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 800)
         }
+      })
+      .catch(err => {
+        console.error(err)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 800)
       })
     },
     handleCancel() {
