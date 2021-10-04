@@ -127,12 +127,12 @@
         post_date: getCurrentDate(),
         post_time: getCurrentTime(),
         post_title: '',
-        post_slug: 'program_name',
+        // post_slug: 'program_name',
         post_detail: '',
         startDate: '',
         FinishDate: '',
-        publication_status: 'Draft',
-        tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+        // publication_status: 'Draft',
+        // tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
       })
 
       const onSubmit = () => {
@@ -148,10 +148,10 @@
           formState.post_date = ''
           formState.post_time = ''
           formState.post_title = ''
-          formState.post_slug = 'program_name'
+          // formState.post_slug = 'program_name'
           formState.startDate = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
+          // formState.publication_status = 'Draft'
+          // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
           formState.startDate = ''
           formState.FinishDate = ''
           router.push('/marketing/program')

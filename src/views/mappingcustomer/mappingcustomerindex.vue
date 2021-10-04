@@ -9,8 +9,7 @@
         <a-button
           type="primary"
           class="mb-3"
-          href="https://docs.google.com/spreadsheets/d/1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO/edit?usp=sharing&ouid=113668497592391900713&rtpof=true&sd=true"
-          target="_blank"
+          @click="downloadTemplate"
         >
           <i class="fa fa-download mr-2" />
           Download Template Mapping Customer
@@ -151,7 +150,7 @@ export default defineComponent({
   mounted() {
   },
   methods: {
-    previewDataUpload() {     
+    previewDataUpload() {    
       this.isLoading = true
       this.fetchGetDataSource()
       this.isVisible = true
@@ -165,6 +164,7 @@ export default defineComponent({
       message.success('Mapping Customer Berhasil Disimpan')
     },
     downloadTemplate() {
+
       location.href = 'https://docs.google.com/spreadsheets/d/1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO/edit?usp=sharing&ouid=113668497592391900713&rtpof=true&sd=true'
     },
     fetchGetDataSource() {
