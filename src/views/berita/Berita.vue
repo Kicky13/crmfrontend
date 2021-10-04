@@ -23,7 +23,6 @@
 
 <script>
 import {
-  postList,
   newPostList,
 } from '@/services/connection/artikel/api'
 import VbListBerita from './listberita/ListBerita'
@@ -40,21 +39,14 @@ export default {
   },
   mounted() {
     this.fetchPostList()
-    this.fetchNewPostList()
   },
   methods: {
-    fetchNewPostList() {
-      newPostList()
-      .then(response => {
-        console.log(response)
-      })
-    },
     fetchPostList() {
       this.posts = []
-      postList()
+      newPostList()
       .then(response => {
         if (response) {
-          response.forEach(item => this.posts.unshift(item))
+          response.data.forEach(item => this.posts.unshift(item))
         }
       })
       .catch(err => {

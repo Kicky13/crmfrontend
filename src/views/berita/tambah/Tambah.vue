@@ -1,7 +1,7 @@
 <template>
-  <a-card class="card card-top card-top-primary">
+  <div class="card card-top card-top-primary">
     <div class="card-header">
-      <vb-headers-card-header :data="{ title: 'Form Tambah Berita' }" />
+      <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
       <a-form label-align="left" layout="vertical">
@@ -16,6 +16,7 @@
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
             accept="image/png, image/jpg, image/jpeg"
+            :transform-file="transformFile"
             :file-list="fileList"
             @preview="handlePreview"
             @change="handleChange"
@@ -50,13 +51,13 @@
         </a-form-item>
       </a-form>
     </div>
-  </a-card>
+  </div>
 </template>
 
 <script>
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
-import { storePost, newStorePost } from '@/services/connection/artikel/api'
+import { newStorePost } from '@/services/connection/artikel/api'
 import { useRouter } from 'vue-router'
 import { notification } from 'ant-design-vue'
 import VbHeadersCardHeader from '../header/Header'
@@ -75,20 +76,13 @@ export default defineComponent({
     quillEditor,
     VbHeadersCardHeader,
   },
-  data() {
-    return {
-      postDate: '',
-      postTitle: '',
-      postDetail: '',
-      postImage: null,
-      selectedFile: null,
-      previewVisible: false,
-      previewImage: '',
-      fileList: [
+  setup() {
+    const rules = {
+      judul: [
         {
-          uid: '-1',
-          name: '.jpg/.png',
-          status: 'error',
+          required: true,
+          message: 'Masukkan judul berita!',
+          type: 'string',
         },
       ],
     }
@@ -109,6 +103,64 @@ export default defineComponent({
       const second = String(today.getSeconds()).padStart(2, '0')
 
       return `${hour}:${minute}:${second}`
+    }
+    const formState = reactive({
+      date: '',
+      judul: '',
+      detail: '',
+      image: null,
+    })
+    const onSubmit = () => {
+      const config = {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      if (formState.judul && formState.detail && formState.image) {
+        if (!(formState.image.status === 'removed')) {
+          formState.date = `${getCurrentDate()} ${getCurrentTime()}`
+          const param = new FormData()
+          param.append('date', formState.date)
+          param.append('judul', formState.judul)
+          param.append('detail', formState.detail)
+          param.append('image', formState.image)
+          addNewPost(param, config)
+          router.push('/marketing/berita')
+          notification.success({
+            message: 'Tambah Berita',
+            description: 'Berita berhasil ditambah',
+          })
+        } else {
+          formState.image = null
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+
+    return {
+      rules,
+      formState,
+      onSubmit,
+    }
+  },
+  data() {
+    return {
+      previewVisible: false,
+      previewImage: '',
+      fileList: [
+        {
+          uid: '-1',
+          name: '.jpg/.png',
+          status: 'error',
+        },
+      ],
+    };
+  },
+  methods: {
+    handleCancel() {
+      this.previewVisible = false
     },
     addNewPost(param) {
       // storePost(param, config)
@@ -139,6 +191,18 @@ export default defineComponent({
         message: 'Tambah Berita',
         description: 'Berita berhasil ditambah',
       })
+      if (!fileList.length) {
+        this.fileList = [
+          {
+            uid: '-1',
+            name: '.jpg/.png',
+            status: 'error',
+          },
+        ]
+      } else {
+        this.fileList = fileList
+        // this.formState.image = this.fileList[0]
+      }
     },
     onFileSelected() {
       this.postImage = this.$refs.file.files[0]

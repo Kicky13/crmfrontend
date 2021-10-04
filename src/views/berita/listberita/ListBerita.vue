@@ -28,7 +28,7 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
+                    <router-link :to="{ path: `/marketing/berita/update/${ post.id }` }">
                       <a-menu-item>
                         <a>Update</a>
                       </a-menu-item>
@@ -43,13 +43,13 @@
           </Can>
         </div>
         <div class="card-body pb-0">
-          <img
+          <!-- <img
             width="90"
             height="90"
             src="@/assets/images/logo/default-image.webp"
             alt="Gambar"
             class="img-thumbnail float-left mr-2"
-          >
+          > -->
           <!-- eslint-disable vue/no-v-html -->
           <div
             class="card-text detail-ellipsis"
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { deletePost } from '@/services/connection/artikel/api'
+import { newDeletePost } from '@/services/connection/artikel/api'
 
 export default {
   props: {
@@ -82,7 +82,7 @@ export default {
   emits: ['deleteSuccess'],
   methods: {
     deletePostById(id) {
-      deletePost(id)
+      newDeletePost(id)
       .then(response => {
         if (response) {
           this.$emit('deleteSuccess')
