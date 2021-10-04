@@ -80,7 +80,7 @@ const router = createRouter({
           component: () => import('@/views/berita/tambah/Tambah'),
         },
         {
-          path: '/marketing/berita/edit/:userId',
+          path: '/marketing/berita/update/:userId',
           meta: {
             title: 'Edit Berita',
             resource: 'edit_berita',
@@ -130,6 +130,11 @@ const router = createRouter({
           path: '/marketing/program/edit/:userId',
           meta: { title: 'Edit Program', resource: 'Edit_Program', action: 'update' },
           component: () => import('@/views/program/edit/Edit'),
+        },
+        {
+          path: '/mahasiswa',
+          meta: { title: 'Mahasiswa', resource: 'mahasiswa', action: 'manage' },
+          component: () => import('@/views/mahasiswa/Mahasiswa'),
         },
         // Kikik ====================================================================
         {

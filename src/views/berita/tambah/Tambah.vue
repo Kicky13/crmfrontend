@@ -1,21 +1,22 @@
 <template>
-  <a-card class="card card-top card-top-primary">
+  <div class="card card-top card-top-primary">
     <div class="card-header">
-      <vb-headers-card-header :data="{ title: 'Form Tambah Berita' }" />
+      <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
       <a-form
+        :model="formState"
+        :rules="rules"
         label-align="left"
         layout="vertical"
-        
       >
         <a-form-item
           label="Judul"
           name="judul"
         >
           <a-input
+            v-model:value="formState.judul"
             class="input-style"
-            v-model:value="postTitle"
           />
         </a-form-item>
         <a-form-item
@@ -24,17 +25,18 @@
         >
           <quill-editor
             style="height: 200px"
-            v-model:value="postDetail"
+            v-model:value="formState.detail"
           />
         </a-form-item>
         <a-form-item
           label="Gambar"
           name="image"
         >
-          <!-- <a-upload
+          <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
             accept="image/png, image/jpg, image/jpeg"
+            :transform-file="transformFile"
             :file-list="fileList"
             @preview="handlePreview"
             @change="handleChange"
@@ -54,18 +56,18 @@
               style="width: 100%"
               :src="previewImage"
             />
-          </a-modal> -->
-          <input type="file" @change="onFileSelected">
+          </a-modal>
         </a-form-item>
         <a-form-item>
           <a-button
             type="primary"
+            html-type="submit"
             @click="onSubmit"
           >
             Tambah
           </a-button>
           <router-link
-            to="/marketing/berita"
+            to="/marketing/artikel"
             style="margin-left: 10px;"
           >
             <a-button>
@@ -75,13 +77,13 @@
         </a-form-item>
       </a-form>
     </div>
-  </a-card>
+  </div>
 </template>
 
 <script>
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, reactive, toRaw } from 'vue'
-import { storePost, newStorePost } from '@/services/connection/artikel/api'
+import { newStorePost } from '@/services/connection/artikel/api'
 import { useRouter } from 'vue-router'
 import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
@@ -100,13 +102,99 @@ export default defineComponent({
     quillEditor,
     VbHeadersCardHeader,
   },
+  setup() {
+    const rules = {
+      judul: [
+        {
+          required: true,
+          message: 'Masukkan judul berita!',
+          type: 'string',
+        },
+      ],
+      detail: [
+        {
+          required: true,
+          message: 'Masukkan detail berita!',
+          type: 'string',
+        },
+      ],
+      image: [
+        {
+          required: true,
+          message: 'Upload gambar berita!',
+          type: 'object',
+        },
+      ],
+    }
+    const router = useRouter()
+    const addNewPost = (param, config) => {
+      newStorePost(param, config)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+    const getCurrentDate = () => {
+      const today = new Date()
+      const date = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const year = today.getFullYear()
+
+      return `${date}-${month}-${year}`
+    }
+    const getCurrentTime = () => {
+      const today = new Date();
+      const hour = String(today.getHours()).padStart(2, '0')
+      const minute = String(today.getMinutes()).padStart(2, '0')
+      const second = String(today.getSeconds()).padStart(2, '0')
+
+      return `${hour}:${minute}:${second}`
+    }
+    const formState = reactive({
+      date: '',
+      judul: '',
+      detail: '',
+      image: null,
+    })
+    const onSubmit = () => {
+      const config = {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      if (formState.judul && formState.detail && formState.image) {
+        if (!(formState.image.status === 'removed')) {
+          formState.date = `${getCurrentDate()} ${getCurrentTime()}`
+          const param = new FormData()
+          param.append('date', formState.date)
+          param.append('judul', formState.judul)
+          param.append('detail', formState.detail)
+          param.append('image', formState.image)
+          addNewPost(param, config)
+          router.push('/marketing/berita')
+          notification.success({
+            message: 'Tambah Berita',
+            description: 'Berita berhasil ditambah',
+          })
+        } else {
+          formState.image = null
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+
+    return {
+      rules,
+      formState,
+      onSubmit,
+    }
+  },
   data() {
     return {
-      postDate: '',
-      postTitle: '',
-      postDetail: '',
-      postImage: null,
-      selectedFile: null,
       previewVisible: false,
       previewImage: '',
       fileList: [
@@ -119,87 +207,41 @@ export default defineComponent({
     };
   },
   methods: {
-    getCurrentDate() {
-      const today = new Date()
-      const date = String(today.getDate()).padStart(2, '0')
-      const month = String(today.getMonth() + 1).padStart(2, '0')
-      const year = today.getFullYear()
-
-      return `${date}-${month}-${year}`
-    },
-    getCurrentTime() {
-      const today = new Date();
-      const hour = String(today.getHours()).padStart(2, '0')
-      const minute = String(today.getMinutes()).padStart(2, '0')
-      const second = String(today.getSeconds()).padStart(2, '0')
-
-      return `${hour}:${minute}:${second}`
-    },
-    addNewPost(param) {
-      // storePost(param, config)
-      newStorePost(param)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    },
-    onSubmit() {
-      this.postDate = `${this.getCurrentDate()} ${this.getCurrentTime()}`
-      // const param = {
-      //   date: this.postDate,
-      //   judul: this.postTitle,
-      //   detail: this.postDetail,
-      //   image: this.postImage,
-      // }
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      const param = new FormData()
-      param.append('date', this.postDate)
-      param.append('judul', this.postTitle)
-      param.append('detail', this.postDetail)
-      param.append('image', this.postImage, this.postImage.name)
-      this.addNewPost(param, config)
-      notification.success({
-        message: 'Tambah Berita',
-        description: 'Berita berhasil ditambah',
-      })
-    },
-    onFileSelected(event) {
-      this.postImage = event.target.files[0]
-    },
     handleCancel() {
       this.previewVisible = false
     },
-    // async handlePreview(file) {
-    //   if (!file.url && !file.preview) {
-    //     file.preview = await getBase64(file.originFileObj);
-    //   }
-    //   this.previewImage = file.url || file.preview;
-    //   this.previewVisible = true;
-    // },
-    // handleChange(info) {
-    //   let fileList = [...info.fileList]
-    //   fileList = fileList.slice(-1)
-    //   fileList = fileList.map(file => {
-    //     if (file.response) {
-    //       file.url = file.response.url
-    //     }
-    //     return file
-    //   })
-    //   if (!fileList.length) {
-    //     this.fileList = [
-    //       {
-    //         uid: '-1',
-    //         name: '.jpg/.png',
-    //         status: 'error',
-    //       },
-    //     ]
-    //   } else {
-    //     this.fileList = fileList
-    //     this.formState.image = this.fileList[0]
-    //   }
-    // },
+    async handlePreview(file) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      this.previewImage = file.url || file.preview;
+      this.previewVisible = true;
+    },
+    handleChange(info) {
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1)
+      fileList = fileList.map(file => {
+        if (file.response) {
+          file.url = file.response.url
+        }
+        return file
+      })
+      if (!fileList.length) {
+        this.fileList = [
+          {
+            uid: '-1',
+            name: '.jpg/.png',
+            status: 'error',
+          },
+        ]
+      } else {
+        this.fileList = fileList
+        // this.formState.image = this.fileList[0]
+      }
+    },
+    transformFile(file) {
+      this.formState.image = file
+    },
   },
 })
 </script>
