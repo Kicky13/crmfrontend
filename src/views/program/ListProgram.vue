@@ -12,7 +12,7 @@
         <div class="card-header d-flex justify-content-between">
           <h5
             class="card-title title-ellipsis"
-            v-text="postItem.post_title"
+            v-text="postItem.program_title"
           />
           <Can do="update" on="Program">
           <div class="nav-item dropdown">
@@ -45,11 +45,11 @@
         <div class="card-body pb-0">
           <div
             class="card-text detail-ellipsis"
-            v-html="postItem.post_detail"
+            v-html="postItem.program_detail"
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.startDate}} - {{postItem.FinishDate}}</div>
+          <div class="text-main align-self-center">{{postItem.start_date}} - {{postItem.finish_date}}</div>
           <a-button
             type="primary"
           >
@@ -91,7 +91,7 @@ export default {
   },
 }
 </script>
-<style lang="scss" module scoped>
+<style lang="scss" module>
 @import './style.module.scss';
 </style>
 
