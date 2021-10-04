@@ -6,8 +6,8 @@
     >
       <router-link to="/marketing/berita/tambah">
         <a-button
-          type="primary"
           class="mb-4"
+          type="primary"
         >
           <i class="fa fa-plus mr-2" />
           Tambah Berita
@@ -22,9 +22,7 @@
 </template>
 
 <script>
-import {
-  newPostList,
-} from '@/services/connection/artikel/api'
+import { postList } from '@/services/connection/berita/api'
 import VbListBerita from './listberita/ListBerita'
 import { notification } from 'ant-design-vue';
 
@@ -35,7 +33,7 @@ export default {
   data() {
     return {
       posts: [],
-    };
+    }
   },
   mounted() {
     this.fetchPostList()
@@ -43,10 +41,11 @@ export default {
   methods: {
     fetchPostList() {
       this.posts = []
-      newPostList()
+      postList()
       .then(response => {
         if (response) {
           response.data.forEach(item => this.posts.unshift(item))
+          console.log(this.posts)
         }
       })
       .catch(err => {
