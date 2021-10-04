@@ -10,16 +10,16 @@
         layout="vertical"
         :rules="rules"
       >
-        <a-form-item label="Program Name" name="post_title">
+        <a-form-item label="Program Name" name="programName">
           <a-input
-            v-model:value="formState.post_title"
+            v-model:value="formState.programName"
             class="input-style"
           />
         </a-form-item>
-        <a-form-item label="Description" name="post_detail">
+        <a-form-item label="Description" name="description">
           <quill-editor
             style="height: 200px"
-            v-model:value="formState.post_detail"
+            v-model:value="formState.description"
           />
         </a-form-item>
         <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
@@ -53,7 +53,7 @@
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { showPost, updatePost } from '@/services/connection/program/api'
+import { listPost, updatePost } from '@/services/connection/program/api'
 import { message } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
@@ -69,12 +69,12 @@ export default defineComponent({
       getPostById()
     })
     const rules = {
-        post_title: [{
+        programName: [{
           required: true,
           message: 'Masukkan Program Name!',
           type: 'string',
         } ],
-        post_detail: [{
+        description: [{
           required: true,
           message: 'Masukkan Description!',
           type: 'string',
@@ -97,26 +97,28 @@ export default defineComponent({
 
     const getPostById = () => {
       const id = route.params.userId
-      showPost(id)
+      listPost()
       .then(response => {
         if (response) {
-          formState.id = response.id
-          formState.post_date = response.post_date
-          formState.post_time = response.post_time
-          formState.post_title = response.post_title
-          formState.post_slug = response.post_slug
-          formState.post_detail = response.post_detail
-          formState.startDate = response.startDate
-          formState.FinishDate = response.FinishDate
-          formState.publication_status = response.publication_status
-          formState.tag = response.tag
+          console.log(response)
+          const post = response.data.find(post => post.id === id)
+          formState.programID = post.id
+          formState.post_date = post.program_date
+          // formState.post_time = post.program_time
+          formState.programName = post.program_title
+          // formState.post_slug = response.post_slug
+          formState.description = post.program_detail
+          formState.startDate = post.start_date
+          formState.FinishDate = post.finish_date
+          // formState.publication_status = response.publication_status
+          // formState.tag = response.tag
         //   formState.image = response.image
         }
       })
     }
 
-    const updatePostById = (id, param, config) => {
-      updatePost(id, param, config)
+    const updatePostById = (param, config) => {
+      updatePost(param, config)
       .then(response => {
         if (response) {}
       })
@@ -124,14 +126,14 @@ export default defineComponent({
 
     const formState = reactive({
       post_date: '',
-      post_time: '',
-      post_title: '',
-      post_slug: 'program_name',
-      post_detail: '',
+      // post_time: '',
+      programName: '',
+      // post_slug: 'program_name',
+      description: '',
       startDate: '',
       FinishDate: '',
-      publication_status: 'Draft',
-      tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+      // publication_status: 'Draft',
+      // tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
     })
 
     const onSubmit = () => {
@@ -140,18 +142,19 @@ export default defineComponent({
           'Content-Type': 'multipart/form-data',
         },
       }
-      if (formState.post_title && formState.post_detail && formState.startDate && formState.FinishDate) {
-      updatePostById(formState.id, toRaw(formState), config)
+      if (formState.programName && formState.description && formState.startDate && formState.FinishDate) {
+      updatePostById(toRaw(formState), config)
+      formState.programID = ''
       formState.post_date = ''
-      formState.post_time = ''
-      formState.post_title = ''
-      formState.post_slug = 'program_name'
-      formState.post_detail = ''
+      // formState.post_time = ''
+      formState.programName = ''
+      // formState.post_slug = 'program_name'
+      formState.description = ''
       formState.startDate = ''
       formState.FinishDate = ''
-      formState.publication_status = 'Draft'
-      formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
-      formState.image = ''
+      // formState.publication_status = 'Draft'
+      // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+      // formState.image = ''
       router.push('/marketing/program')
       message.success('Program berhasil diupate')
         } else {
@@ -182,7 +185,7 @@ export default defineComponent({
   methods: {
     getPostById() {
       const id = this.$route.params.userId
-      showPost(id)
+      listPost()
       .then(response => {
         if (response) {
          

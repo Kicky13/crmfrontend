@@ -1,4 +1,24 @@
 {
+  "mahasiswa": [
+    {
+      "id": 1,
+      "nim": "1231",
+      "nama": "Nam Do San",
+      "jurusan": "Teknik Informatika"
+    },
+    {
+      "nim": "1232",
+      "nama": "Cui Lan Sengklek",
+      "jurusan": "Sistem Informasi",
+      "id": 2
+    },
+    {
+      "nim": "1233",
+      "nama": "Kim Jong Unch",
+      "jurusan": "Teknik Industri",
+      "id": 3
+    }
+  ],
   "users": [
     {
       "id": 1,

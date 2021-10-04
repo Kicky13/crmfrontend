@@ -12,20 +12,20 @@
       >
         <a-form-item
           label="Judul"
-          name="post_title"
+          name="judul"
         >
           <a-input
-            v-model:value="formState.post_title"
+            v-model:value="formState.judul"
             class="input-style"
           />
         </a-form-item>
         <a-form-item
           label="Detail"
-          name="post_detail"
+          name="detail"
         >
           <quill-editor
             style="height: 200px"
-            v-model:value="formState.post_detail"
+            v-model:value="formState.detail"
           />
         </a-form-item>
         <a-form-item
@@ -37,6 +37,7 @@
             list-type="picture-card"
             accept="image/png, image/jpg, image/jpeg"
             :file-list="fileList"
+            :transform-file="transformFile"
             @preview="handlePreview"
             @change="handleChange"
           >
@@ -83,7 +84,7 @@
 import { quillEditor } from 'vue3-quill'
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { showPost, updatePost } from '@/services/connection/artikel/api'
+import { updatePost, postList } from '@/services/connection/berita/api'
 import { notification } from 'ant-design-vue';
 import VbHeadersCardHeader from '../header/Header'
 
@@ -103,14 +104,14 @@ export default defineComponent({
   },
   setup() {
     const rules = {
-      post_title: [
+      judul: [
         {
           required: true,
           message: 'Masukkan judul berita!',
           type: 'string',
         },
       ],
-      post_detail: [
+      detail: [
         {
           required: true,
           message: 'Masukkan detail berita!',
@@ -132,18 +133,16 @@ export default defineComponent({
     })
     const getPostById = () => {
       const id = route.params.userId
-      showPost(id)
+      postList()
       .then(response => {
         if (response) {
-          formState.id = response.id
-          formState.post_date = response.post_date
-          formState.post_time = response.post_time
-          formState.post_title = response.post_title
-          formState.post_slug = response.post_slug
-          formState.post_detail = response.post_detail
-          formState.publication_status = response.publication_status
-          formState.tag = response.tag
-          formState.image = response.image
+          console.log(response.data)
+          const post = response.data.find(post => post.id === id)
+          formState.id = post.id
+          formState.date = post.post_date
+          formState.judul = post.post_title
+          formState.detail = post.post_detail
+          formState.image = post.image
         }
       })
       .catch(err => {
@@ -160,13 +159,10 @@ export default defineComponent({
       })
     }
     const formState = reactive({
-      post_date: '',
-      post_time: '',
-      post_title: '',
-      post_slug: 'judul_artikel',
-      post_detail: '',
-      publication_status: 'Draft',
-      tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+      id: '',
+      date: '',
+      judul: '',
+      detail: '',
       image: null,
     })
     const onSubmit = () => {
@@ -175,9 +171,15 @@ export default defineComponent({
           'Content-Type': 'multipart/form-data',
         },
       }
-      if (formState.post_title && formState.post_detail && formState.image) {
+      if (formState.judul && formState.detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
-          updatePostById(formState.id, toRaw(formState), config)
+          console.log(formState)
+          const param = new FormData()
+          param.append('judul', formState.judul)
+          param.append('detail', formState.detail)
+          param.append('date', formState.date)
+          param.append('image', formState.image)
+          updatePostById(formState.id, param, config)
           router.push('/marketing/berita')
           notification.success({
             message: 'Update Berita',
@@ -213,7 +215,7 @@ export default defineComponent({
     getPostById() {
       this.isLoading = true
       const id = this.$route.params.userId
-      showPost(id)
+      postList()
       .then(response => {
         if (response) {
           const info = {
@@ -282,6 +284,9 @@ export default defineComponent({
         }
       }
     },
+    // transformFile(file) {
+    //   this.formState.image = file
+    // },
   },
 })
 </script>

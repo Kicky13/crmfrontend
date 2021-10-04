@@ -5,11 +5,11 @@
     </div>
     <div class="card-body">
       <a-form :model="formState" label-align="left" layout="vertical" :rules="rules">
-        <a-form-item label="Program Name" name="post_title">
-          <a-input v-model:value="formState.post_title" class="input-style" />
+        <a-form-item label="Program Name" name="programName">
+          <a-input v-model:value="formState.programName" class="input-style" />
         </a-form-item>
-        <a-form-item label="Description" name="post_detail">
-          <quill-editor style="height: 200px" v-model:value="formState.post_detail" />
+        <a-form-item label="Description" name="description">
+          <quill-editor style="height: 200px" v-model:value="formState.description" />
         </a-form-item>
         <!-- <a-form-item label="Konten">
           <quill-editor style="height: 200px"></quill-editor>
@@ -76,12 +76,12 @@
     },
     setup() {
       const rules = {
-        post_title: [{
+        programName: [{
           required: true,
           message: 'Masukkan Program Name!',
           type: 'string',
         } ],
-        post_detail: [{
+        description: [{
           required: true,
           message: 'Masukkan Description!',
           type: 'string',
@@ -124,15 +124,15 @@
       }
 
       const formState = reactive({
-        post_date: getCurrentDate(),
-        post_time: getCurrentTime(),
-        post_title: '',
-        post_slug: 'program_name',
-        post_detail: '',
+        post_date: getCurrentDate() + +getCurrentTime(),
+        // program_time: ,
+        programName: '',
+        // post_slug: 'program_name',
+        description: '',
         startDate: '',
         FinishDate: '',
-        publication_status: 'Draft',
-        tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+        // publication_status: 'Draft',
+        // tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
       })
 
       const onSubmit = () => {
@@ -142,16 +142,16 @@
           },
         }
 
-        if (formState.post_title && formState.post_detail && formState.startDate && formState.FinishDate) {
+        if (formState.programName && formState.description && formState.startDate && formState.FinishDate) {
 
           addNewPost(toRaw(formState), config)
-          formState.post_date = ''
-          formState.post_time = ''
-          formState.post_title = ''
-          formState.post_slug = 'program_name'
-          formState.startDate = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
+           formState.post_date = ''
+          //  formState.program_time = ''
+          formState.programName = ''
+          // formState.post_slug = 'program_name'
+          formState.description = ''
+          // formState.publication_status = 'Draft'
+          // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
           formState.startDate = ''
           formState.FinishDate = ''
           router.push('/marketing/program')

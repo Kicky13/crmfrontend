@@ -14,7 +14,10 @@
             class="card-title title-ellipsis"
             v-text="post.post_title"
           />
-          <Can do="create" on="News">
+          <Can
+            do="create"
+            on="News"
+          >
             <div class="nav-item dropdown">
               <a-dropdown
                 placement="bottomCenter"
@@ -28,7 +31,7 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <router-link :to="{ path: `/marketing/berita/edit/${ post.id }` }">
+                    <router-link :to="{ path: `/marketing/berita/update/${ post.id }` }">
                       <a-menu-item>
                         <a>Update</a>
                       </a-menu-item>
@@ -43,13 +46,13 @@
           </Can>
         </div>
         <div class="card-body pb-0">
-          <img
+          <!-- <img
             width="90"
             height="90"
-            src="@/assets/images/logo/default-image.webp"
+            :src="post.post_image"
             alt="Gambar"
             class="img-thumbnail float-left mr-2"
-          >
+          > -->
           <!-- eslint-disable vue/no-v-html -->
           <div
             class="card-text detail-ellipsis"
@@ -57,7 +60,7 @@
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
+          <div class="text-main align-self-center">{{ post.post_date }} {{post.post_time}}</div>
           <router-link :to="`/marketing/berita/${ post.id }`">
             <a-button type="primary">Selengkapnya</a-button>
           </router-link>
@@ -68,7 +71,7 @@
 </template>
 
 <script>
-import { deletePost } from '@/services/connection/artikel/api'
+import { deletePost } from '@/services/connection/berita/api'
 
 export default {
   props: {

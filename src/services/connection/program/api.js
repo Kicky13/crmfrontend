@@ -1,8 +1,9 @@
-import apiClient from '@/services/axios'
+// import apiClient from '@/services/axios'
+import serverClient from '@/services/axios/axios'
 
 export async function listPost() {
-  return apiClient
-  .get('/posts_program')
+  return serverClient
+  .post('/program/list')
   .then(response => {
       if (response) {
           return response.data
@@ -12,8 +13,8 @@ export async function listPost() {
 }
 
 export async function showPost(id) {
-  return apiClient
-  .get(`/posts_program/${id}`)
+  return serverClient
+  .post(`/program/list/${id}`)
   .then(response => {
       if (response) {
           return response.data
@@ -23,8 +24,8 @@ export async function showPost(id) {
 }
 
 export async function deletePost(id) {
-  return apiClient
-  .delete(`/posts_program/${id}`)
+  return serverClient
+  .delete(`/program/delete/${id}`)
   .then(response => {
       if (response) {
           return response.data
@@ -34,8 +35,8 @@ export async function deletePost(id) {
 }
 
 export async function storePost(formData, config) {
-return apiClient
-.post('/posts_program', formData, config)
+return serverClient
+.post('/program/store', formData, config)
 .then(response => {
     if (response) {
         return response.data
@@ -44,9 +45,9 @@ return apiClient
 })
 }
 
-export async function updatePost(id, formData, config) {
-return apiClient
-.put(`/posts_program/${id}`, formData, config)
+export async function updatePost(formData, config) {
+return serverClient
+.post('/program/update', formData, config)
 .then(response => {
     if (response) {
         return response.data
