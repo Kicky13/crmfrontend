@@ -4,14 +4,34 @@
       <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
-      <a-form label-align="left" layout="vertical">
-        <a-form-item label="Judul" name="judul">
-          <a-input class="input-style" v-model:value="judul" />
+      <a-form
+        label-align="left"
+        layout="vertical"
+        :model="formState"
+        :rules="rules"
+      >
+        <a-form-item
+          label="Judul"
+          name="judul"
+        >
+          <a-input
+            class="input-style"
+            v-model:value="formState.judul"
+          />
         </a-form-item>
-        <a-form-item label="Detail" name="detail">
-          <quill-editor style="height: 200px" v-model:value="detail" />
+        <a-form-item
+          label="Detail"
+          name="detail"
+        >
+          <quill-editor
+            style="height: 200px"
+            v-model:value="formState.detail"
+          />
         </a-form-item>
-        <a-form-item label="Gambar" name="image">
+        <a-form-item
+          label="Gambar"
+          name="image"
+        >
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             accept="image/png, image/jpg, image/jpeg"
@@ -196,12 +216,6 @@ export default defineComponent({
       this.previewImage = file.url || file.preview;
       this.previewVisible = true;
     },
-    onFileSelected() {
-      this.postImage = this.$refs.file.files[0]
-    },
-    handleCancel() {
-      this.previewVisible = false
-    },
     handleChange(info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
@@ -222,8 +236,10 @@ export default defineComponent({
         this.formState.image = null
       } else {
         this.fileList = fileList
-        this.formState.image = this.fileList[0]
       }
+    },
+    transformFile(file) {
+      this.formState.image = file
     },
   },
 })
