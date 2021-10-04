@@ -104,12 +104,12 @@ export default defineComponent({
           formState.post_date = response.post_date
           formState.post_time = response.post_time
           formState.post_title = response.post_title
-          formState.post_slug = response.post_slug
+          // formState.post_slug = response.post_slug
           formState.post_detail = response.post_detail
           formState.startDate = response.startDate
           formState.FinishDate = response.FinishDate
-          formState.publication_status = response.publication_status
-          formState.tag = response.tag
+          // formState.publication_status = response.publication_status
+          // formState.tag = response.tag
         //   formState.image = response.image
         }
       })
@@ -126,12 +126,12 @@ export default defineComponent({
       post_date: '',
       post_time: '',
       post_title: '',
-      post_slug: 'program_name',
+      // post_slug: 'program_name',
       post_detail: '',
       startDate: '',
       FinishDate: '',
-      publication_status: 'Draft',
-      tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+      // publication_status: 'Draft',
+      // tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
     })
 
     const onSubmit = () => {
@@ -145,12 +145,12 @@ export default defineComponent({
       formState.post_date = ''
       formState.post_time = ''
       formState.post_title = ''
-      formState.post_slug = 'program_name'
+      // formState.post_slug = 'program_name'
       formState.post_detail = ''
       formState.startDate = ''
       formState.FinishDate = ''
-      formState.publication_status = 'Draft'
-      formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
+      // formState.publication_status = 'Draft'
+      // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
       formState.image = ''
       router.push('/marketing/program')
       message.success('Program berhasil diupate')

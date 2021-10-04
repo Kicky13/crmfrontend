@@ -2,7 +2,7 @@
   <a-dropdown :trigger="['click']" placement="bottomRight">
     <div :class="$style.dropdown">
       <div :class="$style.flag">
-        <img :src="mapFlags[language]" :alt="language" />
+        <img lazy="loading" v-once :src="mapFlags[language]" :alt="language" />
         <span class="text-uppercase">{{ language }}</span>
       </div>
     </div>
@@ -10,25 +10,25 @@
       <a-menu @click="selectLocale">
         <a-menu-item key="en-US">
           <span :class="$style.menuIcon">
-            <img :src="mapFlags.en" alt="English" />
+            <img lazy="loading" v-once :src="mapFlags.en" alt="English" />
           </span>
           English
         </a-menu-item>
         <a-menu-item key="fr-FR">
           <span :class="$style.menuIcon">
-            <img :src="mapFlags.ru" alt="French" />
+            <img lazy="loading" v-once :src="mapFlags.ru" alt="French" />
           </span>
           French
         </a-menu-item>
         <a-menu-item key="ru-RU">
           <span :class="$style.menuIcon">
-            <img :src="mapFlags.fr" alt="Русский" />
+            <img lazy="loading" v-once :src="mapFlags.fr" alt="Русский" />
           </span>
           Русский
         </a-menu-item>
         <a-menu-item key="zh-CN">
           <span :class="$style.menuIcon">
-            <img :src="mapFlags.zh" alt="简体中文" />
+            <img lazy="loading" v-once :src="mapFlags.zh" alt="简体中文" />
           </span>
           简体中文
         </a-menu-item>

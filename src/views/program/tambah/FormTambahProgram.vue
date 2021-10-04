@@ -5,11 +5,11 @@
     </div>
     <div class="card-body">
       <a-form :model="formState" label-align="left" layout="vertical" :rules="rules">
-        <a-form-item label="Program Name" name="post_title">
-          <a-input v-model:value="formState.post_title" class="input-style" />
+        <a-form-item label="Program Name" name="program_title">
+          <a-input v-model:value="program_title" class="input-style" />
         </a-form-item>
-        <a-form-item label="Description" name="post_detail">
-          <quill-editor style="height: 200px" v-model:value="formState.post_detail" />
+        <a-form-item label="Description" name="program_detail">
+          <quill-editor style="height: 200px" v-model:value="program_detail" />
         </a-form-item>
         <!-- <a-form-item label="Konten">
           <quill-editor style="height: 200px"></quill-editor>
@@ -26,11 +26,11 @@
             </p>
           </a-upload-dragger>
         </a-form-item> -->
-        <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
-          <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date" />
+        <a-form-item label="Start Date" name="start_date" style="font-weight:bold">
+          <a-input type="date" v-model:value="start_date" placeholder="Enter Start Date" />
         </a-form-item>
-        <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
-          <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date" />
+        <a-form-item label="Finish Date" name="finish_date" style="font-weight:bold">
+          <a-input type="date" v-model:value="finish_date" placeholder="Enter Finish Date" />
         </a-form-item>
         <a-form-item>
           <button class="btn btn-main text-nowrap pull-left" @click="onSubmit">
@@ -76,22 +76,22 @@
     },
     setup() {
       const rules = {
-        post_title: [{
+        program_title: [{
           required: true,
           message: 'Masukkan Program Name!',
           type: 'string',
         } ],
-        post_detail: [{
+        program_detail: [{
           required: true,
           message: 'Masukkan Description!',
           type: 'string',
         } ],
-        startDate: [{
+        start_date: [{
           required: true,
           message: 'Masukkan Tanggal Mulai!',
           type: 'date',
         } ],
-        FinishDate: [{
+        finish_date: [{
           required: true,
           message: 'Masukkan Tanggal Selesai!',
           type: 'date',
@@ -116,46 +116,45 @@
         return `${hour}:${minute}`
       }
 
-      const addNewPost = (param, config) => {
-        storePost(param, config)
-          .then(response => {
-           console.log(response)
-          })
-      }
+      // const addNewPost = (param, config) => {
+      //   storePost(param, config)
+      //     .then(response => {
+      //      console.log(response)
+      //     })
+      // }
 
       const formState = reactive({
         post_date: getCurrentDate(),
-        post_time: getCurrentTime(),
-        post_title: '',
-        post_slug: 'program_name',
-        post_detail: '',
-        startDate: '',
-        FinishDate: '',
-        publication_status: 'Draft',
-        tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
+        // post_time: getCurrentTime(),
+        program_title: '',
+        // post_slug: 'program_name',
+        program_detail: '',
+        start_date: '',
+        finish_date: '',
+        // publication_status: 'Draft',
+        // tag: 'bcd542e2-3292-45bc-8c82-27832cb80171',
       })
 
-      const onSubmit = () => {
+      const onSubmit_ = () => {
         const config = {
           header: {
             'Content-Type': 'multipart/form-data',
           },
         }
 
-        if (formState.post_title && formState.post_detail && formState.startDate && formState.FinishDate) {
-
-          addNewPost(toRaw(formState), config)
-          formState.post_date = ''
-          formState.post_time = ''
-          formState.post_title = ''
-          formState.post_slug = 'program_name'
-          formState.startDate = ''
-          formState.publication_status = 'Draft'
-          formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
-          formState.startDate = ''
-          formState.FinishDate = ''
+        if (formState.program_title && formState.program_detail && formState.start_date && formState.finish_date) {
+          const param = new FormData()
+          param.append('program_title', formState.program_title)
+          param.append('program_detail', formState.program_detail)
+          param.append('start_date', formState.start_date)
+          param.append('finish_date', formState.finish_date)
+          addNewPost(param, config)
           router.push('/marketing/program')
-          message.success('Program berhasil ditambahkan')
+          notification.success({
+            message: 'Tambah Program',
+            description: 'Program berhasil ditambah',
+          })
+          
         } else {
           window.scrollTo({
             top: 0,
@@ -175,8 +174,39 @@
       handleCancel() {
         this.previewVisible = false
       },
-
-
+    addNewPost(param) {
+          // storePost(param, config)
+          storePost(param)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        },
+      // eslint-disable-next-line vue/no-dupe-keys
+      onSubmit() {
+      // this.postDate = `${this.getCurrentDate()} ${this.getCurrentTime()}`
+      // const param = {
+      //   date: this.postDate,
+      //   judul: this.postTitle,
+      //   detail: this.postDetail,
+      //   image: this.postImage,
+      // }
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+      const param = new FormData()
+     param.append('program_title', formState.program_title)
+          param.append('program_detail', formState.program_detail)
+          param.append('start_date', formState.start_date)
+          param.append('finish_date', formState.finish_date)
+          addNewPost(param, config)
+          router.push('/marketing/program')
+          notification.success({
+            message: 'Tambah Program',
+            description: 'Program berhasil ditambah',
+          })
+      
+    },
     },
   })
 

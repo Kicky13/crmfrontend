@@ -59,7 +59,7 @@
             :row-selection="rowSelection"
             :columns="columns"
             :data-source="roles"
-            :row-key="(roles) => roles.id"
+            :row-key="roles => roles.id"
             :pagination="pagination"
           >
             <template #name="{ text }">
@@ -126,7 +126,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -173,12 +173,12 @@ export default {
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
       deleteRole(id)
-        .then((response) => {
+        .then(response => {
           console.log(response)
           const dataSource = [...this.roles]
-          this.roles = dataSource.filter((item) => item.id !== id)
+          this.roles = dataSource.filter(item => item.id !== id)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
@@ -207,7 +207,7 @@ export default {
         createdAt: '06/04/2021',
       }
       insertRole(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             console.log(response)
             message.success('Role berhasil ditambahkan')
@@ -216,7 +216,7 @@ export default {
           }
           this.isSubmitForm = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmitForm = false
@@ -230,7 +230,7 @@ export default {
         createdAt: '06/04/2021',
       }
       updateRole(this.id, formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             console.log(response)
             message.success('Role berhasil ditambahkan')
@@ -239,7 +239,7 @@ export default {
           }
           this.isSubmitForm = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmitForm = false
@@ -247,7 +247,7 @@ export default {
     },
     formValidation() {
       const dataSource = [...this.roles]
-      const currentData = dataSource.filter((x) => x.code === this.code)
+      const currentData = dataSource.filter(x => x.code === this.code)
       if (this.role === '' && this.code === '') {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -268,20 +268,20 @@ export default {
       this.isLoading = true
       this.roles = []
       getRoleList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.roles = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false
           console.error(err)
         })
     },
     goUpdate(id) {
       const dataSource = [...this.roles]
-      const currentData = dataSource.filter((x) => x.id === id)
+      const currentData = dataSource.filter(x => x.id === id)
       this.role = currentData[0].role
       this.code = currentData[0].code
       this.id = id
@@ -289,6 +289,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

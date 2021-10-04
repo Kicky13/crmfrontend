@@ -12,12 +12,11 @@
       :post-items="posts"
       @delete-message="deleteSuccess"
     />
-    <div class="row">
-        
+    
             <vb-list-program :post-items="posts"
       @delete-message="deleteSuccess"/>
         
-    </div>
+    
   </div>
 </template>
 
@@ -45,7 +44,8 @@ export default {
       listPost()
       .then(response => {
         if (response) {
-          response.forEach(item => this.posts.unshift(item))
+          console.log(response)
+          response.data.forEach(item => this.posts.unshift(item))
         }
       })
     },

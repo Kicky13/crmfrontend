@@ -57,7 +57,7 @@
             :row-selection="rowSelection"
             :columns="columns"
             :data-source="assigns"
-            :row-key="(assigns) => assigns.id"
+            :row-key="assigns => assigns.id"
             :pagination="pagination"
           >
             <template #action="{ text }">
@@ -113,7 +113,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -169,23 +169,23 @@ export default {
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
       deleteAssign(id)
-        .then((response) => {
+        .then(response => {
           console.log(response)
           const dataSource = [...this.assigns]
-          this.assigns = dataSource.filter((item) => item.id !== id)
+          this.assigns = dataSource.filter(item => item.id !== id)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
     fetchGetAssign() {
       getAssignList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.assigns = response
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
@@ -202,7 +202,7 @@ export default {
     fetchSubmitInsert(formData) {
       this.isLoading = true
       insertAssign(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.clearForm()
             this.fetchGetAssign()
@@ -210,7 +210,7 @@ export default {
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false
           console.error(err)
         })
@@ -218,7 +218,7 @@ export default {
     fetchSubmitUpdate(formData) {
       this.isSubmit = true
       updateAssign(this.id, formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.clearForm()
             this.fetchGetAssign()
@@ -226,14 +226,14 @@ export default {
           }
           this.isSubmit = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isSubmit = false
           console.error(err)
         })
     },
     formValidation(formData) {
       const listData = [...this.assigns]
-      const currData = listData.filter((x) => x.user === formData.user && x.role === formData.role)
+      const currData = listData.filter(x => x.user === formData.user && x.role === formData.role)
       if (formData.user === 'disabled' || formData.role === 'disabled') {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -259,7 +259,7 @@ export default {
     },
     goUpdate(id) {
       const dataSource = [...this.assigns]
-      const currData = dataSource.filter((x) => x.id === id)
+      const currData = dataSource.filter(x => x.id === id)
       this.id = id
       this.formState.user = currData[0].user
       this.formState.role = currData[0].role
@@ -267,13 +267,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.userOption = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           this.isLoading = false
         })
@@ -281,19 +281,19 @@ export default {
     fetchGetRoles() {
       this.isLoading = true
       getRoleList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.roleOption = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

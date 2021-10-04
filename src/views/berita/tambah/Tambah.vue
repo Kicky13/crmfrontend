@@ -4,34 +4,14 @@
       <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
-      <a-form
-        :model="formState"
-        :rules="rules"
-        label-align="left"
-        layout="vertical"
-      >
-        <a-form-item
-          label="Judul"
-          name="judul"
-        >
-          <a-input
-            v-model:value="formState.judul"
-            class="input-style"
-          />
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Judul" name="judul">
+          <a-input class="input-style" v-model:value="judul" />
         </a-form-item>
-        <a-form-item
-          label="Detail"
-          name="detail"
-        >
-          <quill-editor
-            style="height: 200px"
-            v-model:value="formState.detail"
-          />
+        <a-form-item label="Detail" name="detail">
+          <quill-editor style="height: 200px" v-model:value="detail" />
         </a-form-item>
-        <a-form-item
-          label="Gambar"
-          name="image"
-        >
+        <a-form-item label="Gambar" name="image">
           <a-upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             accept="image/png, image/jpg, image/jpeg"
@@ -91,11 +71,11 @@ import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
 }
 
 export default defineComponent({
@@ -122,7 +102,7 @@ export default defineComponent({
       image: [
         {
           required: true,
-          message: 'Upload gambar berita!',
+          message: 'Masukkan gambar berita!',
           type: 'object',
         },
       ],
@@ -152,7 +132,7 @@ export default defineComponent({
       return `${date}-${month}-${year}`
     }
     const getCurrentTime = () => {
-      const today = new Date();
+      const today = new Date()
       const hour = String(today.getHours()).padStart(2, '0')
       const minute = String(today.getMinutes()).padStart(2, '0')
       const second = String(today.getSeconds()).padStart(2, '0')
@@ -216,6 +196,12 @@ export default defineComponent({
       this.previewImage = file.url || file.preview;
       this.previewVisible = true;
     },
+    onFileSelected() {
+      this.postImage = this.$refs.file.files[0]
+    },
+    handleCancel() {
+      this.previewVisible = false
+    },
     handleChange(info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
@@ -236,10 +222,8 @@ export default defineComponent({
         this.formState.image = null
       } else {
         this.fileList = fileList
+        this.formState.image = this.fileList[0]
       }
-    },
-    transformFile(file) {
-      this.formState.image = file
     },
   },
 })
