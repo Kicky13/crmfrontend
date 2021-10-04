@@ -1,0 +1,48 @@
+.layout_auth {
+  .left_side {
+    padding: 2rem 0rem 0rem 0rem !important;
+  }
+
+  .right_side {
+    .card {
+      .input_username {
+        border-radius: 3px !important;
+        padding: 0.8rem !important;
+      }
+      .input_password {
+        border-radius: 3px !important;
+        padding: 0.8rem !important;
+      }
+
+      .button_login {
+        background: #b20838 !important;
+        border-radius: 3px !important;
+        height: 7vh !important;
+
+        &:hover {
+          color: #fff !important;
+        }
+      }
+
+      .back_beranda {
+        color: #a7a5b1;
+      }
+    }
+  }
+}
+
+.forgot_password {
+  .input_email {
+    border-radius: 3px !important;
+    padding: 0.8rem !important;
+  }
+  .button_forgot {
+    background: #b20838 !important;
+    border-radius: 3px !important;
+    height: 7vh !important;
+
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}

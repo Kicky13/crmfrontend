@@ -46,7 +46,7 @@
           <!-- <img
             width="90"
             height="90"
-            :src="post.post_image}"
+            src="@/assets/images/logo/default-image.webp"
             alt="Gambar"
             class="img-thumbnail float-left mr-2"
           > -->

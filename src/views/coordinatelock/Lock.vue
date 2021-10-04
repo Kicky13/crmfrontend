@@ -228,6 +228,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

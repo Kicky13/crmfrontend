@@ -223,6 +223,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style2.module.scss';
 </style>
