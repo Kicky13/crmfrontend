@@ -11,6 +11,8 @@ const state = {
       email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
       nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
     },
+    selectedTitle: '',
+    selectedShorthand: '',
     itemsPerPage: [5, 10, 15, 20],
     menutabs: [
       {
@@ -101,8 +103,7 @@ const state = {
       limit: 20,
     },
     listUser: [],
-    selectedTitle: 'General Sales Manager',
-    selectedShorthand: 'GSM',
+
     pagination: {},
     modalVisible: false,
     isLoading: false,
@@ -124,16 +125,19 @@ const actions = {
     const { data } = state
 
     const result = await apiClient.get(`/usercrm/list-jenis`)
-    if (result.message) {
+    if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.message[0],
+        description: result.data.message[0],
+      })
+    } else {
+      await commit('changeUserManagement', {
+        selectedTitle: result.data.data[0].name,
+        selectedShorthand: result.data.data[0].name,
+        listUser: result.data.data,
+        isLoading: false,
       })
     }
-    await commit('changeUserManagement', {
-      listUser: result.data.data,
-      isLoading: false,
-    })
   },
 
   async getDataTable({ commit, state }, payload) {
@@ -150,17 +154,21 @@ const actions = {
     }
 
     const result = await apiClient.post(`/usercrm`, body)
-    if (result.message) {
+
+    if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.message[0],
+        description: result.data.message[0],
+      })
+    } else {
+      await commit('changeUserManagement', {
+        users: result.data.data,
+        isLoading: false,
       })
     }
-    await commit('changeUserManagement', {
-      users: result.data.data,
-      isLoading: false,
-    })
   },
+
+  async postSubmitData() {},
 }
 
 export default {
