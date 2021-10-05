@@ -69,9 +69,9 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button @click="handleDetail" type="button" class="btn btn-light">
+                <button @click="handleDetail" type="button" class="btn btn-light mr-2">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning">
+                ><button type="button" class="btn btn-warning mr-2">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
@@ -246,8 +246,8 @@ export default {
         nohp: '',
         userid: '',
       },
-      selectedTitle: 'Sales',
-      selectedShorthand: 'Sales',
+      selectedTitle: '',
+      selectedShorthand: '',
       pagination: {},
       modalVisible: false,
       isLoading: false,
@@ -259,20 +259,24 @@ export default {
       userManagement: state => state.userManagement.data,
     }),
   },
-  mounted() {
-    this.fetchGetUsers()
-    this.getListJenisUser()
-    this.getDataTable({
-      jenis_user: this.selectedTitle,
-    })
+  async mounted() {
+    await this.dataListUser()
   },
   methods: {
     ...mapActions('userManagement', ['getListJenisUser', 'getDataTable']),
+
+    async dataListUser() {
+      await this.getListJenisUser()
+      await this.getDataTable({
+        jenis_user: this.userManagement.selectedTitle,
+      })
+      this.selectedTitle = this.userManagement.selectedTitle
+      this.selectedShorthand = this.userManagement.selectedShorthand
+    },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
       const filtered = dataRes.filter(x => x.id_jenis == key)
       this.actiiveTabs = filtered[0]
-      console.log(`actiiveTabs`, this.actiiveTabs)
       this.selectedTitle = this.actiiveTabs.name
       this.selectedShorthand = this.actiiveTabs.name
       this.selectedTabId = key
