@@ -1,4 +1,5 @@
 import apiClient from '@/services/axios'
+import serverClient from '@/services/axios/axios'
 import store from 'store'
 
 export async function getRoleList() {
@@ -90,9 +91,9 @@ export async function insertPermission(data) {
   })
 }
 
-export async function getAssignList() {
-  return apiClient
-  .get('/assignrole')
+export async function getAssignList(offset, limit) {
+  return serverClient
+  .post('assignRole', { offset: offset, limit: limit })
   .then(response => {
     if (response) {
       return response.data
@@ -113,8 +114,8 @@ export async function getUserList() {
 }
 
 export async function insertAssign(data) {
-  return apiClient
-  .post('/assignrole', data)
+  return serverClient
+  .post('addAssign', data)
   .then(response => {
     if (response) {
       return response
@@ -140,6 +141,17 @@ export async function deleteAssign(id) {
   .then(response => {
     if (response) {
       return true
+    }
+    return false
+  })
+}
+
+export async function optionJenisUser() {
+  return serverClient
+  .get('usercrm/list-jenis')
+  .then(response => {
+    if (response) {
+      return response.data
     }
     return false
   })
