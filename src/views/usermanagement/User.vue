@@ -3,11 +3,15 @@
     <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
         <a-tabs
-          :default-active-key="1"
+          :default-active-key="0"
           @change="changeTabs"
           class="vb-tabs-bold justify-content-between mb-3"
         >
-          <a-tab-pane v-for="menutab in menutabs" :key="menutab.id" :tab="menutab.role" />
+          <a-tab-pane
+            v-for="menutab in userManagement.listUser"
+            :key="menutab.id_jenis"
+            :tab="menutab.name"
+          />
         </a-tabs>
       </div>
       <div class="card-header">
@@ -35,8 +39,15 @@
             <div class="align-self-center">
               <span>Show :</span>
             </div>
-            <a-select :default-value="itemsPerPage[1]" class="mx-2" @change="handlePaginationSize">
-              <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+            <a-select
+              :default-value="userManagement.itemsPerPage[0]"
+              class="mx-2"
+              @change="handlePaginationSize"
+            >
+              <a-select-option
+                v-for="itemPerPage in userManagement.itemsPerPage"
+                :key="itemPerPage"
+              >
                 {{ itemPerPage }}
               </a-select-option>
             </a-select>
@@ -48,9 +59,9 @@
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
-            :columns="columns"
-            :data-source="users"
-            :row-key="(user) => user.id"
+            :columns="userManagement.columns"
+            :data-source="userManagement.users"
+            :row-key="user => user.id"
             :pagination="pagination"
           >
             <template #name="{ text }">
@@ -77,7 +88,9 @@
         >
           <template #footer>
             <a-button key="back" @click="closeModal">Batal</a-button>
-            <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary">Simpan</a-button>
+            <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary"
+              >Simpan</a-button
+            >
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Nama User" name="name">
@@ -106,7 +119,7 @@
 import { getUserList, insertUser } from '@/services/connection/user-management/api'
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
-
+import { mapState, mapActions } from 'vuex'
 const itemsPerPage = [5, 10, 15, 20]
 const menutabs = [
   {
@@ -183,42 +196,43 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
-  setup() {
-    const rules = {
-      name: [{ required: true, message: 'Nama wajib diisi', type: 'string' }],
-      username: [{ required: true, message: 'Username wajib diisi', type: 'string' }],
-      password: [{ required: true, message: 'Password wajib diisi', type: 'string' }],
-      email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
-      nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
-    }
 
-    const handleFinish = (values) => {
-      console.log(values, formState)
-    }
+  // setup() {
+  //   const rules = {
+  //     name: [{ required: true, message: 'Nama wajib diisi', type: 'string' }],
+  //     username: [{ required: true, message: 'Username wajib diisi', type: 'string' }],
+  //     password: [{ required: true, message: 'Password wajib diisi', type: 'string' }],
+  //     email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
+  //     nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
+  //   }
 
-    const handleFinishFailed = (errors) => {
-      console.log(errors)
-    }
+  //   const handleFinish = values => {
+  //     console.log(values, formState)
+  //   }
 
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      },
-      getCheckboxProps: (record) => ({
-        props: {
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        },
-      }),
-    }
-    return {
-      rules,
-      columns,
-      rowSelection,
-      handleFinish,
-      handleFinishFailed,
-    }
-  },
+  //   const handleFinishFailed = errors => {
+  //     console.log(errors)
+  //   }
+
+  //   const rowSelection = {
+  //     onChange: (selectedRowKeys, selectedRows) => {
+  //       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+  //     },
+  //     getCheckboxProps: record => ({
+  //       props: {
+  //         disabled: record.name === 'Disabled User', // Column configuration not to be checked
+  //         name: record.name,
+  //       },
+  //     }),
+  //   }
+  //   return {
+  //     rules,
+  //     columns,
+  //     rowSelection,
+  //     handleFinish,
+  //     handleFinishFailed,
+  //   }
+  // },
   data() {
     return {
       actiiveTabs: {},
@@ -232,28 +246,40 @@ export default {
         nohp: '',
         userid: '',
       },
-      selectedTitle: 'General Sales Manager',
-      selectedShorthand: 'GSM',
-      itemsPerPage,
-      menutabs,
+      selectedTitle: 'Sales',
+      selectedShorthand: 'Sales',
       pagination: {},
       modalVisible: false,
       isLoading: false,
       isSubmit: false,
     }
   },
+  computed: {
+    ...mapState({
+      userManagement: state => state.userManagement.data,
+    }),
+  },
   mounted() {
     this.fetchGetUsers()
+    this.getListJenisUser()
+    this.getDataTable({
+      jenis_user: this.selectedTitle,
+    })
   },
   methods: {
+    ...mapActions('userManagement', ['getListJenisUser', 'getDataTable']),
     changeTabs(key) {
-      console.log(key)
-      const dataRes = [...this.menutabs]
-      const filtered = dataRes.filter((x) => x.id == key)
+      const dataRes = [...this.userManagement.listUser]
+      const filtered = dataRes.filter(x => x.id_jenis == key)
       this.actiiveTabs = filtered[0]
-      this.selectedTitle = this.actiiveTabs.role
-      this.selectedShorthand = this.actiiveTabs.shorthand
+      console.log(`actiiveTabs`, this.actiiveTabs)
+      this.selectedTitle = this.actiiveTabs.name
+      this.selectedShorthand = this.actiiveTabs.name
       this.selectedTabId = key
+
+      this.getDataTable({
+        jenis_user: this.actiiveTabs.name,
+      })
     },
     handleDetail() {
       this.$router.push({ name: 'user-management-profile' })
@@ -279,20 +305,20 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-      .then(response => {
-        if (response) {
-          message.success('User berhasil Ditambahkan')
-          this.fetchGetUsers()
-        }
-        this.isSubmit = false
-        this.closeModal()
-      })
-      .catch(err => {
-        console.error(err)
-        message.error('Oops, sepertinya ada masalah')
-        this.isSubmit = false
-        this.closeModal()
-      })
+        .then(response => {
+          if (response) {
+            message.success('User berhasil Ditambahkan')
+            this.fetchGetUsers()
+          }
+          this.isSubmit = false
+          this.closeModal()
+        })
+        .catch(err => {
+          console.error(err)
+          message.error('Oops, sepertinya ada masalah')
+          this.isSubmit = false
+          this.closeModal()
+        })
     },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
@@ -304,12 +330,18 @@ export default {
       console.log(this.rowSelection)
     },
     formValidation() {
-      if (this.formState.name && this.formState.username && this.formState.password && this.formState.email && this.formState.nohp) {
+      if (
+        this.formState.name &&
+        this.formState.username &&
+        this.formState.password &&
+        this.formState.email &&
+        this.formState.nohp
+      ) {
         return true
       } else {
         notification.error({
-          message: "Gagal Menyimpan",
-          description: "Semua kolom wajib diisi",
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
         })
       }
     },
@@ -329,13 +361,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           this.isLoading = false
         })
