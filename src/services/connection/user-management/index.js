@@ -1,4 +1,5 @@
 import apiClient from '@/services/axios/axios'
+import { notification } from 'ant-design-vue'
 
 const state = {
   data: {
@@ -118,7 +119,12 @@ const actions = {
     const { data } = state
 
     const result = await apiClient.get(`/usercrm/list-jenis`)
-
+    if (result.message) {
+      notification.error({
+        message: 'Error',
+        description: result.message[0],
+      })
+    }
     await commit('changeUserManagement', {
       listUser: result.data.data,
       isLoading: false,

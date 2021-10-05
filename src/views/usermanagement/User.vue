@@ -3,14 +3,14 @@
     <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex">
         <a-tabs
-          :default-active-key="1"
+          :default-active-key="0"
           @change="changeTabs"
           class="vb-tabs-bold justify-content-between mb-3"
         >
           <a-tab-pane
-            v-for="menutab in userManagement.menutabs"
-            :key="menutab.id"
-            :tab="menutab.role"
+            v-for="menutab in userManagement.listUser"
+            :key="menutab.id_jenis"
+            :tab="menutab.name"
           />
         </a-tabs>
       </div>
@@ -246,8 +246,8 @@ export default {
         nohp: '',
         userid: '',
       },
-      selectedTitle: 'General Sales Manager',
-      selectedShorthand: 'GSM',
+      selectedTitle: 'Sales',
+      selectedShorthand: 'Sales',
       pagination: {},
       modalVisible: false,
       isLoading: false,
@@ -266,13 +266,12 @@ export default {
   methods: {
     ...mapActions('userManagement', ['getListJenisUser']),
     changeTabs(key) {
-      console.log(key)
-      const dataRes = [...this.userManagement.menutabs]
-      const filtered = dataRes.filter(x => x.id == key)
+      const dataRes = [...this.userManagement.listUser]
+      const filtered = dataRes.filter(x => x.id_jenis == key)
       this.actiiveTabs = filtered[0]
       console.log(`actiiveTabs`, this.actiiveTabs)
-      this.selectedTitle = this.actiiveTabs.role
-      this.selectedShorthand = this.actiiveTabs.shorthand
+      this.selectedTitle = this.actiiveTabs.name
+      this.selectedShorthand = this.actiiveTabs.name
       this.selectedTabId = key
     },
     handleDetail() {
