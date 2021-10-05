@@ -95,6 +95,11 @@ const state = {
       nohp: '',
       userid: '',
     },
+    bodyList: {
+      jenis_user: '',
+      offset: 1,
+      limit: 20,
+    },
     listUser: [],
     selectedTitle: 'General Sales Manager',
     selectedShorthand: 'GSM',
@@ -127,6 +132,32 @@ const actions = {
     }
     await commit('changeUserManagement', {
       listUser: result.data.data,
+      isLoading: false,
+    })
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      jenisUser: payload.jenis_user,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    const result = await apiClient.post(`/usercrm`, body)
+    if (result.message) {
+      notification.error({
+        message: 'Error',
+        description: result.message[0],
+      })
+    }
+    await commit('changeUserManagement', {
+      users: result.data.data,
       isLoading: false,
     })
   },

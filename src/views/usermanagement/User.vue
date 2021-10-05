@@ -262,9 +262,12 @@ export default {
   mounted() {
     this.fetchGetUsers()
     this.getListJenisUser()
+    this.getDataTable({
+      jenis_user: this.selectedTitle,
+    })
   },
   methods: {
-    ...mapActions('userManagement', ['getListJenisUser']),
+    ...mapActions('userManagement', ['getListJenisUser', 'getDataTable']),
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
       const filtered = dataRes.filter(x => x.id_jenis == key)
@@ -273,6 +276,10 @@ export default {
       this.selectedTitle = this.actiiveTabs.name
       this.selectedShorthand = this.actiiveTabs.name
       this.selectedTabId = key
+
+      this.getDataTable({
+        jenis_user: this.actiiveTabs.name,
+      })
     },
     handleDetail() {
       this.$router.push({ name: 'user-management-profile' })
