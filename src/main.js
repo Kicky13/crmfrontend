@@ -11,7 +11,6 @@ import ability from '@/services/ability/ability'
 import { Can, abilitiesPlugin } from '@casl/vue'
 import './services/axios/fakeApi' // mocking api
 
-
 createApp(App)
   .use(store)
   .use(router)
