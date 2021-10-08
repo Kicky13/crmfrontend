@@ -7,11 +7,16 @@
           @change="changeTabs"
           class="vb-tabs-bold justify-content-between mb-3"
         >
-          <a-tab-pane
-            v-for="menutab in userManagement.listUser"
-            :key="menutab.id_jenis"
-            :tab="menutab.name"
-          />
+          <template v-if="userManagement.listUser.length > 0">
+            <a-tab-pane
+              v-for="menutab in userManagement.listUser"
+              :key="menutab.id_level_hirarki"
+              :tab="menutab.nama_panjang"
+            />
+          </template>
+          <template v-else>
+            <a-tab-pane key="1" tab="Data Jabatan Belum Tersedia"> </a-tab-pane>
+          </template>
         </a-tabs>
       </div>
       <div class="card-header">
@@ -71,7 +76,7 @@
               <div>
                 <button @click="handleDetail" type="button" class="btn btn-light mr-2">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning mr-2">
+                ><button type="button" class="btn btn-warning mr-2" @click="editRow()">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
@@ -94,19 +99,53 @@
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Nama User" name="name">
-              <a-input style="width: 100% !important" v-model:value="formState.name" />
+              <a-input
+                style="width: 100% !important"
+                v-model:value="userManagement.formState.name"
+                placeholder="Ketik nama"
+              />
             </a-form-item>
             <a-form-item label="Username" name="username">
-              <a-input style="width: 100% !important" v-model:value="formState.username" />
+              <a-input
+                style="width: 100% !important"
+                v-model:value="userManagement.formState.username"
+                placeholder="Ketik username"
+              />
             </a-form-item>
             <a-form-item label="Password" name="password">
-              <a-input style="width: 100% !important" v-model:value="formState.password" />
+              <a-input
+                style="width: 100% !important"
+                v-model:value="userManagement.formState.password"
+                placeholder="Ketik password"
+              />
+            </a-form-item>
+            <a-form-item label="Level" name="level">
+              <a-select
+                v-model:value="userManagement.formState.idLevelHirarki"
+                placeholder="Pilih Level"
+              >
+                <a-select-option
+                  v-for="(item, index) in userManagement.listUser"
+                  :key="`level_${index}`"
+                  :value="item.id_level_hirarki"
+                >
+                  {{ item.nama_panjang }}
+                </a-select-option>
+              </a-select>
             </a-form-item>
             <a-form-item label="Email" name="email">
-              <a-input style="width: 100% !important" v-model:value="formState.email" />
+              <a-input
+                style="width: 100% !important"
+                v-model:value="userManagement.formState.email"
+                placeholder="Ketik email"
+              />
             </a-form-item>
             <a-form-item label="No HP" name="nohp">
-              <a-input style="width: 100% !important" v-model:value="formState.nohp" />
+              <a-input
+                style="width: 100% !important"
+                v-model:value="userManagement.formState.nohp"
+                placeholder="Ketik no hp"
+              />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -263,26 +302,31 @@ export default {
     await this.dataListUser()
   },
   methods: {
-    ...mapActions('userManagement', ['getListJenisUser', 'getDataTable']),
+    ...mapActions('userManagement', [
+      'getListJenisUser',
+      'getDataTable',
+      'postSubmitData',
+      'deleteDataRow',
+    ]),
 
     async dataListUser() {
       await this.getListJenisUser()
       await this.getDataTable({
-        jenis_user: this.userManagement.selectedTitle,
+        id_level_hirarki: this.userManagement.id_level_hirarki,
       })
       this.selectedTitle = this.userManagement.selectedTitle
       this.selectedShorthand = this.userManagement.selectedShorthand
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_jenis == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
-      this.selectedTitle = this.actiiveTabs.name
-      this.selectedShorthand = this.actiiveTabs.name
+      this.selectedTitle = this.actiiveTabs.nama_panjang
+      this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
-
+      console.log(`this.actiiveTabs.id_level_hirarki`, this.actiiveTabs.id_level_hirarki)
       this.getDataTable({
-        jenis_user: this.actiiveTabs.name,
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
     handleDetail() {
@@ -295,12 +339,13 @@ export default {
       this.modalVisible = false
     },
     handleSubmit() {
-      console.log(this.formState)
       if (this.formValidation()) {
-        console.log(true)
-        this.fetchSubmitForm()
+        this.postSubmitData()
+        this.getDataTable()
+        this.closeModal()
       } else {
-        console.log(false)
+        this.closeModal()
+        this.getDataTable()
       }
     },
     fetchSubmitForm() {
@@ -312,7 +357,7 @@ export default {
         .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
-            this.fetchGetUsers()
+            this.getDataTable()
           }
           this.isSubmit = false
           this.closeModal()
@@ -335,11 +380,11 @@ export default {
     },
     formValidation() {
       if (
-        this.formState.name &&
-        this.formState.username &&
-        this.formState.password &&
-        this.formState.email &&
-        this.formState.nohp
+        this.userManagement.formState.name &&
+        this.userManagement.formState.username &&
+        this.userManagement.formState.password &&
+        this.userManagement.formState.email &&
+        this.userManagement.formState.nohp
       ) {
         return true
       } else {
@@ -351,7 +396,21 @@ export default {
     },
     deleteAll() {},
     deleteRow(id) {
-      console.log('Deleted ID: ' + id)
+      this.$confirm({
+        title: 'Apakah anda mau menghapus data ini ?',
+        onOk() {
+          return new Promise((resolve, reject) => {
+            this.deleteDataRow({
+              id: id,
+            })
+            this.dataListUser()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {
+          this.dataListUser()
+        },
+      })
       // deletePermission(id)
       //   .then((response) => {
       //     console.log(response)

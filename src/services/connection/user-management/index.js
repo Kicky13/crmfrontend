@@ -13,6 +13,7 @@ const state = {
     },
     selectedTitle: '',
     selectedShorthand: '',
+    id_level_hirarki: null,
     itemsPerPage: [5, 10, 15, 20],
     menutabs: [
       {
@@ -90,12 +91,14 @@ const state = {
     users: [],
     selectedTabId: 1,
     formState: {
+      id: '',
       name: '',
       username: '',
       password: '',
       email: '',
       nohp: '',
       userid: '',
+      idLevelHirarki: null,
     },
     bodyList: {
       jenis_user: '',
@@ -124,7 +127,7 @@ const actions = {
     })
     const { data } = state
 
-    const result = await apiClient.get(`/usercrm/list-jenis`)
+    const result = await apiClient.get(`/usercrm/listJabatan`)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
@@ -132,8 +135,9 @@ const actions = {
       })
     } else {
       await commit('changeUserManagement', {
-        selectedTitle: result.data.data[0].name,
-        selectedShorthand: result.data.data[0].name,
+        id_level_hirarki: result.data.data[0].id_level_hirarki,
+        selectedTitle: result.data.data[0].nama_panjang,
+        selectedShorthand: result.data.data[0].nama_singkat,
         listUser: result.data.data,
         isLoading: false,
       })
@@ -148,11 +152,12 @@ const actions = {
     const { data } = state
 
     let body = {
-      jenisUser: payload.jenis_user,
+      idLevelHirarki: payload.id_level_hirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
 
+    console.log(`-----body`, body)
     const result = await apiClient.post(`/usercrm`, body)
 
     if (result.data.status == false) {
@@ -168,7 +173,58 @@ const actions = {
     }
   },
 
-  async postSubmitData() {},
+  async postSubmitData({ commit, state }) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      nama: data.formState.name,
+      username: data.formState.username,
+      email: data.formState.email,
+      password: data.formState.password,
+      nohp: data.formState.nohp,
+      idLevelHirarki: data.formState.idLevelHirarki,
+    }
+
+    let result = ''
+
+    if (data.formState.id) {
+      result = await apiClient.put(`/usercrm/add`, formData)
+    } else {
+      result = await apiClient.post(`/usercrm/add`, formData)
+      notification.error({
+        message: 'Success',
+        description: `Data berhasil ditambahkan`,
+      })
+    }
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message[0],
+      })
+    }
+  },
+
+  async deleteDataRow(payload) {
+    const { id } = payload
+    const result = await apiClient.delete(`/usercrm/delete/${id}`)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message[0],
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil dihapus`,
+      })
+    }
+  },
 }
 
 export default {
