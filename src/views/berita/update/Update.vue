@@ -5,9 +5,9 @@
     </div>
     <div class="card-body">
       <a-form
-        :model="formState"
         label-align="left"
         layout="vertical"
+        :model="formState"
         :rules="rules"
       >
         <a-form-item
@@ -15,8 +15,8 @@
           name="judul"
         >
           <a-input
-            v-model:value="formState.judul"
             class="input-style"
+            v-model:value="formState.judul"
           />
         </a-form-item>
         <a-form-item
@@ -33,9 +33,9 @@
           name="image"
         >
           <a-upload
+            accept="image/png, image/jpg, image/jpeg"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
-            accept="image/png, image/jpg, image/jpeg"
             :file-list="fileList"
             :transform-file="transformFile"
             @preview="handlePreview"
@@ -47,12 +47,14 @@
             </div>
           </a-upload>
           <a-modal
-            :visible="previewVisible"
             :footer="null"
-            @cancel="handleCancel"
+            :visible="previewVisible"
+            @cancel="previewVisible = false"
           >
-            <img lazy="loading" v-once
-              alt="Default"
+            <img
+              v-once
+              lazy="loading"
+              alt="Gambar Berita"
               style="width: 100%"
               :src="previewImage"
             />
@@ -60,18 +62,16 @@
         </a-form-item>
         <a-form-item>
           <a-button
-            type="primary"
+            class="mr-2"
             html-type="submit"
+            type="primary"
             @click="onSubmit"
           >
             Update
           </a-button>
-          <router-link
-            to="/marketing/berita"
-            style="margin-left: 10px;"
-          >
+          <router-link to="/marketing/berita">
             <a-button>
-              Cancel
+              Batal
             </a-button>
           </router-link>
         </a-form-item>
@@ -81,11 +81,15 @@
 </template>
 
 <script>
-import { quillEditor } from 'vue3-quill'
-import { defineComponent, onMounted, reactive, toRaw } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
+import {
+  defineComponent,
+  onMounted,
+  reactive,
+} from 'vue'
 import { updatePost, postList } from '@/services/connection/berita/api'
+import { useRoute, useRouter } from 'vue-router';
 import { notification } from 'ant-design-vue';
+import { quillEditor } from 'vue3-quill'
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
@@ -132,17 +136,15 @@ export default defineComponent({
       getPostById()
     })
     const getPostById = () => {
-      const id = route.params.userId
+      const id = route.params.artikelId
       postList()
       .then(response => {
         if (response) {
-          console.log(response.data)
           const post = response.data.find(post => post.id === id)
           formState.id = post.id
           formState.date = post.post_date
           formState.judul = post.post_title
           formState.detail = post.post_detail
-          formState.image = post.image
         }
       })
       .catch(err => {
@@ -152,7 +154,13 @@ export default defineComponent({
     const updatePostById = (id, param, config) => {
       updatePost(id, param, config)
       .then(response => {
-        console.log(response)
+        if (response) {
+          router.push('/marketing/berita')
+          notification.success({
+            message: 'Update Berita',
+            description: 'Berita berhasil diupdate',
+          })
+        }
       })
       .catch(err => {
         console.log(err)
@@ -179,12 +187,7 @@ export default defineComponent({
           param.append('detail', formState.detail)
           param.append('date', formState.date)
           param.append('image', formState.image)
-          updatePostById(formState.id, param, config)
-          router.push('/marketing/berita')
-          notification.success({
-            message: 'Update Berita',
-            description: 'Berita berhasil diupdate',
-          })
+          // updatePostById(formState.id, param, config)
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -193,7 +196,6 @@ export default defineComponent({
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
-
     return {
       rules,
       formState,
@@ -206,6 +208,7 @@ export default defineComponent({
       previewImage: '',
       fileList: [],
       isLoading: false,
+      imagedata: null,
     };
   },
   mounted() {
@@ -214,10 +217,11 @@ export default defineComponent({
   methods: {
     getPostById() {
       this.isLoading = true
-      const id = this.$route.params.userId
+      const id = this.$route.params.artikelId
       postList()
       .then(response => {
         if (response) {
+          const imgObj = response.data.find(data => data.id === id).post_image
           const info = {
             fileList: [
               {
@@ -225,24 +229,22 @@ export default defineComponent({
                 name: '.jpg/.png',
                 status: 'error',
               },
-              { ...response.image },
+              {
+                uid: '0',
+                name: 'Gambar',
+                status: 'done',
+                url: imgObj,
+              },
             ],
           }
           this.handleChange(info)
-          setTimeout(() => {
-            this.isLoading = false
-          }, 800)
+          this.isLoading = false
         }
       })
       .catch(err => {
         console.error(err)
-          setTimeout(() => {
-            this.isLoading = false
-          }, 800)
+        this.isLoading = false
       })
-    },
-    handleCancel() {
-      this.previewVisible = false
     },
     async handlePreview(file) {
       if (!file.url && !file.preview) {
@@ -280,13 +282,20 @@ export default defineComponent({
           ]
           this.formState.image = null
         } else {
-          this.formState.image = this.fileList[0]
+          // this.formState.image = this.fileList[0]
+          this.urlToObject('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')
         }
       }
     },
-    // transformFile(file) {
-    //   this.formState.image = file
-    // },
+    transformFile(file) {
+      this.formState.image = file
+    },
+    async urlToObject(url) {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const file = new File([blob], 'image.jpg', {type: blob.type});
+      console.log(file);
+    },
   },
 })
 </script>

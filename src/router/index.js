@@ -78,17 +78,14 @@ const routes = [
           import(/* webpackChunkName: "tambah-berita" */ '@/views/berita/tambah/Tambah'),
       },
       {
-        path: '/marketing/berita/edit/:userId',
-        meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
-        component: () => import(/* webpackChunkName: "edit-berita" */ '@/views/berita/edit/Edit'),
+        path: '/marketing/berita/update/:artikelId',
+        meta: { title: 'Update Berita', resource: 'Update Berita', action: 'manage' },
+        component: () => import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
         path: '/marketing/berita/:artikelId',
         meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
-        component: () =>
-          import(
-            /* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'
-          ),
+        component: () => import(/* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'),
       },
       {
         path: '/user/level_user',
@@ -157,13 +154,13 @@ const routes = [
       },
       {
         path: '/assignrole',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'read' },
         component: () => import(/* webpackChunkName: "assign-role" */ '@/views/assignrole/Assign'),
       },
       {
         path: '/assignrole/create',
         name: 'assignrole-create',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'create' },
         component: () =>
           import(/* webpackChunkName: "assingrole-cerate" */ '@/views/assignrole/forms/Insert'),
       },
@@ -171,14 +168,21 @@ const routes = [
         path: '/assignrole/update',
         name: 'assignrole-update',
         props: true,
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'update' },
         component: () =>
           import(/* webpackChunkName: "assignrole-update" */ '@/views/assignrole/forms/Update'),
       },
       {
+        path: '/users/hierarchy',
+        name: 'user-hierarchy',
+        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/Hierarchy'),
+      },
+      {
         path: '/users',
         name: 'user-management',
-        meta: { title: 'User Management', resource: 'User', action: 'manage' },
+        meta: { title: 'User Management', resource: 'User', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/User'),
       },

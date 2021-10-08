@@ -39,6 +39,11 @@ export const getAdminMenuData = [
         key: 'jty2ap',
         url: '/users',
       },
+      {
+        title: 'Management User Hirarki',
+        key: 'gfd34a',
+        url: '/users/hierarchy',
+      },
     ],
   },
   {
