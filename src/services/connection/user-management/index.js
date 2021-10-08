@@ -184,9 +184,9 @@ const actions = {
       nama: data.formState.name,
       username: data.formState.username,
       email: data.formState.email,
-      password: data.formState.password,
+      // password: data.formState.password,
       nohp: data.formState.nohp,
-      idLevelHirarki: data.formState.idLevelHirarki,
+      // idLevelHirarki: data.formState.idLevelHirarki,
     }
 
     let result = ''
@@ -195,7 +195,7 @@ const actions = {
       result = await apiClient.put(`/usercrm/add`, formData)
     } else {
       result = await apiClient.post(`/usercrm/add`, formData)
-      notification.error({
+      notification.success({
         message: 'Success',
         description: `Data berhasil ditambahkan`,
       })
@@ -209,14 +209,14 @@ const actions = {
     }
   },
 
-  async deleteDataRow(payload) {
-    const { id } = payload
-    const result = await apiClient.delete(`/usercrm/delete/${id}`)
+  async deleteDataRow(context, payload) {
+    const result = await apiClient.delete(`/usercrm/delete/${payload.uuid}`)
 
     if (result.data.status == false) {
+      console.log(`---result.data.message`, result.data.message)
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
       })
     } else {
       notification.success({
