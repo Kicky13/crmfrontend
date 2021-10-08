@@ -23,7 +23,7 @@
         <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
         <a-button type="primary" class="mb-3 float-right" @click="openModal">
           <i class="fa fa-plus mr-2" />
-          {{ 'Tambah ' + selectedShorthand }}
+          {{ 'Tambah User' }}
         </a-button>
         <a-button
           class="btn btn-success mb-3 float-right"
@@ -87,7 +87,7 @@
         </div>
         <a-modal
           v-model:visible="modalVisible"
-          :title="'Tambah ' + selectedTitle"
+          :title="'Tambah User'"
           :closable="false"
           :mask-closable="false"
         >
@@ -112,7 +112,7 @@
                 placeholder="Ketik username"
               />
             </a-form-item>
-            <a-form-item label="Password" name="password">
+            <!-- <a-form-item label="Password" name="password">
               <a-input
                 style="width: 100% !important"
                 v-model:value="userManagement.formState.password"
@@ -132,7 +132,7 @@
                   {{ item.nama_panjang }}
                 </a-select-option>
               </a-select>
-            </a-form-item>
+            </a-form-item> -->
             <a-form-item label="Email" name="email">
               <a-input
                 style="width: 100% !important"
@@ -316,6 +316,8 @@ export default {
       })
       this.selectedTitle = this.userManagement.selectedTitle
       this.selectedShorthand = this.userManagement.selectedShorthand
+
+      this.changeTabs(this.actiiveTabs.id_level_hirarki)
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
@@ -382,7 +384,6 @@ export default {
       if (
         this.userManagement.formState.name &&
         this.userManagement.formState.username &&
-        this.userManagement.formState.password &&
         this.userManagement.formState.email &&
         this.userManagement.formState.nohp
       ) {
@@ -397,20 +398,21 @@ export default {
     deleteAll() {},
     deleteRow(id) {
       this.$confirm({
-        title: 'Apakah anda mau menghapus data ini ?',
-        onOk() {
-          return new Promise((resolve, reject) => {
-            this.deleteDataRow({
-              id: id,
-            })
-            this.dataListUser()
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-          }).catch(() => console.log('Oops errors!'))
+        title: 'Apakah anda yakin akan menghapus data ini?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.deleteDataRow({
+            uuid: id,
+          })
+          this.dataListUser({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
         },
-        onCancel() {
-          this.dataListUser()
-        },
+        onCancel() {},
       })
+
       // deletePermission(id)
       //   .then((response) => {
       //     console.log(response)
