@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       posts: [],
+      urlImage: null,
     }
   },
   mounted() {
@@ -44,8 +45,8 @@ export default {
       postList()
       .then(response => {
         if (response) {
-          response.data.forEach(item => this.posts.unshift(item))
-          console.log(this.posts)
+          this.posts = response.data
+          this.urlImage = response.data[0].post_image
         }
       })
       .catch(err => {

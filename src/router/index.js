@@ -78,17 +78,14 @@ const routes = [
           import(/* webpackChunkName: "tambah-berita" */ '@/views/berita/tambah/Tambah'),
       },
       {
-        path: '/marketing/berita/edit/:userId',
-        meta: { title: 'Edit Berita', resource: 'Edit Berita', action: 'manage' },
-        component: () => import(/* webpackChunkName: "edit-berita" */ '@/views/berita/edit/Edit'),
+        path: '/marketing/berita/update/:artikelId',
+        meta: { title: 'Update Berita', resource: 'Update Berita', action: 'manage' },
+        component: () => import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
         path: '/marketing/berita/:artikelId',
         meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
-        component: () =>
-          import(
-            /* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'
-          ),
+        component: () => import(/* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'),
       },
       {
         path: '/user/level_user',
