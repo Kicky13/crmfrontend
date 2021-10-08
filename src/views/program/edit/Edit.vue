@@ -23,7 +23,7 @@
           />
         </a-form-item>
         <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
-          <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date" />
+          <a-input type="date" v-model:value="formState.startDate"  placeholder="Enter Start Date" />
         </a-form-item>
         <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
           <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date" />
@@ -34,7 +34,7 @@
             html-type="submit"
             @click="onSubmit"
           >
-            Edit
+            Update
           </a-button>
           <router-link
             to="/marketing/program"
@@ -100,8 +100,9 @@ export default defineComponent({
       listPost()
       .then(response => {
         if (response) {
-          console.log(response)
+          
           const post = response.data.find(post => post.id === id)
+          //console.log(date("dd/mm/yyyy",post.start_date))
           formState.programID = post.id
           formState.post_date = post.program_date
           // formState.post_time = post.program_time

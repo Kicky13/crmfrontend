@@ -117,6 +117,11 @@ const routes = [
         meta: { title: 'Edit Program', resource: 'Edit_Program', action: 'update' },
         component: () => import(/* webpackChunkName: "edit-program" */ '@/views/program/edit/Edit'),
       },
+      {
+        path: '/marketing/program/detailProgram/:userId',
+        meta: { title: 'Detail Program', resource: 'Detail_Program', action: 'manage' },
+        component: () => import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
+      },
       // Kikik ====================================================================
       {
         path: '/roles',

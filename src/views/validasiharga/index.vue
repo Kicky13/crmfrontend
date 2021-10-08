@@ -310,7 +310,7 @@ export default {
       getProdukList()
         .then(response => {
           if (response) {
-            this.dataSourceTable = response
+            this.dataSourceTable = response.data
             this.formState = {
               id: '',
               idproduk: '',
@@ -333,7 +333,8 @@ export default {
       getSelectProdukList()
         .then(response => {
           if (response) {
-            this.listProduk = response
+            console.log(response)
+            this.listProduk = response.data
           }
         })
         .catch(err => {
