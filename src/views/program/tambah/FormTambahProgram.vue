@@ -26,12 +26,22 @@
             </p>
           </a-upload-dragger>
         </a-form-item> -->
-        <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
-          <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date" />
-        </a-form-item>
-        <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
-          <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date" />
-        </a-form-item>
+        <div class="row">
+          <div class="col-md-6">
+            <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
+              <a-date-picker type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"
+                style="width:100%" />
+            </a-form-item>
+          </div>
+          <div class="col-md-6">
+            <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
+              <a-date-picker type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"
+                style="width:100%" />
+            </a-form-item>
+          </div>
+        </div>
+      
+        
         <a-form-item>
           <button class="btn btn-main text-nowrap pull-left" @click="onSubmit">
 
