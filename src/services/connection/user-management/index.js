@@ -152,7 +152,7 @@ const actions = {
     const { data } = state
 
     let body = {
-      idLevelHirarki: data.id_level_hirarki,
+      idLevelHirarki: payload.id_level_hirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -205,6 +205,23 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
+      })
+    }
+  },
+
+  async deleteDataRow(payload) {
+    const { id } = payload
+    const result = await apiClient.delete(`/usercrm/delete/${id}`)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message[0],
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil dihapus`,
       })
     }
   },

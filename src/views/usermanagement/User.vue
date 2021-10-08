@@ -76,7 +76,7 @@
               <div>
                 <button @click="handleDetail" type="button" class="btn btn-light mr-2">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning mr-2">
+                ><button type="button" class="btn btn-warning mr-2" @click="editRow()">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
@@ -302,7 +302,12 @@ export default {
     await this.dataListUser()
   },
   methods: {
-    ...mapActions('userManagement', ['getListJenisUser', 'getDataTable', 'postSubmitData']),
+    ...mapActions('userManagement', [
+      'getListJenisUser',
+      'getDataTable',
+      'postSubmitData',
+      'deleteDataRow',
+    ]),
 
     async dataListUser() {
       await this.getListJenisUser()
@@ -319,7 +324,7 @@ export default {
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
-
+      console.log(`this.actiiveTabs.id_level_hirarki`, this.actiiveTabs.id_level_hirarki)
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
@@ -391,7 +396,21 @@ export default {
     },
     deleteAll() {},
     deleteRow(id) {
-      console.log('Deleted ID: ' + id)
+      this.$confirm({
+        title: 'Apakah anda mau menghapus data ini ?',
+        onOk() {
+          return new Promise((resolve, reject) => {
+            this.deleteDataRow({
+              id: id,
+            })
+            this.dataListUser()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {
+          this.dataListUser()
+        },
+      })
       // deletePermission(id)
       //   .then((response) => {
       //     console.log(response)
