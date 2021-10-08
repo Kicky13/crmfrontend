@@ -33,11 +33,11 @@
           name="image"
         >
           <a-upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             accept="image/png, image/jpg, image/jpeg"
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             list-type="picture-card"
-            :transform-file="transformFile"
             :file-list="fileList"
+            :transform-file="transformFile"
             @preview="handlePreview"
             @change="handleChange"
           >
@@ -52,7 +52,7 @@
             @cancel="previewVisible = false"
           >
             <img
-              alt="Default"
+              alt="Gambar Berita"
               style="width: 100%"
               :src="previewImage"
             />
@@ -122,7 +122,7 @@ export default defineComponent({
       image: [
         {
           required: true,
-          message: 'Masukkan gambar berita!',
+          message: 'Upload gambar berita!',
           type: 'object',
         },
       ],
@@ -206,6 +206,7 @@ export default defineComponent({
           status: 'error',
         },
       ],
+      tesGambar: '',
     };
   },
   methods: {
