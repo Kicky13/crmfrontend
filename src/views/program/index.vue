@@ -8,10 +8,7 @@
       </button>
     </router-link>
     </Can>
-    <vb-list-artikel
-      :post-items="posts"
-      @delete-message="deleteSuccess"
-    />
+    
     
             <vb-list-program :post-items="posts"
       @delete-message="deleteSuccess"/>
