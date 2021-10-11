@@ -62,7 +62,7 @@ const state = {
         dataIndex: 'userid',
       },
       {
-        title: 'Nama Sales',
+        title: 'Nama',
         dataIndex: 'name',
       },
       {
@@ -70,8 +70,8 @@ const state = {
         dataIndex: 'username',
       },
       {
-        title: 'Password',
-        dataIndex: 'password',
+        title: 'Jabatan',
+        dataIndex: 'jabatan',
       },
       {
         title: 'Email',
@@ -222,6 +222,22 @@ const actions = {
       notification.success({
         message: 'Success',
         description: `Data berhasil dihapus`,
+      })
+    }
+  },
+
+  async resetDataRow(context, payload) {
+    const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil direset`,
       })
     }
   },
