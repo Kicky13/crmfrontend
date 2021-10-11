@@ -125,6 +125,7 @@
       "name": "Adam",
       "username": "adam13",
       "password": "dcdcda123",
+      "jabatan": "Admin",
       "email": "adam@gmail.com",
       "nohp": "08293819238",
       "id": 1
@@ -134,6 +135,7 @@
       "name": "Ahmad",
       "username": "ahmad03",
       "password": "dcdcda123",
+      "jabatan": "Admin",
       "email": "ahmad@gmail.com",
       "nohp": "08288873328",
       "id": 2
@@ -143,6 +145,7 @@
       "name": "Burhan",
       "username": "burhan24",
       "password": "dcdcda123",
+      "jabatan": "Admin",
       "email": "burhan@gmail.com",
       "nohp": "08287231498",
       "id": 3
@@ -153,6 +156,7 @@
       "password": "12123",
       "email": "demo@visualbuilder.user",
       "nohp": "083923231212",
+      "jabatan": "Admin",
       "userid": 1341,
       "id": 4
     },
@@ -162,6 +166,7 @@
       "password": "asdasd",
       "email": "kicky120@gmail.com",
       "nohp": "083923231212",
+      "jabatan": "Admin",
       "userid": 2059,
       "id": 5
     },
@@ -171,6 +176,7 @@
       "password": "asdasd",
       "email": "kicky120@gmail.com",
       "nohp": "083923231212",
+      "jabatan": "Admin",
       "userid": 9630,
       "id": 6
     },
@@ -178,10 +184,20 @@
       "name": "List Interco",
       "username": "rizki.wahono@sisi.id",
       "password": "asdasd",
+      "jabatan": "Admin",
       "email": "demo@visualbuilder.user",
       "nohp": "083923231212",
       "userid": 5052,
       "id": 7
+    },
+    {
+      "name": "ujicoba",
+      "username": "123121",
+      "email": "tes@gmail.com",
+      "nohp": "081233747106",
+      "userid": 7194,
+      "idLevelHirarki": 20,
+      "id": 10
     }
   ],
   "permissions": [
@@ -1198,6 +1214,16 @@
       "id": 8,
       "idJenisUser": "1234",
       "namaJenisUser": "Distributor"
+    },
+    {
+      "idJenisUser": "1156",
+      "namaJenisUser": "tes",
+      "id": 9
+    },
+    {
+      "idJenisUser": "1639",
+      "namaJenisUser": "test12",
+      "id": 10
     }
   ],
   "survey": [

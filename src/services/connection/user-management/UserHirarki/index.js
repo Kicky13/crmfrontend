@@ -213,7 +213,6 @@ const actions = {
     const result = await apiClient.delete(`/usercrm/delete/${payload.uuid}`)
 
     if (result.data.status == false) {
-      console.log(`---result.data.message`, result.data.message)
       notification.error({
         message: 'Error',
         description: result.data.message,
