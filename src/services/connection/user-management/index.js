@@ -225,6 +225,22 @@ const actions = {
       })
     }
   },
+
+  async resetDataRow(context, payload) {
+    const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil direset`,
+      })
+    }
+  },
 }
 
 export default {

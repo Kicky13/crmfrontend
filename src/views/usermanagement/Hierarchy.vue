@@ -78,8 +78,11 @@
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
                 ><button type="button" class="btn btn-warning mr-2" @click="editRow()">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
+                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger mr-2">
                   <i class="fa fa-trash"></i><span> Hapus</span>
+                </button>
+                <button @click="resetRow(text)" type="button" class="btn btn-light">
+                  <i class="fa fa-trash"></i><span> Reset</span>
                 </button>
               </div>
             </template>
@@ -307,6 +310,7 @@ export default {
       'getDataTable',
       'postSubmitData',
       'deleteDataRow',
+      'resetDataRow',
     ]),
 
     async dataListUser() {
@@ -396,6 +400,23 @@ export default {
       }
     },
     deleteAll() {},
+    resetRow(id) {
+      this.$confirm({
+        title: 'Apakah anda yakin akan reset data ini?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.resetDataRow({
+            uuid: id,
+          })
+          this.dataListUser({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
+        },
+        onCancel() {},
+      })
+    },
     deleteRow(id) {
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
