@@ -1,12 +1,14 @@
 import { createStore } from 'vuex'
 import user from './user'
 import settings from './settings'
-import UserManagement from '../services/connection/user-management'
+import UserManagementHirarki from '../services/connection/user-management/UserHirarki'
+import UserManagementCRM from '../services/connection/user-management/UserCRM'
 export default createStore({
   modules: {
     user,
     settings,
-    userManagement: UserManagement,
+    userManagement: UserManagementHirarki,
+    userManagementCRM: UserManagementCRM,
   },
   state: {},
   mutations: {},

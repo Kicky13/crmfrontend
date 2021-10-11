@@ -62,7 +62,7 @@ const state = {
         dataIndex: 'userid',
       },
       {
-        title: 'Nama Sales',
+        title: 'Nama',
         dataIndex: 'name',
       },
       {
@@ -70,8 +70,8 @@ const state = {
         dataIndex: 'username',
       },
       {
-        title: 'Password',
-        dataIndex: 'password',
+        title: 'Jabatan',
+        dataIndex: 'jabatan',
       },
       {
         title: 'Email',
