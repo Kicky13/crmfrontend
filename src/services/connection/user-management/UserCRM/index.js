@@ -107,7 +107,11 @@ const actions = {
     let result = ''
 
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm`, formData)
+      result = await apiClient.put(`/usercrm/${data.formState.id}`, formData)
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil diubah`,
+      })
     } else {
       result = await apiClient.post(`/usercrm`, formData)
       notification.success({

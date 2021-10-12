@@ -127,7 +127,7 @@ const actions = {
     })
     const { data } = state
 
-    const result = await apiClient.get(`/usercrm/listJabatan`)
+    const result = await apiClient.get(`/hirarki/levelHirarki`)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
