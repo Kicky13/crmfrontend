@@ -117,9 +117,9 @@ const actions = {
         description: result.data.message[0],
       })
     } else {
-      await commit('changeSynCustomer', {
-        listCustomer: result.data.data,
-        isLoading: false,
+      notification.success({
+        message: 'Success',
+        description: result.data.message[0],
       })
     }
   },

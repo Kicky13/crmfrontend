@@ -25,7 +25,7 @@
           <i class="fa fa-search mr-2" />
           Cari
         </a-button>
-        <a-button type="primary" class="mb-3" @click="buttonGet()">
+        <a-button type="primary" class="mb-3" @click="buttonGetSync()">
           <i class="fa fa-refresh mr-2" />
           SYNC
         </a-button>
@@ -199,15 +199,21 @@ export default {
     createRole() {
       this.$router.push({ name: 'permissions-create' })
     },
+    buttonGetSync() {
+      if (this.selectValue == '' || this.selectValue == null) {
+        this.$message.error('Pilih Distributor Terlebih Dahulu!')
+      } else {
+        this.getAsyncData({
+          kode_customer: this.selectValue,
+        })
+      }
+    },
     buttonGet() {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
       } else {
         this.getDataListCustomer({
           id_distrib: this.selectValue,
-        })
-        this.getAsyncData({
-          kode_customer: this.selectValue,
         })
       }
     },
