@@ -132,11 +132,18 @@ export default defineComponent({
       storePost(param, config)
       .then(response => {
         if (response) {
-          router.push('/marketing/berita')
-          notification.success({
-            message: 'Tambah Berita',
-            description: 'Berita berhasil ditambah',
-          })
+          if (response.status === 200) {
+            router.push('/marketing/berita')
+            notification.success({
+              message: 'Tambah Berita',
+              description: 'Berita berhasil ditambah',
+            })
+          } else {
+            notification.warning({
+              message: 'Tambah Berita',
+              description: response.message[1].replace('image yang diperbolehkan adalah', 'Format gambar harus'),
+            })
+          }
         }
       })
       .catch(err => {
@@ -237,6 +244,19 @@ export default defineComponent({
         this.formState.image = null
       } else {
         this.fileList = fileList
+        const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+        const nameInput = this.fileList[0].name
+        const formatInput = this.fileList[0].type.split('/')[1]
+        const check = formats.some(element => element === formatInput)
+        if (!check) {
+          this.fileList = [
+            {
+              uid: '-1',
+              name: nameInput,
+              status: 'error',
+            },
+          ]
+        }
       }
     },
     transformFile(file) {

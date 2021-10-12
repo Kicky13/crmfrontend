@@ -50,11 +50,13 @@
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
           <div class="text-main align-self-center">{{postItem.start_date}} - {{postItem.finish_date}}</div>
+          <router-link :to="`/marketing/program/detailProgram/${postItem.id}`">
           <a-button
             type="primary"
           >
-            Read More
+            Selengkapnya
           </a-button>
+          </router-link>
         </div>
       </div>
     </a-col>

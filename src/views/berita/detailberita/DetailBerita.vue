@@ -11,8 +11,10 @@
       <img
         :src="post.post_image"
         alt="Gambar Berita"
-        class="image-body"
+        class="img-fluid img-thumbnail"
+        style="width: 100%; max-height: 500px;"
       >
+      <!-- eslint-disable vue/no-v-html -->
       <p
         class="my-4"
         v-html="post.post_detail"
@@ -56,10 +58,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.image-body {
-  width: 100%;
-  height: 400px;
-}
-</style>
