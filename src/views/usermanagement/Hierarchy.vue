@@ -10,8 +10,8 @@
           <template v-if="userManagement.listUser.length > 0">
             <a-tab-pane
               v-for="menutab in userManagement.listUser"
-              :key="menutab.id_level_hirarki"
-              :tab="menutab.nama_panjang"
+              :key="menutab.idLevelHirarki"
+              :tab="menutab.namaHirarki"
             />
           </template>
           <template v-else>
@@ -23,20 +23,20 @@
         <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
         <a-button type="primary" class="mb-3 float-right" @click="openModal">
           <i class="fa fa-plus mr-2" />
-          {{ 'Tambah User' }}
+          {{ 'Tambahkan Jabatan' }}
         </a-button>
-        <a-button
+        <!-- <a-button
           class="btn btn-success mb-3 float-right"
           style="margin-right: 5px; margin-left: 5px"
           @click="goExport"
         >
           <i class="fa fa-upload mr-2" />
           Export Users
-        </a-button>
-        <a-button @click="goImport" class="btn btn-light mb-3 float-right">
+        </a-button> -->
+        <!-- <a-button @click="goImport" class="btn btn-light mb-3 float-right">
           <i class="fa fa-download mr-2" />
           Import Users
-        </a-button>
+        </a-button> -->
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -82,7 +82,7 @@
                   <i class="fa fa-trash"></i><span> Hapus</span>
                 </button>
                 <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-trash"></i><span> Reset</span>
+                  <i class="fa fa-redo"></i><span> Reset</span>
                 </button>
               </div>
             </template>
@@ -130,7 +130,7 @@
                 <a-select-option
                   v-for="(item, index) in userManagement.listUser"
                   :key="`level_${index}`"
-                  :value="item.id_level_hirarki"
+                  :value="item.idLevelHirarki"
                 >
                   {{ item.nama_panjang }}
                 </a-select-option>
@@ -238,43 +238,6 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
-
-  // setup() {
-  //   const rules = {
-  //     name: [{ required: true, message: 'Nama wajib diisi', type: 'string' }],
-  //     username: [{ required: true, message: 'Username wajib diisi', type: 'string' }],
-  //     password: [{ required: true, message: 'Password wajib diisi', type: 'string' }],
-  //     email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
-  //     nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
-  //   }
-
-  //   const handleFinish = values => {
-  //     console.log(values, formState)
-  //   }
-
-  //   const handleFinishFailed = errors => {
-  //     console.log(errors)
-  //   }
-
-  //   const rowSelection = {
-  //     onChange: (selectedRowKeys, selectedRows) => {
-  //       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-  //     },
-  //     getCheckboxProps: record => ({
-  //       props: {
-  //         disabled: record.name === 'Disabled User', // Column configuration not to be checked
-  //         name: record.name,
-  //       },
-  //     }),
-  //   }
-  //   return {
-  //     rules,
-  //     columns,
-  //     rowSelection,
-  //     handleFinish,
-  //     handleFinishFailed,
-  //   }
-  // },
   data() {
     return {
       actiiveTabs: {},
@@ -315,24 +278,24 @@ export default {
 
     async dataListUser() {
       await this.getListJenisUser()
-      await this.getDataTable({
-        id_level_hirarki: this.userManagement.id_level_hirarki,
-      })
+      // await this.getDataTable({
+      //   idLevelHirarki: this.userManagement.idLevelHirarki,
+      // })
       this.selectedTitle = this.userManagement.selectedTitle
       this.selectedShorthand = this.userManagement.selectedShorthand
 
-      this.changeTabs(this.actiiveTabs.id_level_hirarki)
+      this.changeTabs(this.actiiveTabs.idLevelHirarki)
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.idLevelHirarki == key)
       this.actiiveTabs = filtered[0]
-      this.selectedTitle = this.actiiveTabs.nama_panjang
-      this.selectedShorthand = this.actiiveTabs.nama_singkat
+      this.selectedTitle = this.actiiveTabs.namaHirarki
+      this.selectedShorthand = this.actiiveTabs.shortName
       this.selectedTabId = key
-      console.log(`this.actiiveTabs.id_level_hirarki`, this.actiiveTabs.id_level_hirarki)
+      console.log(`this.actiiveTabs.idLevelHirarki`, this.actiiveTabs.idLevelHirarki)
       this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        idLevelHirarki: this.actiiveTabs.idLevelHirarki,
       })
     },
     handleDetail() {
@@ -402,7 +365,7 @@ export default {
     deleteAll() {},
     resetRow(id) {
       this.$confirm({
-        title: 'Apakah anda yakin akan reset data ini?',
+        title: 'Apakah anda yakin akan reset password?',
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
@@ -411,7 +374,7 @@ export default {
             uuid: id,
           })
           this.dataListUser({
-            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
           })
         },
         onCancel() {},
@@ -428,7 +391,7 @@ export default {
             uuid: id,
           })
           this.dataListUser({
-            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
           })
         },
         onCancel() {},

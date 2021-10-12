@@ -1,4 +1,5 @@
-import apiClient from '@/services/axios/axios'
+import serverClient from '@/services/axios/axios'
+import apiClient from '@/services/axios'
 import { notification } from 'ant-design-vue'
 
 const state = {
@@ -13,7 +14,7 @@ const state = {
     },
     selectedTitle: '',
     selectedShorthand: '',
-    id_level_hirarki: null,
+    idLevelHirarki: null,
     itemsPerPage: [5, 10, 15, 20],
     menutabs: [
       {
@@ -127,7 +128,9 @@ const actions = {
     })
     const { data } = state
 
-    const result = await apiClient.get(`/usercrm/listJabatan`)
+    // const result = await serverClient.get(`/usercrm/listJabatan`)
+    const result = await apiClient.get(`levelHirarki`)
+    console.log(result)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
@@ -135,9 +138,9 @@ const actions = {
       })
     } else {
       await commit('changeUserManagement', {
-        id_level_hirarki: result.data.data[0].id_level_hirarki,
-        selectedTitle: result.data.data[0].nama_panjang,
-        selectedShorthand: result.data.data[0].nama_singkat,
+        idLevelHirarki: result.data.data[0].idLevelHirarki,
+        selectedTitle: result.data.data[0].namaHirarki,
+        selectedShorthand: result.data.data[0].shortName,
         listUser: result.data.data,
         isLoading: false,
       })
@@ -152,13 +155,13 @@ const actions = {
     const { data } = state
 
     let body = {
-      idLevelHirarki: payload.id_level_hirarki,
+      idLevelHirarki: payload.idLevelHirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
 
     console.log(`-----body`, body)
-    const result = await apiClient.post(`/usercrm`, body)
+    const result = await serverClient.post(`/usercrm`, body)
 
     if (result.data.status == false) {
       notification.error({
@@ -192,9 +195,9 @@ const actions = {
     let result = ''
 
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm/add`, formData)
+      result = await serverClient.put(`/usercrm/add`, formData)
     } else {
-      result = await apiClient.post(`/usercrm/add`, formData)
+      result = await serverClient.post(`/usercrm/add`, formData)
       notification.success({
         message: 'Success',
         description: `Data berhasil ditambahkan`,
@@ -210,7 +213,7 @@ const actions = {
   },
 
   async deleteDataRow(context, payload) {
-    const result = await apiClient.delete(`/usercrm/delete/${payload.uuid}`)
+    const result = await serverClient.delete(`/usercrm/delete/${payload.uuid}`)
 
     if (result.data.status == false) {
       notification.error({
@@ -226,7 +229,7 @@ const actions = {
   },
 
   async resetDataRow(context, payload) {
-    const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
+    const result = await serverClient.get(`/usercrm/reset/${payload.uuid}`)
 
     if (result.data.status == false) {
       notification.error({

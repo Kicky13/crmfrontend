@@ -2192,5 +2192,135 @@
       "status": "Done",
       "user": "Titis"
     }
-  ]
+  ],
+  "levelHirarki": {
+    "status": true,
+    "message": "",
+    "data": [
+      {
+        "id": 1,
+        "idLevelHirarki": 20,
+        "namaHirarki": "General Sales Manager",
+        "shortName": "GSM"
+      },
+      {
+        "id": 2,
+        "idLevelHirarki": 30,
+        "namaHirarki": "Area Sales Manager",
+        "shortName": "ASM"
+      },
+      {
+        "id": 3,
+        "idLevelHirarki": 40,
+        "namaHirarki": "Senior Sales Manager",
+        "shortName": "SSM"
+      },
+      {
+        "id": 4,
+        "idLevelHirarki": 50,
+        "namaHirarki": "Teritorial Sales",
+        "shortName": "TSO"
+      },
+      {
+        "id": 5,
+        "idLevelHirarki": 60,
+        "namaHirarki": "Sales Dist",
+        "shortName": "SD"
+      }
+    ]
+  },
+  "hirarkiUser": {
+    "status": true,
+    "message": "",
+    "data": [
+      {
+        "id": 1,
+        "userID": 3242,
+        "levelJabatan": 20,
+        "idJabatan": 3340,
+        "nama": "Teddy",
+        "username": "teddy42",
+        "jabatan": "GSM",
+        "email": "teddy@gmail.com",
+        "nohp": "08287231498"
+      },
+      {
+        "id": 2,
+        "userID": 6575,
+        "levelJabatan": 20,
+        "idJabatan": 8733,
+        "nama": "Jonn",
+        "username": "jonnc23",
+        "jabatan": "GSM",
+        "email": "jonnc@gmail.com",
+        "nohp": "0831239943"
+      },
+      {
+        "id": 3,
+        "userID": 9382,
+        "levelJabatan": 30,
+        "idJabatan": 7736,
+        "nama": "Hakim",
+        "username": "hakim75",
+        "jabatan": "ASM",
+        "email": "hakim@gmail.com",
+        "nohp": "08287231498"
+      },
+      {
+        "id": 4,
+        "userID": 9991,
+        "levelJabatan": 30,
+        "idJabatan": 6635,
+        "nama": "Malika",
+        "username": "malika21",
+        "jabatan": "ASM",
+        "email": "malika@gmail.com",
+        "nohp": "0872631222"
+      },
+      {
+        "id": 5,
+        "userID": 5641,
+        "levelJabatan": 40,
+        "idJabatan": 9984,
+        "nama": "Kikik",
+        "username": "Kikik",
+        "jabatan": "SSM",
+        "email": "kikik@gmail.com",
+        "nohp": "08287231498"
+      },
+      {
+        "id": 6,
+        "userID": 8932,
+        "levelJabatan": 40,
+        "idJabatan": 8847,
+        "nama": "Timberlake",
+        "username": "timberlake",
+        "jabatan": "SSM",
+        "email": "timberlake@gmail.com",
+        "nohp": "08287231498"
+      },
+      {
+        "id": 7,
+        "userID": 5678,
+        "levelJabatan": 50,
+        "idJabatan": 9832,
+        "nama": "Michelle",
+        "username": "michelle123",
+        "jabatan": "TSO",
+        "email": "michelle@gmail.com",
+        "nohp": "08287231498"
+      },
+      {
+        "id": 8,
+        "userID": 6737,
+        "levelJabatan": 50,
+        "idJabatan": 8723,
+        "nama": "Frankie",
+        "username": "frankie",
+        "jabatan": "TSO",
+        "email": "frankie@gmail.com",
+        "nohp": "08287231498"
+      }
+    ]
+  }
 }
