@@ -76,7 +76,7 @@
               <div>
                 <button @click="handleDetail" type="button" class="btn btn-light mr-2">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning mr-2" @click="editRow()">
+                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text)">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger mr-2">
                   <i class="fa fa-trash"></i><span> Hapus</span>
@@ -313,6 +313,23 @@ export default {
       'resetDataRow',
     ]),
 
+    async editRow(id) {
+      const row = this.userManagement.users.find(data => data.id === id)
+      await this.$store.commit('userManagement/changeUserManagement', {
+        formState: {
+          id: row.id,
+          name: row.name,
+          username: row.username,
+          password: row.password,
+          email: row.email,
+          nohp: row.nohp,
+          userid: row.userid,
+          idLevelHirarki: row.idLevelHirarki,
+        },
+      })
+      this.modalVisible = true
+    },
+
     async dataListUser() {
       await this.getListJenisUser()
       await this.getDataTable({
@@ -338,8 +355,20 @@ export default {
     handleDetail() {
       this.$router.push({ name: 'user-management-profile' })
     },
-    openModal() {
+    async openModal() {
       this.modalVisible = true
+      await this.$store.commit('userManagement/changeUserManagement', {
+        formState: {
+          id: '',
+          name: '',
+          username: '',
+          password: '',
+          email: '',
+          nohp: '',
+          userid: '',
+          idLevelHirarki: null,
+        },
+      })
     },
     closeModal() {
       this.modalVisible = false

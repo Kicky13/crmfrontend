@@ -192,13 +192,31 @@ const actions = {
     let result = ''
 
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm/add`, formData)
+      result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil diubah`,
+        })
+      }
     } else {
       result = await apiClient.post(`/usercrm/add`, formData)
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+      }
     }
 
     if (result.data.status == false) {
