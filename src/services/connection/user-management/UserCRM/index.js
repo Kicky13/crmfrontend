@@ -1,4 +1,4 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 
 const state = {
@@ -12,6 +12,7 @@ const state = {
       {
         title: 'ID User',
         dataIndex: 'userid',
+        key: 'userid',
       },
       {
         title: 'Nama',
@@ -74,7 +75,7 @@ const actions = {
 
     const { data } = state
 
-    const result = await apiClient.get(`/usercrm`)
+    const result = await apiClient.post(`/usercrm/all`)
     if (result.data.state == false) {
       notification.error({
         message: 'Error',
@@ -82,7 +83,7 @@ const actions = {
       })
     } else {
       await commit('changeUserManagementCRM', {
-        dataSourceTable: result.data,
+        dataSourceTable: result.data.data,
         isLoading: false,
       })
     }
@@ -96,7 +97,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      name: data.formState.name,
+      nama: data.formState.name,
       username: data.formState.username,
       email: data.formState.email,
       nohp: data.formState.nohp,
@@ -105,18 +106,24 @@ const actions = {
     }
 
     let result = ''
-
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm/${data.formState.id}`, formData)
+      result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
+
       notification.success({
         message: 'Success',
         description: `Data berhasil diubah`,
       })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+      })
     } else {
-      result = await apiClient.post(`/usercrm`, formData)
+      result = await apiClient.post(`/usercrm/add`, formData)
       notification.success({
         message: 'Success',
         description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
       })
     }
 
@@ -130,16 +137,22 @@ const actions = {
 
   async deleteDataUser(context, payload) {
     console.log(`----paylaod`, payload.data_id)
-    const result = await apiClient.delete(`/usercrm/${payload.data_id}`)
+    const result = await apiClient.delete(`/usercrm/delete/${payload.data_id}`)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil dihapus`,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
       })
     }
   },
