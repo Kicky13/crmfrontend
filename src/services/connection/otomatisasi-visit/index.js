@@ -116,6 +116,7 @@ const state = {
         name: 'Desember',
       },
     ],
+    list_data: [],
   },
 }
 
@@ -139,7 +140,7 @@ const actions = {
       offset: data.body.offset,
     }
 
-    const result = await apiClient('/Visit/ReportLogVisitPlan', body)
+    const result = await apiClient.post('/Visit/ReportLogVisitPlan', body)
 
     if (result.data.status == false) {
       notification.error({
@@ -147,9 +148,9 @@ const actions = {
         description: result.data.message[0],
       })
     } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil diubah`,
+      await commit('changeOtomatisasiVisitPlan', {
+        list_data: result.data.data,
+        isLoading: false,
       })
     }
   },
