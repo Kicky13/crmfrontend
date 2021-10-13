@@ -1,39 +1,46 @@
 <template>
-  <a-row :gutter="16">
-    <a-col
-      :lg="9"
-      :md="24"
-    >
-      <vb-jenis-penilaian
-        :loading="isLoading"
-        :list="surveyList"
-        :get-active-menu="activeMenu"
-        @active-key="setActiveKey"
-        @add-jenis-penilaian="addNewSurvey"
-        @selected-jenis-penilaian="fetchQuestionList"
-      />
-    </a-col>
-    <a-col
-      :lg="15"
-      :md="24"
-    >
-      <vb-daftar-pertanyaan
-        :loading="isLoading"
-        :list="questionList"
-        @add-pertanyaan="updateSurveyById"
-        @delete-pertanyaan="updateSurveyById"
-        @update-pertanyaan="updateSurveyById"
-        @update-jenis-penilaian="updateSurveyById"
-        @delete-jenis-penilaian="deleteSurveyById"
-        @add-jawaban="updateSurveyById"
-        @delete-jawaban="updateSurveyById"
-      />
-    </a-col>
-  </a-row>
+  <template v-if="isLoading">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="spinner-grow spinner-grow-sm text-main" role="status" />
+      <div class="spinner-grow text-main mx-2" role="status" />
+      <div class="spinner-grow spinner-grow-sm text-main" role="status" />
+    </div>
+  </template>
+  <template v-else>
+    <a-row :gutter="16">
+      <a-col
+        :lg="9"
+        :md="24"
+      >
+        <vb-jenis-penilaian
+          :list="surveyList"
+          :get-active-menu="activeMenu"
+          @active-key="setActiveKey"
+          @add-jenis-penilaian="addNewSurvey"
+          @selected-jenis-penilaian="fetchQuestionList"
+        />
+      </a-col>
+      <a-col
+        :lg="15"
+        :md="24"
+      >
+        <vb-daftar-pertanyaan
+          :list="questionList"
+          @add-pertanyaan="updateSurveyById"
+          @delete-pertanyaan="updateSurveyById"
+          @update-pertanyaan="updateSurveyById"
+          @update-jenis-penilaian="updateSurveyById"
+          @delete-jenis-penilaian="deleteSurveyById"
+          @add-jawaban="updateSurveyById"
+          @delete-jawaban="updateSurveyById"
+        />
+      </a-col>
+    </a-row>
+  </template>
 </template>
 
 <script>
-import { getSurvey, addSurvey, updateSurvey, deleteSurvey } from '@/services/connection/survey-sales/api'
+import { surveyList, addSurvey, updateSurvey, deleteSurvey } from '@/services/connection/survey-sales/api'
 import VbJenisPenilaian from './jenispenilaian/JenisPenilaian'
 import VbDaftarPertanyaan from './daftarpertanyaan/DaftarPertanyaan'
 
@@ -56,35 +63,39 @@ export default {
   methods: {
     fetchSurveyListOnMounted() {
       this.isLoading = true
-      getSurvey()
+      surveyList()
       .then(response => {
-        this.surveyList = response
-        this.questionList = response[0]
-        setTimeout(() => {
+        if (response) {
+          this.surveyList = response.data
+          this.questionList = response.data[0]
           this.isLoading = false
-        }, 800)
+        }
       })
       .catch(err => {
         console.log(err)
-        setTimeout(() => {
-          this.isLoading = false
-        }, 800)
+        this.isLoading = false
       })
     },
     fetchSurveyListOnUpdated() {
-      getSurvey()
+      this.isLoading = true
+      surveyList()
       .then(response => {
-        this.surveyList = response
+        if (response) {
+          this.surveyList = response.data
+          this.isLoading = false
+        }
       })
       .catch(err => {
         console.log(err)
+        this.isLoading = false
       })
     },
     addNewSurvey(data) {
       addSurvey(data)
       .then(response => {
-        console.log(response)
-        this.fetchSurveyListOnUpdated()
+        if (response) {
+          this.fetchSurveyListOnUpdated()
+        }
       })
       .catch(err => {
         console.log(err)
@@ -93,8 +104,10 @@ export default {
     updateSurveyById(id, data) {
       updateSurvey(id, data)
       .then(response => {
-        this.fetchSurveyListOnUpdated()
-        this.questionList = response
+        if (response) {
+          this.fetchSurveyListOnUpdated()
+          this.questionList = response
+        }
       })
       .catch(err => {
         console.log(err)
@@ -103,9 +116,10 @@ export default {
     deleteSurveyById(id) {
       deleteSurvey(id)
       .then(response => {
-        console.log(response)
-        this.fetchSurveyListOnMounted()
-        this.activeMenu = 1
+        if (response) {
+          this.fetchSurveyListOnMounted()
+          this.activeMenu = 1
+        }
       })
       .catch(err => {
         consoel.log(err)

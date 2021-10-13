@@ -142,7 +142,7 @@ export default defineComponent({
         if (response) {
           const post = response.data.find(post => post.id === id)
           formState.id = post.id
-          formState.date = post.post_date
+          formState.date = post.post_date + ' ' + post.post_time
           formState.judul = post.post_title
           formState.detail = post.post_detail
         }
@@ -155,11 +155,18 @@ export default defineComponent({
       updatePost(id, param, config)
       .then(response => {
         if (response) {
-          router.push('/marketing/berita')
-          notification.success({
-            message: 'Update Berita',
-            description: 'Berita berhasil diupdate',
-          })
+          if (response.status === 200) {
+            router.push('/marketing/berita')
+            notification.success({
+              message: 'Tambah Berita',
+              description: 'Berita berhasil ditambah',
+            })
+          } else {
+            notification.warning({
+              message: 'Tambah Berita',
+              description: response.message[1].replace('image yang diperbolehkan adalah', 'Format gambar harus'),
+            })
+          }
         }
       })
       .catch(err => {
@@ -187,7 +194,7 @@ export default defineComponent({
           param.append('detail', formState.detail)
           param.append('date', formState.date)
           param.append('image', formState.image)
-          // updatePostById(formState.id, param, config)
+          updatePostById(formState.id, param, config)
         } else {
           formState.image = null
           window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -222,6 +229,8 @@ export default defineComponent({
       .then(response => {
         if (response) {
           const imgObj = response.data.find(data => data.id === id).post_image
+          const imgName = imgObj.split('/')
+          const lastIndex = imgName.length - 1
           const info = {
             fileList: [
               {
@@ -231,7 +240,7 @@ export default defineComponent({
               },
               {
                 uid: '0',
-                name: 'Gambar',
+                name: imgName[lastIndex],
                 status: 'done',
                 url: imgObj,
               },
@@ -270,6 +279,7 @@ export default defineComponent({
             status: 'error',
           },
         ]
+        this.formState.image = null
       } else {
         this.fileList = fileList
         if (!Object.keys(this.fileList[0]).length) {
@@ -282,19 +292,25 @@ export default defineComponent({
           ]
           this.formState.image = null
         } else {
-          // this.formState.image = this.fileList[0]
-          this.urlToObject('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')
+          this.fileList = fileList
+          const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+          const nameInput = this.fileList[0].name
+          const formatInput = this.fileList[0].type.split('/')[1]
+          const check = formats.some(element => element === formatInput)
+          if (!check) {
+            this.fileList = [
+              {
+                uid: '-1',
+                name: nameInput,
+                status: 'error',
+              },
+            ]
+          }
         }
       }
     },
     transformFile(file) {
       this.formState.image = file
-    },
-    async urlToObject(url) {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const file = new File([blob], 'image.jpg', {type: blob.type});
-      console.log(file);
     },
   },
 })

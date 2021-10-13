@@ -213,7 +213,6 @@ export default defineComponent({
           status: 'error',
         },
       ],
-      tesGambar: '',
     };
   },
   methods: {

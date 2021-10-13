@@ -14,10 +14,26 @@
         </a-button>
       </router-link>
     </Can>
-    <vb-list-berita
-      :posts="posts"
-      @delete-success="deleteSuccess"
-    />
+    <template v-if="isLoading">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-grow spinner-grow-sm text-main" role="status" />
+        <div class="spinner-grow text-main mx-2" role="status" />
+        <div class="spinner-grow spinner-grow-sm text-main" role="status" />
+      </div>
+    </template>
+    <template v-else>
+      <vb-list-berita
+        v-if="posts.length"
+        :posts="posts"
+        @delete-success="deleteSuccess"
+      />
+      <div
+        v-else
+        class="text-main text-center font-italic"
+      >
+        --- Belum ada berita ---
+      </div>
+    </template>
   </div>
 </template>
 
@@ -33,7 +49,7 @@ export default {
   data() {
     return {
       posts: [],
-      urlImage: null,
+      isLoading: false,
     }
   },
   mounted() {
@@ -42,11 +58,12 @@ export default {
   methods: {
     fetchPostList() {
       this.posts = []
+      this.isLoading = true
       postList()
       .then(response => {
         if (response) {
           this.posts = response.data
-          this.urlImage = response.data[0].post_image
+          this.isLoading = false
         }
       })
       .catch(err => {
