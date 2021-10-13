@@ -26,22 +26,25 @@
             </p>
           </a-upload-dragger>
         </a-form-item> -->
+
         <div class="row">
           <div class="col-md-6">
             <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
-              <a-date-picker type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"
-                style="width:100%" />
+              <!-- <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"
+                style="width:100%" /> -->
+              <a-date-picker v-model:value="formState.startDate" :disabled-date="disabledStartDate" show-time
+                format="YYYY-MM-DD" placeholder="Start" @openChange="handleStartOpenChange" />
             </a-form-item>
           </div>
           <div class="col-md-6">
             <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
-              <a-date-picker type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"
-                style="width:100%" />
+              <!-- <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"
+                style="width:100%" /> -->
+              <a-date-picker v-model:value="formState.FinishDate" :disabled-date="disabledEndDate" show-time format="YYYY-MM-DD"
+                placeholder="End" :open="endOpen" @openChange="handleEndOpenChange" />
             </a-form-item>
           </div>
         </div>
-      
-        
         <a-form-item>
           <button class="btn btn-main text-nowrap pull-left" @click="onSubmit">
 
@@ -79,33 +82,35 @@
   import VbHeadersCardHeader from '../header/Header'
 
   export default defineComponent({
+    
     components: {
       // InboxOutlined,
       VbHeadersCardHeader,
       quillEditor,
     },
+    
     setup() {
       const rules = {
         programName: [{
           required: true,
           message: 'Masukkan Program Name!',
           type: 'string',
-        } ],
+        }],
         description: [{
           required: true,
           message: 'Masukkan Description!',
           type: 'string',
-        } ],
+        }],
         startDate: [{
           required: true,
           message: 'Masukkan Tanggal Mulai!',
           type: 'date',
-        } ],
+        }],
         FinishDate: [{
           required: true,
           message: 'Masukkan Tanggal Selesai!',
           type: 'date',
-        } ],
+        }],
       }
       const router = useRouter()
 
@@ -129,7 +134,7 @@
       const addNewPost = (param, config) => {
         storePost(param, config)
           .then(response => {
-           console.log(response)
+            console.log(response)
           })
       }
 
@@ -155,7 +160,7 @@
         if (formState.programName && formState.description && formState.startDate && formState.FinishDate) {
 
           addNewPost(toRaw(formState), config)
-           formState.post_date = ''
+          formState.post_date = ''
           //  formState.program_time = ''
           formState.programName = ''
           // formState.post_slug = 'program_name'
@@ -180,14 +185,50 @@
         onSubmit,
       }
     },
+    data() {
+    return {
+      // eslint-disable-next-line vue/no-dupe-keys
+      formState: {
+        startDate: null,
+        FinishDate: null, 
+      },
+      endOpen: false,
+    }
+  },
 
     methods: {
       handleCancel() {
         this.previewVisible = false
       },
-
+      disabledStartDate(startValue) {
+      const endValue = this.formState.FinishDate;
+      if (!startValue || !endValue) {
+        return false;
+      }
+      return startValue.valueOf() > endValue.valueOf();
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.formState.startDate;
+      if (!endValue || !startValue) {
+        return false;
+      }
+      return startValue.valueOf() >= endValue.valueOf();
+    },
+    handleStartOpenChange(open) {
+      console.log(open)
+      if (!open) {
+        this.endOpen = true;
+      }else{
+        this.endOpen = false;
+      }
+    },
+    handleEndOpenChange(open) {
+      //console.log(open)
+      this.endOpen = false;
+    },
 
     },
+    
   })
 
 </script>

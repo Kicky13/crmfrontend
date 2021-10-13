@@ -106,13 +106,13 @@ const columns = [
   },
   {
     title: 'Harga Beli',
-    dataIndex: 'hargaBeliMax',
-    key: 'hargaBeliMax',
+    dataIndex: 'hargaBeli',
+    key: 'hargaBeli',
   },
   {
     title: 'Harga Jual',
-    dataIndex: 'hargaJualMax',
-    key: 'hargaJualMax',
+    dataIndex: 'hargaJual',
+    key: 'hargaJual',
   },
   {
     title: 'Action',
@@ -181,20 +181,23 @@ export default {
       this.statusModal = false
     },
     showModalEdit(id) {
+      const uuid = id
       console.log(id)
       this.visible = true
       this.statusModal = true
-      showpost(id)
+      // showpost(id)
+      getProdukList()
         .then(response => {
           if (response) {
-            console.log(response)
-            this.formState.id = response.id
-            this.formState.idproduk = response.idproduk
-            this.formState.namaproduk = response.namaproduk
-            this.formState.hargaBeliMin = response.hargaBeliMin
-            this.formState.hargaBeliMax = response.hargaBeliMax
-            this.formState.hargaJualMin = response.hargaJualMin
-            this.formState.hargaJualMax = response.hargaJualMax
+            const post = response.data.find(post => post.id === id)
+            console.log(post)
+            this.formState.id = post.id
+            this.formState.idproduk = post.idproduk
+            this.formState.namaproduk = post.namaproduk
+            this.formState.hargaBeliMin = post.hargaBeliMin
+            this.formState.hargaBeliMax = post.hargaBeliMax
+            this.formState.hargaJualMin = post.hargaJualMin
+            this.formState.hargaJualMax = post.hargaJualMax
           }
         })
         .catch(err => {
@@ -273,11 +276,13 @@ export default {
       })
     },
     setSelectMethod(value) {
-      getNamaProdukList(value)
+      const id = value
+      getSelectProdukList()
         .then(response => {
           if (response) {
-            console.log(response)
-            this.formState.namaproduk = response.namaproduk
+            const post = response.data.find(post => post.id === id)
+            console.log(post)
+            this.formState.namaproduk = post.namaproduk
           }
         })
         .catch(err => {
@@ -310,6 +315,7 @@ export default {
       getProdukList()
         .then(response => {
           if (response) {
+            console.log(response.data)
             this.dataSourceTable = response.data
             this.formState = {
               id: '',

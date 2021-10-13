@@ -128,7 +128,7 @@ export async function getNamaProdukList(id) {
 }
 export async function showpost(id) {
   return apiClient
-    .post('/validasiHarga/edit' + id)
+    .post('/validasiHarga/edit/' + id)
     .then(response => {
       if (response) {
         return response.data
@@ -138,7 +138,7 @@ export async function showpost(id) {
 }
 export async function deleteData(id) {
   return apiClient
-    .delete('/produk/' + id)
+    .get('/validasiHarga/delete/' + id)
     .then(response => {
       if (response) {
         return true
