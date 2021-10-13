@@ -157,7 +157,6 @@ const actions = {
       limit: data.bodyList.limit,
     }
 
-    console.log(`-----body`, body)
     const result = await apiClient.post(`/usercrm`, body)
 
     if (result.data.status == false) {

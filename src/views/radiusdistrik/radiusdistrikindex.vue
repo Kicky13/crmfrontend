@@ -247,21 +247,15 @@ export default defineComponent({
         okText: 'Ya',
         okType: 'primary',
         cancelText: 'Batal',
-        onOk() {
-          this.deleteDataRadiusDistrik({
+        onOk: async () => {
+          await this.deleteDataRadiusDistrik({
             id_distrik: id,
           })
         },
+        onCancel() {},
       })
     },
-    // setSelectMethod(value) {
-    //   const dataSource = [...this.listDistrik]
-    //   const currentData = dataSource.filter(x => x.id === value)
-    //   this.formState.distrikid = currentData[0].id
-    //   this.formState.distrikname = currentData[0].distrik
-    //   console.log(this.formState.distrikid)
-    //   console.log(this.formState.distrikname)
-    // },
+
     fetchGetDataSource() {
       getDataList()
         .then(response => {
