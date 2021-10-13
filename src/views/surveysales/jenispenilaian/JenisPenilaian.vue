@@ -1,5 +1,5 @@
 <template>
-  <a-card class="card border-radius-card" :loading="loading">
+  <div class="card card-radius">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
       <Can do="create" on="Survey Sales">
@@ -31,7 +31,7 @@
         </template>
       </a-collapse>
     </div>
-  </a-card>
+  </div>
   <vb-tambah-jenis-penilaian-modal
     :modal-visible="modalVisible"
     :new-jenis-penilaian="jenisPenilaian"
@@ -97,8 +97,8 @@ export default {
       let check = newJenisPenilaian.trim()
       if (check) {
         const dataForm = {}
-        dataForm.jenis_penilaian = newJenisPenilaian
-        dataForm.pertanyaan = []
+        dataForm.mode = 1
+        dataForm.nm_penilaian = newJenisPenilaian
         this.$emit('addJenisPenilaian', dataForm)
         notification.success({
           message: 'Jenis Penilaian',
@@ -117,6 +117,10 @@ export default {
 </script>
 
 <style>
+.card-radius {
+  border-radius: 10px;
+  overflow: hidden;
+}
 .ant-collapse-content .ant-collapse-content-box {
   padding: 0 !important;
 }
