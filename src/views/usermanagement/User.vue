@@ -239,8 +239,20 @@ export default {
   methods: {
     ...mapActions('userManagementCRM', [`getListUserCRM`, 'postSubmitData', 'deleteDataUser']),
     ...mapActions('userManagement', ['getListJenisUser']),
-    openModal() {
+    async openModal() {
       this.userManagementCRM.modalVisible = true
+      await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+        formState: {
+          id: '',
+          name: '',
+          username: '',
+          password: '',
+          email: '',
+          nohp: '',
+          userid: '',
+          id_level_hirarki: null,
+        },
+      })
       this.getListJenisUser()
     },
 
@@ -393,9 +405,20 @@ export default {
     //   this.editItem.namaJenisUser = row.namaJenisUser
     //   this.editUsername = row.namaJenisUser
     // },
-    async showUserEditModal(data) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data === id)
-      console.log(`---showUserEditModal`, row)
+    async showUserEditModal(id) {
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.id === id)
+      await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+        formState: {
+          id: row.id,
+          name: row.name,
+          username: row.username,
+          password: row.password,
+          email: row.email,
+          nohp: row.nohp,
+          userid: row.userid,
+          id_level_hirarki: row.idLevelHirarki,
+        },
+      })
       this.userManagementCRM.modalVisible = true
     },
     // handleOk(newEditUsername) {
