@@ -294,14 +294,15 @@ export default {
     },
 
     async dataListUser() {
-      await this.getListJenisUser()
+      await this.getListJenisUser().then(() => {
+        this.selectedTitle = this.userManagement.selectedTitle
+        this.selectedShorthand = this.userManagement.selectedShorthand
+
+        this.changeTabs(this.actiiveTabs.id_level_hirarki)
+      })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
       // })
-      this.selectedTitle = this.userManagement.selectedTitle
-      this.selectedShorthand = this.userManagement.selectedShorthand
-
-      this.changeTabs(this.actiiveTabs.id_level_hirarki)
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
