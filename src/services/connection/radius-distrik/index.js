@@ -7,22 +7,22 @@ const state = {
     columns: [
       {
         title: 'No.',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'IDradius',
+        key: 'IDradius',
       },
       {
         title: 'Nama Distrik',
-        dataIndex: 'distrikname',
-        key: 'distrikname',
+        dataIndex: 'distrik_name',
+        key: 'distrik_name',
       },
       {
         title: 'Radius Lock (Meter)',
-        dataIndex: 'radius',
-        key: 'radius',
+        dataIndex: 'radius_lock',
+        key: 'radius_lock',
       },
       {
         title: 'Action',
-        dataIndex: 'id',
+        dataIndex: 'uuid',
         width: 150,
         // key: 'id',
         slots: { customRender: 'action' },
@@ -168,12 +168,11 @@ const actions = {
     })
 
     const { data } = state
-
     let body = {
-      IDdistrik: payload.id_distrik,
+      uuid: payload.id_distrik,
     }
 
-    const result = await apiClient.delete('/RadiusDistrik/Delete_Radius', body)
+    const result = await apiClient.post('/RadiusDistrik/Delete_Radius', body)
 
     if (result.data.status == 'error') {
       notification.error({
@@ -181,6 +180,9 @@ const actions = {
         description: result.data.message,
       })
     } else {
+      await commit('changeRadiusDistrik', {
+        isLoading: false,
+      })
       notification.success({
         message: 'Success',
         description: result.data.message,

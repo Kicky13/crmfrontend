@@ -14,18 +14,16 @@
           <a-table
             :columns="radiusDistrik.columns"
             :data-source="radiusDistrik.listRadiusDistrik"
-            row-key="id"
+            :row-key="data => data.uuid"
           >
-            <template #name="{ text }">
-              <a href="javascript:;">{{ text }}</a>
-            </template>
             <template #action="{ text }">
               <div>
-                <button @click="fetchUpdateData(text)" type="button" class="btn btn-warning">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
+                <button @click="fetchUpdateData(text)" type="button" class="btn btn-warning mr-2">
+                  <i class="fa fa-pencil-square-o"></i>
+                  <span class="text-black">Ubah</span>
                 </button>
                 <button @click="deleteSelected(text)" type="button" class="btn btn-outline-danger">
-                  <i class="fa fa-trash"></i><span> Hapus</span>
+                  <i class="fa fa-trash"></i><span> Hapus </span>
                 </button>
               </div>
             </template>
@@ -194,18 +192,10 @@ export default defineComponent({
       this.stateForm = 2
       this.visible = true
     },
-    handleSave() {
-      this.postDataRadiusDistrik()
+    async handleSave() {
+      await this.postDataRadiusDistrik()
+      await this.getDataListDistrik()
       this.visible = false
-      // this.isLoading = true;
-      // this.confirmLoading = true;
-      // if (this.radiusDistrik.formState.distrikid && this.radiusDistrik.formState.radius) {
-
-      // } else {
-      //   window.scrollTo({ top: 0, behavior: 'smooth' })
-      //   // this.confirmLoading = false
-      //   // this.isLoading = false
-      // }
     },
     handleUpdate(e) {
       console.log(e)
@@ -251,6 +241,7 @@ export default defineComponent({
           await this.deleteDataRadiusDistrik({
             id_distrik: id,
           })
+          this.getDataListDistrik()
         },
         onCancel() {},
       })
