@@ -10,8 +10,8 @@
           <template v-if="userManagement.listUser.length > 0">
             <a-tab-pane
               v-for="menutab in userManagement.listUser"
-              :key="menutab.idLevelHirarki"
-              :tab="menutab.namaHirarki"
+              :key="menutab.id_level_hirarki"
+              :tab="menutab.nama_panjang"
             />
           </template>
           <template v-else>
@@ -301,18 +301,19 @@ export default {
       this.selectedTitle = this.userManagement.selectedTitle
       this.selectedShorthand = this.userManagement.selectedShorthand
 
-      this.changeTabs(this.actiiveTabs.idLevelHirarki)
+      this.changeTabs(this.actiiveTabs.id_level_hirarki)
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.idLevelHirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      console.log(`----filtered`, filtered)
+
       this.actiiveTabs = filtered[0]
-      this.selectedTitle = this.actiiveTabs.namaHirarki
-      this.selectedShorthand = this.actiiveTabs.shortName
+      this.selectedTitle = this.actiiveTabs.nama_panjang
+      this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
-      console.log(`this.actiiveTabs.idLevelHirarki`, this.actiiveTabs.idLevelHirarki)
       this.getDataTable({
-        idLevelHirarki: this.actiiveTabs.idLevelHirarki,
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
     handleDetail() {
