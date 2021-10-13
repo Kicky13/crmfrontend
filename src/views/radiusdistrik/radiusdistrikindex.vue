@@ -174,6 +174,7 @@ export default defineComponent({
       'getDataListDistrik',
       'getDataDistrik',
       'postDataRadiusDistrik',
+      'deleteDataRadiusDistrik',
     ]),
     resetFormState() {
       this.formState.id = null
@@ -238,26 +239,8 @@ export default defineComponent({
       console.log(e)
       this.visible = false
     },
-    deleteDataById(id) {
-      this.isLoading = true
-      console.log('Deleted ID: ' + id)
-      deleteData(id)
-        .then(response => {
-          if (response) {
-            console.log(response)
-            const dataSource = [...this.dataSourceTable]
-            this.dataSourceTable = dataSource.filter(item => item.id !== id)
-            this.isLoading = false
-            message.success('Lock Radius Distrik Berhasil Dihapus')
-          }
-        })
-        .catch(err => {
-          console.error(err)
-          message.error('Lock Radius Distrik Gagal Dihapus')
-        })
-    },
+
     deleteSelected(id) {
-      const deleteMethod = this.deleteDataById
       this.$confirm({
         title: 'Hapus Setting Radius',
         content: 'Apakah anda yakin?',
@@ -265,7 +248,9 @@ export default defineComponent({
         okType: 'primary',
         cancelText: 'Batal',
         onOk() {
-          deleteMethod(id)
+          this.deleteDataRadiusDistrik({
+            id_distrik: id,
+          })
         },
       })
     },

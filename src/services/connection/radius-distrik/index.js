@@ -127,12 +127,53 @@ const actions = {
 
     const { data } = state
 
+    let result = ''
+
     let body = {
       IDdistrik: data.formData.distrikid,
       radius_lock: data.formData.radius,
     }
 
-    const result = await apiClient.post('/RadiusDistrik/Set_Radius', body)
+    if (data.bodyList.id) {
+      result = await apiClient.put('/RadiusDistrik/Set_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } else {
+      result = await apiClient.post('/RadiusDistrik/Set_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    }
+  },
+  async deleteDataRadiusDistrik({ commit, state }, payload) {
+    commit('changeRadiusDistrik', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      IDdistrik: payload.id_distrik,
+    }
+
+    const result = await apiClient.delete('/RadiusDistrik/Delete_Radius', body)
 
     if (result.data.status == 'error') {
       notification.error({
@@ -140,9 +181,9 @@ const actions = {
         description: result.data.message,
       })
     } else {
-      await commit('changeRadiusDistrik', {
-        dataDistrik: result.data.data,
-        isLoading: false,
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
       })
     }
   },
