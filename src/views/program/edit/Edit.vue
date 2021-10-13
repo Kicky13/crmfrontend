@@ -14,14 +14,18 @@
         <div class="row">
           <div class="col-md-6">
             <a-form-item label="Start Date" name="startDate" style="font-weight:bold">
-              <a-date-picker type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"
-                style="width:100%" />
+              <!-- <a-input type="date" v-model:value="formState.startDate" placeholder="Enter Start Date"
+                style="width:100%" /> -->
+              <a-date-picker v-model:value="formState.startDate" :disabled-date="disabledStartDate" show-time
+                format="DD-MM-YYYY" placeholder="Start" @openChange="handleStartOpenChange" />
             </a-form-item>
           </div>
           <div class="col-md-6">
             <a-form-item label="Finish Date" name="FinishDate" style="font-weight:bold">
-              <a-date-picker type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"
-                style="width:100%" />
+              <!-- <a-input type="date" v-model:value="formState.FinishDate" placeholder="Enter Finish Date"
+                style="width:100%" /> -->
+              <a-date-picker v-model:value="formState.FinishDate" :disabled-date="disabledEndDate" show-time format="YYYY-MM-DD"
+                placeholder="End" :open="endOpen" @openChange="handleEndOpenChange" />
             </a-form-item>
           </div>
         </div>
@@ -62,6 +66,9 @@
   import {
     message,
   } from 'ant-design-vue';
+  import {
+    moment,
+  } from 'moment';
   import VbHeadersCardHeader from '../header/Header'
 
 
@@ -185,6 +192,8 @@
         previewVisible: false,
         previewImage: '',
         fileList: [],
+        // eslint-disable-next-line vue/no-dupe-keys
+        endOpen: false,
       };
     },
     mounted() {
@@ -201,7 +210,32 @@
             }
           })
       },
-
+      disabledStartDate(startValue) {
+      const endValue = this.formState.FinishDate;
+      if (!startValue || !endValue) {
+        return false;
+      }
+      return startValue.valueOf() > endValue.valueOf();
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.formState.startDate;
+      if (!endValue || !startValue) {
+        return false;
+      }
+      return startValue.valueOf() >= endValue.valueOf();
+    },
+    handleStartOpenChange(open) {
+      console.log(open)
+      if (!open) {
+        this.endOpen = true;
+      }else{
+        this.endOpen = false;
+      }
+    },
+    handleEndOpenChange(open) {
+      //console.log(open)
+      this.endOpen = false;
+    },
 
 
     },
