@@ -3,8 +3,36 @@ import { notification } from 'ant-design-vue'
 
 const state = {
   data: {
-    listDistributor: [],
+    listRadiusDistrik: [],
+    columns: [
+      {
+        title: 'No.',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: 'Nama Distrik',
+        dataIndex: 'distrikname',
+        key: 'distrikname',
+      },
+      {
+        title: 'Radius Lock (Meter)',
+        dataIndex: 'radius',
+        key: 'radius',
+      },
+      {
+        title: 'Action',
+        dataIndex: 'id',
+        width: 150,
+        // key: 'id',
+        slots: { customRender: 'action' },
+      },
+    ],
     isLoading: false,
+    bodyList: {
+      offset: 1,
+      limit: 20,
+    },
   },
 }
 
@@ -14,7 +42,34 @@ const mutations = {
   },
 }
 
-const actions = {}
+const actions = {
+  async getDataListDistrik({ commit, state }) {
+    commit('changeRadiusDistrik', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    const result = await apiClient.post('/RadiusDistrik/List', body)
+
+    if (result.data.status == 'error') {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeRadiusDistrik', {
+        users: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+}
 
 export default {
   namespaced: true,
