@@ -35,7 +35,7 @@ export async function deletePost(id) {
 
 export async function updatePost(id, data, config) {
     return apiClient
-    .post('/posts/update', id, data, config)
+    .post(`/posts/update?post_id=${ id }`, data, config)
     .then(response => {
         if (response) {
             return response.data

@@ -16,7 +16,7 @@ export async function insertProduk(data) {
 
 export async function updateProduk(id, data) {
   return apiClient
-  .put('/validasiHarga/edit' + id, data)
+  .post('/validasiHarga/edit/' + id, data)
   .then(response => {
     if (response) {
       console.log(response)

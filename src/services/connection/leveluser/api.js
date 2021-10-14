@@ -1,8 +1,8 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 
-export async function getLevelUser() {
+export async function levelUserList() {
   return apiClient
-  .get('/leveluser')
+  .post('/user/listJenis')
   .then(response => {
       if (response) {
           return response.data
@@ -13,7 +13,7 @@ export async function getLevelUser() {
 
 export async function deleteLevelUser(id) {
   return apiClient
-  .delete(`/leveluser/${id}`)
+  .delete(`/user/delete/${id}`)
   .then(response => {
     if (response) {
       return true
@@ -22,9 +22,9 @@ export async function deleteLevelUser(id) {
   })
 }
 
-export async function updateLevelUser(id, data) {
+export async function updateLevelUser(data) {
   return apiClient
-  .put(`/leveluser/${id}`, data)
+  .post('/user/update', data)
   .then(response => {
       if (response) {
           return response.data
@@ -35,7 +35,7 @@ export async function updateLevelUser(id, data) {
 
 export async function addLevelUser(data) {
   return apiClient
-  .post(`/leveluser`, data)
+  .post(`/user/add`, data)
   .then(response => {
       if (response) {
           return response.data

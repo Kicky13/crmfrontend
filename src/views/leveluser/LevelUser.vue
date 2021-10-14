@@ -1,6 +1,9 @@
 <template>
   <div>
-    <a-card class="card card-top card-top-primary" :loading="isLoading">
+    <a-card
+      class="card card-top card-top-primary"
+      :loading="isLoading"
+    >
       <div class="card-header d-flex align-items-center justify-content-between">
         <strong>Level User</strong>
         <Can do="create" on="News">
@@ -99,7 +102,7 @@
 </template>
 
 <script>
-import { getLevelUser, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
+import { levelUserList, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 
@@ -142,8 +145,8 @@ export default {
         },
         {
           title: 'Action',
-          dataIndex: 'id',
-          key: 'id',
+          dataIndex: 'idJenisUser',
+          key: 'idJenisUser',
           slots: { customRender: 'action' },
         },
       ],
@@ -161,32 +164,29 @@ export default {
   methods: {
     fetchLevelUsers() {
       this.isLoading = true
-      getLevelUser()
+      levelUserList()
         .then((response) => {
           let i = 1
           this.dataSourceTable = []
           if (response) {
-            response.forEach(item => {
+            response.data.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
-              setTimeout(() => {
-                this.isLoading = false
-              }, 800)
+              this.isLoading = false
             })
           }
         })
         .catch((err) => {
           console.error(err)
-          setTimeout(() => {
-            this.isLoading = false
-          }, 800)
+          this.isLoading = false
         })
     },
     addNewLevelUser(data) {
       addLevelUser(data)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.log(err)
@@ -195,8 +195,9 @@ export default {
     deleteLevelUserById(id) {
       deleteLevelUser(id)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.error(err)
@@ -205,8 +206,9 @@ export default {
     updateLevelUserById(id, data) {
       updateLevelUser(id, data)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.error(err)
@@ -229,22 +231,11 @@ export default {
         },
       });
     },
-    makeIdUser() {
-      let id = ''
-      for (let i = 0; i < 4; i++) {
-        const random = Math.floor(Math.random() * 9) + 1
-        id += random
-      }
-
-      return id
-    },
     addNewUsername() {
       let check = this.newUsername.trim()
       if (check) {
-        const dataForm = {
-          idJenisUser: this.makeIdUser(),
-          namaJenisUser: this.newUsername,
-        }
+        const dataForm = {}
+        dataForm.namaJenisUser = this.newUsername
         const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
         if (!exist) {
           this.addNewLevelUser(dataForm)
@@ -270,8 +261,7 @@ export default {
       this.pagination.pageSize = size
     },
     getUserEdit(id) {
-      const row = this.dataSourceTable.find(data => data.id === id)
-      this.editItem.id = row.id
+      const row = this.dataSourceTable.find(data => data.idJenisUser === id)
       this.editItem.idJenisUser = row.idJenisUser
       this.editItem.namaJenisUser = row.namaJenisUser
       this.editUsername = row.namaJenisUser
@@ -281,8 +271,10 @@ export default {
       this.modalVisible = true
     },
     handleOk(newEditUsername) {
-      this.editItem.namaJenisUser = newEditUsername
-      this.updateLevelUserById(this.editItem.id, this.editItem)
+      const dataForm = {}
+      dataForm.idJenisUser = this.editItem.idJenisUser
+      dataForm.namaJenisUser = newEditUsername
+      this.updateLevelUserById(dataForm)
       notification.success({
           message: 'Update User',
           description: 'User berhasil diupdate',

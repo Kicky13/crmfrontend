@@ -1,5 +1,5 @@
 <template>
-  <a-card class="card border-radius-card" :loading="loading">
+  <div class="card card-radius">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Daftar Pertanyaan {{ list.jenis_penilaian }}</h5>
       <Can do="update" on="Survey Sales">
@@ -106,7 +106,7 @@
         </template>
       </a-collapse>
     </div>
-  </a-card>
+  </div>
   <!-- Start of Edit Jenis Penilaian Modal -->
   <vb-edit-jenis-penilaian-modal
     :modal-visible="editJenisPenilaianModalVisible"
@@ -310,9 +310,11 @@ export default {
       this.$emit('updatePertanyaan', dataForm.id, dataForm)
     },
     editJenisPenilaianModalHandleOk(newJenisPenilaian) {
-      const dataForm = this.list
-      dataForm.jenis_penilaian = newJenisPenilaian
-      this.$emit('updateJenisPenilaian', dataForm.id, dataForm)
+      const dataForm = {}
+      dataForm.mode = 1
+      dataForm.id = this.list.id
+      dataForm.judul = newJenisPenilaian
+      this.$emit('updateJenisPenilaian', dataForm)
       notification.success({
         message: 'Jenis Penilaian',
         description: 'Jenis penilaian berhasil diupdate',
@@ -412,8 +414,10 @@ export default {
       });
     },
     hapusJenisPenilaian() {
-      const list = this.list
-      this.$emit('deleteJenisPenilaian', list.id)
+      const dataForm = {}
+      dataForm.mode = 1
+      dataForm.id = this.list.id
+      this.$emit('deleteJenisPenilaian', dataForm)
     },
     hapusPertanyaan(index) {
       const list = this.list
@@ -434,3 +438,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.card-radius {
+  border-radius: 10px;
+  overflow: hidden;
+}
+</style>
