@@ -100,7 +100,7 @@
     >
       <template #footer>
         <a-button key="back" @click="closeModal">Batal</a-button>
-        <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary"
+        <a-button @click="handleSubmit()" :loading="isSubmit" key="submit" type="primary"
           >Simpan</a-button
         >
       </template>
@@ -320,10 +320,11 @@ export default {
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
+          this.getListUserCRM()
+
           await this.deleteDataUser({
             data_id: id,
           })
-          this.getListUserCRM()
         },
         onCancel() {
           this.getListUserCRM()
@@ -373,12 +374,12 @@ export default {
       this.userManagementCRM.pagination.pageSize = size
     },
     formValidation() {
+      console.log(`------`, this.userManagementCRM.formState)
       if (
         this.userManagementCRM.formState.name &&
         this.userManagementCRM.formState.username &&
         this.userManagementCRM.formState.email &&
-        this.userManagementCRM.formState.nohp &&
-        this.userManagementCRM.formState.id_level_hirarki
+        this.userManagementCRM.formState.nohp
       ) {
         return true
       } else {
@@ -394,8 +395,8 @@ export default {
         this.getListUserCRM()
         this.closeModal()
       } else {
-        this.closeModal()
         this.getListUserCRM()
+        this.closeModal()
       }
     },
     // getUserEdit(id) {

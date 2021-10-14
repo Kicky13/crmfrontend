@@ -5,6 +5,7 @@ import UserManagementHirarki from '../services/connection/user-management/UserHi
 import UserManagementCRM from '../services/connection/user-management/UserCRM'
 import RadiusDistrik from '../services/connection/radius-distrik'
 import SynCustomer from '../services/connection/customer-sync'
+import OtomatisasiVisitPlan from '../services/connection/otomatisasi-visit'
 export default createStore({
   modules: {
     user,
@@ -13,6 +14,7 @@ export default createStore({
     userManagementCRM: UserManagementCRM,
     radiusDistrik: RadiusDistrik,
     synCustomer: SynCustomer,
+    otomatisasiVisitPlan: OtomatisasiVisitPlan,
   },
   state: {},
   mutations: {},
