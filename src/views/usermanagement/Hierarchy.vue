@@ -215,7 +215,9 @@ export default {
         },
       })
 
-      this.dataListUser()
+      this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
     }, 1000),
     async editRow(id) {
       const row = this.userManagement.users.find(data => data.id === id)
