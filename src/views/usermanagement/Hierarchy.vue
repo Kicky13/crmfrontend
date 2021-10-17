@@ -60,7 +60,12 @@
               <span>entries</span>
             </div>
           </div>
-          <a-input-search placeholder="Cari" style="width: 200px" @input="searchData" />
+          <a-input-search
+            placeholder="Cari"
+            style="width: 200px"
+            v-model:value="userManagement.bodyList.filter"
+            @input="searchData"
+          />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
@@ -162,6 +167,7 @@ import { getUserList, insertUser } from '@/services/connection/user-management/a
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'VbAntDesign',
@@ -209,7 +215,7 @@ export default {
         },
       })
 
-      this.getListExamScore()
+      this.dataListUser()
     }, 1000),
     async editRow(id) {
       const row = this.userManagement.users.find(data => data.id === id)

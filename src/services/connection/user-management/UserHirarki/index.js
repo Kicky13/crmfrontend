@@ -105,6 +105,7 @@ const state = {
       jenis_user: '',
       offset: 1,
       limit: 20,
+      filter: '',
     },
     listUser: [],
 
@@ -156,6 +157,10 @@ const actions = {
       idLevelHirarki: payload.id_level_hirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
+    }
+
+    if (data.bodyList.filter) {
+      body['q'] = data.bodyList.filter
     }
 
     const result = await apiClient.post(`/usercrm`, body)
