@@ -20,19 +20,28 @@
           Download Template Visit Plan
         </a>
 
-        <a-button type="primary" class="mb-3 float-right">
+        <a-button type="primary" @click="handleSubmit()" class="mb-3 float-right">
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
         <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input
+          <input
             type="file"
+            id="file"
+            ref="file"
+            class="file_input"
+            @change="onFileChanged"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             placeholder="Pilih File yang Akan diupload"
           />
         </a-form-item>
         <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }" row-key="id">
+          <a-table
+            :columns="visitPlan.columns"
+            :data-source="visitPlan.listData"
+            :scroll="{ x: 1500 }"
+            row-key="id"
+          >
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
@@ -60,7 +69,8 @@
 
         <a-button
           type="primary"
-          :class="permissions.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
+          @click="onSubmitData()"
+          :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
         >
           <i class="fa fa-upload mr-2" />
           Commit to Database
@@ -72,99 +82,7 @@
 
 <script>
 import { getPermissionList, deletePermission } from '@/services/connection/upload-visit/api'
-
-const columns = [
-  {
-    title: 'Id Sales',
-    dataIndex: 'idsales',
-    width: 100,
-    fixed: 'left',
-  },
-  {
-    title: 'Username',
-    dataIndex: 'username',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Id Toko',
-    dataIndex: 'customerid',
-    width: 100,
-    fixed: 'left',
-  },
-  {
-    title: 'Nama Toko',
-    dataIndex: 'customername',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Distributor',
-    dataIndex: 'distributor',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Min',
-    dataIndex: 'day1',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sen',
-    dataIndex: 'day2',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sel',
-    dataIndex: 'day3',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Rab',
-    dataIndex: 'day4',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Kam',
-    dataIndex: 'day5',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Jum',
-    dataIndex: 'day6',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sab',
-    dataIndex: 'day7',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W1',
-    dataIndex: 'week1',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W2',
-    dataIndex: 'week2',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W3',
-    dataIndex: 'week3',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W4',
-    dataIndex: 'week4',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W5',
-    dataIndex: 'week5',
-    slots: { customRender: 'days' },
-  },
-]
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'VbAntDesign',
@@ -185,7 +103,6 @@ export default {
     }
     const fileList = []
     return {
-      columns,
       rowSelection,
       fileList,
       headers: {
@@ -202,43 +119,44 @@ export default {
       permissions: [],
     }
   },
-  mounted() {
-    this.fetchGetPermissions()
+  computed: {
+    ...mapState({
+      visitPlan: state => state.visitPlan.data,
+    }),
   },
+  mounted() {},
   methods: {
-    createRole() {
-      this.$router.push({ name: 'permissions-create' })
+    ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
+    onFileChanged() {
+      this.visitPlan.body.file = this.$refs.file.files[0]
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
+    async handleSubmit() {
+      await this.getDataFromExcel()
     },
-    deleteAll() {},
-    deleteRow(id) {
-      console.log('Deleted ID: ' + id)
-      deletePermission(id)
-        .then(response => {
-          console.log(response)
-          const dataSource = [...this.permissions]
-          this.permissions = dataSource.filter(item => item.id !== id)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    fetchGetPermissions() {
-      getPermissionList()
-        .then(response => {
-          if (response) {
-            this.permissions = response
-          }
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    onSubmitData() {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menambahkan  data tersebut?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.submitData()
+          this.$store.commit('visitPlan/changeVisitPlan', {
+            listData: [],
+          })
+        },
+        onCancel() {},
+      })
     },
   },
 }
 </script>
 <style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style lang="scss" scoped>
+.file_input {
+  height: 3rem !important;
+  line-height: 30px !important;
+}
 </style>
