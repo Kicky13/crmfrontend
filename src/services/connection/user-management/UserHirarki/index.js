@@ -55,7 +55,8 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         title: 'ID User',
@@ -83,7 +84,7 @@ const state = {
       },
       {
         title: 'Action',
-        dataIndex: 'id',
+        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -189,7 +190,6 @@ const actions = {
     }
 
     let result = ''
-
     if (data.formState.id) {
       result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
       if (result.data.status == false) {

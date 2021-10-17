@@ -11,10 +11,14 @@
             Disini
           </a-button>
         </div>
-        <a-button type="primary" class="mb-3">
+        <a
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_SALES_AKSESTOKOCRM.xlsx"
+          download
+          class="mb-3 btn btn-primary"
+        >
           <i class="fa fa-download mr-2" />
           Download Template Visit Plan
-        </a-button>
+        </a>
 
         <a-button type="primary" class="mb-3 float-right">
           <i class="fa fa-eye mr-2" />
