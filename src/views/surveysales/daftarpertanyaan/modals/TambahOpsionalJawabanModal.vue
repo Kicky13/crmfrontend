@@ -67,7 +67,7 @@ export default {
         jawaban: this.isNewJawaban,
         poin: this.isNewPoin,
       }
-      this.$emit('handleOk', dataForm)
+      this.$emit('handleOk', this.modalStatus, dataForm)
       this.isNewJawaban = ''
       this.isNewPoin = ''
     },
