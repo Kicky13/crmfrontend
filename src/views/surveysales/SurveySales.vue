@@ -26,13 +26,14 @@
       >
         <vb-daftar-pertanyaan
           :list="questionList"
-          @add-pertanyaan="updateSurveyById"
-          @delete-pertanyaan="updateSurveyById"
+          @add-pertanyaan="addNewSurvey"
           @update-pertanyaan="updateSurveyById"
+          @delete-pertanyaan="deleteSurveyById"
           @update-jenis-penilaian="updateSurveyById"
           @delete-jenis-penilaian="deleteSurveyById"
-          @add-jawaban="updateSurveyById"
-          @delete-jawaban="updateSurveyById"
+          @add-jawaban="addNewSurvey"
+          @update-jawaban="updateSurveyById"
+          @delete-jawaban="deleteSurveyById"
         />
       </a-col>
     </a-row>
@@ -58,30 +59,17 @@ export default {
     }
   },
   mounted() {
-    this.fetchSurveyListOnMounted()
+    this.fetchSurveyList()
   },
   methods: {
-    fetchSurveyListOnMounted() {
+    fetchSurveyList() {
       this.isLoading = true
       surveyList()
       .then(response => {
         if (response) {
           this.surveyList = response.data
           this.questionList = response.data[0]
-          this.isLoading = false
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        this.isLoading = false
-      })
-    },
-    fetchSurveyListOnUpdated() {
-      this.isLoading = true
-      surveyList()
-      .then(response => {
-        if (response) {
-          this.surveyList = response.data
+          this.activeMenu = 1
           this.isLoading = false
         }
       })
@@ -94,30 +82,30 @@ export default {
       addSurvey(data)
       .then(response => {
         if (response) {
-          this.fetchSurveyListOnUpdated()
+          this.fetchSurveyList()
         }
       })
       .catch(err => {
         console.log(err)
       })
     },
-    updateSurveyById(id, data) {
-      updateSurvey(id, data)
+    updateSurveyById(data) {
+      updateSurvey(data)
       .then(response => {
         if (response) {
-          this.fetchSurveyListOnUpdated()
-          this.questionList = response
+          this.fetchSurveyList()
         }
       })
       .catch(err => {
         console.log(err)
       })
     },
-    deleteSurveyById(id) {
-      deleteSurvey(id)
+    deleteSurveyById(data) {
+      deleteSurvey(data)
       .then(response => {
         if (response) {
-          this.fetchSurveyListOnMounted()
+          console.log(response)
+          this.fetchSurveyList()
           this.activeMenu = 1
         }
       })
