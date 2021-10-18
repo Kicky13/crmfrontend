@@ -34,6 +34,14 @@
         --- Belum ada berita ---
       </div>
     </template>
+    <div class="d-flex justify-content-end mt-4">
+      <a-pagination
+        :current="current"
+        :total="postTotal"
+        :default-page-size="6"
+        @change="onChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -50,19 +58,30 @@ export default {
     return {
       posts: [],
       isLoading: false,
+      current: 1,
+      postTotal: 0,
+      temp: [],
     }
   },
   mounted() {
     this.fetchPostList()
   },
   methods: {
+    onChange(current) {
+      this.current = current
+      const firstIndex = this.current * 6 - 6
+      const lastIndex = this.current * 6
+      this.posts = this.temp.slice(firstIndex, lastIndex)
+    },
     fetchPostList() {
       this.posts = []
       this.isLoading = true
       postList()
       .then(response => {
         if (response) {
-          this.posts = response.data
+          this.temp = response.data
+          this.postTotal = this.temp.length
+          this.posts = this.temp.slice(0, 6)
           this.isLoading = false
         }
       })
