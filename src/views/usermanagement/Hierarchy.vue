@@ -60,16 +60,21 @@
               <span>entries</span>
             </div>
           </div>
-          <a-input-search placeholder="input search text" style="width: 200px" />
+          <a-input-search
+            placeholder="Cari"
+            style="width: 200px"
+            v-model:value="userManagement.bodyList.filter"
+            @input="searchData"
+          />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.users"
-            :row-key="user => user.id"
+            :row-key="data => data.uuid"
             :pagination="pagination"
           >
-            <template #name="{ text }">
+            <template #no="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
             <template #action="{ text }">
@@ -82,7 +87,7 @@
                   <i class="fa fa-trash"></i><span> Hapus</span>
                 </button>
                 <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset</span>
+                  <i class="fa fa-redo"></i><span> Reset </span>
                 </button>
               </div>
             </template>
@@ -162,79 +167,7 @@ import { getUserList, insertUser } from '@/services/connection/user-management/a
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
-const itemsPerPage = [5, 10, 15, 20]
-const menutabs = [
-  {
-    id: 1,
-    role: 'General Sales Manager',
-    shorthand: 'GSM',
-  },
-  {
-    id: 2,
-    role: 'Senior Sales Manager',
-    shorthand: 'SSM',
-  },
-  {
-    id: 3,
-    role: 'Sales Manager',
-    shorthand: 'SM',
-  },
-  {
-    id: 4,
-    role: 'Area Manager',
-    shorthand: 'AM',
-  },
-  {
-    id: 5,
-    role: 'Sales Dist',
-    shorthand: 'SD',
-  },
-  {
-    id: 6,
-    role: 'Distributor',
-    shorthand: 'Dist',
-  },
-  {
-    id: 7,
-    role: 'SPC',
-    shorthand: 'SPC',
-  },
-]
-const columns = [
-  {
-    title: 'No',
-    dataIndex: 'id',
-  },
-  {
-    title: 'ID User',
-    dataIndex: 'userid',
-  },
-  {
-    title: 'Nama Sales',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Username',
-    dataIndex: 'username',
-  },
-  {
-    title: 'Password',
-    dataIndex: 'password',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'No. HP',
-    dataIndex: 'nohp',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'id',
-    slots: { customRender: 'action' },
-  },
-]
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'VbAntDesign',
@@ -275,12 +208,22 @@ export default {
       'deleteDataRow',
       'resetDataRow',
     ]),
+    searchData: _.debounce(function() {
+      this.$store.commit('userManagement/changeUserManagement', {
+        bodyList: {
+          offset: 1,
+        },
+      })
 
+      this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
+    }, 1000),
     async editRow(id) {
       const row = this.userManagement.users.find(data => data.id === id)
       await this.$store.commit('userManagement/changeUserManagement', {
         formState: {
-          id: row.id,
+          id: row.uuid,
           name: row.name,
           username: row.username,
           password: row.password,
@@ -297,7 +240,6 @@ export default {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
-
         this.changeTabs(this.actiiveTabs.id_level_hirarki)
       })
       // await this.getDataTable({
@@ -307,8 +249,6 @@ export default {
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
       const filtered = dataRes.filter(x => x.id_level_hirarki == key)
-      console.log(`----filtered`, filtered)
-
       this.actiiveTabs = filtered[0]
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
@@ -341,8 +281,8 @@ export default {
     handleSubmit() {
       if (this.formValidation()) {
         this.postSubmitData()
-        this.getDataTable()
         this.closeModal()
+        this.getDataTable()
       } else {
         this.closeModal()
         this.getDataTable()
@@ -395,6 +335,7 @@ export default {
     },
     deleteAll() {},
     resetRow(id) {
+      console.log(`----id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan reset password?',
         okText: 'Yes',

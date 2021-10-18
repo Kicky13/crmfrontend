@@ -55,7 +55,8 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'id',
+        dataIndex: 'no',
+        key: 'no',
       },
       {
         title: 'ID User',
@@ -83,7 +84,7 @@ const state = {
       },
       {
         title: 'Action',
-        dataIndex: 'id',
+        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -104,6 +105,7 @@ const state = {
       jenis_user: '',
       offset: 1,
       limit: 20,
+      filter: '',
     },
     listUser: [],
 
@@ -157,6 +159,10 @@ const actions = {
       limit: data.bodyList.limit,
     }
 
+    if (data.bodyList.filter) {
+      body['q'] = data.bodyList.filter
+    }
+
     const result = await apiClient.post(`/usercrm`, body)
 
     if (result.data.status == false) {
@@ -189,7 +195,6 @@ const actions = {
     }
 
     let result = ''
-
     if (data.formState.id) {
       result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
       if (result.data.status == false) {

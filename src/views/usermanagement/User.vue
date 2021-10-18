@@ -185,54 +185,15 @@ export default {
   },
 
   data() {
-    return {
-      // dataSourceTable: [],
-      // pagination: {},
-      // modalVisible: false,
-      // editUsername: '',
-      // editItem: {},
-      // newUsername: '',
-      // keyword: '',
-      // isLoading: false,
-      // columns: [
-      //   {
-      //     title: 'No.',
-      //     dataIndex: 'no',
-      //     key: 'no',
-      //   },
-      //   {
-      //     title: 'ID Jenis User',
-      //     dataIndex: 'idJenisUser',
-      //     key: 'idJenisUser',
-      //   },
-      //   {
-      //     title: 'Nama Jenis User',
-      //     dataIndex: 'namaJenisUser',
-      //     key: 'namaJenisUser',
-      //   },
-      //   {
-      //     title: 'Action',
-      //     dataIndex: 'id',
-      //     key: 'id',
-      //     slots: { customRender: 'action' },
-      //   },
-      // ],
-    }
+    return {}
   },
   computed: {
-    // dataTable() {
-    //   return this.dataSourceTable.filter(dataSource =>
-    //     dataSource.namaJenisUser.toLowerCase().includes(this.keyword.toLowerCase()),
-    //   )
-    // },
     ...mapState({
       userManagementCRM: state => state.userManagementCRM.data,
       userManagement: state => state.userManagement.data,
     }),
   },
   mounted() {
-    // this.fetchLevelUsers()
-    // this.removeAction()
     this.getListUserCRM()
     this.getListJenisUser()
   },
@@ -259,59 +220,6 @@ export default {
     closeModal() {
       this.userManagementCRM.modalVisible = false
     },
-    // fetchLevelUsers() {
-    //   this.isLoading = true
-    //   getLevelUser()
-    //     .then(response => {
-    //       let i = 1
-    //       this.dataSourceTable = []
-    //       if (response) {
-    //         response.forEach(item => {
-    //           item.no = i++
-    //           this.dataSourceTable.push(item)
-    //           setTimeout(() => {
-    //             this.isLoading = false
-    //           }, 800)
-    //         })
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //       setTimeout(() => {
-    //         this.isLoading = false
-    //       }, 800)
-    //     })
-    // },
-    // addNewLevelUser(data) {
-    //   addLevelUser(data)
-    //     .then(response => {
-    //       console.log(response)
-    //       this.fetchLevelUsers()
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
-    // deleteLevelUserById(id) {
-    //   deleteLevelUser(id)
-    //     .then(response => {
-    //       console.log(response)
-    //       this.fetchLevelUsers()
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //     })
-    // },
-    // updateLevelUserById(id, data) {
-    //   updateLevelUser(id, data)
-    //     .then(response => {
-    //       console.log(response)
-    //       this.fetchLevelUsers()
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //     })
-    // },
     async deleteConfirm(id) {
       this.$confirm({
         title: 'Hapus User',
@@ -331,50 +239,10 @@ export default {
         },
       })
     },
-    // makeIdUser() {
-    //   let id = ''
-    //   for (let i = 0; i < 4; i++) {
-    //     const random = Math.floor(Math.random() * 9) + 1
-    //     id += random
-    //   }
-
-    //   return id
-    // },
-    // addNewUsername() {
-    //   let check = this.newUsername.trim()
-    //   if (check) {
-    //     const dataForm = {
-    //       idJenisUser: this.makeIdUser(),
-    //       namaJenisUser: this.newUsername,
-    //     }
-    //     const exist = this.dataSourceTable.find(
-    //       data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase(),
-    //     )
-    //     if (!exist) {
-    //       this.addNewLevelUser(dataForm)
-    //       notification.success({
-    //         message: 'Tambah User',
-    //         description: 'User berhasil ditambah',
-    //       })
-    //       this.newUsername = ''
-    //     } else {
-    //       notification.warning({
-    //         message: 'Tambah User',
-    //         description: 'User sudah tersedia',
-    //       })
-    //     }
-    //   } else {
-    //     notification.error({
-    //       message: 'Tambah User',
-    //       description: 'Kolom tambah user masih kosong',
-    //     })
-    //   }
-    // },
     handlePaginationSize(size) {
       this.userManagementCRM.pagination.pageSize = size
     },
     formValidation() {
-      console.log(`------`, this.userManagementCRM.formState)
       if (
         this.userManagementCRM.formState.name &&
         this.userManagementCRM.formState.username &&
@@ -399,13 +267,7 @@ export default {
         this.closeModal()
       }
     },
-    // getUserEdit(id) {
-    //   const row = this.dataSourceTable.find(data => data.id === id)
-    //   this.editItem.id = row.id
-    //   this.editItem.idJenisUser = row.idJenisUser
-    //   this.editItem.namaJenisUser = row.namaJenisUser
-    //   this.editUsername = row.namaJenisUser
-    // },
+
     async showUserEditModal(id) {
       const row = this.userManagementCRM.dataSourceTable.find(data => data.id === id)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
@@ -422,25 +284,6 @@ export default {
       })
       this.userManagementCRM.modalVisible = true
     },
-    // handleOk(newEditUsername) {
-    //   this.editItem.namaJenisUser = newEditUsername
-    //   this.updateLevelUserById(this.editItem.id, this.editItem)
-    //   notification.success({
-    //     message: 'Update User',
-    //     description: 'User berhasil diupdate',
-    //   })
-    //   this.resetAfterSubmit()
-    //   this.modalVisible = false
-    // },
-    // removeAction() {
-    //   const abilityUser = this.$store.state.user.ability
-    //   const check = abilityUser.filter(
-    //     ability => ability.action === 'update' || ability.action === 'delete',
-    //   )
-    //   if (!check.length) {
-    //     this.columns.pop()
-    //   }
-    // },
     resetAfterSubmit() {
       this.editItem = {}
       this.editUsername = ''
