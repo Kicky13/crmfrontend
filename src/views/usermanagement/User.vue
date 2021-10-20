@@ -60,16 +60,17 @@
             </div>
           </div>
           <a-input-search
-            placeholder="input search text"
+            placeholder="Cari"
             style="width: 200px"
-            v-model:value="keyword"
+            v-model:value="userManagementCRM.table.q"
+            @input="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
-            :row-key="data => data.id"
+            :row-key="data => data.uuid"
             :pagination="userManagementCRM.pagination"
           >
             <template #name="{ text }">
@@ -94,7 +95,7 @@
     <!-- User Edit Modal Start -->
     <a-modal
       v-model:visible="userManagementCRM.modalVisible"
-      :title="'Tambah User'"
+      :title="userManagementCRM.formState.id ? 'Edit User' : 'Tambah User'"
       :closable="false"
       :mask-closable="false"
     >
@@ -178,6 +179,7 @@ import {
 // import VbUserEditModal from './modal/UserEditModal'
 import { notification } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   components: {
@@ -200,6 +202,15 @@ export default {
   methods: {
     ...mapActions('userManagementCRM', [`getListUserCRM`, 'postSubmitData', 'deleteDataUser']),
     ...mapActions('userManagement', ['getListJenisUser']),
+    searchData: _.debounce(function() {
+      this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+        body: {
+          offset: 1,
+        },
+      })
+
+      this.getListUserCRM()
+    }, 1000),
     async openModal() {
       this.userManagementCRM.modalVisible = true
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
@@ -228,15 +239,12 @@ export default {
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
-          this.getListUserCRM()
-
           await this.deleteDataUser({
             data_id: id,
           })
-        },
-        onCancel() {
           this.getListUserCRM()
         },
+        onCancel() {},
       })
     },
     handlePaginationSize(size) {
@@ -269,10 +277,11 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.id === id)
+      console.log(`----id`, id)
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
-          id: row.id,
+          id: row.uuid,
           name: row.name,
           username: row.username,
           password: row.password,
