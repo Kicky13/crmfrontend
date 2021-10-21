@@ -21,7 +21,12 @@
       </div>
       <div class="card-header">
         <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
-        <a-button type="primary" class="mb-3 float-right" @click="openModal">
+        <a-button
+          v-if="selectedShorthand === `GSM`"
+          type="primary"
+          class="mb-3 float-right"
+          @click="openModal"
+        >
           <i class="fa fa-plus mr-2" />
           {{ 'Tambahkan Jabatan' }}
         </a-button>
@@ -220,7 +225,7 @@ export default {
       })
     }, 1000),
     async editRow(id) {
-      const row = this.userManagement.users.find(data => data.id === id)
+      const row = this.userManagement.users.find(data => data.uuid === id)
       await this.$store.commit('userManagement/changeUserManagement', {
         formState: {
           id: row.uuid,
@@ -261,18 +266,26 @@ export default {
       this.$router.push({ name: 'user-management-profile' })
     },
     async openModal() {
-      this.modalVisible = true
-      await this.$store.commit('userManagement/changeUserManagement', {
-        formState: {
-          id: '',
-          name: '',
-          username: '',
-          password: '',
-          email: '',
-          nohp: '',
-          userid: '',
-          idLevelHirarki: null,
-        },
+      // this.modalVisible = true
+      // await this.$store.commit('userManagement/changeUserManagement', {
+      //   formState: {
+      //     id: '',
+      //     name: '',
+      //     username: '',
+      //     password: '',
+      //     email: '',
+      //     nohp: '',
+      //     userid: '',
+      //     idLevelHirarki: null,
+      //   },
+      // })
+      this.$confirm({
+        title: 'Apakah anda akan menambahkan jabatan baru ?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {},
+        onCancel() {},
       })
     },
     closeModal() {
@@ -335,7 +348,6 @@ export default {
     },
     deleteAll() {},
     resetRow(id) {
-      console.log(`----id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan reset password?',
         okText: 'Yes',

@@ -157,10 +157,7 @@ const actions = {
       idLevelHirarki: payload.id_level_hirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
-    }
-
-    if (data.bodyList.filter) {
-      body['q'] = data.bodyList.filter
+      q: data.bodyList.filter,
     }
 
     const result = await apiClient.post(`/usercrm`, body)

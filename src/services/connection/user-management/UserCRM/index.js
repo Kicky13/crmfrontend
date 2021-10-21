@@ -7,7 +7,7 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'id',
+        dataIndex: 'uuid',
       },
       {
         title: 'ID User',
@@ -36,7 +36,7 @@ const state = {
       },
       {
         title: 'Action',
-        dataIndex: 'id',
+        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -49,6 +49,11 @@ const state = {
       nohp: '',
       userid: '',
       id_level_hirarki: null,
+    },
+    table: {
+      offset: 1,
+      limit: 20,
+      q: '',
     },
     dataSourceTable: [],
     pagination: {},
@@ -74,8 +79,12 @@ const actions = {
     })
 
     const { data } = state
-
-    const result = await apiClient.post(`/usercrm/all`)
+    const params = {
+      offset: data.table.offset,
+      limit: data.table.limit,
+      q: data.table.q,
+    }
+    const result = await apiClient.post(`/usercrm/all`, params)
     if (result.data.state == false) {
       notification.error({
         message: 'Error',
