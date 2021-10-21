@@ -154,7 +154,6 @@ const actions = {
       commit('changeUserManagementCRM', {
         isLoading: false,
       })
-
       return false
     } else {
       notification.success({

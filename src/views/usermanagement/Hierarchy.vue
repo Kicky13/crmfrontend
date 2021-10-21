@@ -91,9 +91,6 @@
                 ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger mr-2">
                   <i class="fa fa-trash"></i><span> Hapus</span>
                 </button>
-                <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset </span>
-                </button>
               </div>
             </template>
           </a-table>
@@ -211,7 +208,6 @@ export default {
       'getDataTable',
       'postSubmitData',
       'deleteDataRow',
-      'resetDataRow',
       'postJabatanGSM',
     ]),
     searchData: _.debounce(function() {
@@ -353,23 +349,7 @@ export default {
       }
     },
     deleteAll() {},
-    resetRow(id) {
-      this.$confirm({
-        title: 'Apakah anda yakin akan reset password?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.resetDataRow({
-            uuid: id,
-          })
-          this.dataListUser({
-            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
-          })
-        },
-        onCancel() {},
-      })
-    },
+
     deleteRow(id) {
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',

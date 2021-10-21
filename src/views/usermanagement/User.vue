@@ -83,9 +83,16 @@
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
-                <button type="button" class="btn btn-outline-danger" @click="deleteConfirm(text)">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger mr-1"
+                  @click="deleteConfirm(text)"
+                >
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
+                </button>
+                <button @click="resetRow(text)" type="button" class="btn btn-light">
+                  <i class="fa fa-redo"></i><span> Reset </span>
                 </button>
               </div>
             </template>
@@ -202,7 +209,7 @@ export default {
   },
   methods: {
     ...mapActions('userManagementCRM', [`getListUserCRM`, 'postSubmitData', 'deleteDataUser']),
-    ...mapActions('userManagement', ['getListJenisUser']),
+    ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
     searchData: _.debounce(function() {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         body: {
@@ -231,6 +238,24 @@ export default {
 
     async closeModal() {
       this.userManagementCRM.modalVisible = false
+    },
+    resetRow(id) {
+      this.$confirm({
+        title: 'Apakah anda yakin akan reset password?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          return new Promise((resolve, reject) => {
+            this.resetDataRow({
+              uuid: id,
+            })
+            this.getListUserCRM()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {},
+      })
     },
     async deleteConfirm(id) {
       this.$confirm({
