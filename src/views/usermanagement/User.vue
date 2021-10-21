@@ -71,6 +71,7 @@
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
             :row-key="data => data.uuid"
+            :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
           >
             <template #name="{ text }">
@@ -228,7 +229,7 @@ export default {
       this.getListJenisUser()
     },
 
-    closeModal() {
+    async closeModal() {
       this.userManagementCRM.modalVisible = false
     },
     async deleteConfirm(id) {
@@ -239,10 +240,13 @@ export default {
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
-          await this.deleteDataUser({
-            data_id: id,
-          })
-          this.getListUserCRM()
+          return new Promise((resolve, reject) => {
+            this.deleteDataUser({
+              data_id: id,
+            })
+            this.getListUserCRM()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
         },
         onCancel() {},
       })
@@ -265,19 +269,17 @@ export default {
         })
       }
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (this.formValidation()) {
-        this.postSubmitData()
-        this.getListUserCRM()
+        await this.postSubmitData()
+        await this.getListUserCRM()
         this.closeModal()
       } else {
-        this.getListUserCRM()
         this.closeModal()
       }
     },
 
     async showUserEditModal(id) {
-      console.log(`----id`, id)
       const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {

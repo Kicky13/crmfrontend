@@ -144,25 +144,27 @@ const actions = {
     }
   },
 
-  async deleteDataUser(context, payload) {
-    console.log(`----paylaod`, payload.data_id)
+  async deleteDataUser({ commit }, payload) {
     const result = await apiClient.delete(`/usercrm/delete/${payload.data_id}`)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message,
       })
-      await commit('changeUserManagementCRM', {
+      commit('changeUserManagementCRM', {
         isLoading: false,
       })
+
+      return false
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil dihapus`,
       })
-      await commit('changeUserManagementCRM', {
+      commit('changeUserManagementCRM', {
         isLoading: false,
       })
+      return true
     }
   },
 }

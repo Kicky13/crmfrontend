@@ -101,6 +101,10 @@ const state = {
       userid: '',
       idLevelHirarki: null,
     },
+    formGSM: {
+      id_jabatan_atasan: 0,
+      id_level_hirarki: 0,
+    },
     bodyList: {
       jenis_user: '',
       offset: 1,
@@ -224,6 +228,35 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
+      })
+    }
+  },
+
+  async postJabatanGSM({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatanAtasan: data.formGSM.id_jabatan_atasan,
+      idLevelHirarki: payload.id_level_hirarki,
+    }
+
+    let result = ''
+
+    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil diubah`,
       })
     }
   },

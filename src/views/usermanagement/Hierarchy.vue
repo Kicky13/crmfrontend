@@ -212,6 +212,7 @@ export default {
       'postSubmitData',
       'deleteDataRow',
       'resetDataRow',
+      'postJabatanGSM',
     ]),
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
@@ -279,12 +280,17 @@ export default {
       //     idLevelHirarki: null,
       //   },
       // })
+
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
-        onOk: async () => {},
+        onOk: async () => {
+          await this.postJabatanGSM({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
+        },
         onCancel() {},
       })
     },
