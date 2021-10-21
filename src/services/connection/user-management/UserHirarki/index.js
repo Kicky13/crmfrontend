@@ -13,6 +13,7 @@ const state = {
     },
     selectedTitle: '',
     selectedShorthand: '',
+    actiiveTabs: null,
     id_level_hirarki: null,
     itemsPerPage: [5, 10, 15, 20],
     menutabs: [
@@ -59,7 +60,7 @@ const state = {
         key: 'no',
       },
       {
-        title: 'ID User',
+        title: 'Kode Jabatan',
         dataIndex: 'userid',
       },
       {
@@ -67,20 +68,16 @@ const state = {
         dataIndex: 'name',
       },
       {
-        title: 'Username',
+        title: 'Tanggal Jabatan',
         dataIndex: 'username',
       },
       {
-        title: 'Jabatan',
+        title: 'Tanggal Akhir Jabatan',
         dataIndex: 'jabatan',
       },
       {
-        title: 'Email',
+        title: 'ID User',
         dataIndex: 'email',
-      },
-      {
-        title: 'No. HP',
-        dataIndex: 'nohp',
       },
       {
         title: 'Action',
@@ -102,7 +99,7 @@ const state = {
       idLevelHirarki: null,
     },
     formGSM: {
-      id_jabatan_atasan: 0,
+      id_jabatan_atasan: null,
       id_level_hirarki: 0,
     },
     bodyList: {
@@ -144,6 +141,7 @@ const actions = {
         id_level_hirarki: result.data.data[0].id_level_hirarki,
         selectedTitle: result.data.data[0].nama_panjang,
         selectedShorthand: result.data.data[0].nama_singkat,
+        actiiveTabs: result.data.data[0].id_level_hirarki,
         listUser: result.data.data,
         isLoading: false,
       })
@@ -164,7 +162,7 @@ const actions = {
       q: data.bodyList.filter,
     }
 
-    const result = await apiClient.post(`/usercrm`, body)
+    const result = await apiClient.post(`/hirarki/users`, body)
 
     if (result.data.status == false) {
       notification.error({
@@ -233,6 +231,7 @@ const actions = {
   },
 
   async postJabatanGSM({ commit, state }, payload) {
+    console.log(`----payload`, payload)
     commit('changeUserManagement', {
       isLoading: true,
     })
@@ -240,7 +239,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      idJabatanAtasan: data.formGSM.id_jabatan_atasan,
+      idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
     }
 
