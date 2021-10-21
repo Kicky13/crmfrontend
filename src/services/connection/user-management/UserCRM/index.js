@@ -88,7 +88,7 @@ const actions = {
     if (result.data.state == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
       })
     } else {
       await commit('changeUserManagementCRM', {

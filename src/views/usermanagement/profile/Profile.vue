@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="row mb-2">
+      <div class="col-md-4 col-xs-4">
+        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          Kembali ke User Hirarki</router-link
+        >
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
@@ -99,27 +107,9 @@
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
+import { mapState, mapActions } from 'vuex'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No',
-    dataIndex: 'id',
-  },
-  {
-    title: 'ID User',
-    dataIndex: 'userid',
-  },
-  {
-    title: 'Nama Sales',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'id',
-    slots: { customRender: 'action' },
-  },
-]
 
 export default {
   name: 'VbAntDesign',
@@ -136,7 +126,6 @@ export default {
       }),
     }
     return {
-      columns,
       rowSelection,
       itemsPerPage,
     }
@@ -151,10 +140,18 @@ export default {
       isLoading: false,
     }
   },
+  computed: {
+    ...mapState({
+      userManagement: state => state.userManagement.data,
+    }),
+  },
   mounted() {
-    this.fetchGetUsers()
+    this.getDetailProfile({
+      id_jabatan: this.$route.params.uuid,
+    })
   },
   methods: {
+    ...mapActions('userManagement', ['getDetailProfile']),
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },

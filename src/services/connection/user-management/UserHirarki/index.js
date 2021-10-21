@@ -81,7 +81,6 @@ const state = {
       },
       {
         title: 'Action',
-        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -109,11 +108,30 @@ const state = {
       filter: '',
     },
     listUser: [],
-
+    detail_jabatan: Object,
     pagination: {},
     modalVisible: false,
     isLoading: false,
     isSubmit: false,
+    colums_hirarki: [
+      {
+        title: 'No',
+        dataIndex: 'id',
+      },
+      {
+        title: 'ID User',
+        dataIndex: 'userid',
+      },
+      {
+        title: 'Nama Sales',
+        dataIndex: 'name',
+      },
+      {
+        title: 'Action',
+        dataIndex: 'id',
+        slots: { customRender: 'action' },
+      },
+    ],
   },
 }
 
@@ -167,7 +185,7 @@ const actions = {
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
       })
     } else {
       await commit('changeUserManagement', {
@@ -231,7 +249,6 @@ const actions = {
   },
 
   async postJabatanGSM({ commit, state }, payload) {
-    console.log(`----payload`, payload)
     commit('changeUserManagement', {
       isLoading: true,
     })
@@ -288,6 +305,30 @@ const actions = {
       notification.success({
         message: 'Success',
         description: `Data berhasil direset`,
+      })
+    }
+  },
+
+  async getDetailProfile({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let formData = {
+      idJabatan: parseInt(payload.id_jabatan),
+    }
+    const result = await apiClient.post(`/hirarki/detailJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        detail_jabatan: result.data.data,
+        isLoading: false,
       })
     }
   },
