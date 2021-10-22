@@ -56,8 +56,9 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'no',
-        key: 'no',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
       },
       {
         title: 'Kode Jabatan',
@@ -103,35 +104,40 @@ const state = {
     },
     bodyList: {
       jenis_user: '',
-      offset: 1,
+      offset: 0,
       limit: 20,
       filter: '',
     },
     listUser: [],
-    detail_jabatan: Object,
     pagination: {},
     modalVisible: false,
     isLoading: false,
     isSubmit: false,
-    colums_hirarki: [
+
+    // profile
+
+    columns_hirarki: [
       {
         title: 'No',
-        dataIndex: 'id',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
       },
       {
         title: 'ID User',
-        dataIndex: 'userid',
+        slots: { customRender: 'id_user' },
       },
       {
         title: 'Nama Sales',
-        dataIndex: 'name',
+        slots: { customRender: 'nama_sales' },
       },
       {
         title: 'Action',
-        dataIndex: 'id',
         slots: { customRender: 'action' },
       },
     ],
+    detail_jabatan: Object,
+    list_hirarki_down: [],
   },
 }
 
@@ -328,6 +334,33 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         detail_jabatan: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async getListDownHirarki({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      IDuser: payload.id_user,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    const result = await apiClient.post(`/hirarki/hirarkidown`, formData)
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        list_hirarki_down: result.data.data,
         isLoading: false,
       })
     }

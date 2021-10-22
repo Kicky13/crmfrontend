@@ -20,20 +20,26 @@
                 <img
                   lazy="loading"
                   v-once
-                  src="resources/images/avatars/5.jpg"
+                  :src="require('@/assets/images/users.png')"
                   alt="Mary Stanform"
                 />
               </div>
               <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20">Mary Stanform</div>
-                <div class="font-size-16">Kode / ID : 7781</div>
-                <div class="font-size-16">Username : adam12</div>
-                <div class="font-size-16">Email : adam12@gmail.com</div>
+                <div class="text-dark font-weight-bold font-size-20">
+                  {{ userManagement.detail_jabatan.namaUser }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                </div>
+                <div class="font-size-16">
+                  Username : {{ userManagement.detail_jabatan.namaUser }}
+                </div>
+                <div class="font-size-16">Email : {{ userManagement.detail_jabatan.email }}</div>
               </div>
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : General Sales Manager</strong>
+            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
           </div>
         </div>
       </div>
@@ -43,18 +49,11 @@
             <strong class="align-self-center">Hierarki Down / Bawahan Langsung</strong>
           </div>
           <div class="card-body">
-            <div class="d-flex justify-content-between mb-3" style="margin-bottom: 10px">
-              <div class="align-self-center">
-                <strong>Daftar Senior Sales Manager (SSM) : </strong>
-              </div>
-              <div class="d-flex">
-                <a-select v-model:value="selectedUser" class="mx-3" style="width: 200px">
-                  <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-                  <a-select-option v-for="data in userOption" :key="data.id" :value="data.userid">{{
-                    data.name
-                  }}</a-select-option>
-                </a-select>
-                <a-button type="primary">
+            <div class="row">
+              <div class="col-md-4 col-xs-12 mb-2"></div>
+              <div class="col-md-4 col-xs-12 mb-2"></div>
+              <div class="col-md-4 col-xs-12 mb-2">
+                <a-button type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   Tambahkan
                 </a-button>
@@ -82,11 +81,27 @@
             </div>
             <div class="table-responsive text-nowrap">
               <a-table
-                :columns="columns"
-                :data-source="users"
-                :row-key="users => users.id"
-                :pagination="pagination"
+                :columns="userManagement.columns_hirarki"
+                :data-source="userManagement.list_hirarki_down"
+                :row-key="data => data.iduser"
+                :pagination="userManagement.pagination"
+                :loading="userManagement.isLoading"
               >
+                <template #no="{ index }">
+                  <div>
+                    {{ index + 1 }}
+                  </div>
+                </template>
+                <template #id_user="{ text }">
+                  <div>
+                    {{ text.iduser }}
+                  </div>
+                </template>
+                <template #nama_sales="{ text }">
+                  <div>
+                    {{ text.namasales }}
+                  </div>
+                </template>
                 <template #action>
                   <div>
                     <button type="button" class="btn btn-outline-danger">
@@ -131,41 +146,25 @@ export default {
     }
   },
   data() {
-    return {
-      users: [],
-      selectedUser: null,
-      userOption: [],
-      pagination: {},
-      id: null,
-      isLoading: false,
-    }
+    return {}
   },
   computed: {
     ...mapState({
       userManagement: state => state.userManagement.data,
     }),
   },
-  mounted() {
-    this.getDetailProfile({
+  async mounted() {
+    await this.getDetailProfile({
       id_jabatan: this.$route.params.uuid,
+    })
+    await this.getListDownHirarki({
+      id_user: this.$route.params.uuid,
     })
   },
   methods: {
-    ...mapActions('userManagement', ['getDetailProfile']),
+    ...mapActions('userManagement', ['getDetailProfile', 'getListDownHirarki']),
     handlePaginationSize(size) {
-      this.pagination.pageSize = size
-    },
-    fetchGetUsers() {
-      getUserList()
-        .then(response => {
-          if (response) {
-            this.users = response
-            this.userOption = response
-          }
-        })
-        .catch(err => {
-          console.error(err)
-        })
+      this.userManagement.pagination.pageSize = size
     },
   },
 }

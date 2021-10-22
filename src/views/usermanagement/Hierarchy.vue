@@ -78,9 +78,12 @@
             :data-source="userManagement.users"
             :row-key="data => data.uuid"
             :pagination="pagination"
+            :loading="userManagement.isLoading"
           >
-            <template #no="{ text }">
-              <a href="javascript:;">{{ text }}</a>
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
             </template>
             <template #action="{ text }">
               <div>
