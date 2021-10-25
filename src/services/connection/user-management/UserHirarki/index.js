@@ -516,7 +516,7 @@ const actions = {
 
     const result = await apiClient.post(`/hirarki/replaceUser`, formData)
 
-    if (result.data.state == false) {
+    if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message,
