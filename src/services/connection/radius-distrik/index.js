@@ -7,8 +7,13 @@ const state = {
     columns: [
       {
         title: 'No.',
-        dataIndex: 'IDradius',
-        key: 'IDradius',
+        dataIndex: 'uuid',
+        key: 'uuid',
+      },
+      {
+        title: 'Nama Wilayah',
+        dataIndex: 'WilayahName',
+        key: 'WilayahName',
       },
       {
         title: 'Nama Distrik',
@@ -29,12 +34,20 @@ const state = {
       },
     ],
     dataDistrik: [],
+    dataWilayah: [],
     isLoading: false,
     bodyList: {
       offset: 1,
       limit: 20,
     },
     rules: {
+      wilayahid: [
+        {
+          required: true,
+          message: 'Pilih Salah Satu Wilayah',
+          type: 'number',
+        },
+      ],
       distrikid: [
         {
           required: true,
@@ -93,7 +106,7 @@ const actions = {
     }
   },
 
-  async getDataDistrik({ commit, state }) {
+  async getDataWilayah({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
     })
@@ -103,6 +116,33 @@ const actions = {
     let body = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
+    }
+
+    const result = await apiClient.post('/RadiusDistrik/ListLevelWilayah', body)
+
+    if (result.data.status == 'error') {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeRadiusDistrik', {
+        dataWilayah: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+  async getDataDistrik({ commit, state }) {
+    commit('changeRadiusDistrik', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      // offset: data.bodyList.offset,
+      // limit: data.bodyList.limit,
+      idLevelWilayah : data.formData.wilayahid,
     }
 
     const result = await apiClient.post('/RadiusDistrik/List_Distrik', body)
@@ -130,7 +170,8 @@ const actions = {
     let result = ''
 
     let body = {
-      IDdistrik: data.formData.distrikid,
+      IDwilayah: data.formData.distrikid,
+      idLevelWilayah: data.formData.wilayahid,
       radius_lock: data.formData.radius,
     }
 
