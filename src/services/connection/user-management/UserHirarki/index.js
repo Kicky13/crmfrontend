@@ -13,6 +13,7 @@ const state = {
     },
     selectedTitle: '',
     selectedShorthand: '',
+    actiiveTabs: null,
     id_level_hirarki: null,
     itemsPerPage: [5, 10, 15, 20],
     menutabs: [
@@ -55,11 +56,12 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'no',
-        key: 'no',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
       },
       {
-        title: 'ID User',
+        title: 'Kode Jabatan',
         dataIndex: 'userid',
       },
       {
@@ -67,24 +69,19 @@ const state = {
         dataIndex: 'name',
       },
       {
-        title: 'Username',
+        title: 'Tanggal Jabatan',
         dataIndex: 'username',
       },
       {
-        title: 'Jabatan',
+        title: 'Tanggal Akhir Jabatan',
         dataIndex: 'jabatan',
       },
       {
-        title: 'Email',
+        title: 'ID User',
         dataIndex: 'email',
       },
       {
-        title: 'No. HP',
-        dataIndex: 'nohp',
-      },
-      {
         title: 'Action',
-        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -101,18 +98,46 @@ const state = {
       userid: '',
       idLevelHirarki: null,
     },
+    formGSM: {
+      id_jabatan_atasan: null,
+      id_level_hirarki: 0,
+    },
     bodyList: {
       jenis_user: '',
-      offset: 1,
+      offset: 0,
       limit: 20,
       filter: '',
     },
     listUser: [],
-
     pagination: {},
     modalVisible: false,
     isLoading: false,
     isSubmit: false,
+
+    // profile
+
+    columns_hirarki: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'ID User',
+        slots: { customRender: 'id_user' },
+      },
+      {
+        title: 'Nama Sales',
+        slots: { customRender: 'nama_sales' },
+      },
+      {
+        title: 'Action',
+        slots: { customRender: 'action' },
+      },
+    ],
+    detail_jabatan: Object,
+    list_hirarki_down: [],
   },
 }
 
@@ -140,6 +165,7 @@ const actions = {
         id_level_hirarki: result.data.data[0].id_level_hirarki,
         selectedTitle: result.data.data[0].nama_panjang,
         selectedShorthand: result.data.data[0].nama_singkat,
+        actiiveTabs: result.data.data[0].id_level_hirarki,
         listUser: result.data.data,
         isLoading: false,
       })
@@ -160,12 +186,12 @@ const actions = {
       q: data.bodyList.filter,
     }
 
-    const result = await apiClient.post(`/usercrm`, body)
+    const result = await apiClient.post(`/hirarki/users`, body)
 
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
       })
     } else {
       await commit('changeUserManagement', {
@@ -228,6 +254,35 @@ const actions = {
     }
   },
 
+  async postJabatanGSM({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatanAtasan: null,
+      idLevelHirarki: payload.id_level_hirarki,
+    }
+
+    let result = ''
+
+    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil diubah`,
+      })
+    }
+  },
+
   async deleteDataRow(context, payload) {
     const result = await apiClient.delete(`/usercrm/delete/${payload.uuid}`)
 
@@ -256,6 +311,57 @@ const actions = {
       notification.success({
         message: 'Success',
         description: `Data berhasil direset`,
+      })
+    }
+  },
+
+  async getDetailProfile({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let formData = {
+      idJabatan: parseInt(payload.id_jabatan),
+    }
+    const result = await apiClient.post(`/hirarki/detailJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        detail_jabatan: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async getListDownHirarki({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      IDuser: payload.id_user,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    const result = await apiClient.post(`/hirarki/hirarkidown`, formData)
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        list_hirarki_down: result.data.data,
+        isLoading: false,
       })
     }
   },

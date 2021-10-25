@@ -78,21 +78,25 @@
             :data-source="userManagement.users"
             :row-key="data => data.uuid"
             :pagination="pagination"
+            :loading="userManagement.isLoading"
           >
-            <template #no="{ text }">
-              <a href="javascript:;">{{ text }}</a>
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
             </template>
             <template #action="{ text }">
               <div>
-                <button @click="handleDetail" type="button" class="btn btn-light mr-2">
+                <button @click="handleDetail(text.userid)" type="button" class="btn btn-light mr-2">
                   <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text)">
+                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text.uuid)">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger mr-2">
+                ><button
+                  @click="deleteRow(text.uuid)"
+                  type="button"
+                  class="btn btn-outline-danger mr-2"
+                >
                   <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
-                <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset </span>
                 </button>
               </div>
             </template>
@@ -211,7 +215,7 @@ export default {
       'getDataTable',
       'postSubmitData',
       'deleteDataRow',
-      'resetDataRow',
+      'postJabatanGSM',
     ]),
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
@@ -245,7 +249,7 @@ export default {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
-        this.changeTabs(this.actiiveTabs.id_level_hirarki)
+        this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
@@ -262,8 +266,8 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
-    handleDetail() {
-      this.$router.push({ name: 'user-management-profile' })
+    handleDetail(uuid) {
+      this.$router.push(`/users/profile/${uuid}`)
     },
     async openModal() {
       // this.modalVisible = true
@@ -279,12 +283,17 @@ export default {
       //     idLevelHirarki: null,
       //   },
       // })
+
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
-        onOk: async () => {},
+        onOk: async () => {
+          await this.postJabatanGSM({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
+        },
         onCancel() {},
       })
     },
@@ -347,23 +356,7 @@ export default {
       }
     },
     deleteAll() {},
-    resetRow(id) {
-      this.$confirm({
-        title: 'Apakah anda yakin akan reset password?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.resetDataRow({
-            uuid: id,
-          })
-          this.dataListUser({
-            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
-          })
-        },
-        onCancel() {},
-      })
-    },
+
     deleteRow(id) {
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
