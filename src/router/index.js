@@ -212,7 +212,7 @@ const routes = [
       // Kikik ============================================================================
       /*  ROBI VIEW */
       {
-        path: '/customerscyn',
+        path: '/customersync',
         name: 'sync-customer',
         meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/customersync'),

@@ -83,7 +83,7 @@ export const getAdminMenuData = [
       {
         title: 'Sync Customer',
         key: 'St13Cf',
-        url: '/customerscyn',
+        url: '/customersync',
       },
       {
         title: 'Log Sync Customer',
@@ -135,34 +135,6 @@ export const getAdminMenuData = [
         title: 'Customer Mapping',
         key: '12sa2s',
         url: '/report/customer_mapping',
-      },
-    ],
-  },
-  {
-    category: true,
-    title: 'Roles & Permissions',
-    key: '2h83od',
-  },
-  {
-    title: 'Roles & Permissions',
-    key: '82hska',
-    url: '/roles-permissions',
-    icon: 'fe fe-database',
-    children: [
-      {
-        title: 'Roles',
-        key: 'a32jaa',
-        url: '/roles',
-      },
-      {
-        title: 'Permissions',
-        key: 'echa2a',
-        url: '/permissions',
-      },
-      {
-        title: 'Assign Roles',
-        key: 'acc441',
-        url: '/assignrole',
       },
     ],
   },
