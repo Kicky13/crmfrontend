@@ -62,23 +62,29 @@ const state = {
       },
       {
         title: 'Kode Jabatan',
-        dataIndex: 'userid',
+        dataIndex: 'idJabatan',
       },
       {
         title: 'Nama',
-        dataIndex: 'name',
+        dataIndex: 'nama',
       },
       {
         title: 'Tanggal Jabatan',
-        dataIndex: 'username',
+        key: 'start_date',
+        slots: { customRender: 'start_date' },
       },
       {
         title: 'Tanggal Akhir Jabatan',
-        dataIndex: 'jabatan',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
       },
       {
         title: 'ID User',
-        dataIndex: 'email',
+        dataIndex: 'idUser',
+      },
+      {
+        title: 'Status',
+        dataIndex: 'statusJabat',
       },
       {
         title: 'Action',
@@ -108,6 +114,7 @@ const state = {
       limit: 20,
       filter: '',
     },
+
     listUser: [],
     pagination: {},
     modalVisible: false,
@@ -124,6 +131,10 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
+        title: 'ID Jabatan',
+        slots: { customRender: 'id_jabatan' },
+      },
+      {
         title: 'ID User',
         slots: { customRender: 'id_user' },
       },
@@ -136,6 +147,28 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+    form_tambah_bawahan: {
+      id_user: null,
+      id_bawahan: null,
+      tgl_mulai: '',
+      tgl_akhir: '',
+    },
+    form_replace_bawahan: {
+      id_jabtan: null,
+      user_replace_id: null,
+      tgl_mulai: '',
+      tgl_akhir: '',
+    },
+    form_assign_bawahan: {
+      id_jabtan: null,
+      user_replace_id: null,
+      tgl_mulai: '',
+      tgl_akhir: '',
+    },
+    modalVisibleHirarkiDown: false,
+    modalVisibleReplaceUser: false,
+    modalVisibleAssignUser: false,
+    sales_non_bawahan: Array,
     detail_jabatan: Object,
     list_hirarki_down: [],
   },
@@ -284,7 +317,12 @@ const actions = {
   },
 
   async deleteDataRow(context, payload) {
-    const result = await apiClient.delete(`/usercrm/delete/${payload.uuid}`)
+    let formData = {
+      idJabatan: payload.id_jabatan,
+    }
+
+    console.log(`---formData`, formData)
+    const result = await apiClient.post(`/hirarki/removeUser`, formData)
 
     if (result.data.status == false) {
       notification.error({
@@ -315,6 +353,7 @@ const actions = {
     }
   },
 
+  // Profile
   async getDetailProfile({ commit, state }, payload) {
     commit('changeUserManagement', {
       isLoading: true,
@@ -362,6 +401,138 @@ const actions = {
       await commit('changeUserManagement', {
         list_hirarki_down: result.data.data,
         isLoading: false,
+      })
+    }
+  },
+
+  async deleteRowHirarkiDown({ commit }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    // let formData = {
+    //   IDuser: payload.id_user,
+    //   IDbawahan: payload.id_bawahan,
+    // }
+
+    let formData = {
+      idJabatan: payload.id_jabatan,
+    }
+    const result = await apiClient.post(`/hirarki/removeUser`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil dihapus`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    }
+  },
+
+  async getSalesNonBawahan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let formData = {
+      IDuser: parseInt(payload.id_user),
+      offset: data.bodyList.offset,
+      limit: 0,
+      IDJabatan: parseInt(payload.id_jabatan),
+    }
+    const result = await apiClient.post(`/hirarki/salesList`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        sales_non_bawahan: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async submitAddSalesHirarki({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      IDuser: payload.id_user,
+      IDbawahan: data.form_tambah_bawahan.id_bawahan,
+      tglMulai: data.form_tambah_bawahan.tgl_mulai,
+      tglAkhir: data.form_tambah_bawahan.tgl_akhir,
+    }
+
+    const result = await apiClient.post(`/hirarki/addHirarkiDown`, formData)
+
+    if (result.data.state == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+        modalVisibleHirarkiDown: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+        modalVisibleHirarkiDown: false,
+      })
+    }
+  },
+
+  async submitReplaceSalesHirarki({ commit, state }) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatan: data.form_replace_bawahan.id_jabatan,
+      userReplacerID: data.form_replace_bawahan.user_replace_id,
+      tglMulai: data.form_replace_bawahan.tgl_mulai,
+      tglAkhir: data.form_replace_bawahan.tgl_akhir,
+    }
+
+    const result = await apiClient.post(`/hirarki/replaceUser`, formData)
+
+    if (result.data.state == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+        modalVisibleHirarkiDown: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil direplace`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+        modalVisibleHirarkiDown: false,
       })
     }
   },
