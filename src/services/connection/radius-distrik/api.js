@@ -1,15 +1,26 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 import store from 'store'
 
 export async function getDataList() {
     return apiClient
-    .get('/settingradius')
+    .post('/RadiusDistrik/List')
     .then(response => {
         if (response) {
             return response.data
         }
         return false
     })
+}
+
+export async function getDataListRefWilayah() {
+  return apiClient
+  .post('/RadiusDistrik/List_Distrik')
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
 }
 
 export async function deleteData(id) {
