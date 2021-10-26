@@ -16,7 +16,7 @@
             style="width: 200px"
           >
             <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-            <a-select-option v-for="data in provinsiOption" :key="data.id" :value="data.provinsi">{{
+            <a-select-option v-for="data in provinsiOption" :key="data.id" :value="data.id">{{
               data.provinsi
             }}</a-select-option>
           </a-select>
@@ -25,11 +25,15 @@
             <a-select-option
               v-for="data in kabupatenOption"
               :key="data.id"
-              :value="data.kabupaten"
+              :value="data.id"
               >{{ data.kabupaten }}</a-select-option
             >
           </a-select>
-          <a-button type="primary" @click="handleView" :loading="isSubmit">
+          <a-button v-if="selectedKabupaten == null" :disabled="true" type="primary" @click="handleView" :loading="isSubmit">
+            <i class="fa fa-eye mr-2" />
+            View
+          </a-button>
+          <a-button v-else type="primary" @click="handleView" :loading="isSubmit">
             <i class="fa fa-eye mr-2" />
             View
           </a-button>
@@ -63,8 +67,8 @@
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="columns"
-            :data-source="displays"
-            :row-key="(displays) => displays.id"
+            :data-source="customers"
+            :row-key="(customers) => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 1500 }"
           >
@@ -91,13 +95,13 @@ const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
     title: 'ID Customer',
-    dataIndex: 'customerid',
+    dataIndex: 'id_customer',
     width: 100,
     fixed: 'left',
   },
   {
     title: 'Nama Toko',
-    dataIndex: 'name',
+    dataIndex: 'nm_customer',
     width: 150,
     fixed: 'left',
   },
@@ -110,16 +114,8 @@ const columns = [
     dataIndex: 'provinsi',
   },
   {
-    title: 'Distrik',
+    title: 'Kabupaten',
     dataIndex: 'kabupaten',
-  },
-  {
-    title: 'Area',
-    dataIndex: 'area',
-  },
-  {
-    title: 'Kecamatan',
-    dataIndex: 'kecamatan',
   },
   {
     title: 'Koordinat',
@@ -127,7 +123,7 @@ const columns = [
   },
   {
     title: 'Status Lock',
-    dataIndex: 'statuslock',
+    dataIndex: 'status_lock',
   },
   {
     title: 'Detail',
@@ -173,7 +169,7 @@ export default {
   },
   mounted() {
     this.fetchGetRegion()
-    this.fetchGetCustomers()
+    // this.fetchGetCustomers()
   },
   methods: {
     handlePaginationSize(size) {
@@ -182,17 +178,15 @@ export default {
     handleRegionChange() {
       const dataSource = [...this.provinsiOption]
       this.kabupatenOption = null
-      const filtered = dataSource.filter((a) => a.provinsi == this.selectedProvinsi)
+      this.selectedKabupaten = null
+      const filtered = dataSource.filter((a) => a.id == this.selectedProvinsi)
       this.kabupatenOption = filtered[0].kabupatens
       console.log(this.kabupatenOption)
     },
     handleView() {
       this.isSubmit = true
-      if (this.selectedProvinsi && this.selectedProvinsi) {
-        const dataSource = [...this.customers]
-        this.displays = dataSource.filter(
-          (x) => x.provinsi == this.selectedProvinsi && x.kabupaten == this.selectedKabupaten,
-        )
+      if (this.selectedKabupaten) {
+        this.fetchGetCustomers()
         this.isSubmit = false
       } else {
         message.error('Provinsi & Kabupaten wajib diisi')
@@ -203,8 +197,9 @@ export default {
       this.isLoading = true
       getRegionList()
         .then((response) => {
-          if (response) {
-            this.provinsiOption = response
+          console.log(response)
+          if (response.status) {
+            this.provinsiOption = response.data
           }
           this.isLoading = false
         })
@@ -214,10 +209,15 @@ export default {
     },
     fetchGetCustomers() {
       this.isLoading = true
-      getTokoList()
+      let formData = {
+        IDdistrik: this.selectedKabupaten,
+        offset: 0,
+        limit: 100,
+      }
+      getTokoList(formData)
         .then((response) => {
-          if (response) {
-            this.customers = response
+          if (response.status) {
+            this.customers = response.data
           }
           this.isLoading = false
         })
