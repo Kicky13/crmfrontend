@@ -37,17 +37,12 @@ const state = {
         title: 'Nama Distributor',
         dataIndex: 'distributor',
         key: 'distributor',
-        slots: { customRender: 'distribution' },
+        slots: { customRender: 'distributor' },
       },
       {
         title: 'Laporan Cek Data',
         dataIndex: 'message',
         key: 'message',
-      },
-      {
-        dataIndex: 'username_cek',
-        key: 'username_cek',
-        slots: { customRender: 'username_cek' },
       },
       {
         dataIndex: 'customer_cek',
@@ -59,7 +54,7 @@ const state = {
         key: 'distibutor_cek',
         slots: { customRender: 'distributor_cek' },
       },
-    ],
+    ].filter(item => !item.hidden),
     body: {
       file: null,
     },

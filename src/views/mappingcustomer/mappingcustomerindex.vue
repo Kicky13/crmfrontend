@@ -50,7 +50,7 @@
               <a href="javascript:;">{{ text }}</a>
             </template>
             <template #username="{ text }">
-              <template v-if="text">
+              <template v-if="mappingCustomer.listData.find(data => data.username === text).username_cek">
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
@@ -58,15 +58,15 @@
               </template>
             </template>
             <template #customer="{ text }">
-              <template v-if="text">
+              <template v-if="mappingCustomer.listData.find(data => data.customer === text).customer_cek">
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
                 <a-tag color="red">{{ text }}</a-tag>
               </template>
             </template>
-            <template #distribution="{ text }">
-              <template v-if="text">
+            <template #distributor="{ text }">
+              <template v-if="mappingCustomer.listData.find(data => data.distributor === text).distributor_cek">
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
