@@ -95,6 +95,11 @@
                     {{ index + 1 }}
                   </div>
                 </template>
+                <template #id_jabatan="{ text }">
+                  <div>
+                    {{ text.idJabatan }}
+                  </div>
+                </template>
                 <template #id_user="{ text }">
                   <div>
                     {{ text.iduser }}
@@ -102,7 +107,7 @@
                 </template>
                 <template #nama_sales="{ text }">
                   <div>
-                    {{ text.namasales }}
+                    {{ text.name }}
                   </div>
                 </template>
                 <template #action="{ text }">
