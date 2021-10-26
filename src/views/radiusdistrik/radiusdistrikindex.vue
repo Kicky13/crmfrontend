@@ -246,7 +246,7 @@ export default defineComponent({
       getDataListRefWilayah()
         .then(response => {
           if (response) {
-            
+            this.radiusDistrik.formData.distrikid = null
             this.getDataDistrik(id)
             // this.formState.namaproduk = post.namaproduk
           }
