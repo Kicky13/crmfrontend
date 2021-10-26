@@ -95,6 +95,11 @@
                     {{ index + 1 }}
                   </div>
                 </template>
+                <template #id_jabatan="{ text }">
+                  <div>
+                    {{ text.idJabatan }}
+                  </div>
+                </template>
                 <template #id_user="{ text }">
                   <div>
                     {{ text.iduser }}
@@ -102,7 +107,7 @@
                 </template>
                 <template #nama_sales="{ text }">
                   <div>
-                    {{ text.namasales }}
+                    {{ text.name }}
                   </div>
                 </template>
                 <template #action="{ text }">
@@ -244,11 +249,14 @@
     >
       <template #footer>
         <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
-        <a-button @click="handleSubmit" key="submit" type="primary">Simpan</a-button>
+        <a-button @click="handleSubmitAssignUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
         <a-form-item label="Sales Non Bawahan" name="level">
-          <a-select placeholder="Pilih Sales Non Bawahan">
+          <a-select
+            v-model:value="userManagement.form_assign_bawahan.id_user"
+            placeholder="Pilih Sales Non Bawahan"
+          >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
               :key="`level_${index}`"
@@ -259,10 +267,16 @@
           </a-select>
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
-          <a-date-picker class="w-100" />
+          <a-date-picker
+            v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
+            class="w-100"
+          />
         </a-form-item>
         <a-form-item label="Tanggal Akhir Jabatan" name="level">
-          <a-date-picker class="w-100" />
+          <a-date-picker
+            v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
+            class="w-100"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -307,6 +321,7 @@ export default {
       'getSalesNonBawahan',
       'submitAddSalesHirarki',
       'submitReplaceSalesHirarki',
+      'submitAssignSalesHirarki',
     ]),
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
@@ -355,6 +370,25 @@ export default {
           description: 'Semua kolom wajib diisi',
         })
         this.closeModalReplaceUser()
+      }
+    },
+    async handleSubmitAssignUser() {
+      if (
+        this.userManagement.form_assign_bawahan.id_user &&
+        this.userManagement.form_assign_bawahan.tgl_mulai &&
+        this.userManagement.form_assign_bawahan.tgl_akhir
+      ) {
+        await this.submitAssignSalesHirarki()
+        this.closeModalAssignUser()
+        await this.getListDownHirarki({
+          id_user: this.$route.params.uuid,
+        })
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModalAssignUser()
       }
     },
     closeModalReplaceUser() {

@@ -248,6 +248,14 @@ const routes = [
         meta: { title: 'Log Sync Customer', resource: 'SynCustomer', action: 'manage' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/logasyncustomer'),
       },
+
+      {
+        path: '/users/profile/TSO/:id',
+        name: 'user-management-profile-tso',
+        meta: { title: 'Profile TSO', resource: 'User', action: 'manage' },
+        component: () =>
+          import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileTSO'),
+      },
       // ========== End of iqbal View ==========
     ],
   },
