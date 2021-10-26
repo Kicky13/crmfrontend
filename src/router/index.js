@@ -80,12 +80,16 @@ const routes = [
       {
         path: '/marketing/berita/update/:artikelId',
         meta: { title: 'Update Berita', resource: 'Update Berita', action: 'manage' },
-        component: () => import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
+        component: () =>
+          import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
         path: '/marketing/berita/:artikelId',
         meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
-        component: () => import(/* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'),
+        component: () =>
+          import(
+            /* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'
+          ),
       },
       {
         path: '/user/level_user',
@@ -117,7 +121,8 @@ const routes = [
       {
         path: '/marketing/program/detailProgram/:userId',
         meta: { title: 'Detail Program', resource: 'Detail_Program', action: 'manage' },
-        component: () => import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
+        component: () =>
+          import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
       },
       // Kikik ====================================================================
       {
@@ -196,7 +201,7 @@ const routes = [
           ),
       },
       {
-        path: '/users/profile',
+        path: '/users/profile/:uuid',
         name: 'user-management-profile',
         meta: { title: 'Export User', resource: 'User', action: 'manage' },
         component: () =>
@@ -212,7 +217,7 @@ const routes = [
       // Kikik ============================================================================
       /*  ROBI VIEW */
       {
-        path: '/customerscyn',
+        path: '/customersync',
         name: 'sync-customer',
         meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/customersync'),

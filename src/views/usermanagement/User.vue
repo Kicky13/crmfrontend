@@ -60,16 +60,18 @@
             </div>
           </div>
           <a-input-search
-            placeholder="input search text"
+            placeholder="Cari"
             style="width: 200px"
-            v-model:value="keyword"
+            v-model:value="userManagementCRM.table.q"
+            @input="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
-            :row-key="data => data.id"
+            :row-key="data => data.uuid"
+            :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
           >
             <template #name="{ text }">
@@ -81,9 +83,16 @@
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
-                <button type="button" class="btn btn-outline-danger" @click="deleteConfirm(text)">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger mr-1"
+                  @click="deleteConfirm(text)"
+                >
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
+                </button>
+                <button @click="resetRow(text)" type="button" class="btn btn-light">
+                  <i class="fa fa-redo"></i><span> Reset </span>
                 </button>
               </div>
             </template>
@@ -94,7 +103,7 @@
     <!-- User Edit Modal Start -->
     <a-modal
       v-model:visible="userManagementCRM.modalVisible"
-      :title="'Tambah User'"
+      :title="userManagementCRM.formState.id ? 'Edit User' : 'Tambah User'"
       :closable="false"
       :mask-closable="false"
     >
@@ -178,6 +187,7 @@ import {
 // import VbUserEditModal from './modal/UserEditModal'
 import { notification } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   components: {
@@ -199,7 +209,16 @@ export default {
   },
   methods: {
     ...mapActions('userManagementCRM', [`getListUserCRM`, 'postSubmitData', 'deleteDataUser']),
-    ...mapActions('userManagement', ['getListJenisUser']),
+    ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
+    searchData: _.debounce(function() {
+      this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+        body: {
+          offset: 1,
+        },
+      })
+
+      this.getListUserCRM()
+    }, 1000),
     async openModal() {
       this.userManagementCRM.modalVisible = true
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
@@ -217,8 +236,26 @@ export default {
       this.getListJenisUser()
     },
 
-    closeModal() {
+    async closeModal() {
       this.userManagementCRM.modalVisible = false
+    },
+    resetRow(id) {
+      this.$confirm({
+        title: 'Apakah anda yakin akan reset password?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          return new Promise((resolve, reject) => {
+            this.resetDataRow({
+              uuid: id,
+            })
+            this.getListUserCRM()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {},
+      })
     },
     async deleteConfirm(id) {
       this.$confirm({
@@ -228,15 +265,15 @@ export default {
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
-          this.getListUserCRM()
-
-          await this.deleteDataUser({
-            data_id: id,
-          })
+          return new Promise((resolve, reject) => {
+            this.deleteDataUser({
+              data_id: id,
+            })
+            this.getListUserCRM()
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {
-          this.getListUserCRM()
-        },
+        onCancel() {},
       })
     },
     handlePaginationSize(size) {
@@ -257,22 +294,21 @@ export default {
         })
       }
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (this.formValidation()) {
-        this.postSubmitData()
-        this.getListUserCRM()
+        await this.postSubmitData()
+        await this.getListUserCRM()
         this.closeModal()
       } else {
-        this.getListUserCRM()
         this.closeModal()
       }
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.id === id)
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
-          id: row.id,
+          id: row.uuid,
           name: row.name,
           username: row.username,
           password: row.password,

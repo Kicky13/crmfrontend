@@ -137,8 +137,8 @@ export default {
       ],
     }
     const loginForm = reactive({
-      username: 'demo@visualbuilder.cloud',
-      password: 'VisualBuilder',
+      username: '',
+      password: '',
     })
 
     const changeAuthProvider = value => {

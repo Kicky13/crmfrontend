@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="row mb-2">
+      <div class="col-md-4 col-xs-4">
+        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          Kembali ke User Hirarki</router-link
+        >
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
@@ -12,20 +20,26 @@
                 <img
                   lazy="loading"
                   v-once
-                  src="resources/images/avatars/5.jpg"
+                  :src="require('@/assets/images/users.png')"
                   alt="Mary Stanform"
                 />
               </div>
               <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20">Mary Stanform</div>
-                <div class="font-size-16">Kode / ID : 7781</div>
-                <div class="font-size-16">Username : adam12</div>
-                <div class="font-size-16">Email : adam12@gmail.com</div>
+                <div class="text-dark font-weight-bold font-size-20">
+                  {{ userManagement.detail_jabatan.namaUser }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                </div>
+                <div class="font-size-16">
+                  Username : {{ userManagement.detail_jabatan.namaUser }}
+                </div>
+                <div class="font-size-16">Email : {{ userManagement.detail_jabatan.email }}</div>
               </div>
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : General Sales Manager</strong>
+            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
           </div>
         </div>
       </div>
@@ -35,18 +49,11 @@
             <strong class="align-self-center">Hierarki Down / Bawahan Langsung</strong>
           </div>
           <div class="card-body">
-            <div class="d-flex justify-content-between mb-3" style="margin-bottom: 10px">
-              <div class="align-self-center">
-                <strong>Daftar Senior Sales Manager (SSM) : </strong>
-              </div>
-              <div class="d-flex">
-                <a-select v-model:value="selectedUser" class="mx-3" style="width: 200px">
-                  <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-                  <a-select-option v-for="data in userOption" :key="data.id" :value="data.userid">{{
-                    data.name
-                  }}</a-select-option>
-                </a-select>
-                <a-button type="primary">
+            <div class="row">
+              <div class="col-md-4 col-xs-12 mb-2"></div>
+              <div class="col-md-4 col-xs-12 mb-2"></div>
+              <div class="col-md-4 col-xs-12 mb-2">
+                <a-button @click="modalTambahBawahan()" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   Tambahkan
                 </a-button>
@@ -58,11 +65,14 @@
                   <span>Show :</span>
                 </div>
                 <a-select
-                  :default-value="itemsPerPage[1]"
+                  :default-value="userManagement.itemsPerPage[1]"
                   class="mx-2"
                   @change="handlePaginationSize"
                 >
-                  <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+                  <a-select-option
+                    v-for="itemPerPage in userManagement.itemsPerPage"
+                    :key="itemPerPage"
+                  >
                     {{ itemPerPage }}
                   </a-select-option>
                 </a-select>
@@ -74,15 +84,60 @@
             </div>
             <div class="table-responsive text-nowrap">
               <a-table
-                :columns="columns"
-                :data-source="users"
-                :row-key="users => users.id"
-                :pagination="pagination"
+                :columns="userManagement.columns_hirarki"
+                :data-source="userManagement.list_hirarki_down"
+                :row-key="data => data.iduser"
+                :pagination="userManagement.pagination"
+                :loading="userManagement.isLoading"
               >
-                <template #action>
+                <template #no="{ index }">
                   <div>
-                    <button type="button" class="btn btn-outline-danger">
-                      <i class="fa fa-trash"></i><span> Hapus</span>
+                    {{ index + 1 }}
+                  </div>
+                </template>
+                <template #id_user="{ text }">
+                  <div>
+                    {{ text.iduser }}
+                  </div>
+                </template>
+                <template #nama_sales="{ text }">
+                  <div>
+                    {{ text.namasales }}
+                  </div>
+                </template>
+                <template #action="{ text }">
+                  <div>
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Kosongkan Jabatan"
+                      @click="deleteRow(text)"
+                      class="btn btn-outline-danger mr-1"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Replace user"
+                      @click="replaceUser(text)"
+                      class="btn btn-outline-warning mr-1"
+                    >
+                      <i class="fa fa-user-plus"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Assign User"
+                      @click="assignUser(text)"
+                      class="btn btn-outline-info"
+                    >
+                      <i class="fa fa-users"></i>
                     </button>
                   </div>
                 </template>
@@ -92,6 +147,125 @@
         </div>
       </div>
     </div>
+
+    <!-- MODAL TAMBAH BAWAHAN -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleHirarkiDown"
+      :title="'Tambah Bawahan'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModal">Batal</a-button>
+        <a-button @click="handleSubmitAddHirarkiDown()" key="submit" type="primary"
+          >Simpan</a-button
+        >
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select
+            v-model:value="userManagement.form_tambah_bawahan.id_bawahan"
+            placeholder="Pilih Sales Non Bawahan"
+          >
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_tambah_bawahan.tgl_mulai"
+            class="w-100"
+          />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_tambah_bawahan.tgl_akhir"
+            class="w-100"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- MODAL REPLACE USER -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleReplaceUser"
+      :title="'Replace User'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModalReplaceUser()">Batal</a-button>
+        <a-button @click="handleSubmitReplaceUser()" key="submit" type="primary">Simpan</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select
+            v-model:value="userManagement.form_replace_bawahan.user_replace_id"
+            placeholder="Pilih Sales Non Bawahan"
+          >
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_replace_bawahan.tgl_mulai"
+            class="w-100"
+          />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_replace_bawahan.tgl_akhir"
+            class="w-100"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- MODAL ASSIGN USER -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleAssignUser"
+      :title="'Assign User'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
+        <a-button @click="handleSubmit" key="submit" type="primary">Simpan</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select placeholder="Pilih Sales Non Bawahan">
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker class="w-100" />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker class="w-100" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -99,76 +273,126 @@
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
+import { mapState, mapActions } from 'vuex'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No',
-    dataIndex: 'id',
-  },
-  {
-    title: 'ID User',
-    dataIndex: 'userid',
-  },
-  {
-    title: 'Nama Sales',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'id',
-    slots: { customRender: 'action' },
-  },
-]
 
 export default {
   name: 'VbAntDesign',
-  setup() {
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      },
-      getCheckboxProps: record => ({
-        props: {
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        },
-      }),
-    }
-    return {
-      columns,
-      rowSelection,
-      itemsPerPage,
-    }
-  },
   data() {
-    return {
-      users: [],
-      selectedUser: null,
-      userOption: [],
-      pagination: {},
-      id: null,
-      isLoading: false,
-    }
+    return {}
   },
-  mounted() {
-    this.fetchGetUsers()
+  computed: {
+    ...mapState({
+      userManagement: state => state.userManagement.data,
+    }),
+  },
+  async mounted() {
+    await this.getDetailProfile({
+      id_jabatan: this.$route.params.uuid,
+    })
+    await this.getListDownHirarki({
+      id_user: this.$route.params.uuid,
+    })
+    await this.getSalesNonBawahan({
+      id_jabatan: this.$route.params.uuid,
+      id_user: this.userManagement.detail_jabatan.idUser,
+    })
   },
   methods: {
+    ...mapActions('userManagement', [
+      'deleteRowHirarkiDown',
+      'getDetailProfile',
+      'getListDownHirarki',
+      'getSalesNonBawahan',
+      'submitAddSalesHirarki',
+      'submitReplaceSalesHirarki',
+    ]),
     handlePaginationSize(size) {
-      this.pagination.pageSize = size
+      this.userManagement.pagination.pageSize = size
     },
-    fetchGetUsers() {
-      getUserList()
-        .then(response => {
-          if (response) {
-            this.users = response
-            this.userOption = response
-          }
+    closeModal() {
+      this.userManagement.modalVisibleHirarkiDown = false
+    },
+    modalTambahBawahan() {
+      this.userManagement.modalVisibleHirarkiDown = true
+    },
+    async handleSubmitAddHirarkiDown() {
+      if (
+        this.userManagement.form_tambah_bawahan.id_bawahan &&
+        this.userManagement.form_tambah_bawahan.tgl_mulai &&
+        this.userManagement.form_tambah_bawahan.tgl_akhir
+      ) {
+        await this.submitAddSalesHirarki({
+          id_user: this.userManagement.detail_jabatan.idUser,
         })
-        .catch(err => {
-          console.error(err)
+        this.closeModal()
+        await this.getListDownHirarki({
+          id_user: this.$route.params.uuid,
         })
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModal()
+      }
+    },
+    async handleSubmitReplaceUser() {
+      if (
+        this.userManagement.form_replace_bawahan.user_replace_id &&
+        this.userManagement.form_replace_bawahan.tgl_mulai &&
+        this.userManagement.form_replace_bawahan.tgl_akhir
+      ) {
+        await this.submitReplaceSalesHirarki()
+        this.closeModalReplaceUser()
+        await this.getListDownHirarki({
+          id_user: this.$route.params.uuid,
+        })
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModalReplaceUser()
+      }
+    },
+    closeModalReplaceUser() {
+      this.userManagement.modalVisibleReplaceUser = false
+    },
+    replaceUser(text) {
+      this.userManagement.modalVisibleReplaceUser = true
+      this.$store.commit('userManagement/changeUserManagement', {
+        form_replace_bawahan: {
+          id_jabatan: text.idJabatan,
+        },
+      })
+    },
+    closeModalAssignUser() {
+      this.userManagement.modalVisibleAssignUser = false
+    },
+    assignUser() {
+      this.userManagement.modalVisibleAssignUser = true
+    },
+    deleteRow(id) {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menghapus data ini?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          return new Promise((resolve, reject) => {
+            this.deleteRowHirarkiDown({
+              id_jabatan: parseInt(this.$route.params.uuid),
+            })
+            this.getDetailProfile({
+              id_jabatan: this.$route.params.uuid,
+            })
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {},
+      })
     },
   },
 }

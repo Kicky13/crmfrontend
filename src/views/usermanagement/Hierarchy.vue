@@ -21,7 +21,12 @@
       </div>
       <div class="card-header">
         <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
-        <a-button type="primary" class="mb-3 float-right" @click="openModal">
+        <a-button
+          v-if="selectedShorthand === `GSM`"
+          type="primary"
+          class="mb-3 float-right"
+          @click="openModal"
+        >
           <i class="fa fa-plus mr-2" />
           {{ 'Tambahkan Jabatan' }}
         </a-button>
@@ -73,21 +78,41 @@
             :data-source="userManagement.users"
             :row-key="data => data.uuid"
             :pagination="pagination"
+            :loading="userManagement.isLoading"
           >
-            <template #no="{ text }">
-              <a href="javascript:;">{{ text }}</a>
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
+            </template>
+            <template #start_date="{ text }">
+              <div>
+                {{ text.startDateJabat != null ? text.startDateJabat : '-' }}
+              </div>
+            </template>
+            <template #end_date="{ text }">
+              <div>
+                {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
+              </div>
             </template>
             <template #action="{ text }">
               <div>
-                <button @click="handleDetail" type="button" class="btn btn-light mr-2">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text)">
+                <router-link
+                  :to="`/users/profile/${text.idUser}`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span></router-link
+                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text.uuid)">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger mr-2">
+                ><button
+                  @click="deleteRow(text.idJabatan)"
+                  type="button"
+                  class="btn btn-outline-danger mr-2"
+                >
                   <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
-                <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset </span>
                 </button>
               </div>
             </template>
@@ -206,7 +231,7 @@ export default {
       'getDataTable',
       'postSubmitData',
       'deleteDataRow',
-      'resetDataRow',
+      'postJabatanGSM',
     ]),
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
@@ -220,7 +245,7 @@ export default {
       })
     }, 1000),
     async editRow(id) {
-      const row = this.userManagement.users.find(data => data.id === id)
+      const row = this.userManagement.users.find(data => data.uuid === id)
       await this.$store.commit('userManagement/changeUserManagement', {
         formState: {
           id: row.uuid,
@@ -240,7 +265,7 @@ export default {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
-        this.changeTabs(this.actiiveTabs.id_level_hirarki)
+        this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
@@ -257,22 +282,33 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
-    handleDetail() {
-      this.$router.push({ name: 'user-management-profile' })
-    },
+
     async openModal() {
-      this.modalVisible = true
-      await this.$store.commit('userManagement/changeUserManagement', {
-        formState: {
-          id: '',
-          name: '',
-          username: '',
-          password: '',
-          email: '',
-          nohp: '',
-          userid: '',
-          idLevelHirarki: null,
+      // this.modalVisible = true
+      // await this.$store.commit('userManagement/changeUserManagement', {
+      //   formState: {
+      //     id: '',
+      //     name: '',
+      //     username: '',
+      //     password: '',
+      //     email: '',
+      //     nohp: '',
+      //     userid: '',
+      //     idLevelHirarki: null,
+      //   },
+      // })
+
+      this.$confirm({
+        title: 'Apakah anda akan menambahkan jabatan baru ?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.postJabatanGSM({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
         },
+        onCancel() {},
       })
     },
     closeModal() {
@@ -334,25 +370,9 @@ export default {
       }
     },
     deleteAll() {},
-    resetRow(id) {
-      console.log(`----id`, id)
-      this.$confirm({
-        title: 'Apakah anda yakin akan reset password?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.resetDataRow({
-            uuid: id,
-          })
-          this.dataListUser({
-            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
-          })
-        },
-        onCancel() {},
-      })
-    },
+
     deleteRow(id) {
+      console.log(`000id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
         okText: 'Yes',
@@ -360,7 +380,7 @@ export default {
         cancelText: 'No',
         onOk: async () => {
           await this.deleteDataRow({
-            uuid: id,
+            id_jabatan: id,
           })
           this.dataListUser({
             idLevelHirarki: this.actiiveTabs.idLevelHirarki,
@@ -368,16 +388,6 @@ export default {
         },
         onCancel() {},
       })
-
-      // deletePermission(id)
-      //   .then((response) => {
-      //     console.log(response)
-      //     const dataSource = [...this.users]
-      //     this.users = dataSource.filter((item) => item.id !== id)
-      //   })
-      //   .catch((err) => {
-      //     console.error(err)
-      //   })
     },
     fetchGetUsers() {
       this.isLoading = true
