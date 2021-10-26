@@ -91,7 +91,7 @@ const actions = {
       limit: data.bodyList.limit,
     }
 
-    const result = await apiClient.post('/RadiusDistrik/List', body)
+    const result = await apiClient.post('/RadiusWilayah/List', body)
 
     if (result.data.status == 'error') {
       notification.error({
@@ -118,7 +118,7 @@ const actions = {
       limit: data.bodyList.limit,
     }
 
-    const result = await apiClient.post('/RadiusDistrik/ListLevelWilayah', body)
+    const result = await apiClient.post('/RadiusWilayah/ListLevelWilayah', body)
 
     if (result.data.status == 'error') {
       notification.error({
@@ -145,7 +145,7 @@ const actions = {
       idLevelWilayah : data.formData.wilayahid,
     }
 
-    const result = await apiClient.post('/RadiusDistrik/List_Distrik', body)
+    const result = await apiClient.post('/RadiusWilayah/List_Distrik', body)
 
     if (result.data.status == 'error') {
       notification.error({
@@ -176,7 +176,7 @@ const actions = {
     }
 
     if (data.bodyList.id) {
-      result = await apiClient.put('/RadiusDistrik/Set_Radius', body)
+      result = await apiClient.put('/RadiusWilayah/Set_Radius', body)
       if (result.data.status == 'error') {
         notification.error({
           message: 'Error',
@@ -189,7 +189,7 @@ const actions = {
         })
       }
     } else {
-      result = await apiClient.post('/RadiusDistrik/Set_Radius', body)
+      result = await apiClient.post('/RadiusWilayah/Set_Radius', body)
       if (result.data.status == 'error') {
         notification.error({
           message: 'Error',
@@ -213,7 +213,7 @@ const actions = {
       uuid: payload.id_distrik,
     }
 
-    const result = await apiClient.post('/RadiusDistrik/Delete_Radius', body)
+    const result = await apiClient.post('/RadiusWilayah/Delete_Radius', body)
 
     if (result.data.status == 'error') {
       notification.error({
