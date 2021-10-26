@@ -161,7 +161,7 @@ const state = {
     },
     form_assign_bawahan: {
       id_jabtan: null,
-      user_replace_id: null,
+      id_user: null,
       tgl_mulai: '',
       tgl_akhir: '',
     },
@@ -533,6 +533,43 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
         modalVisibleHirarkiDown: false,
+      })
+    }
+  },
+
+  async submitAssignSalesHirarki({ commit, state }) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatan: data.form_assign_bawahan.id_jabatan,
+      idUser: data.form_assign_bawahan.id_user,
+      tglMulai: data.form_assign_bawahan.tgl_mulai,
+      tglAkhir: data.form_assign_bawahan.tgl_akhir,
+    }
+
+    const result = await apiClient.post(`/hirarki/assignUser`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+        modalVisibleAssignUser: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil direplace`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+        modalVisibleAssignUser: false,
       })
     }
   },
