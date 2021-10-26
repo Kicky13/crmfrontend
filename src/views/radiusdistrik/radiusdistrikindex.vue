@@ -45,7 +45,7 @@
               type="primary"
               id="submitForm"
               :loading="confirmLoading"
-              @click="handleSave"
+              @click="stateForm == 1 ? handleSave() : handleUpdate()"
               >Simpan</a-button
             >
             <!-- <a-button
@@ -68,6 +68,24 @@
               style="width:100% !important; display: none;"
               v-model:value="radiusDistrik.formData.id"
             />
+            <a-form-item label="Pilih Level Wilayah" name="wilayahid">
+              <a-select
+                v-model:value="radiusDistrik.formData.wilayahid"
+                show-search
+                placeholder=" -- Pilih Level Wilayah -- "
+                @change="setSelectMethod"
+                name="wilayahval"
+              >
+                <!-- <a-select-option disabled value="">Pilih Salah Satu</a-select-option> -->
+                <a-select-option
+                  v-for="(wilayah, index) in radiusDistrik.dataWilayah"
+                  :value="wilayah.ID_REFERENCE_LEVEL_WILAYAH"
+                  :key="index"
+                >
+                  {{ wilayah.ID_REFERENCE_LEVEL_WILAYAH }} - {{ wilayah.NM_WILAYAH }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item label="Pilih Distrik" name="distrikid">
               <a-select
                 v-model:value="radiusDistrik.formData.distrikid"
@@ -83,6 +101,7 @@
                 >
                   {{ distrik.ID_DISTRIK }} - {{ distrik.NM_DISTRIK }}
                 </a-select-option>
+               
               </a-select>
             </a-form-item>
             <a-form-item label="Jarak Target" name="radius">
@@ -105,12 +124,10 @@
 <script>
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
-// import {
-//   getDataList,
-//   deleteData,
-//   insertData,
-//   updateData,
-// } from '@/services/connection/radius-distrik/api'
+import {
+  getDataListRefWilayah,
+  getDataList,
+} from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
 import { message } from 'ant-design-vue'
 // import { Modal } from 'ant-design-vue'
@@ -165,27 +182,28 @@ export default defineComponent({
     // this.fetchGetDataSource()
     // this.fetchGetDataDistrik()
     this.getDataListDistrik()
-    this.getDataDistrik()
+    this.getDataWilayah()
+    // this.getDataDistrik()
   },
   methods: {
     ...mapActions('radiusDistrik', [
+      'getDataWilayah',
       'getDataListDistrik',
       'getDataDistrik',
       'postDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
     resetFormState() {
-      this.formState.id = null
-      this.formState.rownum = null
-      this.formState.distrikid = undefined
-      this.formState.distrikname = ''
-      this.formState.radius = 0
-      this.fetchGetDataSource()
-      this.fetchGetDataDistrik()
+      // this.radiusDistrik.formData.id = null
+      this.radiusDistrik.formData.rownum = null
+      this.radiusDistrik.formData.distrikid = null
+      this.radiusDistrik.formData.wilayahid = null
+      this.radiusDistrik.formData.distrikname = ''
+      this.radiusDistrik.formData.radius = 0
     },
     openModal() {
       this.stateForm = 1
-      // this.resetFormState()
+      this.resetFormState()
       this.visible = true
     },
     showModal() {
@@ -197,33 +215,10 @@ export default defineComponent({
       await this.getDataListDistrik()
       this.visible = false
     },
-    handleUpdate(e) {
-      console.log(e)
-      this.isLoading = true
-      this.confirmLoading = true
-      if (this.formState.id && this.formState.distrikid && this.formState.radius) {
-        updateData(this.formState.id, toRaw(this.formState))
-          .then(response => {
-            if (response) {
-              console.log(response)
-              this.resetFormState()
-              this.visible = false
-              this.confirmLoading = false
-              this.isLoading = false
-              message.success('Lock Radius Distrik Berhasil Diubah')
-            }
-          })
-          .catch(err => {
-            console.error(err)
-            this.confirmLoading = false
-            this.isLoading = false
-            message.error('Lock Radius Distrik Gagal Diubah')
-          })
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        this.confirmLoading = false
-        this.isLoading = false
-      }
+    async handleUpdate() {
+      await this.postDataRadiusDistrik()
+      await this.getDataListDistrik()
+      this.visible = false
     },
     handleCancel(e) {
       console.log(e)
@@ -246,7 +241,20 @@ export default defineComponent({
         onCancel() {},
       })
     },
-
+    setSelectMethod(value) {
+      const id = value
+      getDataListRefWilayah()
+        .then(response => {
+          if (response) {
+            
+            this.getDataDistrik(id)
+            // this.formState.namaproduk = post.namaproduk
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
     fetchGetDataSource() {
       getDataList()
         .then(response => {
@@ -269,15 +277,29 @@ export default defineComponent({
           console.error(err)
         })
     },
-    fetchUpdateData(id) {
-      const dataSource = [...this.dataSourceTable]
-      const currentData = dataSource.filter(x => x.id === id)
-      console.log(currentData[0])
-      this.showModal()
-      this.formState.distrikid = currentData[0].distrikid
-      this.formState.distrikname = currentData[0].distrikname
-      this.formState.id = currentData[0].id
-      this.formState.radius = currentData[0].radius
+    fetchUpdateData(value) {
+      const id = value
+        getDataList()
+          .then(response => {
+            if (response) {
+              const post = response.data.find(post => post.uuid === id)
+              console.log(post)
+              this.showModal()
+              this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
+              this.radiusDistrik.formData.distrikid = post.id_distrik
+              this.radiusDistrik.formData.distrikname = post.distrik_name
+              this.radiusDistrik.formData.id = post.uuid
+              this.radiusDistrik.formData.radius = post.radius_lock
+            }
+          })
+      // const dataSource = [...this.dataSourceTable]
+      // const currentData = dataSource.filter(x => x.id === id)
+      // console.log(currentData[0])
+      // this.showModal()
+      // this.formState.distrikid = currentData[0].distrikid
+      // this.formState.distrikname = currentData[0].distrikname
+      // this.formState.id = currentData[0].id
+      // this.formState.radius = currentData[0].radius
     },
   },
 })
