@@ -227,6 +227,7 @@ export default {
     },
     showTambahPertanyaanModal() {
       this.pertanyaan = ''
+      this.jenisPenilaian = this.list.jenis_penilaian
       this.pertanyaanModalStatus = true
       this.pertanyaanModalVisible = true
     },
@@ -330,7 +331,6 @@ export default {
       dataForm.mode = 2
       dataForm.id = this.idPertanyaan
       dataForm.judul = newPertanyaan
-      console.log(dataForm)
       this.$emit('updatePertanyaan', dataForm)
     },
     editJenisPenilaianModalHandleOk(newJenisPenilaian) {
