@@ -74,7 +74,7 @@
           >
             <template #action>
               <div>
-                <button type="button" class="btn btn-primary">
+                <button @click="gotoDetail()" type="button" class="btn btn-primary">
                   <i class="fa fa-eye"></i>
                 </button>
               </div>
@@ -182,6 +182,9 @@ export default {
       const filtered = dataSource.filter((a) => a.id == this.selectedProvinsi)
       this.kabupatenOption = filtered[0].kabupatens
       console.log(this.kabupatenOption)
+    },
+    gotoDetail() {
+      this.$router.push({ name: 'koordinat-lock-detail' })
     },
     handleView() {
       this.isSubmit = true
