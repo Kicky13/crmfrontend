@@ -85,14 +85,30 @@
                 {{ index + 1 }}
               </div>
             </template>
+            <template #start_date="{ text }">
+              <div>
+                {{ text.startDateJabat != null ? text.startDateJabat : '-' }}
+              </div>
+            </template>
+            <template #end_date="{ text }">
+              <div>
+                {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
+              </div>
+            </template>
             <template #action="{ text }">
               <div>
-                <button @click="handleDetail(text.userid)" type="button" class="btn btn-light mr-2">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
+                <router-link
+                  :to="`/users/profile/${text.idUser}`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span></router-link
                 ><button type="button" class="btn btn-warning mr-2" @click="editRow(text.uuid)">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button
-                  @click="deleteRow(text.uuid)"
+                  @click="deleteRow(text.idJabatan)"
                   type="button"
                   class="btn btn-outline-danger mr-2"
                 >
@@ -266,9 +282,7 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
-    handleDetail(uuid) {
-      this.$router.push(`/users/profile/${uuid}`)
-    },
+
     async openModal() {
       // this.modalVisible = true
       // await this.$store.commit('userManagement/changeUserManagement', {
@@ -358,6 +372,7 @@ export default {
     deleteAll() {},
 
     deleteRow(id) {
+      console.log(`000id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
         okText: 'Yes',
@@ -365,7 +380,7 @@ export default {
         cancelText: 'No',
         onOk: async () => {
           await this.deleteDataRow({
-            uuid: id,
+            id_jabatan: id,
           })
           this.dataListUser({
             idLevelHirarki: this.actiiveTabs.idLevelHirarki,
@@ -373,16 +388,6 @@ export default {
         },
         onCancel() {},
       })
-
-      // deletePermission(id)
-      //   .then((response) => {
-      //     console.log(response)
-      //     const dataSource = [...this.users]
-      //     this.users = dataSource.filter((item) => item.id !== id)
-      //   })
-      //   .catch((err) => {
-      //     console.error(err)
-      //   })
     },
     fetchGetUsers() {
       this.isLoading = true

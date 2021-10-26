@@ -53,7 +53,7 @@
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button type="primary" class="float-right">
+                <a-button @click="modalTambahBawahan()" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   Tambahkan
                 </a-button>
@@ -65,11 +65,14 @@
                   <span>Show :</span>
                 </div>
                 <a-select
-                  :default-value="itemsPerPage[1]"
+                  :default-value="userManagement.itemsPerPage[1]"
                   class="mx-2"
                   @change="handlePaginationSize"
                 >
-                  <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+                  <a-select-option
+                    v-for="itemPerPage in userManagement.itemsPerPage"
+                    :key="itemPerPage"
+                  >
                     {{ itemPerPage }}
                   </a-select-option>
                 </a-select>
@@ -102,10 +105,39 @@
                     {{ text.namasales }}
                   </div>
                 </template>
-                <template #action>
+                <template #action="{ text }">
                   <div>
-                    <button type="button" class="btn btn-outline-danger">
-                      <i class="fa fa-trash"></i><span> Hapus</span>
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Kosongkan Jabatan"
+                      @click="deleteRow(text)"
+                      class="btn btn-outline-danger mr-1"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Replace user"
+                      @click="replaceUser(text)"
+                      class="btn btn-outline-warning mr-1"
+                    >
+                      <i class="fa fa-user-plus"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Assign User"
+                      @click="assignUser(text)"
+                      class="btn btn-outline-info"
+                    >
+                      <i class="fa fa-users"></i>
                     </button>
                   </div>
                 </template>
@@ -115,6 +147,125 @@
         </div>
       </div>
     </div>
+
+    <!-- MODAL TAMBAH BAWAHAN -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleHirarkiDown"
+      :title="'Tambah Bawahan'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModal">Batal</a-button>
+        <a-button @click="handleSubmitAddHirarkiDown()" key="submit" type="primary"
+          >Simpan</a-button
+        >
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select
+            v-model:value="userManagement.form_tambah_bawahan.id_bawahan"
+            placeholder="Pilih Sales Non Bawahan"
+          >
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_tambah_bawahan.tgl_mulai"
+            class="w-100"
+          />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_tambah_bawahan.tgl_akhir"
+            class="w-100"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- MODAL REPLACE USER -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleReplaceUser"
+      :title="'Replace User'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModalReplaceUser()">Batal</a-button>
+        <a-button @click="handleSubmitReplaceUser()" key="submit" type="primary">Simpan</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select
+            v-model:value="userManagement.form_replace_bawahan.user_replace_id"
+            placeholder="Pilih Sales Non Bawahan"
+          >
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_replace_bawahan.tgl_mulai"
+            class="w-100"
+          />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker
+            v-model:value="userManagement.form_replace_bawahan.tgl_akhir"
+            class="w-100"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- MODAL ASSIGN USER -->
+
+    <a-modal
+      v-model:visible="userManagement.modalVisibleAssignUser"
+      :title="'Assign User'"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
+        <a-button @click="handleSubmit" key="submit" type="primary">Simpan</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Sales Non Bawahan" name="level">
+          <a-select placeholder="Pilih Sales Non Bawahan">
+            <a-select-option
+              v-for="(item, index) in userManagement.sales_non_bawahan"
+              :key="`level_${index}`"
+              :value="item.iduser"
+            >
+              {{ item.namasales }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Tanggal Mulai Jabatan" name="level">
+          <a-date-picker class="w-100" />
+        </a-form-item>
+        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+          <a-date-picker class="w-100" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -128,23 +279,6 @@ const itemsPerPage = [5, 10, 15, 20]
 
 export default {
   name: 'VbAntDesign',
-  setup() {
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      },
-      getCheckboxProps: record => ({
-        props: {
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        },
-      }),
-    }
-    return {
-      rowSelection,
-      itemsPerPage,
-    }
-  },
   data() {
     return {}
   },
@@ -160,11 +294,105 @@ export default {
     await this.getListDownHirarki({
       id_user: this.$route.params.uuid,
     })
+    await this.getSalesNonBawahan({
+      id_jabatan: this.$route.params.uuid,
+      id_user: this.userManagement.detail_jabatan.idUser,
+    })
   },
   methods: {
-    ...mapActions('userManagement', ['getDetailProfile', 'getListDownHirarki']),
+    ...mapActions('userManagement', [
+      'deleteRowHirarkiDown',
+      'getDetailProfile',
+      'getListDownHirarki',
+      'getSalesNonBawahan',
+      'submitAddSalesHirarki',
+      'submitReplaceSalesHirarki',
+    ]),
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
+    },
+    closeModal() {
+      this.userManagement.modalVisibleHirarkiDown = false
+    },
+    modalTambahBawahan() {
+      this.userManagement.modalVisibleHirarkiDown = true
+    },
+    async handleSubmitAddHirarkiDown() {
+      if (
+        this.userManagement.form_tambah_bawahan.id_bawahan &&
+        this.userManagement.form_tambah_bawahan.tgl_mulai &&
+        this.userManagement.form_tambah_bawahan.tgl_akhir
+      ) {
+        await this.submitAddSalesHirarki({
+          id_user: this.userManagement.detail_jabatan.idUser,
+        })
+        this.closeModal()
+        await this.getListDownHirarki({
+          id_user: this.$route.params.uuid,
+        })
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModal()
+      }
+    },
+    async handleSubmitReplaceUser() {
+      if (
+        this.userManagement.form_replace_bawahan.user_replace_id &&
+        this.userManagement.form_replace_bawahan.tgl_mulai &&
+        this.userManagement.form_replace_bawahan.tgl_akhir
+      ) {
+        await this.submitReplaceSalesHirarki()
+        this.closeModalReplaceUser()
+        await this.getListDownHirarki({
+          id_user: this.$route.params.uuid,
+        })
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModalReplaceUser()
+      }
+    },
+    closeModalReplaceUser() {
+      this.userManagement.modalVisibleReplaceUser = false
+    },
+    replaceUser(text) {
+      this.userManagement.modalVisibleReplaceUser = true
+      this.$store.commit('userManagement/changeUserManagement', {
+        form_replace_bawahan: {
+          id_jabatan: text.idJabatan,
+        },
+      })
+    },
+    closeModalAssignUser() {
+      this.userManagement.modalVisibleAssignUser = false
+    },
+    assignUser() {
+      this.userManagement.modalVisibleAssignUser = true
+    },
+    deleteRow(id) {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menghapus data ini?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          return new Promise((resolve, reject) => {
+            this.deleteRowHirarkiDown({
+              id_jabatan: parseInt(this.$route.params.uuid),
+            })
+            this.getDetailProfile({
+              id_jabatan: this.$route.params.uuid,
+            })
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {},
+      })
     },
   },
 }
