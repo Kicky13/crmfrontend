@@ -7,7 +7,7 @@ import RadiusDistrik from '../services/connection/radius-distrik'
 import SynCustomer from '../services/connection/customer-sync'
 import OtomatisasiVisitPlan from '../services/connection/otomatisasi-visit'
 import VisitPlan from '../services/connection/upload-visit'
-import ProfileTSO from '../services/connection/user-management/UserHirarki/ProfileTSO'
+import MappingCustomer from '../services/connection/mapping-customer'
 export default createStore({
   modules: {
     user,
@@ -18,7 +18,7 @@ export default createStore({
     synCustomer: SynCustomer,
     otomatisasiVisitPlan: OtomatisasiVisitPlan,
     visitPlan: VisitPlan,
-    profileTSO: ProfileTSO,
+    mappingCustomer: MappingCustomer,
   },
   state: {},
   mutations: {},

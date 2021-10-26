@@ -1,4 +1,5 @@
 import apiClient from '@/services/axios'
+import newApiClient from '@/services/axios/axios'
 import store from 'store'
 
 export async function getDataList() {
@@ -15,6 +16,17 @@ export async function getDataList() {
 export async function deleteData(id) {
   return apiClient
   .delete('/mappingcustomer/' + id)
+  .then(response => {
+    if (response) {
+      return true
+    }
+    return false
+  })
+}
+
+export async function downloadTokoSales(data) {
+  return newApiClient
+  .post('/customer/downloadTokoSales', data)
   .then(response => {
     if (response) {
       return true
