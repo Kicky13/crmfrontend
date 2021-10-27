@@ -304,14 +304,14 @@ export default {
   },
   async mounted() {
     await this.getDetailProfile({
-      id_jabatan: this.$route.params.uuid,
+      id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDownHirarki({
-      id_user: this.$route.params.uuid,
+      id_user: this.$route.params.id,
     })
     await this.getSalesNonBawahan({
-      id_jabatan: this.$route.params.uuid,
-      id_user: this.userManagement.detail_jabatan.idUser,
+      id_jabatan: this.$route.params.id_jabatan,
+      id_user: this.$route.params.id,
     })
   },
   methods: {
@@ -435,6 +435,9 @@ export default {
             })
             this.getDetailProfile({
               id_jabatan: this.$route.params.uuid,
+            })
+            this.getListDownHirarki({
+              id_user: this.$route.params.uuid,
             })
             setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
           }).catch(() => console.log('Oops errors!'))

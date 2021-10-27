@@ -25,6 +25,32 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+    rules: {
+      id_distrik: [
+        {
+          required: true,
+          message: 'Pilih Distrik !',
+          type: 'string',
+          trigger: 'change',
+        },
+      ],
+      tgl_mulai: [
+        {
+          required: true,
+          message: 'Pilih Tanggal Mulai !',
+          type: 'string',
+          trigger: 'change',
+        },
+      ],
+      tgl_akhir: [
+        {
+          required: true,
+          message: 'Pilih Tanggal Akhir!',
+          type: 'string',
+          trigger: 'change',
+        },
+      ],
+    },
     itemsPerPage: [5, 10, 15, 20],
     daftar_distrik: [],
     list_distrik_bawahan: [],

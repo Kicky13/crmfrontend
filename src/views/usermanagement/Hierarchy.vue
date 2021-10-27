@@ -76,7 +76,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.users"
-            :row-key="data => data.uuid"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
           >
@@ -108,7 +108,7 @@
             <template #action="{ text }">
               <div>
                 <router-link
-                  :to="`/users/profile/TSO/${text.idUser}`"
+                  :to="`/users/profile/${text.idUser}/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
@@ -119,7 +119,7 @@
                 </router-link>
                 <router-link
                   v-else
-                  :to="`/users/profile/${text.idUser}`"
+                  :to="`/users/profile/${text.idUser}/jabatan/${text.idJabatan}`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"

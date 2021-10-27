@@ -49,52 +49,55 @@
             <strong>Profile TSO</strong>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-xs-3 col-md-3">
-                <a-form-item label="">
-                  <a-select
-                    v-model:value="profileTSO.formData.id_distrik"
-                    style="width: 10rem !important;"
-                    class="col-lg-12 col-md-12 pr-2"
-                    placeholder="Pilih Distrik"
-                  >
-                    <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
-                    <a-select-option
-                      v-for="(item, index) in profileTSO.daftar_distrik"
-                      :value="item.idDistrik"
-                      :key="`distrik_${index}`"
+            <a-form :model="profileTSO.formData" :rules="profileTSO.rules">
+              <div class="row">
+                <div class="col-xs-3 col-md-3">
+                  <a-form-item label="" name="id_distrik">
+                    <a-select
+                      v-model:value="profileTSO.formData.id_distrik"
+                      style="width: 10rem !important;"
+                      class="col-lg-12 col-md-12 pr-2"
+                      placeholder="Pilih Distrik"
                     >
-                      {{ item.namaDistrik }}
-                    </a-select-option>
-                  </a-select>
-                </a-form-item>
+                      <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                      <a-select-option
+                        v-for="(item, index) in profileTSO.daftar_distrik"
+                        :value="item.idDistrik"
+                        :key="`distrik_${index}`"
+                      >
+                        {{ item.namaDistrik }}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </div>
+                <div class="col-xs-3 col-md-3">
+                  <a-form-item label="" name="tgl_mulai">
+                    <a-date-picker
+                      v-model:value="profileTSO.formData.tgl_mulai"
+                      placeholder="Tanggal Mulai"
+                      style="width: 10rem !important;"
+                    />
+                  </a-form-item>
+                </div>
+                <div class="col-xs-3 col-md-3">
+                  <a-form-item label="" name="tgl_akhir">
+                    <a-date-picker
+                      v-model:value="profileTSO.formData.tgl_akhir"
+                      placeholder="Tanggal Akhir"
+                      style="width: 10rem !important;"
+                    />
+                  </a-form-item>
+                </div>
+                <div class="col-xs-3 col-md-3">
+                  <a-form-item>
+                    <a-button html-type="submit" type="primary" @click="handleSubmit()">
+                      <i class="fa fa-eye mr-2" />
+                      Tambahkan
+                    </a-button>
+                  </a-form-item>
+                </div>
               </div>
-              <div class="col-xs-3 col-md-3">
-                <a-form-item label="">
-                  <a-date-picker
-                    v-model:value="profileTSO.formData.tgl_mulai"
-                    placeholder="Tanggal Mulai"
-                    style="width: 10rem !important;"
-                  />
-                </a-form-item>
-              </div>
-              <div class="col-xs-3 col-md-3">
-                <a-form-item label="">
-                  <a-date-picker
-                    v-model:value="profileTSO.formData.tgl_akhir"
-                    placeholder="Tanggal Akhir"
-                    style="width: 10rem !important;"
-                  />
-                </a-form-item>
-              </div>
-              <div class="col-xs-3 col-md-3">
-                <a-button type="primary" class="" @click="handleSubmit()">
-                  <i class="fa fa-eye mr-2" />
-                  Tambahkan
-                </a-button>
-              </div>
-            </div>
-
+            </a-form>
             <div class="table-responsive text-nowrap">
               <a-table
                 :columns="profileTSO.columns"
@@ -167,7 +170,7 @@ export default {
       id_tso: this.$route.params.id,
     })
     await this.getDetailProfile({
-      id_jabatan: this.$route.params.id,
+      id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDistrikHirarki({
       id_tso: this.$route.params.id,
@@ -193,22 +196,33 @@ export default {
               id_tso: this.$route.params.id,
               id_distrik: id_distriks,
             })
-            this.getListDistrik({
-              id_tso: this.$route.params.id,
-            })
-            this.getListDistrikHirarki({
-              id_tso: this.$route.params.id,
-            })
+
             setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+
+            if (resolve) {
+              this.getListDistrik({
+                id_tso: this.$route.params.id,
+              })
+              this.getListDistrikHirarki({
+                id_tso: this.$route.params.id,
+              })
+            }
           }).catch(() => console.log('Oops errors!'))
         },
         onCancel() {},
       })
     },
     async handleSubmit() {
-      await this.addDistrikHirarki({
-        id_tso: this.$route.params.id,
-      })
+      if (
+        this.profileTSO.formData.id_distrik &&
+        this.profileTSO.formData.tgl_mulai &&
+        this.profileTSO.formData.tgl_akhir
+      ) {
+        await this.addDistrikHirarki({
+          id_tso: this.$route.params.id,
+        })
+      }
+
       await this.getListDistrik({
         id_tso: this.$route.params.id,
       })
