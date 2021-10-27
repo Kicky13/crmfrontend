@@ -66,7 +66,8 @@ const state = {
       },
       {
         title: 'Nama',
-        dataIndex: 'nama',
+        key: 'nama',
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Tanggal Jabatan',
@@ -79,8 +80,9 @@ const state = {
         slots: { customRender: 'end_date' },
       },
       {
-        title: 'ID User',
-        dataIndex: 'idUser',
+        title: 'Username',
+        key: 'username',
+        slots: { customRender: 'username' },
       },
       {
         title: 'Status',
@@ -316,12 +318,40 @@ const actions = {
     }
   },
 
+  async postJabatanBawahan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatanAtasan: payload.id_jabatan_atasan,
+      idLevelHirarki: payload.id_level_hirarki,
+    }
+
+    let result = ''
+
+    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil diubah`,
+      })
+    }
+  },
+
   async deleteDataRow(context, payload) {
     let formData = {
       idJabatan: payload.id_jabatan,
     }
 
-    console.log(`---formData`, formData)
     const result = await apiClient.post(`/hirarki/removeUser`, formData)
 
     if (result.data.status == false) {
@@ -409,11 +439,6 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-
-    // let formData = {
-    //   IDuser: payload.id_user,
-    //   IDbawahan: payload.id_bawahan,
-    // }
 
     let formData = {
       idJabatan: payload.id_jabatan,

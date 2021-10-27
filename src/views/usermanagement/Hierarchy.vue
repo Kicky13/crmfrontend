@@ -85,6 +85,11 @@
                 {{ index + 1 }}
               </div>
             </template>
+            <template #nama="{ text }">
+              <div>
+                {{ text.nama != null ? text.nama : '-' }}
+              </div>
+            </template>
             <template #start_date="{ text }">
               <div>
                 {{ text.startDateJabat != null ? text.startDateJabat : '-' }}
@@ -93,6 +98,11 @@
             <template #end_date="{ text }">
               <div>
                 {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
+              </div>
+            </template>
+            <template #username="{ text }">
+              <div>
+                {{ text.username != null ? text.username : '-' }}
               </div>
             </template>
             <template #action="{ text }">
@@ -116,20 +126,27 @@
                 >
                   <i class="fa fa-file-text-o mr-1"></i>
                   <span class="text-black">Detail</span></router-link
-                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text.uuid)">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button
+                  v-if="text.statusJabat === `Nonaktif`"
+                  type="button"
+                  class="btn btn-warning mr-2"
+                  @click="editRow(text.uuid)"
+                >
+                  <i class="fa fa-pencil-square-o"></i>
+                  <span class="text-black">Assign User</span></button
+                ><button
+                  v-if="text.statusJabat != `Nonaktif`"
                   @click="deleteRow(text.idJabatan)"
                   type="button"
                   class="btn btn-outline-danger mr-2"
                 >
-                  <i class="fa fa-trash"></i><span> Hapus</span>
+                  <i class="fa fa-trash"></i><span> Kosongkan Jabatan</span>
                 </button>
               </div>
             </template>
           </a-table>
         </div>
-        <a-modal
+        <!-- <a-modal
           v-model:visible="modalVisible"
           :title="'Tambah User'"
           :closable="false"
@@ -156,27 +173,7 @@
                 placeholder="Ketik username"
               />
             </a-form-item>
-            <!-- <a-form-item label="Password" name="password">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.password"
-                placeholder="Ketik password"
-              />
-            </a-form-item>
-            <a-form-item label="Level" name="level">
-              <a-select
-                v-model:value="userManagement.formState.idLevelHirarki"
-                placeholder="Pilih Level"
-              >
-                <a-select-option
-                  v-for="(item, index) in userManagement.listUser"
-                  :key="`level_${index}`"
-                  :value="item.idLevelHirarki"
-                >
-                  {{ item.nama_panjang }}
-                </a-select-option>
-              </a-select>
-            </a-form-item> -->
+            
             <a-form-item label="Email" name="email">
               <a-input
                 style="width: 100% !important"
@@ -190,6 +187,42 @@
                 v-model:value="userManagement.formState.nohp"
                 placeholder="Ketik no hp"
               />
+            </a-form-item>
+          </a-form>
+        </a-modal> -->
+
+        <a-modal
+          v-model:visible="modalVisible"
+          :title="'Assign User'"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
+            <a-button @click="handleSubmitAssignUser()" key="submit" type="primary"
+              >Simpan</a-button
+            >
+          </template>
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Sales Non Bawahan" name="level">
+              <!-- <a-select
+                v-model:value="userManagement.form_assign_bawahan.id_user"
+                placeholder="Pilih Sales Non Bawahan"
+              >
+                <a-select-option
+                  v-for="(item, index) in userManagement.sales_non_bawahan"
+                  :key="`level_${index}`"
+                  :value="item.iduser"
+                >
+                  {{ item.namasales }}
+                </a-select-option>
+              </a-select> -->
+            </a-form-item>
+            <a-form-item label="Tanggal Mulai Jabatan" name="level">
+              <a-date-picker class="w-100" />
+            </a-form-item>
+            <a-form-item label="Tanggal Akhir Jabatan" name="level">
+              <a-date-picker class="w-100" />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -383,7 +416,6 @@ export default {
     deleteAll() {},
 
     deleteRow(id) {
-      console.log(`000id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
         okText: 'Yes',

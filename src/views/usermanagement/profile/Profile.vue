@@ -124,6 +124,7 @@
                     </button>
 
                     <button
+                      v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -133,8 +134,8 @@
                     >
                       <i class="fa fa-user-plus"></i>
                     </button>
-
                     <button
+                      v-if="text.iduser === null"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -322,6 +323,7 @@ export default {
       'submitAddSalesHirarki',
       'submitReplaceSalesHirarki',
       'submitAssignSalesHirarki',
+      'postJabatanBawahan',
     ]),
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
@@ -330,7 +332,19 @@ export default {
       this.userManagement.modalVisibleHirarkiDown = false
     },
     modalTambahBawahan() {
-      this.userManagement.modalVisibleHirarkiDown = true
+      this.$confirm({
+        title: 'Apakah anda akan menambahkan jabatan baru ?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.postJabatanBawahan({
+            id_jabatan_atasan: this.userManagement.detail_jabatan.idUser,
+            id_level_hirarki: this.userManagement.detail_jabatan.idUser,
+          })
+        },
+        onCancel() {},
+      })
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -417,7 +431,7 @@ export default {
         onOk: async () => {
           return new Promise((resolve, reject) => {
             this.deleteRowHirarkiDown({
-              id_jabatan: parseInt(this.$route.params.uuid),
+              id_jabatan: parseInt(id.idJabatan),
             })
             this.getDetailProfile({
               id_jabatan: this.$route.params.uuid,
