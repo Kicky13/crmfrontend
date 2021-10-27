@@ -130,7 +130,7 @@
                   v-if="text.statusJabat === `Nonaktif`"
                   type="button"
                   class="btn btn-warning mr-2"
-                  @click="editRow(text.uuid)"
+                  @click="assignRow(text)"
                 >
                   <i class="fa fa-pencil-square-o"></i>
                   <span class="text-black">Assign User</span></button
@@ -205,7 +205,7 @@
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Sales Non Bawahan" name="level">
-              <!-- <a-select
+              <a-select
                 v-model:value="userManagement.form_assign_bawahan.id_user"
                 placeholder="Pilih Sales Non Bawahan"
               >
@@ -216,13 +216,19 @@
                 >
                   {{ item.namasales }}
                 </a-select-option>
-              </a-select> -->
+              </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
-              <a-date-picker class="w-100" />
+              <a-date-picker
+                v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
+                class="w-100"
+              />
             </a-form-item>
             <a-form-item label="Tanggal Akhir Jabatan" name="level">
-              <a-date-picker class="w-100" />
+              <a-date-picker
+                v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
+                class="w-100"
+              />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -276,6 +282,8 @@ export default {
       'postSubmitData',
       'deleteDataRow',
       'postJabatanGSM',
+      'getSalesNonBawahan',
+      'submitAssignSalesHirarki',
     ]),
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
@@ -288,23 +296,51 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 1000),
-    async editRow(id) {
-      const row = this.userManagement.users.find(data => data.uuid === id)
-      await this.$store.commit('userManagement/changeUserManagement', {
-        formState: {
-          id: row.uuid,
-          name: row.name,
-          username: row.username,
-          password: row.password,
-          email: row.email,
-          nohp: row.nohp,
-          userid: row.userid,
-          idLevelHirarki: row.idLevelHirarki,
+    async assignRow(item) {
+      // const row = this.userManagement.users.find(data => data.uuid === id)
+      // await this.$store.commit('userManagement/changeUserManagement', {
+      //   formState: {
+      //     id: row.uuid,
+      //     name: row.name,
+      //     username: row.username,
+      //     password: row.password,
+      //     email: row.email,
+      //     nohp: row.nohp,
+      //     userid: row.userid,
+      //     idLevelHirarki: row.idLevelHirarki,
+      //   },
+      // })
+      this.$store.commit('userManagement/changeUserManagement', {
+        form_assign_bawahan: {
+          id_jabatan: item.idJabatan,
         },
+      })
+      await this.getSalesNonBawahan({
+        id_jabatan: item.idJabatan,
+        id_user: item.idUser,
       })
       this.modalVisible = true
     },
-
+    closeModalAssignUser() {
+      this.modalVisible = false
+    },
+    async handleSubmitAssignUser() {
+      if (
+        this.userManagement.form_assign_bawahan.id_user &&
+        this.userManagement.form_assign_bawahan.tgl_mulai &&
+        this.userManagement.form_assign_bawahan.tgl_akhir
+      ) {
+        await this.submitAssignSalesHirarki()
+        this.closeModalAssignUser()
+        await this.dataListUser()
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModalAssignUser()
+      }
+    },
     async dataListUser() {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle

@@ -156,13 +156,13 @@ const state = {
       tgl_akhir: '',
     },
     form_replace_bawahan: {
-      id_jabtan: null,
+      id_jabatan: null,
       user_replace_id: null,
       tgl_mulai: '',
       tgl_akhir: '',
     },
     form_assign_bawahan: {
-      id_jabtan: null,
+      id_jabatan: null,
       id_user: null,
       tgl_mulai: '',
       tgl_akhir: '',
@@ -313,7 +313,7 @@ const actions = {
     } else {
       notification.success({
         message: 'Success',
-        description: `Data berhasil diubah`,
+        description: `Data berhasil ditambahkan`,
       })
     }
   },
@@ -339,10 +339,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil diubah`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -359,10 +365,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil dihapus`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -375,10 +387,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil direset`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -399,6 +417,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       await commit('changeUserManagement', {
@@ -427,6 +448,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       await commit('changeUserManagement', {
         list_hirarki_down: result.data.data,
@@ -449,6 +473,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       notification.success({
@@ -479,6 +506,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       await commit('changeUserManagement', {
@@ -590,7 +620,7 @@ const actions = {
     } else {
       notification.success({
         message: 'Success',
-        description: `Data berhasil direplace`,
+        description: `Data berhasil di assign `,
       })
       await commit('changeUserManagement', {
         isLoading: false,
