@@ -104,7 +104,7 @@ import { mapState, mapActions } from 'vuex'
 import { notification } from 'ant-design-vue'
 
 export default {
-  name: 'Profile TSO',
+  name: 'ProfileTSO',
   // components: {
   //   UploadOutlined,
   // },
