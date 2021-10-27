@@ -72,9 +72,9 @@
             :pagination="pagination"
             :scroll="{ x: 1500 }"
           >
-            <template #action>
+            <template #action="text">
               <div>
-                <button @click="gotoDetail()" type="button" class="btn btn-primary">
+                <button @click="gotoDetail(text)" type="button" class="btn btn-primary">
                   <i class="fa fa-eye"></i>
                 </button>
               </div>
@@ -127,7 +127,7 @@ const columns = [
   },
   {
     title: 'Detail',
-    dataIndex: 'id',
+    dataIndex: 'id_customer',
     slots: { customRender: 'action' },
     width: 100,
     fixed: 'right',
@@ -183,8 +183,16 @@ export default {
       this.kabupatenOption = filtered[0].kabupatens
       console.log(this.kabupatenOption)
     },
-    gotoDetail() {
-      this.$router.push({ name: 'koordinat-lock-detail' })
+    gotoDetail(id) {
+      let data = this.getDetail(id)
+      this.$router.push({ name: 'koordinat-lock-detail', params: {customerInfo: JSON.stringify(data)} })
+    },
+    getDetail(id) {
+      const dataSource = [...this.customers]
+      const filtered = dataSource.filter((a) => a.id_customer == id.text)
+      const detailData = filtered[0]
+
+      return detailData
     },
     handleView() {
       this.isSubmit = true

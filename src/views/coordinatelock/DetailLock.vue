@@ -14,17 +14,88 @@
                   v-once
                   :src="require('@/assets/images/shop.png')"
                   alt="shop"
-                  height="150"
-                  width="150"
+                  style="width: 80%"
                 />
               </div>
-                <strong>UTAMA JAYA</strong>
-                <strong>KODE/ID : 1000988</strong>
+              <div class="col-md-6" style="margin-top: 5%">
+                <div class="text-dark font-weight-bold font-size-32">
+                  {{ detailCustomer.nm_customer }}
+                </div>
+                <div class="font-size-16">
+                  KODE/ID : {{ detailCustomer.id_customer }}
+                </div>
+              </div>
             </div>
             <a-tabs default-active-key="1" @change="callback">
-              <a-tab-pane key="1" tab="Informasi Profil"> Content of Tab Pane 1 </a-tab-pane>
+              <a-tab-pane key="1" tab="Informasi Profil">
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Nama Pemilik</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span>: {{ detailCustomer.nm_pemilik ?? 'Tidak Tersedia' }}</span>
+                  </div>
+                </div>
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Telepon</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span>: {{ detailCustomer.telp_toko ?? 'Tidak Tersedia' }}</span>
+                  </div>
+                </div>
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-map-marker"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Alamat</span>
+                  </div>
+                  <div class="col-md-6">
+                    <span>: {{ detailCustomer.alamat ?? '-' }}</span>
+                  </div>
+                </div>
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-archive"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Kapasitas Toko</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span>: {{ detailCustomer.kapasitas_toko ?? 0 }}</span>
+                  </div>
+                </div>
+              </a-tab-pane>
               <a-tab-pane key="2" tab="Mapping Customer" force-render>
-                Content of Tab Pane 2
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-balance-scale"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Distributor</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span>: Kikik</span>
+                  </div>
+                </div>
+                <div class="row border-bottom font-size-16" style="margin-bottom: 12px;">
+                  <div class="col-md-1">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <div class="col-md-4 font-weight-bold">
+                    <span>Sales</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span>: Kikik</span>
+                  </div>
+                </div>
               </a-tab-pane>
               <a-tab-pane key="3" tab="History Visit">
                 <div class="d-flex justify-content-between mb-3">
@@ -135,7 +206,7 @@
               </div>
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20"></div>
-                <div class="font-size-16">Lng: 0.387198311 | Ltd: -9.13989171</div>
+                <div class="font-size-16">Lng: {{ detailCustomer.longitude ?? '-' }} | Ltd: {{ detailCustomer.latitude ?? '-' }}</div>
               </div>
             </div>
           </div>
@@ -158,40 +229,28 @@ import { notification, message } from 'ant-design-vue'
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
-    title: 'ID Customer',
-    dataIndex: 'id_customer',
-    width: 100,
-    fixed: 'left',
+    title: 'No.',
+    dataIndex: 'id_kunjungan',
   },
   {
-    title: 'Nama Toko',
-    dataIndex: 'nm_customer',
-    width: 150,
-    fixed: 'left',
+    title: 'Rencana Kunjungan',
+    dataIndex: 'tgl_rencana_kunjungan',
   },
   {
-    title: 'Alamat',
-    dataIndex: 'alamat',
+    title: 'Supervisor',
+    dataIndex: 'nama_supervisor',
   },
   {
-    title: 'Provinsi',
-    dataIndex: 'provinsi',
+    title: 'Dikunjungi',
+    dataIndex: 'dikunjungi',
   },
   {
-    title: 'Kabupaten',
-    dataIndex: 'kabupaten',
-  },
-  {
-    title: 'Koordinat',
-    dataIndex: 'koordinat',
-  },
-  {
-    title: 'Status Lock',
-    dataIndex: 'status_lock',
+    title: 'Penugasan',
+    dataIndex: 'jenis_penugasan',
   },
   {
     title: 'Detail',
-    dataIndex: 'id',
+    dataIndex: 'id_kunjungan',
     slots: { customRender: 'action' },
     width: 100,
     fixed: 'right',
@@ -200,6 +259,12 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
+  props: {
+    customerInfo: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -222,9 +287,13 @@ export default {
     return {
       pagination: {},
       isLoading: false,
+      detailCustomer: {},
     }
   },
-  async mounted() {},
+  async mounted() {
+    this.detailCustomer = JSON.parse(this.customerInfo)
+    console.log(this.detailCustomer)
+  },
   methods: {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
