@@ -3,7 +3,7 @@ import store from 'store'
 
 export async function getDataList() {
     return apiClient
-    .post('/RadiusDistrik/List')
+    .post('/RadiusWilayah/List')
     .then(response => {
         if (response) {
             return response.data
@@ -14,7 +14,7 @@ export async function getDataList() {
 
 export async function getDataListRefWilayah() {
   return apiClient
-  .post('/RadiusDistrik/List_Distrik')
+  .post('/RadiusWilayah/List_Distrik')
   .then(response => {
       if (response) {
           return response.data
