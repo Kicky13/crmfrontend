@@ -214,6 +214,14 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/Lock'),
       },
+      {
+        path: '/koordinatlock/detail',
+        name: 'koordinat-lock-detail',
+        props: true,
+        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+        component: () =>
+          import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/DetailLock'),
+      },
       // Kikik ============================================================================
       /*  ROBI VIEW */
       {
