@@ -339,8 +339,8 @@ export default {
         cancelText: 'No',
         onOk: async () => {
           await this.postJabatanBawahan({
-            id_jabatan_atasan: this.userManagement.detail_jabatan.idUser,
-            id_level_hirarki: this.userManagement.detail_jabatan.idUser,
+            id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+            id_level_hirarki: this.userManagement.detail_jabatan.idLevelJabatan,
           })
         },
         onCancel() {},
@@ -357,7 +357,7 @@ export default {
         })
         this.closeModal()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -376,7 +376,7 @@ export default {
         await this.submitReplaceSalesHirarki()
         this.closeModalReplaceUser()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -395,7 +395,7 @@ export default {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -434,10 +434,10 @@ export default {
               id_jabatan: parseInt(id.idJabatan),
             })
             this.getDetailProfile({
-              id_jabatan: this.$route.params.uuid,
+              id_jabatan: this.$route.params.id_jabatan,
             })
             this.getListDownHirarki({
-              id_user: this.$route.params.uuid,
+              id_user: this.$route.params.id,
             })
             setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
           }).catch(() => console.log('Oops errors!'))

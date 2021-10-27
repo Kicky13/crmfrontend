@@ -228,6 +228,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       await commit('changeUserManagement', {
         users: result.data.data,
@@ -260,10 +263,16 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
       } else {
         notification.success({
           message: 'Success',
           description: `Data berhasil diubah`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
         })
       }
     } else {
@@ -273,10 +282,16 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
       } else {
         notification.success({
           message: 'Success',
           description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
         })
       }
     }
@@ -310,10 +325,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -345,7 +366,7 @@ const actions = {
     } else {
       notification.success({
         message: 'Success',
-        description: `Data berhasil diubah`,
+        description: `Data berhasil ditambahkan`,
       })
       await commit('changeUserManagement', {
         isLoading: false,
