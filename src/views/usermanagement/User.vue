@@ -74,6 +74,11 @@
             :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
           >
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
+            </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
@@ -246,13 +251,10 @@ export default {
         okType: 'danger',
         cancelText: 'No',
         onOk: async () => {
-          return new Promise((resolve, reject) => {
-            this.resetDataRow({
-              uuid: id,
-            })
-            this.getListUserCRM()
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-          }).catch(() => console.log('Oops errors!'))
+          this.resetDataRow({
+            uuid: id,
+          })
+          this.getListUserCRM()
         },
         onCancel() {},
       })
@@ -265,13 +267,10 @@ export default {
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
-          return new Promise((resolve, reject) => {
-            this.deleteDataUser({
-              data_id: id,
-            })
-            this.getListUserCRM()
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-          }).catch(() => console.log('Oops errors!'))
+          await this.deleteDataUser({
+            data_id: id,
+          })
+          await this.getListUserCRM()
         },
         onCancel() {},
       })

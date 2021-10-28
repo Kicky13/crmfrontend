@@ -374,7 +374,11 @@ const actions = {
     }
   },
 
-  async deleteDataRow(context, payload) {
+  async deleteDataRow({ commit }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
     let formData = {
       idJabatan: payload.id_jabatan,
     }

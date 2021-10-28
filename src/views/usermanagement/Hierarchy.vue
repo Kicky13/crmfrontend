@@ -50,7 +50,7 @@
               <span>Show :</span>
             </div>
             <a-select
-              :default-value="userManagement.itemsPerPage[0]"
+              :default-value="userManagement.itemsPerPage[1]"
               class="mx-2"
               @change="handlePaginationSize"
             >
@@ -204,17 +204,18 @@
             >
           </template>
           <a-form label-align="left" layout="vertical">
-            <a-form-item label="Sales Non Bawahan" name="level">
+            <a-form-item label="User" name="level">
               <a-select
                 v-model:value="userManagement.form_assign_bawahan.id_user"
-                placeholder="Pilih Sales Non Bawahan"
+                placeholder="Pilih User"
+                show-search
               >
                 <a-select-option
-                  v-for="(item, index) in userManagement.sales_non_bawahan"
+                  v-for="(item, index) in userManagementCRM.dataSourceTable"
                   :key="`level_${index}`"
-                  :value="item.iduser"
+                  :value="item.userid"
                 >
-                  {{ item.namasales }}
+                  {{ item.userid }} - {{ item.name }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -270,6 +271,7 @@ export default {
   computed: {
     ...mapState({
       userManagement: state => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -285,6 +287,12 @@ export default {
       'getSalesNonBawahan',
       'submitAssignSalesHirarki',
     ]),
+    ...mapActions('userManagementCRM', ['getListUserCRM']),
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
+    },
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
         bodyList: {
@@ -315,10 +323,7 @@ export default {
           id_jabatan: item.idJabatan,
         },
       })
-      await this.getSalesNonBawahan({
-        id_jabatan: item.idJabatan,
-        id_user: item.idUser,
-      })
+      await this.getListUserCRM()
       this.modalVisible = true
     },
     closeModalAssignUser() {
@@ -387,6 +392,7 @@ export default {
           await this.postJabatanGSM({
             id_level_hirarki: this.actiiveTabs.id_level_hirarki,
           })
+          await this.dataListUser()
         },
         onCancel() {},
       })
@@ -461,9 +467,7 @@ export default {
           await this.deleteDataRow({
             id_jabatan: id,
           })
-          this.dataListUser({
-            idLevelHirarki: this.actiiveTabs.idLevelHirarki,
-          })
+          await this.dataListUser()
         },
         onCancel() {},
       })
