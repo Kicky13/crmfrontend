@@ -404,7 +404,10 @@ const actions = {
     }
   },
 
-  async resetDataRow(context, payload) {
+  async resetDataRow({ commit }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
     const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
 
     if (result.data.status == false) {

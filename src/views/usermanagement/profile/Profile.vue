@@ -186,12 +186,14 @@
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledBawahanStartDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_mulai"
             class="w-100"
           />
         </a-form-item>
         <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledBawahanEndDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_akhir"
             class="w-100"
           />
@@ -228,12 +230,14 @@
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledReplaceStartDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_mulai"
             class="w-100"
           />
         </a-form-item>
         <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledReplaceEndDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_akhir"
             class="w-100"
           />
@@ -270,12 +274,14 @@
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledAssignStartDate"
             v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
             class="w-100"
           />
         </a-form-item>
         <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
+            :disabled-date="disabledAssignEndDate"
             v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
             class="w-100"
           />
@@ -326,6 +332,51 @@ export default {
       'submitAssignSalesHirarki',
       'postJabatanBawahan',
     ]),
+
+    disabledAssignStartDate(startValue) {
+      const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledAssignEndDate(endValue) {
+      const startValue = this.userManagement.form_assign_bawahan.tgl_mulai
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
+
+    disabledReplaceStartDate(startValue) {
+      const endValue = this.userManagement.form_replace_bawahan.tgl_akhir
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledReplaceEndDate(endValue) {
+      const startValue = this.userManagement.form_replace_bawahan.tgl_mulai
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
+
+    disabledBawahanStartDate(startValue) {
+      const endValue = this.userManagement.form_tambah_bawahan.tgl_akhir
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledBawahanEndDate(endValue) {
+      const startValue = this.userManagement.form_tambah_bawahan.tgl_mulai
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
     changeProfile(item) {
       this.$router.push(`/users/profile/${item.iduser}/jabatan/${item.idJabatan}`)
     },
@@ -346,6 +397,9 @@ export default {
             id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
             id_level_hirarki: this.userManagement.detail_jabatan.idLevelJabatan,
           })
+          await this.getListDownHirarki({
+            id_user: this.$route.params.id,
+          })
         },
         onCancel() {},
       })
@@ -359,10 +413,10 @@ export default {
         await this.submitAddSalesHirarki({
           id_user: this.userManagement.detail_jabatan.idUser,
         })
-        this.closeModal()
         await this.getListDownHirarki({
           id_user: this.$route.params.id,
         })
+        this.closeModal()
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -378,10 +432,10 @@ export default {
         this.userManagement.form_replace_bawahan.tgl_akhir
       ) {
         await this.submitReplaceSalesHirarki()
-        this.closeModalReplaceUser()
         await this.getListDownHirarki({
           id_user: this.$route.params.id,
         })
+        this.closeModalReplaceUser()
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -397,10 +451,10 @@ export default {
         this.userManagement.form_assign_bawahan.tgl_akhir
       ) {
         await this.submitAssignSalesHirarki()
-        this.closeModalAssignUser()
         await this.getListDownHirarki({
           id_user: this.$route.params.id,
         })
+        this.closeModalAssignUser()
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -425,6 +479,13 @@ export default {
     },
     assignUser() {
       this.userManagement.modalVisibleAssignUser = true
+      this.$store.commit('userManagement/changeUserManagement', {
+        form_assign_bawahan: {
+          id_user: null,
+          tgl_mulai: '',
+          tgl_akhir: '',
+        },
+      })
     },
     deleteRow(id) {
       this.$confirm({
@@ -433,18 +494,15 @@ export default {
         okType: 'danger',
         cancelText: 'No',
         onOk: async () => {
-          return new Promise((resolve, reject) => {
-            this.deleteRowHirarkiDown({
-              id_jabatan: parseInt(id.idJabatan),
-            })
-            this.getDetailProfile({
-              id_jabatan: this.$route.params.id_jabatan,
-            })
-            this.getListDownHirarki({
-              id_user: this.$route.params.id,
-            })
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-          }).catch(() => console.log('Oops errors!'))
+          await this.deleteRowHirarkiDown({
+            id_jabatan: parseInt(id.idJabatan),
+          })
+          await this.getDetailProfile({
+            id_jabatan: this.$route.params.id_jabatan,
+          })
+          await this.getListDownHirarki({
+            id_user: this.$route.params.id,
+          })
         },
         onCancel() {},
       })
