@@ -102,13 +102,14 @@
                 </template>
                 <template #id_user="{ text }">
                   <div>
-                    {{ text.iduser }}
+                    {{ text.iduser ? text.iduser : `-` }}
                   </div>
                 </template>
                 <template #nama_sales="{ text }">
-                  <div>
-                    {{ text.name }}
+                  <div v-if="text.name">
+                    <a href="javascript:void(0)" @click="changeProfile(text)"> {{ text.name }}</a>
                   </div>
+                  <div v-else>-</div>
                 </template>
                 <template #action="{ text }">
                   <div>
@@ -325,6 +326,9 @@ export default {
       'submitAssignSalesHirarki',
       'postJabatanBawahan',
     ]),
+    changeProfile(item) {
+      this.$router.push(`/users/profile/${item.iduser}/jabatan/${item.idJabatan}`)
+    },
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
     },
