@@ -141,7 +141,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      data: data.listData,
+      data: JSON.stringify(data.listData),
     }
     const result = await apiClient.post(`/Visit/UploadVisitPlan`, formData)
 
