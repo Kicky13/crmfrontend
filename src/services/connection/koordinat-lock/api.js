@@ -15,7 +15,19 @@ export async function getRegionList() {
 
 export async function getTokoList(formData) {
     return apiClient
-    .post('/Customerlist', formData)
+    .post('Customerlist', formData)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+    .catch(err => { console.error(err) })
+}
+
+export async function getHistoryVisit(formData) {
+    return apiClient
+    .post('Kunjungan', formData)
     .then(response => {
         if (response) {
             return response.data

@@ -216,12 +216,6 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
-  props: {
-    customerInfo: {
-      type: String,
-      required: true,
-    },
-  },
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -248,32 +242,10 @@ export default {
       historyVisit: [],
     }
   },
-  async mounted() {
-    this.detailCustomer = JSON.parse(this.customerInfo)
-    console.log(this.detailCustomer)
-    await this.fetchGetHistoryVisit()
-  },
+  async mounted() {},
   methods: {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
-    },
-    async fetchGetHistoryVisit() {
-      this.isLoading = true
-      // let formData = {
-      //   idToko: this.detailCustomer.id_customer,
-      // }
-      let formData = {
-        idToko: 100013207,
-      }
-      await getHistoryVisit(formData)
-        .then((response) => {
-          if (response.status) {
-            this.historyVisit = response.data
-            console.log(this.historyVisit)
-          }
-          this.isLoading = false
-        })
-        .catch((err) => console.error(err))
     },
   },
 }
