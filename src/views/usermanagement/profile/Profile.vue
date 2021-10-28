@@ -113,6 +113,7 @@
                 <template #action="{ text }">
                   <div>
                     <button
+                      v-if="text.iduser"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -122,7 +123,6 @@
                     >
                       <i class="fa fa-trash"></i>
                     </button>
-
                     <button
                       v-if="text.iduser != null"
                       type="button"

@@ -7,7 +7,9 @@ const state = {
     columns: [
       {
         title: 'No',
-        dataIndex: 'uuid',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
       },
       {
         title: 'ID User',
