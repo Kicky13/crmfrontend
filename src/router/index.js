@@ -201,7 +201,7 @@ const routes = [
           ),
       },
       {
-        path: '/users/profile/:uuid',
+        path: '/users/profile/:id/jabatan/:id_jabatan',
         name: 'user-management-profile',
         meta: { title: 'Export User', resource: 'User', action: 'manage' },
         component: () =>
@@ -258,7 +258,7 @@ const routes = [
       },
 
       {
-        path: '/users/profile/TSO/:id',
+        path: '/users/profile/:id/TSO/:id_jabatan',
         name: 'user-management-profile-tso',
         meta: { title: 'Profile TSO', resource: 'User', action: 'manage' },
         component: () =>

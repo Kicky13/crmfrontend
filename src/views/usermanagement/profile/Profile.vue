@@ -124,6 +124,7 @@
                     </button>
 
                     <button
+                      v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -133,8 +134,8 @@
                     >
                       <i class="fa fa-user-plus"></i>
                     </button>
-
                     <button
+                      v-if="text.iduser === null"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -303,14 +304,14 @@ export default {
   },
   async mounted() {
     await this.getDetailProfile({
-      id_jabatan: this.$route.params.uuid,
+      id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDownHirarki({
-      id_user: this.$route.params.uuid,
+      id_user: this.$route.params.id,
     })
     await this.getSalesNonBawahan({
-      id_jabatan: this.$route.params.uuid,
-      id_user: this.userManagement.detail_jabatan.idUser,
+      id_jabatan: this.$route.params.id_jabatan,
+      id_user: this.$route.params.id,
     })
   },
   methods: {
@@ -322,6 +323,7 @@ export default {
       'submitAddSalesHirarki',
       'submitReplaceSalesHirarki',
       'submitAssignSalesHirarki',
+      'postJabatanBawahan',
     ]),
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
@@ -330,7 +332,19 @@ export default {
       this.userManagement.modalVisibleHirarkiDown = false
     },
     modalTambahBawahan() {
-      this.userManagement.modalVisibleHirarkiDown = true
+      this.$confirm({
+        title: 'Apakah anda akan menambahkan jabatan baru ?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.postJabatanBawahan({
+            id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+            id_level_hirarki: this.userManagement.detail_jabatan.idLevelJabatan,
+          })
+        },
+        onCancel() {},
+      })
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -343,7 +357,7 @@ export default {
         })
         this.closeModal()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -362,7 +376,7 @@ export default {
         await this.submitReplaceSalesHirarki()
         this.closeModalReplaceUser()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -381,7 +395,7 @@ export default {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
         await this.getListDownHirarki({
-          id_user: this.$route.params.uuid,
+          id_user: this.$route.params.id,
         })
       } else {
         notification.error({
@@ -417,10 +431,13 @@ export default {
         onOk: async () => {
           return new Promise((resolve, reject) => {
             this.deleteRowHirarkiDown({
-              id_jabatan: parseInt(this.$route.params.uuid),
+              id_jabatan: parseInt(id.idJabatan),
             })
             this.getDetailProfile({
-              id_jabatan: this.$route.params.uuid,
+              id_jabatan: this.$route.params.id_jabatan,
+            })
+            this.getListDownHirarki({
+              id_user: this.$route.params.id,
             })
             setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
           }).catch(() => console.log('Oops errors!'))

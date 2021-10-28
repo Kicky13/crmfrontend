@@ -66,7 +66,8 @@ const state = {
       },
       {
         title: 'Nama',
-        dataIndex: 'nama',
+        key: 'nama',
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Tanggal Jabatan',
@@ -79,8 +80,9 @@ const state = {
         slots: { customRender: 'end_date' },
       },
       {
-        title: 'ID User',
-        dataIndex: 'idUser',
+        title: 'Username',
+        key: 'username',
+        slots: { customRender: 'username' },
       },
       {
         title: 'Status',
@@ -154,13 +156,13 @@ const state = {
       tgl_akhir: '',
     },
     form_replace_bawahan: {
-      id_jabtan: null,
+      id_jabatan: null,
       user_replace_id: null,
       tgl_mulai: '',
       tgl_akhir: '',
     },
     form_assign_bawahan: {
-      id_jabtan: null,
+      id_jabatan: null,
       id_user: null,
       tgl_mulai: '',
       tgl_akhir: '',
@@ -226,6 +228,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       await commit('changeUserManagement', {
         users: result.data.data,
@@ -258,10 +263,16 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
       } else {
         notification.success({
           message: 'Success',
           description: `Data berhasil diubah`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
         })
       }
     } else {
@@ -271,10 +282,16 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
       } else {
         notification.success({
           message: 'Success',
           description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
         })
       }
     }
@@ -308,10 +325,51 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
-        description: `Data berhasil diubah`,
+        description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    }
+  },
+
+  async postJabatanBawahan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      idJabatanAtasan: payload.id_jabatan_atasan,
+      idLevelHirarki: payload.id_level_hirarki,
+    }
+
+    let result = ''
+
+    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -321,7 +379,6 @@ const actions = {
       idJabatan: payload.id_jabatan,
     }
 
-    console.log(`---formData`, formData)
     const result = await apiClient.post(`/hirarki/removeUser`, formData)
 
     if (result.data.status == false) {
@@ -329,10 +386,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil dihapus`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -345,10 +408,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil direset`,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     }
   },
@@ -369,6 +438,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       await commit('changeUserManagement', {
@@ -397,6 +469,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
     } else {
       await commit('changeUserManagement', {
         list_hirarki_down: result.data.data,
@@ -410,11 +485,6 @@ const actions = {
       isLoading: true,
     })
 
-    // let formData = {
-    //   IDuser: payload.id_user,
-    //   IDbawahan: payload.id_bawahan,
-    // }
-
     let formData = {
       idJabatan: payload.id_jabatan,
     }
@@ -424,6 +494,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       notification.success({
@@ -454,6 +527,9 @@ const actions = {
       notification.error({
         message: 'Error',
         description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
       })
     } else {
       await commit('changeUserManagement', {
@@ -565,7 +641,7 @@ const actions = {
     } else {
       notification.success({
         message: 'Success',
-        description: `Data berhasil direplace`,
+        description: `Data berhasil di assign `,
       })
       await commit('changeUserManagement', {
         isLoading: false,

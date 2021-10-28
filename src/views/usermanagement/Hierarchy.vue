@@ -76,13 +76,18 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.users"
-            :row-key="data => data.uuid"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
           >
             <template #no="{ index }">
               <div>
                 {{ index + 1 }}
+              </div>
+            </template>
+            <template #nama="{ text }">
+              <div>
+                {{ text.nama != null ? text.nama : '-' }}
               </div>
             </template>
             <template #start_date="{ text }">
@@ -95,10 +100,15 @@
                 {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
               </div>
             </template>
+            <template #username="{ text }">
+              <div>
+                {{ text.username != null ? text.username : '-' }}
+              </div>
+            </template>
             <template #action="{ text }">
               <div>
                 <router-link
-                  :to="`/users/profile/TSO/${text.idUser}`"
+                  :to="`/users/profile/${text.idUser}/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
@@ -109,27 +119,34 @@
                 </router-link>
                 <router-link
                   v-else
-                  :to="`/users/profile/${text.idUser}`"
+                  :to="`/users/profile/${text.idUser}/jabatan/${text.idJabatan}`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
                   <i class="fa fa-file-text-o mr-1"></i>
                   <span class="text-black">Detail</span></router-link
-                ><button type="button" class="btn btn-warning mr-2" @click="editRow(text.uuid)">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button
+                  v-if="text.statusJabat === `Nonaktif`"
+                  type="button"
+                  class="btn btn-warning mr-2"
+                  @click="assignRow(text)"
+                >
+                  <i class="fa fa-pencil-square-o"></i>
+                  <span class="text-black">Assign User</span></button
+                ><button
+                  v-if="text.statusJabat != `Nonaktif`"
                   @click="deleteRow(text.idJabatan)"
                   type="button"
                   class="btn btn-outline-danger mr-2"
                 >
-                  <i class="fa fa-trash"></i><span> Hapus</span>
+                  <i class="fa fa-trash"></i><span> Kosongkan Jabatan</span>
                 </button>
               </div>
             </template>
           </a-table>
         </div>
-        <a-modal
+        <!-- <a-modal
           v-model:visible="modalVisible"
           :title="'Tambah User'"
           :closable="false"
@@ -156,27 +173,7 @@
                 placeholder="Ketik username"
               />
             </a-form-item>
-            <!-- <a-form-item label="Password" name="password">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.password"
-                placeholder="Ketik password"
-              />
-            </a-form-item>
-            <a-form-item label="Level" name="level">
-              <a-select
-                v-model:value="userManagement.formState.idLevelHirarki"
-                placeholder="Pilih Level"
-              >
-                <a-select-option
-                  v-for="(item, index) in userManagement.listUser"
-                  :key="`level_${index}`"
-                  :value="item.idLevelHirarki"
-                >
-                  {{ item.nama_panjang }}
-                </a-select-option>
-              </a-select>
-            </a-form-item> -->
+            
             <a-form-item label="Email" name="email">
               <a-input
                 style="width: 100% !important"
@@ -189,6 +186,48 @@
                 style="width: 100% !important"
                 v-model:value="userManagement.formState.nohp"
                 placeholder="Ketik no hp"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal> -->
+
+        <a-modal
+          v-model:visible="modalVisible"
+          :title="'Assign User'"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
+            <a-button @click="handleSubmitAssignUser()" key="submit" type="primary"
+              >Simpan</a-button
+            >
+          </template>
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Sales Non Bawahan" name="level">
+              <a-select
+                v-model:value="userManagement.form_assign_bawahan.id_user"
+                placeholder="Pilih Sales Non Bawahan"
+              >
+                <a-select-option
+                  v-for="(item, index) in userManagement.sales_non_bawahan"
+                  :key="`level_${index}`"
+                  :value="item.iduser"
+                >
+                  {{ item.namasales }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="Tanggal Mulai Jabatan" name="level">
+              <a-date-picker
+                v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
+                class="w-100"
+              />
+            </a-form-item>
+            <a-form-item label="Tanggal Akhir Jabatan" name="level">
+              <a-date-picker
+                v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
+                class="w-100"
               />
             </a-form-item>
           </a-form>
@@ -243,6 +282,8 @@ export default {
       'postSubmitData',
       'deleteDataRow',
       'postJabatanGSM',
+      'getSalesNonBawahan',
+      'submitAssignSalesHirarki',
     ]),
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
@@ -255,23 +296,51 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 1000),
-    async editRow(id) {
-      const row = this.userManagement.users.find(data => data.uuid === id)
-      await this.$store.commit('userManagement/changeUserManagement', {
-        formState: {
-          id: row.uuid,
-          name: row.name,
-          username: row.username,
-          password: row.password,
-          email: row.email,
-          nohp: row.nohp,
-          userid: row.userid,
-          idLevelHirarki: row.idLevelHirarki,
+    async assignRow(item) {
+      // const row = this.userManagement.users.find(data => data.uuid === id)
+      // await this.$store.commit('userManagement/changeUserManagement', {
+      //   formState: {
+      //     id: row.uuid,
+      //     name: row.name,
+      //     username: row.username,
+      //     password: row.password,
+      //     email: row.email,
+      //     nohp: row.nohp,
+      //     userid: row.userid,
+      //     idLevelHirarki: row.idLevelHirarki,
+      //   },
+      // })
+      this.$store.commit('userManagement/changeUserManagement', {
+        form_assign_bawahan: {
+          id_jabatan: item.idJabatan,
         },
+      })
+      await this.getSalesNonBawahan({
+        id_jabatan: item.idJabatan,
+        id_user: item.idUser,
       })
       this.modalVisible = true
     },
-
+    closeModalAssignUser() {
+      this.modalVisible = false
+    },
+    async handleSubmitAssignUser() {
+      if (
+        this.userManagement.form_assign_bawahan.id_user &&
+        this.userManagement.form_assign_bawahan.tgl_mulai &&
+        this.userManagement.form_assign_bawahan.tgl_akhir
+      ) {
+        await this.submitAssignSalesHirarki()
+        this.closeModalAssignUser()
+        await this.dataListUser()
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Semua kolom wajib diisi',
+        })
+        this.closeModalAssignUser()
+      }
+    },
     async dataListUser() {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
@@ -383,7 +452,6 @@ export default {
     deleteAll() {},
 
     deleteRow(id) {
-      console.log(`000id`, id)
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
         okText: 'Yes',
