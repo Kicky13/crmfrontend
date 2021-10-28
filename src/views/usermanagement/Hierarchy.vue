@@ -222,12 +222,14 @@
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
               <a-date-picker
                 v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
+                :disabled-date="disabledStartDate"
                 class="w-100"
               />
             </a-form-item>
             <a-form-item label="Tanggal Akhir Jabatan" name="level">
               <a-date-picker
                 v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
+                :disabled-date="disabledEndDate"
                 class="w-100"
               />
             </a-form-item>
@@ -292,6 +294,20 @@ export default {
       return (
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
+    },
+    disabledStartDate(startValue) {
+      const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.userManagement.form_assign_bawahan.tgl_mulai
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
     },
     searchData: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
