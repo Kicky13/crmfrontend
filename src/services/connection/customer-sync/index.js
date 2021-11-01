@@ -69,7 +69,10 @@ const actions = {
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: true,
       })
     } else {
       await commit('changeSynCustomer', {
@@ -93,9 +96,16 @@ const actions = {
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
       })
     } else {
+      notification.success({
+        message: 'Success',
+        description: 'Data berhasil ditampilkan',
+      })
       await commit('changeSynCustomer', {
         listCustomer: result.data.data,
         isLoading: false,
@@ -104,6 +114,9 @@ const actions = {
   },
 
   async getAsyncData({ commit, state }, payload) {
+    commit('changeSynCustomer', {
+      isLoading: true,
+    })
     const { data } = state
 
     let formData = {
@@ -114,12 +127,18 @@ const actions = {
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
       })
     } else {
       notification.success({
         message: 'Success',
-        description: result.data.message[0],
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
       })
     }
   },
