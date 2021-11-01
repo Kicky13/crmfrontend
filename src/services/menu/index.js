@@ -23,8 +23,8 @@ export const getAdminMenuData = [
       },
       {
         title: 'Tambah Berita',
-        key: 'tbr321',
-        url: '/marketing/program/tambah',
+        key: 'tbr322',
+        url: '/marketing/berita/tambah',
         hidden: true,
       },
     ],
