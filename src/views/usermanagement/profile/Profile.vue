@@ -395,7 +395,7 @@ export default {
         onOk: async () => {
           await this.postJabatanBawahan({
             id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-            id_level_hirarki: this.userManagement.detail_jabatan.idLevelJabatan,
+            id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
           })
           await this.getListDownHirarki({
             id_user: this.$route.params.id,
@@ -481,6 +481,7 @@ export default {
       this.userManagement.modalVisibleAssignUser = true
       this.$store.commit('userManagement/changeUserManagement', {
         form_assign_bawahan: {
+          id_jabatan: this.$route.params.id_jabatan,
           id_user: null,
           tgl_mulai: '',
           tgl_akhir: '',

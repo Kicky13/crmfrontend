@@ -40,10 +40,27 @@
             :columns="visitPlan.columns"
             :data-source="visitPlan.listData"
             :scroll="{ x: 1500 }"
-            row-key="id"
+            :loading="visitPlan.isLoading"
+            :row-class-name="tableRowClassName"
+            :row-key="data => data.id_toko"
           >
-            <template #name="{ text }">
-              <a href="javascript:;">{{ text }}</a>
+            <template #icon="{ text }">
+              <div v-if="text.status === true">
+                <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
+              </div>
+              <div v-else>
+                <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
+              </div>
+            </template>
+            <template #nama_toko="{ text }">
+              <div data-toggle="tooltip" data-placement="top" :title="text.nama_toko">
+                {{ text.nama_toko.slice(0, 12) + `....` }}
+              </div>
+            </template>
+            <template #distributor="{ text }">
+              <div data-toggle="tooltip" data-placement="top" :title="text.nama_distributor">
+                {{ text.nama_distributor.slice(0, 12) + `....` }}
+              </div>
             </template>
             <template #days="{ text }">
               <div v-if="text == istrue">
@@ -68,8 +85,20 @@
         </div>
 
         <a-button
+          v-if="visitPlan.status === 'success'"
           type="primary"
           @click="onSubmitData()"
+          class="mt-2"
+          :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
+        >
+          <i class="fa fa-upload mr-2" />
+          Commit to Database
+        </a-button>
+        <a-button
+          v-else
+          type="primary"
+          disabled
+          class="mt-2"
           :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
         >
           <i class="fa fa-upload mr-2" />
@@ -127,6 +156,13 @@ export default {
   mounted() {},
   methods: {
     ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
+    tableRowClassName(text) {
+      if (text.status === false) {
+        return 'non-active'
+      } else {
+        return ''
+      }
+    },
     onFileChanged() {
       this.visitPlan.body.file = this.$refs.file.files[0]
     },
@@ -153,6 +189,12 @@ export default {
 </script>
 <style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style>
+.ant-table-tbody > tr > td {
+  background-color: red !important;
+  color: white;
+}
 </style>
 <style lang="scss" scoped>
 .file_input {

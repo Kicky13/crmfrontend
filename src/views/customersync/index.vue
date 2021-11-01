@@ -25,7 +25,12 @@
           <i class="fa fa-search mr-2" />
           Cari
         </a-button>
-        <a-button type="primary" class="mb-3" @click="buttonGetSync()">
+        <a-button
+          type="primary"
+          class="mb-3"
+          :loading="synCustomer.isLoading"
+          @click="buttonGetSync()"
+        >
           <i class="fa fa-refresh mr-2" />
           SYNC
         </a-button>
@@ -50,6 +55,7 @@
             :columns="columns"
             :data-source="synCustomer.listCustomer"
             :row-key="data => data.id"
+            :loading="synCustomer.isLoading"
           >
             <template #status="{text}"> {{ text.status }} 1111 </template>
             <template #action="{ text }">

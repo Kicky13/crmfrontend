@@ -5,36 +5,35 @@ const state = {
   data: {
     isLoading: false,
     listData: [],
+    status: '',
     columns: [
       {
-        title: 'Id Sales',
-        dataIndex: 'sales',
+        title: '',
         width: 100,
+        slots: { customRender: 'icon' },
         fixed: 'left',
       },
       {
         title: 'Username',
         dataIndex: 'username',
         width: 150,
-        fixed: 'left',
       },
       {
         title: 'Id Toko',
         dataIndex: 'id_toko',
         width: 100,
-        fixed: 'left',
       },
       {
         title: 'Nama Toko',
-        dataIndex: 'nama_toko',
         width: 150,
-        fixed: 'left',
+        key: 'nama_toko',
+        slots: { customRender: 'nama_toko' },
       },
       {
         title: 'Distributor',
-        dataIndex: 'nama_distributor',
         width: 150,
-        fixed: 'left',
+        key: 'distributor',
+        slots: { customRender: 'distributor' },
       },
       {
         title: 'Min',
@@ -121,12 +120,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeVisitPlan', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: result.data.message,
       })
       await commit('changeVisitPlan', {
+        status: result.data.status,
         listData: result.data.data,
         isLoading: false,
       })
@@ -150,10 +153,16 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeVisitPlan', {
+        isLoading: false,
+      })
     } else {
       notification.success({
         message: 'Success',
         description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeVisitPlan', {
+        isLoading: false,
       })
     }
   },
