@@ -35,8 +35,9 @@
             placeholder="Pilih File yang Akan diupload"
           />
         </a-form-item>
-        <div class="table-responsive text-nowrap">
+        <div class="table-visit table-responsive text-nowrap">
           <a-table
+            class=" "
             :columns="visitPlan.columns"
             :data-source="visitPlan.listData"
             :scroll="{ x: 1500 }"
@@ -83,27 +84,22 @@
             </template>
           </a-table>
         </div>
+        <div class="d-flex flex-row-reverse mt-4">
+          <a-button
+            type="primary"
+            @click="onSubmitData()"
+            class="mt-2"
+            :disabled="isDisabled"
+            :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
+          >
+            <i class="fa fa-upload mr-2" />
+            Commit to Database
+          </a-button>
 
-        <a-button
-          v-if="visitPlan.status === 'success'"
-          type="primary"
-          @click="onSubmitData()"
-          class="mt-2"
-          :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
-        >
-          <i class="fa fa-upload mr-2" />
-          Commit to Database
-        </a-button>
-        <a-button
-          v-else
-          type="primary"
-          disabled
-          class="mt-2"
-          :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
-        >
-          <i class="fa fa-upload mr-2" />
-          Commit to Database
-        </a-button>
+          <a-button type="primary" class="mt-2 mr-2" :disabled="isDisabled" @click="downloadData">
+            Download
+          </a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -112,6 +108,7 @@
 <script>
 import { getPermissionList, deletePermission } from '@/services/connection/upload-visit/api'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'VbAntDesign',
@@ -143,6 +140,7 @@ export default {
     return {
       isfalse: 0,
       istrue: 1,
+      isDisabled: true,
       file1: null,
       file2: null,
       permissions: [],
@@ -166,8 +164,70 @@ export default {
     onFileChanged() {
       this.visitPlan.body.file = this.$refs.file.files[0]
     },
+    downloadData() {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = [
+          'Username',
+          'Id Toko',
+          'Nama Toko',
+          'Distributor',
+          'Minggu',
+          'Senin',
+          'Selasa',
+          'Rabu',
+          'Kamis',
+          'Jumat',
+          'Sabtu',
+          'W1',
+          'W2',
+          'W3',
+          'W4',
+          'W5',
+        ]
+        const filterVal = [
+          'username',
+          'id_toko',
+          'nama_toko',
+          'nama_distributor',
+          'minggu',
+          'senin',
+          'selasa',
+          'rabu',
+          'kamis',
+          'jumat',
+          'sabtu',
+          'w1',
+          'w2',
+          'w3',
+          'w4',
+          'w5',
+        ]
+        const list = this.visitPlan.listData
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
+    },
     async handleSubmit() {
       await this.getDataFromExcel()
+      let dataStatus = _.where(this.visitPlan.listData, { status: false })
+      this.isDisabled = dataStatus.length > 0 ? false : true
     },
     onSubmitData() {
       this.$confirm({
@@ -191,7 +251,7 @@ export default {
 @import './style.module.scss';
 </style>
 <style>
-.ant-table-tbody > tr > td {
+.table-visit .ant-table-tbody > tr > td {
   background-color: red !important;
   color: white;
 }
