@@ -34,7 +34,7 @@
                     <span>Nama Pemilik</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.nm_pemilik ?? 'Tidak Tersedia' }}</span>
+                    <span>: {{ detailCustomer.nama_pemilik ?? 'Tidak Tersedia' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -45,7 +45,7 @@
                     <span>Telepon</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.telp_toko ?? 'Tidak Tersedia' }}</span>
+                    <span>: {{ detailCustomer.no_telp_toko ?? 'Tidak Tersedia' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
