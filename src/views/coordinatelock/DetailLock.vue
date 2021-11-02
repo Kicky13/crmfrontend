@@ -152,11 +152,12 @@
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="vb__utils__avatar vb__utils__avatar--size64 mb-3">
+              <div class="mb-3">
                 <img
                   lazy="loading"
                   v-once
                   :src="require('@/assets/images/maps.png')"
+                  class="img-fluid"
                   alt="Mary Stanform"
                 />
               </div>
