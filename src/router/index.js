@@ -220,7 +220,15 @@ const routes = [
         props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
         component: () =>
-          import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/DetailLock'),
+          import(/* webpackChunkName: "koordinat-lock-detail" */ '@/views/coordinatelock/DetailLock'),
+      },
+      {
+        path: '/koordinatlock/surveyDetail',
+        name: 'koordinat-lock-survey',
+        props: true,
+        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+        component: () =>
+          import(/* webpackChunkName: "koordinat-lock-survey" */ '@/views/coordinatelock/DetailSurvey'),
       },
       // Kikik ============================================================================
       /*  ROBI VIEW */

@@ -78,7 +78,7 @@
         <div class="d-flex flex-row-reverse mt-4">
           <a-button
             type="primary"
-            :disabled="isDisabled"
+            :disabled="commitToDatabaseButtonDisabled"
             @click="onSubmitData"
           >
             <i class="fa fa-upload mr-2" />
@@ -141,14 +141,22 @@ export default defineComponent({
       file2: null,
       dataSourceTable: [],
       isDisabled: true,
-      usernameCek: [],
-      usernameCekIndex: 0,
     }
   },
   computed: {
     ...mapState({
       mappingCustomer: state => state.mappingCustomer.data,
     }),
+    commitToDatabaseButtonDisabled() {
+      if (this.mappingCustomer.listData.find(data => data.username_cek === true)) {
+        if (this.mappingCustomer.listData.find(data => data.customer_cek === true)) {
+          if (this.mappingCustomer.listData.find(data => data.distributor_cek === true)) {
+            return false
+          }
+        }
+      }
+      return true
+    },
   },
   methods: {
     ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
@@ -181,10 +189,6 @@ export default defineComponent({
     },
     async handleSubmit() {
       await this.getDataFromExcel()
-      this.mappingCustomer.listData.map(data => {
-        this.usernameCek.push(data.username_cek)
-      })
-      console.log(this.usernameCek)
       this.isDisabled = this.mappingCustomer.listData.length ? false : true
     },
     onSubmitData() {

@@ -34,7 +34,7 @@
                     <span>Nama Pemilik</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.nm_pemilik ?? 'Tidak Tersedia' }}</span>
+                    <span>: {{ detailCustomer.nama_pemilik ?? 'Tidak Tersedia' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -45,7 +45,7 @@
                     <span>Telepon</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.telp_toko ?? 'Tidak Tersedia' }}</span>
+                    <span>: {{ detailCustomer.no_telp_toko ?? 'Tidak Tersedia' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -127,9 +127,13 @@
                     <template #dikunjungi="text">
                       <span>{{ text.text }}</span>
                     </template>
-                    <template #action>
+                    <template #action="text">
                       <div>
-                        <button type="button" class="btn btn-primary">
+                        <button
+                          type="button"
+                          @click="gotoDetailSurvey(text)"
+                          class="btn btn-primary"
+                        >
                           <i class="fa fa-eye"></i>
                         </button>
                       </div>
@@ -148,11 +152,12 @@
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="vb__utils__avatar vb__utils__avatar--size64 mb-3">
+              <div class="mb-3">
                 <img
                   lazy="loading"
                   v-once
                   :src="require('@/assets/images/maps.png')"
+                  class="img-fluid"
                   alt="Mary Stanform"
                 />
               </div>
@@ -274,6 +279,22 @@ export default {
           this.isLoading = false
         })
         .catch((err) => console.error(err))
+    },
+    gotoDetailSurvey(id) {
+      let detailSurvey = this.getDetailSurvey(id)
+      this.$router.push({
+        name: 'koordinat-lock-survey',
+        params: { surveyDetail: JSON.stringify(detailSurvey) },
+      })
+    },
+    getDetailSurvey(id) {
+      console.log('id: ' + id.text)
+      const dataSource = [...this.historyVisit]
+      let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
+      let detailSurvey = filtered[0]
+      console.log(detailSurvey)
+
+      return detailSurvey
     },
   },
 }
