@@ -127,9 +127,13 @@
                     <template #dikunjungi="text">
                       <span>{{ text.text }}</span>
                     </template>
-                    <template #action>
+                    <template #action="text">
                       <div>
-                        <button type="button" class="btn btn-primary">
+                        <button
+                          type="button"
+                          @click="gotoDetailSurvey(text)"
+                          class="btn btn-primary"
+                        >
                           <i class="fa fa-eye"></i>
                         </button>
                       </div>
@@ -274,6 +278,22 @@ export default {
           this.isLoading = false
         })
         .catch((err) => console.error(err))
+    },
+    gotoDetailSurvey(id) {
+      let detailSurvey = this.getDetailSurvey(id)
+      this.$router.push({
+        name: 'koordinat-lock-survey',
+        params: { surveyDetail: JSON.stringify(detailSurvey) },
+      })
+    },
+    getDetailSurvey(id) {
+      console.log('id: ' + id.text)
+      const dataSource = [...this.historyVisit]
+      let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
+      let detailSurvey = filtered[0]
+      console.log(detailSurvey)
+
+      return detailSurvey
     },
   },
 }

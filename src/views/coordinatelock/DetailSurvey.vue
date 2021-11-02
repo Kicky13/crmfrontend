@@ -8,20 +8,67 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3">
-                <img
-                  lazy="loading"
-                  v-once
-                  :src="require('@/assets/images/shop.png')"
-                  alt="shop"
-                  style="width: 80%"
-                />
-              </div>
-              <div class="col-md-6" style="margin-top: 5%">
-                <div class="text-dark font-weight-bold font-size-32">
-                  {{ detailCustomer.nm_customer }}
+              <div class="card flex-row flex-wrap mx-2 rounded">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-user fa-5x"></i>
                 </div>
-                <div class="font-size-16">KODE/ID : {{ detailCustomer.id_customer }}</div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-12">Supervisor</span>
+                  <br />
+                  <span class="font-size-12">8121281.121</span>
+                </div>
+              </div>
+              <div class="card flex-row flex-wrap mx-2">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-calendar fa-3x"></i>
+                </div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-12">Tanggal Kunjungan</span>
+                  <br />
+                  <span class="font-size-12">02/02/2021</span>
+                </div>
+              </div>
+              <div class="card flex-row flex-wrap mx-2">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-user fa-3x"></i>
+                </div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-12">Durasi Kunjungan</span>
+                  <br />
+                  <span class="font-size-12">90 Menit</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card flex-row flex-wrap mx-2 rounded">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-home fa-5x"></i>
+                </div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-12">Customer</span>
+                  <br />
+                  <span class="font-size-12">Utama Jaya</span>
+                </div>
+              </div>
+              <div class="card flex-row flex-wrap mx-2">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-user fa-5x"></i>
+                </div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-14">Nama Pemilik</span>
+                  <br />
+                  <span class="font-size-14">Faisol</span>
+                </div>
+              </div>
+              <div class="card flex-row flex-wrap mx-2">
+                <div class="card-header align-self-center">
+                  <i class="fa fa-map-marker fa-5x"></i>
+                </div>
+                <div class="card-block px-2 text-dark align-self-center">
+                  <span class="font-weight-bold font-size-14">Alamat</span>
+                  <br />
+                  <span class="font-size-14">Jl. Lumba 27</span>
+                </div>
               </div>
             </div>
             <a-tabs default-active-key="1" @change="callback">
@@ -216,6 +263,12 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
+  props: {
+    surveyDetail: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -242,7 +295,9 @@ export default {
       historyVisit: [],
     }
   },
-  async mounted() {},
+  async mounted() {
+    console.log(this.surveyDetail)
+  },
   methods: {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
