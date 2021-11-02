@@ -56,9 +56,7 @@ export default {
       return items
     }
 
-    onMounted(() => {
-      breadcrumb.value = getPath(menuData, routePath.value)
-    })
+    onMounted(() => breadcrumb.value = getPath(menuData, routePath.value))
 
     watch(routePath, routePath => (breadcrumb.value = getPath(menuData, routePath)))
 

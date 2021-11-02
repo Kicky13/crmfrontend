@@ -21,11 +21,12 @@ export const getAdminMenuData = [
         key: 'jkr02l',
         url: '/marketing/program',
       },
-      // {
-      //   title: 'Mahasiswa',
-      //   key: 'xyz321',
-      //   url: '/mahasiswa',
-      // },
+      {
+        title: 'Tambah Berita',
+        key: 'tbr322',
+        url: '/marketing/berita/tambah',
+        hidden: true,
+      },
     ],
   },
   {
