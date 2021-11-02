@@ -155,6 +155,7 @@ export default {
   methods: {
     ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
     tableRowClassName(text) {
+      console.log(`-----tx`, text.status === false)
       if (text.status === false) {
         return 'non-active'
       } else {
@@ -251,7 +252,7 @@ export default {
 @import './style.module.scss';
 </style>
 <style>
-.table-visit .ant-table-tbody > tr > td {
+.table-visit .ant-table-tbody .non-active td {
   background-color: red !important;
   color: white;
 }
