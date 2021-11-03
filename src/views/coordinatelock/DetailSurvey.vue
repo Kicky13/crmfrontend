@@ -116,13 +116,26 @@
                       <span>{{ data.index + 1 }}</span>
                     </template>
                     <template #keluhan="data">
-                      <a class="text-primary" href="#" v-if="data.record.keluhan.length">{{
-                        data.record.keluhan.length
-                      }}</a>
-                      <span v-else>{{ data.record.keluhan.length }}</span>
+                      <button
+                        v-if="data.record.keluhan.length"
+                        type="button"
+                        @click="openKeluhan(data.record.keluhan)"
+                        class="btn btn-primary"
+                      >
+                        <span>{{ data.record.jumlahKeluhan }}</span>
+                      </button>
+                      <span v-else>{{ data.record.jumlahKeluhan }}</span>
                     </template>
                     <template #promosi="data">
-                      <span>{{ data.record.promosi ? data.record.promosi.length : 0 }}</span>
+                      <button
+                        v-if="data.record.promosi.length"
+                        type="button"
+                        @click="openPromosi(data.record.promosi)"
+                        class="btn btn-primary"
+                      >
+                        <span>{{ data.record.jumlahPromosi }}</span>
+                      </button>
+                      <span v-else>{{ data.record.jumlahPromosi ?? 0 }}</span>
                     </template>
                   </a-table>
                 </div>
@@ -169,6 +182,52 @@
           </div>
         </div>
       </div>
+      <a-modal
+        v-model:visible="keluhanVisible"
+        :title="'Keluhan'"
+        :closable="false"
+        :mask-closable="false"
+      >
+        <template #footer>
+          <a-button @click="closeModal()" key="submit" type="primary">OK</a-button>
+        </template>
+        <div
+          v-for="detail in keluhanDetail"
+          :key="detail.ID_KELUHAN"
+          class="row border-bottom font-size-16"
+          style="margin-bottom: 12px"
+        >
+          <div class="col-md-1">
+            <i class="fa fa-circle"></i>
+          </div>
+          <div class="col-md-10 font-weight-bold">
+            <span>{{ detail.KELUHAN }}</span>
+          </div>
+        </div>
+      </a-modal>
+      <a-modal
+        v-model:visible="promosiVisible"
+        :title="'Promosi'"
+        :closable="false"
+        :mask-closable="false"
+      >
+        <template #footer>
+          <a-button @click="closeModal()" key="submit" type="primary">OK</a-button>
+        </template>
+        <div
+          v-for="detail in promosiDetail"
+          :key="detail.ID_PROMOSI"
+          class="row border-bottom font-size-16"
+          style="margin-bottom: 12px"
+        >
+          <div class="col-md-1">
+            <i class="fa fa-circle"></i>
+          </div>
+          <div class="col-md-10 font-weight-bold">
+            <span>{{ detail.NAMA_PROMOSI }}</span>
+          </div>
+        </div>
+      </a-modal>
     </div>
   </div>
 </template>
@@ -177,12 +236,12 @@
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getHistoryDetail } from '@/services/connection/koordinat-lock/api'
+import { filter } from 'lodash'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
     title: 'No.',
-    dataIndex: 'idProduk',
     align: 'center',
     slots: { customRender: 'no' },
   },
@@ -235,14 +294,14 @@ const columns = [
   },
   {
     title: 'Keluhan',
-    dataIndex: 'idProduk',
     align: 'center',
+    dataIndex: 'idProduk',
     slots: { customRender: 'keluhan' },
   },
   {
     title: 'Promosi',
-    dataIndex: 'promosi',
     align: 'center',
+    dataIndex: 'idProduk',
     slots: { customRender: 'promosi' },
   },
 ]
@@ -280,8 +339,10 @@ export default {
       isLoading: false,
       detailCustomer: {},
       surveyProduct: [],
-      slide: 0,
-      sliding: null,
+      keluhanDetail: [],
+      promosiDetail: [],
+      keluhanVisible: false,
+      promosiVisible: false,
     }
   },
   async mounted() {
@@ -301,6 +362,18 @@ export default {
       } else {
         this.fetchGetHistoryDetail()
       }
+    },
+    openKeluhan(keluhan) {
+      this.keluhanDetail = keluhan
+      this.keluhanVisible = true
+    },
+    detailPromosi(promosi) {
+      this.promosiDetail = promosi
+      this.promosiVisible = true
+    },
+    closeModal() {
+      this.keluhanVisible = false
+      this.promosiVisible = false
     },
     async fetchGetHistoryDetail() {
       if (this.surveyDetail) {

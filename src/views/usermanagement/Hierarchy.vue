@@ -196,6 +196,7 @@
           :title="'Assign User'"
           :closable="false"
           :mask-closable="false"
+          :cancel-button-props="{ style: { display: 'none' } }"
         >
           <template #footer>
             <a-button key="back" @click="closeModalAssignUser">Batal</a-button>
