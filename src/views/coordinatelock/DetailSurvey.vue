@@ -15,7 +15,9 @@
                     <div class="title">
                       <h3>Supervisor</h3>
                     </div>
-                    <div class="text"><span>132381203.213</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.nama_supervisor ?? '-' }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -24,7 +26,9 @@
                     <div class="title">
                       <h4>Tanggal</h4>
                     </div>
-                    <div class="text"><span>02/02/2021</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.tgl_rencana_kunjungan ?? '01/01/2021' }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -33,7 +37,9 @@
                     <div class="title">
                       <h4>Durasi</h4>
                     </div>
-                    <div class="text"><span>90 Menit</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.durasi ?? 0 }} Menit</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -44,7 +50,9 @@
                     <div class="title">
                       <h3>Customer</h3>
                     </div>
-                    <div class="text"><span>Utama Jaya</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.nama_toko ?? '-' }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -53,7 +61,9 @@
                     <div class="title">
                       <h3>Pemilik</h3>
                     </div>
-                    <div class="text"><span>Kikik</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.nama_pemilik ?? '-' }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -62,7 +72,9 @@
                     <div class="title">
                       <h3>Alamat</h3>
                     </div>
-                    <div class="text"><span>Jl. Lumba Lumba</span></div>
+                    <div class="text">
+                      <span>{{ detailCustomer.alamat_toko ?? '-' }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -95,20 +107,22 @@
                 <div class="table-responsive text-nowrap">
                   <a-table
                     :columns="columns"
-                    :data-source="historyVisit"
-                    :row-key="(historyVisit) => historyVisit.id_kunjungan"
+                    :data-source="surveyProduct"
+                    :row-key="(surveyProduct) => surveyProduct.idProduk"
                     :pagination="pagination"
                     :loading="isLoading"
                   >
-                    <template #dikunjungi="text">
-                      <span>{{ text.text }}</span>
+                    <template #no="data">
+                      <span>{{ data.index + 1 }}</span>
                     </template>
-                    <template #action>
-                      <div>
-                        <button type="button" class="btn btn-primary">
-                          <i class="fa fa-eye"></i>
-                        </button>
-                      </div>
+                    <template #keluhan="data">
+                      <a class="text-primary" href="#" v-if="data.record.keluhan.length">{{
+                        data.record.keluhan.length
+                      }}</a>
+                      <span v-else>{{ data.record.keluhan.length }}</span>
+                    </template>
+                    <template #promosi="data">
+                      <span>{{ data.record.promosi ? data.record.promosi.length : 0 }}</span>
                     </template>
                   </a-table>
                 </div>
@@ -124,28 +138,16 @@
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="vb__utils__avatar vb__utils__avatar--size64 mb-3">
+              <div class="mb-3">
                 <img
                   lazy="loading"
                   v-once
-                  :src="require('@/assets/images/maps.png')"
+                  :src="require('@/assets/images/maps1.png')"
+                  class="img-fluid"
                   alt="Mary Stanform"
                 />
               </div>
-              <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20"></div>
-                <div class="font-size-16">
-                  Lng: {{ detailCustomer.longitude ?? '-' }} | Ltd:
-                  {{ detailCustomer.latitude ?? '-' }}
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="card-header align-self-center">
-            <a-button type="primary">
-              <i class="fa fa-lock mr-2" />
-              Lock Koordinat
-            </a-button>
           </div>
         </div>
         <div class="card card-top card-top-primary">
@@ -154,28 +156,16 @@
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="vb__utils__avatar vb__utils__avatar--size64 mb-3">
+              <div class="mb-3">
                 <img
                   lazy="loading"
                   v-once
-                  :src="require('@/assets/images/maps.png')"
+                  :src="require('@/assets/images/noimage.svg')"
+                  class="img-fluid"
                   alt="Mary Stanform"
                 />
               </div>
-              <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20"></div>
-                <div class="font-size-16">
-                  Lng: {{ detailCustomer.longitude ?? '-' }} | Ltd:
-                  {{ detailCustomer.latitude ?? '-' }}
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="card-header align-self-center">
-            <a-button type="primary">
-              <i class="fa fa-lock mr-2" />
-              Lock Koordinat
-            </a-button>
           </div>
         </div>
       </div>
@@ -186,13 +176,15 @@
 <script>
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
-import { getHistoryVisit } from '@/services/connection/koordinat-lock/api'
+import { getHistoryDetail } from '@/services/connection/koordinat-lock/api'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
   {
     title: 'No.',
     dataIndex: 'idProduk',
+    align: 'center',
+    slots: { customRender: 'no' },
   },
   {
     title: 'Nama',
@@ -214,13 +206,15 @@ const columns = [
       {
         title: 'TOP/hari',
         dataIndex: 'top',
+        align: 'center',
         key: 'top',
       },
     ],
   },
   {
     title: 'Stok/Zak',
-    dataIndex: 'stokHariIni',
+    align: 'center',
+    dataIndex: 'stokHariini',
   },
   {
     title: 'Volume/Zak',
@@ -228,22 +222,28 @@ const columns = [
       {
         title: 'Penjualan',
         dataIndex: 'stokPenjualan',
+        align: 'center',
         key: 'stokPenjualan',
       },
       {
         title: 'Pembelian',
         dataIndex: 'stokPembelian',
+        align: 'center',
         key: 'stokPembelian',
       },
     ],
   },
   {
     title: 'Keluhan',
-    dataIndex: 'keluhan',
+    dataIndex: 'idProduk',
+    align: 'center',
+    slots: { customRender: 'keluhan' },
   },
   {
     title: 'Promosi',
     dataIndex: 'promosi',
+    align: 'center',
+    slots: { customRender: 'promosi' },
   },
 ]
 
@@ -253,6 +253,7 @@ export default {
     surveyDetail: {
       type: String,
       required: true,
+      default: null,
     },
   },
   setup() {
@@ -278,15 +279,46 @@ export default {
       pagination: {},
       isLoading: false,
       detailCustomer: {},
-      historyVisit: [],
+      surveyProduct: [],
+      slide: 0,
+      sliding: null,
     }
   },
   async mounted() {
     console.log(this.surveyDetail)
+    this.pageValidation()
   },
   methods: {
-    handlePaginationSize(size) {
-      this.pagination.pageSize = size
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    pageValidation() {
+      this.detailCustomer = JSON.parse(this.surveyDetail)
+
+      if (!this.surveyDetail) {
+        console.log(this.detailCustomer)
+        this.$router.back()
+      } else {
+        this.fetchGetHistoryDetail()
+      }
+    },
+    async fetchGetHistoryDetail() {
+      if (this.surveyDetail) {
+        this.isLoading = true
+        let formData = {
+          idHistoryVisit: this.detailCustomer.id_kunjungan,
+        }
+        await getHistoryDetail(formData)
+          .then((response) => {
+            if (response.status) {
+              this.surveyProduct = response.data
+            }
+            this.isLoading = false
+          })
+          .catch((err) => {
+            console.error(err)
+          })
+      }
     },
   },
 }
