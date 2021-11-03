@@ -84,6 +84,17 @@
             </template>
             <template #action="{ text }">
               <div>
+                <button
+                  type="button"
+                  class="btn btn-light mr-1"
+                  @click="showModalPassword(text)"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="View Password"
+                >
+                  <i class="fa fa-eye mr-1" />
+                  <!-- <span class="text-black">View Password</span> -->
+                </button>
                 <button type="button" class="btn btn-warning mr-1" @click="showUserEditModal(text)">
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
@@ -114,7 +125,11 @@
     >
       <template #footer>
         <a-button key="back" @click="closeModal">Batal</a-button>
-        <a-button @click="handleSubmit()" :loading="isSubmit" key="submit" type="primary"
+        <a-button
+          @click="handleSubmit()"
+          :loading="userManagementCRM.isLoading"
+          key="submit"
+          type="primary"
           >Simpan</a-button
         >
       </template>
@@ -171,14 +186,34 @@
       </a-form>
     </a-modal>
 
-    <!-- <vb-user-edit-modal
-      :modal-visible="modalVisible"
-      :username="editItem.namaJenisUser"
-      :edit-username="editUsername"
-      @handle-ok="handleOk"
-      @handle-cancel="modalVisible = false"
-    /> -->
-    <!-- User Edit Modal End -->
+    <a-modal
+      v-model:visible="userManagementCRM.modalPreviewPassword"
+      :title="`View Password`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="userManagementCRM.modalPreviewPassword = false"
+          >Batal</a-button
+        >
+        <a-button
+          @click="handleSubmitPassword(itemPassword)"
+          :loading="isSubmit"
+          key="submit"
+          type="primary"
+          >Kirim</a-button
+        >
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Password" name="password">
+          <a-input
+            style="width: 100% !important"
+            v-model:value="userManagementCRM.formViewPassword.password"
+            placeholder="Ketik password"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -200,7 +235,9 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      itemPassword: '',
+    }
   },
   computed: {
     ...mapState({
@@ -213,7 +250,22 @@ export default {
     this.getListJenisUser()
   },
   methods: {
-    ...mapActions('userManagementCRM', [`getListUserCRM`, 'postSubmitData', 'deleteDataUser']),
+    ...mapActions('userManagementCRM', [
+      `getListUserCRM`,
+      'postSubmitData',
+      'deleteDataUser',
+      'getViewPassword',
+    ]),
+    showModalPassword(text) {
+      this.userManagementCRM.modalPreviewPassword = true
+      this.itemPassword = text
+    },
+    async handleSubmitPassword(item) {
+      await this.getViewPassword({
+        user_id: item.userid,
+        logged_user_id: this.$store.state.user.id,
+      })
+    },
     ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
     searchData: _.debounce(function() {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
@@ -252,7 +304,7 @@ export default {
         cancelText: 'No',
         onOk: async () => {
           this.resetDataRow({
-            uuid: id,
+            uuid: id.uuid,
           })
           this.getListUserCRM()
         },
@@ -268,7 +320,7 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.deleteDataUser({
-            data_id: id,
+            data_id: id.uuid,
           })
           await this.getListUserCRM()
         },
@@ -314,7 +366,7 @@ export default {
           email: row.email,
           nohp: row.nohp,
           userid: row.userid,
-          id_level_hirarki: row.idLevelHirarki,
+          id_level_hirarki: row.idLevelJabatan,
         },
       })
       this.userManagementCRM.modalVisible = true
