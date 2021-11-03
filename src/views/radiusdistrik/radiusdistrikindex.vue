@@ -75,12 +75,14 @@
                 placeholder=" -- Pilih Level Wilayah -- "
                 @change="setSelectMethod"
                 name="wilayahval"
+                :disabled="isDisabled"
               >
                 <!-- <a-select-option disabled value="">Pilih Salah Satu</a-select-option> -->
                 <a-select-option
                   v-for="(wilayah, index) in radiusDistrik.dataWilayah"
                   :value="wilayah.ID_REFERENCE_LEVEL_WILAYAH"
                   :key="index"
+                  
                 >
                   {{ wilayah.ID_REFERENCE_LEVEL_WILAYAH }} - {{ wilayah.NM_WILAYAH }}
                 </a-select-option>
@@ -92,12 +94,14 @@
                 show-search
                 placeholder=" -- Pilih Distrik -- "
                 name="distrikval"
+                :disabled="isDisabled"
               >
                 <!-- <a-select-option disabled value="">Pilih Salah Satu</a-select-option> -->
                 <a-select-option
                   v-for="(distrik, index) in radiusDistrik.dataDistrik"
                   :value="distrik.ID_DISTRIK"
                   :key="index"
+                  
                 >
                   {{ distrik.ID_DISTRIK }} - {{ distrik.NM_DISTRIK }}
                 </a-select-option>
@@ -171,6 +175,7 @@ export default defineComponent({
       listDistrik: [],
       isLoading: false,
       fullPage: true,
+      isDisabled:false,
     }
   },
   computed: {
@@ -191,6 +196,7 @@ export default defineComponent({
       'getDataListDistrik',
       'getDataDistrik',
       'postDataRadiusDistrik',
+      'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
     resetFormState() {
@@ -201,6 +207,14 @@ export default defineComponent({
       this.radiusDistrik.formData.distrikname = ''
       this.radiusDistrik.formData.radius = 0
     },
+    disableFormState() {
+      // this.radiusDistrik.formData.id = null
+      this.radiusDistrik.formData.rownum = null
+      this.radiusDistrik.formData.distrikid = disable
+      this.radiusDistrik.formData.wilayahid = disable
+      this.radiusDistrik.formData.distrikname = ''
+      this.radiusDistrik.formData.radius = 0
+    },
     openModal() {
       this.stateForm = 1
       this.resetFormState()
@@ -208,6 +222,7 @@ export default defineComponent({
     },
     showModal() {
       this.stateForm = 2
+      this.isDisabled = true
       this.visible = true
     },
     async handleSave() {
@@ -215,8 +230,9 @@ export default defineComponent({
       await this.getDataListDistrik()
       this.visible = false
     },
-    async handleUpdate() {
-      await this.postDataRadiusDistrik()
+    async handleUpdate(e) {
+      
+      await this.updateDataRadiusDistrik(this.radiusDistrik.formData.id)
       await this.getDataListDistrik()
       this.visible = false
     },
