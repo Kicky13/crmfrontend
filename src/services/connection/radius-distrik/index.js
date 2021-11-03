@@ -159,7 +159,7 @@ const actions = {
       })
     }
   },
-
+  
   async postDataRadiusDistrik({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
@@ -174,35 +174,51 @@ const actions = {
       idLevelWilayah: data.formData.wilayahid,
       radius_lock: data.formData.radius,
     }
+    
+      result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    
+},
+async updateDataRadiusDistrik({ commit, state }) {
+  commit('changeRadiusDistrik', {
+    isLoading: true,
+  })
 
-    if (data.bodyList.id) {
-      result = await apiClient.put('/RadiusWilayah/Set_Radius', body)
-      if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        await commit('changeRadiusDistrik', {
-          dataDistrik: result.data.data,
-          isLoading: false,
-        })
-      }
-    } else {
-      result = await apiClient.post('/RadiusWilayah/Set_Radius', body)
-      if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        await commit('changeRadiusDistrik', {
-          dataDistrik: result.data.data,
-          isLoading: false,
-        })
-      }
-    }
-  },
+  const { data } = state
+
+  let result = ''
+
+  let body = {
+    IDwilayah: data.formData.distrikid,
+    idLevelWilayah: data.formData.wilayahid,
+    radius_lock: data.formData.radius,
+    uuid_radius_wilayah : data.formData.id ,
+  }
+  
+  result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
+  if (result.data.status == 'error') {
+    notification.error({
+      message: 'Error',
+      description: result.data.message,
+    })
+  } else {
+    await commit('changeRadiusDistrik', {
+      dataDistrik: result.data.data,
+      isLoading: false,
+    })
+  }
+  
+},
   async deleteDataRadiusDistrik({ commit, state }, payload) {
     commit('changeRadiusDistrik', {
       isLoading: true,
