@@ -38,7 +38,6 @@ const state = {
       },
       {
         title: 'Action',
-        dataIndex: 'uuid',
         slots: { customRender: 'action' },
       },
     ],
@@ -52,6 +51,11 @@ const state = {
       userid: '',
       id_level_hirarki: null,
     },
+    formViewPassword: {
+      loggedUserID: '',
+      password: '',
+      userID: '',
+    },
     table: {
       offset: 1,
       limit: 20,
@@ -60,6 +64,7 @@ const state = {
     dataSourceTable: [],
     pagination: {},
     modalVisible: false,
+    modalPreviewPassword: false,
     editUsername: '',
     editItem: {},
     newUsername: '',
@@ -167,6 +172,45 @@ const actions = {
       })
       return true
     }
+  },
+
+  async getViewPassword({ commit, state }, payload) {
+    commit('changeUserManagementCRM', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      loggedUserID: payload.logged_user_id,
+      password: data.formViewPassword.password,
+      userID: payload.user_id,
+    }
+
+    let result = await apiClient.post(`/usercrm/viewpassword`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+        modalPreviewPassword: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
+      })
+      await commit('changeUserManagementCRM', {
+        isLoading: false,
+        modalPreviewPassword: false,
+      })
+    }
+    await commit('changeUserManagementCRM', {
+      isLoading: false,
+    })
   },
 }
 
