@@ -14,7 +14,7 @@
         :menu-info="item"
         :styles="styles"
       />
-      <sub-menu v-if="item.children" :key="item.key" :menu-info="item" :styles="styles" />
+      <sub-menu v-if="item.children && item.hidden" :key="item.key" :menu-info="item" :styles="styles" />
     </template>
   </a-sub-menu>
 </template>

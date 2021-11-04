@@ -17,15 +17,36 @@ export const getAdminMenuData = [
         url: '/marketing/berita',
       },
       {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+        children: [
+          {
+            title: 'Tambah Berita',
+            key: 'tbr322',
+            url: '/marketing/berita/tambah',
+            hidden: true,
+          },
+          {
+            title: 'Update Berita',
+            key: 'ubr322',
+            url: '/marketing/berita/update',
+            hidden: true,
+            statusId: true,
+          },
+          {
+            title: 'Detail Berita',
+            key: 'dbr322',
+            url: '/marketing/berita/detail',
+            hidden: true,
+            statusId: true,
+          },
+        ],
+      },
+      {
         title: 'Program',
         key: 'jkr02l',
         url: '/marketing/program',
-      },
-      {
-        title: 'Tambah Berita',
-        key: 'tbr322',
-        url: '/marketing/berita/tambah',
-        hidden: true,
       },
     ],
   },
