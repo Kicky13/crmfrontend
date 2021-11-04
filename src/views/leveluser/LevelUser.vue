@@ -1,9 +1,6 @@
 <template>
   <div>
-    <a-card
-      class="card card-top card-top-primary"
-      :loading="isLoading"
-    >
+    <div class="card card-top card-top-primary">
       <div class="card-header d-flex align-items-center justify-content-between">
         <strong>Level User</strong>
         <Can do="create" on="News">
@@ -61,6 +58,7 @@
             :data-source="dataTable"
             :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
+            :loading="isLoading"
           >
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
@@ -88,7 +86,7 @@
           </a-table>
         </div>        
       </div>
-    </a-card>
+    </div>
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
       :modal-visible="modalVisible"
