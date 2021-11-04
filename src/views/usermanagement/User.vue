@@ -206,7 +206,7 @@
       </template>
       <a-form label-align="left" layout="vertical">
         <a-form-item label="Password" name="password">
-          <a-input
+          <a-input-password
             style="width: 100% !important"
             v-model:value="userManagementCRM.formViewPassword.password"
             placeholder="Ketik password"
@@ -256,6 +256,9 @@ export default {
       'deleteDataUser',
       'getViewPassword',
     ]),
+
+    ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
+
     showModalPassword(text) {
       this.userManagementCRM.modalPreviewPassword = true
       this.itemPassword = text
@@ -265,13 +268,54 @@ export default {
         },
       })
     },
+
     async handleSubmitPassword(item) {
       await this.getViewPassword({
         user_id: item.userid,
         logged_user_id: this.$store.state.user.id,
       })
+      this.countDown()
     },
-    ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
+    countDown() {
+      console.log(`----status`, this.userManagementCRM.status)
+      let secondsToGo = 30
+
+      if (this.userManagementCRM.status === false) {
+        const modal = this.$error({
+          title: 'Opps, Mohon maaf !',
+          content: this.userManagementCRM.messagePassword,
+        })
+
+        const interval = setInterval(() => {
+          secondsToGo -= 1
+          modal.update({
+            content: this.userManagementCRM.messagePassword + ` (` + secondsToGo + `) `,
+          })
+        }, 1000)
+
+        setTimeout(() => {
+          clearInterval(interval)
+          modal.destroy()
+        }, secondsToGo * 1000)
+      } else {
+        const modal = this.$success({
+          title: 'Password anda benar !',
+          content: this.userManagementCRM.messagePassword,
+        })
+
+        const interval = setInterval(() => {
+          secondsToGo -= 1
+          modal.update({
+            content: this.userManagementCRM.messagePassword + ` (` + secondsToGo + `) `,
+          })
+        }, 1000)
+
+        setTimeout(() => {
+          clearInterval(interval)
+          modal.destroy()
+        }, secondsToGo * 1000)
+      }
+    },
     searchData: _.debounce(function() {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         body: {

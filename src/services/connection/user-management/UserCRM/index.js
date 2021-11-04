@@ -61,6 +61,8 @@ const state = {
       limit: 20,
       q: '',
     },
+    status: Boolean,
+    messagePassword: '',
     dataSourceTable: [],
     pagination: {},
     modalVisible: false,
@@ -190,22 +192,26 @@ const actions = {
     let result = await apiClient.post(`/usercrm/viewpassword`, formData)
 
     if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
+      // notification.error({
+      //   message: 'Error',
+      //   description: result.data.message,
+      // })
       await commit('changeUserManagementCRM', {
         isLoading: false,
         modalPreviewPassword: false,
+        status: result.data.status,
+        messagePassword: result.data.message,
       })
     } else {
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
-      })
+      // notification.success({
+      //   message: 'Success',
+      //   description: result.data.message,
+      // })
       await commit('changeUserManagementCRM', {
         isLoading: false,
         modalPreviewPassword: false,
+        status: result.data.status,
+        messagePassword: result.data.message,
       })
     }
     await commit('changeUserManagementCRM', {
