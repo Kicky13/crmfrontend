@@ -259,6 +259,11 @@ export default {
     showModalPassword(text) {
       this.userManagementCRM.modalPreviewPassword = true
       this.itemPassword = text
+      this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+        formViewPassword: {
+          password: '',
+        },
+      })
     },
     async handleSubmitPassword(item) {
       await this.getViewPassword({

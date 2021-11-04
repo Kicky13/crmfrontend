@@ -196,6 +196,7 @@ const actions = {
       })
       await commit('changeUserManagementCRM', {
         isLoading: false,
+        modalPreviewPassword: false,
       })
     } else {
       notification.success({
@@ -204,6 +205,7 @@ const actions = {
       })
       await commit('changeUserManagementCRM', {
         isLoading: false,
+        modalPreviewPassword: false,
       })
     }
     await commit('changeUserManagementCRM', {
