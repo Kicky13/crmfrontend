@@ -38,6 +38,7 @@ export default {
       const items = reduce(
         data,
         (result, entry) => {
+          const defaultUrl = entry.url
           if (result.length) {
             return result
           }
@@ -46,9 +47,17 @@ export default {
             return (result || []).concat(nested.filter(e => !!e))
           }
           if (entry.statusId) {
-            entry.url = url
+            const urlItems = url.split('/')
+            const lastIndex = urlItems.length - 1
+            const urlNoId = url.replace(`/${urlItems[lastIndex]}`, '')
+            if (entry.url === urlNoId) {
+              entry.url = url
+            }
           }
           if (entry.url === url) {
+            if (entry.statusId) {
+              entry.url = defaultUrl
+            }
             return [entry].concat(parents)
           }
           return result
