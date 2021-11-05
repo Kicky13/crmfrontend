@@ -5,7 +5,7 @@
       <template v-for="(item, index) in breadcrumb">
         <span v-if="index != 0" :key="index">
           <span :class="$style.arrow"></span>
-          <span>{{ item.title }}</span>
+          <span>{{ breadcrumb[breadcrumb.length - index].title }}</span>
         </span>
       </template>
       <span v-if="activeItem">
@@ -44,6 +44,9 @@ export default {
           if (entry.children) {
             const nested = getPath(entry.children, url, [entry].concat(parents))
             return (result || []).concat(nested.filter(e => !!e))
+          }
+          if (entry.statusId) {
+            entry.url = url
           }
           if (entry.url === url) {
             return [entry].concat(parents)
