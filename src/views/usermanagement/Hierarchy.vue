@@ -118,15 +118,16 @@
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
-                  v-else
+                  v-else-if="selectedShorthand != 'SALES DIS'"
                   :to="`/users/profile/${text.idUser}/jabatan/${text.idJabatan}`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
                   <i class="fa fa-file-text-o mr-1"></i>
-                  <span class="text-black">Detail</span></router-link
-                ><button
+                  <span class="text-black">Detail</span>
+                </router-link>
+                <button
                   v-if="text.statusJabat === `Nonaktif`"
                   type="button"
                   class="btn btn-warning mr-2"
