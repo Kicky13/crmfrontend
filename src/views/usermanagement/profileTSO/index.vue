@@ -173,7 +173,7 @@ export default {
   },
   async mounted() {
     await this.getListDistrik({
-      id_tso: this.$route.params.id,
+      id_tso: this.$route.params.id_jabatan,
     })
     await this.getDetailProfile({
       id_jabatan: this.$route.params.id_jabatan,
@@ -213,7 +213,7 @@ export default {
         onOk: async () => {
           return new Promise((resolve, reject) => {
             this.deleteListDistrikHirarki({
-              id_tso: this.$route.params.id,
+              id_tso: this.$route.params.id_jabatan,
               id_distrik: id_distriks,
             })
 
@@ -221,10 +221,10 @@ export default {
 
             if (resolve) {
               this.getListDistrik({
-                id_tso: this.$route.params.id,
+                id_tso: this.$route.params.id_jabatan,
               })
               this.getListDistrikHirarki({
-                id_tso: this.$route.params.id,
+                id_tso: this.$route.params.id_jabatan,
               })
             }
           }).catch(() => console.log('Oops errors!'))
@@ -239,15 +239,15 @@ export default {
         this.profileTSO.formData.tgl_akhir
       ) {
         await this.addDistrikHirarki({
-          id_tso: this.$route.params.id,
+          id_tso: this.$route.params.id_jabatan,
         })
       }
 
       await this.getListDistrik({
-        id_tso: this.$route.params.id,
+        id_tso: this.$route.params.id_jabatan,
       })
       await this.getListDistrikHirarki({
-        id_tso: this.$route.params.id,
+        id_tso: this.$route.params.id_jabatan,
       })
       this.$store.commit('profileTSO/changeProfileTSO', {
         formData: {
