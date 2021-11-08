@@ -58,14 +58,18 @@
                       style="width: 10rem !important;"
                       class="col-lg-12 col-md-12 pr-2"
                       placeholder="Pilih Distrik"
+                      show-search
                     >
                       <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                       <a-select-option
                         v-for="(item, index) in profileTSO.daftar_distrik"
                         :value="item.idDistrik"
                         :key="`distrik_${index}`"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        :title="item.namaDistrik"
                       >
-                        {{ item.namaDistrik }}
+                        {{ item.idDistrik }} - {{ item.namaDistrik }}
                       </a-select-option>
                     </a-select>
                   </a-form-item>
@@ -74,6 +78,7 @@
                   <a-form-item label="" name="tgl_mulai">
                     <a-date-picker
                       v-model:value="profileTSO.formData.tgl_mulai"
+                      :disabled-date="disabledStartDate"
                       placeholder="Tanggal Mulai"
                       style="width: 10rem !important;"
                     />
@@ -83,6 +88,7 @@
                   <a-form-item label="" name="tgl_akhir">
                     <a-date-picker
                       v-model:value="profileTSO.formData.tgl_akhir"
+                      :disabled-date="disabledEndDate"
                       placeholder="Tanggal Akhir"
                       style="width: 10rem !important;"
                     />
@@ -167,13 +173,13 @@ export default {
   },
   async mounted() {
     await this.getListDistrik({
-      id_tso: this.$route.params.id,
+      id_tso: this.$route.params.id_jabatan,
     })
     await this.getDetailProfile({
       id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDistrikHirarki({
-      id_tso: this.$route.params.id,
+      id_tso: this.$route.params.id_jabatan,
     })
   },
   methods: {
@@ -184,6 +190,20 @@ export default {
       'addDistrikHirarki',
     ]),
     ...mapActions('userManagement', ['getDetailProfile']),
+    disabledStartDate(startValue) {
+      const endValue = this.profileTSO.formData.tgl_akhir
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.profileTSO.formData.tgl_mulai
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
     deleteRow(id_distriks) {
       this.$confirm({
         title: 'Apakah anda yakin akan menghapus data ini?',
@@ -193,7 +213,7 @@ export default {
         onOk: async () => {
           return new Promise((resolve, reject) => {
             this.deleteListDistrikHirarki({
-              id_tso: this.$route.params.id,
+              id_tso: this.$route.params.id_jabatan,
               id_distrik: id_distriks,
             })
 
@@ -201,10 +221,10 @@ export default {
 
             if (resolve) {
               this.getListDistrik({
-                id_tso: this.$route.params.id,
+                id_tso: this.$route.params.id_jabatan,
               })
               this.getListDistrikHirarki({
-                id_tso: this.$route.params.id,
+                id_tso: this.$route.params.id_jabatan,
               })
             }
           }).catch(() => console.log('Oops errors!'))
@@ -219,15 +239,15 @@ export default {
         this.profileTSO.formData.tgl_akhir
       ) {
         await this.addDistrikHirarki({
-          id_tso: this.$route.params.id,
+          id_tso: this.$route.params.id_jabatan,
         })
       }
 
       await this.getListDistrik({
-        id_tso: this.$route.params.id,
+        id_tso: this.$route.params.id_jabatan,
       })
       await this.getListDistrikHirarki({
-        id_tso: this.$route.params.id,
+        id_tso: this.$route.params.id_jabatan,
       })
       this.$store.commit('profileTSO/changeProfileTSO', {
         formData: {

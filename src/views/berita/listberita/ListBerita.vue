@@ -61,7 +61,7 @@
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
           <div class="text-main align-self-center">{{ post.post_date }} {{post.post_time}}</div>
-          <router-link :to="`/marketing/berita/${ post.id }`">
+          <router-link :to="`/marketing/berita/detail/${ post.id }`">
             <a-button type="primary">Selengkapnya</a-button>
           </router-link>
         </div>

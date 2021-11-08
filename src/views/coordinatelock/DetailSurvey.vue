@@ -367,7 +367,7 @@ export default {
       this.keluhanDetail = keluhan
       this.keluhanVisible = true
     },
-    detailPromosi(promosi) {
+    openPromosi(promosi) {
       this.promosiDetail = promosi
       this.promosiVisible = true
     },
