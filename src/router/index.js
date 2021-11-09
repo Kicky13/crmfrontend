@@ -84,7 +84,7 @@ const routes = [
           import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
-        path: '/marketing/berita/:artikelId',
+        path: '/marketing/berita/detail/:artikelId',
         meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
         component: () =>
           import(

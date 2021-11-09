@@ -65,9 +65,9 @@ const state = {
         dataIndex: 'idJabatan',
       },
       {
-        title: 'Nama',
+        title: 'Jabatan',
         key: 'nama',
-        slots: { customRender: 'nama' },
+        dataIndex: 'jabatan',
       },
       {
         title: 'Tanggal Jabatan',
@@ -80,9 +80,9 @@ const state = {
         slots: { customRender: 'end_date' },
       },
       {
-        title: 'Username',
-        key: 'username',
-        slots: { customRender: 'username' },
+        title: 'Nama',
+        key: 'name',
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Status',

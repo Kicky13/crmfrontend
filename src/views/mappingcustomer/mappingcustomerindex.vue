@@ -44,6 +44,7 @@
           <a-table
             :columns="mappingCustomer.columns"
             :data-source="mappingCustomer.listData"
+            :loading="isLoading"
             row-key="id"
           >
             <template #name="{ text }">
@@ -188,7 +189,9 @@ export default defineComponent({
       this.mappingCustomer.body.file = this.$refs.file.files[0]
     },
     async handleSubmit() {
+      this.isLoading = true
       await this.getDataFromExcel()
+      this.isLoading = false
       this.isDisabled = this.mappingCustomer.listData.length ? false : true
     },
     onSubmitData() {

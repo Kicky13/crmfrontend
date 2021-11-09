@@ -133,7 +133,6 @@ const actions = {
     const formData = new FormData()
     formData.append('commitData', JSON.stringify(dataArray))
     const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
-    console.log(result)
 
     if (result.data.status == 'error') {
       notification.error({
