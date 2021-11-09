@@ -120,10 +120,10 @@ const actions = {
     const { data } = state
 
     let formData = {
-      kodecustomer: payload.kode_customer,
+      kodedistributor: payload.kode_customer,
     }
 
-    const result = await apiClient.post(`/scheduler/LIVERAY`, formData)
+    const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData)
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
