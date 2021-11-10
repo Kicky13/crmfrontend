@@ -117,7 +117,9 @@
                       <div class="row">
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-right">
-                            <img lazy="loading" v-once
+                            <img
+                              lazy="loading"
+                              v-once
                               src="@/assets/images/logo/google-play.webp"
                               alt="Logo SIG"
                               width="170"
@@ -126,7 +128,9 @@
                         </div>
                         <div class="col-md-6 col-xs-12">
                           <a href="#" class="spesial-btn text-center float-left">
-                            <img lazy="loading" v-once
+                            <img
+                              lazy="loading"
+                              v-once
                               src="@/assets/images/logo/app-store.webp"
                               alt="Logo SIG"
                               width="170"
@@ -141,7 +145,9 @@
             </div>
             <div class="col-xl-5 col-lg-6 col-md-12">
               <div class="counter-down">
-                <img lazy="loading" v-once
+                <img
+                  lazy="loading"
+                  v-once
                   src="@/assets/images/logo/preview-apps.webp"
                   alt=""
                   class="img-fluid height-400"
@@ -217,7 +223,9 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img lazy="loading" v-once
+                <img
+                  lazy="loading"
+                  v-once
                   class="icon center-block"
                   src="@/assets/LandingPage/images/Getapps.webp"
                   alt=""
@@ -241,7 +249,9 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img lazy="loading" v-once
+                <img
+                  lazy="loading"
+                  v-once
                   class="icon iconscenter-block"
                   src="@/assets/LandingPage/images/Verifikasi.webp"
                   alt=""
@@ -265,7 +275,13 @@
 
               <div class="service-left-bg"></div>
               <div class="service-icon">
-                <img lazy="loading" v-once class="icon center-block" src="@/assets/LandingPage/images/Touch.webp" alt="" />
+                <img
+                  lazy="loading"
+                  v-once
+                  class="icon center-block"
+                  src="@/assets/LandingPage/images/Touch.webp"
+                  alt=""
+                />
               </div>
               <div class="service-text">
                 <h4><a href="#">Start Using</a></h4>
@@ -1148,21 +1164,22 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(function() {
-      window.addEventListener('scroll', function() {
-        var navbar = document.getElementById('minify_nav')
-        var nav_classes = navbar.classList
-        if (document.documentElement.scrollTop >= 150) {
-          if (nav_classes.contains('shrink') === false) {
-            nav_classes.toggle('shrink')
-          }
-        } else {
-          if (nav_classes.contains('shrink') === true) {
-            nav_classes.toggle('shrink')
-          }
-        }
-      })
-    })
+    // this.$nextTick(function() {
+    //   window.addEventListener('scroll', function() {
+    //     var navbar = document.getElementById('minify_nav')
+    //     var nav_classes = navbar.classList
+    //     console.log(`classList`, navbar)
+    //     if (document.documentElement.scrollTop >= 150) {
+    //       if (nav_classes.contains('shrink') === false) {
+    //         nav_classes.toggle('shrink')
+    //       }
+    //     } else {
+    //       if (nav_classes.contains('shrink') === true) {
+    //         nav_classes.toggle('shrink')
+    //       }
+    //     }
+    //   })
+    // })
   },
   methods: {},
 }

@@ -41,6 +41,7 @@
             :pagination="pagination"
             :data-source="dataSourceTable"
             :row-key="dataSourceTable => dataSourceTable.id"
+            :loading="isLoading"
           >
             <template #no="{ text }">
               <a href="javascript:;">{{ text }}</a>
@@ -93,6 +94,7 @@ export default {
       dataSourceTable: [],
       pagination: {},
       search: '',
+      isLoading: false,
     }
   },
   mounted() {
@@ -104,6 +106,7 @@ export default {
     },
 
     getDataTable() {
+      this.isLoading = true
       getDataTableList()
         .then(response => {
           let i = 1
@@ -112,11 +115,13 @@ export default {
             response.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
+              this.isLoading = false
             })
           }
         })
         .catch(err => {
           console.error(err)
+          this.isLoading = false
         })
     },
   },

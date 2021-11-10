@@ -40,6 +40,8 @@ const state = {
       offset: 1,
       limit: 20,
     },
+    itemsPerPage: [5, 10, 15, 20],
+    pagination: {},
     rules: {
       wilayahid: [
         {
@@ -98,6 +100,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeRadiusDistrik', {
+        isLoading: false,
+      })
     } else {
       await commit('changeRadiusDistrik', {
         listRadiusDistrik: result.data.data,
@@ -125,6 +130,9 @@ const actions = {
         message: 'Error',
         description: result.data.message,
       })
+      await commit('changeRadiusDistrik', {
+        isLoading: false,
+      })
     } else {
       await commit('changeRadiusDistrik', {
         dataWilayah: result.data.data,
@@ -142,7 +150,7 @@ const actions = {
     let body = {
       // offset: data.bodyList.offset,
       // limit: data.bodyList.limit,
-      idLevelWilayah : data.formData.wilayahid,
+      idLevelWilayah: data.formData.wilayahid,
     }
 
     const result = await apiClient.post('/RadiusWilayah/List_Distrik', body)
@@ -159,7 +167,7 @@ const actions = {
       })
     }
   },
-  
+
   async postDataRadiusDistrik({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
@@ -174,51 +182,49 @@ const actions = {
       idLevelWilayah: data.formData.wilayahid,
       radius_lock: data.formData.radius,
     }
-    
-      result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
-      if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        await commit('changeRadiusDistrik', {
-          dataDistrik: result.data.data,
-          isLoading: false,
-        })
-      }
-    
-},
-async updateDataRadiusDistrik({ commit, state }) {
-  commit('changeRadiusDistrik', {
-    isLoading: true,
-  })
 
-  const { data } = state
-
-  let result = ''
-
-  let body = {
-    IDwilayah: data.formData.distrikid,
-    idLevelWilayah: data.formData.wilayahid,
-    radius_lock: data.formData.radius,
-    uuid_radius_wilayah : data.formData.id ,
-  }
-  
-  result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
-  if (result.data.status == 'error') {
-    notification.error({
-      message: 'Error',
-      description: result.data.message,
+    result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
+    if (result.data.status == 'error') {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeRadiusDistrik', {
+        dataDistrik: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+  async updateDataRadiusDistrik({ commit, state }) {
+    commit('changeRadiusDistrik', {
+      isLoading: true,
     })
-  } else {
-    await commit('changeRadiusDistrik', {
-      dataDistrik: result.data.data,
-      isLoading: false,
-    })
-  }
-  
-},
+
+    const { data } = state
+
+    let result = ''
+
+    let body = {
+      IDwilayah: data.formData.distrikid,
+      idLevelWilayah: data.formData.wilayahid,
+      radius_lock: data.formData.radius,
+      uuid_radius_wilayah: data.formData.id,
+    }
+
+    result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
+    if (result.data.status == 'error') {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeRadiusDistrik', {
+        dataDistrik: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
   async deleteDataRadiusDistrik({ commit, state }, payload) {
     commit('changeRadiusDistrik', {
       isLoading: true,
