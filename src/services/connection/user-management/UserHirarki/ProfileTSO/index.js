@@ -138,7 +138,7 @@ const actions = {
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
+        description: result.data.message,
       })
       await commit('changeProfileTSO', {
         isLoading: false,
