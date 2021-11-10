@@ -122,6 +122,8 @@ const actions = {
       dataObject.nama_distributor = data.distributor
       dataObject.status_cek = 'success'
       dataArray.push(dataObject)
+
+      console.log(dataObject)
     })
 
     const config = {
