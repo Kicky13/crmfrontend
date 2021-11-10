@@ -9,16 +9,16 @@
           <div class="align-self-center">
             <strong>Assign Role :</strong>
           </div>
-          <a-select v-model:value="formState.user" class="mx-3" style="width: 200px">
-            <a-select-option disabled value="disabled">Pilih salah satu user</a-select-option>
+          <a-select v-model:value="formState.idUser" class="mx-3" style="width: 200px">
+            <a-select-option disabled :value="null">Pilih salah satu user</a-select-option>
             <a-select-option v-for="data in userOption" :key="data.id" :value="data.name">{{
               data.name
             }}</a-select-option>
           </a-select>
-          <a-select v-model:value="formState.role" class="mx-3" style="width: 200px">
-            <a-select-option disabled value="disabled">Pilih salah satu role</a-select-option>
-            <a-select-option v-for="data in roleOption" :key="data.id" :value="data.role">{{
-              data.role
+          <a-select v-model:value="formState.idJenisUser" class="mx-3" style="width: 200px">
+            <a-select-option disabled :value="null">Pilih salah satu role</a-select-option>
+            <a-select-option v-for="data in roleOption" :key="data.id_jenis" :value="data.name">{{
+              data.name
             }}</a-select-option>
           </a-select>
           <a-button type="primary" @click="handleSave">
@@ -57,14 +57,14 @@
             :row-selection="rowSelection"
             :columns="columns"
             :data-source="assigns"
-            :row-key="(assigns) => assigns.id"
+            :row-key="assigns => assigns.id"
             :pagination="pagination"
           >
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-light">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
+                <!-- <button type="button" class="btn btn-light">
+                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button> -->
+                  <button @click="goUpdate(text)" type="button" class="btn btn-warning">
                   <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
                 ><button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
                   <i class="fa fa-trash"></i><span> Hapus</span>
@@ -84,7 +84,7 @@ import { notification, message } from 'ant-design-vue'
 import {
   getAssignList,
   deleteAssign,
-  getRoleList,
+  optionJenisUser,
   getUserList,
   insertAssign,
 } from '@/services/connection/roles-permissions/api'
@@ -97,11 +97,11 @@ const columns = [
   },
   {
     title: 'Role',
-    dataIndex: 'role',
+    dataIndex: 'levelUser',
   },
   {
     title: 'Action',
-    dataIndex: 'id',
+    dataIndex: 'id_user',
     slots: { customRender: 'action' },
   },
 ]
@@ -113,7 +113,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -132,12 +132,14 @@ export default {
       userOption: [],
       roleOption: [],
       pagination: {},
+      offset: 1,
+      limit: 50,
       id: null,
       isLoading: false,
       isSubmit: false,
       formState: {
-        user: 'disabled',
-        role: 'disabled',
+        idUser: null,
+        idJenisUser: null,
       },
     }
   },
@@ -152,6 +154,7 @@ export default {
     },
     handlePaginationSize(size) {
       this.pagination.pageSize = size
+      console.log(this.pagination)
     },
     handleDelete(id) {
       const confirmDelete = this.deleteRow
@@ -169,23 +172,23 @@ export default {
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
       deleteAssign(id)
-        .then((response) => {
+        .then(response => {
           console.log(response)
           const dataSource = [...this.assigns]
-          this.assigns = dataSource.filter((item) => item.id !== id)
+          this.assigns = dataSource.filter(item => item.id !== id)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
     fetchGetAssign() {
-      getAssignList()
-        .then((response) => {
+      getAssignList(this.offset, this.limit)
+        .then(response => {
           if (response) {
-            this.assigns = response
+            this.assigns = response.data
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
@@ -202,7 +205,7 @@ export default {
     fetchSubmitInsert(formData) {
       this.isLoading = true
       insertAssign(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.clearForm()
             this.fetchGetAssign()
@@ -210,7 +213,7 @@ export default {
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false
           console.error(err)
         })
@@ -218,7 +221,7 @@ export default {
     fetchSubmitUpdate(formData) {
       this.isSubmit = true
       updateAssign(this.id, formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.clearForm()
             this.fetchGetAssign()
@@ -226,15 +229,15 @@ export default {
           }
           this.isSubmit = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isSubmit = false
           console.error(err)
         })
     },
     formValidation(formData) {
       const listData = [...this.assigns]
-      const currData = listData.filter((x) => x.user === formData.user && x.role === formData.role)
-      if (formData.user === 'disabled' || formData.role === 'disabled') {
+      const currData = listData.filter(x => x.user === formData.user && x.role === formData.role)
+      if (formData.idUser === null || formData.idJenisUser === null) {
         notification.error({
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
@@ -253,47 +256,47 @@ export default {
       return true
     },
     clearForm() {
-      this.formState.user = 'disabled'
-      this.formState.role = 'disabled'
+      this.formState.idUser = null
+      this.formState.idJenisUser = null
       this.id = null
     },
     goUpdate(id) {
       const dataSource = [...this.assigns]
-      const currData = dataSource.filter((x) => x.id === id)
+      const currData = dataSource.filter(x => x.id === id)
       this.id = id
-      this.formState.user = currData[0].user
-      this.formState.role = currData[0].role
+      this.formState.idUser = currData[0].user
+      this.formState.idJenisUser = currData[0].role
     },
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.userOption = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           this.isLoading = false
         })
     },
     fetchGetRoles() {
       this.isLoading = true
-      getRoleList()
-        .then((response) => {
+      optionJenisUser()
+        .then(response => {
           if (response) {
-            this.roleOption = response
+            this.roleOption = response.data
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

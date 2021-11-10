@@ -5,21 +5,39 @@
         <strong>Roles Management</strong>
       </div>
       <div class="card-body">
-        <div class="d-flex justify-content" style="margin-bottom: 10px">
-          <div class="align-self-center">
-            <strong>{{id == null ? "Tambah Role : " : "Update Role : "}}</strong>
+        <Can do="create" on="Roles">
+          <div class="d-flex justify-content" style="margin-bottom: 10px">
+            <div class="align-self-center">
+              <strong>{{ id == null ? 'Tambah Role : ' : 'Update Role : ' }}</strong>
+            </div>
+            <a-input
+              placeholder="Nama role"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="role"
+            />
+            <a-input
+              placeholder="Kode role"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="code"
+            />
+            <a-button type="primary" @click="handleSave" :loading="isSubmitForm">
+              <i class="fa fa-save mr-2" />
+              Save
+            </a-button>
+            <a-button
+              :hidden="id == null ? true : false"
+              type="button"
+              style="margin-left: 5px"
+              class="btn btn-outline-danger"
+              @click="clearForm"
+            >
+              <i class="fa fa-times" />
+              Cancel
+            </a-button>
           </div>
-          <a-input placeholder="Nama role" class="mx-3" style="width: 200px" v-model:value="role" />
-          <a-input placeholder="Kode role" class="mx-3" style="width: 200px" v-model:value="code" />
-          <a-button type="primary" @click="handleSave" :loading="isSubmitForm">
-            <i class="fa fa-save mr-2" />
-            Save
-          </a-button>
-          <a-button :hidden="id == null ? true : false" type="button" style="margin-left: 5px;" class="btn btn-outline-danger" @click="clearForm">
-            <i class="fa fa-times" />
-            Cancel
-          </a-button>
-        </div>
+        </Can>
         <div class="d-flex justify-content-between mb-3">
           <div class="d-flex">
             <div class="align-self-center">
@@ -41,7 +59,7 @@
             :row-selection="rowSelection"
             :columns="columns"
             :data-source="roles"
-            :row-key="(roles) => roles.id"
+            :row-key="roles => roles.id"
             :pagination="pagination"
           >
             <template #name="{ text }">
@@ -49,13 +67,18 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-light">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button @click="goUpdate(text)" type="button" class="btn btn-warning">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
-                  <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
+                <!-- <button type="button" class="btn btn-light">
+                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button> -->
+                <Can do="update" on="Roles">
+                  <button @click="goUpdate(text)" type="button" class="btn btn-warning">
+                    <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
+                  </button>
+                </Can>
+                <Can do="delete" on="Roles">
+                  <button @click="handleDelete(text)" type="button" class="btn btn-outline-danger">
+                    <i class="fa fa-trash"></i><span> Hapus</span>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>
@@ -103,7 +126,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -150,12 +173,12 @@ export default {
     deleteRow(id) {
       console.log('Deleted ID: ' + id)
       deleteRole(id)
-        .then((response) => {
+        .then(response => {
           console.log(response)
           const dataSource = [...this.roles]
-          this.roles = dataSource.filter((item) => item.id !== id)
+          this.roles = dataSource.filter(item => item.id !== id)
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
@@ -184,7 +207,7 @@ export default {
         createdAt: '06/04/2021',
       }
       insertRole(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             console.log(response)
             message.success('Role berhasil ditambahkan')
@@ -193,7 +216,7 @@ export default {
           }
           this.isSubmitForm = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmitForm = false
@@ -207,7 +230,7 @@ export default {
         createdAt: '06/04/2021',
       }
       updateRole(this.id, formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             console.log(response)
             message.success('Role berhasil ditambahkan')
@@ -216,7 +239,7 @@ export default {
           }
           this.isSubmitForm = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmitForm = false
@@ -224,7 +247,7 @@ export default {
     },
     formValidation() {
       const dataSource = [...this.roles]
-      const currentData = dataSource.filter((x) => x.code === this.code)
+      const currentData = dataSource.filter(x => x.code === this.code)
       if (this.role === '' && this.code === '') {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -245,20 +268,20 @@ export default {
       this.isLoading = true
       this.roles = []
       getRoleList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.roles = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoading = false
           console.error(err)
         })
     },
     goUpdate(id) {
       const dataSource = [...this.roles]
-      const currentData = dataSource.filter((x) => x.id === id)
+      const currentData = dataSource.filter(x => x.id === id)
       this.role = currentData[0].role
       this.code = currentData[0].code
       this.id = id
@@ -266,6 +289,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
 </style>

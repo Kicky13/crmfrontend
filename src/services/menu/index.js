@@ -1,4 +1,4 @@
-export const getMenuData = [
+export const getAdminMenuData = [
   {
     title: 'Dashboards',
     key: '__dashboard',
@@ -8,13 +8,40 @@ export const getMenuData = [
   {
     title: 'Marketing',
     key: 'aw57eky',
-    url: '/berita',
+    url: '/marketing',
     icon: 'fa fa-newspaper-o',
     children: [
       {
         title: 'News',
         key: 'jkr01l',
-        url: '/marketing/artikel',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+        children: [
+          {
+            title: 'Tambah Berita',
+            key: 'tbr322',
+            url: '/marketing/berita/tambah',
+            hidden: true,
+          },
+          {
+            title: 'Update Berita',
+            key: 'ubr322',
+            url: '/marketing/berita/update',
+            hidden: true,
+            statusId: true,
+          },
+          {
+            title: 'Detail Berita',
+            key: 'dbr322',
+            url: '/marketing/berita/detail',
+            hidden: true,
+            statusId: true,
+          },
+        ],
       },
       {
         title: 'Program',
@@ -33,6 +60,11 @@ export const getMenuData = [
         title: 'Management User CRM',
         key: 'jty2ap',
         url: '/users',
+      },
+      {
+        title: 'Management User Hirarki',
+        key: 'gfd34a',
+        url: '/users/hierarchy',
       },
     ],
   },
@@ -73,7 +105,7 @@ export const getMenuData = [
       {
         title: 'Sync Customer',
         key: 'St13Cf',
-        url: '/customerscyn',
+        url: '/customersync',
       },
       {
         title: 'Log Sync Customer',
@@ -106,7 +138,6 @@ export const getMenuData = [
     ],
   },
   {
-
     category: true,
     title: 'Report Admin',
     key: '2h83ot12',
@@ -125,6 +156,107 @@ export const getMenuData = [
       {
         title: 'Customer Mapping',
         key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+    ],
+  },
+  {
+    title: 'Supervisory Visit',
+    key: '78ehnf',
+    url: '/sales',
+    icon: 'fa fa-book',
+    children: [
+      {
+        title: 'Master Penilaian Sales',
+        key: '8sugn8',
+        url: '/sales/survey_sales',
+      },
+    ],
+  },
+]
+
+export const getUserMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      // {
+      //   title: 'Penguncian Koordinat Toko',
+      //   key: 'awqsaw',
+      //   url: '/koordinatlock',
+      // },
+      // {
+      //   title: 'Radius Distrik',
+      //   key: 'Adawsd',
+      //   url: '/radiusdistrik',
+      // },
+      // {
+      //   title: 'Mapping Customer',
+      //   key: 'Adaws1',
+      //   url: '/mappingcustomer',
+      // },
+      // {
+      //   title: 'Sync Customer',
+      //   key: 'Adaws2',
+      //   url: '/customerscyn',
+      // },
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
         url: '/report/customer_mapping',
       },
     ],
@@ -157,6 +289,102 @@ export const getMenuData = [
       },
     ],
   },
+]
+
+export const getTsoMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/marketing',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      {
+        title: 'Otomatisasi Visit Plan',
+        key: 'Vs12Pl',
+        url: '/otomatisasivisit',
+      },
+    ],
+  },
+  {
+    title: 'Peta Kunjungan',
+    key: 'iw82km',
+    url: '/mappedVisit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Route Complient',
+        key: 'acs293',
+        url: '/mappedVisit/route',
+      },
+    ],
+  },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/report-admin',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        url: '/datasales',
+      },
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        url: '/report/customer_mapping',
+      },
+      {
+        title: 'Laporan Toko Dikunjungi',
+        key: '872ksj',
+        url: '/report/toko_dikunjungi',
+      },
+      {
+        title: 'Laporan Visit Plan - Actual',
+        key: '888sja',
+        url: '/report/visit_actual',
+      },
+      {
+        title: 'Laporan Kapasitas Toko',
+        key: 'jsdj22',
+        url: '/report/kapasitasToko',
+      },
+      {
+        title: 'Hasil Survey',
+        key: '98ksds',
+        url: '/report/hasilSurvey',
+      },
+    ],
+  },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',
@@ -167,6 +395,11 @@ export const getMenuData = [
         title: 'Master Penilaian Sales',
         key: '8sugn8',
         url: '/sales/survey_sales',
+      },
+      {
+        title: 'Report Supervisory Visit',
+        key: '23jsu2',
+        url: '/sales/report_supervisory',
       },
     ],
   },

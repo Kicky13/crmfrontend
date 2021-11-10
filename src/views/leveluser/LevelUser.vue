@@ -1,23 +1,28 @@
 <template>
-  <div>    
+  <div>
     <div class="card card-top card-top-primary">
-      <div class="card-header d-flex">
-        <div class="align-self-center">
-          <strong>Tambah Jenis User :</strong>
-        </div>
-        <a-input
-          placeholder="Nama jenis user"
-          class="mx-3"
-          style="width: 200px"
-          v-model:value="newUsername"
-        />
-        <a-button
-          type="primary"
-          @click="addNewUsername"
-        >
-          <i class="fa fa-save mr-2" />
-          Save
-        </a-button>
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <strong>Level User</strong>
+        <Can do="create" on="News">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Tambah Jenis User :</span>
+            </div>
+            <a-input
+              placeholder="Nama jenis user"
+              class="mx-3"
+              style="width: 200px"
+              v-model:value="newUsername"
+            />
+            <a-button
+              type="primary"
+              @click="addNewUsername"
+            >
+              <i class="fa fa-save mr-2" />
+              Save
+            </a-button>
+          </div>
+        </Can>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -31,8 +36,8 @@
               @change="handlePaginationSize"
             >
               <a-select-option
-                v-for="(itemPerPage, i) in itemsPerPage"
-                :key="i"
+                v-for="itemPerPage in itemsPerPage"
+                :key="itemPerPage"
               >
                 {{ itemPerPage }}
               </a-select-option>
@@ -53,6 +58,7 @@
             :data-source="dataTable"
             :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
+            :loading="isLoading"
           >
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
@@ -84,7 +90,7 @@
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
       :modal-visible="modalVisible"
-      :username="editItem.nama_user"
+      :username="editItem.namaJenisUser"
       :edit-username="editUsername"
       @handle-ok="handleOk"
       @handle-cancel="modalVisible = false"
@@ -94,34 +100,11 @@
 </template>
 
 <script>
-import { getLevelUser, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
+import { levelUserList, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No.',
-    dataIndex: 'no',
-    key: 'no',
-  },
-  {
-    title: 'ID Jenis User',
-    dataIndex: 'id_user',
-    key: 'id_user',
-  },
-  {
-    title: 'Nama Jenis User',
-    dataIndex: 'nama_user',
-    key: 'nama_user',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'id',
-    key: 'id',
-    slots: { customRender: 'action' },
-  },
-]
 
 export default {
   components: {
@@ -130,7 +113,6 @@ export default {
   setup() {
     return {
       itemsPerPage,
-      columns,
     }
   },
   data() {
@@ -142,38 +124,67 @@ export default {
       editItem: {},
       newUsername: '',
       keyword: '',
+      isLoading: false,
+      columns: [
+        {
+          title: 'No.',
+          dataIndex: 'no',
+          key: 'no',
+        },
+        {
+          title: 'ID Jenis User',
+          dataIndex: 'idJenisUser',
+          key: 'idJenisUser',
+        },
+        {
+          title: 'Nama Jenis User',
+          dataIndex: 'namaJenisUser',
+          key: 'namaJenisUser',
+        },
+        {
+          title: 'Action',
+          dataIndex: 'idJenisUser',
+          key: 'idJenisUser',
+          slots: { customRender: 'action' },
+        },
+      ],
     }
   },
   computed: {
     dataTable() {
-      return this.dataSourceTable.filter(dataSource => dataSource.nama_user.toLowerCase().includes(this.keyword.toLowerCase()))
+      return this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(this.keyword.toLowerCase()))
     },
   },
   mounted() {
     this.fetchLevelUsers()
+    this.removeAction()
   },
   methods: {
     fetchLevelUsers() {
-      getLevelUser()
+      this.isLoading = true
+      levelUserList()
         .then((response) => {
           let i = 1
           this.dataSourceTable = []
           if (response) {
-            response.forEach(item => {
+            response.data.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
+              this.isLoading = false
             })
           }
         })
         .catch((err) => {
           console.error(err)
+          this.isLoading = false
         })
     },
     addNewLevelUser(data) {
       addLevelUser(data)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.log(err)
@@ -182,8 +193,9 @@ export default {
     deleteLevelUserById(id) {
       deleteLevelUser(id)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.error(err)
@@ -192,8 +204,9 @@ export default {
     updateLevelUserById(id, data) {
       updateLevelUser(id, data)
       .then(response => {
-        console.log(response)
-        this.fetchLevelUsers()
+        if (response) {
+          this.fetchLevelUsers()
+        }
       })
       .catch(err => {
         console.error(err)
@@ -216,32 +229,29 @@ export default {
         },
       });
     },
-    makeIdUser() {
-      let id = ''
-      for (let i = 0; i < 4; i++) {
-        const random = Math.floor(Math.random() * 9) + 1
-        id += random
-      }
-
-      return id
-    },
     addNewUsername() {
-      const dataForm = {
-        id_user: this.makeIdUser(),
-        nama_user: this.newUsername,
-      }
-      const exist = this.dataSourceTable.find(data => data.nama_user.toLowerCase() === dataForm.nama_user.toLowerCase())
-      if (!exist) {
-        this.addNewLevelUser(dataForm)
-        notification.success({
-          message: 'Tambah User',
-          description: 'User berhasil ditambah',
-        })
-        this.newUsername = ''
+      let check = this.newUsername.trim()
+      if (check) {
+        const dataForm = {}
+        dataForm.namaJenisUser = this.newUsername
+        const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
+        if (!exist) {
+          this.addNewLevelUser(dataForm)
+          notification.success({
+            message: 'Tambah User',
+            description: 'User berhasil ditambah',
+          })
+          this.newUsername = ''
+        } else {
+          notification.warning({
+            message: 'Tambah User',
+            description: 'User sudah tersedia',
+          })
+        }
       } else {
-        notification.warning({
+        notification.error({
           message: 'Tambah User',
-          description: 'User sudah tersedia',
+          description: 'Kolom tambah user masih kosong',
         })
       }
     },
@@ -249,25 +259,33 @@ export default {
       this.pagination.pageSize = size
     },
     getUserEdit(id) {
-      const row = this.dataSourceTable.find(data => data.id === id)
-      this.editItem.id = row.id
-      this.editItem.id_user = row.id_user
-      this.editItem.nama_user = row.nama_user
-      this.editUsername = row.nama_user
+      const row = this.dataSourceTable.find(data => data.idJenisUser === id)
+      this.editItem.idJenisUser = row.idJenisUser
+      this.editItem.namaJenisUser = row.namaJenisUser
+      this.editUsername = row.namaJenisUser
     },
     showUserEditModal(id) {
       this.getUserEdit(id)
       this.modalVisible = true
     },
     handleOk(newEditUsername) {
-      this.editItem.nama_user = newEditUsername
-      this.updateLevelUserById(this.editItem.id, this.editItem)
+      const dataForm = {}
+      dataForm.idJenisUser = this.editItem.idJenisUser
+      dataForm.namaJenisUser = newEditUsername
+      this.updateLevelUserById(dataForm)
       notification.success({
           message: 'Update User',
           description: 'User berhasil diupdate',
         })
       this.resetAfterSubmit()
       this.modalVisible = false
+    },
+    removeAction() {
+      const abilityUser = this.$store.state.user.ability
+      const check = abilityUser.filter(ability => ability.action === 'update' || ability.action === 'delete')
+      if (!check.length) {
+        this.columns.pop()
+      }
     },
     resetAfterSubmit() {
       this.editItem = {}

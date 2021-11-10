@@ -12,8 +12,9 @@
         <div class="card-header d-flex justify-content-between">
           <h5
             class="card-title title-ellipsis"
-            v-text="postItem.post_title"
+            v-text="postItem.program_title"
           />
+          <Can do="update" on="Program">
           <div class="nav-item dropdown">
              <a-dropdown
               placement="bottomCenter"
@@ -39,20 +40,23 @@
               </template>
             </a-dropdown> 
           </div>
+          </Can>
         </div>
         <div class="card-body pb-0">
           <div
             class="card-text detail-ellipsis"
-            v-html="postItem.post_detail"
+            v-html="postItem.program_detail"
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.post_date}} {{postItem.post_time}}</div>
+          <div class="text-main align-self-center">{{postItem.start_date}} - {{postItem.finish_date}}</div>
+          <router-link :to="`/marketing/program/detailProgram/${postItem.id}`">
           <a-button
             type="primary"
           >
-            Read More
+            Selengkapnya
           </a-button>
+          </router-link>
         </div>
       </div>
     </a-col>

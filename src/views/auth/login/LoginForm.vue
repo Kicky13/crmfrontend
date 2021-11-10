@@ -1,16 +1,28 @@
 <template>
-  <div>
+  <div class="right_side">
     <div class="row">
-      <div class="col-xs-0 col-md-2">
-      </div>
+      <div class="col-xs-0 col-md-2"></div>
       <div class="col-xs-12 col-md-8">
-        <div class="card card-top card-top-primary" style="background-color: rgb(255 255 255 / 90%);
-    box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%), 0px 4px 20px rgb(0 0 0 / 33%);
-    border-radius: 5px;">
+        <div class="card card-top card-top-primary">
           <div class="card-body">
-            <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-icon-black.png" alt="Logo SIG" width="200">
-            <img v-else src="@/assets/images/logo/crm-icon-white.png" alt="Logo SIG" width="200">
-            <div class="text-dark font-size-18 mb-3" style="margin-top: 10px !important">Selamat Datang</div>
+            <img
+              lazy="loading"
+              v-once
+              v-if="settings.theme === 'default'"
+              src="@/assets/images/logo/crm-icon-black.webp"
+              alt="Logo SIG"
+              width="200"
+              class="mb-3"
+            />
+            <img
+              lazy="loading"
+              v-once
+              v-else
+              src="@/assets/images/logo/crm-icon-white.webp"
+              alt="Logo SIG"
+              width="200"
+            />
+
             <a-form
               :model="loginForm"
               :rules="rules"
@@ -19,44 +31,70 @@
               @finish="login"
               @finishFailed="handleFinishFailed"
             >
-              <a-form-item name="email">
-                <a-input v-model:value="loginForm.email" placeholder="Nama Pengguna">
+              <a-form-item name="username">
+                <a-input
+                  class="input_username"
+                  v-model:value="loginForm.username"
+                  placeholder="Nama Pengguna"
+                >
                   <template #prefix>
                     <UserOutlined />
                   </template>
                 </a-input>
               </a-form-item>
               <a-form-item name="password">
-                <a-input-password v-model:value="loginForm.password" placeholder="Kata Kunci" type="password">                  
+                <a-input-password
+                  class="p-2 input_password"
+                  v-model:value="loginForm.password"
+                  placeholder="Kata Kunci"
+                  type="password"
+                >
                   <template #prefix>
-                    <!-- <KeyOutlined /> -->
                     <LockOutlined />
                   </template>
                 </a-input-password>
               </a-form-item>
-              <a-button type="main" style="background: #b20838 !important" html-type="submit" class="text-center text-white w-100" shape="round" :loading="loading">
+              <a-button
+                type="main"
+                html-type="submit"
+                class="text-center text-white w-100 button_login"
+                :loading="loading"
+              >
                 <strong>MASUK</strong>
               </a-button>
             </a-form>
-            <div class="text-center pt-2 mb-auto">
-              <span class="mr-2">Lupa Password?</span>
-              <router-link to="/auth/forgot-password" class="vb__utils__link text-main">
-                Klik disini
+            <div class="text-center mb-auto">
+              <router-link
+                to="/auth/forgot-password"
+                class="vb__utils__link text-main font-weight-bold"
+              >
+                Lupa Password?
+              </router-link>
+            </div>
+            <div class="text-center mt-3 mb-auto">
+              <router-link to="/" class="vb__utils__link back_beranda">
+                <span class="mr-2">Kembali ke Beranda</span>
               </router-link>
             </div>
           </div>
-        </div>     
-        <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <img src="@/assets/images/logo/app-store.png" alt="Logo SIG" width="170">            
-          </div>
-          <div class="col-xs-12 col-md-6">
-            <img src="@/assets/images/logo/google-play.png" alt="Logo SIG" width="170">    
-          </div>
         </div>
+        <!-- <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <a href="https://aksestoko.id/application/ios" target="_blank">
+              <img lazy="loading" v-once src="@/assets/images/logo/app-store.webp" alt="Logo App Store" width="170" />
+            </a>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <a
+              href="https://play.google.com/store/apps/details?id=id.sisi.aksestokomobile"
+              target="_blank"
+            >
+              <img lazy="loading" v-once src="@/assets/images/logo/google-play.webp" alt="Logo Google Play" width="170" />
+            </a>
+          </div>
+        </div> -->
       </div>
-      <div class="col-xs-0 col-md-2">
-      </div>
+      <div class="col-xs-0 col-md-2"></div>
     </div>
   </div>
 </template>
@@ -69,7 +107,7 @@ import {
   UserOutlined,
   // KeyOutlined,
   LockOutlined,
-} from '@ant-design/icons-vue';
+} from '@ant-design/icons-vue'
 
 export default {
   name: 'VbLogin',
@@ -83,7 +121,7 @@ export default {
     const settings = computed(() => storeState.getters.settings)
     const loading = computed(() => storeState.getters['user/user'].loading)
     const rules = {
-      email: [
+      username: [
         {
           required: true,
           message: 'Silahkan masukkan nama pengguna',
@@ -99,8 +137,8 @@ export default {
       ],
     }
     const loginForm = reactive({
-      email: 'demo@visualbuilder.cloud',
-      password: 'VisualBuilder',
+      username: '',
+      password: '',
     })
 
     const changeAuthProvider = value => {
@@ -114,7 +152,7 @@ export default {
     }
 
     return {
-      storeState,  
+      storeState,
       settings,
       loading,
       rules,
@@ -126,15 +164,23 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm.email, this.loginForm.password)
-      .then(response => {
+      login(this.loginForm).then(response => {
         console.log(response)
-        this.$ability.update(response.ability)
-        notification.success({
+        if (response) {
+          this.$ability.update(response.ability)
+          // window.location.href = '#/dashboard'
+          this.$router.push('/dashboard')
+          notification.success({
             message: 'Logged In',
-            description: 'You have successfully logged in!',
-        })
-        this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+            description: 'Anda berhasil Login!',
+          })
+          this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
+        } else {
+          notification.error({
+            message: 'Login Failed',
+            description: 'Username/password salah!',
+          })
+        }
       })
     },
   },
@@ -171,4 +217,7 @@ export default {
 </script>
 <style lang="scss" module>
 @import '@/components/main/Auth/style.module.scss';
+</style>
+<style lang="scss" scoped>
+@import '@/assets/scss/Login/index.scss';
 </style>

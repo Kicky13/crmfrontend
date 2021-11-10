@@ -1,58 +1,99 @@
 <template>
-  <div>    
-    <loading v-model:active="isLoading" :is-full-page="fullPage"/>
+  <div>
+    <loading
+      v-model:active="isLoading"
+      :is-full-page="fullPage"
+    />
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Import Mapping Toko Sales Distributor</strong>
       </div>
       <div class="card-body">
-        <a-button
-          type="primary"
-          class="mb-3"
-          href="https://docs.google.com/spreadsheets/d/1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO/edit?usp=sharing&ouid=113668497592391900713&rtpof=true&sd=true"
-          target="_blank"
+        <a
+          href="https://docs.google.com/uc?export=download&id=1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO"
+          download
+          class="btn btn-main mb-3"
         >
           <i class="fa fa-download mr-2" />
           Download Template Mapping Customer
-        </a-button>
-        
+        </a>
         <a-button
           type="primary"
-          class="mb-3 float-right"
-          @click="previewDataUpload"
+          class="float-right mb-3"
+          @click="handleSubmit"
         >
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
-        <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" placeholder="Pilih File yang Akan diupload"/>
+        <a-form-item
+          label="Upload File"
+          class="float-right mb-3"
+          style="margin-right: 10px;"
+        >
+          <input
+            type="file"
+            id="file"
+            ref="file"
+            class="file_input"
+            @change="onFileChanged"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            placeholder="Pilih File yang Akan diupload"
+          />
         </a-form-item>
-        <div v-if="isVisible" class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
+        <div class="table-responsive text-nowrap">
+          <a-table
+            :columns="mappingCustomer.columns"
+            :data-source="mappingCustomer.listData"
+            :loading="isLoading"
+            row-key="id"
+          >
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
-            <template #status="{ text }">
-              <div v-if="text==sukses">
+            <template #username="{ text }">
+              <template v-if="mappingCustomer.listData.find(data => data.username === text).username_cek">
                 <a-tag color="green">{{ text }}</a-tag>
-              </div>              
-              <div v-else-if="text==gagal">
+              </template>
+              <template v-else>
                 <a-tag color="red">{{ text }}</a-tag>
-              </div>              
-              <div v-else-if="text==nonwpm">
-                <a-tag color="yellow">{{ text }}</a-tag>
-              </div>
+              </template>
+            </template>
+            <template #customer="{ text }">
+              <template v-if="mappingCustomer.listData.find(data => data.customer === text).customer_cek">
+                <a-tag color="green">{{ text }}</a-tag>
+              </template>
+              <template v-else>
+                <a-tag color="red">{{ text }}</a-tag>
+              </template>
+            </template>
+            <template #distributor="{ text }">
+              <template v-if="mappingCustomer.listData.find(data => data.distributor === text).distributor_cek">
+                <a-tag color="green">{{ text }}</a-tag>
+              </template>
+              <template v-else>
+                <a-tag color="red">{{ text }}</a-tag>
+              </template>
             </template>
           </a-table>
-        </div>        
-        <a-button v-if="isVisible"
-          type="primary"
-          :class="dataSourceTable.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
-          @click="submitDataUpload"
-        >
-          <i class="fa fa-upload mr-2" />
-          Commit to Database
-        </a-button>
+        </div>
+        <div class="d-flex flex-row-reverse mt-4">
+          <a-button
+            type="primary"
+            :disabled="commitToDatabaseButtonDisabled"
+            @click="onSubmitData"
+          >
+            <i class="fa fa-upload mr-2" />
+            Commit to Database
+          </a-button>
+          <a-button
+            type="primary"
+            class="mr-2"
+            :disabled="isDisabled"
+            @click="downloadTokoSalesHandle" 
+          >
+            Download
+          </a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -62,51 +103,7 @@
 import { getDataList, deleteData } from '@/services/connection/mapping-customer/api'
 import { message } from 'ant-design-vue'
 import { defineComponent, reactive, toRaw } from 'vue'
-
-const columns = [
-  {
-    title: 'Id Sales',
-    dataIndex: 'id',
-    key: 'id',
-    // fixed: 'left',
-    slots: { customRender: 'name' },
-  },
-  {
-    title: 'Username',
-    dataIndex: 'username',
-    key: 'username',
-    // fixed: 'left',
-    // slots: { customRender: 'name' },
-  },
-  {
-    title: 'Id Customer',
-    dataIndex: 'customerid',
-    key: 'customerid',
-    // slots: { customRender: 'name' },
-  },
-  {
-    title: 'Nama Customer',
-    dataIndex: 'customername',
-    key: 'customername',
-  },
-  {
-    title: 'Id Distributor',
-    dataIndex: 'distributorid',
-    key: 'distributorid',
-  },
-  {
-    title: 'Nama Distributor',
-    dataIndex: 'distributorname',
-    key: 'distributorname',
-  },
-  {
-    title: 'Status',
-    // fixed: 'right',
-    dataIndex: 'status',
-    key: 'status',
-    slots: { customRender: 'status' },
-  },
-]
+import { mapState, mapActions } from 'vuex'
 
 export default defineComponent({
   name: 'VbAntDesign',
@@ -118,16 +115,15 @@ export default defineComponent({
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
         },
       }),
     }
-    const fileList = [];
+    const fileList = []
     return {
-      columns,
       rowSelection,
       fileList,
       headers: {
@@ -137,50 +133,91 @@ export default defineComponent({
   },
   data() {
     return {
-      sukses: "success",
-      gagal: "failed",
-      nonwpm: "Non WPM",
-      isVisible: false,
+      sukses: 'success',
+      gagal: 'failed',
+      nonwpm: 'Non WPM',
       isLoading: false,
       fullPage: true,
       file1: null,
       file2: null,
       dataSourceTable: [],
+      isDisabled: true,
     }
   },
-  mounted() {
+  computed: {
+    ...mapState({
+      mappingCustomer: state => state.mappingCustomer.data,
+    }),
+    commitToDatabaseButtonDisabled() {
+      if (this.mappingCustomer.listData.find(data => data.username_cek === true)) {
+        if (this.mappingCustomer.listData.find(data => data.customer_cek === true)) {
+          if (this.mappingCustomer.listData.find(data => data.distributor_cek === true)) {
+            return false
+          }
+        }
+      }
+      return true
+    },
   },
   methods: {
-    previewDataUpload() {     
-      this.isLoading = true
-      this.fetchGetDataSource()
-      this.isVisible = true
-      this.isLoading = false              
-      message.success('Preview Data Upload Selesai')
-    },
-    submitDataUpload() {
-      this.isLoading = true
-      this.isVisible = false
-      this.isLoading = false              
-      message.success('Mapping Customer Berhasil Disimpan')
-    },
-    downloadTemplate() {
-      location.href = 'https://docs.google.com/spreadsheets/d/1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO/edit?usp=sharing&ouid=113668497592391900713&rtpof=true&sd=true'
-    },
-    fetchGetDataSource() {
-      getDataList()
-        .then((response) => {
-          if (response) {
-            this.dataSourceTable = response
-          }
+    ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
+    downloadTokoSalesHandle() {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['Id Sales', 'Username', 'Id Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
+        const filterVal = ['sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
+        const list = this.mappingCustomer.listData
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
         })
-        .catch((err) => {
-          console.error(err)
-        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'timestamp') {
+          return parseTime(v[j])
+        } else {
+          return v[j]
+        }
+      }))
+    },
+    onFileChanged() {
+      this.mappingCustomer.body.file = this.$refs.file.files[0]
+    },
+    async handleSubmit() {
+      this.isLoading = true
+      await this.getDataFromExcel()
+      this.isLoading = false
+      this.isDisabled = this.mappingCustomer.listData.length ? false : true
+    },
+    onSubmitData() {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menambahkan data tersebut?',
+        okText: 'Iya',
+        okType: 'danger',
+        cancelText: 'Tidak',
+        onOk: async () => {
+          await this.submitData()
+          this.$store.commit('customerMapping/changeCustomerMapping', {
+            listData: [],
+          })
+        },
+        onCancel() {},
+      })
     },
   },
 })
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style lang="scss" scoped>
+.file_input {
+  height: 3rem !important;
+  line-height: 30px !important;
+}
 </style>

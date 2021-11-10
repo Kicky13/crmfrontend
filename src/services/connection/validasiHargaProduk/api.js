@@ -1,10 +1,10 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 import store from 'store'
 
 
 export async function insertProduk(data) {
   return apiClient
-  .post('/produk', data)
+  .post('/validasiHarga/tambah', data)
   .then(response => {
       if (response) {
         console.log(response)
@@ -16,7 +16,7 @@ export async function insertProduk(data) {
 
 export async function updateProduk(id, data) {
   return apiClient
-  .put('/produk/' + id, data)
+  .post('/validasiHarga/edit/' + id, data)
   .then(response => {
     if (response) {
       console.log(response)

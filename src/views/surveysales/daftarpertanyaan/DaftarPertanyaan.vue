@@ -1,41 +1,43 @@
 <template>
-  <div class="card border-radius-card">
+  <div class="card card-radius">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Daftar Pertanyaan {{ list.jenis_penilaian }}</h5>
-      <div class="nav-item dropdown">
-        <a-dropdown
-          placement="bottomLeft"
-          :trigger="['click']"
-        >
-          <a
-            class="nav-link pt-sm-0"
-            href="javascript: void(0);"
+      <Can do="update" on="Survey Sales">
+        <div class="nav-item dropdown">
+          <a-dropdown
+            placement="bottomLeft"
+            :trigger="['click']"
           >
-            <i class="fa fa-list text-white" />
-          </a>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item>
-                <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="deleteConfirm
-                (
-                  'Hapus Jenis Penilaian',
-                  'Jenis penilaian berhasil dihapus',
-                  hapusJenisPenilaian
-                )"
-                >
-                  Hapus Jenis Penilaian
-                </a>
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-      </div>
+            <a
+              class="nav-link pt-sm-0"
+              href="javascript: void(0);"
+            >
+              <i class="fa fa-list text-white" />
+            </a>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item>
+                  <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
+                </a-menu-item>
+                <a-menu-item>
+                  <a @click="deleteConfirm
+                  (
+                    'Hapus Jenis Penilaian',
+                    'Jenis penilaian berhasil dihapus',
+                    hapusJenisPenilaian
+                  )"
+                  >
+                    Hapus Jenis Penilaian
+                  </a>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+      </Can>
     </div>
     <div class="card-body">
       <a-collapse
@@ -50,25 +52,25 @@
           :key="String(i)"
         >
           <a-collapse-panel
-            :header="question.title"
+            :header="question.judul"
             :style="customStyle"
           >
-            <div class="d-flex justify-content-between mx-3">
-              <a @click="showTambahJawabanModal(i, question.title)">
+            <div class="d-flex justify-content-between mx-3 mt-3">
+              <a @click="showTambahOpsionalJawabanModal(list, question)">
                 <i class="fa fa-plus-circle fa-lg text-main align-self-center mr-2" />
                 <span class="align-self-center">Opsional Jawaban Atas Pertanyaan</span>
               </a>
               <div>
                 <a
                   class="btn btn-warning fa fa-pencil-square-o mr-1"
-                  @click="showEditPertanyaanModal(i, question.title)"
+                  @click="showEditPertanyaanModal(question)"
                 />
                 <a
                   class="btn btn-outline-danger fa fa-trash"
                   @click="deleteConfirm(
                     'Hapus Pertanyaan',
                     'Pertanyaan berhasil dihapus',
-                    () => hapusPertanyaan(i)
+                    () => hapusPertanyaan(question)
                   )"
                 />
               </div>
@@ -87,14 +89,14 @@
                 <div>
                   <a
                     class="btn btn-warning fa fa-pencil-square-o mr-1"
-                    @click="showEditOpsionalJawabanModal(i, question.title, text)"
+                    @click="showEditOpsionalJawabanModal(question.jawaban, text)"
                   />
                   <a
                     class="btn btn-outline-danger fa fa-trash"
                     @click="deleteConfirm(
                       'Hapus Opsional Jawaban',
                       'Opsional jawaban berhasil dihapus',
-                      () => hapusJawaban(i, text)
+                      () => hapusJawaban(text)
                     )"
                   />
                 </div>
@@ -118,45 +120,35 @@
     :modal-visible="pertanyaanModalVisible"
     :modal-status="pertanyaanModalStatus"
     :new-pertanyaan="pertanyaan"
-    :jenis-penilaian-title="list.jenis_penilaian"
+    :jenis-penilaian-title="jenisPenilaian"
     @handle-ok="pertanyaanModalHandleOk"
     @handle-cancel="pertanyaanModalVisible = false"
   />
   <!-- End of Tambah Pertanyaan Modal End -->
   <!-- Start of Tambah Opsional Jawaban Modal -->
-  <vb-tambah-opsional-jawaban-modal
-    :modal-visible="tambahOpsionalJawabanVisible"
+  <vb-opsional-jawaban-modal
+    :modal-visible="opsionalJawabanModalVisible"
+    :modal-status="opsionalJawabanModalStatus"
     :pertanyaan-title="judulPertanyaan"
     :new-jawaban="jawaban"
     :new-poin="poin"
-    @handle-ok="tambahOpsionalModalHandleOk"
-    @handle-cancel="tambahOpsionalJawabanVisible = false"
+    @handle-ok="opsionalJawabanModalHandleOk"
+    @handle-cancel="opsionalJawabanModalVisible = false"
   />
   <!-- End of Tambah Opsional Jawaban Modal -->
-  <!-- Start of Edit Opsional Jawaban Modal -->
-  <vb-edit-opsional-jawaban-modal
-    :modal-visible="editOpsionalJawabanModalVisible"
-    :pertanyaan-title="judulPertanyaan"
-    :new-jawaban="jawaban"
-    :new-poin="poin"
-    @handle-ok="editOpsionalJawabanModalHandleOk"
-    @handle-cancel="editOpsionalJawabanModalVisible = false"
-  />
-  <!-- End of Edit Opsional Jawaban Modal -->
 </template>
 
 <script>
 import VbPertanyaanModal from './modals/PertanyaanModal'
 import VbEditJenisPenilaianModal from './modals/EditJenisPenilaianModal'
-import VbTambahOpsionalJawabanModal from './modals/TambahOpsionalJawabanModal'
-import VbEditOpsionalJawabanModal from './modals/EditOpsionalJawabanModal'
+import VbOpsionalJawabanModal from './modals/TambahOpsionalJawabanModal'
 import { notification } from 'ant-design-vue'
 
 const columns = [
   {
     title: 'Jawaban',
-    dataIndex: 'title',
-    key: 'title',
+    dataIndex: 'judul',
+    key: 'judul',
   },
   {
     title: 'Poin',
@@ -175,8 +167,7 @@ export default {
   components: {
     VbPertanyaanModal,
     VbEditJenisPenilaianModal,
-    VbTambahOpsionalJawabanModal,
-    VbEditOpsionalJawabanModal,
+    VbOpsionalJawabanModal,
   },
   props: {
     list: {
@@ -184,6 +175,9 @@ export default {
       default: function () {
         return {}
       },
+    },
+    loading: {
+      type: Boolean,
     },
   },
   emits: [
@@ -205,11 +199,11 @@ export default {
     return {
       pertanyaanModalStatus: true,
       pertanyaanModalVisible: false,
-      tambahOpsionalJawabanVisible: false,
-      editOpsionalJawabanModalVisible: false,
+      opsionalJawabanModalStatus: true,
+      opsionalJawabanModalVisible: false,
       editJenisPenilaianModalVisible: false,
-      pertanyaan: '',
       jenisPenilaian: '',
+      pertanyaan: '',
       jawaban: '',
       poin: '',
       judulPertanyaan: '',
@@ -219,6 +213,10 @@ export default {
       customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
       tempData: {},
       dataSourceTable: [],
+      idJenisPenilaian: '',
+      idPertanyaan: '',
+      idJawaban: '',
+      jenisPenilaianObj: null,
     }
   },
   methods: {
@@ -229,31 +227,32 @@ export default {
     },
     showTambahPertanyaanModal() {
       this.pertanyaan = ''
+      this.jenisPenilaian = this.list.jenis_penilaian
       this.pertanyaanModalStatus = true
       this.pertanyaanModalVisible = true
     },
-    showEditPertanyaanModal(index, pertanyaan) {
-      this.indexPertanyaan = index
-      this.pertanyaan = pertanyaan
+    showEditPertanyaanModal({ key, judul }) {
+      this.idPertanyaan = key
+      this.pertanyaan = judul
       this.pertanyaanModalStatus = false
       this.pertanyaanModalVisible = true
     },
-    showTambahJawabanModal(index, pertanyaan) {
+    showTambahOpsionalJawabanModal({ id }, pertanyaan) {
       this.jawaban = ''
       this.poin = ''
-      this.tambahOpsionalJawabanVisible = true
-      this.indexPertanyaan = index
-      this.judulPertanyaan = pertanyaan
+      this.idJenisPenilaian = id
+      this.idPertanyaan = pertanyaan.key
+      this.judulPertanyaan = pertanyaan.judul
+      this.opsionalJawabanModalStatus = true
+      this.opsionalJawabanModalVisible = true
     },
-    showEditOpsionalJawabanModal(index, pertanyaan, key) {
-      this.editOpsionalJawabanModalVisible = true
-      this.indexPertanyaan = index
-      this.judulPertanyaan = pertanyaan
-      const indexJawaban = this.list.pertanyaan[index].jawaban.map(pertanyaan => pertanyaan.key).indexOf(key)
-      const jawaban = this.list.pertanyaan[index].jawaban[indexJawaban]
-      this.indexJawaban = indexJawaban
-      this.jawaban = jawaban.title
-      this.poin = jawaban.poin
+    showEditOpsionalJawabanModal(listJawaban, key) {
+      const opsiJawaban = listJawaban.find(jawaban => jawaban.key === key)
+      this.idJawaban = opsiJawaban.key
+      this.jawaban = opsiJawaban.judul
+      this.poin = opsiJawaban.poin
+      this.opsionalJawabanModalStatus = false
+      this.opsionalJawabanModalVisible = true
     },
     // ========== End of Show Modal ==========
     // ========== Start of Handle Ok ==========
@@ -261,13 +260,56 @@ export default {
       let message = ''
       let description = ''
       if (status) {
-        this.tambahPertanyaanModalHandleOk(newPertanyaan)
-        message = 'Tambah Pertanyaan'
-        description = 'Pertanyaan berhasil ditambah'
+        let check = newPertanyaan.trim()
+        if (check) {
+          this.tambahPertanyaanModalHandleOk(check)
+          message = 'Tambah Pertanyaan'
+          description = 'Pertanyaan berhasil ditambah'
+        } else {
+          notification.error({
+            message: 'Tambah Pertanyaan',
+            description: 'Kolom tambah pertanyaan masih kosong',
+          })
+
+          return false
+        }
       } else {
         this.editPertanyaanModalHandleOk(newPertanyaan)
         message = 'Edit Pertanyaan'
-        description = 'Pertanyaan berhasil diedit'
+        description = 'Pertanyaan berhasil diupdate'
+      }
+      notification.success({
+        message,
+        description,
+      })
+      this.pertanyaan = ''
+      this.indexPertanyaan = null
+      this.pertanyaanModalVisible = false
+    },
+    opsionalJawabanModalHandleOk(status, newJawaban) {
+      let message = ''
+      let description = ''
+      if (status) {
+        let check = {
+          jawaban: newJawaban.jawaban.trim(),
+          poin: newJawaban.poin.trim(),
+        }
+        if (check.jawaban && check.poin) {
+          this.tambahOpsionalJawabanModalHandleOk(check)
+          message = 'Tambah Opsional Jawaban'
+          description = 'Opsional jawaban berhasil ditambah'
+        } else {
+          notification.error({
+            message: 'Tambah Opsional Jawaban',
+            description: 'Kolom tambah jawaban atau poin masih kosong',
+          })
+
+          return false
+        }
+      } else {
+        this.editOpsionalJawabanModalHandleOk(newJawaban)
+        message = 'Edit Opsional Jawaban'
+        description = 'Opsional jawaban berhasil diupdate'
       }
       notification.success({
         message,
@@ -278,64 +320,51 @@ export default {
       this.pertanyaanModalVisible = false
     },
     tambahPertanyaanModalHandleOk(newPertanyaan) {
-      const dataForm = this.list
-      const pertanyaanData = {
-        title: newPertanyaan,
-        jawaban: [
-          {
-            title: "Ya",
-            poin: "1",
-            key: 1,
-          },
-          {
-            title: "Tidak",
-            poin: "0",
-            key: 2,
-          },
-        ],
-      }
-      dataForm.pertanyaan.push(pertanyaanData)
-      this.$emit('addPertanyaan', dataForm.id, dataForm)
+      const dataForm = {}
+      dataForm.mode = 2
+      dataForm.id_penilaian = this.list.id
+      dataForm.nm_pertanyaan = newPertanyaan
+      this.$emit('addPertanyaan', dataForm)
     },
     editPertanyaanModalHandleOk(newPertanyaan) {
-      const dataForm = this.list
-      dataForm.pertanyaan[this.indexPertanyaan].title = newPertanyaan
-      this.$emit('updatePertanyaan', dataForm.id, dataForm)
+      const dataForm = {}
+      dataForm.mode = 2
+      dataForm.id = this.idPertanyaan
+      dataForm.judul = newPertanyaan
+      this.$emit('updatePertanyaan', dataForm)
     },
-
     editJenisPenilaianModalHandleOk(newJenisPenilaian) {
-      const dataForm = this.list
-      dataForm.jenis_penilaian = newJenisPenilaian
-      this.$emit('updateJenisPenilaian', dataForm.id, dataForm)
+      const dataForm = {}
+      dataForm.mode = 1
+      dataForm.id = this.list.id
+      dataForm.judul = newJenisPenilaian
+      this.$emit('updateJenisPenilaian', dataForm)
       notification.success({
         message: 'Jenis Penilaian',
         description: 'Jenis penilaian berhasil diupdate',
       })
       this.editJenisPenilaianModalVisible = false
     },
-    tambahOpsionalModalHandleOk(newJawaban) {
-      const dataForm = this.list
-      const lastJawabanIndex = dataForm.pertanyaan[this.indexPertanyaan].jawaban.length - 1
-      const jawaban = {
-        title: newJawaban.jawaban,
-        poin: newJawaban.poin,
-      }
-      jawaban.key = dataForm.pertanyaan[this.indexPertanyaan].jawaban[lastJawabanIndex].key + 1
-      dataForm.pertanyaan[this.indexPertanyaan].jawaban.push(jawaban)
-      this.$emit('addJawaban', dataForm.id, dataForm)
-      notification.success({
-        message: 'Tambah Opsi Jawaban',
-        description: 'Opsi jawaban berhasil ditambah',
-      })
+    tambahOpsionalJawabanModalHandleOk(newJawaban) {
+      const dataForm = {}
+      dataForm.mode = 3
+      dataForm.id_penilaian = this.idJenisPenilaian
+      dataForm.id_pertanyaan = this.idPertanyaan
+      dataForm.nm_jawaban = newJawaban.jawaban
+      dataForm.poin = newJawaban.poin
+      this.$emit('addJawaban', dataForm)
       this.indexJawaban = null
       this.judulPertanyaan = ''
       this.tambahOpsionalJawabanVisible = false
     },
-    editOpsionalJawabanModalHandleOk(data) {
-      const dataForm = this.list
-      dataForm.pertanyaan[this.indexPertanyaan].jawaban[this.indexJawaban].title = data.jawaban
-      dataForm.pertanyaan[this.indexPertanyaan].jawaban[this.indexJawaban].poin = data.poin
-      this.$emit('updateJawaban', dataForm.id, dataForm)
+    editOpsionalJawabanModalHandleOk(newJawaban) {
+      const dataForm = {}
+      dataForm.mode = 3
+      dataForm.id = this.idJawaban
+      dataForm.judul = newJawaban.jawaban
+      dataForm.poin = newJawaban.poin
+      console.log(dataForm)
+      this.$emit('updateJawaban', dataForm)
       notification.success({
         message: 'Edit Opsi Jawaban',
         description: 'Opsi jawaban berhasil diupdate',
@@ -364,20 +393,23 @@ export default {
       });
     },
     hapusJenisPenilaian() {
-      const list = this.list
-      this.$emit('deleteJenisPenilaian', list.id)
+      const dataForm = {}
+      dataForm.mode = 1
+      dataForm.id = this.list.id
+      this.$emit('deleteJenisPenilaian', dataForm)
     },
-    hapusPertanyaan(index) {
-      const list = this.list
-      list.pertanyaan.splice(index, 1)
-      this.$emit('deletePertanyaan', list.id, list)
+    hapusPertanyaan({ key }) {
+      const dataForm = {}
+      dataForm.mode = 2
+      dataForm.id = key
+      this.$emit('deletePertanyaan', dataForm)
       this.activeKey = ''
     },
-    hapusJawaban(index, key) {
-      const list = this.list
-      const indexPertanyaan = list.pertanyaan[index].jawaban.map(pertanyaan => pertanyaan.key).indexOf(key)
-      list.pertanyaan[index].jawaban.splice(indexPertanyaan, 1)
-      this.$emit('deleteJawaban', list.id, list)
+    hapusJawaban(key) {
+      const dataForm = {}
+      dataForm.mode = 3
+      dataForm.id = key
+      this.$emit('deleteJawaban', dataForm)
     },
     // ========== End of Delete Modal ==========
     changeActiveKey(key) {
@@ -387,8 +419,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.border-radius-card {
+<style>
+.card-radius {
   border-radius: 10px;
   overflow: hidden;
 }

@@ -60,12 +60,14 @@
             <div class="col-md-3">
               <div class="row">
                 <div class="col-md-6"></div>
-                <div class="col-md-6 col-xs-12">
-                  <a-button class="btn_export float-right" @click="buttonGet">
-                    <i class="fa fa-download mr-2" />
-                    Export
-                  </a-button>
-                </div>
+                <Can do="create" on="Customer Mapping">
+                  <div class="col-md-6 col-xs-12">
+                    <a-button class="btn_export float-right" @click="buttonGet">
+                      <i class="fa fa-download mr-2" />
+                      Export
+                    </a-button>
+                  </div>
+                </Can>
               </div>
             </div>
           </div>

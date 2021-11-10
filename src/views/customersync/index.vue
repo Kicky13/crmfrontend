@@ -14,18 +14,23 @@
         >
           <a-select-option disabled value="">Please Select</a-select-option>
           <a-select-option
-            v-for="(distri, index) in listDistributor"
-            :value="distri.id"
+            v-for="(distri, index) in synCustomer.listDistributor"
+            :value="distri.ID_DISTRIBUTOR"
             :key="index"
           >
-            {{ distri.id }} - {{ distri.distributorname }}
+            {{ distri.ID_DISTRIBUTOR }} - {{ distri.NM_DISTRIBUTOR }}
           </a-select-option>
         </a-select>
-        <a-button class="mb-3 btn_search mr-2" @click="buttonGet">
+        <a-button class="mb-3 btn_search mr-2" @click="buttonGet()">
           <i class="fa fa-search mr-2" />
           Cari
         </a-button>
-        <a-button type="primary" class="mb-3" @click="buttonGet">
+        <a-button
+          type="primary"
+          class="mb-3"
+          :loading="synCustomer.isLoading"
+          @click="buttonGetSync()"
+        >
           <i class="fa fa-refresh mr-2" />
           SYNC
         </a-button>
@@ -46,7 +51,13 @@
         <br />
 
         <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="dataSourceTable">
+          <a-table
+            :columns="columns"
+            :data-source="synCustomer.listCustomer"
+            :row-key="data => data.id"
+            :loading="synCustomer.isLoading"
+          >
+            <template #status="{text}"> {{ text.status }} 1111 </template>
             <template #action="{ text }">
               <div>
                 <button type="button" class="btn btn-light">
@@ -63,10 +74,10 @@
           </a-table>
         </div>
 
-        <a-button type="primary" class="mt-3 float-right">
+        <!-- <a-button type="primary" class="mt-3 float-right">
           <i class="fa fa-upload mr-2" />
           Save to Database
-        </a-button>
+        </a-button> -->
       </div>
     </div>
   </div>
@@ -80,8 +91,9 @@ import {
   deleteData,
   getDataTokoDistributor,
 } from '@/services/connection/customer-sync/api'
-import { getDistributorList } from '@/services/connection/master-data/api'
+// import { getDistributorList } from '@/services/connection/master-data/api'
 // import { UploadOutlined } from '@ant-design/icons-vue';
+import { mapState, mapActions } from 'vuex'
 
 const columns = [
   {
@@ -126,12 +138,12 @@ const columns = [
     key: 'status',
   },
 ]
-
 export default {
   name: 'VbAntDesign',
   // components: {
   //   UploadOutlined,
   // },
+
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -166,10 +178,17 @@ export default {
       listTokoDistributor: [],
     }
   },
+  computed: {
+    ...mapState({
+      synCustomer: state => state.synCustomer.data,
+    }),
+  },
   mounted() {
-    this.fetchGetDataSource()
+    // this.fetchGetDataSource()
+    this.getListDistributor()
   },
   methods: {
+    ...mapActions('synCustomer', ['getListDistributor', 'getDataListCustomer', 'getAsyncData']),
     onSuccess(response) {
       this.error = false
       this.loading = false
@@ -186,11 +205,22 @@ export default {
     createRole() {
       this.$router.push({ name: 'permissions-create' })
     },
-    buttonGet: function(event) {
+    buttonGetSync() {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
       } else {
-        this.fetchGetDataTokoDistributorLis(this.selectValue)
+        this.getAsyncData({
+          kode_customer: this.selectValue,
+        })
+      }
+    },
+    buttonGet() {
+      if (this.selectValue == '' || this.selectValue == null) {
+        this.$message.error('Pilih Distributor Terlebih Dahulu!')
+      } else {
+        this.getDataListCustomer({
+          id_distrib: this.selectValue,
+        })
       }
     },
 
@@ -209,20 +239,20 @@ export default {
         .finally(() => (this.loading = false))
     },
 
-    fetchGetDataSource() {
-      getDistributorList()
-        .then(response => {
-          if (response) {
-            this.listDistributor = response
-          }
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
+    // fetchGetDataSource() {
+    //   getDistributorList()
+    //     .then(response => {
+    //       if (response) {
+    //         this.listDistributor = response
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.error(err)
+    //     })
+    // },
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style2.module.scss';
 </style>

@@ -31,7 +31,7 @@ export default {
       menuColor: 'gray',
       authPagesColor: 'gray',
       isAuthTopbar: true,
-      primaryColor: '#4b7cf3',
+      primaryColor: '#b20838',
       leftMenuWidth: 256,
       isMenuUnfixed: false,
       isMenuShadow: false,

@@ -1,4 +1,4 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 import store from 'store'
 
 export async function getDistributorList() {
@@ -98,7 +98,7 @@ export async function getBulanList() {
 }
 export async function getProdukList() {
   return apiClient
-    .get('/produk')
+    .post('/validasiHarga/get')
     .then(response => {
       if (response) {
         return response.data
@@ -108,7 +108,7 @@ export async function getProdukList() {
 }
 export async function getSelectProdukList() {
   return apiClient
-    .get('/ListSelectproduk')
+    .get('/master/listSelectProduk')
     .then(response => {
       if (response) {
         return response.data
@@ -128,7 +128,7 @@ export async function getNamaProdukList(id) {
 }
 export async function showpost(id) {
   return apiClient
-    .get('/produk/' + id)
+    .post('/validasiHarga/edit/' + id)
     .then(response => {
       if (response) {
         return response.data
@@ -138,7 +138,7 @@ export async function showpost(id) {
 }
 export async function deleteData(id) {
   return apiClient
-    .delete('/produk/' + id)
+    .get('/validasiHarga/delete/' + id)
     .then(response => {
       if (response) {
         return true

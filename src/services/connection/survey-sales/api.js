@@ -1,8 +1,8 @@
-import apiClient from '@/services/axios'
+import apiClient from '@/services/axios/axios'
 
-export async function getSurvey() {
+export async function surveyList() {
   return apiClient
-  .get('/survey')
+  .post('/sales/SurveySales/list')
   .then(response => {
       if (response) {
           return response.data
@@ -13,7 +13,7 @@ export async function getSurvey() {
 
 export async function addSurvey(data) {
   return apiClient
-  .post(`/survey`, data)
+  .post('/sales/SurveySales/add', data)
   .then(response => {
       if (response) {
           return response.data
@@ -22,9 +22,9 @@ export async function addSurvey(data) {
   })
 }
 
-export async function updateSurvey(id, data) {
+export async function updateSurvey(data) {
   return apiClient
-  .put(`/survey/${ id }`, data)
+  .post('/sales/SurveySales/update', data)
   .then(response => {
       if (response) {
           return response.data
@@ -33,12 +33,12 @@ export async function updateSurvey(id, data) {
   })
 }
 
-export async function deleteSurvey(id) {
+export async function deleteSurvey(data) {
   return apiClient
-  .delete(`/survey/${ id }`)
+  .post('/sales/SurveySales/delete', data)
   .then(response => {
     if (response) {
-      return true
+      return response.data
     }
     return false
   })

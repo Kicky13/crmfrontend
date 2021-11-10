@@ -1,22 +1,19 @@
 <template>
   <div>
-      
+      <Can do="create" on="Program">
     <router-link to="/marketing/program/tambah">
       <button type="button" class="btn btn-main mb-3">
         <i class="fa fa-plus" />
         <span class="text-black"> Tambah Program</span>
       </button>
     </router-link>
-    <vb-list-artikel
-      :post-items="posts"
-      @delete-message="deleteSuccess"
-    />
-    <div class="row">
-        
+    </Can>
+    
+    
             <vb-list-program :post-items="posts"
       @delete-message="deleteSuccess"/>
         
-    </div>
+    
   </div>
 </template>
 
@@ -44,7 +41,8 @@ export default {
       listPost()
       .then(response => {
         if (response) {
-          response.forEach(item => this.posts.unshift(item))
+          console.log(response)
+          response.data.forEach(item => this.posts.unshift(item))
         }
       })
     },

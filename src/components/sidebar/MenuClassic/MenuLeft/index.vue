@@ -30,8 +30,8 @@
         <div :class="$style.logo">
           <!-- <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="75">
           <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="75">           -->
-          <img v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-light-logo.png" alt="Logo SIG" width="50">
-          <img v-else src="@/assets/images/logo/crm-dark-logo.png" alt="Logo SIG" width="50">
+          <img lazy="loading" v-once v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-light-logo.webp" alt="Logo SIG" width="50">
+          <img lazy="loading" v-once v-else src="@/assets/images/logo/crm-dark-logo.webp" alt="Logo SIG" width="50">
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -116,7 +116,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { default as localStore } from 'store'
 import find from 'lodash/find'
-import { getMenuData } from '@/services/menu'
+import { getAdminMenuData, getUserMenuData, getTsoMenuData } from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
 
@@ -126,12 +126,12 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
-    const menuData = computed(() => getMenuData)
+    const user = computed(() => store.getters['user/user'])
+    const menuData = computed(() => user.value.role.toLowerCase() === 'admin' ? getAdminMenuData : user.value.role.toLowerCase() === 'tso' ? getTsoMenuData : getUserMenuData)
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)
     const isMenuCollapsed = computed(() => store.getters.settings.isMenuCollapsed)
-    const user = computed(() => store.getters['user/user'])
     const pathname = computed(() => route.pathname)
 
     const onCollapse = (collapsed, type) => {

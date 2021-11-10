@@ -28,7 +28,7 @@
         </a-layout-header>
         <vb-breadcrumbs />
         <a-layout-content class="vb__layout__content">
-          <router-view v-slot="{ Component }">
+          <router-view :key="$route.fullPath" v-slot="{ Component }">
             <transition :name="settings.routerAnimation" mode="out-in">
               <component :is="Component" />
             </transition>

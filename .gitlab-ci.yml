@@ -54,7 +54,7 @@ build-qa:
 
 deploy-dev:
   stage: deploy
-  image: junte/ssh-agent
+  image: jenkins/ssh-agent
   script:
         # Add the private SSH key to the build environment
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -77,7 +77,7 @@ deploy-dev:
 
 deploy-qa:
   stage: deploy
-  image: junte/ssh-agent
+  image: jenkins/ssh-agent
   script:
         # Add the private SSH key to the build environment
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'

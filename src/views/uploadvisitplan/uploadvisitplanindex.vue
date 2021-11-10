@@ -11,26 +11,57 @@
             Disini
           </a-button>
         </div>
-        <a-button type="primary" class="mb-3">
+        <a
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_SALES_AKSESTOKOCRM.xlsx"
+          download
+          class="mb-3 btn btn-primary"
+        >
           <i class="fa fa-download mr-2" />
           Download Template Visit Plan
-        </a-button>
+        </a>
 
-        <a-button type="primary" class="mb-3 float-right">
+        <a-button type="primary" @click="handleSubmit()" class="mb-3 float-right">
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
         <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
-          <a-input
+          <input
             type="file"
+            id="file"
+            ref="file"
+            class="file_input"
+            @change="onFileChanged"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             placeholder="Pilih File yang Akan diupload"
           />
         </a-form-item>
-        <div class="table-responsive text-nowrap">
-          <a-table :columns="columns" :data-source="permissions" :scroll="{ x: 1500 }" row-key="id">
-            <template #name="{ text }">
-              <a href="javascript:;">{{ text }}</a>
+        <div class="table-visit table-responsive text-nowrap">
+          <a-table
+            class=" "
+            :columns="visitPlan.columns"
+            :data-source="visitPlan.listData"
+            :scroll="{ x: 1500 }"
+            :loading="visitPlan.isLoading"
+            :row-class-name="tableRowClassName"
+            :row-key="data => data.id_toko"
+          >
+            <template #icon="{ text }">
+              <div v-if="text.status === true">
+                <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
+              </div>
+              <div v-else>
+                <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
+              </div>
+            </template>
+            <template #nama_toko="{ text }">
+              <div data-toggle="tooltip" data-placement="top" :title="text.nama_toko">
+                {{ text.nama_toko.slice(0, 12) + `....` }}
+              </div>
+            </template>
+            <template #distributor="{ text }">
+              <div data-toggle="tooltip" data-placement="top" :title="text.nama_distributor">
+                {{ text.nama_distributor.slice(0, 12) + `....` }}
+              </div>
             </template>
             <template #days="{ text }">
               <div v-if="text == istrue">
@@ -53,14 +84,22 @@
             </template>
           </a-table>
         </div>
+        <div class="d-flex flex-row-reverse mt-4">
+          <a-button
+            type="primary"
+            @click="onSubmitData()"
+            class="mt-2"
+            :disabled="isDisabled"
+            :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
+          >
+            <i class="fa fa-upload mr-2" />
+            Commit to Database
+          </a-button>
 
-        <a-button
-          type="primary"
-          :class="permissions.length > 0 ? `mb-3 float-right` : `mb-3 float-right disabled`"
-        >
-          <i class="fa fa-upload mr-2" />
-          Commit to Database
-        </a-button>
+          <a-button type="primary" class="mt-2 mr-2" :disabled="isDisabled" @click="downloadData">
+            Download
+          </a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -68,99 +107,8 @@
 
 <script>
 import { getPermissionList, deletePermission } from '@/services/connection/upload-visit/api'
-
-const columns = [
-  {
-    title: 'Id Sales',
-    dataIndex: 'idsales',
-    width: 100,
-    fixed: 'left',
-  },
-  {
-    title: 'Username',
-    dataIndex: 'username',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Id Toko',
-    dataIndex: 'customerid',
-    width: 100,
-    fixed: 'left',
-  },
-  {
-    title: 'Nama Toko',
-    dataIndex: 'customername',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Distributor',
-    dataIndex: 'distributor',
-    width: 150,
-    fixed: 'left',
-  },
-  {
-    title: 'Min',
-    dataIndex: 'day1',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sen',
-    dataIndex: 'day2',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sel',
-    dataIndex: 'day3',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Rab',
-    dataIndex: 'day4',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Kam',
-    dataIndex: 'day5',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Jum',
-    dataIndex: 'day6',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'Sab',
-    dataIndex: 'day7',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W1',
-    dataIndex: 'week1',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W2',
-    dataIndex: 'week2',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W3',
-    dataIndex: 'week3',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W4',
-    dataIndex: 'week4',
-    slots: { customRender: 'days' },
-  },
-  {
-    title: 'W5',
-    dataIndex: 'week5',
-    slots: { customRender: 'days' },
-  },
-]
+import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'VbAntDesign',
@@ -181,7 +129,6 @@ export default {
     }
     const fileList = []
     return {
-      columns,
       rowSelection,
       fileList,
       headers: {
@@ -193,48 +140,126 @@ export default {
     return {
       isfalse: 0,
       istrue: 1,
+      isDisabled: true,
       file1: null,
       file2: null,
       permissions: [],
     }
   },
-  mounted() {
-    this.fetchGetPermissions()
+  computed: {
+    ...mapState({
+      visitPlan: state => state.visitPlan.data,
+    }),
   },
+  mounted() {},
   methods: {
-    createRole() {
-      this.$router.push({ name: 'permissions-create' })
+    ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
+    tableRowClassName(text) {
+      console.log(`-----tx`, text.status === false)
+      if (text.status === false) {
+        return 'non-active'
+      } else {
+        return ''
+      }
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
+    onFileChanged() {
+      this.visitPlan.body.file = this.$refs.file.files[0]
     },
-    deleteAll() {},
-    deleteRow(id) {
-      console.log('Deleted ID: ' + id)
-      deletePermission(id)
-        .then(response => {
-          console.log(response)
-          const dataSource = [...this.permissions]
-          this.permissions = dataSource.filter(item => item.id !== id)
+    downloadData() {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = [
+          'Username',
+          'Id Toko',
+          'Nama Toko',
+          'Distributor',
+          'Minggu',
+          'Senin',
+          'Selasa',
+          'Rabu',
+          'Kamis',
+          'Jumat',
+          'Sabtu',
+          'W1',
+          'W2',
+          'W3',
+          'W4',
+          'W5',
+        ]
+        const filterVal = [
+          'username',
+          'id_toko',
+          'nama_toko',
+          'nama_distributor',
+          'minggu',
+          'senin',
+          'selasa',
+          'rabu',
+          'kamis',
+          'jumat',
+          'sabtu',
+          'w1',
+          'w2',
+          'w3',
+          'w4',
+          'w5',
+        ]
+        const list = this.visitPlan.listData
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
         })
-        .catch(err => {
-          console.error(err)
-        })
+      })
     },
-    fetchGetPermissions() {
-      getPermissionList()
-        .then(response => {
-          if (response) {
-            this.permissions = response
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
           }
-        })
-        .catch(err => {
-          console.error(err)
-        })
+        }),
+      )
+    },
+    async handleSubmit() {
+      await this.getDataFromExcel()
+      let dataStatus = _.where(this.visitPlan.listData, { status: false })
+      this.isDisabled = dataStatus.length > 0 ? true : false
+    },
+    onSubmitData() {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menambahkan  data tersebut?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.submitData()
+          this.$store.commit('visitPlan/changeVisitPlan', {
+            listData: [],
+          })
+        },
+        onCancel() {},
+      })
     },
   },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style>
+.table-visit .ant-table-tbody .non-active td {
+  background-color: red !important;
+  color: white;
+}
+</style>
+<style lang="scss" scoped>
+.file_input {
+  height: 3rem !important;
+  line-height: 30px !important;
+}
 </style>

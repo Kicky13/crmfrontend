@@ -1,11 +1,13 @@
 <template>
-  <div class="card border-radius-card">
+  <div class="card card-radius">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
-      <a
-        class="fa fa-plus-circle fa-lg align-self-center text-white"
-        @click="modalVisible = true"
-      />
+      <Can do="create" on="Survey Sales">
+        <a
+          class="fa fa-plus-circle fa-lg align-self-center text-white"
+          @click="modalVisible = true"
+        />
+      </Can>
     </div>
     <div class="card-body">
       <a-collapse
@@ -57,6 +59,9 @@ export default {
       type: Number,
       default: 1,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   emits: [
     'selectedJenisPenilaian',
@@ -89,27 +94,38 @@ export default {
       this.$emit('selectedJenisPenilaian', data)
     },
     handleOk(newJenisPenilaian) {
-      const dataForm = {}
-      dataForm.jenis_penilaian = newJenisPenilaian
-      dataForm.pertanyaan = []
-      this.$emit('addJenisPenilaian', dataForm)
-      notification.success({
-        message: 'Jenis Penilaian',
-        description: 'Jenis penilaian berhasil ditambah',
-      })
-      this.modalVisible = false
+      let check = newJenisPenilaian.trim()
+      if (check) {
+        const dataForm = {}
+        dataForm.mode = 1
+        dataForm.nm_penilaian = newJenisPenilaian
+        this.$emit('addJenisPenilaian', dataForm)
+        notification.success({
+          message: 'Jenis Penilaian',
+          description: 'Jenis penilaian berhasil ditambah',
+        })
+        this.modalVisible = false
+      } else {
+        notification.error({
+          message: 'Tambah Jenis Penilaian',
+          description: 'Kolom tambah jenis penilaian masih kosong',
+        })
+      }
     },
   },
 }
 </script>
 
 <style>
-.border-radius-card {
+.card-radius {
   border-radius: 10px;
   overflow: hidden;
 }
 .ant-collapse-content .ant-collapse-content-box {
   padding: 0 !important;
+}
+.ant-collapse-header:hover {
+  background: #f0f0f0;
 }
 .active {
   background: #f0f0f0 !important;

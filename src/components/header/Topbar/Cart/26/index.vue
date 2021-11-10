@@ -7,7 +7,7 @@
     <div v-for="item in data" :key="item.id">
       <a href="#" class="clearfix" :class="$style.item">
         <div :class="$style.image">
-          <img :src="`/resources/images/products/${item.img}`" :alt="item.title" />
+          <img lazy="loading" v-once :src="`/resources/images/products/${item.img}`" :alt="item.title" />
         </div>
         <div :class="$style.info">
           <div :class="$style.title">{{ item.title }}</div>
