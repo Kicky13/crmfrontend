@@ -111,7 +111,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         props: {
@@ -154,7 +154,6 @@ export default {
     },
     handlePaginationSize(size) {
       this.pagination.pageSize = size
-      console.log(this.pagination)
     },
     handleDelete(id) {
       const confirmDelete = this.deleteRow
@@ -170,15 +169,13 @@ export default {
       })
     },
     deleteRow(id) {
-      console.log('Deleted ID: ' + id)
       deleteAssign(id)
         .then(response => {
-          console.log(response)
           const dataSource = [...this.assigns]
           this.assigns = dataSource.filter(item => item.id !== id)
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetAssign() {
@@ -189,7 +186,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     handleSave() {
@@ -214,8 +211,9 @@ export default {
           this.isLoading = false
         })
         .catch(err => {
-          this.isLoading = false
-          console.error(err)
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     fetchSubmitUpdate(formData) {
@@ -230,8 +228,9 @@ export default {
           this.isSubmit = false
         })
         .catch(err => {
-          this.isSubmit = false
-          console.error(err)
+          if (err) {
+            this.isSubmit = false
+          }
         })
     },
     formValidation(formData) {
@@ -277,8 +276,9 @@ export default {
           this.isLoading = false
         })
         .catch(err => {
-          console.error(err)
-          this.isLoading = false
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     fetchGetRoles() {
@@ -291,7 +291,7 @@ export default {
           this.isLoading = false
         })
         .catch(err => {
-          console.error(err)
+          if (errr) {}
         })
     },
   },

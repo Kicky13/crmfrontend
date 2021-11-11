@@ -76,7 +76,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.users"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
           >
@@ -274,8 +274,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -311,7 +311,7 @@ export default {
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('userManagement/changeUserManagement', {
         bodyList: {
           offset: 1,
@@ -376,7 +376,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
@@ -434,7 +434,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -442,7 +442,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -455,9 +455,7 @@ export default {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
+    deleteMarks() {},
     formValidation() {
       if (
         this.userManagement.formState.name &&
@@ -493,15 +491,16 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
-          console.error(err)
-          this.isLoading = false
+        .catch((err) => {
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     goImport() {

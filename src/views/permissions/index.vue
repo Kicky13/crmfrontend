@@ -142,7 +142,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -221,16 +221,11 @@ export default {
         } else {
           this.fetchInsert()
         }
-      } else {
-        console.log(false)
       }
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
+    deleteMarks() {},
     deleteAll() {},
     deleteRow(id) {
-      console.log(id)
       const confirmDelete = this.confirmDelete
       this.$confirm({
         title: 'Hapus Permission',
@@ -244,15 +239,13 @@ export default {
       })
     },
     confirmDelete(id) {
-      console.log('Deleted ID: ' + id)
       deletePermission(id)
         .then((response) => {
-          console.log(response)
           const dataSource = [...this.permissions]
           this.permissions = dataSource.filter((item) => item.id !== id)
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
     editRow(id) {
@@ -341,8 +334,9 @@ export default {
           this.isLoadData = false
         })
         .catch((err) => {
-          this.isLoadData = false
-          console.error(err)
+          if (err) {
+            this.isLoadData = false
+          }
         })
     },
     fetchGetRoles() {
@@ -355,8 +349,9 @@ export default {
           this.isLoadData = false
         })
         .catch((err) => {
-          this.isLoadData = false
-          console.error(err)
+          if (err) {
+            this.isLoadData = false
+          }
         })
     },
     fetchUpdate() {
@@ -371,7 +366,7 @@ export default {
         this.handleClose()
       })
       .catch((err) => {
-        console.error(err)
+        if (err) {}
       })
     },
     fetchInsert() {
@@ -386,7 +381,7 @@ export default {
         this.handleClose()
       })
       .catch((err) => {
-        console.error(err)
+        if (err) {}
       })
     },
   },

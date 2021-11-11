@@ -82,12 +82,11 @@ export default {
         updateRole(this.id, formData)
           .then((response) => {
             if (response) {
-              console.log(response)
               this.$router.push({ path: '/roles' })
             }
           })
           .catch((err) => {
-            console.error(err)
+            if (err) {}
           })
       } else {
           notification.error({
@@ -119,7 +118,7 @@ export default {
           this.isLoading = false
         })
         .then((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
   },

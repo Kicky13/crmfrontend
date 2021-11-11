@@ -175,8 +175,9 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err)
-          this.isLoading = false
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     addNewLevelUser(data) {
@@ -187,7 +188,7 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     },
     deleteLevelUserById(id) {
@@ -198,7 +199,7 @@ export default {
         }
       })
       .catch(err => {
-        console.error(err)
+        if (err) {}
       })
     },
     updateLevelUserById(id, data) {
@@ -209,7 +210,7 @@ export default {
         }
       })
       .catch(err => {
-        console.error(err)
+        if (err) {}
       })
     },
     deleteConfirm(id) {

@@ -30,9 +30,7 @@
             @change="handleChange"
           >
             <i class="fe fe-plus" />
-            <div class="ant-upload-text">
-              Upload
-            </div>
+            <div class="ant-upload-text">Upload</div>
           </a-upload>
           <a-modal :footer="null" :visible="previewVisible" @cancel="previewVisible = false">
             <img alt="Gambar Berita" style="width: 100%" :src="previewImage" />
@@ -43,9 +41,7 @@
             Tambah
           </a-button>
           <router-link to="/marketing/berita">
-            <a-button>
-              Batal
-            </a-button>
+            <a-button> Batal </a-button>
           </router-link>
         </a-form-item>
       </a-form>
@@ -66,7 +62,7 @@ function getBase64(file) {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
+    reader.onerror = (error) => reject(error)
   })
 }
 
@@ -102,7 +98,7 @@ export default defineComponent({
     const router = useRouter()
     const addNewPost = (param, config) => {
       storePost(param, config)
-        .then(response => {
+        .then((response) => {
           if (response) {
             if (response.status === 200) {
               router.push('/marketing/berita')
@@ -121,7 +117,7 @@ export default defineComponent({
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
         })
     }
@@ -201,7 +197,7 @@ export default defineComponent({
     handleChange(info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
-      fileList = fileList.map(file => {
+      fileList = fileList.map((file) => {
         if (file.response) {
           file.url = file.response.url
         }
@@ -221,7 +217,7 @@ export default defineComponent({
         const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp']
         const nameInput = this.fileList[0].name
         const formatInput = this.fileList[0].type.split('/')[1]
-        const check = formats.some(element => element === formatInput)
+        const check = formats.some((element) => element === formatInput)
         if (!check) {
           this.fileList = [
             {

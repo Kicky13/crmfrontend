@@ -148,7 +148,7 @@ export default defineComponent({
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     }
     const updatePostById = (id, param, config) => {
@@ -170,7 +170,7 @@ export default defineComponent({
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     }
     const formState = reactive({
@@ -188,7 +188,6 @@ export default defineComponent({
       }
       if (formState.judul && formState.detail && formState.image) {
         if (!(formState.image.status === 'removed')) {
-          console.log(formState)
           const param = new FormData()
           param.append('judul', formState.judul)
           param.append('detail', formState.detail)
@@ -251,7 +250,6 @@ export default defineComponent({
         }
       })
       .catch(err => {
-        console.error(err)
         this.isLoading = false
       })
     },

@@ -255,7 +255,6 @@ export default defineComponent({
       this.visible = false
     },
     handleCancel(e) {
-      console.log(e)
       this.visible = false
     },
 
@@ -286,7 +285,7 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataSource() {
@@ -297,7 +296,7 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataDistrik() {
@@ -308,15 +307,15 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchUpdateData(value) {
       const id = value
-      getDataList().then(response => {
+      getDataList()
+      .then(response => {
         if (response) {
           const post = response.data.find(post => post.uuid === id)
-          console.log(post)
           this.showModal()
           this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
           this.radiusDistrik.formData.distrikid = post.id_distrik

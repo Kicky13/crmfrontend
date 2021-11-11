@@ -45,10 +45,9 @@ export default {
     getPostById() {
       this.isLoading = true
       const id = this.$route.params.userId
-      listPost(id).then(response => {
+      listPost(id).then((response) => {
         if (response) {
-          console.log(response)
-          this.post = response.data.find(post => post.id === id)
+          this.post = response.data.find((post) => post.id === id)
           this.isLoading = false
         }
       })

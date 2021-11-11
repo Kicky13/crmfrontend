@@ -124,7 +124,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         props: {
@@ -171,15 +171,13 @@ export default {
       })
     },
     deleteRow(id) {
-      console.log('Deleted ID: ' + id)
       deleteRole(id)
         .then(response => {
-          console.log(response)
           const dataSource = [...this.roles]
           this.roles = dataSource.filter(item => item.id !== id)
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     handlePaginationSize(size) {
@@ -209,7 +207,6 @@ export default {
       insertRole(formData)
         .then(response => {
           if (response) {
-            console.log(response)
             message.success('Role berhasil ditambahkan')
             this.fetchGetRoles()
             this.clearForm()
@@ -217,9 +214,10 @@ export default {
           this.isSubmitForm = false
         })
         .catch(err => {
-          console.error(err)
-          message.error('Oops, sepertinya ada masalah')
-          this.isSubmitForm = false
+          if (err) {
+            message.error('Oops, sepertinya ada masalah')
+            this.isSubmitForm = false
+          }
         })
     },
     updateRole() {
@@ -232,7 +230,6 @@ export default {
       updateRole(this.id, formData)
         .then(response => {
           if (response) {
-            console.log(response)
             message.success('Role berhasil ditambahkan')
             this.fetchGetRoles()
             this.clearForm()
@@ -240,9 +237,10 @@ export default {
           this.isSubmitForm = false
         })
         .catch(err => {
-          console.error(err)
-          message.error('Oops, sepertinya ada masalah')
-          this.isSubmitForm = false
+          if (err) {
+            message.error('Oops, sepertinya ada masalah')
+            this.isSubmitForm = false
+          }
         })
     },
     formValidation() {
@@ -275,8 +273,9 @@ export default {
           this.isLoading = false
         })
         .catch(err => {
-          this.isLoading = false
-          console.error(err)
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     goUpdate(id) {

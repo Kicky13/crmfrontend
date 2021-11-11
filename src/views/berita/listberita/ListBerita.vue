@@ -92,7 +92,7 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     },
     deleteConfirm(id) {
