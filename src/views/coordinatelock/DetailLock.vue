@@ -79,8 +79,16 @@
                   <div class="col-md-4 font-weight-bold">
                     <span>Distributor</span>
                   </div>
-                  <div class="col-md-4">
-                    <span>: Kikik</span>
+                  <div class="col-md-6">
+                    <span>: </span>
+                    <span v-if="totalDistributor > 0">
+                      {{
+                        detailCustomer.distributor[0].id_distributor +
+                        ' - ' +
+                        detailCustomer.distributor[0].nama_distributor
+                      }}</span
+                    >
+                    <span class="font-weight-bold" v-else>-</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -90,8 +98,16 @@
                   <div class="col-md-4 font-weight-bold">
                     <span>Sales</span>
                   </div>
-                  <div class="col-md-4">
-                    <span>: Kikik</span>
+                  <div class="col-md-6">
+                    <span>: </span>
+                    <span v-if="totalSales > 0">
+                      {{
+                        detailCustomer.sales[0].id_sales +
+                        ' - ' +
+                        detailCustomer.sales[0].nama_sales
+                      }}</span
+                    >
+                    <span class="font-weight-bold" v-else>-</span>
                   </div>
                 </div>
               </a-tab-pane>
@@ -250,11 +266,15 @@ export default {
       pagination: {},
       isLoading: false,
       detailCustomer: {},
+      totalDistributor: 0,
+      totalSales: 0,
       historyVisit: [],
     }
   },
   async mounted() {
     this.detailCustomer = JSON.parse(this.customerInfo)
+    this.totalDistributor = this.detailCustomer.distributor.length
+    this.totalSales = this.detailCustomer.sales.length
     console.log(this.detailCustomer)
     await this.fetchGetHistoryVisit()
   },
@@ -264,12 +284,12 @@ export default {
     },
     async fetchGetHistoryVisit() {
       this.isLoading = true
-      // let formData = {
-      //   idToko: this.detailCustomer.id_customer,
-      // }
       let formData = {
-        idToko: 100013207,
+        idToko: this.detailCustomer.id_customer,
       }
+      // let formData = {
+      //   idToko: 100013207,
+      // }
       await getHistoryVisit(formData)
         .then((response) => {
           if (response.status) {
@@ -280,6 +300,7 @@ export default {
         })
         .catch((err) => console.error(err))
     },
+    async fetchLockCoordinate() {},
     gotoDetailSurvey(id) {
       let detailSurvey = this.getDetailSurvey(id)
       this.$router.push({
