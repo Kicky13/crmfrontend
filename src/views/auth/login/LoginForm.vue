@@ -148,7 +148,7 @@ export default {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
-      console.log(errors)
+      if (errors) {}
     }
 
     return {
@@ -165,7 +165,6 @@ export default {
   methods: {
     login() {
       login(this.loginForm).then(response => {
-        console.log(response)
         if (response) {
           this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'

@@ -13,35 +13,35 @@ export async function oldlogin(email, password) {
           localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
           store.set('userID', data.id)
-          console.log(localStorage.getItem('userData'))
         }
         return data
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if (err) {}
+    })
 }
 
 export async function login(formData) {
   return serverClient
     .post('login', formData)
     .then(response => {
-      console.log(response.data)
       if (response && response.data.status !== 'error') {
         const data = response.data.data
         const accessToken = data.accesstoken
-        console.log(accessToken)
         if (accessToken) {
           localStorage.setItem('userData', JSON.stringify(data));
           store.set('accessToken', accessToken)
           store.set('userID', data.id)
-          console.log(localStorage.getItem('userData'))
         }
         return data
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if (err) {}
+    })
 }
 
 export async function register(email, password, name) {
@@ -61,7 +61,9 @@ export async function register(email, password, name) {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if (err) {}
+    })
 }
 
 export async function currentAccountOld() {
@@ -80,7 +82,9 @@ export async function currentAccountOld() {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      if (err) {}
+    })
   }
   return false
 }
@@ -89,14 +93,11 @@ export async function currentAccount() {
   const userID = store.get('userID')
   const token = store.get('accessToken')
 
-  console.log(token)
-
   if (userID) {
     return serverClient
     .post('sessionUpdate')
     .then(response => {
       if (response && response.data.status !== 'error') {
-        console.log(response.data.data)
         const { accesstoken } = response.data.data
         if (accesstoken) {
           store.set('accessToken', accesstoken)
@@ -105,7 +106,9 @@ export async function currentAccount() {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      if (err) {}
+    })
   }
   return false
 }
@@ -116,13 +119,14 @@ export async function logout() {
   return apiClient
     .get('/users/' + userID)
     .then(response => {
-      console.log(response)
       localStorage.removeItem('userData')
       store.remove('accessToken')
       store.remove('userID')
       return true
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if (err) {}
+    })
 }
 
 export async function getRoleList() {
@@ -134,7 +138,9 @@ export async function getRoleList() {
         }
         return false
     })
-    .catch(err => { console.error(err) })
+    .catch(err => {
+      if (err) {}
+    })
 }
 
 export async function insertRole(data) {
