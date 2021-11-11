@@ -2,8 +2,9 @@ import axios from 'axios'
 import store from 'store'
 import { notification } from 'ant-design-vue'
 
+// env
 const apiClient = axios.create({
-  baseURL: 'https://api-dev.aksessales.id/api/',
+  baseURL: process.env.VUE_APP_API_URL,
   // timeout: 1000,
   // headers: { 'Access-Control-Allow-Origin': '*', 'Content-type': 'application/json' },
 })

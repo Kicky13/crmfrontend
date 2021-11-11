@@ -90,6 +90,8 @@ const actions = {
 
     let formData = {
       id_distributor: payload.id_distrib,
+      offset: 1,
+      limit: 10,
     }
 
     const result = await apiClient.post(`/ListCustomer`, formData)

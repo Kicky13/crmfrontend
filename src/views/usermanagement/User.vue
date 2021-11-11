@@ -405,7 +405,7 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id)
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id.uuid)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
           id: row.uuid,
