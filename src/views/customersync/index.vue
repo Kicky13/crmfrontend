@@ -147,7 +147,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         props: {
@@ -195,9 +195,10 @@ export default {
       this.post = response.body
     },
     onError(response) {
-      console.error(response)
-      this.loading = false
-      this.error = true
+      if (response) {
+        this.loading = false
+        this.error = true
+      }
     },
     setSelectMethod(value) {
       this.selectValue = value
@@ -234,7 +235,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
         .finally(() => (this.loading = false))
     },

@@ -443,7 +443,6 @@ export default {
           this.closeModal()
         })
         .catch((err) => {
-          console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
           this.closeModal()
@@ -455,9 +454,7 @@ export default {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
+    deleteMarks() {},
     formValidation() {
       if (
         this.userManagement.formState.name &&
@@ -500,8 +497,9 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
-          this.isLoading = false
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     goImport() {

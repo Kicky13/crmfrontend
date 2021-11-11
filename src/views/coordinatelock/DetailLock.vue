@@ -246,7 +246,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -275,7 +275,6 @@ export default {
     this.detailCustomer = JSON.parse(this.customerInfo)
     this.totalDistributor = this.detailCustomer.distributor.length
     this.totalSales = this.detailCustomer.sales.length
-    console.log(this.detailCustomer)
     await this.fetchGetHistoryVisit()
   },
   methods: {
@@ -294,11 +293,12 @@ export default {
         .then((response) => {
           if (response.status) {
             this.historyVisit = response.data
-            console.log(this.historyVisit)
           }
           this.isLoading = false
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          if (err) {}
+        })
     },
     gotoDetailSurvey(id) {
       let detailSurvey = this.getDetailSurvey(id)
@@ -308,11 +308,9 @@ export default {
       })
     },
     getDetailSurvey(id) {
-      console.log('id: ' + id.text)
       const dataSource = [...this.historyVisit]
       let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
       let detailSurvey = filtered[0]
-      console.log(detailSurvey)
 
       return detailSurvey
     },

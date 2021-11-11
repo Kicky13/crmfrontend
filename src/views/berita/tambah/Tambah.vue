@@ -147,7 +147,7 @@ export default defineComponent({
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     }
     const getCurrentDate = () => {

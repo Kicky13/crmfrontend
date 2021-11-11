@@ -44,7 +44,6 @@
         listPost(id)
           .then(response => {
             if (response) {
-              console.log(response)
               this.post = response.data.find(post => post.id === id)
               this.isLoading = false
             }

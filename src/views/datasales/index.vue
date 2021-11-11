@@ -264,12 +264,11 @@ export default {
       tableFilter(regionID, provinsiID, distributorID)
         .then(response => {
           if (response) {
-            console.log(response)
             this.dataSourceTable = response
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     resetData() {
@@ -286,11 +285,10 @@ export default {
               //this.listProvinsi = []
               // this.listProvinsi = [response]
               this.listProvinsi = response
-              console.log(this.listProvinsi)
             }
           })
           .catch(err => {
-            console.error(err)
+            if (err) {}
           })
       }
     },
@@ -307,7 +305,7 @@ export default {
             }
           })
           .catch(err => {
-            console.error(err)
+            if (err) {}
           })
       }
     },
@@ -315,12 +313,11 @@ export default {
       getDataSalesList()
         .then(response => {
           if (response) {
-            console.log(response)
             this.dataSourceTable = response
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataProduk() {
@@ -331,7 +328,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetRegion() {
@@ -342,7 +339,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetProvinsi() {
@@ -350,11 +347,10 @@ export default {
         .then(response => {
           if (response) {
             this.listProvinsi = response
-            console.log(this.listProvinsi)
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDistributor() {
@@ -365,7 +361,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
   },
