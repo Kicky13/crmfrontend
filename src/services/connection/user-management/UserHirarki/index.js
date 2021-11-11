@@ -212,6 +212,12 @@ const actions = {
       isLoading: true,
     })
 
+    // if (payload) {
+    //   await commit('changeUserManagement', {
+    //     offset: payload || data.offset,
+    //   })
+    // }
+
     const { data } = state
 
     let body = {
