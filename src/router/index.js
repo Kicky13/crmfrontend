@@ -201,7 +201,7 @@ const routes = [
           ),
       },
       {
-        path: '/users/profile/:id/jabatan/:id_jabatan',
+        path: '/users/profile/jabatan/:id_jabatan',
         name: 'user-management-profile',
         meta: { title: 'Export User', resource: 'User', action: 'manage' },
         component: () =>
@@ -220,7 +220,9 @@ const routes = [
         props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
         component: () =>
-          import(/* webpackChunkName: "koordinat-lock-detail" */ '@/views/coordinatelock/DetailLock'),
+          import(
+            /* webpackChunkName: "koordinat-lock-detail" */ '@/views/coordinatelock/DetailLock'
+          ),
       },
       {
         path: '/koordinatlock/surveyDetail',
@@ -228,7 +230,9 @@ const routes = [
         props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
         component: () =>
-          import(/* webpackChunkName: "koordinat-lock-survey" */ '@/views/coordinatelock/DetailSurvey'),
+          import(
+            /* webpackChunkName: "koordinat-lock-survey" */ '@/views/coordinatelock/DetailSurvey'
+          ),
       },
       // Kikik ============================================================================
       /*  ROBI VIEW */
@@ -266,7 +270,7 @@ const routes = [
       },
 
       {
-        path: '/users/profile/:id/TSO/:id_jabatan',
+        path: '/users/profile/TSO/:id_jabatan',
         name: 'user-management-profile-tso',
         meta: { title: 'Profile TSO', resource: 'User', action: 'manage' },
         component: () =>
