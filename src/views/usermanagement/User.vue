@@ -277,7 +277,6 @@ export default {
       this.countDown()
     },
     countDown() {
-      console.log(`----status`, this.userManagementCRM.status)
       let secondsToGo = 30
 
       if (this.userManagementCRM.status === false) {

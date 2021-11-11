@@ -74,8 +74,9 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err)
-        this.isLoading = false
+        if (err) {
+          this.isLoading = false
+        }
       })
     },
     addNewSurvey(data) {
@@ -86,7 +87,7 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     },
     updateSurveyById(data) {
@@ -97,20 +98,19 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err)
+        if (err) {}
       })
     },
     deleteSurveyById(data) {
       deleteSurvey(data)
       .then(response => {
         if (response) {
-          console.log(response)
           this.fetchSurveyList()
           this.activeMenu = 1
         }
       })
       .catch(err => {
-        consoel.log(err)
+        if (err) {}
       })
     },
     fetchQuestionList(list) {

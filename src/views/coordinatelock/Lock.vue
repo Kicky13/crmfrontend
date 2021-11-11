@@ -139,7 +139,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -181,7 +181,6 @@ export default {
       this.selectedKabupaten = null
       const filtered = dataSource.filter((a) => a.id == this.selectedProvinsi)
       this.kabupatenOption = filtered[0].kabupatens
-      console.log(this.kabupatenOption)
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
@@ -208,14 +207,13 @@ export default {
       this.isLoading = true
       getRegionList()
         .then((response) => {
-          console.log(response)
           if (response.status) {
             this.provinsiOption = response.data
           }
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetCustomers() {
@@ -233,7 +231,7 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
   },

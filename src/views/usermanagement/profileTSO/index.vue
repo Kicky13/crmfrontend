@@ -227,7 +227,9 @@ export default {
                 id_tso: this.$route.params.id_jabatan,
               })
             }
-          }).catch(() => console.log('Oops errors!'))
+          }).catch(err => {
+            if (err) {}
+          })
         },
         onCancel() {},
       })

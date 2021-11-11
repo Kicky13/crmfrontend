@@ -111,12 +111,11 @@ export default {
       insertPermission(formData)
         .then((response) => {
           if (response) {
-            console.log(response)
             this.$router.push({ path: '/permissions' })
           }
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetRoleList() {

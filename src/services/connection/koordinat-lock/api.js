@@ -48,3 +48,15 @@ export async function getHistoryDetail(formData) {
     })
     .catch(err => { console.error(err) })
 }
+
+export async function getLockCustomer(formData) {
+    return apiClient
+    .post('Kordinat/UpdateKordinatToko', formData)
+    .then(response => {
+        if (response) {
+            return response.data
+        }
+        return false
+    })
+    .catch(err => { console.error(err) })
+}
