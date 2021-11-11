@@ -283,12 +283,12 @@ export default {
     },
     async fetchGetHistoryVisit() {
       this.isLoading = true
-      // let formData = {
-      //   idToko: this.detailCustomer.id_customer,
-      // }
       let formData = {
-        idToko: 100013207,
+        idToko: this.detailCustomer.id_customer,
       }
+      // let formData = {
+      //   idToko: 100013207,
+      // }
       await getHistoryVisit(formData)
         .then((response) => {
           if (response.status) {
@@ -300,6 +300,7 @@ export default {
           if (err) {}
         })
     },
+    async fetchLockCoordinate() {},
     gotoDetailSurvey(id) {
       let detailSurvey = this.getDetailSurvey(id)
       this.$router.push({
