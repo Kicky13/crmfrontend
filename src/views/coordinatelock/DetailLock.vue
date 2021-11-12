@@ -297,24 +297,22 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
     async fetchLockCoordinate() {
       let formData = {
         idToko: this.detailCustomer.id_customer,
       }
-
       this.isLoading = true
-
       getLockCustomer(formData)
         .then((response) => {
           if (response.status) {
             notification.success(response.message)
             this.detailCustomer.status_lock = !this.detailCustomer.status_lock
           } else {
-            notification.success(response.message)
-            this.detailCustomer.status_lock = !this.detailCustomer.status_lock
+            notification.error(response.message)
           }
           this.isLoading = false
         })
