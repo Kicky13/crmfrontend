@@ -1,7 +1,7 @@
 # build stage
 FROM node:14-buster as build-stage
 WORKDIR /app
-RUN echo "VUE_APP_API_URL="https://api-qa.aksessales.id/api"" /app/.env
+#RUN echo "VUE_APP_API_URL="https://api-qa.aksessales.id/api"" /app/.env
 COPY package*.json ./
 #RUN yarn install
 COPY . .
