@@ -26,15 +26,29 @@
               </div>
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20">
-                  {{ userManagement.detail_jabatan.namaUser }}
+                  {{
+                    userManagement.detail_jabatan.namaUser
+                      ? userManagement.detail_jabatan.namaUser
+                      : 'Belum Tersedia'
+                  }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                  Kode / ID :
+                  {{
+                    userManagement.detail_jabatan.idUser
+                      ? userManagement.detail_jabatan.idUser
+                      : '-'
+                  }}
                 </div>
-                <div class="font-size-16">
+                <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
+                </div> -->
+                <div class="font-size-16">
+                  Email :
+                  {{
+                    userManagement.detail_jabatan.email ? userManagement.detail_jabatan.email : '-'
+                  }}
                 </div>
-                <div class="font-size-16">Email : {{ userManagement.detail_jabatan.email }}</div>
               </div>
             </div>
           </div>
@@ -50,7 +64,7 @@
           </div>
           <div class="card-body">
             <a-form :model="profileTSO.formData" :rules="profileTSO.rules">
-              <div class="row mb-2">
+              <div class="row mb-4">
                 <div class="col-xs-9 col-md-9">
                   <a-select
                     v-model:value="profileTSO.formData.id_distrik"
@@ -206,14 +220,14 @@ export default {
         okType: 'danger',
         cancelText: 'No',
         onOk: async () => {
-          this.deleteListDistrikHirarki({
+          await this.deleteListDistrikHirarki({
             id_tso: this.$route.params.id_jabatan,
             id_distrik: id_distriks,
           })
-          this.getListDistrik({
+          await this.getListDistrik({
             id_tso: this.$route.params.id_jabatan,
           })
-          this.getListDistrikHirarki({
+          await this.getListDistrikHirarki({
             id_tso: this.$route.params.id_jabatan,
           })
         },
