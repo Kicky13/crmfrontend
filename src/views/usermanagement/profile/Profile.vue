@@ -378,7 +378,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     changeProfile(item) {
-      this.$router.push(`/users/profile/${item.iduser}/jabatan/${item.idJabatan}`)
+      this.$router.push(`/users/profile/jabatan/${item.idJabatan}`)
     },
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
