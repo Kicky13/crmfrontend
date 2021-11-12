@@ -7,7 +7,7 @@ COPY . .
 RUN yarn cache clean
 RUN yarn install
 #RUN npx browserslist@latest --update-db
-#RUN mv .env.local .env
+RUN mv .env.dev .env
 RUN yarn build
 
 # production stage

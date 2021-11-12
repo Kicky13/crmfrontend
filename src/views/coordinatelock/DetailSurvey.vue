@@ -318,7 +318,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -346,7 +346,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.surveyDetail)
     this.pageValidation()
   },
   methods: {
@@ -357,7 +356,6 @@ export default {
       this.detailCustomer = JSON.parse(this.surveyDetail)
 
       if (!this.surveyDetail) {
-        console.log(this.detailCustomer)
         this.$router.back()
       } else {
         this.fetchGetHistoryDetail()
@@ -389,7 +387,7 @@ export default {
             this.isLoading = false
           })
           .catch((err) => {
-            console.error(err)
+            if (err) {}
           })
       }
     },

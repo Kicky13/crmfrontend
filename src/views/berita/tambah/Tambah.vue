@@ -1,37 +1,25 @@
 <template>
+  <div class="row mb-2">
+    <div class="col-md-4 col-xs-4">
+      <router-link :to="`/marketing/berita`" class="font-weight-bold text-primary">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Kembali ke Berita</router-link
+      >
+    </div>
+  </div>
   <div class="card card-top card-top-primary">
     <div class="card-header">
       <vb-headers-card-header :data="{ title: 'Form Tambah Artikel' }" />
     </div>
     <div class="card-body">
-      <a-form
-        label-align="left"
-        layout="vertical"
-        :model="formState"
-        :rules="rules"
-      >
-        <a-form-item
-          label="Judul"
-          name="judul"
-        >
-          <a-input
-            class="input-style"
-            v-model:value="formState.judul"
-          />
+      <a-form label-align="left" layout="vertical" :model="formState" :rules="rules">
+        <a-form-item label="Judul" name="judul">
+          <a-input class="input-style" v-model:value="formState.judul" />
         </a-form-item>
-        <a-form-item
-          label="Detail"
-          name="detail"
-        >
-          <quill-editor
-            style="height: 200px"
-            v-model:value="formState.detail"
-          />
+        <a-form-item label="Detail" name="detail">
+          <quill-editor style="height: 200px" v-model:value="formState.detail" />
         </a-form-item>
-        <a-form-item
-          label="Gambar"
-          name="image"
-        >
+        <a-form-item label="Gambar" name="image">
           <a-upload
             accept="image/png, image/jpg, image/jpeg"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -42,35 +30,18 @@
             @change="handleChange"
           >
             <i class="fe fe-plus" />
-            <div class="ant-upload-text">
-              Upload
-            </div>
+            <div class="ant-upload-text">Upload</div>
           </a-upload>
-          <a-modal
-            :footer="null"
-            :visible="previewVisible"
-            @cancel="previewVisible = false"
-          >
-            <img
-              alt="Gambar Berita"
-              style="width: 100%"
-              :src="previewImage"
-            />
+          <a-modal :footer="null" :visible="previewVisible" @cancel="previewVisible = false">
+            <img alt="Gambar Berita" style="width: 100%" :src="previewImage" />
           </a-modal>
         </a-form-item>
         <a-form-item>
-          <a-button
-            class="mr-2"
-            html-type="submit"
-            type="primary"
-            @click="onSubmit"
-          >
+          <a-button class="mr-2" html-type="submit" type="primary" @click="onSubmit">
             Tambah
           </a-button>
           <router-link to="/marketing/berita">
-            <a-button>
-              Batal
-            </a-button>
+            <a-button> Batal </a-button>
           </router-link>
         </a-form-item>
       </a-form>
@@ -79,13 +50,10 @@
 </template>
 
 <script>
-import { 
-  defineComponent,
-  reactive,
-} from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { storePost } from '@/services/connection/berita/api'
 import { useRouter } from 'vue-router'
-import { notification } from 'ant-design-vue';
+import { notification } from 'ant-design-vue'
 import { quillEditor } from 'vue3-quill'
 import VbHeadersCardHeader from '../header/Header'
 
@@ -94,7 +62,7 @@ function getBase64(file) {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
+    reader.onerror = (error) => reject(error)
   })
 }
 
@@ -130,25 +98,28 @@ export default defineComponent({
     const router = useRouter()
     const addNewPost = (param, config) => {
       storePost(param, config)
-      .then(response => {
-        if (response) {
-          if (response.status === 200) {
-            router.push('/marketing/berita')
-            notification.success({
-              message: 'Tambah Berita',
-              description: 'Berita berhasil ditambah',
-            })
-          } else {
-            notification.warning({
-              message: 'Tambah Berita',
-              description: response.message[1].replace('image yang diperbolehkan adalah', 'Format gambar harus'),
-            })
+        .then((response) => {
+          if (response) {
+            if (response.status === 200) {
+              router.push('/marketing/berita')
+              notification.success({
+                message: 'Tambah Berita',
+                description: 'Berita berhasil ditambah',
+              })
+            } else {
+              notification.warning({
+                message: 'Tambah Berita',
+                description: response.message[1].replace(
+                  'image yang diperbolehkan adalah',
+                  'Format gambar harus',
+                ),
+              })
+            }
           }
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
     const getCurrentDate = () => {
       const today = new Date()
@@ -213,20 +184,20 @@ export default defineComponent({
           status: 'error',
         },
       ],
-    };
+    }
   },
   methods: {
     async handlePreview(file) {
       if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
+        file.preview = await getBase64(file.originFileObj)
       }
-      this.previewImage = file.url || file.preview;
-      this.previewVisible = true;
+      this.previewImage = file.url || file.preview
+      this.previewVisible = true
     },
     handleChange(info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
-      fileList = fileList.map(file => {
+      fileList = fileList.map((file) => {
         if (file.response) {
           file.url = file.response.url
         }
@@ -246,7 +217,7 @@ export default defineComponent({
         const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp']
         const nameInput = this.fileList[0].name
         const formatInput = this.fileList[0].type.split('/')[1]
-        const check = formats.some(element => element === formatInput)
+        const check = formats.some((element) => element === formatInput)
         if (!check) {
           this.fileList = [
             {

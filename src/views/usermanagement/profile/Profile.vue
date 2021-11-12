@@ -314,11 +314,11 @@ export default {
       id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDownHirarki({
-      id_user: this.$route.params.id,
+      id_user: this.userManagement.detail_jabatan.idUser,
     })
     await this.getSalesNonBawahan({
       id_jabatan: this.$route.params.id_jabatan,
-      id_user: this.$route.params.id,
+      id_user: this.userManagement.detail_jabatan.idUser,
     })
   },
   methods: {
@@ -397,8 +397,9 @@ export default {
             id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
             id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
           })
+
           await this.getListDownHirarki({
-            id_user: this.$route.params.id,
+            id_user: this.userManagement.detail_jabatan.idUser,
           })
         },
         onCancel() {},
@@ -414,7 +415,7 @@ export default {
           id_user: this.userManagement.detail_jabatan.idUser,
         })
         await this.getListDownHirarki({
-          id_user: this.$route.params.id,
+          id_user: this.userManagement.detail_jabatan.idUser,
         })
         this.closeModal()
       } else {
@@ -433,7 +434,7 @@ export default {
       ) {
         await this.submitReplaceSalesHirarki()
         await this.getListDownHirarki({
-          id_user: this.$route.params.id,
+          id_user: this.userManagement.detail_jabatan.idUser,
         })
         this.closeModalReplaceUser()
       } else {
@@ -452,7 +453,7 @@ export default {
       ) {
         await this.submitAssignSalesHirarki()
         await this.getListDownHirarki({
-          id_user: this.$route.params.id,
+          id_user: this.userManagement.detail_jabatan.idUser,
         })
         this.closeModalAssignUser()
       } else {
@@ -502,7 +503,7 @@ export default {
             id_jabatan: this.$route.params.id_jabatan,
           })
           await this.getListDownHirarki({
-            id_user: this.$route.params.id,
+            id_user: this.userManagement.detail_jabatan.idUser,
           })
         },
         onCancel() {},

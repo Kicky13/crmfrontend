@@ -123,9 +123,7 @@ export default defineComponent({
       const id = route.params.userId
       listPost().then((response) => {
         if (response) {
-          console.log(response.data)
           const post = response.data.find((post) => post.id === id)
-          //console.log(date("dd/mm/yyyy",post.start_date))
           formState.programID = post.id
           formState.post_date = post.program_date
           // formState.post_time = post.program_time
@@ -245,7 +243,6 @@ export default defineComponent({
       return startValue.valueOf() >= endValue.valueOf()
     },
     handleStartOpenChange(open) {
-      console.log(open)
       if (!open) {
         this.endOpen = true
       } else {
@@ -253,7 +250,6 @@ export default defineComponent({
       }
     },
     handleEndOpenChange(open) {
-      //console.log(open)
       this.endOpen = false
     },
   },

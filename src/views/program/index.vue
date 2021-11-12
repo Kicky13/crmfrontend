@@ -41,7 +41,6 @@ export default {
       listPost()
       .then(response => {
         if (response) {
-          console.log(response)
           response.data.forEach(item => this.posts.unshift(item))
         }
       })

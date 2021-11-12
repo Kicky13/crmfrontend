@@ -187,9 +187,9 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <a-button type="primary">
+            <a-button :loading="isLoading" type="primary" @click="fetchLockCoordinate">
               <i class="fa fa-lock mr-2" />
-              Lock Koordinat
+              {{ detailCustomer.status_lock ? 'Unlock Customer' : 'Lock Customer' }}
             </a-button>
           </div>
         </div>
@@ -201,7 +201,7 @@
 <script>
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
-import { getHistoryVisit } from '@/services/connection/koordinat-lock/api'
+import { getHistoryVisit, getLockCustomer } from '@/services/connection/koordinat-lock/api'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -246,7 +246,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -275,7 +275,6 @@ export default {
     this.detailCustomer = JSON.parse(this.customerInfo)
     this.totalDistributor = this.detailCustomer.distributor.length
     this.totalSales = this.detailCustomer.sales.length
-    console.log(this.detailCustomer)
     await this.fetchGetHistoryVisit()
   },
   methods: {
@@ -294,13 +293,33 @@ export default {
         .then((response) => {
           if (response.status) {
             this.historyVisit = response.data
-            console.log(this.historyVisit)
           }
           this.isLoading = false
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          if (err) {
+          }
+        })
     },
-    async fetchLockCoordinate() {},
+    async fetchLockCoordinate() {
+      let formData = {
+        idToko: this.detailCustomer.id_customer,
+      }
+      this.isLoading = true
+      getLockCustomer(formData)
+        .then((response) => {
+          if (response.status) {
+            notification.success(response.message)
+            this.detailCustomer.status_lock = !this.detailCustomer.status_lock
+          } else {
+            notification.error(response.message)
+          }
+          this.isLoading = false
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
     gotoDetailSurvey(id) {
       let detailSurvey = this.getDetailSurvey(id)
       this.$router.push({
@@ -309,11 +328,9 @@ export default {
       })
     },
     getDetailSurvey(id) {
-      console.log('id: ' + id.text)
       const dataSource = [...this.historyVisit]
       let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
       let detailSurvey = filtered[0]
-      console.log(detailSurvey)
 
       return detailSurvey
     },
