@@ -53,6 +53,7 @@ const state = {
         shorthand: 'SPC',
       },
     ],
+    // perubahan
     columns: [
       {
         title: 'No',
