@@ -164,8 +164,8 @@ const actions = {
     let formData = {
       idTso: payload.id_tso,
       idDistrik: data.formData.id_distrik,
-      tglMulai: data.formData.tgl_mulai,
-      tglAkhir: data.formData.tgl_akhir,
+      // tglMulai: data.formData.tgl_mulai,
+      // tglAkhir: data.formData.tgl_akhir,
     }
     const result = await apiClient.post(`/distrik/tambahDistrikTugas`, formData)
 

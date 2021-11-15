@@ -66,7 +66,7 @@
             </div>
           </div>
           <a-input-search
-            placeholder="Cari"
+            placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
             @input="searchData"
@@ -110,13 +110,22 @@
                 <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
                   <i class="fa fa-file-text-o mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
+                <!-- <router-link
+                  :to="`/users/profile/TSO/${text.idJabatan}`"
+                  v-if="selectedShorthand === `TSO`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link> -->
                 <router-link
                   v-else-if="selectedShorthand != 'SALES DIS'"
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
@@ -127,6 +136,7 @@
                   <i class="fa fa-file-text-o mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
+
                 <button
                   v-if="text.statusJabat === `Nonaktif`"
                   type="button"

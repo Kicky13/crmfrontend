@@ -31,9 +31,9 @@
                 <div class="font-size-16">
                   Kode / ID : {{ userManagement.detail_jabatan.idUser }}
                 </div>
-                <div class="font-size-16">
+                <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
-                </div>
+                </div> -->
                 <div class="font-size-16">Email : {{ userManagement.detail_jabatan.email }}</div>
               </div>
             </div>
@@ -80,7 +80,7 @@
                   <span>entries</span>
                 </div>
               </div>
-              <a-input-search placeholder="input search text" style="width: 200px" />
+              <!-- <a-input-search placeholder="input search text" style="width: 200px" /> -->
             </div>
             <div class="table-responsive text-nowrap">
               <a-table
@@ -191,13 +191,13 @@
             class="w-100"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledBawahanEndDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_akhir"
             class="w-100"
           />
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
     </a-modal>
 
@@ -235,13 +235,13 @@
             class="w-100"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledReplaceEndDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_akhir"
             class="w-100"
           />
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
     </a-modal>
 
@@ -279,13 +279,13 @@
             class="w-100"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledAssignEndDate"
             v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
             class="w-100"
           />
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
     </a-modal>
   </div>
@@ -378,7 +378,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     changeProfile(item) {
-      this.$router.push(`/users/profile/${item.iduser}/jabatan/${item.idJabatan}`)
+      this.$router.push(`/users/profile/jabatan/${item.idJabatan}`)
     },
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
@@ -429,8 +429,9 @@ export default {
     async handleSubmitReplaceUser() {
       if (
         this.userManagement.form_replace_bawahan.user_replace_id &&
-        this.userManagement.form_replace_bawahan.tgl_mulai &&
-        this.userManagement.form_replace_bawahan.tgl_akhir
+        this.userManagement.form_replace_bawahan.tgl_mulai
+        // &&
+        // this.userManagement.form_replace_bawahan.tgl_akhir
       ) {
         await this.submitReplaceSalesHirarki()
         await this.getListDownHirarki({
@@ -448,8 +449,9 @@ export default {
     async handleSubmitAssignUser() {
       if (
         this.userManagement.form_assign_bawahan.id_user &&
-        this.userManagement.form_assign_bawahan.tgl_mulai &&
-        this.userManagement.form_assign_bawahan.tgl_akhir
+        this.userManagement.form_assign_bawahan.tgl_mulai
+        // &&
+        // this.userManagement.form_assign_bawahan.tgl_akhir
       ) {
         await this.submitAssignSalesHirarki()
         await this.getListDownHirarki({
