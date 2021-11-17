@@ -219,6 +219,7 @@ export default defineComponent({
       this.stateForm = 1
       this.resetFormState()
       this.visible = true
+      this.isDisabled = false
     },
     showModal() {
       this.stateForm = 2
