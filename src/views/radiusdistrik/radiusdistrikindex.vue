@@ -9,12 +9,34 @@
           Tambah Setting Radius
         </a-button>
       </div>
+
       <div class="card-body">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Show :</span>
+            </div>
+            <a-select
+              :default-value="radiusDistrik.itemsPerPage[1]"
+              class="mx-2"
+              @change="handlePaginationSize"
+            >
+              <a-select-option v-for="itemPerPage in radiusDistrik.itemsPerPage" :key="itemPerPage">
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="radiusDistrik.columns"
             :data-source="radiusDistrik.listRadiusDistrik"
             :row-key="data => data.uuid"
+            :loading="radiusDistrik.isLoading"
+            :pagination="radiusDistrik.pagination"
           >
             <template #action="{ text }">
               <div>
@@ -82,7 +104,6 @@
                   v-for="(wilayah, index) in radiusDistrik.dataWilayah"
                   :value="wilayah.ID_REFERENCE_LEVEL_WILAYAH"
                   :key="index"
-                  
                 >
                   {{ wilayah.ID_REFERENCE_LEVEL_WILAYAH }} - {{ wilayah.NM_WILAYAH }}
                 </a-select-option>
@@ -101,11 +122,9 @@
                   v-for="(distrik, index) in radiusDistrik.dataDistrik"
                   :value="distrik.ID_DISTRIK"
                   :key="index"
-                  
                 >
                   {{ distrik.ID_DISTRIK }} - {{ distrik.NM_DISTRIK }}
                 </a-select-option>
-               
               </a-select>
             </a-form-item>
             <a-form-item label="Jarak Target" name="radius">
@@ -128,10 +147,7 @@
 <script>
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
-import {
-  getDataListRefWilayah,
-  getDataList,
-} from '@/services/connection/radius-distrik/api'
+import { getDataListRefWilayah, getDataList } from '@/services/connection/radius-distrik/api'
 import { getDistrikList } from '@/services/connection/master-data/api'
 import { message } from 'ant-design-vue'
 // import { Modal } from 'ant-design-vue'
@@ -175,7 +191,7 @@ export default defineComponent({
       listDistrik: [],
       isLoading: false,
       fullPage: true,
-      isDisabled:false,
+      isDisabled: false,
     }
   },
   computed: {
@@ -199,6 +215,9 @@ export default defineComponent({
       'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
+    handlePaginationSize(size) {
+      this.radiusDistrik.pagination.pageSize = size
+    },
     resetFormState() {
       // this.radiusDistrik.formData.id = null
       this.radiusDistrik.formData.rownum = null
@@ -232,13 +251,11 @@ export default defineComponent({
       this.visible = false
     },
     async handleUpdate(e) {
-      
       await this.updateDataRadiusDistrik(this.radiusDistrik.formData.id)
       await this.getDataListDistrik()
       this.visible = false
     },
     handleCancel(e) {
-      console.log(e)
       this.visible = false
     },
 
@@ -269,7 +286,7 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataSource() {
@@ -280,7 +297,7 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataDistrik() {
@@ -291,24 +308,23 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchUpdateData(value) {
       const id = value
-        getDataList()
-          .then(response => {
-            if (response) {
-              const post = response.data.find(post => post.uuid === id)
-              console.log(post)
-              this.showModal()
-              this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
-              this.radiusDistrik.formData.distrikid = post.id_distrik
-              this.radiusDistrik.formData.distrikname = post.distrik_name
-              this.radiusDistrik.formData.id = post.uuid
-              this.radiusDistrik.formData.radius = post.radius_lock
-            }
-          })
+      getDataList()
+      .then(response => {
+        if (response) {
+          const post = response.data.find(post => post.uuid === id)
+          this.showModal()
+          this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
+          this.radiusDistrik.formData.distrikid = post.id_distrik
+          this.radiusDistrik.formData.distrikname = post.distrik_name
+          this.radiusDistrik.formData.id = post.uuid
+          this.radiusDistrik.formData.radius = post.radius_lock
+        }
+      })
       // const dataSource = [...this.dataSourceTable]
       // const currentData = dataSource.filter(x => x.id === id)
       // console.log(currentData[0])

@@ -86,7 +86,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: (record) => ({
         props: {
@@ -119,7 +119,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
   },

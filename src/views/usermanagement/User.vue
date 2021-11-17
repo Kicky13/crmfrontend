@@ -277,7 +277,6 @@ export default {
       this.countDown()
     },
     countDown() {
-      console.log(`----status`, this.userManagementCRM.status)
       let secondsToGo = 30
 
       if (this.userManagementCRM.status === false) {
@@ -405,7 +404,7 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id)
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id.uuid)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
           id: row.uuid,

@@ -83,14 +83,14 @@ export default {
         this.isLoading = true
         insertAssign(formData).then((response) => {
           if (response) {
-            console.log(response)
             this.$router.push({ path: '/assignrole' })
           }
           this.isLoading = false
         })
         .catch((err) => {
-          this.isLoading = false
-          console.error(err)
+          if (err) {
+            this.isLoading = false
+          }
         })
       } else {
         notification.error({
@@ -102,7 +102,6 @@ export default {
     formValidation(formData) {
       const listData = [...this.assignList]
       const currData = listData.filter((x) => x.user === formData.user && x.role === formData.role)
-      console.log(currData.length)
       if (currData.length == 0) {
         return true
       }
@@ -118,8 +117,9 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
-          this.isLoading = false
+          if (err) {
+            this.isLoading = false
+          }
         })
     },
     fetchGetRoles() {
@@ -132,7 +132,7 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetAssign() {
@@ -145,7 +145,7 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.error(err)
+          if (err) {}
         })
     },
   },

@@ -66,6 +66,27 @@ export const getAdminMenuData = [
         key: 'gfd34a',
         url: '/users/hierarchy',
       },
+      {
+        title: 'Management User Hirarki',
+        key: 'gfd34a',
+        url: '/users/hierarchy',
+        children: [
+          {
+            title: 'Mapping User',
+            key: '12sas2',
+            url: '/users/profile/jabatan',
+            hidden: true,
+            statusId: true,
+          },
+          {
+            title: 'Mapping User TSO',
+            key: '12sas2',
+            url: '/users/profile/TSO',
+            hidden: true,
+            statusId: true,
+          },
+        ],
+      },
     ],
   },
   {

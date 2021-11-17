@@ -110,20 +110,22 @@ const actions = {
 
     const { data } = state
 
-    const dataArray = []
-    const dataObject = {}
+    let dataArray = []
 
-    data.listData.map(data => {
-      dataObject.id_sales = data.sales
-      dataObject.username = data.username
-      dataObject.id_customer = data.id_toko
-      dataObject.nama_customer = data.customer
-      dataObject.id_distributor = data.kode_distributor
-      dataObject.nama_distributor = data.distributor
-      dataObject.status_cek = 'success'
+    data.listData.forEach((x) => {
+      let dataObject = {
+        id_sales: x.sales,
+        username: x.username,
+        id_customer: x.id_toko,
+        nama_customer: x.customer,
+        id_distributor: x.kode_distributor,
+        nama_distributor: x.distributor,
+        status_cek: 'success',
+      }
       dataArray.push(dataObject)
     })
 
+    console.log(dataArray)
     const config = {
       header: {
         'Content-Type': 'multipart/form-data',

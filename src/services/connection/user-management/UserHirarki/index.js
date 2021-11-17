@@ -53,6 +53,7 @@ const state = {
         shorthand: 'SPC',
       },
     ],
+    // perubahan
     columns: [
       {
         title: 'No',
@@ -70,15 +71,15 @@ const state = {
         dataIndex: 'jabatan',
       },
       {
-        title: 'Tanggal Jabatan',
+        title: 'Tanggal Menjabat',
         key: 'start_date',
         slots: { customRender: 'start_date' },
       },
-      {
-        title: 'Tanggal Akhir Jabatan',
-        key: 'end_date',
-        slots: { customRender: 'end_date' },
-      },
+      // {
+      //   title: 'Tanggal Akhir Jabatan',
+      //   key: 'end_date',
+      //   slots: { customRender: 'end_date' },
+      // },
       {
         title: 'Nama',
         key: 'name',
@@ -211,6 +212,12 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
+
+    // if (payload) {
+    //   await commit('changeUserManagement', {
+    //     offset: payload || data.offset,
+    //   })
+    // }
 
     const { data } = state
 
@@ -631,7 +638,7 @@ const actions = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: data.form_assign_bawahan.id_user,
       tglMulai: data.form_assign_bawahan.tgl_mulai,
-      tglAkhir: data.form_assign_bawahan.tgl_akhir,
+      // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 
     const result = await apiClient.post(`/hirarki/assignUser`, formData)

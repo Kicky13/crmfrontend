@@ -141,7 +141,7 @@ export default defineComponent({
 
     const addNewPost = (param, config) => {
       storePost(param, config).then((response) => {
-        console.log(response)
+        if (response) {}
       })
     }
 
@@ -163,8 +163,6 @@ export default defineComponent({
           'Content-Type': 'multipart/form-data',
         },
       }
-
-      // console.log(new Date(formState.startDate).toLocaleDateString('en-GB'))
 
       if (
         formState.programName &&
@@ -226,11 +224,8 @@ export default defineComponent({
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
-    handleStartOpenChange() {
-      console.log(this.formState.startDate)
-    },
+    handleStartOpenChange() {},
     handleEndOpenChange(open) {
-      //console.log(open)
       this.endOpen = false
     },
   },

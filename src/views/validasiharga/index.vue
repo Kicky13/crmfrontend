@@ -176,13 +176,11 @@ export default {
   },
   methods: {
     showModal() {
-      console.log(this.visible)
       this.visible = true
       this.statusModal = false
     },
     showModalEdit(id) {
       const uuid = id
-      console.log(id)
       this.visible = true
       this.statusModal = true
       // showpost(id)
@@ -190,7 +188,6 @@ export default {
         .then(response => {
           if (response) {
             const post = response.data.find(post => post.id === id)
-            console.log(post)
             this.formState.id = post.id
             this.formState.idproduk = post.idproduk
             this.formState.namaproduk = post.namaproduk
@@ -201,22 +198,20 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     handleOk(e) {
-      console.log(e)
       this.confirmLoading = true
       const formData = toRaw(this.formState)
       insertProduk(formData)
         .then(response => {
           if (response) {
-            console.log(response)
             this.fetchGetDataSource()
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
       setTimeout(() => {
         this.visible = false
@@ -224,19 +219,16 @@ export default {
       }, 2000)
     },
     handleUpdate(e) {
-      console.log(e)
       this.confirmLoading = true
       const formData = toRaw(this.formState)
-      console.log(formData)
       updateProduk(this.formState.id, formData)
         .then(response => {
           if (response) {
-            console.log(response)
             this.fetchGetDataSource()
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
       setTimeout(() => {
         this.visible = false
@@ -244,22 +236,19 @@ export default {
       }, 2000)
     },
     handleCancel(e) {
-      console.log(e)
       this.visible = false
       this.statusModal = false
     },
     deleteDataById(id) {
-      console.log('Deleted ID: ' + id)
       deleteData(id)
         .then(response => {
           if (response) {
-            console.log(response)
             const dataSource = [...this.dataSourceTable]
             this.dataSourceTable = dataSource.filter(item => item.id !== id)
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     showConfirm(id) {
@@ -281,12 +270,11 @@ export default {
         .then(response => {
           if (response) {
             const post = response.data.find(post => post.id === id)
-            console.log(post)
             this.formState.namaproduk = post.namaproduk
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
 
@@ -295,27 +283,10 @@ export default {
         name: 'validasi-harga',
       })
     },
-    deleteMarks() {
-      console.log(this.rowSelection)
-    },
-    deleteAll() {},
-    // deleteRow(id) {
-    //   console.log("Deleted ID: " + id)
-    //   deleteData(id)
-    //   .then(response => {
-    //     console.log(response)
-    //     const dataSource = [...this.dataSourceTable]
-    //     this.dataSourceTable = dataSource.filter(item => item.id !== id)
-    //   })
-    //   .catch(err => {
-    //     console.error(err)
-    //   })
-    // },
     fetchGetDataSource() {
       getProdukList()
         .then(response => {
           if (response) {
-            console.log(response.data)
             this.dataSourceTable = response.data
             this.formState = {
               id: '',
@@ -332,19 +303,18 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
     fetchGetDataProduk() {
       getSelectProdukList()
         .then(response => {
           if (response) {
-            console.log(response)
             this.listProduk = response.data
           }
         })
         .catch(err => {
-          console.error(err)
+          if (err) {}
         })
     },
   },

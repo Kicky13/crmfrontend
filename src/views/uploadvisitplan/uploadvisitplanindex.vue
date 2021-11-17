@@ -118,7 +118,7 @@ export default {
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
       getCheckboxProps: record => ({
         props: {
@@ -155,7 +155,6 @@ export default {
   methods: {
     ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
     tableRowClassName(text) {
-      console.log(`-----tx`, text.status === false)
       if (text.status === false) {
         return 'non-active'
       } else {

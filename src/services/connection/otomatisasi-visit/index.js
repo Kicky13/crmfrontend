@@ -138,6 +138,7 @@ const actions = {
       tahun: data.body.tahun,
       bulan: data.body.bulan,
       offset: data.body.offset,
+      limit: 10,
     }
 
     const result = await apiClient.post('/Visit/ReportLogVisitPlan', body)
