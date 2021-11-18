@@ -238,13 +238,13 @@
                 class="w-100"
               />
             </a-form-item>
-            <a-form-item label="Tanggal Akhir Jabatan" name="level">
+            <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
               <a-date-picker
                 v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
                 :disabled-date="disabledEndDate"
                 class="w-100"
               />
-            </a-form-item>
+            </a-form-item> -->
           </a-form>
         </a-modal>
       </div>
@@ -361,8 +361,7 @@ export default {
     async handleSubmitAssignUser() {
       if (
         this.userManagement.form_assign_bawahan.id_user &&
-        this.userManagement.form_assign_bawahan.tgl_mulai &&
-        this.userManagement.form_assign_bawahan.tgl_akhir
+        this.userManagement.form_assign_bawahan.tgl_mulai
       ) {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
