@@ -11,12 +11,13 @@
       </div>
 
       <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
-          <div class="d-flex">
-            <div class="align-self-center">
-              <span>Show :</span>
-            </div>
-            <a-select
+        <div class="filter_data mb-4">
+          <div class="row">
+            <div class="col-md-6 col-xs-12 d-flex">
+              <div class="align-self-center">
+                <span>Show :</span>
+              </div>
+               <a-select
               :default-value="radiusDistrik.itemsPerPage[1]"
               class="mx-2"
               @change="handlePaginationSize"
@@ -25,11 +26,21 @@
                 {{ itemPerPage }}
               </a-select-option>
             </a-select>
-            <div class="align-self-center">
-              <span>entries</span>
+              <div class="align-self-center">
+                <span>entries</span>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-12 ">
+              <a-input-search
+            placeholder="input search text"
+            style="width: 200px"
+            v-model:value="keyword"
+            class="float-right"
+          />
             </div>
           </div>
         </div>
+        
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="radiusDistrik.columns"
@@ -165,6 +176,7 @@ export default defineComponent({
       rownum: null,
       distrikid: undefined,
       distrikname: '',
+      
       radius: 0,
     })
     return {
@@ -192,6 +204,7 @@ export default defineComponent({
       isLoading: false,
       fullPage: true,
       isDisabled: false,
+      keyword:'',
     }
   },
   computed: {
