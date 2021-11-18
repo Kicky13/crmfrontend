@@ -245,6 +245,7 @@ const actions = {
     } else {
       await commit('changeRadiusDistrik', {
         isLoading: false,
+        listRadiusDistrik: result.data.data,
       })
       notification.success({
         message: 'Success',
