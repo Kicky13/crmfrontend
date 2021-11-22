@@ -106,16 +106,46 @@
               </div>
             </template>
             <template #action="{ text }">
-              <div>
-                <router-link
-                  :to="`/users/profile/TSO/${text.idJabatan}`"
-                  v-if="selectedShorthand === `TSO`"
-                  type="button"
-                  class="btn btn-light mr-2"
-                >
-                  <i class="fa fa-file-text-o mr-1"></i>
-                  <span class="text-black">Detail</span>
-                </router-link>
+              <div class="d-flex align-items-center">
+                <div v-if="flagBawahan != 0">
+                  <router-link
+                    :to="`/users/profile/TSO/${text.idJabatan}`"
+                    v-if="selectedShorthand === `TSO`"
+                    type="button"
+                    class="btn btn-light mr-2"
+                  >
+                    <i class="fa fa-file-text-o mr-1"></i>
+                    <span class="text-black">Detail</span>
+                  </router-link>
+                  <router-link
+                    v-else-if="selectedShorthand != 'SALES DIS'"
+                    :to="`/users/profile/jabatan/${text.idJabatan}`"
+                    :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                    type="button"
+                    class="btn btn-light mr-2"
+                  >
+                    <i class="fa fa-file-text-o mr-1"></i>
+                    <span class="text-black">Detail</span>
+                  </router-link>
+                </div>
+                <div>
+                  <button
+                    v-if="text.statusJabat === `Nonaktif`"
+                    type="button"
+                    class="btn btn-warning mr-2"
+                    @click="assignRow(text)"
+                  >
+                    <i class="fa fa-pencil-square-o"></i>
+                    <span class="text-black">Assign User</span></button
+                  ><button
+                    v-if="text.statusJabat != `Nonaktif`"
+                    @click="deleteRow(text.idJabatan)"
+                    type="button"
+                    class="btn btn-outline-danger mr-2"
+                  >
+                    <i class="fa fa-trash"></i><span> Kosongkan Jabatan</span>
+                  </button>
+                </div>
                 <!-- <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
@@ -126,33 +156,6 @@
                   <i class="fa fa-file-text-o mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link> -->
-                <router-link
-                  v-else-if="selectedShorthand != 'SALES DIS'"
-                  :to="`/users/profile/jabatan/${text.idJabatan}`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
-                  type="button"
-                  class="btn btn-light mr-2"
-                >
-                  <i class="fa fa-file-text-o mr-1"></i>
-                  <span class="text-black">Detail</span>
-                </router-link>
-
-                <button
-                  v-if="text.statusJabat === `Nonaktif`"
-                  type="button"
-                  class="btn btn-warning mr-2"
-                  @click="assignRow(text)"
-                >
-                  <i class="fa fa-pencil-square-o"></i>
-                  <span class="text-black">Assign User</span></button
-                ><button
-                  v-if="text.statusJabat != `Nonaktif`"
-                  @click="deleteRow(text.idJabatan)"
-                  type="button"
-                  class="btn btn-outline-danger mr-2"
-                >
-                  <i class="fa fa-trash"></i><span> Kosongkan Jabatan</span>
-                </button>
               </div>
             </template>
           </a-table>
@@ -266,6 +269,7 @@ export default {
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
+      flagBawahan: null,
       formState: {
         name: '',
         username: '',
@@ -332,7 +336,7 @@ export default {
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
-    }, 1000),
+    }, 3000),
     async assignRow(item) {
       // const row = this.userManagement.users.find(data => data.uuid === id)
       // await this.$store.commit('userManagement/changeUserManagement', {
@@ -388,6 +392,8 @@ export default {
       const dataRes = [...this.userManagement.listUser]
       const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
+      this.flagBawahan = filtered[0].flag_bawahan
+
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key

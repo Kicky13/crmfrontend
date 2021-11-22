@@ -17,30 +17,34 @@
               <div class="align-self-center">
                 <span>Show :</span>
               </div>
-               <a-select
-              :default-value="radiusDistrik.itemsPerPage[1]"
-              class="mx-2"
-              @change="handlePaginationSize"
-            >
-              <a-select-option v-for="itemPerPage in radiusDistrik.itemsPerPage" :key="itemPerPage">
-                {{ itemPerPage }}
-              </a-select-option>
-            </a-select>
+              <a-select
+                :default-value="radiusDistrik.itemsPerPage[1]"
+                class="mx-2"
+                @change="handlePaginationSize"
+              >
+                <a-select-option
+                  v-for="itemPerPage in radiusDistrik.itemsPerPage"
+                  :key="itemPerPage"
+                >
+                  {{ itemPerPage }}
+                </a-select-option>
+              </a-select>
               <div class="align-self-center">
                 <span>entries</span>
               </div>
             </div>
             <div class="col-md-6 col-xs-12 ">
               <a-input-search
-            placeholder="input search text"
-            style="width: 200px"
-            v-model:value="keyword"
-            class="float-right"
-          />
+                placeholder="Cari nama distrik"
+                style="width: 200px"
+                v-model:value="radiusDistrik.bodyList.filter"
+                class="float-right"
+                @input="searchData"
+              />
             </div>
           </div>
         </div>
-        
+
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="radiusDistrik.columns"
@@ -164,6 +168,7 @@ import { message } from 'ant-design-vue'
 // import { Modal } from 'ant-design-vue'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default defineComponent({
   name: 'VbAntDesign',
@@ -176,7 +181,7 @@ export default defineComponent({
       rownum: null,
       distrikid: undefined,
       distrikname: '',
-      
+
       radius: 0,
     })
     return {
@@ -204,7 +209,7 @@ export default defineComponent({
       isLoading: false,
       fullPage: true,
       isDisabled: false,
-      keyword:'',
+      keyword: '',
     }
   },
   computed: {
@@ -228,6 +233,15 @@ export default defineComponent({
       'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
+    searchData: _.debounce(function() {
+      this.$store.commit('radiusDistrik/changeRadiusDistrik', {
+        bodyList: {
+          filter: this.radiusDistrik.bodyList.filter,
+        },
+      })
+
+      this.getDataListDistrik()
+    }, 3000),
     handlePaginationSize(size) {
       this.radiusDistrik.pagination.pageSize = size
     },
@@ -299,7 +313,8 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
     fetchGetDataSource() {
@@ -310,7 +325,8 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
     fetchGetDataDistrik() {
@@ -321,13 +337,13 @@ export default defineComponent({
           }
         })
         .catch(err => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
     fetchUpdateData(value) {
       const id = value
-      getDataList()
-      .then(response => {
+      getDataList().then(response => {
         if (response) {
           const post = response.data.find(post => post.uuid === id)
           this.showModal()

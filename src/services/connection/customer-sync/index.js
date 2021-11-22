@@ -48,6 +48,11 @@ const state = {
         key: 'status',
       },
     ],
+    bodyList: {
+      offset: 1,
+      limit: 10,
+      filter: '',
+    },
     isLoading: false,
   },
 }
@@ -90,8 +95,9 @@ const actions = {
 
     let formData = {
       id_distributor: payload.id_distrib,
-      offset: 1,
-      limit: 10,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+      search: data.bodyList.filter,
     }
 
     const result = await apiClient.post(`/ListCustomer`, formData)
@@ -104,10 +110,14 @@ const actions = {
         isLoading: false,
       })
     } else {
-      notification.success({
-        message: 'Success',
-        description: 'Data berhasil ditampilkan',
-      })
+      if (data.bodyList.filter.length > 0) {
+      } else {
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil ditampilkan',
+        })
+      }
+
       await commit('changeSynCustomer', {
         listCustomer: result.data.data,
         isLoading: false,

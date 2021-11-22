@@ -37,9 +37,19 @@
 
         <div class="row">
           <div class="col-md-6 col-xs-12"></div>
-          <div class="col-md-6 col-xs-12 ">
+          <div class="col-md-6 col-xs-12">
             <a-input-search
-              placeholder="input search text"
+              v-if="synCustomer.listCustomer.length > 0"
+              placeholder="Cari nama customer"
+              style="width: 200px"
+              class="float-right"
+              v-model:value="synCustomer.bodyList.filter"
+              @input="searchData"
+            />
+            <a-input-search
+              v-else
+              disabled
+              placeholder="Cari nama customer"
               style="width: 200px"
               class="float-right"
             />
@@ -94,6 +104,7 @@ import {
 // import { getDistributorList } from '@/services/connection/master-data/api'
 // import { UploadOutlined } from '@ant-design/icons-vue';
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 const columns = [
   {
@@ -189,6 +200,19 @@ export default {
   },
   methods: {
     ...mapActions('synCustomer', ['getListDistributor', 'getDataListCustomer', 'getAsyncData']),
+    searchData: _.debounce(function() {
+      this.$store.commit('synCustomer/changeSynCustomer', {
+        bodyList: {
+          filter: this.synCustomer.bodyList.filter,
+          limit: 10,
+          offset: 1,
+        },
+      })
+
+      this.getDataListCustomer({
+        id_distrib: this.selectValue,
+      })
+    }, 3000),
     onSuccess(response) {
       this.error = false
       this.loading = false
@@ -235,7 +259,8 @@ export default {
           }
         })
         .catch(err => {
-          if (err) {}
+          if (err) {
+          }
         })
         .finally(() => (this.loading = false))
     },
