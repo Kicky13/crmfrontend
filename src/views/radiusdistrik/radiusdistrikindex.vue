@@ -32,10 +32,11 @@
             </div>
             <div class="col-md-6 col-xs-12 ">
               <a-input-search
-            placeholder="input search text"
-            style="width: 200px"
-            v-model:value="keyword"
+            placeholder="Cari"
             class="float-right"
+            style="width: 200px"
+            v-model:value="radiusDistrik.bodyList.q"
+            @input="searchData"
           />
             </div>
           </div>
@@ -164,6 +165,7 @@ import { message } from 'ant-design-vue'
 // import { Modal } from 'ant-design-vue'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default defineComponent({
   name: 'VbAntDesign',
@@ -247,6 +249,15 @@ export default defineComponent({
       this.radiusDistrik.formData.distrikname = ''
       this.radiusDistrik.formData.radius = 0
     },
+    searchData: _.debounce(function() {
+      this.$store.commit('radiusDistrik/changeRadiusDistrik', {
+        body: {
+          offset: 1,
+        },
+      })
+
+      this.getDataListDistrik()
+    }, 1000),
     openModal() {
       this.stateForm = 1
       this.resetFormState()

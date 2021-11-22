@@ -39,6 +39,7 @@ const state = {
     bodyList: {
       offset: 1,
       limit: 20,
+      q: '',
     },
     itemsPerPage: [5, 10, 15, 20],
     pagination: {},
@@ -91,6 +92,7 @@ const actions = {
     let body = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
+      q: data.bodyList.q,
     }
 
     const result = await apiClient.post('/RadiusWilayah/List', body)
