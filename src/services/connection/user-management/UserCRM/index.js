@@ -58,9 +58,10 @@ const state = {
     },
     table: {
       offset: 1,
-      limit: 20,
+      limit: 500,
       q: '',
     },
+    listUser: [],
     status: Boolean,
     messagePassword: '',
     dataSourceTable: [],
@@ -82,6 +83,30 @@ const mutations = {
 }
 
 const actions = {
+  async getListJenisUser({ commit, state }) {
+    commit('changeUserManagementCRM', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    const params = {
+      offset: data.table.offset,
+      limit: data.table.limit,
+    }
+    const result = await apiClient.post(`/user/listJenis`, params)
+    if (result.data.state == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagementCRM', {
+        listUser: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
   async getListUserCRM({ commit, state }) {
     commit('changeUserManagementCRM', {
       isLoading: true,

@@ -3,7 +3,7 @@
     <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex align-items-center justify-content-between">
         <div>
-          <strong> Filter By </strong>
+          <!-- <strong> Filter By </strong>
           <a-select placeholder="Pilih Jabatan">
             <a-select-option
               v-for="(item, index) in userManagement.listUser"
@@ -12,7 +12,7 @@
             >
               {{ item.nama_panjang }}
             </a-select-option>
-          </a-select>
+          </a-select> -->
         </div>
 
         <Can do="create" on="News">
@@ -73,6 +73,7 @@
             :row-key="data => data.uuid"
             :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
+            @change="handleTableChange"
           >
             <template #no="{ index }">
               <div>
@@ -161,11 +162,11 @@
             placeholder="Pilih Level"
           >
             <a-select-option
-              v-for="(item, index) in userManagement.listUser"
+              v-for="(item, index) in userManagementCRM.listUser"
               :key="`level_${index}`"
-              :value="item.id_level_hirarki"
+              :value="item.id"
             >
-              {{ item.nama_panjang }}
+              {{ item.namaJenisUser }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -255,10 +256,48 @@ export default {
       'postSubmitData',
       'deleteDataUser',
       'getViewPassword',
+      'getListJenisUser',
     ]),
 
-    ...mapActions('userManagement', ['getListJenisUser', 'resetDataRow']),
-
+    ...mapActions('userManagement', ['resetDataRow']),
+    async handleTableChange(pagination, filters, sorter) {
+      if (pagination.pageSize === 5) {
+        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+          table: {
+            limit: 500 + 5 * pagination.current,
+            offset: 1 + 5 * pagination.current,
+          },
+        }),
+          await this.getListUserCRM()
+      }
+      if (pagination.pageSize === 10) {
+        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+          table: {
+            limit: 500 + 10 * pagination.current,
+            offset: 1 + 10 * pagination.current,
+          },
+        }),
+          await this.getListUserCRM()
+      }
+      if (pagination.pageSize === 15) {
+        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+          table: {
+            limit: 500 + 15 * pagination.current,
+            offset: 1 + 15 * pagination.current,
+          },
+        }),
+          await this.getListUserCRM()
+      }
+      if (pagination.pageSize === 20) {
+        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+          table: {
+            limit: 500 + 20 * pagination.current,
+            offset: 1 + 20 * pagination.current,
+          },
+        }),
+          await this.getListUserCRM()
+      }
+    },
     showModalPassword(text) {
       this.userManagementCRM.modalPreviewPassword = true
       this.itemPassword = text

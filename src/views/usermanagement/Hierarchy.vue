@@ -79,6 +79,7 @@
             :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
+            @change="handleTableChange"
           >
             <template #no="{ index }">
               <div>
@@ -401,7 +402,101 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     },
-
+    async handleTableChange(pagination, key) {
+      console.log(`----key`, key)
+      if (pagination.pageSize === 5) {
+        if (pagination.current === 1) {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500,
+              offset: 0,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        } else {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500 + 5 * pagination.current,
+              offset: 1 + 5 * pagination.current,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        }
+      }
+      if (pagination.pageSize === 10) {
+        if (pagination.current === 1) {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500,
+              offset: 0,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        } else {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500 + 10 * pagination.current,
+              offset: 1 + 10 * pagination.current,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        }
+      }
+      if (pagination.pageSize === 15) {
+        if (pagination.current === 1) {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500,
+              offset: 0,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        } else {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500 + 15 * pagination.current,
+              offset: 1 + 15 * pagination.current,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        }
+      }
+      if (pagination.pageSize === 20) {
+        if (pagination.current === 1) {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500,
+              offset: 0,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        } else {
+          await this.$store.commit('userManagement/changeUserManagement', {
+            bodyList: {
+              limit: 500 + 20 * pagination.current,
+              offset: 1 + 20 * pagination.current,
+            },
+          }),
+            await this.getDataTable({
+              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            })
+        }
+      }
+    },
     async openModal() {
       // this.modalVisible = true
       // await this.$store.commit('userManagement/changeUserManagement', {
