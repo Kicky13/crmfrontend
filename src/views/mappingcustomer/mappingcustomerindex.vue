@@ -10,7 +10,7 @@
       </div>
       <div class="card-body">
         <a
-          href="https://docs.google.com/uc?export=download&id=1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO"
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW.xlsx"
           download
           class="btn btn-main mb-3"
         >
