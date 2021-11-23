@@ -180,6 +180,7 @@
         <a-form-item label="No HP" name="nohp">
           <a-input
             style="width: 100% !important"
+            type="number"
             v-model:value="userManagementCRM.formState.nohp"
             placeholder="Ketik no hp"
           />
