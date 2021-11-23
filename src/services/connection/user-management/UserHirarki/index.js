@@ -114,7 +114,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 20,
+      limit: 500,
       filter: '',
     },
 
@@ -184,6 +184,8 @@ const mutations = {
 }
 
 const actions = {
+
+  
   async getListJenisUser({ commit, state }) {
     commit('changeUserManagement', {
       isLoading: true,
