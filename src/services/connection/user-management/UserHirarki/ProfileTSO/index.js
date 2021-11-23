@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { moment } from 'moment'
 
 const state = {
   data: {
@@ -44,7 +45,6 @@ const state = {
       ],
       tgl_akhir: [
         {
-          required: true,
           message: 'Pilih Tanggal Akhir!',
           type: 'string',
           trigger: 'change',
@@ -124,33 +124,73 @@ const actions = {
       })
     }
   },
-  async deleteListDistrikHirarki({ commit }, payload) {
+  async deleteListDistrikHirarki({ commit, state }, payload) {
     commit('changeProfileTSO', {
       isLoading: true,
     })
 
-    let formData = {
-      idTso: payload.id_tso,
-      idDistrik: payload.id_distrik,
-    }
-    const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+    const { data } = state
+    
+    let DateNow = new Date(Date.now()).toLocaleDateString('en-GB')
 
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
+    let endDate = new Date(data.formData.tgl_akhir).toLocaleDateString('en-GB')
+
+
+    if (endDate.length > 0) {
+      let formData = {
+        idTso: payload.id_tso,
+        idDistrik: payload.id_distrik,
+        tglAkhir: endDate
+          .toString()
+          .replace('/', '-')
+          .replace('/', '-'),
+      }
+      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
     } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
+      let formData = {
+        idTso: payload.id_tso,
+        idDistrik: payload.id_distrik,
+        tglAkhir: DateNow.toString()
+          .replace('/', '-')
+          .replace('/', '-'),
+      }
+      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
     }
   },
 
@@ -161,12 +201,29 @@ const actions = {
 
     const { data } = state
 
+    // let data_tgl_mulai = moment(data.formData.tgl_mulai).format('DD-MM-YYYY')
+    // let data_tgl_akhir = moment(data.formData.tgl_akhir).format(`dd-mm-yyyy`)
+    let startDate = new Date(data.formData.tgl_mulai).toLocaleDateString('en-GB')
+    let endDate = new Date(data.formData.tgl_akhir).toLocaleDateString('en-GB')
+
+    // console.log(`----data`, data_tgl_mulai)
     let formData = {
       idTso: payload.id_tso,
       idDistrik: data.formData.id_distrik,
-      // tglMulai: data.formData.tgl_mulai,
+      tglMulai: startDate
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-'),
       // tglAkhir: data.formData.tgl_akhir,
     }
+
+    if (data.formData.tgl_akhir.length > 0 || data.formData.tgl_akhir != ``) {
+      formData['tglAkhir'] = endDate
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+    }
+
     const result = await apiClient.post(`/distrik/tambahDistrikTugas`, formData)
 
     if (result.data.status == false) {

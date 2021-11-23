@@ -60,7 +60,7 @@
             </div>
           </div>
           <a-input-search
-            placeholder="Cari"
+            placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagementCRM.table.q"
             @input="searchData"
@@ -323,7 +323,7 @@ export default {
       })
 
       this.getListUserCRM()
-    }, 1000),
+    }, 3000),
     async openModal() {
       this.userManagementCRM.modalVisible = true
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
