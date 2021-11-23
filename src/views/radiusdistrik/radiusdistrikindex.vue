@@ -261,15 +261,6 @@ export default defineComponent({
       this.radiusDistrik.formData.distrikname = ''
       this.radiusDistrik.formData.radius = 0
     },
-    searchData: _.debounce(function() {
-      this.$store.commit('radiusDistrik/changeRadiusDistrik', {
-        body: {
-          offset: 1,
-        },
-      })
-
-      this.getDataListDistrik()
-    }, 1000),
     openModal() {
       this.stateForm = 1
       this.resetFormState()

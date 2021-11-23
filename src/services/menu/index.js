@@ -128,11 +128,11 @@ export const getAdminMenuData = [
         key: 'St13Cf',
         url: '/customersync',
       },
-      {
-        title: 'Log Sync Customer',
-        key: 'St15Cf',
-        url: '/log-sync-customer',
-      },
+      // {
+      //   title: 'Log Sync Customer',
+      //   key: 'St15Cf',
+      //   url: '/log-sync-customer',
+      // },
       {
         title: 'Validasi Harga Survey',
         key: 'St14Cf',
