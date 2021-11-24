@@ -408,6 +408,9 @@ export default {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
         await this.dataListUser()
+        await this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -633,6 +636,9 @@ export default {
         id_jabatan: this.id_jabatan,
       })
       await this.dataListUser()
+      await this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
       this.modalDeleteView = false
     },
     fetchGetUsers() {

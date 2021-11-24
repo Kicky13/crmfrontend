@@ -193,7 +193,6 @@ const actions = {
       }
     }
   },
-
   async addDistrikHirarki({ commit, state }, payload) {
     commit('changeProfileTSO', {
       isLoading: true,
