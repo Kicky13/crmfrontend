@@ -69,7 +69,7 @@
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
-            @input="searchData"
+            @search="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
@@ -140,7 +140,7 @@
                     <span class="text-black">Assign User</span></button
                   ><button
                     v-if="text.statusJabat != `Nonaktif`"
-                    @click="deleteRow(text.idJabatan)"
+                    @click="openModalDelete(text.idJabatan)"
                     type="button"
                     class="btn btn-outline-danger mr-2"
                   >
@@ -251,6 +251,29 @@
             </a-form-item> -->
           </a-form>
         </a-modal>
+
+        <a-modal
+          v-model:visible="modalDeleteView"
+          :title="`Kosongkan Jabatan`"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalDeleteView = false">Batal</a-button>
+            <a-button @click="deleteRow()" key="submit" type="primary">Hapus</a-button>
+          </template>
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Tanggal Akhir" name="Tanggal Akhir">
+              <datepicker></datepicker>
+              <vue-datepicker
+                class="ant-calendar-picker ant-calendar-picker-input ant-input"
+                placeholder="Tanggal Akhir"
+                input-format="dd-MM-yyyy"
+                v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </div>
     </a-card>
   </div>
@@ -262,14 +285,19 @@ import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
+import VueDatepicker from 'vue3-datepicker'
 
 export default {
   name: 'VbAntDesign',
+  components: {
+    VueDatepicker,
+  },
   data() {
     return {
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
+      modalDeleteView: false,
       flagBawahan: null,
       formState: {
         name: '',
@@ -285,6 +313,7 @@ export default {
       modalVisible: false,
       isLoading: false,
       isSubmit: false,
+      id_jabatan: null,
     }
   },
   computed: {
@@ -337,7 +366,7 @@ export default {
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
-    }, 3000),
+    }, 100),
     async assignRow(item) {
       // const row = this.userManagement.users.find(data => data.uuid === id)
       // await this.$store.commit('userManagement/changeUserManagement', {
@@ -583,21 +612,16 @@ export default {
       }
     },
     deleteAll() {},
-
-    deleteRow(id) {
-      this.$confirm({
-        title: 'Apakah anda yakin akan menghapus data ini?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.deleteDataRow({
-            id_jabatan: id,
-          })
-          await this.dataListUser()
-        },
-        onCancel() {},
+    openModalDelete(id) {
+      this.modalDeleteView = true
+      this.id_jabatan = id
+    },
+    async deleteRow() {
+      await this.deleteDataRow({
+        id_jabatan: this.id_jabatan,
       })
+      await this.dataListUser()
+      this.modalDeleteView = false
     },
     fetchGetUsers() {
       this.isLoading = true
