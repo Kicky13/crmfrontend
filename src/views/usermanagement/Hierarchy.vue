@@ -22,7 +22,11 @@
       <div class="card-header">
         <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
         <a-button
-          v-if="selectedShorthand === `GSM`"
+          v-if="
+            selectedShorthand === `GSM` ||
+              selectedShorthand === `ADMIN DIS` ||
+              selectedShorthand === `SALES DIS`
+          "
           type="primary"
           class="mb-3 float-right"
           @click="openModal"
@@ -322,6 +326,9 @@ export default {
   },
   async mounted() {
     await this.dataListUser()
+    this.getDataTable({
+      id_level_hirarki: this.userManagement.id_level_hirarki,
+    })
   },
   methods: {
     ...mapActions('userManagement', [
@@ -413,7 +420,8 @@ export default {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
-        this.changeTabs(this.userManagement.actiiveTabs)
+
+        // this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
@@ -428,6 +436,7 @@ export default {
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
+
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
@@ -551,7 +560,9 @@ export default {
           await this.postJabatanGSM({
             id_level_hirarki: this.actiiveTabs.id_level_hirarki,
           })
-          await this.dataListUser()
+          await this.getDataTable({
+            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          })
         },
         onCancel() {},
       })
