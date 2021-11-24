@@ -113,6 +113,15 @@
             <template #action="{ text }">
               <div class="d-flex align-items-center">
                 <router-link
+                  :to="`/users/profile/SPC/${text.idJabatan}`"
+                  v-if="selectedShorthand === `SPC`"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link>
+                <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
                   type="button"
