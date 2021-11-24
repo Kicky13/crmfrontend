@@ -9,12 +9,12 @@
     </template>
     <template v-for="item in menuInfo.children">
       <item
-        v-if="!item.children && !item.divider && !item.hidden"
+        v-if="!item.children && !item.divider"
         :key="item.key"
         :menu-info="item"
         :styles="styles"
       />
-      <sub-menu v-if="item.children && item.hidden" :key="item.key" :menu-info="item" :styles="styles" />
+      <!-- <sub-menu v-if="item.children && item.hidden" :key="item.key" :menu-info="item" :styles="styles" /> -->
     </template>
   </a-sub-menu>
 </template>
