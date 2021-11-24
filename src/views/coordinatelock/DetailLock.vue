@@ -309,10 +309,10 @@ export default {
       getLockCustomer(formData)
         .then((response) => {
           if (response.status) {
-            notification.success(response.message)
+            message.success(response.message)
             this.detailCustomer.status_lock = !this.detailCustomer.status_lock
           } else {
-            notification.error(response.message)
+            message.error(response.message)
           }
           this.isLoading = false
         })
