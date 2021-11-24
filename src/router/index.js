@@ -256,6 +256,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "data-sales" */ '@/views/datasales'),
       },
 
+      {
+        path: '/users/profile/SPC/:id_jabatan',
+        name: 'user-management-profile-spc',
+        meta: { title: 'Profile SPC', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileSPC'),
+      },
+
       // ========== Start of Iqbal View ==========
       {
         path: '/report/customer_mapping',
