@@ -134,6 +134,10 @@ export default {
       } else {
         this.isLoading = true
         await this.getDataListOtomatisasi()
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil ditampilkan!',
+        })
         this.isLoading = false
       }
     },
