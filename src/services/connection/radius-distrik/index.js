@@ -213,19 +213,27 @@ const actions = {
       radius_lock: data.formData.radius,
       uuid_radius_wilayah: data.formData.id,
     }
-
-    result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
-    if (result.data.status == 'error') {
+    
+    if (body.radius_lock > 100000) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
+        description: 'radius lock tidak boleh lebih dari 100000',
       })
     } else {
-      await commit('changeRadiusDistrik', {
-        dataDistrik: result.data.data,
-        isLoading: false,
-      })
-    }
+      result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+    
+      }
+     }
   },
   async deleteDataRadiusDistrik({ commit, state }, payload) {
     commit('changeRadiusDistrik', {
