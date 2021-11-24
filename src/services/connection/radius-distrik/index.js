@@ -196,6 +196,10 @@ const actions = {
         dataDistrik: result.data.data,
         isLoading: false,
       })
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
+      })
     }
   },
   async updateDataRadiusDistrik({ commit, state }) {
@@ -231,7 +235,10 @@ const actions = {
           dataDistrik: result.data.data,
           isLoading: false,
         })
-    
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
       }
      }
   },
