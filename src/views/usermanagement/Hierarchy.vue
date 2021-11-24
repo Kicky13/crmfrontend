@@ -1,11 +1,11 @@
 <template>
   <div>
     <a-card class="card card-top card-top-primary" :loading="isLoading">
-      <div class="card-header d-flex">
+      <div class="card-header d-flex scroll_menu">
         <a-tabs
           :default-active-key="0"
           @change="changeTabs"
-          class="vb-tabs-bold justify-content-between mb-3"
+          class="vb-tabs-bold justify-content-between mb-3 "
         >
           <template v-if="userManagement.listUser.length > 0">
             <a-tab-pane
@@ -108,27 +108,25 @@
             </template>
             <template #action="{ text }">
               <div class="d-flex align-items-center">
-                <div v-if="flagBawahan != 0">
-                  <router-link
-                    :to="`/users/profile/TSO/${text.idJabatan}`"
-                    v-if="selectedShorthand === `TSO`"
-                    type="button"
-                    class="btn btn-light mr-2"
-                  >
-                    <i class="fa fa-file-text-o mr-1"></i>
-                    <span class="text-black">Detail</span>
-                  </router-link>
-                  <router-link
-                    v-else-if="selectedShorthand != 'SALES DIS'"
-                    :to="`/users/profile/jabatan/${text.idJabatan}`"
-                    :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
-                    type="button"
-                    class="btn btn-light mr-2"
-                  >
-                    <i class="fa fa-file-text-o mr-1"></i>
-                    <span class="text-black">Detail</span>
-                  </router-link>
-                </div>
+                <router-link
+                  :to="`/users/profile/TSO/${text.idJabatan}`"
+                  v-if="selectedShorthand === `TSO`"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link>
+                <router-link
+                  v-else
+                  :to="`/users/profile/jabatan/${text.idJabatan}`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link>
                 <div>
                   <button
                     v-if="text.statusJabat === `Nonaktif`"
@@ -337,8 +335,11 @@ export default {
     ]),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     filterOption(input, option) {
+      console.log(`---inpput`, input)
+      console.log(`---option`, option)
+
       return (
-        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        option.componentOptions.children[0].text.toUpperCase().indexOf(input.toUpperCase()) >= 0
       )
     },
     disabledStartDate(startValue) {
@@ -649,4 +650,25 @@ export default {
 </script>
 <style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style lang="scss" scoped>
+.scroll_menu {
+  overflow: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    border: 1px solid #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b20838;
+  }
+}
 </style>
