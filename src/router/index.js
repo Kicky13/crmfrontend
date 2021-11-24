@@ -276,6 +276,24 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileTSO'),
       },
+      {
+        path: '/users/profile/sales-distributor/:id_jabatan',
+        name: 'user-management-profile-sales-distributor',
+        meta: { title: 'Profile Sales Distributor', resource: 'User', action: 'manage' },
+        component: () =>
+          import(
+            /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileSalesDistributor'
+          ),
+      },
+      {
+        path: '/users/profile/admin-distributor/:id_jabatan',
+        name: 'user-management-profile-admin-distributor',
+        meta: { title: 'Profile Admin Distributor', resource: 'User', action: 'manage' },
+        component: () =>
+          import(
+            /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
+          ),
+      },
       // ========== End of iqbal View ==========
     ],
   },

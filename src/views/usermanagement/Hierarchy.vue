@@ -122,6 +122,26 @@
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
+                  v-else-if="selectedShorthand === `SALES DIS`"
+                  :to="`/users/profile/sales-distributor/${text.idJabatan}`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link>
+                <router-link
+                  v-else-if="selectedShorthand === `ADMIN DIS`"
+                  :to="`/users/profile/admin-distributor/${text.idJabatan}`"
+                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  type="button"
+                  class="btn btn-light mr-2"
+                >
+                  <i class="fa fa-file-text-o mr-1"></i>
+                  <span class="text-black">Detail</span>
+                </router-link>
+                <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
                   :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
@@ -408,6 +428,9 @@ export default {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
         await this.dataListUser()
+        await this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
@@ -633,6 +656,9 @@ export default {
         id_jabatan: this.id_jabatan,
       })
       await this.dataListUser()
+      await this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
       this.modalDeleteView = false
     },
     fetchGetUsers() {
