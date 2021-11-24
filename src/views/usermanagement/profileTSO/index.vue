@@ -171,7 +171,7 @@
     </div>
     <a-modal
       v-model:visible="modalDeleteView"
-      :title="`View Password`"
+      :title="`Kosongkan`"
       :closable="false"
       :mask-closable="false"
     >

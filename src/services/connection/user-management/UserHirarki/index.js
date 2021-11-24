@@ -168,6 +168,9 @@ const state = {
       tgl_mulai: '',
       tgl_akhir: '',
     },
+    form_kosongkan_jabatan: {
+      tgl_akhir: '',
+    },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
     modalVisibleAssignUser: false,
@@ -184,8 +187,6 @@ const mutations = {
 }
 
 const actions = {
-
-  
   async getListJenisUser({ commit, state }) {
     commit('changeUserManagement', {
       isLoading: true,
@@ -383,13 +384,20 @@ const actions = {
     }
   },
 
-  async deleteDataRow({ commit }, payload) {
+  async deleteDataRow({ commit, state }, payload) {
     commit('changeUserManagement', {
       isLoading: true,
     })
+    const { data } = state
+
+    let endDate = new Date(data.form_kosongkan_jabatan.tgl_akhir).toLocaleDateString('en-GB')
 
     let formData = {
       idJabatan: payload.id_jabatan,
+      tglAkhir: endDate
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-'),
     }
 
     const result = await apiClient.post(`/hirarki/removeUser`, formData)
@@ -496,13 +504,21 @@ const actions = {
     }
   },
 
-  async deleteRowHirarkiDown({ commit }, payload) {
+  async deleteRowHirarkiDown({ commit, state }, payload) {
     commit('changeUserManagement', {
       isLoading: true,
     })
 
+    const { data } = state
+
+    let endDate = new Date(data.form_kosongkan_jabatan.tgl_akhir).toLocaleDateString('en-GB')
+
     let formData = {
       idJabatan: payload.id_jabatan,
+      tglAkhir: endDate
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-'),
     }
     const result = await apiClient.post(`/hirarki/removeUser`, formData)
 

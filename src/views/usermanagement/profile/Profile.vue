@@ -119,7 +119,7 @@
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Kosongkan Jabatan"
-                      @click="deleteRow(text)"
+                      @click="openModalDelete(text)"
                       class="btn btn-outline-danger mr-1"
                     >
                       <i class="fa fa-trash"></i>
@@ -288,6 +288,29 @@
         </a-form-item> -->
       </a-form>
     </a-modal>
+
+    <a-modal
+      v-model:visible="modalDeleteView"
+      :title="`Kosongkan Jabatan`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="modalDeleteView = false">Batal</a-button>
+        <a-button @click="deleteRow()" key="submit" type="primary">Hapus</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Tanggal Akhir" name="Tanggal Akhir">
+          <datepicker></datepicker>
+          <vue-datepicker
+            class="ant-calendar-picker ant-calendar-picker-input ant-input"
+            placeholder="Tanggal Akhir"
+            input-format="dd-MM-yyyy"
+            v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -296,13 +319,20 @@ import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
+import VueDatepicker from 'vue3-datepicker'
 
 const itemsPerPage = [5, 10, 15, 20]
 
 export default {
   name: 'VbAntDesign',
+  components: {
+    VueDatepicker,
+  },
   data() {
-    return {}
+    return {
+      modalDeleteView: false,
+      id_jabatan: null,
+    }
   },
   computed: {
     ...mapState({
@@ -491,25 +521,21 @@ export default {
         },
       })
     },
-    deleteRow(id) {
-      this.$confirm({
-        title: 'Apakah anda yakin akan menghapus data ini?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.deleteRowHirarkiDown({
-            id_jabatan: parseInt(id.idJabatan),
-          })
-          await this.getDetailProfile({
-            id_jabatan: this.$route.params.id_jabatan,
-          })
-          await this.getListDownHirarki({
-            id_user: this.userManagement.detail_jabatan.idUser,
-          })
-        },
-        onCancel() {},
+    openModalDelete(id) {
+      this.modalDeleteView = true
+      this.id_jabatan = parseInt(id.idJabatan)
+    },
+    async deleteRow() {
+      await this.deleteRowHirarkiDown({
+        id_jabatan: this.id_jabatan,
       })
+      await this.getDetailProfile({
+        id_jabatan: this.$route.params.id_jabatan,
+      })
+      await this.getListDownHirarki({
+        id_user: this.userManagement.detail_jabatan.idUser,
+      })
+      this.modalDeleteView = false
     },
   },
 }
