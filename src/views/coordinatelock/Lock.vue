@@ -22,14 +22,17 @@
           </a-select>
           <a-select v-model:value="selectedKabupaten" class="mx-3" style="width: 200px">
             <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-            <a-select-option
-              v-for="data in kabupatenOption"
-              :key="data.id"
-              :value="data.id"
-              >{{ data.kabupaten }}</a-select-option
-            >
+            <a-select-option v-for="data in kabupatenOption" :key="data.id" :value="data.id">{{
+              data.kabupaten
+            }}</a-select-option>
           </a-select>
-          <a-button v-if="selectedKabupaten == null" :disabled="true" type="primary" @click="handleView" :loading="isSubmit">
+          <a-button
+            v-if="selectedKabupaten == null"
+            :disabled="true"
+            type="primary"
+            @click="handleView"
+            :loading="isSubmit"
+          >
             <i class="fa fa-eye mr-2" />
             View
           </a-button>
@@ -62,7 +65,12 @@
               <span>entries</span>
             </div>
           </div>
-          <a-input-search placeholder="input search text" style="width: 200px" />
+          <a-input-search
+            v-model:value="searchText"
+            @input="searchData"
+            placeholder="input search text"
+            style="width: 200px"
+          />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
@@ -90,6 +98,7 @@
 import { toRaw } from 'vue'
 import { message } from 'ant-design-vue'
 import { getRegionList, getTokoList } from '@/services/connection/koordinat-lock/api'
+import { _ } from 'vue-underscore'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -163,6 +172,7 @@ export default {
       pagination: {},
       selectedProvinsi: null,
       selectedKabupaten: null,
+      searchText: '',
       isLoading: false,
       isSubmit: false,
     }
@@ -184,8 +194,14 @@ export default {
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
-      this.$router.push({ name: 'koordinat-lock-detail', params: {customerInfo: JSON.stringify(data)} })
+      this.$router.push({
+        name: 'koordinat-lock-detail',
+        params: { customerInfo: JSON.stringify(data) },
+      })
     },
+    searchData: _.debounce(function () {
+      this.fetchGetCustomers()
+    }, 3000),
     getDetail(id) {
       const dataSource = [...this.customers]
       const filtered = dataSource.filter((a) => a.id_customer == id.text)
@@ -213,15 +229,17 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
-    fetchGetCustomers() {
+    async fetchGetCustomers() {
       this.isLoading = true
       let formData = {
         IDdistrik: this.selectedKabupaten,
         offset: 0,
         limit: 100,
+        q: this.searchText,
       }
       getTokoList(formData)
         .then((response) => {
@@ -231,7 +249,8 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
   },
