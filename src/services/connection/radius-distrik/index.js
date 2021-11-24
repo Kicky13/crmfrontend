@@ -214,7 +214,7 @@ const actions = {
       uuid_radius_wilayah: data.formData.id,
     }
     
-    if (body.radius_lock > 100000) {
+    if (body.radius_lock >= 100000) {
       notification.error({
         message: 'Error',
         description: 'radius lock tidak boleh lebih dari 100000',
