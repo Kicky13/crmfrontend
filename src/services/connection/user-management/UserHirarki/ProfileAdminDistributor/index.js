@@ -42,14 +42,14 @@ const state = {
 }
 
 const mutations = {
-  changeProfileSalesDistributor(state, payload) {
+  changeProfileAdminDistributor(state, payload) {
     state.data = Object.assign({}, state.data, payload)
   },
 }
 
 const actions = {
-  async getListSalesDistributor({ commit, state }, payload) {
-    commit('changeProfileSalesDistributor', {
+  async getListAdminDistributor({ commit, state }, payload) {
+    commit('changeProfileAdminDistributor', {
       isLoading: true,
     })
 
@@ -60,57 +60,26 @@ const actions = {
       idJabatan: payload.id_jabatan,
     }
 
-    const result = await apiClient.post(`/hirarki/salesDistributor`, formData)
+    const result = await apiClient.post(`/hirarki/userAdminDistributor`, formData)
 
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
       })
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         isLoading: false,
       })
     } else {
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         list_data_table: result.data.data,
         isLoading: false,
       })
     }
   },
 
-  async getListAllSalesDistributor({ commit, state }, payload) {
-    commit('changeProfileSalesDistributor', {
-      isLoading: true,
-    })
-
-    const { data } = state
-
-    let formData = {
-      offset: data.formData.offset,
-      limit: data.formData.limit,
-      q: data.formData.q,
-    }
-
-    const result = await apiClient.post(`/distributor/all`, formData)
-
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileSalesDistributor', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileSalesDistributor', {
-        list_distributor: result.data.data,
-        isLoading: false,
-      })
-    }
-  },
-
-  async submitAssignSalesDistributor({ commit, state }, payload) {
-    commit('changeProfileSalesDistributor', {
+  async submitAssignAdminDistributor({ commit, state }, payload) {
+    commit('changeProfileAdminDistributor', {
       isLoading: true,
     })
 
@@ -122,14 +91,14 @@ const actions = {
       idDistributor: payload.id_distributor,
     }
 
-    const result = await apiClient.post(`/hirarki/assignSalesDist`, formData)
+    const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)
 
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
       })
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         isLoading: false,
       })
     } else {
@@ -137,14 +106,14 @@ const actions = {
         message: 'Success',
         description: `Data berhasil ditambahkan`,
       })
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         isLoading: false,
       })
     }
   },
 
-  async submitRemoveSalesDistributor({ commit, state }, payload) {
-    commit('changeProfileSalesDistributor', {
+  async submitRemoveAdminDistributor({ commit, state }, payload) {
+    commit('changeProfileAdminDistributor', {
       isLoading: true,
     })
 
@@ -156,14 +125,14 @@ const actions = {
       idDistributor: payload.id_distributor,
     }
 
-    const result = await apiClient.post(`/hirarki/removeSalesDist`, formData)
+    const result = await apiClient.post(`/hirarki/removeAdminDistributor`, formData)
 
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
       })
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         isLoading: false,
       })
     } else {
@@ -171,7 +140,7 @@ const actions = {
         message: 'Success',
         description: `Data berhasil dihapus`,
       })
-      await commit('changeProfileSalesDistributor', {
+      await commit('changeProfileAdminDistributor', {
         isLoading: false,
       })
     }
