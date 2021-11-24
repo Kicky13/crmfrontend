@@ -63,7 +63,7 @@
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagementCRM.table.q"
-            @input="searchData"
+            @search="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
@@ -363,7 +363,7 @@ export default {
       })
 
       this.getListUserCRM()
-    }, 3000),
+    }, 100),
     async openModal() {
       this.userManagementCRM.modalVisible = true
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {

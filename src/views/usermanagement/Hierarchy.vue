@@ -69,7 +69,7 @@
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
-            @input="searchData"
+            @search="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
@@ -337,7 +337,7 @@ export default {
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
-    }, 3000),
+    }, 100),
     async assignRow(item) {
       // const row = this.userManagement.users.find(data => data.uuid === id)
       // await this.$store.commit('userManagement/changeUserManagement', {
