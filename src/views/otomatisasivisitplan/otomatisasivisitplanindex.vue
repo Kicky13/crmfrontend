@@ -54,6 +54,7 @@
             :columns="otomatisasiVisitPlan.columns"
             :data-source="otomatisasiVisitPlan.list_data"
             :scroll="{ x: 1500 }"
+            :loading="isLoading"
             row-key="id"
           >
             <template #name="{ text }">
@@ -105,7 +106,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      isLoading: false,
+    }
   },
   computed: {
     ...mapState({
@@ -129,7 +132,9 @@ export default {
           description: 'Tahun dan bulan tidak boleh kosong !',
         })
       } else {
-        this.getDataListOtomatisasi()
+        this.isLoading = true
+        await this.getDataListOtomatisasi()
+        this.isLoading = false
       }
     },
   },

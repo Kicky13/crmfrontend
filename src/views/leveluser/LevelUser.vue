@@ -49,13 +49,13 @@
           <a-input-search
             placeholder="input search text"
             style="width: 200px"
-            v-model:value="keyword"
+            @search="searchData"
           />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="columns"
-            :data-source="dataTable"
+            :data-source="dataList"
             :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
             :loading="isLoading"
@@ -123,7 +123,6 @@ export default {
       editUsername: '',
       editItem: {},
       newUsername: '',
-      keyword: '',
       isLoading: false,
       columns: [
         {
@@ -148,16 +147,13 @@ export default {
           slots: { customRender: 'action' },
         },
       ],
+      dataList: null,
     }
-  },
-  computed: {
-    dataTable() {
-      return this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(this.keyword.toLowerCase()))
-    },
   },
   mounted() {
     this.fetchLevelUsers()
     this.removeAction()
+
   },
   methods: {
     fetchLevelUsers() {
@@ -170,8 +166,9 @@ export default {
             response.data.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
-              this.isLoading = false
             })
+            this.dataList = this.dataSourceTable
+            this.isLoading = false
           }
         })
         .catch((err) => {
@@ -254,6 +251,7 @@ export default {
           message: 'Tambah User',
           description: 'Kolom tambah user masih kosong',
         })
+        this.newUsername = ''
       }
     },
     handlePaginationSize(size) {
@@ -292,6 +290,13 @@ export default {
       this.editItem = {}
       this.editUsername = ''
       this.keyword = ''
+    },
+    searchData(keyword) {
+      if (keyword) {
+        this.dataList = this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(keyword.toLowerCase()))
+      } else {
+        this.dataList = this.dataSourceTable
+      }
     },
   },
 }

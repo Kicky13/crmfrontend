@@ -2,8 +2,9 @@ import apiClient from '@/services/axios/axios'
 
 export async function levelUserList() {
   let params = {
-    offset: 1,
+    offset: 0,
     limit: 10,
+    q: '',
   }
   return apiClient.post('/user/listJenis', params).then(response => {
     if (response) {
