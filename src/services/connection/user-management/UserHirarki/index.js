@@ -96,6 +96,7 @@ const state = {
     ],
     actiiveTabs: {},
     users: [],
+    dataTable: [],
     selectedTabId: 1,
     formState: {
       id: '',
@@ -245,6 +246,7 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         users: result.data.data,
+        dataTable: result.data.data,
         isLoading: false,
       })
     }

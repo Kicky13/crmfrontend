@@ -14,10 +14,7 @@
               style="width: 200px"
               v-model:value="newUsername"
             />
-            <a-button
-              type="primary"
-              @click="addNewUsername"
-            >
+            <a-button type="primary" @click="addNewUsername">
               <i class="fa fa-save mr-2" />
               Save
             </a-button>
@@ -30,15 +27,8 @@
             <div class="align-self-center">
               <span>Show :</span>
             </div>
-            <a-select
-              :default-value="itemsPerPage[1]"
-              class="mx-2"
-              @change="handlePaginationSize"
-            >
-              <a-select-option
-                v-for="itemPerPage in itemsPerPage"
-                :key="itemPerPage"
-              >
+            <a-select :default-value="itemsPerPage[1]" class="mx-2" @change="handlePaginationSize">
+              <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
                 {{ itemPerPage }}
               </a-select-option>
             </a-select>
@@ -65,26 +55,18 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button
-                  type="button"
-                  class="btn btn-warning mr-1"
-                  @click="showUserEditModal(text)"
-                >
+                <button type="button" class="btn btn-warning mr-1" @click="showUserEditModal(text)">
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger"
-                  @click="deleteConfirm(text)"
-                >
+                <button type="button" class="btn btn-outline-danger" @click="deleteConfirm(text)">
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
                 </button>
               </div>
             </template>
           </a-table>
-        </div>        
+        </div>
       </div>
     </div>
     <!-- User Edit Modal Start -->
@@ -100,7 +82,12 @@
 </template>
 
 <script>
-import { levelUserList, deleteLevelUser, updateLevelUser, addLevelUser } from '@/services/connection/leveluser/api'
+import {
+  levelUserList,
+  deleteLevelUser,
+  updateLevelUser,
+  addLevelUser,
+} from '@/services/connection/leveluser/api'
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 
@@ -153,13 +140,12 @@ export default {
   mounted() {
     this.fetchLevelUsers()
     this.removeAction()
-
   },
   methods: {
     fetchLevelUsers() {
       this.isLoading = true
       levelUserList()
-        .then((response) => {
+        .then(response => {
           let i = 1
           this.dataSourceTable = []
           if (response) {
@@ -171,7 +157,7 @@ export default {
             this.isLoading = false
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
@@ -179,36 +165,39 @@ export default {
     },
     addNewLevelUser(data) {
       addLevelUser(data)
-      .then(response => {
-        if (response) {
-          this.fetchLevelUsers()
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+        .then(response => {
+          if (response) {
+            this.fetchLevelUsers()
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
     },
     deleteLevelUserById(id) {
       deleteLevelUser(id)
-      .then(response => {
-        if (response) {
-          this.fetchLevelUsers()
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+        .then(response => {
+          if (response) {
+            this.fetchLevelUsers()
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
     },
     updateLevelUserById(id, data) {
       updateLevelUser(id, data)
-      .then(response => {
-        if (response) {
-          this.fetchLevelUsers()
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+        .then(response => {
+          if (response) {
+            this.fetchLevelUsers()
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
     },
     deleteConfirm(id) {
       const deleteMethod = this.deleteLevelUserById
@@ -225,14 +214,16 @@ export default {
             description: 'User berhasil dihapus',
           })
         },
-      });
+      })
     },
     addNewUsername() {
       let check = this.newUsername.trim()
       if (check) {
         const dataForm = {}
         dataForm.namaJenisUser = this.newUsername
-        const exist = this.dataSourceTable.find(data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase())
+        const exist = this.dataSourceTable.find(
+          data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase(),
+        )
         if (!exist) {
           this.addNewLevelUser(dataForm)
           notification.success({
@@ -273,15 +264,17 @@ export default {
       dataForm.namaJenisUser = newEditUsername
       this.updateLevelUserById(dataForm)
       notification.success({
-          message: 'Update User',
-          description: 'User berhasil diupdate',
-        })
+        message: 'Update User',
+        description: 'User berhasil diupdate',
+      })
       this.resetAfterSubmit()
       this.modalVisible = false
     },
     removeAction() {
       const abilityUser = this.$store.state.user.ability
-      const check = abilityUser.filter(ability => ability.action === 'update' || ability.action === 'delete')
+      const check = abilityUser.filter(
+        ability => ability.action === 'update' || ability.action === 'delete',
+      )
       if (!check.length) {
         this.columns.pop()
       }
@@ -293,7 +286,11 @@ export default {
     },
     searchData(keyword) {
       if (keyword) {
-        this.dataList = this.dataSourceTable.filter(dataSource => dataSource.namaJenisUser.toLowerCase().includes(keyword.toLowerCase()))
+        this.dataList = this.dataSourceTable.filter(dataSource =>
+          dataSource.namaJenisUser.toLowerCase().includes(keyword.toLowerCase()),
+        )
+
+        console.log(`--this.dataList`, this.dataList)
       } else {
         this.dataList = this.dataSourceTable
       }
