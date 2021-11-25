@@ -552,7 +552,7 @@ const actions = {
     let formData = {
       IDuser: parseInt(payload.id_user),
       offset: data.bodyList.offset,
-      limit: 0,
+      limit: 1000,
       IDJabatan: parseInt(payload.id_jabatan),
     }
     const result = await apiClient.post(`/hirarki/salesList`, formData)
@@ -654,9 +654,13 @@ const actions = {
 
     const { data } = state
 
+    const salesList = [...data.sales_non_bawahan]
+    let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
+    const idUser = filtered[0].iduser
+
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
-      idUser: data.form_assign_bawahan.id_user,
+      idUser: idUser,
       tglMulai: data.form_assign_bawahan.tgl_mulai,
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
