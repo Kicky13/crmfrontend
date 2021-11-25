@@ -4,7 +4,7 @@
       <div class="col-md-4 col-xs-4">
         <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki {{ profileAdminDistributor.formData.id_distributor }}</router-link
+          Kembali ke User Hirarki</router-link
         >
       </div>
     </div>
