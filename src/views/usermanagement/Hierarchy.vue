@@ -451,9 +451,9 @@ export default {
       ) {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
-        await this.dataListUser()
+        // await this.dataListUser()
         await this.getDataTable({
-          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          id_level_hirarki: this.userManagement.id_level_hirarki,
         })
       } else {
         notification.error({
@@ -468,7 +468,7 @@ export default {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
 
-        this.changeTabs(this.userManagement.actiiveTabs)
+        // this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
