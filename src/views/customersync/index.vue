@@ -39,20 +39,19 @@
           <div class="col-md-6 col-xs-12"></div>
           <div class="col-md-6 col-xs-12">
             <a-input-search
-              v-if="synCustomer.listCustomer.length > 0"
+              :disabled="isDisabled"
               placeholder="Cari nama customer"
               style="width: 200px"
               class="float-right"
-              v-model:value="synCustomer.bodyList.filter"
-              @input="searchData"
+              @search="searchKeyword"
             />
-            <a-input-search
+            <!-- <a-input-search
               v-else
               disabled
               placeholder="Cari nama customer"
               style="width: 200px"
               class="float-right"
-            />
+            /> -->
           </div>
         </div>
         <br />
@@ -187,6 +186,8 @@ export default {
       dataSourceTable: [],
       listDistributor: [],
       listTokoDistributor: [],
+      dataTemp: null,
+      isDisabled: true,
     }
   },
   computed: {
@@ -237,16 +238,23 @@ export default {
         this.getAsyncData({
           kode_customer: this.selectValue,
         })
+        this.isDisabled = false
       }
     },
     buttonGet() {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
       } else {
-        this.getDataListCustomer({
-          id_distrib: this.selectValue,
-        })
+        this.fetchDataListCustomer()
+        this.isDisabled = false
       }
+    },
+
+    async fetchDataListCustomer() {
+      await this.getDataListCustomer({
+          id_distrib: this.selectValue,
+      })
+      this.dataTemp = this.synCustomer.listCustomer
     },
 
     /* UNTUK GET DATA DISTRIBUTOR BY API*/
@@ -263,6 +271,14 @@ export default {
           }
         })
         .finally(() => (this.loading = false))
+    },
+
+    searchKeyword(keyword) {
+      if (keyword) {
+        this.synCustomer.listCustomer = this.dataTemp.filter(item => item.customername.toLowerCase().includes(keyword))
+      } else {
+        this.synCustomer.listCustomer = this.dataTemp
+      }
     },
 
     // fetchGetDataSource() {

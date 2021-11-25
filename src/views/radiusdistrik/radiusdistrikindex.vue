@@ -148,7 +148,7 @@
                 v-model:value="radiusDistrik.formData.radius"
                 class="input-style"
                 :min="0"
-                :max="1000000"
+                type="number"
                 name="radiusval"
               />
             </a-form-item>

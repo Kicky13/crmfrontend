@@ -125,7 +125,6 @@ const actions = {
       dataArray.push(dataObject)
     })
 
-    console.log(dataArray)
     const config = {
       header: {
         'Content-Type': 'multipart/form-data',
