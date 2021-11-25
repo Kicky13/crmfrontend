@@ -133,7 +133,7 @@
                 <router-link
                   v-else-if="selectedShorthand === `SALES DIS`"
                   :to="`/users/profile/sales-distributor/${text.idJabatan}`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  :class="text.statusJabat === `Kosong` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
@@ -143,7 +143,7 @@
                 <router-link
                   v-else-if="selectedShorthand === `ADMIN DIS`"
                   :to="`/users/profile/admin-distributor/${text.idJabatan}`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  :class="text.statusJabat === `Kosong` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
@@ -153,7 +153,7 @@
                 <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
+                  :class="text.statusJabat === `Kosong` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
@@ -162,7 +162,7 @@
                 </router-link>
                 <div>
                   <button
-                    v-if="text.statusJabat === `Nonaktif`"
+                    v-if="text.statusJabat === `Kosong`"
                     type="button"
                     class="btn btn-warning mr-2"
                     @click="assignRow(text)"
@@ -170,7 +170,7 @@
                     <i class="fa fa-pencil-square-o"></i>
                     <span class="text-black">Assign User</span></button
                   ><button
-                    v-if="text.statusJabat != `Nonaktif`"
+                    v-if="text.statusJabat != `Kosong`"
                     @click="openModalDelete(text.idJabatan)"
                     type="button"
                     class="btn btn-outline-danger mr-2"
@@ -237,6 +237,7 @@
           </a-form>
         </a-modal> -->
 
+        <!-- Assing User -->
         <a-modal
           v-model:visible="modalVisible"
           :title="'Assign User'"
@@ -283,6 +284,7 @@
           </a-form>
         </a-modal>
 
+        <!-- Kosongkan jabatan -->
         <a-modal
           v-model:visible="modalDeleteView"
           :title="`Kosongkan Jabatan`"
@@ -301,6 +303,27 @@
                 placeholder="Tanggal Akhir"
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
+
+        <!-- Tambah Jabatan -->
+        <a-modal
+          v-model:visible="modalTambahJabatan"
+          :title="`Tambah Jabatan`"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalTambahJabatan = false">Batal</a-button>
+            <a-button @click="tambahJabatan()" key="submit" type="primary">Tambahkan</a-button>
+          </template>
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+              <a-input
+                v-model:value="userManagement.formState.nama_jabatan"
+                placeholder="Nama jabatan"
               />
             </a-form-item>
           </a-form>
@@ -328,6 +351,7 @@ export default {
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
+      modalTambahJabatan: false,
       modalDeleteView: false,
       flagBawahan: null,
       formState: {
@@ -436,9 +460,9 @@ export default {
       ) {
         await this.submitAssignSalesHirarki()
         this.closeModalAssignUser()
-        await this.dataListUser()
+        // await this.dataListUser()
         await this.getDataTable({
-          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+          id_level_hirarki: this.userManagement.id_level_hirarki,
         })
       } else {
         notification.error({
@@ -468,10 +492,15 @@ export default {
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
-
-      this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
+      this.$store.commit('userManagement/changeUserManagement', {
+        bodyList: {
+          limit: 500,
+          offset: 0,
+        },
+      }),
+        this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
     },
     async handleTableChange(pagination, key) {
       console.log(`----key`, key)
@@ -490,7 +519,7 @@ export default {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
               limit: 500 + 5 * pagination.current,
-              offset: 1 + 5 * pagination.current,
+              offset: 0 + 5 * pagination.current,
             },
           }),
             await this.getDataTable({
@@ -513,7 +542,7 @@ export default {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
               limit: 500 + 10 * pagination.current,
-              offset: 1 + 10 * pagination.current,
+              offset: 0 + 10 * pagination.current,
             },
           }),
             await this.getDataTable({
@@ -536,7 +565,7 @@ export default {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
               limit: 500 + 15 * pagination.current,
-              offset: 1 + 15 * pagination.current,
+              offset: 0 + 15 * pagination.current,
             },
           }),
             await this.getDataTable({
@@ -559,7 +588,7 @@ export default {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
               limit: 500 + 20 * pagination.current,
-              offset: 1 + 20 * pagination.current,
+              offset: 0 + 20 * pagination.current,
             },
           }),
             await this.getDataTable({
@@ -569,35 +598,16 @@ export default {
       }
     },
     async openModal() {
-      // this.modalVisible = true
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: '',
-      //     name: '',
-      //     username: '',
-      //     password: '',
-      //     email: '',
-      //     nohp: '',
-      //     userid: '',
-      //     idLevelHirarki: null,
-      //   },
-      // })
-
-      this.$confirm({
-        title: 'Apakah anda akan menambahkan jabatan baru ?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.postJabatanGSM({
-            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-          })
-          await this.getDataTable({
-            id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-          })
-        },
-        onCancel() {},
+      this.modalTambahJabatan = true
+    },
+    async tambahJabatan() {
+      await this.postJabatanGSM({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
+      await this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
+      this.modalTambahJabatan = false
     },
     closeModal() {
       this.modalVisible = false

@@ -135,7 +135,7 @@
 
     <a-modal
       v-model:visible="modalVisibleAssignUser"
-      :title="'Assign User'"
+      :title="'Tambah Data'"
       :closable="false"
       :mask-closable="false"
     >
@@ -144,10 +144,10 @@
         <a-button @click="handleSubmitAssignUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="Data Distributor" name="level">
           <a-select
             v-model:value="profileSalesDistributor.formData.id_distributor"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Distributor"
           >
             <a-select-option
               v-for="(item, index) in profileSalesDistributor.list_distributor"
@@ -256,7 +256,7 @@ export default {
         await this.submitAssignSalesDistributor({
           id_jabatan: this.$route.params.id_jabatan,
           id_user: this.userManagement.detail_jabatan.idUser,
-          id_distributor: this.id_distributor,
+          id_distributor: this.profileSalesDistributor.formData.id_distributor,
         })
         await this.getListSalesDistributor({
           id_jabatan: this.$route.params.id_jabatan,

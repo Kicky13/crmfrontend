@@ -106,6 +106,7 @@ const state = {
       nohp: '',
       userid: '',
       idLevelHirarki: null,
+      nama_jabatan: '',
     },
     formGSM: {
       id_jabatan_atasan: null,
@@ -324,6 +325,7 @@ const actions = {
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
+      nmJabatan: data.formState.nama_jabatan,
     }
 
     let result = ''
