@@ -87,7 +87,7 @@ const actions = {
 
     let formData = {
       idUser: payload.id_user,
-      idJabatan: payload.id_jabatan,
+      idJabatan: parseInt(payload.id_jabatan),
       idDistributor: data.formData.id_distributor,
     }
 
