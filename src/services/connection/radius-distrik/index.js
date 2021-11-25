@@ -12,8 +12,8 @@ const state = {
       },
       {
         title: 'Nama Wilayah',
-        dataIndex: 'WilayahName',
-        key: 'WilayahName',
+        dataIndex: 'LevelWilayahName',
+        key: 'LevelWilayahName',
       },
       {
         title: 'Nama Distrik',
@@ -93,6 +93,7 @@ const actions = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
       q: data.bodyList.filter,
+     
     }
 
     const result = await apiClient.post('/RadiusWilayah/List', body)
