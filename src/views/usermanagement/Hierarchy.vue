@@ -444,7 +444,7 @@ export default {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
 
-        // this.changeTabs(this.userManagement.actiiveTabs)
+        this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
@@ -459,10 +459,15 @@ export default {
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
       this.selectedTabId = key
-
-      this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
+      this.$store.commit('userManagement/changeUserManagement', {
+        bodyList: {
+          limit: 500,
+          offset: 0,
+        },
+      }),
+        this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
     },
     async handleTableChange(pagination, key) {
       console.log(`----key`, key)
