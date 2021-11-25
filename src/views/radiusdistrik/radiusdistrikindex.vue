@@ -34,13 +34,16 @@
               </div>
             </div>
             <div class="col-md-6 col-xs-12 ">
+              
               <a-input-search
                 placeholder="Cari nama distrik"
                 style="width: 200px"
                 v-model:value="radiusDistrik.bodyList.filter"
                 class="float-right"
                 @input="searchData"
+                allow-clear
               />
+              
             </div>
           </div>
         </div>
