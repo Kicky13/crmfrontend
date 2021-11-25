@@ -3,7 +3,7 @@
     <loading v-model:active="isLoading" :is-full-page="fullPage" />
     <div class="card card-top card-top-primary">
       <div class="card-header">
-        <strong>Setting Radius Lock Distrik</strong>
+        <strong>Setting Radius Lock Wilayah</strong>
         <a-button type="primary" class="mb-3 float-right" @click="openModal">
           <i class="fa fa-plus mr-2" />
           Tambah Setting Radius

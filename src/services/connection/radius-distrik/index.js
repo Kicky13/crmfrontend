@@ -11,12 +11,12 @@ const state = {
         key: 'uuid',
       },
       {
-        title: 'Nama Wilayah',
+        title: 'Level Wilayah',
         dataIndex: 'LevelWilayahName',
         key: 'LevelWilayahName',
       },
       {
-        title: 'Nama Distrik',
+        title: 'Nama Wilayah',
         dataIndex: 'distrik_name',
         key: 'distrik_name',
       },
