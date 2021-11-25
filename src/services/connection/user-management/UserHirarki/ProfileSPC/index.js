@@ -12,14 +12,14 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'ID Distrik',
-        key: 'id_distrik',
-        slots: { customRender: 'id_distrik' },
+        title: 'ID Region',
+        key: 'idRegion',
+        slots: { customRender: 'id_region' },
       },
       {
-        title: 'Nama Distrik',
-        key: 'nama_distrik',
-        slots: { customRender: 'nama_distrik' },
+        title: 'Nama Region',
+        key: 'namaRegion',
+        slots: { customRender: 'nama_region' },
       },
       {
         title: 'Action',
@@ -78,9 +78,12 @@ const actions = {
     const { data } = state
 
     let formData = {
-      idTso: payload.id_tso,
+      idSpc: payload.id_tso,
+      offset: 0,
+      limit: 1000,
+      q: '',
     }
-    const result = await apiClient.post(`/distrik/all`, formData)
+    const result = await apiClient.post(`/hirarki/allRegion`, formData)
 
     if (result.data.status == false) {
       notification.error({
@@ -105,9 +108,9 @@ const actions = {
     const { data } = state
 
     let formData = {
-      idTso: payload.id_tso,
+      idSpc: payload.id_tso,
     }
-    const result = await apiClient.post(`/distrik/distrikBawahan`, formData)
+    const result = await apiClient.post(`/hirarki/regionSpc`, formData)
 
     if (result.data.status == false) {
       notification.error({
@@ -138,14 +141,14 @@ const actions = {
 
     if (endDate.length > 0) {
       let formData = {
-        idTso: payload.id_tso,
+        idSpc: payload.id_tso,
         idDistrik: payload.id_distrik,
         tglAkhir: endDate
           .toString()
           .replace('/', '-')
           .replace('/', '-'),
       }
-      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+      const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -166,13 +169,13 @@ const actions = {
       }
     } else {
       let formData = {
-        idTso: payload.id_tso,
+        idSpc: payload.id_tso,
         idDistrik: payload.id_distrik,
         tglAkhir: DateNow.toString()
           .replace('/', '-')
           .replace('/', '-'),
       }
-      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+      const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -207,8 +210,8 @@ const actions = {
 
     // console.log(`----data`, data_tgl_mulai)
     let formData = {
-      idTso: payload.id_tso,
-      idDistrik: data.formData.id_distrik,
+      idSpc: payload.id_tso,
+      idRegion: data.formData.id_distrik,
       tglMulai: startDate
         .toString()
         .replace('/', '-')
@@ -223,7 +226,7 @@ const actions = {
         .replace('/', '-')
     }
 
-    const result = await apiClient.post(`/distrik/tambahDistrikTugas`, formData)
+    const result = await apiClient.post(`/hirarki/addRegionSpc`, formData)
 
     if (result.data.status == false) {
       notification.error({

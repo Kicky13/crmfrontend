@@ -60,7 +60,7 @@
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header">
-            <strong>Profile TSO</strong>
+            <strong>Profile SPC</strong>
           </div>
           <div class="card-body">
             <a-form :model="profileSPC.formData" :rules="profileSPC.rules">
@@ -69,19 +69,19 @@
                   <a-select
                     v-model:value="profileSPC.formData.id_distrik"
                     class="w-100"
-                    placeholder="Pilih Distrik"
+                    placeholder="Pilih Region"
                     show-search
                   >
                     <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                     <a-select-option
                       v-for="(item, index) in profileSPC.daftar_distrik"
-                      :value="item.idDistrik"
+                      :value="item.idRegion"
                       :key="`distrik_${index}`"
                       data-toggle="tooltip"
                       data-placement="top"
-                      :title="item.namaDistrik"
+                      :title="item.namaRegion"
                     >
-                      {{ item.idDistrik }} - {{ item.namaDistrik }}
+                      {{ item.idRegion }} - {{ item.namaRegion }}
                     </a-select-option>
                   </a-select>
                 </div>
@@ -134,7 +134,7 @@
               <a-table
                 :columns="profileSPC.columns"
                 :data-source="profileSPC.list_distrik_bawahan"
-                :row-key="data => data.idDistrik"
+                :row-key="(data) => data.idRegion"
                 :loading="profileSPC.isLoading"
               >
                 <template #no="{ index }">
@@ -142,20 +142,20 @@
                     {{ index + 1 }}
                   </div>
                 </template>
-                <template #id_distrik="{ text }">
+                <template #id_region="{ text }">
                   <div>
-                    {{ text.idDistrik != null ? text.idDistrik : '-' }}
+                    {{ text.idRegion != null ? text.idRegion : '-' }}
                   </div>
                 </template>
-                <template #nama_distrik="{ text }">
+                <template #nama_region="{ text }">
                   <div>
-                    {{ text.namaDistrik != null ? text.namaDistrik : '-' }}
+                    {{ text.namaRegion != null ? text.namaRegion : '-' }}
                   </div>
                 </template>
                 <template #action="{ text }">
                   <div>
                     <button
-                      @click="openModalDelete(text.idDistrik)"
+                      @click="openModalDelete(text.idRegion)"
                       type="button"
                       class="btn btn-outline-danger mr-2"
                     >
@@ -221,8 +221,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileSPC: state => state.profileSPC.data,
-      userManagement: state => state.userManagement.data,
+      profileSPC: (state) => state.profileSPC.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -284,6 +284,7 @@ export default {
       if (this.profileSPC.formData.id_distrik) {
         await this.addDistrikHirarki({
           id_tso: this.$route.params.id_jabatan,
+          id_user: this.userManagement.idUser,
         })
       }
       await this.getListDistrik({
