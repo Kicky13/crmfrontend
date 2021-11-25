@@ -250,11 +250,11 @@
                 show-search
               >
                 <a-select-option
-                  v-for="(item, index) in userManagementCRM.dataSourceTable"
+                  v-for="(item, index) in userManagement.sales_non_bawahan"
                   :key="`level_${index}`"
-                  :value="item.userid"
+                  :value="item.iduser"
                 >
-                  {{ item.userid }} - {{ item.name }}
+                  {{ item.iduser }} - {{ item.namasales }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -438,6 +438,11 @@ export default {
           id_jabatan: item.idJabatan,
         },
       })
+      await this.getSalesNonBawahan({
+        id_jabatan: item.idJabatan,
+        id_user: 0,
+      })
+
       await this.getListUserCRM()
       this.modalVisible = true
     },
@@ -453,7 +458,7 @@ export default {
         this.closeModalAssignUser()
         // await this.dataListUser()
         await this.getDataTable({
-          id_level_hirarki: this.userManagement.id_level_hirarki,
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
         })
       } else {
         notification.error({

@@ -88,7 +88,7 @@ const actions = {
     let formData = {
       idUser: payload.id_user,
       idJabatan: payload.id_jabatan,
-      idDistributor: payload.id_distributor,
+      idDistributor: data.formData.id_distributor,
     }
 
     const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)

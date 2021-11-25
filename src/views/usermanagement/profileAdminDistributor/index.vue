@@ -4,7 +4,7 @@
       <div class="col-md-4 col-xs-4">
         <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
+          Kembali ke User Hirarki {{ profileAdminDistributor.formData.id_distributor }}</router-link
         >
       </div>
     </div>
@@ -144,10 +144,10 @@
         <a-button @click="handleSubmitAssignUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="Data Distributor" name="level">
           <a-select
-            v-model:value="profileSalesDistributor.formData.id_distributor"
-            placeholder="Pilih Sales Non Bawahan"
+            v-model:value="profileAdminDistributor.formData.id_distributor"
+            placeholder="Pilih Distributor"
           >
             <a-select-option
               v-for="(item, index) in profileSalesDistributor.list_distributor"
@@ -253,11 +253,10 @@ export default {
     },
 
     async handleSubmitAssignUser() {
-      if (this.profileSalesDistributor.formData.id_distributor) {
+      if (this.profileAdminDistributor.formData.id_distributor) {
         await this.submitAssignAdminDistributor({
           id_jabatan: this.$route.params.id_jabatan,
           id_user: this.userManagement.detail_jabatan.idUser,
-          id_distributor: this.id_distributor,
         })
         await this.getListAdminDistributor({
           id_jabatan: this.$route.params.id_jabatan,
