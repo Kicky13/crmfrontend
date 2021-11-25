@@ -5,7 +5,7 @@
         <a-tabs
           :default-active-key="0"
           @change="changeTabs"
-          class="vb-tabs-bold justify-content-between mb-3 "
+          class="vb-tabs-bold justify-content-between mb-3"
         >
           <template v-if="userManagement.listUser.length > 0">
             <a-tab-pane
@@ -24,8 +24,8 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS`
           "
           type="primary"
           class="mb-3 float-right"
@@ -80,7 +80,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.users"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -261,7 +261,7 @@
                 <a-select-option
                   v-for="(item, index) in userManagement.sales_non_bawahan"
                   :key="`level_${index}`"
-                  :value="item.iduser"
+                  :value="item.namasales"
                 >
                   {{ item.iduser }} - {{ item.namasales }}
                 </a-select-option>
@@ -373,8 +373,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -417,7 +417,7 @@ export default {
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('userManagement/changeUserManagement', {
         bodyList: {
           offset: 1,
@@ -489,7 +489,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -632,7 +632,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -640,7 +640,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -687,13 +687,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }
