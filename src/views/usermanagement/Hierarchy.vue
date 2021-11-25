@@ -382,6 +382,7 @@ export default {
     this.getDataTable({
       id_level_hirarki: this.userManagement.id_level_hirarki,
     })
+    this.changeTabs(this.userManagement.id_level_hirarki)
   },
   methods: {
     ...mapActions('userManagement', [
@@ -481,8 +482,6 @@ export default {
       await this.getListJenisUser().then(() => {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
-
-        // this.changeTabs(this.userManagement.actiiveTabs)
       })
       // await this.getDataTable({
       //   idLevelHirarki: this.userManagement.idLevelHirarki,
