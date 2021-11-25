@@ -289,8 +289,6 @@ export default {
         this.dataList = this.dataSourceTable.filter(dataSource =>
           dataSource.namaJenisUser.toLowerCase().includes(keyword.toLowerCase()),
         )
-
-        console.log(`--this.dataList`, this.dataList)
       } else {
         this.dataList = this.dataSourceTable
       }
