@@ -148,13 +148,14 @@
           <a-select
             v-model:value="profileSalesDistributor.formData.id_distributor"
             placeholder="Distributor"
+            show-search
           >
             <a-select-option
               v-for="(item, index) in profileSalesDistributor.list_distributor"
               :key="`level_${index}`"
-              :value="item.idDistributor"
+              :value="item.namaDistributor"
             >
-              {{ item.namaDistributor }}
+              {{ item.idDistributor }} - {{ item.namaDistributor }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -231,6 +232,11 @@ export default {
 
     openModalAssign() {
       this.modalVisibleAssignUser = true
+      this.$store.commit('profileSalesDistributor/changeProfileSalesDistributor', {
+        formData: {
+          id_distributor: '',
+        },
+      })
     },
 
     openModalDelete(item) {
