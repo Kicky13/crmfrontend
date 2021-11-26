@@ -360,11 +360,13 @@ const actions = {
 
     const { data } = state
 
+    
     const formData = {
       idJabatanAtasan: payload.id_jabatan_atasan,
       idLevelHirarki: payload.id_level_hirarki,
+      nmJabatan: payload.nama_jabatan,
     }
-
+    
     let result = ''
 
     result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
