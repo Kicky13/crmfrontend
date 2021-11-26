@@ -148,13 +148,14 @@
           <a-select
             v-model:value="profileAdminDistributor.formData.id_distributor"
             placeholder="Pilih Distributor"
+            show-search
           >
             <a-select-option
-              v-for="(item, index) in profileSalesDistributor.list_distributor"
+              v-for="(item, index) in profileAdminDistributor.list_distributor"
               :key="`level_${index}`"
-              :value="item.idDistributor"
+              :value="item.namaDistributor"
             >
-              {{ item.namaDistributor }}
+              {{ item.idDistributor }} - {{ item.namaDistributor }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -222,16 +223,22 @@ export default {
     await this.getListAllSalesDistributor()
   },
   methods: {
-    ...mapActions('profileSalesDistributor', ['getListAllSalesDistributor']),
+    ...mapActions('profileSalesDistributor', ['']),
     ...mapActions('profileAdminDistributor', [
       'getListAdminDistributor',
       'submitAssignAdminDistributor',
       'submitRemoveAdminDistributor',
+      'getListAllSalesDistributor',
     ]),
     ...mapActions('userManagement', ['getDetailProfile']),
 
     openModalAssign() {
       this.modalVisibleAssignUser = true
+      this.$store.commit('profileAdminDistributor/changeProfileAdminDistributor', {
+        formData: {
+          id_distributor: '',
+        },
+      })
     },
 
     openModalDelete(item) {

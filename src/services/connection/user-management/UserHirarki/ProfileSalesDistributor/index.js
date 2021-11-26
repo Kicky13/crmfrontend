@@ -116,10 +116,15 @@ const actions = {
 
     const { data } = state
 
+    const salesList = data.list_distributor
+
+    let filtered = salesList.filter(x => x.namaDistributor == data.formData.id_distributor)
+    const idDistributor = filtered[0].idDistributor
+
     let formData = {
       idUser: payload.id_user,
       idJabatan: parseInt(payload.id_jabatan),
-      idDistributor: payload.id_distributor,
+      idDistributor: idDistributor,
     }
 
     const result = await apiClient.post(`/hirarki/assignSalesDist`, formData)

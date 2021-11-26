@@ -48,6 +48,37 @@ const mutations = {
 }
 
 const actions = {
+  async getListAllSalesDistributor({ commit, state }, payload) {
+    commit('changeProfileAdminDistributor', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.formData.offset,
+      limit: data.formData.limit,
+      q: data.formData.q,
+    }
+
+    const result = await apiClient.post(`/distributor/all`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message[0],
+      })
+      await commit('changeProfileAdminDistributor', {
+        isLoading: false,
+      })
+    } else {
+      await commit('changeProfileAdminDistributor', {
+        list_distributor: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
   async getListAdminDistributor({ commit, state }, payload) {
     commit('changeProfileAdminDistributor', {
       isLoading: true,
@@ -85,10 +116,15 @@ const actions = {
 
     const { data } = state
 
+    const salesList = data.list_distributor
+
+    let filtered = salesList.filter(x => x.namaDistributor == data.formData.id_distributor)
+    const idDistributor = filtered[0].idDistributor
+
     let formData = {
       idUser: payload.id_user,
       idJabatan: parseInt(payload.id_jabatan),
-      idDistributor: data.formData.id_distributor,
+      idDistributor: idDistributor,
     }
 
     const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)
