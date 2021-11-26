@@ -124,7 +124,7 @@
                     >
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button
+                    <!-- <button
                       v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
@@ -134,7 +134,7 @@
                       class="btn btn-outline-warning mr-1"
                     >
                       <i class="fa fa-user-plus"></i>
-                    </button>
+                    </button> -->
                     <button
                       v-if="text.iduser === null"
                       type="button"
