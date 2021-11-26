@@ -133,7 +133,7 @@ export const getAdminMenuData = [
         url: '/koordinatlock',
       },
       {
-        title: 'Radius Distrik',
+        title: 'Radius Wilayah',
         key: 'St11Cf',
         url: '/radiusdistrik',
       },
