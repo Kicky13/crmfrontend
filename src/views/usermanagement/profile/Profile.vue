@@ -437,16 +437,23 @@ export default {
       this.userManagement.modalVisibleHirarkiDown = false
     },
     async submitTambahBawahan() {
-      await this.postJabatanBawahan({
-        id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-        id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-        nama_jabatan: this.newJabatan,
-      })
+      if (this.newJabatan) {
+        await this.postJabatanBawahan({
+          id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+          id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          nama_jabatan: this.newJabatan,
+        })
 
-      await this.getListDownHirarki({
-        id_user: this.userManagement.detail_jabatan.idUser,
-      })
-      this.modalTambahBawahan = false
+        await this.getListDownHirarki({
+          id_user: this.userManagement.detail_jabatan.idUser,
+        })
+        this.modalTambahBawahan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong.',
+        })
+      }
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -466,7 +473,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModal()
       }
     },
     async handleSubmitReplaceUser() {
@@ -486,7 +492,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalReplaceUser()
       }
     },
     async handleSubmitAssignUser() {
@@ -506,7 +511,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     closeModalReplaceUser() {

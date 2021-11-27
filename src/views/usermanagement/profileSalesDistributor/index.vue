@@ -272,9 +272,8 @@ export default {
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
-          description: 'Semua kolom wajib diisi',
+          description: 'Data distributor tidak boleh kosong',
         })
-        this.modalVisibleAssignUser = false
       }
     },
   },

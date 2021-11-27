@@ -489,17 +489,16 @@ export default {
         this.userManagement.form_assign_bawahan.tgl_mulai
       ) {
         await this.submitAssignSalesHirarki()
-        this.closeModalAssignUser()
         // await this.dataListUser()
         await this.getDataTable({
           id_level_hirarki: this.actiiveTabs.id_level_hirarki,
         })
+        this.closeModalAssignUser()
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     async dataListUser() {
@@ -629,13 +628,20 @@ export default {
       this.modalTambahJabatan = true
     },
     async tambahJabatan() {
-      await this.postJabatanGSM({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
-      await this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
-      this.modalTambahJabatan = false
+      if (this.userManagement.formState.nama_jabatan) {
+        await this.postJabatanGSM({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
+        await this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
+        this.modalTambahJabatan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong',
+        })
+      }
     },
     closeModal() {
       this.modalVisible = false
