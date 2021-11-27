@@ -322,15 +322,10 @@
         <a-button key="back" @click="modalTambahBawahan = false">Batal</a-button>
         <a-button @click="submitTambahBawahan()" key="submit" type="primary">Tambahkan</a-button>
       </template>
-      <a-form
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 19 }"
-      >
+
+      <a-form label-align="left" layout="vertical">
         <a-form-item label="Nama Jabatan" name="Nama Jabatan">
-          <a-input
-            v-model:value="newJabatan"
-            placeholder="Nama jabatan"
-          />
+          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -442,16 +437,23 @@ export default {
       this.userManagement.modalVisibleHirarkiDown = false
     },
     async submitTambahBawahan() {
-      await this.postJabatanBawahan({
-        id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-        id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-        nama_jabatan: this.newJabatan,
-      })
+      if (this.newJabatan) {
+        await this.postJabatanBawahan({
+          id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+          id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          nama_jabatan: this.newJabatan,
+        })
 
-      await this.getListDownHirarki({
-        id_user: this.userManagement.detail_jabatan.idUser,
-      })
-      this.modalTambahBawahan = false
+        await this.getListDownHirarki({
+          id_user: this.userManagement.detail_jabatan.idUser,
+        })
+        this.modalTambahBawahan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong.',
+        })
+      }
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -471,7 +473,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModal()
       }
     },
     async handleSubmitReplaceUser() {
@@ -491,7 +492,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalReplaceUser()
       }
     },
     async handleSubmitAssignUser() {
@@ -511,7 +511,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     closeModalReplaceUser() {

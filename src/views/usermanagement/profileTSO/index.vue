@@ -184,7 +184,7 @@
           <datepicker></datepicker>
           <vue-datepicker
             class="ant-calendar-picker ant-calendar-picker-input ant-input"
-            v-model="profileTSO.formData.tgl_akhir"
+            v-model="profileTSO.formDelete.tgl_akhir"
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
           />

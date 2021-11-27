@@ -59,6 +59,9 @@ const state = {
       tgl_mulai: '',
       tgl_akhir: '',
     },
+    formDelete: {
+      tgl_akhir: new Date(),
+    },
     isLoading: false,
   },
 }
@@ -130,67 +133,35 @@ const actions = {
     })
 
     const { data } = state
-    
-    let DateNow = new Date(Date.now()).toLocaleDateString('en-GB')
 
-    let endDate = new Date(data.formData.tgl_akhir).toLocaleDateString('en-GB')
+    let endDate = new Date(data.formDelete.tgl_akhir).toLocaleDateString('en-GB')
 
+    let formData = {
+      idTso: payload.id_tso,
+      idDistrik: payload.id_distrik,
+      tglAkhir: endDate
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-'),
+    }
+    const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
 
-    if (endDate.length > 0) {
-      let formData = {
-        idTso: payload.id_tso,
-        idDistrik: payload.id_distrik,
-        tglAkhir: endDate
-          .toString()
-          .replace('/', '-')
-          .replace('/', '-'),
-      }
-      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
-
-      if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      }
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeProfileTSO', {
+        isLoading: false,
+      })
     } else {
-      let formData = {
-        idTso: payload.id_tso,
-        idDistrik: payload.id_distrik,
-        tglAkhir: DateNow.toString()
-          .replace('/', '-')
-          .replace('/', '-'),
-      }
-      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
-
-      if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      }
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil dihapus`,
+      })
+      await commit('changeProfileTSO', {
+        isLoading: false,
+      })
     }
   },
   async addDistrikHirarki({ commit, state }, payload) {

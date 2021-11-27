@@ -269,10 +269,17 @@
               </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
-              <a-date-picker
+              <!-- <a-date-picker
                 v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
                 :disabled-date="disabledStartDate"
                 class="w-100"
+              /> -->
+              <datepicker></datepicker>
+              <vue-datepicker
+                class="ant-calendar-picker ant-calendar-picker-input ant-input"
+                placeholder="Tanggal Mulai"
+                input-format="dd-MM-yyyy"
+                v-model="userManagement.form_assign_bawahan.tgl_mulai"
               />
             </a-form-item>
             <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -459,11 +466,12 @@ export default {
       //     idLevelHirarki: row.idLevelHirarki,
       //   },
       // })
-      this.$store.commit('userManagement/changeUserManagement', {
-        form_assign_bawahan: {
-          id_jabatan: item.idJabatan,
-        },
-      })
+      this.userManagement.form_assign_bawahan.id_jabatan = item.idJabatan
+      // this.$store.commit('userManagement/changeUserManagement', {
+      //   form_assign_bawahan: {
+      //     id_jabatan: item.idJabatan,
+      //   },
+      // })
       await this.getSalesNonBawahan({
         id_jabatan: item.idJabatan,
         id_user: 0,
@@ -481,17 +489,16 @@ export default {
         this.userManagement.form_assign_bawahan.tgl_mulai
       ) {
         await this.submitAssignSalesHirarki()
-        this.closeModalAssignUser()
         // await this.dataListUser()
         await this.getDataTable({
           id_level_hirarki: this.actiiveTabs.id_level_hirarki,
         })
+        this.closeModalAssignUser()
       } else {
         notification.error({
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     async dataListUser() {
@@ -528,7 +535,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -538,7 +545,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 5 * pagination.current,
+              limit: this.userManagement.totalAll,
               offset: 0 + 5 * pagination.current,
             },
           }),
@@ -551,7 +558,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -561,8 +568,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 10 * pagination.current,
-              offset: 0 + 10 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({
@@ -574,7 +581,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -584,8 +591,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 15 * pagination.current,
-              offset: 0 + 15 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({
@@ -597,7 +604,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -607,8 +614,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 20 * pagination.current,
-              offset: 0 + 20 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({
@@ -621,13 +628,20 @@ export default {
       this.modalTambahJabatan = true
     },
     async tambahJabatan() {
-      await this.postJabatanGSM({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
-      await this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
-      this.modalTambahJabatan = false
+      if (this.userManagement.formState.nama_jabatan) {
+        await this.postJabatanGSM({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
+        await this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
+        this.modalTambahJabatan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong',
+        })
+      }
     },
     closeModal() {
       this.modalVisible = false
