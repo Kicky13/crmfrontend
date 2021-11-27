@@ -167,11 +167,11 @@ const state = {
     form_assign_bawahan: {
       id_jabatan: null,
       id_user: null,
-      tgl_mulai: '',
+      tgl_mulai: new Date(),
       tgl_akhir: '',
     },
     form_kosongkan_jabatan: {
-      tgl_akhir: '',
+      tgl_akhir: new Date(),
     },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
@@ -360,13 +360,12 @@ const actions = {
 
     const { data } = state
 
-    
     const formData = {
       idJabatanAtasan: payload.id_jabatan_atasan,
       idLevelHirarki: payload.id_level_hirarki,
       nmJabatan: payload.nama_jabatan,
     }
-    
+
     let result = ''
 
     result = await apiClient.post(`/hirarki/tambahJabatan`, formData)

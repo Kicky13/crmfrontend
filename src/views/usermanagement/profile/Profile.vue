@@ -322,15 +322,10 @@
         <a-button key="back" @click="modalTambahBawahan = false">Batal</a-button>
         <a-button @click="submitTambahBawahan()" key="submit" type="primary">Tambahkan</a-button>
       </template>
-      <a-form
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 19 }"
-      >
+
+      <a-form label-align="left" layout="vertical">
         <a-form-item label="Nama Jabatan" name="Nama Jabatan">
-          <a-input
-            v-model:value="newJabatan"
-            placeholder="Nama jabatan"
-          />
+          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
         </a-form-item>
       </a-form>
     </a-modal>

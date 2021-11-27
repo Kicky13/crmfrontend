@@ -269,10 +269,17 @@
               </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
-              <a-date-picker
+              <!-- <a-date-picker
                 v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
                 :disabled-date="disabledStartDate"
                 class="w-100"
+              /> -->
+              <datepicker></datepicker>
+              <vue-datepicker
+                class="ant-calendar-picker ant-calendar-picker-input ant-input"
+                placeholder="Tanggal Mulai"
+                input-format="dd-MM-yyyy"
+                v-model="userManagement.form_assign_bawahan.tgl_mulai"
               />
             </a-form-item>
             <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -459,11 +466,12 @@ export default {
       //     idLevelHirarki: row.idLevelHirarki,
       //   },
       // })
-      this.$store.commit('userManagement/changeUserManagement', {
-        form_assign_bawahan: {
-          id_jabatan: item.idJabatan,
-        },
-      })
+      this.userManagement.form_assign_bawahan.id_jabatan = item.idJabatan
+      // this.$store.commit('userManagement/changeUserManagement', {
+      //   form_assign_bawahan: {
+      //     id_jabatan: item.idJabatan,
+      //   },
+      // })
       await this.getSalesNonBawahan({
         id_jabatan: item.idJabatan,
         id_user: 0,
