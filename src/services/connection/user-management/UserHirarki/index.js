@@ -66,9 +66,14 @@ const state = {
         dataIndex: 'idJabatan',
       },
       {
-        title: 'Jabatan',
+        title: 'Posisi Jabatan',
         key: 'nama',
         dataIndex: 'jabatan',
+      },
+      {
+        title: 'Nama User',
+        key: 'name',
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Tanggal Menjabat',
@@ -80,11 +85,7 @@ const state = {
       //   key: 'end_date',
       //   slots: { customRender: 'end_date' },
       // },
-      {
-        title: 'Nama',
-        key: 'name',
-        slots: { customRender: 'nama' },
-      },
+
       {
         title: 'Status',
         dataIndex: 'statusJabat',
@@ -137,15 +138,15 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'ID Jabatan',
+        title: 'Nama Jabatan',
         slots: { customRender: 'id_jabatan' },
       },
+      // {
+      //   title: 'ID User',
+      //   slots: { customRender: 'id_user' },
+      // },
       {
-        title: 'ID User',
-        slots: { customRender: 'id_user' },
-      },
-      {
-        title: 'Nama Sales',
+        title: 'Nama User',
         slots: { customRender: 'nama_sales' },
       },
       {
