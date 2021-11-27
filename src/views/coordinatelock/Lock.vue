@@ -79,6 +79,7 @@
             :row-key="(customers) => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 1500 }"
+            :loading="tableLoading"
           >
             <template #action="text">
               <div>
@@ -175,6 +176,7 @@ export default {
       searchText: '',
       isLoading: false,
       isSubmit: false,
+      tableLoading: false,
     }
   },
   mounted() {
@@ -220,13 +222,13 @@ export default {
       }
     },
     fetchGetRegion() {
-      this.isLoading = true
+      this.tableLoading = true
       getRegionList()
         .then((response) => {
           if (response.status) {
             this.provinsiOption = response.data
           }
-          this.isLoading = false
+          this.tableLoading = false
         })
         .catch((err) => {
           if (err) {
@@ -234,7 +236,7 @@ export default {
         })
     },
     async fetchGetCustomers() {
-      this.isLoading = true
+      this.tableLoading = true
       let formData = {
         IDdistrik: this.selectedKabupaten,
         offset: 0,
@@ -246,7 +248,7 @@ export default {
           if (response.status) {
             this.customers = response.data
           }
-          this.isLoading = false
+          this.tableLoading = false
         })
         .catch((err) => {
           if (err) {
