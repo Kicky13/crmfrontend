@@ -535,7 +535,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -545,7 +545,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 5 * pagination.current,
+              limit: this.userManagement.totalAll,
               offset: 0 + 5 * pagination.current,
             },
           }),
@@ -558,7 +558,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -568,8 +568,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 10 * pagination.current,
-              offset: 0 + 10 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({
@@ -581,7 +581,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -591,8 +591,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 15 * pagination.current,
-              offset: 0 + 15 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({
@@ -604,7 +604,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500,
+              limit: this.userManagement.totalAll,
               offset: 0,
             },
           }),
@@ -614,8 +614,8 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 500 + 20 * pagination.current,
-              offset: 0 + 20 * pagination.current,
+              limit: this.userManagement.totalAll,
+              offset: 0,
             },
           }),
             await this.getDataTable({

@@ -98,6 +98,7 @@ const state = {
     users: [],
     dataTable: [],
     selectedTabId: 1,
+    totalAll: null,
     formState: {
       id: '',
       name: '',
@@ -248,6 +249,7 @@ const actions = {
         users: result.data.data,
         dataTable: result.data.data,
         isLoading: false,
+        totalAll: result.data.totalAll,
       })
     }
   },
