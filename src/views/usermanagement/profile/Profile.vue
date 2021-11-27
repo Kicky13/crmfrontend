@@ -53,7 +53,7 @@
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button @click="modalTambahBawahan()" type="primary" class="float-right">
+                <a-button @click="modalTambahBawahan = true" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   Tambahkan
                 </a-button>
@@ -124,7 +124,7 @@
                     >
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button
+                    <!-- <button
                       v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
@@ -134,7 +134,7 @@
                       class="btn btn-outline-warning mr-1"
                     >
                       <i class="fa fa-user-plus"></i>
-                    </button>
+                    </button> -->
                     <button
                       v-if="text.iduser === null"
                       type="button"
@@ -311,6 +311,29 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <a-modal
+      v-model:visible="modalTambahBawahan"
+      :title="`Tambah Jabatan`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="modalTambahBawahan = false">Batal</a-button>
+        <a-button @click="submitTambahBawahan()" key="submit" type="primary">Tambahkan</a-button>
+      </template>
+      <a-form
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 19 }"
+      >
+        <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+          <a-input
+            v-model:value="newJabatan"
+            placeholder="Nama jabatan"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -332,6 +355,8 @@ export default {
     return {
       modalDeleteView: false,
       id_jabatan: null,
+      modalTambahBawahan: false,
+      newJabatan: '',
     }
   },
   computed: {
@@ -416,24 +441,17 @@ export default {
     closeModal() {
       this.userManagement.modalVisibleHirarkiDown = false
     },
-    modalTambahBawahan() {
-      this.$confirm({
-        title: 'Apakah anda akan menambahkan jabatan baru ?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.postJabatanBawahan({
-            id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-            id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          })
-
-          await this.getListDownHirarki({
-            id_user: this.userManagement.detail_jabatan.idUser,
-          })
-        },
-        onCancel() {},
+    async submitTambahBawahan() {
+      await this.postJabatanBawahan({
+        id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+        id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
+        nama_jabatan: this.newJabatan,
       })
+
+      await this.getListDownHirarki({
+        id_user: this.userManagement.detail_jabatan.idUser,
+      })
+      this.modalTambahBawahan = false
     },
     async handleSubmitAddHirarkiDown() {
       if (

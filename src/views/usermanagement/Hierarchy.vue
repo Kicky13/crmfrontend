@@ -115,6 +115,7 @@
                 <router-link
                   :to="`/users/profile/SPC/${text.idJabatan}`"
                   v-if="selectedShorthand === `SPC`"
+                  :class="text.statusJabat === `Kosong` ? 'disabled' : ''"
                   type="button"
                   class="btn btn-light mr-2"
                 >
@@ -123,7 +124,7 @@
                 </router-link>
                 <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
-                  v-if="selectedShorthand === `TSO`"
+                  v-else-if="selectedShorthand === `TSO`"
                   type="button"
                   class="btn btn-light mr-2"
                 >
