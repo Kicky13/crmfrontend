@@ -208,6 +208,20 @@ const routes = [
           import(/* webpackChunkName: "profile" */ '@/views/usermanagement/profile/Profile'),
       },
       {
+        path: '/listusers/history/userid/:userid',
+        name: 'log-history',
+        meta: { title: 'Export User', resource: 'User', action: 'manage' },
+        component: () =>
+          import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
+      },
+      {
+        path: '/users/list',
+        name: 'list_user',
+        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/listusers/List'),
+      },
+      {
         path: '/koordinatlock',
         name: 'koordinat-lock',
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },

@@ -88,6 +88,11 @@ export const getAdminMenuData = [
         url: '/users/hierarchy',
       },
       {
+        title: 'List Users',
+        key: 'gfd34b2',
+        url: '/users/list',
+      },
+      {
         title: 'Management User Hirarki',
         key: 'gfd34a',
         url: '/users/hierarchy',

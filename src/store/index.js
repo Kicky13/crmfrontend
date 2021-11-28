@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import user from './user'
 import settings from './settings'
 import UserManagementHirarki from '../services/connection/user-management/UserHirarki'
+import ListUsersHirarki from '../services/connection/list-user'
 import UserManagementCRM from '../services/connection/user-management/UserCRM'
 import RadiusDistrik from '../services/connection/radius-distrik'
 import SynCustomer from '../services/connection/customer-sync'
@@ -14,6 +15,7 @@ export default createStore({
     user,
     settings,
     userManagement: UserManagementHirarki,
+    listUsers: ListUsersHirarki,
     userManagementCRM: UserManagementCRM,
     radiusDistrik: RadiusDistrik,
     synCustomer: SynCustomer,
