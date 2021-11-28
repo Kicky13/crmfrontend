@@ -123,6 +123,28 @@ const state = {
                 dataIndex: 'endDate',
               },
           ],
+          columns_desc: [
+           
+            {
+              title: 'Nama',
+              dataIndex: 'nama',
+            },
+            {
+              title: 'Email',
+              key: 'email',
+              dataIndex: 'email',
+            },
+            {
+                title: 'Level Posisi',
+                key: 'idJabatan',
+                dataIndex: 'idJabatan',
+              },
+              {
+                title: 'No.Telp',
+                key: 'nohp',
+                dataIndex: 'nohp',
+              },
+          ],
     actiiveTabs: {},
     users: [],
     selectedTabId: 1,

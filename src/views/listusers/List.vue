@@ -92,6 +92,7 @@
             :pagination="pagination"
             :loading="listUsers.isLoading"
             @change="handleTableChange"
+            
           >
             <template #no="{ index }">
               <div>
@@ -113,6 +114,7 @@
                 {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
               </div>
             </template>
+            
             <template #username="{ text }">
               <div>
                 {{ text.username != null ? text.username : '-' }}
@@ -124,7 +126,7 @@
                    tooltip="Log History"
                     type="button"
                     class="btn btn-default mr-2"
-                    @click="assignRow(text.userid)"
+                    @click="assignRow(text.userid,text.idJabatan)"
                   >
                     <i class="fa fa-history"></i>
                     </button
@@ -210,28 +212,28 @@
                         <div class="row">
                             <div class="col-md-4">Nama</div>
                             <div class="col-md-1">:</div>
-                            <div class="col-md-7">Coba</div>
+                            <div class="col-md-7">{{ listUsers.detail_jabatan.namaUser }}</div>
                         </div>
                   </div>
                   <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">Level Posisi</div>
                             <div class="col-md-1">:</div>
-                            <div class="col-md-7">Coba</div>
+                            <div class="col-md-7">{{ listUsers.detail_jabatan.namaJabatan }}</div>
                         </div>
                   </div>
                   <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">Email</div>
                             <div class="col-md-1">:</div>
-                            <div class="col-md-7">Coba</div>
+                            <div class="col-md-7">{{ listUsers.detail_jabatan.email == null || listUsers.detail_jabatan.email == '' ? '-' : listUsers.detail_jabatan.email }}</div>
                         </div>
                   </div>
                   <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">No.Telp</div>
                             <div class="col-md-1">:</div>
-                            <div class="col-md-7">Coba</div>
+                            <div class="col-md-7">{{ listUsers.detail_jabatan.nohp == null || listUsers.detail_jabatan.nohp == '' ? '-' : listUsers.detail_jabatan.nohp }}</div>
                         </div>
                   </div>
               </div>
@@ -305,6 +307,7 @@ export default {
       },
       selectedTitle: '',
       selectedShorthand: '',
+      nama_history:'',
       pagination: {},
       modalVisible: false,
       isLoading: false,
@@ -322,10 +325,14 @@ export default {
   },
   async mounted() {
     await this.dataListUser()
+    
   },
   methods: {
       onChange(e) {
       console.log('radio checked', e.target.value);
+      if(e.target.value == 3){
+       console.log(...this.listUsers.users);
+      }
     },
     ...mapActions('listUsers', [
       'getListJenisUser',
@@ -336,6 +343,7 @@ export default {
       'getSalesNonBawahan',
       'submitAssignSalesHirarki',
       'logHistory',
+      'getDetailProfile',
     ]),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     filterOption(input, option) {
@@ -369,9 +377,14 @@ export default {
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
+      
     }, 100),
-    async assignRow(item) {
+    async assignRow(item,idJabatan) {
         console.log(item)
+        this.id_jabatan = idJabatan
+        await this.getDetailProfile({
+      id_jabatan: this.id_jabatan,
+    })
       // const row = this.userManagement.users.find(data => data.uuid === id)
       // await this.$store.commit('userManagement/changeUserManagement', {
       //   formState: {
