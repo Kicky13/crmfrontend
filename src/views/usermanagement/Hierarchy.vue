@@ -20,7 +20,9 @@
         </a-tabs>
       </div>
       <div class="card-header">
-        <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong>
+        <strong>{{
+          'Daftar Posisi Jabatan ' + selectedTitle + ' (' + selectedShorthand + ')'
+        }}</strong>
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
@@ -32,7 +34,7 @@
           @click="openModal"
         >
           <i class="fa fa-plus mr-2" />
-          {{ 'Tambahkan Jabatan' }}
+          {{ 'Posisi' + ' ' + selectedShorthand }}
         </a-button>
         <!-- <a-button
           class="btn btn-success mb-3 float-right"
@@ -119,7 +121,7 @@
                   type="button"
                   class="btn btn-light mr-2"
                 >
-                  <i class="fa fa-file-text-o mr-1"></i>
+                  <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
@@ -128,7 +130,7 @@
                   type="button"
                   class="btn btn-light mr-2"
                 >
-                  <i class="fa fa-file-text-o mr-1"></i>
+                  <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
@@ -138,7 +140,7 @@
                   type="button"
                   class="btn btn-light mr-2"
                 >
-                  <i class="fa fa-file-text-o mr-1"></i>
+                  <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
@@ -148,7 +150,7 @@
                   type="button"
                   class="btn btn-light mr-2"
                 >
-                  <i class="fa fa-file-text-o mr-1"></i>
+                  <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
                 <router-link
@@ -158,7 +160,7 @@
                   type="button"
                   class="btn btn-light mr-2"
                 >
-                  <i class="fa fa-file-text-o mr-1"></i>
+                  <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Detail</span>
                 </router-link>
                 <div>

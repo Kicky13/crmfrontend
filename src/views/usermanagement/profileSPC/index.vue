@@ -12,7 +12,7 @@
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Mapping User</strong>
+            <strong class="align-self-center">User yang menjabat</strong>
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
+            <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
               <a-table
                 :columns="profileSPC.columns"
                 :data-source="profileSPC.list_distrik_bawahan"
-                :row-key="(data) => data.idRegion"
+                :row-key="data => data.idRegion"
                 :loading="profileSPC.isLoading"
               >
                 <template #no="{ index }">
@@ -221,8 +221,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileSPC: (state) => state.profileSPC.data,
-      userManagement: (state) => state.userManagement.data,
+      profileSPC: state => state.profileSPC.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {

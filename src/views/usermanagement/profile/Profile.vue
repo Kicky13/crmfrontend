@@ -12,7 +12,7 @@
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Mapping User</strong>
+            <strong class="align-self-center">User yang menjabat</strong>
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
@@ -39,14 +39,14 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
+            <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
           </div>
         </div>
       </div>
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Hierarki Down / Bawahan Langsung</strong>
+            <strong class="align-self-center">List SSM</strong>
           </div>
           <div class="card-body">
             <div class="row">
@@ -55,7 +55,7 @@
               <div class="col-md-4 col-xs-12 mb-2">
                 <a-button @click="modalTambahBawahan = true" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
-                  Tambahkan
+                  Tambah SSM
                 </a-button>
               </div>
             </div>
@@ -107,7 +107,9 @@
                 </template>
                 <template #nama_sales="{ text }">
                   <div v-if="text.name">
-                    <a href="javascript:void(0)" @click="changeProfile(text)"> {{ text.name }}</a>
+                    <a href="javascript:void(0)" class="" @click="changeProfile(text)">
+                      <i class="fa fa-user"></i> {{ text.name }}</a
+                    >
                   </div>
                   <div v-else>-</div>
                 </template>
