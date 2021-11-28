@@ -15,7 +15,7 @@
           <a-select-option disabled value="">Please Select</a-select-option>
           <a-select-option
             v-for="(distri, index) in synCustomer.listDistributor"
-            :value="distri.ID_DISTRIBUTOR"
+            :value="`${distri.ID_DISTRIBUTOR}-${distri.NM_DISTRIBUTOR}`"
             :key="index"
           >
             {{ distri.ID_DISTRIBUTOR }} - {{ distri.NM_DISTRIBUTOR }}
@@ -226,7 +226,8 @@ export default {
       }
     },
     setSelectMethod(value) {
-      this.selectValue = value
+      const inputValue = value.split('-')[0]
+      this.selectValue = inputValue
     },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
