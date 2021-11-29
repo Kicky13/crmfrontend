@@ -145,7 +145,7 @@ const actions = {
       email: data.formState.email,
       nohp: data.formState.nohp,
       userid: Math.floor(1000 + Math.random() * 9000),
-      idLevelHirarki: data.formState.id_level_hirarki,
+      idJenis: data.formState.id_level_hirarki,
     }
 
     let result = ''
