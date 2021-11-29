@@ -82,8 +82,8 @@ const state = {
         },
         {
             title: 'Level',
-            key: 'idJabatan',
-            dataIndex: 'idJabatan',
+            key: 'Role',
+            dataIndex: 'Role',
         },
         {
             title: 'Posisi',
@@ -165,7 +165,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 500,
+      limit: 2000,
       filter: '',
     },
 

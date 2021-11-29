@@ -80,11 +80,12 @@
             @search="searchData"
           />
         </div>
-        <div class="table-responsive text-nowrap">
+        <div class="table-list table-responsive text-nowrap">
           <a-table
+          class=" "
             :columns="listUsers.columns"
             :data-source="listUsers.users"
-            :row-key="data => data.idJabatan"
+            :row-key="data => data.titleJabatan"
             :pagination="pagination"
             :loading="listUsers.isLoading"
             @change="handleTableChange"
@@ -99,12 +100,12 @@
                 {{ text.nama != null ? text.nama : '-' }}
               </div>
             </template>
-            <template #start_date="{ text }">
+            <template #email="{ text }">
               <div>
                 {{ text.startDateJabat != null ? text.startDateJabat : '-' }}
               </div>
             </template>
-            <template #end_date="{ text }">
+            <template #nohp="{ text }">
               <div>
                 {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
               </div>
@@ -332,6 +333,7 @@ export default {
         console.log(...this.listUsers.users)
       }
     },
+    
     ...mapActions('listUsers', [
       'getListJenisUser',
       'getDataTable',
@@ -343,6 +345,14 @@ export default {
       'logHistory',
       'getDetailProfile',
     ]),
+    tableRowClassName(text) {
+      console.log(text)
+      if (text.titleJabatan === '') {
+        return 'non-active'
+      } else {
+        return ''
+      }
+    },
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     filterOption(input, option) {
       return (
@@ -439,6 +449,7 @@ export default {
       const dataRes = [...this.listUsers.listUser]
       const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
+      console.log(this.actiiveTabs)
       this.flagBawahan = filtered[0].flag_bawahan
 
       this.selectedTitle = this.actiiveTabs.nama_panjang
@@ -666,4 +677,10 @@ export default {
 </script>
 <style lang="scss" module scoped>
 @import './style.module.scss';
+</style>
+<style>
+.table-list .ant-table-tbody .ant-table-row-hover {
+  background-color: red;
+  color: black;
+}
 </style>
