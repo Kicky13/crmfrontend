@@ -547,7 +547,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0 + 5 * pagination.current,
             },
           }),
@@ -560,7 +560,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
@@ -570,7 +570,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
@@ -583,7 +583,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
@@ -593,7 +593,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
@@ -606,7 +606,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
@@ -616,7 +616,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: this.userManagement.totalAll,
+              limit: 2000,
               offset: 0,
             },
           }),
