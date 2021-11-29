@@ -10,6 +10,10 @@ import OtomatisasiVisitPlan from '../services/connection/otomatisasi-visit'
 import VisitPlan from '../services/connection/upload-visit'
 import MappingCustomer from '../services/connection/mapping-customer'
 import ProfileTSO from '../services/connection/user-management/UserHirarki/ProfileTSO'
+import ProfileSalesDistributor from '../services/connection/user-management/UserHirarki/ProfileSalesDistributor'
+import ProfileAdminDistributor from '../services/connection/user-management/UserHirarki/ProfileAdminDistributor'
+import ProfileSPC from '../services/connection/user-management/UserHirarki/ProfileSPC'
+
 export default createStore({
   modules: {
     user,
@@ -23,6 +27,9 @@ export default createStore({
     visitPlan: VisitPlan,
     mappingCustomer: MappingCustomer,
     profileTSO: ProfileTSO,
+    profileSalesDistributor: ProfileSalesDistributor,
+    profileAdminDistributor: ProfileAdminDistributor,
+    profileSPC: ProfileSPC,
   },
   state: {},
   mutations: {},

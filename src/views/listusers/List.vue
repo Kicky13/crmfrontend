@@ -20,18 +20,17 @@
         </a-tabs>
       </div>
       <div class="card-header">
-          <a-radio-group v-model="value" :default-value="3" @change="onChange">
-            <a-radio :value="1">
-                Posisi Kosong
-            </a-radio>
-            <a-radio :value="2">
-                Punya Posisi
-            </a-radio>
-            <a-radio :value="3" checked>
-                Semua
-            </a-radio>
-            
-          </a-radio-group>
+        <a-radio-group v-model="value" :default-value="3" @change="onChange">
+          <a-radio :value="1">
+            Posisi Kosong
+          </a-radio>
+          <a-radio :value="2">
+            Punya Posisi
+          </a-radio>
+          <a-radio :value="3" checked>
+            Semua
+          </a-radio>
+        </a-radio-group>
         <!-- <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong> -->
         <!-- <a-button
           v-if="selectedShorthand === `GSM`"
@@ -66,10 +65,7 @@
               class="mx-2"
               @change="handlePaginationSize"
             >
-              <a-select-option
-                v-for="itemPerPage in listUsers.itemsPerPage"
-                :key="itemPerPage"
-              >
+              <a-select-option v-for="itemPerPage in listUsers.itemsPerPage" :key="itemPerPage">
                 {{ itemPerPage }}
               </a-select-option>
             </a-select>
@@ -93,8 +89,6 @@
             :pagination="pagination"
             :loading="listUsers.isLoading"
             @change="handleTableChange"
-            :row-class-name="tableRowClassName"
-            
           >
             <template #no="{ index }">
               <div>
@@ -116,7 +110,7 @@
                 {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
               </div>
             </template>
-            
+
             <template #username="{ text }">
               <div>
                 {{ text.username != null ? text.username : '-' }}
@@ -124,17 +118,15 @@
             </template>
             <template #action="{ text }">
               <div class="d-flex align-items-center">
-                 <button
-                   tooltip="Log History"
-                    type="button"
-                    class="btn btn-default mr-2"
-                    @click="assignRow(text.userid,text.idJabatan)"
-                  >
-                    <i class="fa fa-history"></i>
-                    </button
-                  >
-                
-               
+                <button
+                  tooltip="Log History"
+                  type="button"
+                  class="btn btn-default mr-2"
+                  @click="assignRow(text.userid, text.idJabatan)"
+                >
+                  <i class="fa fa-history"></i>
+                </button>
+
                 <!-- <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-if="selectedShorthand === `TSO`"
@@ -207,47 +199,55 @@
               >Simpan</a-button
             > -->
           </template>
-          
-              
-              <div class="row mb-2">
-                  <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">Nama</div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-7">{{ listUsers.detail_jabatan.namaUser }}</div>
-                        </div>
-                  </div>
-                  <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">Level Posisi</div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-7">{{ listUsers.detail_jabatan.namaJabatan }}</div>
-                        </div>
-                  </div>
-                  <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">Email</div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-7">{{ listUsers.detail_jabatan.email == null || listUsers.detail_jabatan.email == '' ? '-' : listUsers.detail_jabatan.email }}</div>
-                        </div>
-                  </div>
-                  <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">No.Telp</div>
-                            <div class="col-md-1">:</div>
-                            <div class="col-md-7">{{ listUsers.detail_jabatan.nohp == null || listUsers.detail_jabatan.nohp == '' ? '-' : listUsers.detail_jabatan.nohp }}</div>
-                        </div>
-                  </div>
+
+          <div class="row mb-2">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4">Nama</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7">{{ listUsers.detail_jabatan.namaUser }}</div>
               </div>
-              <a-table
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4">Level Posisi</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7">{{ listUsers.detail_jabatan.namaJabatan }}</div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4">Email</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7">
+                  {{
+                    listUsers.detail_jabatan.email == null || listUsers.detail_jabatan.email == ''
+                      ? '-'
+                      : listUsers.detail_jabatan.email
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4">No.Telp</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7">
+                  {{
+                    listUsers.detail_jabatan.nohp == null || listUsers.detail_jabatan.nohp == ''
+                      ? '-'
+                      : listUsers.detail_jabatan.nohp
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <a-table
             :columns="listUsers.columns_history"
             :data-source="listUsers.history"
-            
-            
+            :row-key="data => data.idJabatan"
           >
-           
           </a-table>
-             
         </a-modal>
 
         <a-modal
@@ -295,8 +295,8 @@ export default {
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
-      checked:true,
-      value:3,
+      checked: true,
+      value: 3,
       modalDeleteView: false,
       flagBawahan: null,
       formState: {
@@ -309,31 +309,28 @@ export default {
       },
       selectedTitle: '',
       selectedShorthand: '',
-      nama_history:'',
+      nama_history: '',
       pagination: {},
       modalVisible: false,
       isLoading: false,
       isSubmit: false,
       id_jabatan: null,
-      
     }
   },
   computed: {
     ...mapState({
-        
       listUsers: state => state.listUsers.data,
       userManagementCRM: state => state.userManagementCRM.data,
     }),
   },
   async mounted() {
     await this.dataListUser()
-    
   },
   methods: {
-      onChange(e) {
-      console.log('radio checked', e.target.value);
-      if(e.target.value == 3){
-       console.log(...this.listUsers.users);
+    onChange(e) {
+      console.log('radio checked', e.target.value)
+      if (e.target.value == 3) {
+        console.log(...this.listUsers.users)
       }
     },
     
@@ -376,7 +373,7 @@ export default {
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
-    
+
     searchData: _.debounce(function() {
       this.$store.commit('listUsers/changeUserManagement', {
         bodyList: {
@@ -388,14 +385,13 @@ export default {
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
-      
     }, 100),
-    async assignRow(item,idJabatan) {
-        console.log(item)
-        this.id_jabatan = idJabatan
-        await this.getDetailProfile({
-      id_jabatan: this.id_jabatan,
-    })
+    async assignRow(item, idJabatan) {
+      console.log(item)
+      this.id_jabatan = idJabatan
+      await this.getDetailProfile({
+        id_jabatan: this.id_jabatan,
+      })
       // const row = this.userManagement.users.find(data => data.uuid === id)
       // await this.$store.commit('userManagement/changeUserManagement', {
       //   formState: {
@@ -414,10 +410,10 @@ export default {
           id_jabatan: item.idJabatan,
         },
       })
-    this.logHistory({
+      this.logHistory({
         userid: item,
       })
-    //   await this.logHistory()
+      //   await this.logHistory()
       this.modalVisible = true
     },
     closeModalAssignUser() {
@@ -479,7 +475,7 @@ export default {
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
-              limit: 500 + 5 * pagination.current,
+              limit: 2000,
               offset: 1 + 5 * pagination.current,
             },
           }),
@@ -502,7 +498,7 @@ export default {
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
-              limit: 500 + 10 * pagination.current,
+              limit: 2000,
               offset: 1 + 10 * pagination.current,
             },
           }),
@@ -525,7 +521,7 @@ export default {
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
-              limit: 500 + 15 * pagination.current,
+              limit: 2000,
               offset: 1 + 15 * pagination.current,
             },
           }),
@@ -548,7 +544,7 @@ export default {
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
-              limit: 500 + 20 * pagination.current,
+              limit: 2000,
               offset: 1 + 20 * pagination.current,
             },
           }),

@@ -12,7 +12,7 @@
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Mapping User</strong>
+            <strong class="align-self-center">User yang menjabat</strong>
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
@@ -39,23 +39,23 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
+            <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
           </div>
         </div>
       </div>
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Hierarki Down / Bawahan Langsung</strong>
+            <strong class="align-self-center">List SSM</strong>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button @click="modalTambahBawahan()" type="primary" class="float-right">
+                <a-button @click="modalTambahBawahan = true" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
-                  Tambahkan
+                  Tambah SSM
                 </a-button>
               </div>
             </div>
@@ -97,7 +97,7 @@
                 </template>
                 <template #id_jabatan="{ text }">
                   <div>
-                    {{ text.idJabatan }}
+                    {{ text.titleJabatan }}
                   </div>
                 </template>
                 <template #id_user="{ text }">
@@ -107,7 +107,9 @@
                 </template>
                 <template #nama_sales="{ text }">
                   <div v-if="text.name">
-                    <a href="javascript:void(0)" @click="changeProfile(text)"> {{ text.name }}</a>
+                    <a href="javascript:void(0)" class="" @click="changeProfile(text)">
+                      <i class="fa fa-user"></i> {{ text.name }}</a
+                    >
                   </div>
                   <div v-else>-</div>
                 </template>
@@ -124,7 +126,7 @@
                     >
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button
+                    <!-- <button
                       v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
@@ -134,7 +136,7 @@
                       class="btn btn-outline-warning mr-1"
                     >
                       <i class="fa fa-user-plus"></i>
-                    </button>
+                    </button> -->
                     <button
                       v-if="text.iduser === null"
                       type="button"
@@ -311,6 +313,24 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <a-modal
+      v-model:visible="modalTambahBawahan"
+      :title="`Tambah Jabatan`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="modalTambahBawahan = false">Batal</a-button>
+        <a-button @click="submitTambahBawahan()" key="submit" type="primary">Tambahkan</a-button>
+      </template>
+
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -332,6 +352,8 @@ export default {
     return {
       modalDeleteView: false,
       id_jabatan: null,
+      modalTambahBawahan: false,
+      newJabatan: '',
     }
   },
   computed: {
@@ -416,24 +438,24 @@ export default {
     closeModal() {
       this.userManagement.modalVisibleHirarkiDown = false
     },
-    modalTambahBawahan() {
-      this.$confirm({
-        title: 'Apakah anda akan menambahkan jabatan baru ?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.postJabatanBawahan({
-            id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-            id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          })
+    async submitTambahBawahan() {
+      if (this.newJabatan) {
+        await this.postJabatanBawahan({
+          id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+          id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          nama_jabatan: this.newJabatan,
+        })
 
-          await this.getListDownHirarki({
-            id_user: this.userManagement.detail_jabatan.idUser,
-          })
-        },
-        onCancel() {},
-      })
+        await this.getListDownHirarki({
+          id_user: this.userManagement.detail_jabatan.idUser,
+        })
+        this.modalTambahBawahan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong.',
+        })
+      }
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -453,7 +475,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModal()
       }
     },
     async handleSubmitReplaceUser() {
@@ -473,7 +494,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalReplaceUser()
       }
     },
     async handleSubmitAssignUser() {
@@ -493,7 +513,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     closeModalReplaceUser() {

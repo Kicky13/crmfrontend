@@ -109,6 +109,24 @@ export const getAdminMenuData = [
             url: '/users/profile/TSO',
             statusId: true,
           },
+          {
+            title: 'Mapping SPC',
+            key: '125as2',
+            url: '/users/profile/SPC',
+            statusId: true,
+          },
+          {
+            title: 'Mapping Admin Distributor',
+            key: '125a62',
+            url: '/users/profile/admin-distributor',
+            statusId: true,
+          },
+          {
+            title: 'Mapping Sales Distributor',
+            key: '125a92',
+            url: '/users/profile/sales-distributor',
+            statusId: true,
+          },
         ],
       },
     ],
@@ -187,24 +205,24 @@ export const getAdminMenuData = [
     title: 'Report Admin',
     key: '2h83ot12',
   },
-  {
-    title: 'Report Admin',
-    key: '82hskb',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'a32jab',
-        url: '/datasales',
-      },
-      {
-        title: 'Customer Mapping',
-        key: '12sa2s',
-        url: '/report/customer_mapping',
-      },
-    ],
-  },
+  // {
+  //   title: 'Report Admin',
+  //   key: '82hskb',
+  //   url: '/roles-permissions',
+  //   icon: 'fa fa-list-ul',
+  //   children: [
+  //     {
+  //       title: 'Data Sales SBI',
+  //       key: 'a32jab',
+  //       url: '/datasales',
+  //     },
+  //     {
+  //       title: 'Customer Mapping',
+  //       key: '12sa2s',
+  //       url: '/report/customer_mapping',
+  //     },
+  //   ],
+  // },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',

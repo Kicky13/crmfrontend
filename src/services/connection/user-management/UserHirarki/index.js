@@ -62,13 +62,14 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'Kode Jabatan',
-        dataIndex: 'idJabatan',
+        title: 'Posisi Jabatan',
+        key: 'nama',
+        dataIndex: 'titleJabatan',
       },
       {
-        title: 'Jabatan',
-        key: 'nama',
-        dataIndex: 'jabatan',
+        title: 'Nama User',
+        key: 'name',
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Tanggal Menjabat',
@@ -80,11 +81,7 @@ const state = {
       //   key: 'end_date',
       //   slots: { customRender: 'end_date' },
       // },
-      {
-        title: 'Nama',
-        key: 'name',
-        slots: { customRender: 'nama' },
-      },
+
       {
         title: 'Status',
         dataIndex: 'statusJabat',
@@ -96,7 +93,9 @@ const state = {
     ],
     actiiveTabs: {},
     users: [],
+    dataTable: [],
     selectedTabId: 1,
+    totalAll: null,
     formState: {
       id: '',
       name: '',
@@ -106,6 +105,7 @@ const state = {
       nohp: '',
       userid: '',
       idLevelHirarki: null,
+      nama_jabatan: '',
     },
     formGSM: {
       id_jabatan_atasan: null,
@@ -134,15 +134,11 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'ID Jabatan',
+        title: 'Nama Jabatan',
         slots: { customRender: 'id_jabatan' },
       },
       {
-        title: 'ID User',
-        slots: { customRender: 'id_user' },
-      },
-      {
-        title: 'Nama Sales',
+        title: 'Nama User',
         slots: { customRender: 'nama_sales' },
       },
       {
@@ -165,11 +161,11 @@ const state = {
     form_assign_bawahan: {
       id_jabatan: null,
       id_user: null,
-      tgl_mulai: '',
+      tgl_mulai: new Date(),
       tgl_akhir: '',
     },
     form_kosongkan_jabatan: {
-      tgl_akhir: '',
+      tgl_akhir: new Date(),
     },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
@@ -244,7 +240,9 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         users: result.data.data,
+        dataTable: result.data.data,
         isLoading: false,
+        totalAll: result.data.totalAll,
       })
     }
   },
@@ -324,6 +322,7 @@ const actions = {
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
+      nmJabatan: data.formState.nama_jabatan,
     }
 
     let result = ''
@@ -359,6 +358,7 @@ const actions = {
     const formData = {
       idJabatanAtasan: payload.id_jabatan_atasan,
       idLevelHirarki: payload.id_level_hirarki,
+      nmJabatan: payload.nama_jabatan,
     }
 
     let result = ''
@@ -550,7 +550,7 @@ const actions = {
     let formData = {
       IDuser: parseInt(payload.id_user),
       offset: data.bodyList.offset,
-      limit: 0,
+      limit: 1000,
       IDJabatan: parseInt(payload.id_jabatan),
     }
     const result = await apiClient.post(`/hirarki/salesList`, formData)
@@ -652,9 +652,13 @@ const actions = {
 
     const { data } = state
 
+    const salesList = [...data.sales_non_bawahan]
+    let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
+    const idUser = filtered[0].iduser
+
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
-      idUser: data.form_assign_bawahan.id_user,
+      idUser: idUser,
       tglMulai: data.form_assign_bawahan.tgl_mulai,
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }

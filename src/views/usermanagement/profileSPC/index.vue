@@ -60,28 +60,28 @@
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header">
-            <strong>Profile TSO</strong>
+            <strong>Profile SPC</strong>
           </div>
           <div class="card-body">
-            <a-form :model="profileTSO.formData" :rules="profileTSO.rules">
+            <a-form :model="profileSPC.formData" :rules="profileSPC.rules">
               <div class="row mb-4">
                 <div class="col-xs-3 col-md-3">
                   <a-select
-                    v-model:value="profileTSO.formData.id_distrik"
+                    v-model:value="profileSPC.formData.id_distrik"
                     class="w-100"
-                    placeholder="Pilih Distrik"
+                    placeholder="Pilih Region"
                     show-search
                   >
                     <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                     <a-select-option
-                      v-for="(item, index) in profileTSO.daftar_distrik"
-                      :value="item.idDistrik"
+                      v-for="(item, index) in profileSPC.daftar_distrik"
+                      :value="item.idRegion"
                       :key="`distrik_${index}`"
                       data-toggle="tooltip"
                       data-placement="top"
-                      :title="item.namaDistrik"
+                      :title="item.namaRegion"
                     >
-                      {{ item.idDistrik }} - {{ item.namaDistrik }}
+                      {{ item.idRegion }} - {{ item.namaRegion }}
                     </a-select-option>
                   </a-select>
                 </div>
@@ -97,7 +97,7 @@
                     <datepicker></datepicker>
                     <vue-datepicker
                       class="ant-calendar-picker ant-calendar-picker-input ant-input"
-                      v-model="profileTSO.formData.tgl_mulai"
+                      v-model="profileSPC.formData.tgl_mulai"
                       placeholder="Tanggal Mulai"
                       input-format="dd-MM-yyyy"
                     />
@@ -116,7 +116,7 @@
 
                     <vue-datepicker
                       class="ant-calendar-picker ant-calendar-picker-input ant-input"
-                      v-model="profileTSO.formData.tgl_akhir"
+                      v-model="profileSPC.formData.tgl_akhir"
                       placeholder="Tanggal Akhir"
                       input-format="dd-MM-yyyy"
                     />
@@ -132,30 +132,30 @@
             </a-form>
             <div class="table-responsive text-nowrap">
               <a-table
-                :columns="profileTSO.columns"
-                :data-source="profileTSO.list_distrik_bawahan"
-                :row-key="data => data.idDistrik"
-                :loading="profileTSO.isLoading"
+                :columns="profileSPC.columns"
+                :data-source="profileSPC.list_distrik_bawahan"
+                :row-key="data => data.idRegion"
+                :loading="profileSPC.isLoading"
               >
                 <template #no="{ index }">
                   <div>
                     {{ index + 1 }}
                   </div>
                 </template>
-                <template #id_distrik="{ text }">
+                <template #id_region="{ text }">
                   <div>
-                    {{ text.idDistrik != null ? text.idDistrik : '-' }}
+                    {{ text.idRegion != null ? text.idRegion : '-' }}
                   </div>
                 </template>
-                <template #nama_distrik="{ text }">
+                <template #nama_region="{ text }">
                   <div>
-                    {{ text.namaDistrik != null ? text.namaDistrik : '-' }}
+                    {{ text.namaRegion != null ? text.namaRegion : '-' }}
                   </div>
                 </template>
                 <template #action="{ text }">
                   <div>
                     <button
-                      @click="openModalDelete(text.idDistrik)"
+                      @click="openModalDelete(text.idRegion)"
                       type="button"
                       class="btn btn-outline-danger mr-2"
                     >
@@ -184,7 +184,7 @@
           <datepicker></datepicker>
           <vue-datepicker
             class="ant-calendar-picker ant-calendar-picker-input ant-input"
-            v-model="profileTSO.formDelete.tgl_akhir"
+            v-model="profileSPC.formData.tgl_akhir"
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
           />
@@ -200,10 +200,7 @@ import { notification } from 'ant-design-vue'
 import VueDatepicker from 'vue3-datepicker'
 
 export default {
-  name: 'ProfileTSO',
-  // components: {
-  //   UploadOutlined,
-  // },
+  name: 'ProfileSPC',
   components: {
     VueDatepicker,
   },
@@ -224,7 +221,7 @@ export default {
 
   computed: {
     ...mapState({
-      profileTSO: state => state.profileTSO.data,
+      profileSPC: state => state.profileSPC.data,
       userManagement: state => state.userManagement.data,
     }),
   },
@@ -240,7 +237,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('profileTSO', [
+    ...mapActions('profileSPC', [
       'getListDistrik',
       'getListDistrikHirarki',
       'deleteListDistrikHirarki',
@@ -252,39 +249,20 @@ export default {
       this.data_distrik = id_distriks
     },
     disabledStartDate(startValue) {
-      const endValue = this.profileTSO.formData.tgl_akhir
+      const endValue = this.profileSPC.formData.tgl_akhir
       if (!startValue || !endValue) {
         return false
       }
       return startValue.valueOf() > endValue.valueOf()
     },
     disabledEndDate(endValue) {
-      const startValue = this.profileTSO.formData.tgl_mulai
+      const startValue = this.profileSPC.formData.tgl_mulai
       if (!endValue || !startValue) {
         return false
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
     async deleteRow() {
-      // this.$confirm({
-      //   title: 'Apakah anda yakin akan menghapus data ini?',
-      //   okText: 'Yes',
-      //   okType: 'danger',
-      //   cancelText: 'No',
-      //   onOk: async () => {
-      //     await this.deleteListDistrikHirarki({
-      //       id_tso: this.$route.params.id_jabatan,
-      //       id_distrik: id_distriks,
-      //     })
-      //     await this.getListDistrik({
-      //       id_tso: this.$route.params.id_jabatan,
-      //     })
-      //     await this.getListDistrikHirarki({
-      //       id_tso: this.$route.params.id_jabatan,
-      //     })
-      //   },
-      //   onCancel() {},
-      // })
       await this.deleteListDistrikHirarki({
         id_tso: this.$route.params.id_jabatan,
         id_distrik: this.data_distrik,
@@ -295,7 +273,7 @@ export default {
       await this.getListDistrikHirarki({
         id_tso: this.$route.params.id_jabatan,
       })
-      this.$store.commit('profileTSO/changeProfileTSO', {
+      this.$store.commit('profileSPC/changeProfileTSO', {
         formData: {
           tgl_akhir: '',
         },
@@ -303,9 +281,10 @@ export default {
       this.modalDeleteView = false
     },
     async handleSubmit() {
-      if (this.profileTSO.formData.id_distrik) {
+      if (this.profileSPC.formData.id_distrik) {
         await this.addDistrikHirarki({
           id_tso: this.$route.params.id_jabatan,
+          id_user: this.userManagement.idUser,
         })
       }
       await this.getListDistrik({
@@ -314,7 +293,7 @@ export default {
       await this.getListDistrikHirarki({
         id_tso: this.$route.params.id_jabatan,
       })
-      this.$store.commit('profileTSO/changeProfileTSO', {
+      this.$store.commit('profileSPC/changeProfileTSO', {
         formData: {
           id_distrik: null,
           tgl_mulai: '',

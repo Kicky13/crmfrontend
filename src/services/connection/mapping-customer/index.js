@@ -114,12 +114,15 @@ const actions = {
 
     data.listData.forEach((x) => {
       let dataObject = {
+        id_tso: x.id_tso,
         id_sales: x.sales,
         username: x.username,
         id_customer: x.id_toko,
         nama_customer: x.customer,
         id_distributor: x.kode_distributor,
         nama_distributor: x.distributor,
+        start_date: x.start_date,
+        end_date: x.end_date,
         status_cek: 'success',
       }
       dataArray.push(dataObject)
