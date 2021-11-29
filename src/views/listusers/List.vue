@@ -85,10 +85,11 @@
           class=" "
             :columns="listUsers.columns"
             :data-source="listUsers.users"
-            :row-key="data => data.titleJabatan"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="listUsers.isLoading"
             @change="handleTableChange"
+            :row-class-name="tableRowClassName"
           >
             <template #no="{ index }">
               <div>
@@ -347,7 +348,7 @@ export default {
     ]),
     tableRowClassName(text) {
       console.log(text)
-      if (text.titleJabatan === '') {
+      if (text.idJabatan === '') {
         return 'non-active'
       } else {
         return ''
@@ -476,7 +477,8 @@ export default {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
-              offset: 1 + 5 * pagination.current,
+               offset: 0 + 5 * pagination.current,
+              // offset:0,
             },
           }),
             await this.getDataTable({
@@ -499,7 +501,8 @@ export default {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
-              offset: 1 + 10 * pagination.current,
+              // offset: 1 + 10 * pagination.current,
+              offset:0,
             },
           }),
             await this.getDataTable({
@@ -522,7 +525,8 @@ export default {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
-              offset: 1 + 15 * pagination.current,
+              // offset: 1 + 15 * pagination.current,
+              offset:0,
             },
           }),
             await this.getDataTable({
@@ -545,7 +549,8 @@ export default {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
-              offset: 1 + 20 * pagination.current,
+              // offset: 1 + 20 * pagination.current,
+              offset:0,
             },
           }),
             await this.getDataTable({
