@@ -57,8 +57,8 @@ const state = {
       userID: '',
     },
     table: {
-      offset: 1,
-      limit: 500,
+      offset:0,
+      limit: 2000,
       q: '',
     },
     listUser: [],

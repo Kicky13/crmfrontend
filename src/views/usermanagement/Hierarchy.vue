@@ -564,7 +564,7 @@ export default {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
               limit: 2000,
-              offset: 0 + 5 * pagination.current,
+              offset: 0,
             },
           }),
             await this.getDataTable({
