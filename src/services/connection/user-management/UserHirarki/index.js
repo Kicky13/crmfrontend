@@ -62,13 +62,9 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'Kode Jabatan',
-        dataIndex: 'idJabatan',
-      },
-      {
         title: 'Posisi Jabatan',
         key: 'nama',
-        dataIndex: 'jabatan',
+        dataIndex: 'titleJabatan',
       },
       {
         title: 'Nama User',
@@ -134,6 +130,7 @@ const state = {
       {
         title: 'No',
         key: 'index',
+        width: 25,
         render: (text, record, index) => index,
         slots: { customRender: 'no' },
       },
@@ -141,10 +138,6 @@ const state = {
         title: 'Nama Jabatan',
         slots: { customRender: 'id_jabatan' },
       },
-      // {
-      //   title: 'ID User',
-      //   slots: { customRender: 'id_user' },
-      // },
       {
         title: 'Nama User',
         slots: { customRender: 'nama_sales' },
@@ -152,6 +145,7 @@ const state = {
       {
         title: 'Action',
         slots: { customRender: 'action' },
+        width: 50,
       },
     ],
     form_tambah_bawahan: {

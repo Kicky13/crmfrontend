@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -97,7 +97,7 @@
                 </template>
                 <template #id_jabatan="{ text }">
                   <div>
-                    {{ text.idJabatan }}
+                    {{ text.titleJabatan }}
                   </div>
                 </template>
                 <template #id_user="{ text }">
@@ -120,11 +120,22 @@
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
+                      title="Lihat Hirarki"
+                      @click="changeProfile(text)"
+                      class="btn btn-outline-success mr-1"
+                    >
+                      <i class="fa fa-sitemap"></i>
+                    </button>
+                    <button
+                      v-if="text.iduser"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
                       title="Kosongkan Jabatan"
                       @click="openModalDelete(text)"
                       class="btn btn-outline-danger mr-1"
                     >
-                      <i class="fa fa-trash"></i>
+                      <i class="fa fa-user-times"></i>
                     </button>
                     <!-- <button
                       v-if="text.iduser != null"
@@ -146,7 +157,7 @@
                       @click="assignUser(text)"
                       class="btn btn-outline-info"
                     >
-                      <i class="fa fa-users"></i>
+                      <i class="fa fa-user-plus"></i>
                     </button>
                   </div>
                 </template>
@@ -172,10 +183,10 @@
         >
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="User Sales" name="level">
           <a-select
             v-model:value="userManagement.form_tambah_bawahan.id_bawahan"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales"
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
@@ -216,10 +227,10 @@
         <a-button @click="handleSubmitReplaceUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="User Sales" name="level">
           <a-select
             v-model:value="userManagement.form_replace_bawahan.user_replace_id"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales Bawahan"
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
@@ -260,17 +271,18 @@
         <a-button @click="handleSubmitAssignUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="User Sales" name="level">
           <a-select
             v-model:value="userManagement.form_assign_bawahan.id_user"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales Bawahan"
+            show-search
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
               :key="`level_${index}`"
-              :value="item.iduser"
+              :value="item.namasales"
             >
-              {{ item.namasales }}
+              {{ item.iduser }} - {{ item.namasales }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -358,7 +370,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -529,11 +541,12 @@ export default {
     closeModalAssignUser() {
       this.userManagement.modalVisibleAssignUser = false
     },
-    assignUser() {
+    assignUser(text) {
+      console.log(text.idJabatan)
       this.userManagement.modalVisibleAssignUser = true
       this.$store.commit('userManagement/changeUserManagement', {
         form_assign_bawahan: {
-          id_jabatan: this.$route.params.id_jabatan,
+          id_jabatan: text.idJabatan,
           id_user: null,
           tgl_mulai: '',
           tgl_akhir: '',
