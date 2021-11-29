@@ -130,6 +130,7 @@ const state = {
       {
         title: 'No',
         key: 'index',
+        width: 25,
         render: (text, record, index) => index,
         slots: { customRender: 'no' },
       },
@@ -144,6 +145,7 @@ const state = {
       {
         title: 'Action',
         slots: { customRender: 'action' },
+        width: 50,
       },
     ],
     form_tambah_bawahan: {
