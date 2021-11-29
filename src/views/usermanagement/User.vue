@@ -454,7 +454,7 @@ export default {
           email: row.email,
           nohp: row.nohp,
           userid: row.userid,
-          id_level_hirarki: row.id,
+          id_level_hirarki: row.idLevelJabatan,
         },
       })
       this.userManagementCRM.modalVisible = true
