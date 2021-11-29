@@ -175,6 +175,7 @@
             style="width: 100% !important"
             v-model:value="userManagementCRM.formState.email"
             placeholder="Ketik email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           />
         </a-form-item>
         <a-form-item label="No HP" name="nohp">
@@ -183,6 +184,8 @@
             type="number"
             v-model:value="userManagementCRM.formState.nohp"
             placeholder="Ketik no hp"
+            pattern="^\d{12}$"
+            :max-length="12"
           />
         </a-form-item>
       </a-form>
@@ -265,8 +268,8 @@ export default {
       if (pagination.pageSize === 5) {
         await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
           table: {
-            limit: 500 + 5 * pagination.current,
-            offset: 1 + 5 * pagination.current,
+            limit: 2000,
+            offset: 0,
           },
         }),
           await this.getListUserCRM()
@@ -274,8 +277,8 @@ export default {
       if (pagination.pageSize === 10) {
         await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
           table: {
-            limit: 500 + 10 * pagination.current,
-            offset: 1 + 10 * pagination.current,
+            limit: 2000,
+            offset: 0,
           },
         }),
           await this.getListUserCRM()
@@ -283,8 +286,8 @@ export default {
       if (pagination.pageSize === 15) {
         await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
           table: {
-            limit: 500 + 15 * pagination.current,
-            offset: 1 + 15 * pagination.current,
+            limit: 2000,
+            offset: 0,
           },
         }),
           await this.getListUserCRM()
@@ -292,8 +295,8 @@ export default {
       if (pagination.pageSize === 20) {
         await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
           table: {
-            limit: 500 + 20 * pagination.current,
-            offset: 1 + 20 * pagination.current,
+            limit: 2000,
+            offset: 0,
           },
         }),
           await this.getListUserCRM()
@@ -439,7 +442,6 @@ export default {
         await this.getListUserCRM()
         this.closeModal()
       } else {
-        this.closeModal()
       }
     },
 

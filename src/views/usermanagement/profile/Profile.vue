@@ -46,7 +46,7 @@
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">List SSM</strong>
+            <strong class="align-self-center">List {{ listData.nama_singkat }}</strong>
           </div>
           <div class="card-body">
             <div class="row">
@@ -86,7 +86,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="(data) => data.iduser"
+                :row-key="data => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -366,11 +366,12 @@ export default {
       id_jabatan: null,
       modalTambahBawahan: false,
       newJabatan: '',
+      listData: '',
     }
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -384,6 +385,10 @@ export default {
       id_jabatan: this.$route.params.id_jabatan,
       id_user: this.userManagement.detail_jabatan.idUser,
     })
+
+    await this.getListJenisUser()
+
+    await this.filterList()
   },
   methods: {
     ...mapActions('userManagement', [
@@ -395,7 +400,14 @@ export default {
       'submitReplaceSalesHirarki',
       'submitAssignSalesHirarki',
       'postJabatanBawahan',
+      'getListJenisUser',
     ]),
+
+    filterList() {
+      this.listData = this.userManagement.listUser.filter(
+        x => x.id_level_hirarki === this.userManagement.detail_jabatan.idLevelJabatan,
+      )
+    },
 
     disabledAssignStartDate(startValue) {
       const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
