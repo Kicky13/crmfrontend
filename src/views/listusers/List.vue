@@ -89,6 +89,7 @@
             :pagination="pagination"
             :loading="listUsers.isLoading"
             @change="handleTableChange"
+            :row-class-name="tableRowClassName"
           >
             <template #no="{ index }">
               <div>
@@ -347,7 +348,7 @@ export default {
     ]),
     tableRowClassName(text) {
       console.log(text)
-      if (text.titleJabatan === '') {
+      if (text.idJabatan === '') {
         return 'non-active'
       } else {
         return ''
