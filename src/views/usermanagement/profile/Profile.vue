@@ -97,7 +97,7 @@
                 </template>
                 <template #id_jabatan="{ text }">
                   <div>
-                    {{ text.idJabatan }}
+                    {{ text.titleJabatan }}
                   </div>
                 </template>
                 <template #id_user="{ text }">

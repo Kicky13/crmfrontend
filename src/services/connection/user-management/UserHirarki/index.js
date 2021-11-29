@@ -62,13 +62,9 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'Kode Jabatan',
-        dataIndex: 'idJabatan',
-      },
-      {
         title: 'Posisi Jabatan',
         key: 'nama',
-        dataIndex: 'jabatan',
+        dataIndex: 'titleJabatan',
       },
       {
         title: 'Nama User',
@@ -141,10 +137,6 @@ const state = {
         title: 'Nama Jabatan',
         slots: { customRender: 'id_jabatan' },
       },
-      // {
-      //   title: 'ID User',
-      //   slots: { customRender: 'id_user' },
-      // },
       {
         title: 'Nama User',
         slots: { customRender: 'nama_sales' },

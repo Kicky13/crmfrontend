@@ -118,6 +118,7 @@ const columns = [
   {
     title: 'Alamat',
     dataIndex: 'alamat',
+    ellipsis: true,
   },
   {
     title: 'Provinsi',
@@ -129,7 +130,7 @@ const columns = [
   },
   {
     title: 'Koordinat',
-    dataIndex: 'koordinat',
+    dataIndex: 'kordinat',
   },
   {
     title: 'Status Lock',
