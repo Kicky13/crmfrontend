@@ -135,7 +135,7 @@
                       @click="openModalDelete(text)"
                       class="btn btn-outline-danger mr-1"
                     >
-                      <i class="fa fa-trash"></i>
+                      <i class="fa fa-user-times"></i>
                     </button>
                     <!-- <button
                       v-if="text.iduser != null"
@@ -157,7 +157,7 @@
                       @click="assignUser(text)"
                       class="btn btn-outline-info"
                     >
-                      <i class="fa fa-users"></i>
+                      <i class="fa fa-user-plus"></i>
                     </button>
                   </div>
                 </template>

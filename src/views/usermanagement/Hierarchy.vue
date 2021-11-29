@@ -119,82 +119,82 @@
                   v-if="selectedShorthand === `SPC`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled'
-                      : ''
+                      ? 'disabled btn btn-light'
+                      : 'btn btn-success'
                   "
                   type="button"
-                  class="btn btn-light mr-2"
+                  class="mr-2"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Detail</span>
+                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-else-if="selectedShorthand === `TSO`"
                   type="button"
-                  class="btn btn-light mr-2"
+                  class="btn btn-success mr-2"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Detail</span>
+                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else-if="selectedShorthand === `SALES DIS`"
                   :to="`/users/profile/sales-distributor/${text.idJabatan}`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled'
-                      : ''
+                      ? 'disabled btn btn-light'
+                      : 'btn btn-success'
                   "
                   type="button"
-                  class="btn btn-light mr-2"
+                  class="mr-2"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Detail</span>
+                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else-if="selectedShorthand === `ADMIN DIS`"
                   :to="`/users/profile/admin-distributor/${text.idJabatan}`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled'
-                      : ''
+                      ? 'disabled btn btn-light'
+                      : 'btn btn-success'
                   "
                   type="button"
-                  class="btn btn-light mr-2"
+                  class="mr-2"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Detail</span>
+                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled'
-                      : ''
+                      ? 'disabled btn btn-light'
+                      : 'btn btn-success'
                   "
                   type="button"
-                  class="btn btn-light mr-2"
+                  class="mr-2"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Detail</span>
+                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <div>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
                     type="button"
-                    class="btn btn-warning mr-2"
+                    class="btn btn-info mr-2"
                     @click="assignRow(text)"
                   >
-                    <i class="fa fa-pencil-square-o"></i>
-                    <span class="text-black">Assign User</span></button
+                    <i class="fa fa-user-plus"></i>
+                    <span class="text-black"> Assign User</span></button
                   ><button
                     v-else
                     @click="openModalDelete(text.idJabatan)"
                     type="button"
                     class="btn btn-outline-danger mr-2"
                   >
-                    <i class="fa fa-trash"></i><span> Kosongkan Jabatan</span>
+                    <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
                   </button>
                 </div>
                 <!-- <router-link
