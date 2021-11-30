@@ -26,8 +26,8 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-            selectedShorthand === `ADMIN DIS` ||
-            selectedShorthand === `SALES DIS`
+              selectedShorthand === `ADMIN DIS` ||
+              selectedShorthand === `SALES DIS`
           "
           type="primary"
           class="mb-3 float-right"
@@ -82,7 +82,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -168,6 +168,16 @@
                 <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
+                  type="button"
+                  class="mr-2 btn btn-success"
+                >
+                  <i class="fa fa-sitemap mr-1"></i>
+                  <span class="text-black">Hirarki</span>
+                </router-link>
+
+                 <!-- <router-link
+                  v-else
+                  :to="`/users/profile/jabatan/${text.idJabatan}`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
                       ? 'disabled btn btn-light'
@@ -178,7 +188,7 @@
                 >
                   <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Hirarki</span>
-                </router-link>
+                </router-link> -->
                 <div>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
@@ -400,8 +410,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
-      userManagementCRM: (state) => state.userManagementCRM.data,
+      userManagement: state => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -447,10 +457,10 @@ export default {
     searchData(keyword) {
       if (keyword) {
         this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function (item) {
+        let dataList = _.reject(this.userManagement.dataTable, function(item) {
           return item.nama === null
         })
-        this.userManagement.dataTable = dataList.filter((data) =>
+        this.userManagement.dataTable = dataList.filter(data =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
         )
         this.userManagement.isLoading = false
@@ -490,8 +500,9 @@ export default {
       //     id_jabatan: item.idJabatan,
       //   },
       // })
+
       await this.getSalesNonBawahan({
-        id_jabatan: item.idJabatan,
+        id_jabatan: this.actiiveTabs.id_level_hirarki,
         id_user: 0,
       })
 
@@ -530,7 +541,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -680,7 +691,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -688,7 +699,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -735,13 +746,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
