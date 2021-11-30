@@ -688,7 +688,7 @@ export default {
 </style>
 <style>
 .table-list .ant-table-tbody .non-active td {
-  background: red !important;
+  background: #b20838 !important;
   color: white;
 }
 </style>

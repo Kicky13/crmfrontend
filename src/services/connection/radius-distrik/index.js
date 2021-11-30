@@ -38,7 +38,7 @@ const state = {
     isLoading: false,
     bodyList: {
       offset: 1,
-      limit: 20,
+      limit: 2000,
       filter: '',
     },
     itemsPerPage: [5, 10, 15, 20],
