@@ -7,7 +7,12 @@ const state = {
     listData: [],
     columns: [
       {
-        title: 'Id Sales',
+        title: 'ID Kota',
+        dataIndex: 'id_reference_wilayah',
+        key: 'id_reference_wilayah',
+      },
+      {
+        title: 'ID Sales',
         dataIndex: 'sales',
         key: 'sales',
       },
@@ -18,7 +23,7 @@ const state = {
         slots: { customRender: 'username' },
       },
       {
-        title: 'Id Toko',
+        title: 'ID Toko',
         dataIndex: 'id_toko',
         key: 'id_toko',
       },
@@ -111,6 +116,7 @@ const actions = {
     const { data } = state
 
     let dataArray = []
+    let dataIdRefenceWilayah = []
 
     data.listData.forEach((x) => {
       let dataObject = {
@@ -128,6 +134,13 @@ const actions = {
       dataArray.push(dataObject)
     })
 
+    data.listData.forEach(item => {
+      let dataObject = {
+        id_reference_wilayah: item.id_reference_wilayah,
+      }
+      dataIdRefenceWilayah.push(dataObject)
+    })
+
     const config = {
       header: {
         'Content-Type': 'multipart/form-data',
@@ -136,6 +149,7 @@ const actions = {
 
     const formData = new FormData()
     formData.append('commitData', JSON.stringify(dataArray))
+    formData.append('id_reference_wilayah', dataIdRefenceWilayah)
     const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
 
     if (result.data.status == 'error') {
