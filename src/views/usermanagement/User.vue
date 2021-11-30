@@ -2,34 +2,10 @@
   <div>
     <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <div>
-          <!-- <strong> Filter By </strong>
-          <a-select placeholder="Pilih Jabatan">
-            <a-select-option
-              v-for="(item, index) in userManagement.listUser"
-              :key="`level_${index}`"
-              :value="item.id_level_hirarki"
-            >
-              {{ item.nama_panjang }}
-            </a-select-option>
-          </a-select> -->
-        </div>
+        <div></div>
 
         <Can do="create" on="News">
           <div class="d-flex">
-            <!-- <div class="align-self-center">
-              <span>Tambah Jenis User :</span>
-            </div>
-            <a-input
-              placeholder="Nama jenis user"
-              class="mx-3"
-              style="width: 200px"
-              v-model:value="newUsername"
-            />
-            <a-button type="primary" @click="addNewUsername">
-              <i class="fa fa-save mr-2" />
-              Save
-            </a-button> -->
             <a-button type="primary" class="float-right" @click="openModal()">
               <i class="fa fa-plus mr-2" />
               Tambah User
@@ -87,29 +63,41 @@
               <div>
                 <button
                   type="button"
-                  class="btn btn-light mr-1"
+                  class="btn btn-info mr-1"
                   @click="showModalPassword(text)"
                   data-toggle="tooltip"
                   data-placement="top"
-                  title="View Password"
+                  title="Lihat Password"
                 >
                   <i class="fa fa-eye mr-1" />
                   <!-- <span class="text-black">View Password</span> -->
                 </button>
-                <button type="button" class="btn btn-warning mr-1" @click="showUserEditModal(text)">
+                <button
+                  type="button"
+                  class="btn btn-success mr-1"
+                  data-toggle="tooltip"
+                  title="Sunting Data"
+                  @click="showUserEditModal(text)"
+                >
                   <i class="fa fa-pencil-square-o mr-1" />
-                  <span class="text-black">Ubah</span>
                 </button>
                 <button
                   type="button"
-                  class="btn btn-outline-danger mr-1"
+                  class="btn btn-danger mr-1"
+                  data-toggle="tooltip"
+                  title="Hapus Data"
                   @click="deleteConfirm(text)"
                 >
                   <i class="fa fa-trash mr-1" />
-                  <span>Hapus</span>
                 </button>
-                <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset </span>
+                <button
+                  @click="resetRow(text)"
+                  type="button"
+                  data-toggle="tooltip"
+                  title="Reset Password"
+                  class="btn btn-warning"
+                >
+                  <i class="fa fa-refresh"></i>
                 </button>
               </div>
             </template>
@@ -149,13 +137,6 @@
             placeholder="Ketik username"
           />
         </a-form-item>
-        <!-- <a-form-item label="Password" name="password">
-          <a-input
-            style="width: 100% !important"
-            v-model:value="userManagementCRM.formState.password"
-            placeholder="Ketik password"
-          />
-        </a-form-item> -->
         <a-form-item label="Level" name="level">
           <a-select
             v-model:value="userManagementCRM.formState.id_level_hirarki"
@@ -193,7 +174,7 @@
 
     <a-modal
       v-model:visible="userManagementCRM.modalPreviewPassword"
-      :title="`View Password`"
+      :title="`Lihat Password`"
       :closable="false"
       :mask-closable="false"
     >
@@ -210,11 +191,11 @@
         >
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Password" name="password">
+        <a-form-item label="Autentikasi" name="password">
           <a-input-password
             style="width: 100% !important"
             v-model:value="userManagementCRM.formViewPassword.password"
-            placeholder="Ketik password"
+            placeholder="Ketikan password untuk melihat"
           />
         </a-form-item>
       </a-form>
@@ -341,7 +322,7 @@ export default {
         }, secondsToGo * 1000)
       } else {
         const modal = this.$success({
-          title: 'Password anda benar !',
+          title: 'Lihat Password !',
           content: this.userManagementCRM.messagePassword,
         })
 
