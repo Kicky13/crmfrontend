@@ -2,34 +2,10 @@
   <div>
     <a-card class="card card-top card-top-primary" :loading="isLoading">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <div>
-          <!-- <strong> Filter By </strong>
-          <a-select placeholder="Pilih Jabatan">
-            <a-select-option
-              v-for="(item, index) in userManagement.listUser"
-              :key="`level_${index}`"
-              :value="item.id_level_hirarki"
-            >
-              {{ item.nama_panjang }}
-            </a-select-option>
-          </a-select> -->
-        </div>
+        <div></div>
 
         <Can do="create" on="News">
           <div class="d-flex">
-            <!-- <div class="align-self-center">
-              <span>Tambah Jenis User :</span>
-            </div>
-            <a-input
-              placeholder="Nama jenis user"
-              class="mx-3"
-              style="width: 200px"
-              v-model:value="newUsername"
-            />
-            <a-button type="primary" @click="addNewUsername">
-              <i class="fa fa-save mr-2" />
-              Save
-            </a-button> -->
             <a-button type="primary" class="float-right" @click="openModal()">
               <i class="fa fa-plus mr-2" />
               Tambah User
@@ -70,7 +46,7 @@
           <a-table
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
-            :row-key="data => data.uuid"
+            :row-key="(data) => data.uuid"
             :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
             @change="handleTableChange"
@@ -87,29 +63,41 @@
               <div>
                 <button
                   type="button"
-                  class="btn btn-light mr-1"
+                  class="btn btn-info mr-1"
                   @click="showModalPassword(text)"
                   data-toggle="tooltip"
                   data-placement="top"
-                  title="View Password"
+                  title="Lihat Password"
                 >
                   <i class="fa fa-eye mr-1" />
                   <!-- <span class="text-black">View Password</span> -->
                 </button>
-                <button type="button" class="btn btn-warning mr-1" @click="showUserEditModal(text)">
+                <button
+                  type="button"
+                  class="btn btn-success mr-1"
+                  data-toggle="tooltip"
+                  title="Sunting Data"
+                  @click="showUserEditModal(text)"
+                >
                   <i class="fa fa-pencil-square-o mr-1" />
-                  <span class="text-black">Ubah</span>
                 </button>
                 <button
                   type="button"
-                  class="btn btn-outline-danger mr-1"
+                  class="btn btn-danger mr-1"
+                  data-toggle="tooltip"
+                  title="Hapus Data"
                   @click="deleteConfirm(text)"
                 >
                   <i class="fa fa-trash mr-1" />
-                  <span>Hapus</span>
                 </button>
-                <button @click="resetRow(text)" type="button" class="btn btn-light">
-                  <i class="fa fa-redo"></i><span> Reset </span>
+                <button
+                  @click="resetRow(text)"
+                  type="button"
+                  data-toggle="tooltip"
+                  title="Reset Password"
+                  class="btn btn-warning"
+                >
+                  <i class="fa fa-refresh"></i>
                 </button>
               </div>
             </template>
@@ -149,13 +137,6 @@
             placeholder="Ketik username"
           />
         </a-form-item>
-        <!-- <a-form-item label="Password" name="password">
-          <a-input
-            style="width: 100% !important"
-            v-model:value="userManagementCRM.formState.password"
-            placeholder="Ketik password"
-          />
-        </a-form-item> -->
         <a-form-item label="Level" name="level">
           <a-select
             v-model:value="userManagementCRM.formState.id_level_hirarki"
@@ -193,7 +174,7 @@
 
     <a-modal
       v-model:visible="userManagementCRM.modalPreviewPassword"
-      :title="`View Password`"
+      :title="`Lihat Password`"
       :closable="false"
       :mask-closable="false"
     >
@@ -210,11 +191,11 @@
         >
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Password" name="password">
+        <a-form-item label="Autentikasi" name="password">
           <a-input-password
             style="width: 100% !important"
             v-model:value="userManagementCRM.formViewPassword.password"
-            placeholder="Ketik password"
+            placeholder="Ketikan password untuk melihat"
           />
         </a-form-item>
       </a-form>
@@ -246,8 +227,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagementCRM: state => state.userManagementCRM.data,
-      userManagement: state => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   mounted() {
@@ -341,7 +322,7 @@ export default {
         }, secondsToGo * 1000)
       } else {
         const modal = this.$success({
-          title: 'Password anda benar !',
+          title: 'Lihat Password !',
           content: this.userManagementCRM.messagePassword,
         })
 
@@ -358,7 +339,7 @@ export default {
         }, secondsToGo * 1000)
       }
     },
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         body: {
           offset: 1,
@@ -425,16 +406,38 @@ export default {
       if (
         this.userManagementCRM.formState.name &&
         this.userManagementCRM.formState.username &&
-        this.userManagementCRM.formState.email &&
-        this.userManagementCRM.formState.nohp
+        this.emailValidation(this.userManagementCRM.formState.email) &&
+        this.phoneValidation(this.userManagementCRM.formState.nohp)
       ) {
         return true
       } else {
-        notification.error({
-          message: 'Gagal Menyimpan',
-          description: 'Semua kolom wajib diisi',
-        })
+        console.log(this.emailValidation(this.userManagementCRM.formState.email))
+        console.log(this.phoneValidation(this.userManagementCRM.formState.nohp))
+        if (!this.emailValidation(this.userManagementCRM.formState.email)) {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Format email yang dimasukkan salah',
+          })
+        } else if (!this.phoneValidation(this.userManagement.formState.nohp)) {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Format nomor maksimal 12 karakter',
+          })
+        } else {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Semua kolom wajib diisi',
+          })
+        }
       }
+    },
+    emailValidation(email) {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      )
+    },
+    phoneValidation(phone) {
+      return phone.length <= 12 && phone.length >= 6 ? true : false
     },
     async handleSubmit() {
       if (this.formValidation()) {
@@ -446,7 +449,7 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id.uuid)
+      const row = this.userManagementCRM.dataSourceTable.find((data) => data.uuid === id.uuid)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
           id: row.uuid,
