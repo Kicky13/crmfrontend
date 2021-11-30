@@ -459,19 +459,7 @@ export default {
       }
     },
     async openModal() {
-      // this.modalVisible = true
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: '',
-      //     name: '',
-      //     username: '',
-      //     password: '',
-      //     email: '',
-      //     nohp: '',
-      //     userid: '',
-      //     idLevelHirarki: null,
-      //   },
-      // })
+      
 
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
@@ -585,7 +573,7 @@ export default {
 </style>
 <style>
 .table-list .ant-table-tbody .non-active td {
-  background: red !important;
+  background: #b20838 !important;
   color: white;
 }
 </style>
