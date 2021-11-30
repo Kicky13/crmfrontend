@@ -21,15 +21,9 @@
       </div>
       <div class="card-header">
         <a-radio-group v-model="value" :default-value="3" @change="onChange">
-          <a-radio :value="1">
-            Posisi Kosong
-          </a-radio>
-          <a-radio :value="2">
-            Punya Posisi
-          </a-radio>
-          <a-radio :value="3" checked>
-            Semua
-          </a-radio>
+          <a-radio :value="1"> Posisi Kosong </a-radio>
+          <a-radio :value="2"> Punya Posisi </a-radio>
+          <a-radio :value="3" checked> Semua </a-radio>
         </a-radio-group>
         <!-- <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong> -->
         <!-- <a-button
@@ -82,13 +76,12 @@
         </div>
         <div class="table-list table-responsive text-nowrap">
           <a-table
-          class=" "
+            class=""
             :columns="listUsers.columns"
             :data-source="listUsers.users"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="listUsers.isLoading"
-            @change="handleTableChange"
             :row-class-name="tableRowClassName"
           >
             <template #no="{ index }">
@@ -246,7 +239,7 @@
           <a-table
             :columns="listUsers.columns_history"
             :data-source="listUsers.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           >
           </a-table>
         </a-modal>
@@ -320,8 +313,8 @@ export default {
   },
   computed: {
     ...mapState({
-      listUsers: state => state.listUsers.data,
-      userManagementCRM: state => state.userManagementCRM.data,
+      listUsers: (state) => state.listUsers.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -329,12 +322,13 @@ export default {
   },
   methods: {
     onChange(e) {
-      console.log('radio checked', e.target.value)
-      if (e.target.value == 3) {
-        console.log(...this.listUsers.users)
-      }
+      this.value = e.target.value
+      this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        activeRadio: e.target.value,
+      })
     },
-    
+
     ...mapActions('listUsers', [
       'getListJenisUser',
       'getDataTable',
@@ -347,9 +341,8 @@ export default {
       'getDetailProfile',
     ]),
     tableRowClassName(text) {
-      console.log(text)
-      if (text.idJabatan === '') {
-        return 'non-active'
+      if (text.idJabatan === '' || text.idJabatan == null) {
+        return 'bg-danger'
       } else {
         return ''
       }
@@ -375,7 +368,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
 
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('listUsers/changeUserManagement', {
         bodyList: {
           offset: 1,
@@ -448,7 +441,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.listUsers.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       console.log(this.actiiveTabs)
       this.flagBawahan = filtered[0].flag_bawahan
@@ -458,6 +451,7 @@ export default {
       this.selectedTabId = key
       this.getDataTable({
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        activeRadio: this.value,
       })
     },
     async handleTableChange(pagination, key) {
@@ -472,17 +466,19 @@ export default {
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
-               offset: 0 + 5 * pagination.current,
+              offset: 0 + 5 * pagination.current,
               // offset:0,
             },
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         }
       }
@@ -496,17 +492,19 @@ export default {
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
               // offset: 1 + 10 * pagination.current,
-              offset:0,
+              offset: 0,
             },
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         }
       }
@@ -520,17 +518,19 @@ export default {
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
               // offset: 1 + 15 * pagination.current,
-              offset:0,
+              offset: 0,
             },
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         }
       }
@@ -544,17 +544,19 @@ export default {
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         } else {
           await this.$store.commit('listUsers/changeUserManagement', {
             bodyList: {
               limit: 2000,
               // offset: 1 + 20 * pagination.current,
-              offset:0,
+              offset: 0,
             },
           }),
             await this.getDataTable({
               id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+              activeRadio: this.value,
             })
         }
       }
@@ -582,6 +584,7 @@ export default {
         onOk: async () => {
           await this.postJabatanGSM({
             id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+            activeRadio: this.value,
           })
           await this.dataListUser()
         },
@@ -607,7 +610,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -615,7 +618,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -659,13 +662,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }
