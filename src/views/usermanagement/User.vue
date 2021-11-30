@@ -70,7 +70,7 @@
           <a-table
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
-            :row-key="data => data.uuid"
+            :row-key="(data) => data.uuid"
             :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
             @change="handleTableChange"
@@ -246,8 +246,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagementCRM: state => state.userManagementCRM.data,
-      userManagement: state => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   mounted() {
@@ -358,7 +358,7 @@ export default {
         }, secondsToGo * 1000)
       }
     },
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         body: {
           offset: 1,
@@ -425,16 +425,38 @@ export default {
       if (
         this.userManagementCRM.formState.name &&
         this.userManagementCRM.formState.username &&
-        this.userManagementCRM.formState.email &&
-        this.userManagementCRM.formState.nohp
+        this.emailValidation(this.userManagementCRM.formState.email) &&
+        this.phoneValidation(this.userManagementCRM.formState.nohp)
       ) {
         return true
       } else {
-        notification.error({
-          message: 'Gagal Menyimpan',
-          description: 'Semua kolom wajib diisi',
-        })
+        console.log(this.emailValidation(this.userManagementCRM.formState.email))
+        console.log(this.phoneValidation(this.userManagementCRM.formState.nohp))
+        if (!this.emailValidation(this.userManagementCRM.formState.email)) {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Format email yang dimasukkan salah',
+          })
+        } else if (!this.phoneValidation(this.userManagement.formState.nohp)) {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Format nomor maksimal 12 karakter',
+          })
+        } else {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Semua kolom wajib diisi',
+          })
+        }
       }
+    },
+    emailValidation(email) {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      )
+    },
+    phoneValidation(phone) {
+      return phone.length <= 12 && phone.length >= 6 ? true : false
     },
     async handleSubmit() {
       if (this.formValidation()) {
@@ -446,7 +468,7 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id.uuid)
+      const row = this.userManagementCRM.dataSourceTable.find((data) => data.uuid === id.uuid)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
           id: row.uuid,

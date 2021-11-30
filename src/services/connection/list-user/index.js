@@ -148,6 +148,7 @@ const state = {
     actiiveTabs: {},
     users: [],
     selectedTabId: 1,
+    activeRadio: 3,
     formState: {
       id: '',
       name: '',
@@ -293,10 +294,26 @@ const actions = {
         isLoading: false,
       })
     } else {
-      await commit('changeUserManagement', {
-        users: result.data.data,
-        isLoading: false,
-      })
+      if (payload.activeRadio == 2) {
+        let dataSource = [...result.data.data]
+          let filtered = dataSource.filter(x => x.idJabatan !== null && x.idJabatan !== '')
+          await commit('changeUserManagement', {
+            users: filtered,
+            isLoading: false,
+          })
+      } else if (payload.activeRadio == 1) {
+        let dataSource = [...result.data.data]
+          let filtered = dataSource.filter(x => x.idJabatan === null || x.idJabatan === '')
+          await commit('changeUserManagement', {
+            users: filtered,
+            isLoading: false,
+          })
+      } else {
+        await commit('changeUserManagement', {
+          users: result.data.data,
+          isLoading: false,
+        })
+      }
     }
     },
   
