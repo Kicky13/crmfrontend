@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-card class="card card-top card-top-primary" :loading="isLoading">
-      <div class="card-header d-flex">
+      <div class="card-header d-flex scroll_menu">
         <a-tabs
           :default-active-key="0"
           @change="changeTabs"
@@ -115,7 +115,7 @@
                 <button
                   tooltip="Log History"
                   type="button"
-                  class="btn btn-default mr-2"
+                  class="btn btn-info mr-2"
                   @click="assignRow(text.userid, text.idJabatan)"
                 >
                   <i class="fa fa-history"></i>
@@ -342,7 +342,7 @@ export default {
     ]),
     tableRowClassName(text) {
       if (text.idJabatan === '' || text.idJabatan == null) {
-        return 'bg-danger'
+        return 'non-active'
       } else {
         return ''
       }
@@ -687,8 +687,29 @@ export default {
 @import './style.module.scss';
 </style>
 <style>
-.table-list .ant-table-tbody .ant-table-row-hover {
-  background-color: red;
-  color: black;
+.table-list .ant-table-tbody .non-active td {
+  background: red !important;
+  color: white;
+}
+</style>
+<style lang="scss" scoped>
+.scroll_menu {
+  overflow: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    border: 1px solid #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b20838;
+  }
 }
 </style>
