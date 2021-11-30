@@ -57,7 +57,7 @@ const state = {
       userID: '',
     },
     table: {
-      offset:0,
+      offset: 0,
       limit: 2000,
       q: '',
     },
@@ -151,29 +151,37 @@ const actions = {
     let result = ''
     if (data.formState.id) {
       result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
-
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil diubah`,
-      })
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
       await commit('changeUserManagementCRM', {
         isLoading: false,
       })
     } else {
       result = await apiClient.post(`/usercrm/add`, formData)
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+
       await commit('changeUserManagementCRM', {
         isLoading: false,
-      })
-    }
-
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message[0],
       })
     }
   },
