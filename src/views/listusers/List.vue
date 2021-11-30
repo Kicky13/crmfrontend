@@ -692,3 +692,24 @@ export default {
   color: white;
 }
 </style>
+<style lang="scss" scoped>
+.scroll_menu {
+  overflow: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    border: 1px solid #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #d5d5d5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b20838;
+  }
+}
+</style>
