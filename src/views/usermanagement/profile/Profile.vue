@@ -46,7 +46,9 @@
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">List {{ listData.nama_singkat }}</strong>
+            <strong class="align-self-center">{{
+              listData ? 'List ' + listData[0].nama_singkat : 'Loading...'
+            }}</strong>
           </div>
           <div class="card-body">
             <div class="row">
@@ -55,7 +57,7 @@
               <div class="col-md-4 col-xs-12 mb-2">
                 <a-button @click="modalTambahBawahan = true" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
-                  Tambah SSM
+                  {{ listData ? 'Tambah ' + listData[0].nama_singkat : 'Loading...' }}
                 </a-button>
               </div>
             </div>
