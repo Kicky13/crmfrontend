@@ -116,70 +116,14 @@
                   tooltip="Log History"
                   type="button"
                   class="btn btn-info mr-2"
-                  @click="assignRow(text.userid, text.idJabatan)"
+                  @click="assignRow(text)"
                 >
                   <i class="fa fa-history"></i>
                 </button>
-
-                <!-- <router-link
-                  :to="`/users/profile/TSO/${text.idJabatan}`"
-                  v-if="selectedShorthand === `TSO`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
-                  type="button"
-                  class="btn btn-light mr-2"
-                >
-                  <i class="fa fa-file-text-o mr-1"></i>
-                  <span class="text-black">Detail</span>
-                </router-link> -->
               </div>
             </template>
           </a-table>
         </div>
-        <!-- <a-modal
-          v-model:visible="modalVisible"
-          :title="'Tambah User'"
-          :closable="false"
-          :mask-closable="false"
-        >
-          <template #footer>
-            <a-button key="back" @click="closeModal">Batal</a-button>
-            <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary"
-              >Simpan</a-button
-            >
-          </template>
-          <a-form label-align="left" layout="vertical">
-            <a-form-item label="Nama User" name="name">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.name"
-                placeholder="Ketik nama"
-              />
-            </a-form-item>
-            <a-form-item label="Username" name="username">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.username"
-                placeholder="Ketik username"
-              />
-            </a-form-item>
-            
-            <a-form-item label="Email" name="email">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.email"
-                placeholder="Ketik email"
-              />
-            </a-form-item>
-            <a-form-item label="No HP" name="nohp">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.nohp"
-                placeholder="Ketik no hp"
-              />
-            </a-form-item>
-          </a-form>
-        </a-modal> -->
-
         <a-modal
           v-model:visible="modalVisible"
           :title="'Riwayat Jabatan User'"
@@ -199,14 +143,14 @@
               <div class="row">
                 <div class="col-md-4">Nama</div>
                 <div class="col-md-1">:</div>
-                <div class="col-md-7">{{ listUsers.detail_jabatan.namaUser }}</div>
+                <div class="col-md-7">{{ namaUser }}</div>
               </div>
             </div>
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-4">Level Posisi</div>
                 <div class="col-md-1">:</div>
-                <div class="col-md-7">{{ listUsers.detail_jabatan.namaJabatan }}</div>
+                <div class="col-md-7">{{ roleUser }}</div>
               </div>
             </div>
             <div class="col-md-12">
@@ -214,11 +158,7 @@
                 <div class="col-md-4">Email</div>
                 <div class="col-md-1">:</div>
                 <div class="col-md-7">
-                  {{
-                    listUsers.detail_jabatan.email == null || listUsers.detail_jabatan.email == ''
-                      ? '-'
-                      : listUsers.detail_jabatan.email
-                  }}
+                  {{ emailUser == null || emailUser == '' ? '-' : emailUser }}
                 </div>
               </div>
             </div>
@@ -227,11 +167,7 @@
                 <div class="col-md-4">No.Telp</div>
                 <div class="col-md-1">:</div>
                 <div class="col-md-7">
-                  {{
-                    listUsers.detail_jabatan.nohp == null || listUsers.detail_jabatan.nohp == ''
-                      ? '-'
-                      : listUsers.detail_jabatan.nohp
-                  }}
+                  {{ telpUser == null || telpUser == '' ? '-' : telpUser }}
                 </div>
               </div>
             </div>
@@ -293,6 +229,10 @@ export default {
       value: 3,
       modalDeleteView: false,
       flagBawahan: null,
+      namaUser: '',
+      roleUser: '',
+      emailUser: '',
+      telpUser: '',
       formState: {
         name: '',
         username: '',
@@ -380,34 +320,16 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 100),
-    async assignRow(item, idJabatan) {
+    async assignRow(item) {
       console.log(item)
-      this.id_jabatan = idJabatan
-      await this.getDetailProfile({
-        id_jabatan: this.id_jabatan,
-      })
-      // const row = this.userManagement.users.find(data => data.uuid === id)
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: row.uuid,
-      //     name: row.name,
-      //     username: row.username,
-      //     password: row.password,
-      //     email: row.email,
-      //     nohp: row.nohp,
-      //     userid: row.userid,
-      //     idLevelHirarki: row.idLevelHirarki,
-      //   },
-      // })
-      this.$store.commit('listUsers/changeUserManagement', {
-        form_assign_bawahan: {
-          id_jabatan: item.idJabatan,
-        },
-      })
+      this.namaUser = item.nama
+      this.roleUser = item.Role
+      this.emailUser = item.email
+      this.telpUser = item.nohp
+
       this.logHistory({
-        userid: item,
+        userid: item.userid,
       })
-      //   await this.logHistory()
       this.modalVisible = true
     },
     closeModalAssignUser() {
