@@ -168,6 +168,16 @@
                 <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
+                  type="button"
+                  class="mr-2 btn btn-success"
+                >
+                  <i class="fa fa-sitemap mr-1"></i>
+                  <span class="text-black">Hirarki</span>
+                </router-link>
+
+                 <!-- <router-link
+                  v-else
+                  :to="`/users/profile/jabatan/${text.idJabatan}`"
                   :class="
                     text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
                       ? 'disabled btn btn-light'
@@ -178,7 +188,7 @@
                 >
                   <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Hirarki</span>
-                </router-link>
+                </router-link> -->
                 <div>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
