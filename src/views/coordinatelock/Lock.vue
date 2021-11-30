@@ -112,7 +112,7 @@ const columns = [
   {
     title: 'Nama Toko',
     dataIndex: 'nm_customer',
-    width: 150,
+    width: 200,
     fixed: 'left',
   },
   {

@@ -12,11 +12,6 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'ID User',
-        dataIndex: 'userid',
-        key: 'userid',
-      },
-      {
         title: 'Nama',
         dataIndex: 'name',
       },

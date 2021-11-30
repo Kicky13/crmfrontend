@@ -33,8 +33,7 @@
                 <span>entries</span>
               </div>
             </div>
-            <div class="col-md-6 col-xs-12 ">
-              
+            <div class="col-md-6 col-xs-12">
               <a-input-search
                 placeholder="Cari nama distrik"
                 style="width: 200px"
@@ -43,7 +42,6 @@
                 @input="searchData"
                 allow-clear
               />
-              
             </div>
           </div>
         </div>
@@ -52,17 +50,17 @@
           <a-table
             :columns="radiusDistrik.columns"
             :data-source="radiusDistrik.listRadiusDistrik"
-            :row-key="data => data.uuid"
+            :row-key="(data) => data.uuid"
             :loading="radiusDistrik.isLoading"
             :pagination="radiusDistrik.pagination"
           >
             <template #action="{ text }">
               <div>
-                <button @click="fetchUpdateData(text)" type="button" class="btn btn-warning mr-2">
+                <button @click="fetchUpdateData(text)" type="button" class="btn btn-success mr-2">
                   <i class="fa fa-pencil-square-o"></i>
                   <span class="text-black">Ubah</span>
                 </button>
-                <button @click="deleteSelected(text)" type="button" class="btn btn-outline-danger">
+                <button @click="deleteSelected(text)" type="button" class="btn btn-danger">
                   <i class="fa fa-trash"></i><span> Hapus </span>
                 </button>
               </div>
@@ -105,7 +103,7 @@
             :rules="radiusDistrik.rules"
           >
             <a-input-number
-              style="width:100% !important; display: none;"
+              style="width: 100% !important; display: none"
               v-model:value="radiusDistrik.formData.id"
             />
             <a-form-item label="Pilih Level Wilayah" name="wilayahid">
@@ -147,7 +145,7 @@
             </a-form-item>
             <a-form-item label="Jarak Target" name="radius">
               <a-input-number
-                style="width:100% !important"
+                style="width: 100% !important"
                 v-model:value="radiusDistrik.formData.radius"
                 class="input-style"
                 :min="0"
@@ -217,7 +215,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      radiusDistrik: state => state.radiusDistrik.data,
+      radiusDistrik: (state) => state.radiusDistrik.data,
     }),
   },
   mounted() {
@@ -236,7 +234,7 @@ export default defineComponent({
       'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('radiusDistrik/changeRadiusDistrik', {
         bodyList: {
           filter: this.radiusDistrik.bodyList.filter,
@@ -308,47 +306,47 @@ export default defineComponent({
     setSelectMethod(value) {
       const id = value
       getDataListRefWilayah()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.radiusDistrik.formData.distrikid = null
             this.getDataDistrik(id)
             // this.formState.namaproduk = post.namaproduk
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
           }
         })
     },
     fetchGetDataSource() {
       getDataList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.dataSourceTable = response
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
           }
         })
     },
     fetchGetDataDistrik() {
       getDistrikList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.listDistrik = response
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
           }
         })
     },
     fetchUpdateData(value) {
       const id = value
-      getDataList().then(response => {
+      getDataList().then((response) => {
         if (response) {
-          const post = response.data.find(post => post.uuid === id)
+          const post = response.data.find((post) => post.uuid === id)
           this.showModal()
           this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
           this.radiusDistrik.formData.distrikid = post.id_distrik
