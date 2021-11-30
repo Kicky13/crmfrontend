@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-card class="card card-top card-top-primary" :loading="isLoading">
-      <div class="card-header d-flex">
+      <div class="card-header d-flex scroll_menu">
         <a-tabs
           :default-active-key="0"
           @change="changeTabs"
