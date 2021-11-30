@@ -550,10 +550,9 @@ const actions = {
     const { data } = state
 
     let formData = {
-      IDuser: parseInt(payload.id_user),
       offset: data.bodyList.offset,
-      limit: 1000,
-      IDJabatan: parseInt(payload.id_jabatan),
+      limit: 2000,
+      idLevelJabatan: parseInt(payload.id_jabatan),
     }
     const result = await apiClient.post(`/hirarki/salesList`, formData)
 
