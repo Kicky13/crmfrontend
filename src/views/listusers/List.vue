@@ -21,32 +21,10 @@
       </div>
       <div class="card-header">
         <a-radio-group v-model="value" :default-value="3" @change="onChange">
-          <a-radio :value="1"> Posisi Kosong </a-radio>
+          <a-radio :value="1"> Tanpa Posisi </a-radio>
           <a-radio :value="2"> Punya Posisi </a-radio>
           <a-radio :value="3" checked> Semua </a-radio>
         </a-radio-group>
-        <!-- <strong>{{ 'Daftar User ' + selectedTitle + ' (' + selectedShorthand + ')' }}</strong> -->
-        <!-- <a-button
-          v-if="selectedShorthand === `GSM`"
-          type="primary"
-          class="mb-3 float-right"
-          @click="openModal"
-        >
-          <i class="fa fa-plus mr-2" />
-          {{ 'Tambahkan Jabatan' }}
-        </a-button> -->
-        <!-- <a-button
-          class="btn btn-success mb-3 float-right"
-          style="margin-right: 5px; margin-left: 5px"
-          @click="goExport"
-        >
-          <i class="fa fa-upload mr-2" />
-          Export Users
-        </a-button> -->
-        <!-- <a-button @click="goImport" class="btn btn-light mb-3 float-right">
-          <i class="fa fa-download mr-2" />
-          Import Users
-        </a-button> -->
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -133,9 +111,6 @@
         >
           <template #footer>
             <a-button key="back" @click="closeModalAssignUser">Close</a-button>
-            <!-- <a-button @click="handleSubmitAssignUser()" key="submit" type="primary"
-              >Simpan</a-button
-            > -->
           </template>
 
           <div class="row mb-2">
@@ -484,20 +459,6 @@ export default {
       }
     },
     async openModal() {
-      // this.modalVisible = true
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: '',
-      //     name: '',
-      //     username: '',
-      //     password: '',
-      //     email: '',
-      //     nohp: '',
-      //     userid: '',
-      //     idLevelHirarki: null,
-      //   },
-      // })
-
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
         okText: 'Yes',
