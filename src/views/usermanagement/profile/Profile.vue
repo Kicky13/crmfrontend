@@ -384,8 +384,7 @@ export default {
       id_user: this.userManagement.detail_jabatan.idUser,
     })
     await this.getSalesNonBawahan({
-      id_jabatan: this.$route.params.id_jabatan,
-      id_user: this.userManagement.detail_jabatan.idUser,
+      id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
     })
 
     await this.getListJenisUser()
