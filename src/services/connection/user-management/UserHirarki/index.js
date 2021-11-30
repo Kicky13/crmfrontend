@@ -484,7 +484,7 @@ const actions = {
     const { data } = state
 
     let formData = {
-      IDuser: payload.id_user,
+      idJabatan: payload.id_jabatan,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
