@@ -29,7 +29,6 @@ const state = {
         title: 'Action',
         dataIndex: 'uuid',
         width: 150,
-        // key: 'id',
         slots: { customRender: 'action' },
       },
     ],

@@ -459,19 +459,7 @@ export default {
       }
     },
     async openModal() {
-      // this.modalVisible = true
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: '',
-      //     name: '',
-      //     username: '',
-      //     password: '',
-      //     email: '',
-      //     nohp: '',
-      //     userid: '',
-      //     idLevelHirarki: null,
-      //   },
-      // })
+      
 
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
