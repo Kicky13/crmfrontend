@@ -19,12 +19,12 @@
             <template #action="{ text }">
               <div>
                 <Can do="update" a="validasiHarga">
-                  <button type="button" class="btn btn-warning" @click="showModalEdit(text)">
+                  <button type="button" class="btn btn-success" @click="showModalEdit(text)">
                     <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                   </button>
                 </Can>
                 <Can do="delete" a="validasiHarga">
-                  <button @click="showConfirm(text)" type="button" class="btn btn-outline-danger">
+                  <button @click="showConfirm(text)" type="button" class="btn btn-danger">
                     <i class="fa fa-trash"></i><span> Hapus</span>
                   </button>
                 </Can>
@@ -86,7 +86,7 @@ import {
   showpost,
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
-import { Modal } from 'ant-design-vue'
+import { Modal, notification } from 'ant-design-vue'
 
 const columns = [
   {
@@ -132,7 +132,7 @@ export default {
   // },
   setup() {
     const rowSelection = {
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -185,9 +185,9 @@ export default {
       this.statusModal = true
       // showpost(id)
       getProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
-            const post = response.data.find(post => post.id === id)
+            const post = response.data.find((post) => post.id === id)
             this.formState.id = post.id
             this.formState.idproduk = post.idproduk
             this.formState.namaproduk = post.namaproduk
@@ -197,21 +197,32 @@ export default {
             this.formState.hargaJualMax = post.hargaJualMax
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     handleOk(e) {
       this.confirmLoading = true
       const formData = toRaw(this.formState)
       insertProduk(formData)
-        .then(response => {
-          if (response) {
+        .then((response) => {
+          if (response.status) {
             this.fetchGetDataSource()
+            notification.success({
+              message: 'Berhasil',
+              description: response.message,
+            })
+          } else {
+            notification.error({
+              message: 'Gagal!',
+              description: response.message,
+            })
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
       setTimeout(() => {
         this.visible = false
@@ -222,13 +233,23 @@ export default {
       this.confirmLoading = true
       const formData = toRaw(this.formState)
       updateProduk(this.formState.id, formData)
-        .then(response => {
-          if (response) {
+        .then((response) => {
+          if (response.status) {
             this.fetchGetDataSource()
+            notification.success({
+              message: 'Berhasil!',
+              description: response.message,
+            })
+          } else {
+            notification.error({
+              message: 'Gagal!',
+              description: response.message,
+            })
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
       setTimeout(() => {
         this.visible = false
@@ -241,14 +262,15 @@ export default {
     },
     deleteDataById(id) {
       deleteData(id)
-        .then(response => {
+        .then((response) => {
           if (response) {
             const dataSource = [...this.dataSourceTable]
-            this.dataSourceTable = dataSource.filter(item => item.id !== id)
+            this.dataSourceTable = dataSource.filter((item) => item.id !== id)
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     showConfirm(id) {
@@ -267,14 +289,15 @@ export default {
     setSelectMethod(value) {
       const id = value
       getSelectProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
-            const post = response.data.find(post => post.id === id)
+            const post = response.data.find((post) => post.id === id)
             this.formState.namaproduk = post.namaproduk
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
 
@@ -285,7 +308,7 @@ export default {
     },
     fetchGetDataSource() {
       getProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.dataSourceTable = response.data
             this.formState = {
@@ -302,19 +325,21 @@ export default {
             }
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     fetchGetDataProduk() {
       getSelectProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.listProduk = response.data
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
   },
