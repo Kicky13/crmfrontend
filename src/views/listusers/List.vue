@@ -115,7 +115,7 @@
                 <button
                   tooltip="Log History"
                   type="button"
-                  class="btn btn-default mr-2"
+                  class="btn btn-info mr-2"
                   @click="assignRow(text.userid, text.idJabatan)"
                 >
                   <i class="fa fa-history"></i>
@@ -342,7 +342,7 @@ export default {
     ]),
     tableRowClassName(text) {
       if (text.idJabatan === '' || text.idJabatan == null) {
-        return 'bg-danger'
+        return 'non-active'
       } else {
         return ''
       }
@@ -687,8 +687,8 @@ export default {
 @import './style.module.scss';
 </style>
 <style>
-.table-list .ant-table-tbody .ant-table-row-hover {
-  background-color: red;
-  color: black;
+.table-list .ant-table-tbody .non-active td {
+  background: red !important;
+  color: white;
 }
 </style>
