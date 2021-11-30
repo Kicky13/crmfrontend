@@ -46,7 +46,7 @@
           <a-table
             :columns="userManagementCRM.columns"
             :data-source="userManagementCRM.dataSourceTable"
-            :row-key="(data) => data.uuid"
+            :row-key="data => data.uuid"
             :loading="userManagementCRM.isLoading"
             :pagination="userManagementCRM.pagination"
             @change="handleTableChange"
@@ -227,8 +227,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagementCRM: (state) => state.userManagementCRM.data,
-      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   mounted() {
@@ -339,7 +339,7 @@ export default {
         }, secondsToGo * 1000)
       }
     },
-    searchData: _.debounce(function () {
+    searchData: _.debounce(function() {
       this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         body: {
           offset: 1,
@@ -437,7 +437,14 @@ export default {
       )
     },
     phoneValidation(phone) {
-      return phone.length <= 12 && phone.length >= 6 ? true : false
+      if (phone) {
+        return phone.length <= 12 && phone.length >= 6 ? true : false
+      } else {
+        notification.error({
+          message: 'Perhatian',
+          description: 'No Telp Wajib diisi',
+        })
+      }
     },
     async handleSubmit() {
       if (this.formValidation()) {
@@ -449,7 +456,7 @@ export default {
     },
 
     async showUserEditModal(id) {
-      const row = this.userManagementCRM.dataSourceTable.find((data) => data.uuid === id.uuid)
+      const row = this.userManagementCRM.dataSourceTable.find(data => data.uuid === id.uuid)
       await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
         formState: {
           id: row.uuid,
