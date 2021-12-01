@@ -406,7 +406,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        x => x.id_level_hirarki === this.userManagement.detail_jabatan.idLevelJabatan,
+        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 
