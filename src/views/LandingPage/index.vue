@@ -1164,22 +1164,22 @@ export default {
     }
   },
   mounted() {
-    // this.$nextTick(function() {
-    //   window.addEventListener('scroll', function() {
-    //     var navbar = document.getElementById('minify_nav')
-    //     var nav_classes = navbar.classList
-    //     console.log(`classList`, navbar)
-    //     if (document.documentElement.scrollTop >= 150) {
-    //       if (nav_classes.contains('shrink') === false) {
-    //         nav_classes.toggle('shrink')
-    //       }
-    //     } else {
-    //       if (nav_classes.contains('shrink') === true) {
-    //         nav_classes.toggle('shrink')
-    //       }
-    //     }
-    //   })
-    // })
+    this.$nextTick(function() {
+      window.addEventListener('scroll', function() {
+        var navbar = document.getElementById('minify_nav')
+        var nav_classes = navbar.classList
+        console.log(`classList`, navbar)
+        if (document.documentElement.scrollTop >= 150) {
+          if (nav_classes.contains('shrink') === false) {
+            nav_classes.toggle('shrink')
+          }
+        } else {
+          if (nav_classes.contains('shrink') === true) {
+            nav_classes.toggle('shrink')
+          }
+        }
+      })
+    })
   },
   methods: {},
 }
