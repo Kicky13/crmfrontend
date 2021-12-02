@@ -55,11 +55,11 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-warning mr-1" @click="showUserEditModal(text)">
+                <button type="button" class="btn btn-success mr-1" @click="showUserEditModal(text)">
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
-                <button type="button" class="btn btn-outline-danger" @click="deleteConfirm(text)">
+                <button type="button" class="btn btn-danger" @click="deleteConfirm(text)">
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
                 </button>

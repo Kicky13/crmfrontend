@@ -163,8 +163,8 @@ export default defineComponent({
     ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
     downloadTokoSalesHandle() {
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['Id Sales', 'Username', 'Id Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
-        const filterVal = ['sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
+        const tHeader = ['ID Kota' ,'ID Sales', 'Username', 'ID Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
+        const filterVal = ['id_reference_wilayah', 'sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
         const list = this.mappingCustomer.listData
         const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
