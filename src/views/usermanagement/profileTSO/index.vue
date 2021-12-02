@@ -187,6 +187,7 @@
             v-model="profileTSO.formDelete.tgl_akhir"
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
+            :lower-limit="dateLowerLimit"
           />
         </a-form-item>
       </a-form>
@@ -219,6 +220,7 @@ export default {
     return {
       modalDeleteView: false,
       data_distrik: '',
+      dateLowerLimit: null,
     }
   },
 
@@ -229,6 +231,7 @@ export default {
     }),
   },
   async mounted() {
+    this.dateLowerLimit = Date.now()
     await this.getListDistrik({
       id_tso: this.$route.params.id_jabatan,
     })
