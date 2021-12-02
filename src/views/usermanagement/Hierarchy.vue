@@ -389,6 +389,8 @@ export default {
         id_user: 0,
       })
 
+      this.userManagement.form_assign_bawahan.id_user = null
+
       await this.getListUserCRM()
       this.modalVisible = true
     },

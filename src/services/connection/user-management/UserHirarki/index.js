@@ -666,10 +666,16 @@ const actions = {
     let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
     const idUser = filtered[0].iduser
 
+    Date.prototype.addDays = function(days) {
+      var date = new Date(this.valueOf())
+      date.setDate(date.getDate() + days)
+      return date
+    }
+
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai,
+      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 
