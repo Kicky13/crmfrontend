@@ -21,7 +21,7 @@
       </div>
       <div class="card-header">
         <a-radio-group v-model="value" :default-value="3" @change="onChange">
-          <a-radio :value="1"> Posisi Kosong </a-radio>
+          <a-radio :value="1"> Tanpa Posisi </a-radio>
           <a-radio :value="2"> Punya Posisi </a-radio>
           <a-radio :value="3" checked> Semua </a-radio>
         </a-radio-group>
@@ -459,8 +459,6 @@ export default {
       }
     },
     async openModal() {
-      
-
       this.$confirm({
         title: 'Apakah anda akan menambahkan jabatan baru ?',
         okText: 'Yes',
