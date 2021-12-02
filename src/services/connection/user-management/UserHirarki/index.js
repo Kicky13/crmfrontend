@@ -76,12 +76,11 @@ const state = {
         key: 'start_date',
         slots: { customRender: 'start_date' },
       },
-      // {
-      //   title: 'Tanggal Akhir Jabatan',
-      //   key: 'end_date',
-      //   slots: { customRender: 'end_date' },
-      // },
-
+      {
+        title: 'Tanggal Selesai Menjabat',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
+      },
       {
         title: 'Status',
         dataIndex: 'statusJabat',
@@ -141,6 +140,16 @@ const state = {
       {
         title: 'Nama User',
         slots: { customRender: 'nama_sales' },
+      },
+      {
+        title: 'Tanggal Menjabat',
+        key: 'start_date',
+        slots: { customRender: 'start_date' },
+      },
+      {
+        title: 'Tanggal Selesai Menjabat',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
       },
       {
         title: 'Action',

@@ -36,18 +36,6 @@
           <i class="fa fa-plus mr-2" />
           {{ 'Posisi' + ' ' + selectedShorthand }}
         </a-button>
-        <!-- <a-button
-          class="btn btn-success mb-3 float-right"
-          style="margin-right: 5px; margin-left: 5px"
-          @click="goExport"
-        >
-          <i class="fa fa-upload mr-2" />
-          Export Users
-        </a-button> -->
-        <!-- <a-button @click="goImport" class="btn btn-light mb-3 float-right">
-          <i class="fa fa-download mr-2" />
-          Import Users
-        </a-button> -->
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -103,8 +91,11 @@
               </div>
             </template>
             <template #end_date="{ text }">
-              <div>
-                {{ text.endDataJabat != null ? text.endDataJabat : '-' }}
+              <div v-if="text.endDataJabat != null && text.endDataJabat.includes('9999')">
+                -
+              </div>
+              <div v-else>
+                {{ text.endDataJabat }}
               </div>
             </template>
             <template #username="{ text }">
@@ -174,21 +165,6 @@
                   <i class="fa fa-sitemap mr-1"></i>
                   <span class="text-black">Hirarki</span>
                 </router-link>
-
-                 <!-- <router-link
-                  v-else
-                  :to="`/users/profile/jabatan/${text.idJabatan}`"
-                  :class="
-                    text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled btn btn-light'
-                      : 'btn btn-success'
-                  "
-                  type="button"
-                  class="mr-2"
-                >
-                  <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
-                </router-link> -->
                 <div>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
@@ -207,64 +183,10 @@
                     <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
                   </button>
                 </div>
-                <!-- <router-link
-                  :to="`/users/profile/TSO/${text.idJabatan}`"
-                  v-if="selectedShorthand === `TSO`"
-                  :class="text.statusJabat === `Nonaktif` ? 'disabled' : ''"
-                  type="button"
-                  class="btn btn-light mr-2"
-                >
-                  <i class="fa fa-file-text-o mr-1"></i>
-                  <span class="text-black">Detail</span>
-                </router-link> -->
               </div>
             </template>
           </a-table>
         </div>
-        <!-- <a-modal
-          v-model:visible="modalVisible"
-          :title="'Tambah User'"
-          :closable="false"
-          :mask-closable="false"
-        >
-          <template #footer>
-            <a-button key="back" @click="closeModal">Batal</a-button>
-            <a-button @click="handleSubmit" :loading="isSubmit" key="submit" type="primary"
-              >Simpan</a-button
-            >
-          </template>
-          <a-form label-align="left" layout="vertical">
-            <a-form-item label="Nama User" name="name">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.name"
-                placeholder="Ketik nama"
-              />
-            </a-form-item>
-            <a-form-item label="Username" name="username">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.username"
-                placeholder="Ketik username"
-              />
-            </a-form-item>
-            
-            <a-form-item label="Email" name="email">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.email"
-                placeholder="Ketik email"
-              />
-            </a-form-item>
-            <a-form-item label="No HP" name="nohp">
-              <a-input
-                style="width: 100% !important"
-                v-model:value="userManagement.formState.nohp"
-                placeholder="Ketik no hp"
-              />
-            </a-form-item>
-          </a-form>
-        </a-modal> -->
 
         <!-- Assing User -->
         <a-modal
@@ -297,11 +219,6 @@
               </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
-              <!-- <a-date-picker
-                v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
-                :disabled-date="disabledStartDate"
-                class="w-100"
-              /> -->
               <datepicker></datepicker>
               <vue-datepicker
                 class="ant-calendar-picker ant-calendar-picker-input ant-input"
@@ -310,13 +227,6 @@
                 v-model="userManagement.form_assign_bawahan.tgl_mulai"
               />
             </a-form-item>
-            <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
-              <a-date-picker
-                v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
-                :disabled-date="disabledEndDate"
-                class="w-100"
-              />
-            </a-form-item> -->
           </a-form>
         </a-modal>
 
@@ -339,6 +249,7 @@
                 placeholder="Tanggal Akhir"
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+                :lower-limit="dateLowerLimit"
               />
             </a-form-item>
           </a-form>
@@ -406,6 +317,7 @@ export default {
       isSubmit: false,
       id_jabatan: null,
       dataList: [],
+      dateLowerLimit: null,
     }
   },
   computed: {
@@ -415,6 +327,7 @@ export default {
     }),
   },
   async mounted() {
+    this.dateLowerLimit = Date.now()
     await this.dataListUser()
     this.getDataTable({
       id_level_hirarki: this.userManagement.id_level_hirarki,
@@ -468,38 +381,8 @@ export default {
         this.userManagement.dataTable = this.userManagement.users
       }
     },
-    // searchData: _.debounce(function() {
-    //   this.$store.commit('userManagement/changeUserManagement', {
-    //     bodyList: {
-    //       offset: 1,
-    //       filter: this.userManagement.bodyList.filter,
-    //     },
-    //   })
-
-    //   this.getDataTable({
-    //     id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-    //   })
-    // }, 100),
     async assignRow(item) {
-      // const row = this.userManagement.users.find(data => data.uuid === id)
-      // await this.$store.commit('userManagement/changeUserManagement', {
-      //   formState: {
-      //     id: row.uuid,
-      //     name: row.name,
-      //     username: row.username,
-      //     password: row.password,
-      //     email: row.email,
-      //     nohp: row.nohp,
-      //     userid: row.userid,
-      //     idLevelHirarki: row.idLevelHirarki,
-      //   },
-      // })
       this.userManagement.form_assign_bawahan.id_jabatan = item.idJabatan
-      // this.$store.commit('userManagement/changeUserManagement', {
-      //   form_assign_bawahan: {
-      //     id_jabatan: item.idJabatan,
-      //   },
-      // })
 
       await this.getSalesNonBawahan({
         id_jabatan: this.actiiveTabs.id_level_hirarki,
@@ -518,7 +401,6 @@ export default {
         this.userManagement.form_assign_bawahan.tgl_mulai
       ) {
         await this.submitAssignSalesHirarki()
-        // await this.dataListUser()
         await this.getDataTable({
           id_level_hirarki: this.actiiveTabs.id_level_hirarki,
         })
@@ -535,9 +417,6 @@ export default {
         this.selectedTitle = this.userManagement.selectedTitle
         this.selectedShorthand = this.userManagement.selectedShorthand
       })
-      // await this.getDataTable({
-      //   idLevelHirarki: this.userManagement.idLevelHirarki,
-      // })
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
