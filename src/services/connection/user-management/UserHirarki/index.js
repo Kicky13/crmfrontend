@@ -95,6 +95,7 @@ const state = {
     dataTable: [],
     selectedTabId: 1,
     totalAll: null,
+    totalAllSales: null,
     formState: {
       id: '',
       name: '',
@@ -182,6 +183,8 @@ const state = {
     modalVisibleReplaceUser: false,
     modalVisibleAssignUser: false,
     sales_non_bawahan: Array,
+    searchSales: '',
+    salesBawahan: [],
     detail_jabatan: Object,
     list_hirarki_down: [],
   },
@@ -563,6 +566,11 @@ const actions = {
       limit: 2000,
       idLevelJabatan: parseInt(payload.id_jabatan),
     }
+
+    if (payload.search) {
+      formData['q'] = payload.search
+    }
+
     const result = await apiClient.post(`/hirarki/salesList`, formData)
 
     if (result.data.status == false) {
@@ -576,7 +584,37 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         sales_non_bawahan: result.data.data,
+        totalAllSales: result.data.totalAll,
         isLoading: false,
+      })
+    }
+  },
+
+  async searchSalesNonBawahan({ commit, state }, payload) {
+    const { data } = state
+    let formData = {
+      limit: data.totalAllSales,
+      idLevelJabatan: parseInt(payload.id_jabatan),
+    }
+
+    if (payload.search) {
+      formData['q'] = payload.search
+    }
+
+    const result = await apiClient.post(`/hirarki/salesList`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      const dataObj = result.data.data.map(item => {
+        item = item.namasales
+        return item
+      })
+      await commit('changeUserManagement', {
+        salesBawahan: dataObj || [],
       })
     }
   },

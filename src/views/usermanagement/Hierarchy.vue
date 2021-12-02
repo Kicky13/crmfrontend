@@ -204,7 +204,14 @@
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="User" name="level">
-              <a-select
+              <a-auto-complete
+                :data-source="userManagement.salesBawahan"
+                placeholder="Cari sales"
+                @select="onSelect"
+                @search="onSearch"
+              >
+              </a-auto-complete>
+              <!-- <a-select
                 v-model:value="userManagement.form_assign_bawahan.id_user"
                 placeholder="Pilih User"
                 show-search
@@ -216,7 +223,7 @@
                 >
                   {{ item.iduser }} - {{ item.namasales }}
                 </a-select-option>
-              </a-select>
+              </a-select> -->
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
               <datepicker></datepicker>
@@ -343,16 +350,22 @@ export default {
       'postJabatanGSM',
       'getSalesNonBawahan',
       'submitAssignSalesHirarki',
+      'searchSalesNonBawahan',
     ]),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
-    filterOption(input, option) {
-      console.log(`---inpput`, input)
-      console.log(`---option`, option)
-
-      return (
-        option.componentOptions.children[0].text.toUpperCase().indexOf(input.toUpperCase()) >= 0
+    async onSearch(searchText) {
+      await this.searchSalesNonBawahan(
+        {
+          id_jabatan: this.actiiveTabs.id_level_hirarki,
+          search: searchText,
+        },
+        500,
       )
     },
+    onSelect(value) {
+      this.userManagement.form_assign_bawahan.id_user = value
+    },
+
     disabledStartDate(startValue) {
       const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
       if (!startValue || !endValue) {
@@ -398,6 +411,10 @@ export default {
       this.modalVisible = false
     },
     async handleSubmitAssignUser() {
+      console.log(
+        ` this.userManagement.form_assign_bawahan.id_user `,
+        this.userManagement.form_assign_bawahan.id_user,
+      )
       if (
         this.userManagement.form_assign_bawahan.id_user &&
         this.userManagement.form_assign_bawahan.tgl_mulai
