@@ -440,10 +440,7 @@ export default {
       if (phone) {
         return phone.length <= 12 && phone.length >= 6 ? true : false
       } else {
-        notification.error({
-          message: 'Perhatian',
-          description: 'No Telp Wajib diisi',
-        })
+        return false
       }
     },
     async handleSubmit() {

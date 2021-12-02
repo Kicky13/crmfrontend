@@ -115,6 +115,19 @@
                   </div>
                   <div v-else>-</div>
                 </template>
+                <template #start_date="{ text }">
+                  <div>
+                    {{ text.startDateJabat ? text.startDateJabat : `-` }}
+                  </div>
+                </template>
+                <template #end_date="{ text }">
+                  <div v-if="text.endDataJabat != null && text.endDataJabat.includes('9999')">
+                    -
+                  </div>
+                  <div v-else>
+                    {{ text.endDateJabat }}
+                  </div>
+                </template>
                 <template #action="{ text }">
                   <div>
                     <button
@@ -323,6 +336,7 @@
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
             v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+            :lower-limit="dateLowerLimit"
           />
         </a-form-item>
       </a-form>
@@ -369,6 +383,7 @@ export default {
       modalTambahBawahan: false,
       newJabatan: '',
       listData: '',
+      dateLowerLimit: null,
     }
   },
   computed: {
@@ -377,6 +392,7 @@ export default {
     }),
   },
   async mounted() {
+    this.dateLowerLimit = Date.now()
     await this.getDetailProfile({
       id_jabatan: this.$route.params.id_jabatan,
     })
