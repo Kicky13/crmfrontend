@@ -287,7 +287,7 @@
       </template>
       <a-form label-align="left" layout="vertical">
         <a-form-item label="User Sales" name="level">
-          <a-select
+          <!-- <a-select
             v-model:value="userManagement.form_assign_bawahan.id_user"
             placeholder="Pilih User Sales Bawahan"
             show-search
@@ -299,13 +299,22 @@
             >
               {{ item.iduser }} - {{ item.namasales }}
             </a-select-option>
-          </a-select>
+          </a-select> -->
+          <a-auto-complete
+            :data-source="userManagement.salesBawahan"
+            placeholder="Pilih User Sales Bawahan"
+            @select="onSelect"
+            @search="onSearch"
+          >
+          </a-auto-complete>
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
-          <a-date-picker
-            :disabled-date="disabledAssignStartDate"
-            v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
-            class="w-100"
+          <datepicker></datepicker>
+          <vue-datepicker
+            class="ant-calendar-picker ant-calendar-picker-input ant-input"
+            placeholder="Tanggal Mulai"
+            input-format="dd-MM-yyyy"
+            v-model="userManagement.form_assign_bawahan.tgl_mulai"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -418,7 +427,21 @@ export default {
       'submitAssignSalesHirarki',
       'postJabatanBawahan',
       'getListJenisUser',
+      'searchSalesNonBawahan',
     ]),
+
+    async onSearch(searchText) {
+      await this.searchSalesNonBawahan(
+        {
+          id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          search: searchText,
+        },
+        500,
+      )
+    },
+    onSelect(value) {
+      this.userManagement.form_assign_bawahan.id_user = value
+    },
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
@@ -577,14 +600,17 @@ export default {
     assignUser(text) {
       console.log(text.idJabatan)
       this.userManagement.modalVisibleAssignUser = true
-      this.$store.commit('userManagement/changeUserManagement', {
-        form_assign_bawahan: {
-          id_jabatan: text.idJabatan,
-          id_user: null,
-          tgl_mulai: '',
-          tgl_akhir: '',
-        },
-      })
+      this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
+      this.userManagement.form_assign_bawahan.id_user = null
+
+      // this.$store.commit('userManagement/changeUserManagement', {
+      //   form_assign_bawah  an: {
+      //     id_jabatan: text.idJabatan,
+      //     id_user: null,
+      //     tgl_mulai: '',
+      //     tgl_akhir: '',
+      //   },
+      // })
     },
     openModalDelete(id) {
       this.modalDeleteView = true
