@@ -5,12 +5,12 @@
         <strong>Import Visit Plan Sales Distributor</strong>
       </div>
       <div class="card-body">
-        <div class="col-xs-12 col-md-12" style="margin-bottom: 10px;">
+        <!-- <div class="col-xs-12 col-md-12" style="margin-bottom: 10px;">
           <strong>Lihat Data</strong> : Sales Distributor dan Mapping Toko
           <a-button type="primary" class="mb-3">
             Disini
           </a-button>
-        </div>
+        </div> -->
         <a
           href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_SALES_AKSESTOKOCRM.xlsx"
           download
