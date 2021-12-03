@@ -134,7 +134,7 @@
               <a-table
                 :columns="profileTSO.columns"
                 :data-source="profileTSO.list_distrik_bawahan"
-                :row-key="data => data.idDistrik"
+                :row-key="(data) => data.idDistrik"
                 :loading="profileTSO.isLoading"
               >
                 <template #no="{ index }">
@@ -187,7 +187,7 @@
             v-model="profileTSO.formDelete.tgl_akhir"
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
-            :lower-limit="dateLowerLimit"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
       </a-form>
@@ -226,8 +226,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileTSO: state => state.profileTSO.data,
-      userManagement: state => state.userManagement.data,
+      profileTSO: (state) => state.profileTSO.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {

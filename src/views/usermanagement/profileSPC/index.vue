@@ -134,7 +134,7 @@
               <a-table
                 :columns="profileSPC.columns"
                 :data-source="profileSPC.list_distrik_bawahan"
-                :row-key="data => data.idRegion"
+                :row-key="(data) => data.idRegion"
                 :loading="profileSPC.isLoading"
               >
                 <template #no="{ index }">
@@ -187,7 +187,7 @@
             v-model="profileSPC.formData.tgl_akhir"
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
-            :lower-limit="dateLowerLimit"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
       </a-form>
@@ -223,8 +223,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileSPC: state => state.profileSPC.data,
-      userManagement: state => state.userManagement.data,
+      profileSPC: (state) => state.profileSPC.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
