@@ -88,7 +88,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -345,7 +345,7 @@
             placeholder="Tanggal Akhir"
             input-format="dd-MM-yyyy"
             v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
-            :lower-limit="dateLowerLimit"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
       </a-form>
@@ -397,7 +397,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -445,7 +445,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 
