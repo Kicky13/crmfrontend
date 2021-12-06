@@ -13,13 +13,19 @@
       <div class="card-body">
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+            </div>
+            </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
+            
             <template #action="{ text }">
               <div>
                 <Can do="update" a="validasiHarga">
-                  <button type="button" class="btn btn-success" @click="showModalEdit(text)">
+                  <button type="button" class="btn btn-success mr-2" @click="showModalEdit(text)">
                     <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                   </button>
                 </Can>
@@ -92,14 +98,15 @@ import { Modal, notification } from 'ant-design-vue'
 const columns = [
   {
     title: 'No.',
-    dataIndex: 'id',
-    key: 'id',
+    key: 'index',
+    render: (text, record, index) => index,
+    slots: { customRender: 'no' },
   },
-  {
-    title: 'ID Produk',
-    dataIndex: 'idproduk',
-    key: 'idproduk',
-  },
+  // {
+  //   title: 'ID Produk',
+  //   dataIndex: 'idproduk',
+  //   key: 'idproduk',
+  // },
   {
     title: 'Nama Produk',
     dataIndex: 'namaproduk',
@@ -343,6 +350,7 @@ export default {
       getProdukList()
         .then((response) => {
           if (response) {
+            console.log(response)
             this.dataSourceTable = response.data
             this.formState = {
               id: '',
