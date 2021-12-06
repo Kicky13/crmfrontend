@@ -181,6 +181,14 @@
                     <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
                   </button>
                 </div>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  @click="fetchHistoryJabatan(text)"
+                >
+                  <i class="fa fa-history" />
+                  History
+                </button>
               </div>
             </template>
           </a-table>
@@ -280,6 +288,38 @@
             </a-form-item>
           </a-form>
         </a-modal>
+
+        <!-- History Jabatan Modal -->
+        <a-modal
+          v-model:visible="historyJabatanModal"
+          title="History Jabatan User"
+        >
+          <a-row>
+            <a-col :span="8">Nama</a-col>
+            <a-col :span="16">: {{historyJabatanItems.nama}}</a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="8">Level Posisi</a-col>
+            <a-col :span="16">: {{historyJabatanItems.level_posisi}}</a-col>
+          </a-row>
+          <!-- <a-row>
+            <a-col :span="8">Email</a-col>
+            <a-col :span="16">: Test</a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="8">No. Telp</a-col>
+            <a-col :span="16">: Test</a-col>
+          </a-row> -->
+          <a-table
+            class="mt-3"
+            :columns="userManagement.columns_history"
+            :data-source="userManagement.history"
+            :row-key="(data) => data.idJabatan"
+          />
+          <template #footer>
+            <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
+          </template>
+        </a-modal>
       </div>
     </a-card>
   </div>
@@ -323,6 +363,13 @@ export default {
       id_jabatan: null,
       dataList: [],
       dateLowerLimit: null,
+      historyJabatanModal: false,
+      historyJabatanItems: {
+        nama: '',
+        level_posisi: '',
+        email: '',
+        no_telp: '',
+      },
     }
   },
   computed: {
@@ -349,6 +396,7 @@ export default {
       'getSalesNonBawahan',
       'submitAssignSalesHirarki',
       'searchSalesNonBawahan',
+      'logHistory',
     ]),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     async onSearch(searchText) {
@@ -659,6 +707,18 @@ export default {
     },
     goExport() {
       this.$router.push({ name: 'user-management-export' })
+    },
+    fetchHistoryJabatan(item) {
+      this.historyJabatanModal = true
+      this.historyJabatanItems.nama = item.nama || '-'
+      this.historyJabatanItems.level_posisi = item.titleJabatan
+      this.logHistory({
+        userid: item.idUser,
+      })
+    },
+    closeHistoryJabatanModal() {
+      this.historyJabatanModal = false
+      this.userManagement.history = []
     },
   },
 }

@@ -296,7 +296,6 @@ export default {
       })
     }, 100),
     async assignRow(item) {
-      console.log(item)
       this.namaUser = item.nama
       this.roleUser = item.Role
       this.emailUser = item.email

@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import listUser from '../../list-user'
 
 const state = {
   data: {
@@ -88,6 +89,22 @@ const state = {
       {
         title: 'Action',
         slots: { customRender: 'action' },
+      },
+    ],
+    columns_history: [
+      {
+        title: 'Posisi',
+        dataIndex: 'titleJabatan',
+      },
+      {
+        title: 'Tanggal Mulai',
+        key: 'startDate',
+        dataIndex: 'startDate',
+      },
+      {
+        title: 'Tanggal Selesai',
+        key: 'endDate',
+        dataIndex: 'endDate',
       },
     ],
     actiiveTabs: {},
@@ -187,6 +204,7 @@ const state = {
     salesBawahan: [],
     detail_jabatan: Object,
     list_hirarki_down: [],
+    history: [],
   },
 }
 
@@ -736,6 +754,62 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
         modalVisibleAssignUser: false,
+      })
+    }
+  },
+
+  async getHistoryJabatan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let body = {
+      idUser: payload.userid,
+    }
+
+    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    }
+    else {
+      await commit('changeUserManagement', {
+        history: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async logHistory({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      idUser: payload.userid,
+    }
+
+    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
+    console.log(result.data.data)
+
+    if (result.data.status == false) {
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    }
+    else {
+      await commit('changeUserManagement', {
+        history: result.data.data,
+        isLoading: false,
       })
     }
   },
