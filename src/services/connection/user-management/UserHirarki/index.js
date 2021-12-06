@@ -593,7 +593,7 @@ const actions = {
   async searchSalesNonBawahan({ commit, state }, payload) {
     const { data } = state
     let formData = {
-      limit: data.totalAllSales,
+      limit: 5000,
       idLevelJabatan: parseInt(payload.id_jabatan),
     }
 
