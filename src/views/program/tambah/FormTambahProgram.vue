@@ -78,6 +78,7 @@ import VueDatepicker from 'vue3-datepicker'
 import { defineComponent, reactive, toRaw, ref } from 'vue'
 import { storePost } from '@/services/connection/program/api'
 import { useRouter } from 'vue-router'
+import { notification } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import VbHeadersCardHeader from '../header/Header'
 
@@ -140,8 +141,24 @@ export default defineComponent({
     }
 
     const addNewPost = (param, config) => {
-      storePost(param, config).then((response) => {
-        if (response) {}
+      storePost(param, config)
+      .then((response) => {
+        if (response) {
+          console.log(response)
+          if (response.status === 200) {
+              
+              notification.success({
+                message: 'Tambah Program',
+                description: 'Program berhasil ditambah',
+              })
+              router.push('/marketing/program')
+            } else {
+              notification.error({
+                message: 'Tambah Program',
+                description: 'Program Gagal Ditambah',
+              })
+            }
+        }
       })
     }
 
@@ -184,8 +201,8 @@ export default defineComponent({
         // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80172'
         formState.startDate = ''
         formState.FinishDate = ''
-        router.push('/marketing/program')
-        message.success('Program berhasil ditambahkan')
+        // router.push('/marketing/program')
+        // message.success('Program berhasil ditambahkan')
       } else {
         window.scrollTo({
           top: 0,
