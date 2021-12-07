@@ -97,8 +97,12 @@ export async function getBulanList() {
     })
 }
 export async function getProdukList() {
+  const params = {
+    offset: 0,
+    limit: 2000,
+  }
   return apiClient
-    .post('/validasiHarga/get')
+    .post('/validasiHarga/get',params)
     .then(response => {
       if (response) {
         return response.data

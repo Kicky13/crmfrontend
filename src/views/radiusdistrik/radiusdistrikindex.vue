@@ -54,6 +54,11 @@
             :loading="radiusDistrik.isLoading"
             :pagination="radiusDistrik.pagination"
           >
+          <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
+            </template>
             <template #action="{ text }">
               <div>
                 <button @click="fetchUpdateData(text)" type="button" class="btn btn-success mr-2">

@@ -6,9 +6,10 @@ const state = {
     listRadiusDistrik: [],
     columns: [
       {
-        title: 'No.',
-        dataIndex: 'uuid',
-        key: 'uuid',
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
       },
       {
         title: 'Level Wilayah',
