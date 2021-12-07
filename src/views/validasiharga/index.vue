@@ -13,13 +13,19 @@
       <div class="card-body">
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+            </div>
+            </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
+            
             <template #action="{ text }">
               <div>
                 <Can do="update" a="validasiHarga">
-                  <button type="button" class="btn btn-success" @click="showModalEdit(text)">
+                  <button type="button" class="btn btn-success mr-2" @click="showModalEdit(text)">
                     <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                   </button>
                 </Can>
@@ -44,6 +50,7 @@
                 v-model:value="formState.idproduk"
                 @change="setSelectMethod"
                 placeholder=" -- Pilih Produk -- "
+                required
               >
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option
@@ -91,14 +98,15 @@ import { Modal, notification } from 'ant-design-vue'
 const columns = [
   {
     title: 'No.',
-    dataIndex: 'id',
-    key: 'id',
+    key: 'index',
+    render: (text, record, index) => index,
+    slots: { customRender: 'no' },
   },
-  {
-    title: 'ID Produk',
-    dataIndex: 'idproduk',
-    key: 'idproduk',
-  },
+  // {
+  //   title: 'ID Produk',
+  //   dataIndex: 'idproduk',
+  //   key: 'idproduk',
+  // },
   {
     title: 'Nama Produk',
     dataIndex: 'namaproduk',
@@ -204,46 +212,78 @@ export default {
     },
     handleOk(e) {
       this.confirmLoading = true
-      const formData = toRaw(this.formState)
-      insertProduk(formData)
-        .then((response) => {
-          if (response.status) {
-            this.fetchGetDataSource()
-            notification.success({
-              message: 'Berhasil',
-              description: response.message,
-            })
-          } else {
-            notification.error({
+      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
+        
+        notification.error({
               message: 'Gagal!',
-              description: response.message,
+              description: 'Field Tidak Boleh Kosong!!',
+              
+              
             })
-          }
-        })
-        .catch((err) => {
-          if (err) {
-          }
-        })
-      setTimeout(() => {
-        this.visible = false
-        this.confirmLoading = false
-      }, 2000)
+            setTimeout(() => {
+              this.visible = false
+              this.confirmLoading = false
+            }, 1000)
+           return true
+      }
+        const formData = toRaw(this.formState)
+      
+        insertProduk(formData)
+          .then((response) => {
+            console.log(response)
+            if (response == true) {
+              this.fetchGetDataSource()
+              notification.success({
+                message: 'Berhasil',
+                description: 'Insert Success',
+              })
+            } else {
+              notification.error({
+                message: 'Gagal!',
+                description: 'Insert Gagal',
+              })
+            }
+          })
+          .catch((err) => {
+            if (err) {
+            }
+          })
+        setTimeout(() => {
+          this.visible = false
+          this.confirmLoading = false
+        }, 1000)
+      
+      
     },
     handleUpdate(e) {
       this.confirmLoading = true
+      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
+        
+        notification.error({
+              message: 'Gagal!',
+              description: 'Field Tidak Boleh Kosong!!',
+              
+              
+            })
+            setTimeout(() => {
+              this.visible = false
+              this.confirmLoading = false
+            }, 1000)
+           return true
+      }
       const formData = toRaw(this.formState)
       updateProduk(this.formState.id, formData)
         .then((response) => {
-          if (response.status) {
+          if (response == true) {
             this.fetchGetDataSource()
             notification.success({
               message: 'Berhasil!',
-              description: response.message,
+              description: 'Update Berhasil',
             })
           } else {
             notification.error({
               message: 'Gagal!',
-              description: response.message,
+              description: 'Update Gagal',
             })
           }
         })
@@ -254,7 +294,7 @@ export default {
       setTimeout(() => {
         this.visible = false
         this.confirmLoading = false
-      }, 2000)
+      }, 1000)
     },
     handleCancel(e) {
       this.visible = false
@@ -310,6 +350,7 @@ export default {
       getProdukList()
         .then((response) => {
           if (response) {
+            console.log(response)
             this.dataSourceTable = response.data
             this.formState = {
               id: '',

@@ -296,7 +296,6 @@ export default {
       })
     }, 100),
     async assignRow(item) {
-      console.log(item)
       this.namaUser = item.nama
       this.roleUser = item.Role
       this.emailUser = item.email
@@ -571,8 +570,9 @@ export default {
 </style>
 <style>
 .table-list .ant-table-tbody .non-active td {
-  background: #b20838 !important;
-  color: white;
+  background: #F2B872 !important;
+  color: black;
+  opacity: 0.9;
 }
 </style>
 <style lang="scss" scoped>
