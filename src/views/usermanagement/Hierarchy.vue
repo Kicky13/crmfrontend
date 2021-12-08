@@ -295,21 +295,13 @@
           title="History Jabatan User"
         >
           <a-row>
-            <a-col :span="8">Nama</a-col>
-            <a-col :span="16">: {{historyJabatanItems.nama}}</a-col>
+            <a-col :span="8">Posisi Jabatan</a-col>
+            <a-col :span="16">: {{historyJabatanItems.posisi_jabatan}}</a-col>
           </a-row>
           <a-row>
-            <a-col :span="8">Level Posisi</a-col>
-            <a-col :span="16">: {{historyJabatanItems.level_posisi}}</a-col>
+            <a-col :span="8">Jabatan</a-col>
+            <a-col :span="16">: {{historyJabatanItems.jabatan}}</a-col>
           </a-row>
-          <!-- <a-row>
-            <a-col :span="8">Email</a-col>
-            <a-col :span="16">: Test</a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="8">No. Telp</a-col>
-            <a-col :span="16">: Test</a-col>
-          </a-row> -->
           <a-table
             class="mt-3"
             :columns="userManagement.columns_history"
@@ -365,10 +357,8 @@ export default {
       dateLowerLimit: null,
       historyJabatanModal: false,
       historyJabatanItems: {
-        nama: '',
-        level_posisi: '',
-        email: '',
-        no_telp: '',
+        posisi_jabatan: '',
+        jabatan: '',
       },
     }
   },
@@ -710,10 +700,10 @@ export default {
     },
     fetchHistoryJabatan(item) {
       this.historyJabatanModal = true
-      this.historyJabatanItems.nama = item.nama || '-'
-      this.historyJabatanItems.level_posisi = item.titleJabatan
+      this.historyJabatanItems.posisi_jabatan = item.titleJabatan
+      this.historyJabatanItems.jabatan = item.jabatan
       this.logHistory({
-        userid: item.idUser,
+        idJabatan: item.idJabatan,
       })
     },
     closeHistoryJabatanModal() {
