@@ -234,6 +234,7 @@
                 placeholder="Tanggal Mulai"
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_assign_bawahan.tgl_mulai"
+                :upper-limit="dateLowerLimit"
               />
             </a-form-item>
           </a-form>
