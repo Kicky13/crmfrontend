@@ -278,6 +278,7 @@
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Nama Jabatan" name="Nama Jabatan">
               <a-input
+                :prefix="selectedShorthand"
                 v-model:value="userManagement.formState.nama_jabatan"
                 placeholder="Nama jabatan"
               />
@@ -367,8 +368,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
-      userManagementCRM: (state) => state.userManagementCRM.data,
+      userManagement: state => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -422,10 +423,10 @@ export default {
     searchData(keyword) {
       if (keyword) {
         this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function (item) {
+        let dataList = _.reject(this.userManagement.dataTable, function(item) {
           return item.nama === null
         })
-        this.userManagement.dataTable = dataList.filter((data) =>
+        this.userManagement.dataTable = dataList.filter(data =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
         )
         this.userManagement.isLoading = false
@@ -478,7 +479,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -592,7 +593,10 @@ export default {
     },
     async openModal() {
       this.modalTambahJabatan = true
-      this.userManagement.formState.nama_jabatan = this.selectedShorthand + ' - ' 
+      this.$store.commit('userManagement/changeUserManagement', {
+        selectedShorthand: this.selectedShorthand,
+      })
+      this.userManagement.formState.nama_jabatan = ''
     },
     async tambahJabatan() {
       if (this.userManagement.formState.nama_jabatan) {
@@ -629,7 +633,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -637,7 +641,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -684,13 +688,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
