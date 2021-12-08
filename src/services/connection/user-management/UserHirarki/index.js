@@ -354,7 +354,7 @@ const actions = {
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
-      nmJabatan: data.formState.nama_jabatan,
+      nmJabatan: data.selectedShorthand + ' - ' + data.formState.nama_jabatan,
     }
 
     let result = ''
@@ -778,8 +778,7 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
       })
-    }
-    else {
+    } else {
       await commit('changeUserManagement', {
         history: result.data.data,
         isLoading: false,
@@ -804,8 +803,7 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
       })
-    }
-    else {
+    } else {
       await commit('changeUserManagement', {
         history: result.data.data,
         isLoading: false,

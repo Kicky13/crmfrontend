@@ -12,7 +12,11 @@
       <center>
         <h5 class="mb-0">
           <strong>{{ post.program_title }}</strong>
+          
         </h5>
+        <small>
+          <strong>{{ post.start_date }} - {{post.finish_date}}</strong>
+        </small>
       </center>
 
       <!-- <div class="text-main mt-2">{{ post.start_date }} {{ post.finish_date }}</div> -->

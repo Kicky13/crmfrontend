@@ -55,7 +55,7 @@
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button @click="modalTambahBawahan = true" type="primary" class="float-right">
+                <a-button @click="openModal()" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   {{ listData ? 'Tambah ' + listData[0].nama_singkat : 'Loading...' }}
                 </a-button>
@@ -88,7 +88,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="(data) => data.iduser"
+                :row-key="data => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -364,7 +364,11 @@
 
       <a-form label-align="left" layout="vertical">
         <a-form-item label="Nama Jabatan" name="Nama Jabatan">
-          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
+          <a-input
+            :prefix="listData[0].nama_singkat"
+            v-model:value="newJabatan"
+            placeholder="Nama jabatan"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -397,7 +401,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -439,13 +443,17 @@ export default {
         500,
       )
     },
+    openModal() {
+      this.modalTambahBawahan = true
+      this.newJabatan = ''
+    },
     onSelect(value) {
       this.userManagement.form_assign_bawahan.id_user = value
     },
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 
@@ -511,7 +519,7 @@ export default {
         await this.postJabatanBawahan({
           id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
           id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          nama_jabatan: this.newJabatan,
+          nama_jabatan: this.listData[0].nama_singkat + ' - ' + this.newJabatan,
         })
 
         await this.getListDownHirarki({

@@ -71,6 +71,7 @@ import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { listPost, updatePost } from '@/services/connection/program/api'
 import { message } from 'ant-design-vue'
+import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
 import VbHeadersCardHeader from '../header/Header'
 
@@ -148,6 +149,18 @@ export default defineComponent({
     const updatePostById = (param, config) => {
       updatePost(param, config).then((response) => {
         if (response) {
+           if (response.status === 200) {
+              router.push('/marketing/program')
+              notification.success({
+                message: 'Update Program',
+                description: 'Program berhasil diupdate',
+              })
+            } else {
+             notification.error({
+                message: 'Update Program',
+                description: 'Program Gagal diupdate',
+              })
+            }
         }
       })
     }
@@ -192,8 +205,8 @@ export default defineComponent({
         // formState.publication_status = 'Draft'
         // formState.tag = 'bcd542e2-3292-45bc-8c82-27832cb80171'
         // formState.image = ''
-        router.push('/marketing/program')
-        message.success('Program berhasil diupate')
+        // router.push('/marketing/program')
+        // message.success('Program berhasil diupate')
       } else {
         window.scrollTo({
           top: 0,

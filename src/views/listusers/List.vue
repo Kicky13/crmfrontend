@@ -570,8 +570,10 @@ export default {
 </style>
 <style>
 .table-list .ant-table-tbody .non-active td {
-  background: #b20838 !important;
-  color: white;
+  background: #F2B872 !important;
+  color: black;
+  opacity: 0.6;
+  font-weight: bold !important;
 }
 </style>
 <style lang="scss" scoped>

@@ -29,7 +29,7 @@
         v-else
         class="text-main text-center font-italic"
       >
-        --- Belum ada berita ---
+        --- Belum ada Program ---
       </div>
     </template>
     <div class="d-flex justify-content-end mt-4">
