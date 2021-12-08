@@ -294,11 +294,18 @@ export default {
     },
 
     async handleSubmitPassword(item) {
-      await this.getViewPassword({
-        user_id: item.userid,
-        logged_user_id: this.$store.state.user.id,
-      })
-      this.countDown()
+      if (this.userManagementCRM.formViewPassword.password.length > 0) {
+        await this.getViewPassword({
+          user_id: item.userid,
+          logged_user_id: this.$store.state.user.id,
+        })
+        this.countDown()
+      } else {
+        notification.error({
+          message: 'Perhatian!',
+          description: 'Password tidak boleh kosong',
+        })
+      }
     },
     countDown() {
       let secondsToGo = 30
