@@ -364,7 +364,11 @@
 
       <a-form label-align="left" layout="vertical">
         <a-form-item label="Nama Jabatan" name="Nama Jabatan">
-          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
+          <a-input
+            :prefix="listData[0].nama_singkat"
+            v-model:value="newJabatan"
+            placeholder="Nama jabatan"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -441,7 +445,7 @@ export default {
     },
     openModal() {
       this.modalTambahBawahan = true
-      this.newJabatan = this.listData[0].nama_singkat + ' - '
+      this.newJabatan = ''
     },
     onSelect(value) {
       this.userManagement.form_assign_bawahan.id_user = value
@@ -515,7 +519,7 @@ export default {
         await this.postJabatanBawahan({
           id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
           id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          nama_jabatan: this.newJabatan,
+          nama_jabatan: this.listData[0].nama_singkat + ' - ' + this.newJabatan,
         })
 
         await this.getListDownHirarki({
