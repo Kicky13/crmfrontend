@@ -93,8 +93,8 @@ const state = {
     ],
     columns_history: [
       {
-        title: 'Posisi',
-        dataIndex: 'titleJabatan',
+        title: 'Nama User',
+        dataIndex: 'namaUser',
       },
       {
         title: 'Tanggal Mulai',
@@ -794,11 +794,10 @@ const actions = {
     const { data } = state
 
     let body = {
-      idUser: payload.userid,
+      idJabatan: payload.idJabatan,
     }
 
-    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
-    console.log(result.data.data)
+    const result = await apiClient.post(`/hirarki/historyJabatanbyIdJabatan`, body)
 
     if (result.data.status == false) {
       await commit('changeUserManagement', {

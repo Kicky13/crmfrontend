@@ -22,7 +22,7 @@
         <a-form-item label="Gambar" name="image">
           <a-upload
             accept="image/png, image/jpg, image/jpeg"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action="https://api-dev.aksessales.id/api/posts/store"
             list-type="picture-card"
             :file-list="fileList"
             :transform-file="transformFile"
