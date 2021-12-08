@@ -335,7 +335,7 @@ const actions = {
          
         }
     
-        const result = await apiClient.post(`/hirarki/historyJabatan`, body)
+        const result = await apiClient.post(`/hirarki/historyJabatanbyIdUser`, body)
     
         if (result.data.status == false) {
           notification.error({
