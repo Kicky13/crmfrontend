@@ -12,11 +12,6 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'ID User',
-        dataIndex: 'userid',
-        key: 'userid',
-      },
-      {
         title: 'Nama',
         dataIndex: 'name',
       },
@@ -57,10 +52,11 @@ const state = {
       userID: '',
     },
     table: {
-      offset: 1,
-      limit: 20,
+      offset: 0,
+      limit: 2000,
       q: '',
     },
+    listUser: [],
     status: Boolean,
     messagePassword: '',
     dataSourceTable: [],
@@ -82,6 +78,30 @@ const mutations = {
 }
 
 const actions = {
+  async getListJenisUser({ commit, state }) {
+    commit('changeUserManagementCRM', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    const params = {
+      offset: data.table.offset,
+      limit: data.table.limit,
+    }
+    const result = await apiClient.post(`/user/listJenis`, params)
+    if (result.data.state == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeUserManagementCRM', {
+        listUser: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
   async getListUserCRM({ commit, state }) {
     commit('changeUserManagementCRM', {
       isLoading: true,
@@ -120,35 +140,43 @@ const actions = {
       email: data.formState.email,
       nohp: data.formState.nohp,
       userid: Math.floor(1000 + Math.random() * 9000),
-      idLevelHirarki: data.formState.id_level_hirarki,
+      idJenis: data.formState.id_level_hirarki,
     }
 
     let result = ''
     if (data.formState.id) {
       result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
-
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil diubah`,
-      })
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
       await commit('changeUserManagementCRM', {
         isLoading: false,
       })
     } else {
       result = await apiClient.post(`/usercrm/add`, formData)
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+
       await commit('changeUserManagementCRM', {
         isLoading: false,
-      })
-    }
-
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message[0],
       })
     }
   },

@@ -25,20 +25,17 @@ export const getAdminMenuData = [
             title: 'Tambah Berita',
             key: 'tbr322',
             url: '/marketing/berita/tambah',
-            hidden: true,
           },
           {
             title: 'Update Berita',
             key: 'ubr322',
             url: '/marketing/berita/update',
-            hidden: true,
             statusId: true,
           },
           {
             title: 'Detail Berita',
             key: 'dbr322',
             url: '/marketing/berita/detail',
-            hidden: true,
             statusId: true,
           },
         ],
@@ -47,6 +44,30 @@ export const getAdminMenuData = [
         title: 'Program',
         key: 'jkr02l',
         url: '/marketing/program',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+        children: [
+          {
+            title: 'Tambah Program',
+            key: 'tpr322',
+            url: '/marketing/program/tambah',
+          },
+          {
+            title: 'Update Program',
+            key: 'upr322',
+            url: '/marketing/program/edit',
+            statusId: true,
+          },
+          {
+            title: 'Detail Program',
+            key: 'dpr322',
+            url: '/marketing/program/detailProgram',
+            statusId: true,
+          },
+        ],
       },
     ],
   },
@@ -67,6 +88,11 @@ export const getAdminMenuData = [
         url: '/users/hierarchy',
       },
       {
+        title: 'List Users',
+        key: 'gfd34b2',
+        url: '/users/list',
+      },
+      {
         title: 'Management User Hirarki',
         key: 'gfd34a',
         url: '/users/hierarchy',
@@ -75,14 +101,30 @@ export const getAdminMenuData = [
             title: 'Mapping User',
             key: '12sas2',
             url: '/users/profile/jabatan',
-            hidden: true,
             statusId: true,
           },
           {
             title: 'Mapping User TSO',
             key: '12sas2',
             url: '/users/profile/TSO',
-            hidden: true,
+            statusId: true,
+          },
+          {
+            title: 'Mapping SPC',
+            key: '125as2',
+            url: '/users/profile/SPC',
+            statusId: true,
+          },
+          {
+            title: 'Mapping Admin Distributor',
+            key: '125a62',
+            url: '/users/profile/admin-distributor',
+            statusId: true,
+          },
+          {
+            title: 'Mapping Sales Distributor',
+            key: '125a92',
+            url: '/users/profile/sales-distributor',
             statusId: true,
           },
         ],
@@ -114,7 +156,7 @@ export const getAdminMenuData = [
         url: '/koordinatlock',
       },
       {
-        title: 'Radius Distrik',
+        title: 'Radius Wilayah',
         key: 'St11Cf',
         url: '/radiusdistrik',
       },
@@ -128,11 +170,11 @@ export const getAdminMenuData = [
         key: 'St13Cf',
         url: '/customersync',
       },
-      {
-        title: 'Log Sync Customer',
-        key: 'St15Cf',
-        url: '/log-sync-customer',
-      },
+      // {
+      //   title: 'Log Sync Customer',
+      //   key: 'St15Cf',
+      //   url: '/log-sync-customer',
+      // },
       {
         title: 'Validasi Harga Survey',
         key: 'St14Cf',
@@ -163,24 +205,24 @@ export const getAdminMenuData = [
     title: 'Report Admin',
     key: '2h83ot12',
   },
-  {
-    title: 'Report Admin',
-    key: '82hskb',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'a32jab',
-        url: '/datasales',
-      },
-      {
-        title: 'Customer Mapping',
-        key: '12sa2s',
-        url: '/report/customer_mapping',
-      },
-    ],
-  },
+  // {
+  //   title: 'Report Admin',
+  //   key: '82hskb',
+  //   url: '/roles-permissions',
+  //   icon: 'fa fa-list-ul',
+  //   children: [
+  //     {
+  //       title: 'Data Sales SBI',
+  //       key: 'a32jab',
+  //       url: '/datasales',
+  //     },
+  //     {
+  //       title: 'Customer Mapping',
+  //       key: '12sa2s',
+  //       url: '/report/customer_mapping',
+  //     },
+  //   ],
+  // },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',

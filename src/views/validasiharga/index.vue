@@ -13,18 +13,24 @@
       <div class="card-body">
         <div class="table-responsive text-nowrap">
           <a-table :columns="columns" :data-source="dataSourceTable" row-key="id">
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+            </div>
+            </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
+            
             <template #action="{ text }">
               <div>
                 <Can do="update" a="validasiHarga">
-                  <button type="button" class="btn btn-warning" @click="showModalEdit(text)">
+                  <button type="button" class="btn btn-success mr-2" @click="showModalEdit(text)">
                     <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
                   </button>
                 </Can>
                 <Can do="delete" a="validasiHarga">
-                  <button @click="showConfirm(text)" type="button" class="btn btn-outline-danger">
+                  <button @click="showConfirm(text)" type="button" class="btn btn-danger">
                     <i class="fa fa-trash"></i><span> Hapus</span>
                   </button>
                 </Can>
@@ -44,6 +50,7 @@
                 v-model:value="formState.idproduk"
                 @change="setSelectMethod"
                 placeholder=" -- Pilih Produk -- "
+                required
               >
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option
@@ -86,19 +93,20 @@ import {
   showpost,
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
-import { Modal } from 'ant-design-vue'
+import { Modal, notification } from 'ant-design-vue'
 
 const columns = [
   {
     title: 'No.',
-    dataIndex: 'id',
-    key: 'id',
+    key: 'index',
+    render: (text, record, index) => index,
+    slots: { customRender: 'no' },
   },
-  {
-    title: 'ID Produk',
-    dataIndex: 'idproduk',
-    key: 'idproduk',
-  },
+  // {
+  //   title: 'ID Produk',
+  //   dataIndex: 'idproduk',
+  //   key: 'idproduk',
+  // },
   {
     title: 'Nama Produk',
     dataIndex: 'namaproduk',
@@ -132,7 +140,7 @@ export default {
   // },
   setup() {
     const rowSelection = {
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -185,9 +193,9 @@ export default {
       this.statusModal = true
       // showpost(id)
       getProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
-            const post = response.data.find(post => post.id === id)
+            const post = response.data.find((post) => post.id === id)
             this.formState.id = post.id
             this.formState.idproduk = post.idproduk
             this.formState.namaproduk = post.namaproduk
@@ -197,43 +205,96 @@ export default {
             this.formState.hargaJualMax = post.hargaJualMax
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     handleOk(e) {
       this.confirmLoading = true
-      const formData = toRaw(this.formState)
-      insertProduk(formData)
-        .then(response => {
-          if (response) {
-            this.fetchGetDataSource()
-          }
-        })
-        .catch(err => {
-          if (err) {}
-        })
-      setTimeout(() => {
-        this.visible = false
-        this.confirmLoading = false
-      }, 2000)
+      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
+        
+        notification.error({
+              message: 'Gagal!',
+              description: 'Field Tidak Boleh Kosong!!',
+              
+              
+            })
+            setTimeout(() => {
+              this.visible = false
+              this.confirmLoading = false
+            }, 1000)
+           return true
+      }
+        const formData = toRaw(this.formState)
+      
+        insertProduk(formData)
+          .then((response) => {
+            console.log(response)
+            if (response == true) {
+              this.fetchGetDataSource()
+              notification.success({
+                message: 'Berhasil',
+                description: 'Insert Success',
+              })
+            } else {
+              notification.error({
+                message: 'Gagal!',
+                description: 'Insert Gagal',
+              })
+            }
+          })
+          .catch((err) => {
+            if (err) {
+            }
+          })
+        setTimeout(() => {
+          this.visible = false
+          this.confirmLoading = false
+        }, 1000)
+      
+      
     },
     handleUpdate(e) {
       this.confirmLoading = true
+      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
+        
+        notification.error({
+              message: 'Gagal!',
+              description: 'Field Tidak Boleh Kosong!!',
+              
+              
+            })
+            setTimeout(() => {
+              this.visible = false
+              this.confirmLoading = false
+            }, 1000)
+           return true
+      }
       const formData = toRaw(this.formState)
       updateProduk(this.formState.id, formData)
-        .then(response => {
-          if (response) {
+        .then((response) => {
+          if (response == true) {
             this.fetchGetDataSource()
+            notification.success({
+              message: 'Berhasil!',
+              description: 'Update Berhasil',
+            })
+          } else {
+            notification.error({
+              message: 'Gagal!',
+              description: 'Update Gagal',
+            })
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
       setTimeout(() => {
         this.visible = false
         this.confirmLoading = false
-      }, 2000)
+      }, 1000)
     },
     handleCancel(e) {
       this.visible = false
@@ -241,14 +302,15 @@ export default {
     },
     deleteDataById(id) {
       deleteData(id)
-        .then(response => {
+        .then((response) => {
           if (response) {
             const dataSource = [...this.dataSourceTable]
-            this.dataSourceTable = dataSource.filter(item => item.id !== id)
+            this.dataSourceTable = dataSource.filter((item) => item.id !== id)
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     showConfirm(id) {
@@ -267,14 +329,15 @@ export default {
     setSelectMethod(value) {
       const id = value
       getSelectProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
-            const post = response.data.find(post => post.id === id)
+            const post = response.data.find((post) => post.id === id)
             this.formState.namaproduk = post.namaproduk
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
 
@@ -285,8 +348,9 @@ export default {
     },
     fetchGetDataSource() {
       getProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
+            console.log(response)
             this.dataSourceTable = response.data
             this.formState = {
               id: '',
@@ -302,19 +366,21 @@ export default {
             }
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
     fetchGetDataProduk() {
       getSelectProdukList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.listProduk = response.data
           }
         })
-        .catch(err => {
-          if (err) {}
+        .catch((err) => {
+          if (err) {
+          }
         })
     },
   },

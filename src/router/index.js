@@ -208,6 +208,20 @@ const routes = [
           import(/* webpackChunkName: "profile" */ '@/views/usermanagement/profile/Profile'),
       },
       {
+        path: '/listusers/history/userid/:userid',
+        name: 'log-history',
+        meta: { title: 'Export User', resource: 'User', action: 'manage' },
+        component: () =>
+          import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
+      },
+      {
+        path: '/users/list',
+        name: 'list_user',
+        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/listusers/List'),
+      },
+      {
         path: '/koordinatlock',
         name: 'koordinat-lock',
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
@@ -256,6 +270,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "data-sales" */ '@/views/datasales'),
       },
 
+      {
+        path: '/users/profile/SPC/:id_jabatan',
+        name: 'user-management-profile-spc',
+        meta: { title: 'Profile SPC', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileSPC'),
+      },
+
       // ========== Start of Iqbal View ==========
       {
         path: '/report/customer_mapping',
@@ -275,6 +297,24 @@ const routes = [
         meta: { title: 'Profile TSO', resource: 'User', action: 'manage' },
         component: () =>
           import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileTSO'),
+      },
+      {
+        path: '/users/profile/sales-distributor/:id_jabatan',
+        name: 'user-management-profile-sales-distributor',
+        meta: { title: 'Profile Sales Distributor', resource: 'User', action: 'manage' },
+        component: () =>
+          import(
+            /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileSalesDistributor'
+          ),
+      },
+      {
+        path: '/users/profile/admin-distributor/:id_jabatan',
+        name: 'user-management-profile-admin-distributor',
+        meta: { title: 'Profile Admin Distributor', resource: 'User', action: 'manage' },
+        component: () =>
+          import(
+            /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
+          ),
       },
       // ========== End of iqbal View ==========
     ],

@@ -6,17 +6,18 @@ const state = {
     listRadiusDistrik: [],
     columns: [
       {
-        title: 'No.',
-        dataIndex: 'uuid',
-        key: 'uuid',
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Level Wilayah',
+        dataIndex: 'LevelWilayahName',
+        key: 'LevelWilayahName',
       },
       {
         title: 'Nama Wilayah',
-        dataIndex: 'WilayahName',
-        key: 'WilayahName',
-      },
-      {
-        title: 'Nama Distrik',
         dataIndex: 'distrik_name',
         key: 'distrik_name',
       },
@@ -29,7 +30,6 @@ const state = {
         title: 'Action',
         dataIndex: 'uuid',
         width: 150,
-        // key: 'id',
         slots: { customRender: 'action' },
       },
     ],
@@ -38,7 +38,8 @@ const state = {
     isLoading: false,
     bodyList: {
       offset: 1,
-      limit: 20,
+      limit: 2000,
+      filter: '',
     },
     itemsPerPage: [5, 10, 15, 20],
     pagination: {},
@@ -91,6 +92,8 @@ const actions = {
     let body = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
+      q: data.bodyList.filter,
+     
     }
 
     const result = await apiClient.post('/RadiusWilayah/List', body)
@@ -194,6 +197,10 @@ const actions = {
         dataDistrik: result.data.data,
         isLoading: false,
       })
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
+      })
     }
   },
   async updateDataRadiusDistrik({ commit, state }) {
@@ -211,19 +218,30 @@ const actions = {
       radius_lock: data.formData.radius,
       uuid_radius_wilayah: data.formData.id,
     }
-
-    result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
-    if (result.data.status == 'error') {
+    
+    if (body.radius_lock >= 100000) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
+        description: 'radius lock tidak boleh lebih dari 100000',
       })
     } else {
-      await commit('changeRadiusDistrik', {
-        dataDistrik: result.data.data,
-        isLoading: false,
-      })
-    }
+      result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+     }
   },
   async deleteDataRadiusDistrik({ commit, state }, payload) {
     commit('changeRadiusDistrik', {
@@ -245,6 +263,7 @@ const actions = {
     } else {
       await commit('changeRadiusDistrik', {
         isLoading: false,
+        listRadiusDistrik: result.data.data,
       })
       notification.success({
         message: 'Success',

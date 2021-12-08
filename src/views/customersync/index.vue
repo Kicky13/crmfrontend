@@ -15,7 +15,7 @@
           <a-select-option disabled value="">Please Select</a-select-option>
           <a-select-option
             v-for="(distri, index) in synCustomer.listDistributor"
-            :value="distri.ID_DISTRIBUTOR"
+            :value="`${distri.ID_DISTRIBUTOR}-${distri.NM_DISTRIBUTOR}`"
             :key="index"
           >
             {{ distri.ID_DISTRIBUTOR }} - {{ distri.NM_DISTRIBUTOR }}
@@ -37,12 +37,21 @@
 
         <div class="row">
           <div class="col-md-6 col-xs-12"></div>
-          <div class="col-md-6 col-xs-12 ">
+          <div class="col-md-6 col-xs-12">
             <a-input-search
-              placeholder="input search text"
+              :disabled="isDisabled"
+              placeholder="Cari nama customer"
               style="width: 200px"
               class="float-right"
+              @search="searchKeyword"
             />
+            <!-- <a-input-search
+              v-else
+              disabled
+              placeholder="Cari nama customer"
+              style="width: 200px"
+              class="float-right"
+            /> -->
           </div>
         </div>
         <br />
@@ -94,6 +103,7 @@ import {
 // import { getDistributorList } from '@/services/connection/master-data/api'
 // import { UploadOutlined } from '@ant-design/icons-vue';
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 const columns = [
   {
@@ -176,6 +186,8 @@ export default {
       dataSourceTable: [],
       listDistributor: [],
       listTokoDistributor: [],
+      dataTemp: null,
+      isDisabled: true,
     }
   },
   computed: {
@@ -189,6 +201,19 @@ export default {
   },
   methods: {
     ...mapActions('synCustomer', ['getListDistributor', 'getDataListCustomer', 'getAsyncData']),
+    searchData: _.debounce(function() {
+      this.$store.commit('synCustomer/changeSynCustomer', {
+        bodyList: {
+          filter: this.synCustomer.bodyList.filter,
+          limit: 10,
+          offset: 1,
+        },
+      })
+
+      this.getDataListCustomer({
+        id_distrib: this.selectValue,
+      })
+    }, 3000),
     onSuccess(response) {
       this.error = false
       this.loading = false
@@ -201,7 +226,8 @@ export default {
       }
     },
     setSelectMethod(value) {
-      this.selectValue = value
+      const inputValue = value.split('-')[0]
+      this.selectValue = inputValue
     },
     createRole() {
       this.$router.push({ name: 'permissions-create' })
@@ -213,16 +239,23 @@ export default {
         this.getAsyncData({
           kode_customer: this.selectValue,
         })
+        this.isDisabled = false
       }
     },
     buttonGet() {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
       } else {
-        this.getDataListCustomer({
-          id_distrib: this.selectValue,
-        })
+        this.fetchDataListCustomer()
+        this.isDisabled = false
       }
+    },
+
+    async fetchDataListCustomer() {
+      await this.getDataListCustomer({
+          id_distrib: this.selectValue,
+      })
+      this.dataTemp = this.synCustomer.listCustomer
     },
 
     /* UNTUK GET DATA DISTRIBUTOR BY API*/
@@ -235,9 +268,18 @@ export default {
           }
         })
         .catch(err => {
-          if (err) {}
+          if (err) {
+          }
         })
         .finally(() => (this.loading = false))
+    },
+
+    searchKeyword(keyword) {
+      if (keyword) {
+        this.synCustomer.listCustomer = this.dataTemp.filter(item => item.customername.toLowerCase().includes(keyword))
+      } else {
+        this.synCustomer.listCustomer = this.dataTemp
+      }
     },
 
     // fetchGetDataSource() {

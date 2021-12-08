@@ -22,14 +22,17 @@
           </a-select>
           <a-select v-model:value="selectedKabupaten" class="mx-3" style="width: 200px">
             <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-            <a-select-option
-              v-for="data in kabupatenOption"
-              :key="data.id"
-              :value="data.id"
-              >{{ data.kabupaten }}</a-select-option
-            >
+            <a-select-option v-for="data in kabupatenOption" :key="data.id" :value="data.id">{{
+              data.kabupaten
+            }}</a-select-option>
           </a-select>
-          <a-button v-if="selectedKabupaten == null" :disabled="true" type="primary" @click="handleView" :loading="isSubmit">
+          <a-button
+            v-if="selectedKabupaten == null"
+            :disabled="true"
+            type="primary"
+            @click="handleView"
+            :loading="isSubmit"
+          >
             <i class="fa fa-eye mr-2" />
             View
           </a-button>
@@ -62,7 +65,12 @@
               <span>entries</span>
             </div>
           </div>
-          <a-input-search placeholder="input search text" style="width: 200px" />
+          <a-input-search
+            v-model:value="searchText"
+            @input="searchData"
+            placeholder="input search text"
+            style="width: 200px"
+          />
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
@@ -71,6 +79,7 @@
             :row-key="(customers) => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 1500 }"
+            :loading="tableLoading"
           >
             <template #action="text">
               <div>
@@ -90,6 +99,7 @@
 import { toRaw } from 'vue'
 import { message } from 'ant-design-vue'
 import { getRegionList, getTokoList } from '@/services/connection/koordinat-lock/api'
+import { _ } from 'vue-underscore'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -102,12 +112,13 @@ const columns = [
   {
     title: 'Nama Toko',
     dataIndex: 'nm_customer',
-    width: 150,
+    width: 200,
     fixed: 'left',
   },
   {
     title: 'Alamat',
     dataIndex: 'alamat',
+    ellipsis: true,
   },
   {
     title: 'Provinsi',
@@ -119,7 +130,7 @@ const columns = [
   },
   {
     title: 'Koordinat',
-    dataIndex: 'koordinat',
+    dataIndex: 'kordinat',
   },
   {
     title: 'Status Lock',
@@ -163,8 +174,10 @@ export default {
       pagination: {},
       selectedProvinsi: null,
       selectedKabupaten: null,
+      searchText: '',
       isLoading: false,
       isSubmit: false,
+      tableLoading: false,
     }
   },
   mounted() {
@@ -184,8 +197,14 @@ export default {
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
-      this.$router.push({ name: 'koordinat-lock-detail', params: {customerInfo: JSON.stringify(data)} })
+      this.$router.push({
+        name: 'koordinat-lock-detail',
+        params: { customerInfo: JSON.stringify(data) },
+      })
     },
+    searchData: _.debounce(function () {
+      this.fetchGetCustomers()
+    }, 3000),
     getDetail(id) {
       const dataSource = [...this.customers]
       const filtered = dataSource.filter((a) => a.id_customer == id.text)
@@ -204,34 +223,37 @@ export default {
       }
     },
     fetchGetRegion() {
-      this.isLoading = true
+      this.tableLoading = true
       getRegionList()
         .then((response) => {
           if (response.status) {
             this.provinsiOption = response.data
           }
-          this.isLoading = false
+          this.tableLoading = false
         })
         .catch((err) => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
-    fetchGetCustomers() {
-      this.isLoading = true
+    async fetchGetCustomers() {
+      this.tableLoading = true
       let formData = {
         IDdistrik: this.selectedKabupaten,
         offset: 0,
         limit: 100,
+        q: this.searchText,
       }
       getTokoList(formData)
         .then((response) => {
           if (response.status) {
             this.customers = response.data
           }
-          this.isLoading = false
+          this.tableLoading = false
         })
         .catch((err) => {
-          if (err) {}
+          if (err) {
+          }
         })
     },
   },

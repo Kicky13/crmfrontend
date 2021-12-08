@@ -12,7 +12,7 @@
       <div class="col-md-4 col-xs-4">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Mapping User</strong>
+            <strong class="align-self-center">User yang menjabat</strong>
           </div>
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
@@ -31,31 +31,33 @@
                 <div class="font-size-16">
                   Kode / ID : {{ userManagement.detail_jabatan.idUser }}
                 </div>
-                <div class="font-size-16">
+                <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
-                </div>
+                </div> -->
                 <div class="font-size-16">Email : {{ userManagement.detail_jabatan.email }}</div>
               </div>
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Jenis User : {{ userManagement.detail_jabatan.namaJabatan }}</strong>
+            <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
           </div>
         </div>
       </div>
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
           <div class="card-header d-flex">
-            <strong class="align-self-center">Hierarki Down / Bawahan Langsung</strong>
+            <strong class="align-self-center">{{
+              listData ? 'List ' + listData[0].nama_singkat : 'Loading...'
+            }}</strong>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button @click="modalTambahBawahan()" type="primary" class="float-right">
+                <a-button @click="openModal()" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
-                  Tambahkan
+                  {{ listData ? 'Tambah ' + listData[0].nama_singkat : 'Loading...' }}
                 </a-button>
               </div>
             </div>
@@ -80,7 +82,7 @@
                   <span>entries</span>
                 </div>
               </div>
-              <a-input-search placeholder="input search text" style="width: 200px" />
+              <!-- <a-input-search placeholder="input search text" style="width: 200px" /> -->
             </div>
             <div class="table-responsive text-nowrap">
               <a-table
@@ -97,7 +99,7 @@
                 </template>
                 <template #id_jabatan="{ text }">
                   <div>
-                    {{ text.idJabatan }}
+                    {{ text.titleJabatan }}
                   </div>
                 </template>
                 <template #id_user="{ text }">
@@ -107,9 +109,24 @@
                 </template>
                 <template #nama_sales="{ text }">
                   <div v-if="text.name">
-                    <a href="javascript:void(0)" @click="changeProfile(text)"> {{ text.name }}</a>
+                    <a href="javascript:void(0)" class="" @click="changeProfile(text)">
+                      <i class="fa fa-user"></i> {{ text.name }}</a
+                    >
                   </div>
                   <div v-else>-</div>
+                </template>
+                <template #start_date="{ text }">
+                  <div>
+                    {{ text.startDateJabat ? text.startDateJabat : `-` }}
+                  </div>
+                </template>
+                <template #end_date="{ text }">
+                  <div v-if="text.endDataJabat != null && text.endDataJabat.includes('9999')">
+                    -
+                  </div>
+                  <div v-else>
+                    {{ text.endDateJabat }}
+                  </div>
                 </template>
                 <template #action="{ text }">
                   <div>
@@ -118,13 +135,24 @@
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="Kosongkan Jabatan"
-                      @click="deleteRow(text)"
-                      class="btn btn-outline-danger mr-1"
+                      title="Lihat Hirarki"
+                      @click="changeProfile(text)"
+                      class="btn btn-outline-success mr-1"
                     >
-                      <i class="fa fa-trash"></i>
+                      <i class="fa fa-sitemap"></i>
                     </button>
                     <button
+                      v-if="text.iduser"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Kosongkan Jabatan"
+                      @click="openModalDelete(text)"
+                      class="btn btn-outline-danger mr-1"
+                    >
+                      <i class="fa fa-user-times"></i>
+                    </button>
+                    <!-- <button
                       v-if="text.iduser != null"
                       type="button"
                       data-toggle="tooltip"
@@ -134,7 +162,7 @@
                       class="btn btn-outline-warning mr-1"
                     >
                       <i class="fa fa-user-plus"></i>
-                    </button>
+                    </button> -->
                     <button
                       v-if="text.iduser === null"
                       type="button"
@@ -144,7 +172,7 @@
                       @click="assignUser(text)"
                       class="btn btn-outline-info"
                     >
-                      <i class="fa fa-users"></i>
+                      <i class="fa fa-user-plus"></i>
                     </button>
                   </div>
                 </template>
@@ -170,10 +198,10 @@
         >
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="User Sales" name="level">
           <a-select
             v-model:value="userManagement.form_tambah_bawahan.id_bawahan"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales"
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
@@ -191,13 +219,13 @@
             class="w-100"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledBawahanEndDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_akhir"
             class="w-100"
           />
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
     </a-modal>
 
@@ -214,10 +242,10 @@
         <a-button @click="handleSubmitReplaceUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
+        <a-form-item label="User Sales" name="level">
           <a-select
             v-model:value="userManagement.form_replace_bawahan.user_replace_id"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales Bawahan"
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
@@ -235,13 +263,13 @@
             class="w-100"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledReplaceEndDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_akhir"
             class="w-100"
           />
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
     </a-modal>
 
@@ -258,33 +286,85 @@
         <a-button @click="handleSubmitAssignUser()" key="submit" type="primary">Simpan</a-button>
       </template>
       <a-form label-align="left" layout="vertical">
-        <a-form-item label="Sales Non Bawahan" name="level">
-          <a-select
+        <a-form-item label="User Sales" name="level">
+          <!-- <a-select
             v-model:value="userManagement.form_assign_bawahan.id_user"
-            placeholder="Pilih Sales Non Bawahan"
+            placeholder="Pilih User Sales Bawahan"
+            show-search
           >
             <a-select-option
               v-for="(item, index) in userManagement.sales_non_bawahan"
               :key="`level_${index}`"
-              :value="item.iduser"
+              :value="item.namasales"
             >
-              {{ item.namasales }}
+              {{ item.iduser }} - {{ item.namasales }}
             </a-select-option>
-          </a-select>
+          </a-select> -->
+          <a-auto-complete
+            :data-source="userManagement.salesBawahan"
+            placeholder="Pilih User Sales Bawahan"
+            @select="onSelect"
+            @search="onSearch"
+          >
+          </a-auto-complete>
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
-          <a-date-picker
-            :disabled-date="disabledAssignStartDate"
-            v-model:value="userManagement.form_assign_bawahan.tgl_mulai"
-            class="w-100"
+          <datepicker></datepicker>
+          <vue-datepicker
+            class="ant-calendar-picker ant-calendar-picker-input ant-input"
+            placeholder="Tanggal Mulai"
+            input-format="dd-MM-yyyy"
+            v-model="userManagement.form_assign_bawahan.tgl_mulai"
           />
         </a-form-item>
-        <a-form-item label="Tanggal Akhir Jabatan" name="level">
+        <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
           <a-date-picker
             :disabled-date="disabledAssignEndDate"
             v-model:value="userManagement.form_assign_bawahan.tgl_akhir"
             class="w-100"
           />
+        </a-form-item> -->
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:visible="modalDeleteView"
+      :title="`Kosongkan Jabatan`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="modalDeleteView = false">Batal</a-button>
+        <a-button @click="deleteRow()" key="submit" type="primary">Hapus</a-button>
+      </template>
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Tanggal Akhir" name="Tanggal Akhir">
+          <datepicker></datepicker>
+          <vue-datepicker
+            class="ant-calendar-picker ant-calendar-picker-input ant-input"
+            placeholder="Tanggal Akhir"
+            input-format="dd-MM-yyyy"
+            v-model="userManagement.form_kosongkan_jabatan.tgl_akhir"
+            :upper-limit="dateLowerLimit"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:visible="modalTambahBawahan"
+      :title="`Tambah Jabatan`"
+      :closable="false"
+      :mask-closable="false"
+    >
+      <template #footer>
+        <a-button key="back" @click="modalTambahBawahan = false">Batal</a-button>
+        <a-button @click="submitTambahBawahan()" key="submit" type="primary">Tambahkan</a-button>
+      </template>
+
+      <a-form label-align="left" layout="vertical">
+        <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -296,13 +376,24 @@ import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
+import VueDatepicker from 'vue3-datepicker'
 
 const itemsPerPage = [5, 10, 15, 20]
 
 export default {
   name: 'VbAntDesign',
+  components: {
+    VueDatepicker,
+  },
   data() {
-    return {}
+    return {
+      modalDeleteView: false,
+      id_jabatan: null,
+      modalTambahBawahan: false,
+      newJabatan: '',
+      listData: '',
+      dateLowerLimit: null,
+    }
   },
   computed: {
     ...mapState({
@@ -310,16 +401,20 @@ export default {
     }),
   },
   async mounted() {
+    this.dateLowerLimit = Date.now()
     await this.getDetailProfile({
       id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getListDownHirarki({
-      id_user: this.userManagement.detail_jabatan.idUser,
+      id_jabatan: this.$route.params.id_jabatan,
     })
     await this.getSalesNonBawahan({
-      id_jabatan: this.$route.params.id_jabatan,
-      id_user: this.userManagement.detail_jabatan.idUser,
+      id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
     })
+
+    await this.getListJenisUser()
+
+    await this.filterList()
   },
   methods: {
     ...mapActions('userManagement', [
@@ -331,7 +426,32 @@ export default {
       'submitReplaceSalesHirarki',
       'submitAssignSalesHirarki',
       'postJabatanBawahan',
+      'getListJenisUser',
+      'searchSalesNonBawahan',
     ]),
+
+    async onSearch(searchText) {
+      await this.searchSalesNonBawahan(
+        {
+          id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          search: searchText,
+        },
+        500,
+      )
+    },
+    openModal() {
+      this.modalTambahBawahan = true
+      this.newJabatan = this.listData[0].nama_singkat + ' - '
+    },
+    onSelect(value) {
+      this.userManagement.form_assign_bawahan.id_user = value
+    },
+
+    filterList() {
+      this.listData = this.userManagement.listUser.filter(
+        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+      )
+    },
 
     disabledAssignStartDate(startValue) {
       const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
@@ -378,7 +498,11 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     changeProfile(item) {
-      this.$router.push(`/users/profile/${item.iduser}/jabatan/${item.idJabatan}`)
+      if (this.userManagement.detail_jabatan.levelJabatanBawahan === 40) {
+        this.$router.push(`/users/profile/TSO/${item.idJabatan}`)
+      } else {
+        this.$router.push(`/users/profile/jabatan/${item.idJabatan}`)
+      }
     },
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size
@@ -386,24 +510,24 @@ export default {
     closeModal() {
       this.userManagement.modalVisibleHirarkiDown = false
     },
-    modalTambahBawahan() {
-      this.$confirm({
-        title: 'Apakah anda akan menambahkan jabatan baru ?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.postJabatanBawahan({
-            id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
-            id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          })
+    async submitTambahBawahan() {
+      if (this.newJabatan) {
+        await this.postJabatanBawahan({
+          id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
+          id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
+          nama_jabatan: this.newJabatan,
+        })
 
-          await this.getListDownHirarki({
-            id_user: this.userManagement.detail_jabatan.idUser,
-          })
-        },
-        onCancel() {},
-      })
+        await this.getListDownHirarki({
+          id_jabatan: this.$route.params.id_jabatan,
+        })
+        this.modalTambahBawahan = false
+      } else {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh kosong.',
+        })
+      }
     },
     async handleSubmitAddHirarkiDown() {
       if (
@@ -415,7 +539,7 @@ export default {
           id_user: this.userManagement.detail_jabatan.idUser,
         })
         await this.getListDownHirarki({
-          id_user: this.userManagement.detail_jabatan.idUser,
+          id_jabatan: this.$route.params.id_jabatan,
         })
         this.closeModal()
       } else {
@@ -423,18 +547,18 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModal()
       }
     },
     async handleSubmitReplaceUser() {
       if (
         this.userManagement.form_replace_bawahan.user_replace_id &&
-        this.userManagement.form_replace_bawahan.tgl_mulai &&
-        this.userManagement.form_replace_bawahan.tgl_akhir
+        this.userManagement.form_replace_bawahan.tgl_mulai
+        // &&
+        // this.userManagement.form_replace_bawahan.tgl_akhir
       ) {
         await this.submitReplaceSalesHirarki()
         await this.getListDownHirarki({
-          id_user: this.userManagement.detail_jabatan.idUser,
+          id_jabatan: this.$route.params.id_jabatan,
         })
         this.closeModalReplaceUser()
       } else {
@@ -442,18 +566,18 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalReplaceUser()
       }
     },
     async handleSubmitAssignUser() {
       if (
         this.userManagement.form_assign_bawahan.id_user &&
-        this.userManagement.form_assign_bawahan.tgl_mulai &&
-        this.userManagement.form_assign_bawahan.tgl_akhir
+        this.userManagement.form_assign_bawahan.tgl_mulai
+        // &&
+        // this.userManagement.form_assign_bawahan.tgl_akhir
       ) {
         await this.submitAssignSalesHirarki()
         await this.getListDownHirarki({
-          id_user: this.userManagement.detail_jabatan.idUser,
+          id_jabatan: this.$route.params.id_jabatan,
         })
         this.closeModalAssignUser()
       } else {
@@ -461,7 +585,6 @@ export default {
           message: 'Gagal Menyimpan',
           description: 'Semua kolom wajib diisi',
         })
-        this.closeModalAssignUser()
       }
     },
     closeModalReplaceUser() {
@@ -478,36 +601,36 @@ export default {
     closeModalAssignUser() {
       this.userManagement.modalVisibleAssignUser = false
     },
-    assignUser() {
+    assignUser(text) {
+      console.log(text.idJabatan)
       this.userManagement.modalVisibleAssignUser = true
-      this.$store.commit('userManagement/changeUserManagement', {
-        form_assign_bawahan: {
-          id_jabatan: this.$route.params.id_jabatan,
-          id_user: null,
-          tgl_mulai: '',
-          tgl_akhir: '',
-        },
-      })
+      this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
+      this.userManagement.form_assign_bawahan.id_user = null
+
+      // this.$store.commit('userManagement/changeUserManagement', {
+      //   form_assign_bawah  an: {
+      //     id_jabatan: text.idJabatan,
+      //     id_user: null,
+      //     tgl_mulai: '',
+      //     tgl_akhir: '',
+      //   },
+      // })
     },
-    deleteRow(id) {
-      this.$confirm({
-        title: 'Apakah anda yakin akan menghapus data ini?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk: async () => {
-          await this.deleteRowHirarkiDown({
-            id_jabatan: parseInt(id.idJabatan),
-          })
-          await this.getDetailProfile({
-            id_jabatan: this.$route.params.id_jabatan,
-          })
-          await this.getListDownHirarki({
-            id_user: this.userManagement.detail_jabatan.idUser,
-          })
-        },
-        onCancel() {},
+    openModalDelete(id) {
+      this.modalDeleteView = true
+      this.id_jabatan = parseInt(id.idJabatan)
+    },
+    async deleteRow() {
+      await this.deleteRowHirarkiDown({
+        id_jabatan: this.id_jabatan,
       })
+      await this.getDetailProfile({
+        id_jabatan: this.$route.params.id_jabatan,
+      })
+      await this.getListDownHirarki({
+        id_jabatan: this.$route.params.id_jabatan,
+      })
+      this.modalDeleteView = false
     },
   },
 }

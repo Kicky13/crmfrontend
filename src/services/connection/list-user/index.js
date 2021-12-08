@@ -1,10 +1,9 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
-import listUser from '../../list-user'
 
 const state = {
   data: {
-    labelMenu: 'UserManagement',
+    labelMenu: 'listUsers',
     rules: {
       name: [{ required: true, message: 'Nama wajib diisi', type: 'string' }],
       username: [{ required: true, message: 'Username wajib diisi', type: 'string' }],
@@ -63,56 +62,93 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'Posisi Jabatan',
-        key: 'nama',
-        dataIndex: 'titleJabatan',
+        title: 'Nama',
+        dataIndex: 'nama',
       },
       {
-        title: 'Nama User',
-        key: 'name',
-        slots: { customRender: 'nama' },
+        title: 'Username',
+        key: 'username',
+        dataIndex: 'username',
       },
       {
-        title: 'Tanggal Menjabat',
-        key: 'start_date',
-        slots: { customRender: 'start_date' },
+            title: 'Email',
+            key: 'email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'No. Telp',
+            key: 'nohp',
+            dataIndex: 'nohp',
+        },
+        {
+            title: 'Level',
+            key: 'Role',
+            dataIndex: 'Role',
+        },
+        {
+            title: 'Posisi',
+            key: 'titleJabatan',
+            dataIndex: 'titleJabatan',
+        },
+        {
+            title: 'Tanggal Mulai',
+            key: 'startDate',
+            dataIndex: 'startDate',
+        },
+        {
+            title: 'Total Bawahan',
+            key: 'totalBawahan',
+            dataIndex: 'totalBawahan',
       },
+      
       {
-        title: 'Tanggal Selesai Menjabat',
-        key: 'end_date',
-        slots: { customRender: 'end_date' },
-      },
-      {
-        title: 'Status',
-        dataIndex: 'statusJabat',
-      },
-      {
-        title: 'Action',
+        title: 'Log History',
         slots: { customRender: 'action' },
       },
-    ],
-    columns_history: [
-      {
-        title: 'Posisi',
-        dataIndex: 'titleJabatan',
-      },
-      {
-        title: 'Tanggal Mulai',
-        key: 'startDate',
-        dataIndex: 'startDate',
-      },
-      {
-        title: 'Tanggal Selesai',
-        key: 'endDate',
-        dataIndex: 'endDate',
-      },
-    ],
+        ],
+        columns_history: [
+           
+            {
+              title: 'Posisi',
+              dataIndex: 'titleJabatan',
+            },
+            {
+              title: 'Tanggal Mulai',
+              key: 'startDate',
+              dataIndex: 'startDate',
+            },
+            {
+                title: 'Tanggal Selesai',
+                key: 'endDate',
+                dataIndex: 'endDate',
+              },
+          ],
+          columns_desc: [
+           
+            {
+              title: 'Nama',
+              dataIndex: 'nama',
+            },
+            {
+              title: 'Email',
+              key: 'email',
+              dataIndex: 'email',
+            },
+            {
+                title: 'Level Posisi',
+                key: 'idJabatan',
+                dataIndex: 'idJabatan',
+              },
+              {
+                title: 'No.Telp',
+                key: 'nohp',
+                dataIndex: 'nohp',
+              },
+          ],
     actiiveTabs: {},
     users: [],
-    dataTable: [],
     selectedTabId: 1,
-    totalAll: null,
-    totalAllSales: null,
+    activeRadio: 3,
     formState: {
       id: '',
       name: '',
@@ -122,7 +158,6 @@ const state = {
       nohp: '',
       userid: '',
       idLevelHirarki: null,
-      nama_jabatan: '',
     },
     formGSM: {
       id_jabatan_atasan: null,
@@ -131,7 +166,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 500,
+      limit: 2000,
       filter: '',
     },
 
@@ -147,32 +182,24 @@ const state = {
       {
         title: 'No',
         key: 'index',
-        width: 25,
         render: (text, record, index) => index,
         slots: { customRender: 'no' },
       },
       {
-        title: 'Nama Jabatan',
+        title: 'ID Jabatan',
         slots: { customRender: 'id_jabatan' },
       },
       {
-        title: 'Nama User',
+        title: 'ID User',
+        slots: { customRender: 'id_user' },
+      },
+      {
+        title: 'Nama Sales',
         slots: { customRender: 'nama_sales' },
-      },
-      {
-        title: 'Tanggal Menjabat',
-        key: 'start_date',
-        slots: { customRender: 'start_date' },
-      },
-      {
-        title: 'Tanggal Selesai Menjabat',
-        key: 'end_date',
-        slots: { customRender: 'end_date' },
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
-        width: 50,
       },
     ],
     form_tambah_bawahan: {
@@ -190,21 +217,18 @@ const state = {
     form_assign_bawahan: {
       id_jabatan: null,
       id_user: null,
-      tgl_mulai: new Date(),
+      tgl_mulai: '',
       tgl_akhir: '',
     },
     form_kosongkan_jabatan: {
-      tgl_akhir: new Date(),
+      tgl_akhir: '',
     },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
     modalVisibleAssignUser: false,
     sales_non_bawahan: Array,
-    searchSales: '',
-    salesBawahan: [],
     detail_jabatan: Object,
     list_hirarki_down: [],
-    history: [],
   },
 }
 
@@ -259,7 +283,7 @@ const actions = {
       q: data.bodyList.filter,
     }
 
-    const result = await apiClient.post(`/hirarki/users`, body)
+    const result = await apiClient.post(`/usercrm/userByRole`, body)
 
     if (result.data.status == false) {
       notification.error({
@@ -270,14 +294,65 @@ const actions = {
         isLoading: false,
       })
     } else {
-      await commit('changeUserManagement', {
-        users: result.data.data,
-        dataTable: result.data.data,
-        isLoading: false,
-        totalAll: result.data.totalAll,
-      })
+      if (payload.activeRadio == 2) {
+        let dataSource = [...result.data.data]
+          let filtered = dataSource.filter(x => x.idJabatan !== null && x.idJabatan !== '')
+          await commit('changeUserManagement', {
+            users: filtered,
+            isLoading: false,
+          })
+      } else if (payload.activeRadio == 1) {
+        let dataSource = [...result.data.data]
+          let filtered = dataSource.filter(x => x.idJabatan === null || x.idJabatan === '')
+          await commit('changeUserManagement', {
+            users: filtered,
+            isLoading: false,
+          })
+      } else {
+        await commit('changeUserManagement', {
+          users: result.data.data,
+          isLoading: false,
+        })
+      }
     }
-  },
+    },
+  
+    async logHistory({ commit, state }, payload) {
+        commit('changeUserManagement', {
+          isLoading: true,
+        })
+    
+        // if (payload) {
+        //   await commit('changeUserManagement', {
+        //     offset: payload || data.offset,
+        //   })
+        // }
+    
+        const { data } = state
+    
+        let body = {
+          idUser: payload.userid,
+         
+        }
+    
+        const result = await apiClient.post(`/hirarki/historyJabatanbyIdUser`, body)
+    
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+          await commit('changeUserManagement', {
+            isLoading: false,
+          })
+        }
+        else {
+            await commit('changeUserManagement', {
+              history: result.data.data,
+              isLoading: false,
+            })
+          }
+      },
 
   async postSubmitData({ commit, state }) {
     commit('changeUserManagement', {
@@ -354,7 +429,6 @@ const actions = {
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
-      nmJabatan: data.formState.nama_jabatan,
     }
 
     let result = ''
@@ -390,7 +464,6 @@ const actions = {
     const formData = {
       idJabatanAtasan: payload.id_jabatan_atasan,
       idLevelHirarki: payload.id_level_hirarki,
-      nmJabatan: payload.nama_jabatan,
     }
 
     let result = ''
@@ -514,7 +587,7 @@ const actions = {
     const { data } = state
 
     let formData = {
-      idJabatan: payload.id_jabatan,
+      IDuser: payload.id_user,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -580,15 +653,11 @@ const actions = {
     const { data } = state
 
     let formData = {
+      IDuser: parseInt(payload.id_user),
       offset: data.bodyList.offset,
-      limit: 2000,
-      idLevelJabatan: parseInt(payload.id_jabatan),
+      limit: 0,
+      IDJabatan: parseInt(payload.id_jabatan),
     }
-
-    if (payload.search) {
-      formData['q'] = payload.search
-    }
-
     const result = await apiClient.post(`/hirarki/salesList`, formData)
 
     if (result.data.status == false) {
@@ -602,37 +671,7 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         sales_non_bawahan: result.data.data,
-        totalAllSales: result.data.totalAll,
         isLoading: false,
-      })
-    }
-  },
-
-  async searchSalesNonBawahan({ commit, state }, payload) {
-    const { data } = state
-    let formData = {
-      limit: 5000,
-      idLevelJabatan: parseInt(payload.id_jabatan),
-    }
-
-    if (payload.search) {
-      formData['q'] = payload.search
-    }
-
-    const result = await apiClient.post(`/hirarki/salesList`, formData)
-
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      const dataObj = result.data.data.map(item => {
-        item = item.namasales
-        return item
-      })
-      await commit('changeUserManagement', {
-        salesBawahan: dataObj || [],
       })
     }
   },
@@ -718,20 +757,10 @@ const actions = {
 
     const { data } = state
 
-    const salesList = [...data.sales_non_bawahan]
-    let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
-    const idUser = filtered[0].iduser
-
-    Date.prototype.addDays = function(days) {
-      var date = new Date(this.valueOf())
-      date.setDate(date.getDate() + days)
-      return date
-    }
-
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
-      idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
+      idUser: data.form_assign_bawahan.id_user,
+      tglMulai: data.form_assign_bawahan.tgl_mulai,
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 
@@ -754,62 +783,6 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
         modalVisibleAssignUser: false,
-      })
-    }
-  },
-
-  async getHistoryJabatan({ commit, state }, payload) {
-    commit('changeUserManagement', {
-      isLoading: true,
-    })
-    const { data } = state
-
-    let body = {
-      idUser: payload.userid,
-    }
-
-    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
-
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    }
-    else {
-      await commit('changeUserManagement', {
-        history: result.data.data,
-        isLoading: false,
-      })
-    }
-  },
-
-  async logHistory({ commit, state }, payload) {
-    commit('changeUserManagement', {
-      isLoading: true,
-    })
-
-    const { data } = state
-
-    let body = {
-      idUser: payload.userid,
-    }
-
-    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
-    console.log(result.data.data)
-
-    if (result.data.status == false) {
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    }
-    else {
-      await commit('changeUserManagement', {
-        history: result.data.data,
-        isLoading: false,
       })
     }
   },

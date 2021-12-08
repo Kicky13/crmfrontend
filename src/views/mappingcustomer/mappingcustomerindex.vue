@@ -10,7 +10,7 @@
       </div>
       <div class="card-body">
         <a
-          href="https://docs.google.com/uc?export=download&id=1JPIj0sawD_ou0h75sFz3Wsn3IV47r6VO"
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW.xlsx"
           download
           class="btn btn-main mb-3"
         >
@@ -163,8 +163,8 @@ export default defineComponent({
     ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
     downloadTokoSalesHandle() {
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['Id Sales', 'Username', 'Id Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
-        const filterVal = ['sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
+        const tHeader = ['ID Kota' ,'ID Sales', 'Username', 'ID Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
+        const filterVal = ['id_reference_wilayah', 'sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
         const list = this.mappingCustomer.listData
         const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
