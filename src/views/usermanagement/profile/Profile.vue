@@ -289,7 +289,7 @@
       </template>
       <a-form label-align="left" layout="vertical">
         <a-form-item label="User Sales" name="level">
-          <!-- <a-select
+          <a-select
             v-model:value="userManagement.form_assign_bawahan.id_user"
             placeholder="Pilih User Sales Bawahan"
             show-search
@@ -301,14 +301,14 @@
             >
               {{ item.iduser }} - {{ item.namasales }}
             </a-select-option>
-          </a-select> -->
-          <a-auto-complete
+          </a-select>
+          <!-- <a-auto-complete
             :data-source="userManagement.salesBawahan"
             placeholder="Pilih User Sales Bawahan"
             @select="onSelect"
             @search="onSearch"
           >
-          </a-auto-complete>
+          </a-auto-complete> -->
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
           <datepicker></datepicker>
