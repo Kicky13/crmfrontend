@@ -67,7 +67,7 @@
               <div class="row mb-4">
                 <div class="col-xs-3 col-md-3">
                   <a-select
-                    v-model:value="profileSPC.formData.id_distrik"
+                    v-model:value="modalValue"
                     class="w-100"
                     placeholder="Pilih Region"
                     show-search
@@ -75,7 +75,7 @@
                     <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                     <a-select-option
                       v-for="(item, index) in profileSPC.daftar_distrik"
-                      :value="item.idRegion"
+                      :value="item.namaRegion"
                       :key="`distrik_${index}`"
                       data-toggle="tooltip"
                       data-placement="top"
@@ -124,7 +124,7 @@
                 </div>
                 <div class="col-xs-3 col-md-3">
                   <a-button html-type="submit" type="primary" @click="handleSubmit()">
-                    <i class="fa fa-eye mr-2" />
+                    <i class="fa fa-plus mr-2" />
                     Tambahkan
                   </a-button>
                 </div>
@@ -199,6 +199,7 @@
 import { mapState, mapActions } from 'vuex'
 import { notification } from 'ant-design-vue'
 import VueDatepicker from 'vue3-datepicker'
+import { filter } from 'lodash'
 
 export default {
   name: 'ProfileSPC',
@@ -218,6 +219,7 @@ export default {
       modalDeleteView: false,
       data_distrik: '',
       dateLowerLimit: null,
+      modalValue: null,
     }
   },
 
@@ -284,6 +286,10 @@ export default {
       this.modalDeleteView = false
     },
     async handleSubmit() {
+      let dataSource = [...this.profileSPC.daftar_distrik]
+      let filtered = dataSource.filter((x) => x.namaRegion == this.modalValue)
+      this.profileSPC.formData.id_distrik = filtered[0].idRegion
+
       if (this.profileSPC.formData.id_distrik) {
         await this.addDistrikHirarki({
           id_tso: this.$route.params.id_jabatan,
