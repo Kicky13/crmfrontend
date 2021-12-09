@@ -164,10 +164,14 @@
                   <span class="text-black">Hirarki</span>
                 </router-link>
                 <div>
-                  <button type="button" class="btn btn-warning" @click="fetchHistoryJabatan(text)">
-                  <i class="fa fa-history" />
-                  History
-                </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning mr-2"
+                    @click="fetchHistoryJabatan(text)"
+                  >
+                    <i class="fa fa-history" />
+                    History
+                  </button>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
                     type="button"
@@ -206,14 +210,14 @@
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="User" name="level">
-              <a-auto-complete
+              <!-- <a-auto-complete
                 :data-source="userManagement.salesBawahan"
                 placeholder="Cari sales"
                 @select="onSelect"
                 @search="onSearch"
               >
-              </a-auto-complete>
-              <!-- <a-select
+              </a-auto-complete> -->
+              <a-select
                 v-model:value="userManagement.form_assign_bawahan.id_user"
                 placeholder="Pilih User"
                 show-search
@@ -225,7 +229,7 @@
                 >
                   {{ item.iduser }} - {{ item.namasales }}
                 </a-select-option>
-              </a-select> -->
+              </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
               <datepicker></datepicker>
