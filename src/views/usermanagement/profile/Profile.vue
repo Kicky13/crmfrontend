@@ -121,7 +121,7 @@
                   </div>
                 </template>
                 <template #end_date="{ text }">
-                  <div v-if="text.endDataJabat != null && text.endDataJabat.includes('9999')">
+                  <div v-if="text.endDateJabat != null && text.endDateJabat.includes('9999')">
                     -
                   </div>
                   <div v-else>
@@ -217,6 +217,7 @@
             :disabled-date="disabledBawahanStartDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_mulai"
             class="w-100"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -261,6 +262,7 @@
             :disabled-date="disabledReplaceStartDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_mulai"
             class="w-100"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -315,6 +317,7 @@
             placeholder="Tanggal Mulai"
             input-format="dd-MM-yyyy"
             v-model="userManagement.form_assign_bawahan.tgl_mulai"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">

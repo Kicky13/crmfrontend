@@ -6,11 +6,7 @@ export async function insertProduk(data) {
   return apiClient
   .post('/validasiHarga/tambah', data)
   .then(response => {
-    if (response.data) {
-        
-      return true
-    }
-    return false
+    return response.data
   })
 }
 

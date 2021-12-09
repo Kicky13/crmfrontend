@@ -94,6 +94,7 @@ import {
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal, notification } from 'ant-design-vue'
+import { forEach } from 'lodash'
 
 const columns = [
   {
@@ -231,17 +232,18 @@ export default {
         insertProduk(formData)
           .then((response) => {
             console.log(response)
-            if (response == true) {
+            if (response.status == true) {
               this.fetchGetDataSource()
               notification.success({
                 message: 'Berhasil',
-                description: 'Insert Success',
+                description: response.message,
               })
             } else {
-              notification.error({
+              let message = response.message
+              message.forEach(x => notification.error({
                 message: 'Gagal!',
-                description: 'Insert Gagal',
-              })
+                description: x,
+              }))
             }
           })
           .catch((err) => {

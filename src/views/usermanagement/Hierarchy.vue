@@ -164,6 +164,10 @@
                   <span class="text-black">Hirarki</span>
                 </router-link>
                 <div>
+                  <button type="button" class="btn btn-warning" @click="fetchHistoryJabatan(text)">
+                  <i class="fa fa-history" />
+                  History
+                </button>
                   <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
                     type="button"
@@ -181,10 +185,6 @@
                     <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
                   </button>
                 </div>
-                <button type="button" class="btn btn-warning" @click="fetchHistoryJabatan(text)">
-                  <i class="fa fa-history" />
-                  History
-                </button>
               </div>
             </template>
           </a-table>
@@ -234,6 +234,7 @@
                 placeholder="Tanggal Mulai"
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_assign_bawahan.tgl_mulai"
+                :upper-limit="dateLowerLimit"
               />
             </a-form-item>
           </a-form>
