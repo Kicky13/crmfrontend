@@ -68,6 +68,14 @@ export default {
     width: 90%;
   }
 }
+@media screen and (max-width: 1366px) and (min-width: 1366px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 94%;
+  }
+}
 
 @media screen and (max-width: 1024px) and (min-width: 1024px) {
   .sticky {
