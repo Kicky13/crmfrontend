@@ -12,7 +12,7 @@
     <div class="mr-3 d-none d-sm-block">
       <vb-language-switcher />
     </div>
-    <div :class="$style.topbar">
+    <div class="mr-auto mr-md-1">
       <vb-user-menu />
     </div>
   </div>
@@ -60,10 +60,29 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.sticky {
-  position: fixed;
-  top: 0;
-  z-index: 1;
-  width: 100%;
+@media screen and (max-width: 768px) and (min-width: 768px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 1024px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 92%;
+  }
+}
+@media screen and (max-width: 1440px) and (min-width: 1440px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 96%;
+  }
 }
 </style>
