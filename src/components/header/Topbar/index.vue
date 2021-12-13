@@ -45,7 +45,7 @@ export default {
 
     let header = document.getElementById('header-top')
     function onWindowScroll() {
-      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         header.classList.add('sticky')
       } else {
         header.classList.remove('sticky')
