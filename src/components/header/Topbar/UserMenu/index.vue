@@ -54,6 +54,7 @@
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import vueStore from 'store'
 
 export default {
   components: {
@@ -65,6 +66,8 @@ export default {
 
     const logout = () => {
       store.dispatch('user/LOGOUT')
+      vueStore.remove('accessToken')
+      vueStore.remove('userID')
     }
 
     return {
