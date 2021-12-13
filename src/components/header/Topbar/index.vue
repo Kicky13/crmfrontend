@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.topbar">
+  <div :class="$style.topbar" id="header-top">
     <div class="mr-4">
       <vb-fav-pages />
     </div>
@@ -12,7 +12,7 @@
     <div class="mr-3 d-none d-sm-block">
       <vb-language-switcher />
     </div>
-    <div>
+    <div :class="$style.topbar">
       <vb-user-menu />
     </div>
   </div>
@@ -37,9 +37,33 @@ export default {
     VbFavPages,
     VbTheme,
   },
+
+  mounted() {
+    window.onscroll = function() {
+      onWindowScroll()
+    }
+
+    let header = document.getElementById('header-top')
+    function onWindowScroll() {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        header.classList.add('sticky')
+      } else {
+        header.classList.remove('sticky')
+      }
+    }
+  },
 }
 </script>
 
 <style lang="scss" module>
 @import './style.module.scss';
+</style>
+
+<style lang="scss" scoped>
+.sticky {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
 </style>
