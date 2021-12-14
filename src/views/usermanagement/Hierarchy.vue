@@ -27,7 +27,8 @@
           v-if="
             selectedShorthand === `GSM` ||
               selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS`
+              selectedShorthand === `SALES DIS` ||
+              selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 float-right"
