@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.topbar">
+  <div :class="$style.topbar" id="header-top">
     <div class="mr-4">
       <vb-fav-pages />
     </div>
@@ -12,7 +12,7 @@
     <div class="mr-3 d-none d-sm-block">
       <vb-language-switcher />
     </div>
-    <div>
+    <div class="mr-auto mr-md-1">
       <vb-user-menu />
     </div>
   </div>
@@ -37,9 +37,60 @@ export default {
     VbFavPages,
     VbTheme,
   },
+
+  mounted() {
+    window.onscroll = function() {
+      onWindowScroll()
+    }
+
+    let header = document.getElementById('header-top')
+    function onWindowScroll() {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        header.classList.add('sticky')
+      } else {
+        header.classList.remove('sticky')
+      }
+    }
+  },
 }
 </script>
 
 <style lang="scss" module>
 @import './style.module.scss';
+</style>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 768px) and (min-width: 768px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 90%;
+  }
+}
+@media screen and (max-width: 1366px) and (min-width: 1366px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 94%;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 1024px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 92%;
+  }
+}
+@media screen and (max-width: 1440px) and (min-width: 1440px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 96%;
+  }
+}
 </style>
