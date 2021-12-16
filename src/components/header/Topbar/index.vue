@@ -1,16 +1,16 @@
 <template>
   <div :class="$style.topbar" id="header-top">
     <div class="mr-4">
-      <vb-fav-pages />
+      <!-- <vb-fav-pages /> -->
     </div>
     <div class="mr-auto mr-md-1">
-      <vb-search />
+      <!-- <vb-search /> -->
     </div>
     <div class="mr-3 d-none d-sm-block ml-auto">
       <vb-theme />
     </div>
     <div class="mr-3 d-none d-sm-block">
-      <vb-language-switcher />
+      <!-- <vb-language-switcher /> -->
     </div>
     <div class="mr-auto mr-md-1">
       <vb-user-menu />
@@ -31,10 +31,10 @@ import VbTheme from './Theme'
 
 export default {
   components: {
-    VbSearch,
-    VbLanguageSwitcher,
+    // VbSearch,
+    // VbLanguageSwitcher,
     VbUserMenu,
-    VbFavPages,
+    // VbFavPages,
     VbTheme,
   },
 
@@ -45,7 +45,7 @@ export default {
 
     let header = document.getElementById('header-top')
     function onWindowScroll() {
-      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+      if (document.body.scrollTop > 120 || document.documentElement.scrollTop > 120) {
         header.classList.add('sticky')
       } else {
         header.classList.remove('sticky')
@@ -65,7 +65,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 90%;
+    width: 82%;
   }
 }
 @media screen and (max-width: 1366px) and (min-width: 1366px) {
@@ -73,7 +73,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 94%;
+    width: 82%;
   }
 }
 
@@ -82,7 +82,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 92%;
+    width: 82%;
   }
 }
 @media screen and (max-width: 1440px) and (min-width: 1440px) {
@@ -90,7 +90,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 96%;
+    width: 82%;
   }
 }
 </style>
