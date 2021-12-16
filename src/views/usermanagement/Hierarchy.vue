@@ -26,8 +26,9 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS` ||
+            selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 float-right"
@@ -70,7 +71,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -294,18 +295,18 @@
         <!-- History Jabatan Modal -->
         <a-modal v-model:visible="historyJabatanModal" title="History Jabatan User">
           <a-row>
-            <a-col :span="8">Posisi Jabatan</a-col>
+            <a-col :span="8">Title Posisi</a-col>
             <a-col :span="16">: {{ historyJabatanItems.posisi_jabatan }}</a-col>
           </a-row>
           <a-row>
-            <a-col :span="8">Level Jabatan</a-col>
+            <a-col :span="8">Level Posisi</a-col>
             <a-col :span="16">: {{ historyJabatanItems.jabatan }}</a-col>
           </a-row>
           <a-table
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -363,8 +364,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -418,10 +419,10 @@ export default {
     searchData(keyword) {
       if (keyword) {
         this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function(item) {
+        let dataList = _.reject(this.userManagement.dataTable, function (item) {
           return item.nama === null
         })
-        this.userManagement.dataTable = dataList.filter(data =>
+        this.userManagement.dataTable = dataList.filter((data) =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
         )
         this.userManagement.isLoading = false
@@ -474,7 +475,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -628,7 +629,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -636,7 +637,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -683,13 +684,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }

@@ -205,24 +205,26 @@ export const getAdminMenuData = [
     title: 'Report Admin',
     key: '2h83ot12',
   },
-  // {
-  //   title: 'Report Admin',
-  //   key: '82hskb',
-  //   url: '/roles-permissions',
-  //   icon: 'fa fa-list-ul',
-  //   children: [
-  //     {
-  //       title: 'Data Sales SBI',
-  //       key: 'a32jab',
-  //       url: '/datasales',
-  //     },
-  //     {
-  //       title: 'Customer Mapping',
-  //       key: '12sa2s',
-  //       url: '/report/customer_mapping',
-  //     },
-  //   ],
-  // },
+  {
+    title: 'Report Admin',
+    key: '82hskb',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'a32jab',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
+      },
+      {
+        title: 'Customer Mapping',
+        key: '12sa2s',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
+      },
+    ],
+  },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',
@@ -269,26 +271,6 @@ export const getUserMenuData = [
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
-      // {
-      //   title: 'Penguncian Koordinat Toko',
-      //   key: 'awqsaw',
-      //   url: '/koordinatlock',
-      // },
-      // {
-      //   title: 'Radius Distrik',
-      //   key: 'Adawsd',
-      //   url: '/radiusdistrik',
-      // },
-      // {
-      //   title: 'Mapping Customer',
-      //   key: 'Adaws1',
-      //   url: '/mappingcustomer',
-      // },
-      // {
-      //   title: 'Sync Customer',
-      //   key: 'Adaws2',
-      //   url: '/customerscyn',
-      // },
       {
         title: 'Log Sync Customer',
         key: '1121sw',
@@ -315,12 +297,14 @@ export const getUserMenuData = [
       {
         title: 'Data Sales SBI',
         key: 'asa123',
-        url: '/datasales',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Customer Mapping',
         key: 'xca132',
-        url: '/report/customer_mapping',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
       },
     ],
   },
@@ -328,29 +312,6 @@ export const getUserMenuData = [
     category: true,
     title: 'Roles & Permissions',
     key: '2h83od',
-  },
-  {
-    title: 'Roles & Permissions',
-    key: '82hska',
-    url: '/roles-permissions',
-    icon: 'fe fe-database',
-    children: [
-      {
-        title: 'Roles',
-        key: 'a32jaa',
-        url: '/roles',
-      },
-      {
-        title: 'Permissions',
-        key: 'echa2a',
-        url: '/permissions',
-      },
-      {
-        title: 'Assign Roles',
-        key: 'acc441',
-        url: '/assignrole',
-      },
-    ],
   },
 ]
 
@@ -406,7 +367,8 @@ export const getTsoMenuData = [
       {
         title: 'Route Complient',
         key: 'acs293',
-        url: '/mappedVisit/route',
+        // url: '/mappedVisit/route',
+        url: '/auth/underconstruct',
       },
     ],
   },
@@ -419,32 +381,38 @@ export const getTsoMenuData = [
       {
         title: 'Data Sales SBI',
         key: 'a32jab',
-        url: '/datasales',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Customer Mapping',
         key: '12sa2s',
-        url: '/report/customer_mapping',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Laporan Toko Dikunjungi',
         key: '872ksj',
-        url: '/report/toko_dikunjungi',
+        // url: '/report/toko_dikunjungi',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Laporan Visit Plan - Actual',
         key: '888sja',
-        url: '/report/visit_actual',
+        // url: '/report/visit_actual',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Laporan Kapasitas Toko',
         key: 'jsdj22',
-        url: '/report/kapasitasToko',
+        // url: '/report/kapasitasToko',
+        url: '/auth/underconstruct',
       },
       {
         title: 'Hasil Survey',
         key: '98ksds',
-        url: '/report/hasilSurvey',
+        // url: '/report/hasilSurvey',
+        url: '/auth/underconstruct',
       },
     ],
   },
@@ -462,7 +430,8 @@ export const getTsoMenuData = [
       {
         title: 'Report Supervisory Visit',
         key: '23jsu2',
-        url: '/sales/report_supervisory',
+        // url: '/sales/report_supervisory',
+        url: '/auth/underconstruct',
       },
     ],
   },
