@@ -294,12 +294,12 @@
         <!-- History Jabatan Modal -->
         <a-modal v-model:visible="historyJabatanModal" title="History Jabatan User">
           <a-row>
-            <a-col :span="8">Nama</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.nama }}</a-col>
+            <a-col :span="8">Posisi Jabatan</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.posisi_jabatan }}</a-col>
           </a-row>
           <a-row>
-            <a-col :span="8">Level Posisi</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.level_posisi }}</a-col>
+            <a-col :span="8">Level Jabatan</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.jabatan }}</a-col>
           </a-row>
           <a-table
             class="mt-3"

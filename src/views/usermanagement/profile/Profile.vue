@@ -39,7 +39,16 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <p><strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong></p>
+            <div class="d-flex justify-content-center">
+              <button
+                class="btn btn-info"
+                @click="openViewTree"
+              >
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -375,6 +384,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy :id-jabatan="getIdJabatan" />
+    </a-modal>
   </div>
 </template>
 
@@ -384,6 +407,7 @@ import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
+import TreeHierarchy from '../tree'
 
 const itemsPerPage = [5, 10, 15, 20]
 
@@ -391,6 +415,7 @@ export default {
   name: 'VbAntDesign',
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   data() {
     return {
@@ -400,6 +425,8 @@ export default {
       newJabatan: '',
       listData: '',
       dateLowerLimit: null,
+      treeModal: false,
+      getIdJabatan: null,
     }
   },
   computed: {
@@ -435,6 +462,7 @@ export default {
       'postJabatanBawahan',
       'getListJenisUser',
       'searchSalesNonBawahan',
+      'viewTreeHierarchy',
     ]),
 
     async onSearch(searchText) {
@@ -638,6 +666,14 @@ export default {
         id_jabatan: this.$route.params.id_jabatan,
       })
       this.modalDeleteView = false
+    },
+    openViewTree() {
+      this.treeModal = true
+      const {id_jabatan} = this.$route.params
+      this.getIdJabatan = id_jabatan
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }

@@ -3,6 +3,7 @@ import NProgress from 'nprogress'
 import AuthLayout from '@/layouts/Auth'
 import MainLayout from '@/layouts/Main'
 import LandingPage from '../views/LandingPage'
+import Tree from '../views/usermanagement/tree'
 import store from '@/store'
 import { canNavigate } from '@/services/ability/routeProtection'
 const routes = [
@@ -319,7 +320,16 @@ const routes = [
       // ========== End of iqbal View ==========
     ],
   },
-
+  // Hierarchy Tree
+  {
+    path: '/hierarchy_tree/:id_jabatan',
+    component: Tree,
+    meta: {
+      title: 'Hierarchy Tree',
+      authRequired: true,
+      hidden: true,
+    },
+  },
   // System Pages
   // ======================= Start Iqbal ====================
   {
@@ -340,6 +350,7 @@ const routes = [
       },
     ],
   },
+
   // ======================= Start Iqbal ====================
 
   {
