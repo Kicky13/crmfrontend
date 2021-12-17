@@ -39,7 +39,16 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <p><strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong></p>
+            <div class="d-flex justify-content-center">
+              <button
+                class="btn btn-info"
+                @click="openViewTree"
+              >
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +130,7 @@
                   </div>
                 </template>
                 <template #end_date="{ text }">
-                  <div v-if="text.endDataJabat != null && text.endDataJabat.includes('9999')">
+                  <div v-if="text.endDateJabat != null && text.endDateJabat.includes('9999')">
                     -
                   </div>
                   <div v-else>
@@ -217,6 +226,7 @@
             :disabled-date="disabledBawahanStartDate"
             v-model:value="userManagement.form_tambah_bawahan.tgl_mulai"
             class="w-100"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -261,6 +271,7 @@
             :disabled-date="disabledReplaceStartDate"
             v-model:value="userManagement.form_replace_bawahan.tgl_mulai"
             class="w-100"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -287,7 +298,7 @@
       </template>
       <a-form label-align="left" layout="vertical">
         <a-form-item label="User Sales" name="level">
-          <!-- <a-select
+          <a-select
             v-model:value="userManagement.form_assign_bawahan.id_user"
             placeholder="Pilih User Sales Bawahan"
             show-search
@@ -299,14 +310,14 @@
             >
               {{ item.iduser }} - {{ item.namasales }}
             </a-select-option>
-          </a-select> -->
-          <a-auto-complete
+          </a-select>
+          <!-- <a-auto-complete
             :data-source="userManagement.salesBawahan"
             placeholder="Pilih User Sales Bawahan"
             @select="onSelect"
             @search="onSearch"
           >
-          </a-auto-complete>
+          </a-auto-complete> -->
         </a-form-item>
         <a-form-item label="Tanggal Mulai Jabatan" name="level">
           <datepicker></datepicker>
@@ -315,6 +326,7 @@
             placeholder="Tanggal Mulai"
             input-format="dd-MM-yyyy"
             v-model="userManagement.form_assign_bawahan.tgl_mulai"
+            :upper-limit="dateLowerLimit"
           />
         </a-form-item>
         <!-- <a-form-item label="Tanggal Akhir Jabatan" name="level">
@@ -364,9 +376,27 @@
 
       <a-form label-align="left" layout="vertical">
         <a-form-item label="Nama Jabatan" name="Nama Jabatan">
-          <a-input v-model:value="newJabatan" placeholder="Nama jabatan" />
+          <a-input
+            :prefix="listData[0].nama_singkat"
+            v-model:value="newJabatan"
+            placeholder="Nama jabatan"
+          />
         </a-form-item>
       </a-form>
+    </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy :id-jabatan="getIdJabatan" />
     </a-modal>
   </div>
 </template>
@@ -377,6 +407,7 @@ import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
+import TreeHierarchy from '../tree'
 
 const itemsPerPage = [5, 10, 15, 20]
 
@@ -384,6 +415,7 @@ export default {
   name: 'VbAntDesign',
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   data() {
     return {
@@ -393,6 +425,8 @@ export default {
       newJabatan: '',
       listData: '',
       dateLowerLimit: null,
+      treeModal: false,
+      getIdJabatan: null,
     }
   },
   computed: {
@@ -428,6 +462,7 @@ export default {
       'postJabatanBawahan',
       'getListJenisUser',
       'searchSalesNonBawahan',
+      'viewTreeHierarchy',
     ]),
 
     async onSearch(searchText) {
@@ -441,7 +476,7 @@ export default {
     },
     openModal() {
       this.modalTambahBawahan = true
-      this.newJabatan = this.listData[0].nama_singkat + ' - '
+      this.newJabatan = ''
     },
     onSelect(value) {
       this.userManagement.form_assign_bawahan.id_user = value
@@ -515,7 +550,7 @@ export default {
         await this.postJabatanBawahan({
           id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
           id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
-          nama_jabatan: this.newJabatan,
+          nama_jabatan: this.listData[0].nama_singkat + ' - ' + this.newJabatan,
         })
 
         await this.getListDownHirarki({
@@ -631,6 +666,14 @@ export default {
         id_jabatan: this.$route.params.id_jabatan,
       })
       this.modalDeleteView = false
+    },
+    openViewTree() {
+      this.treeModal = true
+      const {id_jabatan} = this.$route.params
+      this.getIdJabatan = id_jabatan
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }

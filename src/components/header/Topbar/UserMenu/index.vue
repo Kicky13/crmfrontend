@@ -54,6 +54,9 @@
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import vueStore from 'store'
+import { logoutData } from '@/services/connection/auth/api'
+import { notification } from 'ant-design-vue'
 
 export default {
   components: {
@@ -64,7 +67,25 @@ export default {
     const user = computed(() => store.getters['user/user'])
 
     const logout = () => {
-      store.dispatch('user/LOGOUT')
+      logoutData().then(response => {
+        if (response) {
+          if (response.status === 'success') {
+            notification.success({
+              message: 'Logout',
+              description: response.message,
+            })
+            store.dispatch('user/LOGOUT')
+            vueStore.remove('accessToken')
+            vueStore.remove('userID')
+          } else {
+            notification.console.error()
+            ;({
+              message: response.message,
+              description: 'Maaf, gagal logout!',
+            })
+          }
+        }
+      })
     }
 
     return {

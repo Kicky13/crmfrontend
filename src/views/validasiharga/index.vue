@@ -16,12 +16,12 @@
             <template #no="{ index }">
               <div>
                 {{ index + 1 }}
-            </div>
+              </div>
             </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
-            
+
             <template #action="{ text }">
               <div>
                 <Can do="update" a="validasiHarga">
@@ -94,6 +94,7 @@ import {
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal, notification } from 'ant-design-vue'
+import { forEach } from 'lodash'
 
 const columns = [
   {
@@ -140,7 +141,7 @@ export default {
   // },
   setup() {
     const rowSelection = {
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -193,9 +194,9 @@ export default {
       this.statusModal = true
       // showpost(id)
       getProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.id === id)
+            const post = response.data.find(post => post.id === id)
             this.formState.id = post.id
             this.formState.idproduk = post.idproduk
             this.formState.namaproduk = post.namaproduk
@@ -205,75 +206,82 @@ export default {
             this.formState.hargaJualMax = post.hargaJualMax
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
     },
     handleOk(e) {
       this.confirmLoading = true
-      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
-        
+      if (
+        this.formState.idproduk == '' ||
+        this.formState.hargaBeliMin == '' ||
+        this.formState.hargaBeliMax == '' ||
+        this.formState.hargaJualMin == '' ||
+        this.formState.hargaJualMax == ''
+      ) {
         notification.error({
-              message: 'Gagal!',
-              description: 'Field Tidak Boleh Kosong!!',
-              
-              
-            })
-            setTimeout(() => {
-              this.visible = false
-              this.confirmLoading = false
-            }, 1000)
-           return true
-      }
-        const formData = toRaw(this.formState)
-      
-        insertProduk(formData)
-          .then((response) => {
-            console.log(response)
-            if (response == true) {
-              this.fetchGetDataSource()
-              notification.success({
-                message: 'Berhasil',
-                description: 'Insert Success',
-              })
-            } else {
-              notification.error({
-                message: 'Gagal!',
-                description: 'Insert Gagal',
-              })
-            }
-          })
-          .catch((err) => {
-            if (err) {
-            }
-          })
+          message: 'Gagal!',
+          description: 'Field Tidak Boleh Kosong!!',
+        })
         setTimeout(() => {
           this.visible = false
           this.confirmLoading = false
         }, 1000)
-      
-      
+        return true
+      }
+      const formData = toRaw(this.formState)
+
+      insertProduk(formData)
+        .then(response => {
+          console.log(response)
+          if (response.status == true) {
+            this.fetchGetDataSource()
+            notification.success({
+              message: 'Berhasil',
+              description: response.message,
+            })
+          } else {
+            let message = response.message
+            message.forEach(x =>
+              notification.error({
+                message: 'Gagal!',
+                description: x,
+              }),
+            )
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
+      setTimeout(() => {
+        this.visible = false
+        this.confirmLoading = false
+      }, 1000)
     },
     handleUpdate(e) {
       this.confirmLoading = true
-      if(this.formState.idproduk == '' || this.formState.hargaBeliMin == '' || this.formState.hargaBeliMax == '' || this.formState.hargaJualMin == '' || this.formState.hargaJualMax == ''){
-        
+      if (
+        this.formState.idproduk == '' ||
+        this.formState.hargaBeliMin == '' ||
+        this.formState.hargaBeliMax == '' ||
+        this.formState.hargaJualMin == '' ||
+        this.formState.hargaJualMax == ''
+      ) {
         notification.error({
-              message: 'Gagal!',
-              description: 'Field Tidak Boleh Kosong!!',
-              
-              
-            })
-            setTimeout(() => {
-              this.visible = false
-              this.confirmLoading = false
-            }, 1000)
-           return true
+          message: 'Gagal!',
+          description: 'Field Tidak Boleh Kosong!!',
+        })
+        setTimeout(() => {
+          this.visible = false
+          this.confirmLoading = false
+        }, 1000)
+        return true
       }
       const formData = toRaw(this.formState)
       updateProduk(this.formState.id, formData)
-        .then((response) => {
+        .then(response => {
           if (response == true) {
             this.fetchGetDataSource()
             notification.success({
@@ -287,7 +295,7 @@ export default {
             })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -302,13 +310,17 @@ export default {
     },
     deleteDataById(id) {
       deleteData(id)
-        .then((response) => {
+        .then(response => {
           if (response) {
             const dataSource = [...this.dataSourceTable]
-            this.dataSourceTable = dataSource.filter((item) => item.id !== id)
+            this.dataSourceTable = dataSource.filter(item => item.id !== id)
+            notification.success({
+              message: 'Sukses!',
+              description: 'Data berhasil dihapus',
+            })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -329,13 +341,13 @@ export default {
     setSelectMethod(value) {
       const id = value
       getSelectProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.id === id)
+            const post = response.data.find(post => post.id === id)
             this.formState.namaproduk = post.namaproduk
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -348,7 +360,7 @@ export default {
     },
     fetchGetDataSource() {
       getProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             console.log(response)
             this.dataSourceTable = response.data
@@ -366,19 +378,19 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
     },
     fetchGetDataProduk() {
       getSelectProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.listProduk = response.data
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })

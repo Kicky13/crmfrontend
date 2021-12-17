@@ -93,8 +93,8 @@ const state = {
     ],
     columns_history: [
       {
-        title: 'Posisi',
-        dataIndex: 'titleJabatan',
+        title: 'Nama User',
+        dataIndex: 'namaUser',
       },
       {
         title: 'Tanggal Mulai',
@@ -205,6 +205,7 @@ const state = {
     detail_jabatan: Object,
     list_hirarki_down: [],
     history: [],
+    tree: [],
   },
 }
 
@@ -354,7 +355,7 @@ const actions = {
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
-      nmJabatan: data.formState.nama_jabatan,
+      nmJabatan: data.selectedShorthand + ' - ' + data.formState.nama_jabatan,
     }
 
     let result = ''
@@ -778,8 +779,7 @@ const actions = {
       await commit('changeUserManagement', {
         isLoading: false,
       })
-    }
-    else {
+    } else {
       await commit('changeUserManagement', {
         history: result.data.data,
         isLoading: false,
@@ -795,20 +795,42 @@ const actions = {
     const { data } = state
 
     let body = {
-      idUser: payload.userid,
+      idJabatan: payload.idJabatan,
     }
 
-    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
-    console.log(result.data.data)
+    const result = await apiClient.post(`/hirarki/historyJabatanbyIdJabatan`, body)
 
     if (result.data.status == false) {
       await commit('changeUserManagement', {
         isLoading: false,
       })
-    }
-    else {
+    } else {
       await commit('changeUserManagement', {
         history: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+  async viewTreeHierarchy({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      idJabatan: payload.idJabatan,
+    }
+
+    const result = await apiClient.post('/hirarki/viewTree', body)
+
+    if (result.data.status == false) {
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        tree: result.data.data,
         isLoading: false,
       })
     }

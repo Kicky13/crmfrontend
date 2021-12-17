@@ -26,8 +26,9 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS` ||
+            selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 float-right"
@@ -70,7 +71,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -165,6 +166,14 @@
                 </router-link>
                 <div>
                   <button
+                    type="button"
+                    class="btn btn-warning mr-2"
+                    @click="fetchHistoryJabatan(text)"
+                  >
+                    <i class="fa fa-history" />
+                    History
+                  </button>
+                  <button
                     v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
                     type="button"
                     class="btn btn-info mr-2"
@@ -181,10 +190,6 @@
                     <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
                   </button>
                 </div>
-                <button type="button" class="btn btn-warning" @click="fetchHistoryJabatan(text)">
-                  <i class="fa fa-history" />
-                  History
-                </button>
               </div>
             </template>
           </a-table>
@@ -206,14 +211,14 @@
           </template>
           <a-form label-align="left" layout="vertical">
             <a-form-item label="User" name="level">
-              <a-auto-complete
+              <!-- <a-auto-complete
                 :data-source="userManagement.salesBawahan"
                 placeholder="Cari sales"
                 @select="onSelect"
                 @search="onSearch"
               >
-              </a-auto-complete>
-              <!-- <a-select
+              </a-auto-complete> -->
+              <a-select
                 v-model:value="userManagement.form_assign_bawahan.id_user"
                 placeholder="Pilih User"
                 show-search
@@ -225,7 +230,7 @@
                 >
                   {{ item.iduser }} - {{ item.namasales }}
                 </a-select-option>
-              </a-select> -->
+              </a-select>
             </a-form-item>
             <a-form-item label="Tanggal Mulai Jabatan" name="level">
               <datepicker></datepicker>
@@ -234,6 +239,7 @@
                 placeholder="Tanggal Mulai"
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_assign_bawahan.tgl_mulai"
+                :upper-limit="dateLowerLimit"
               />
             </a-form-item>
           </a-form>
@@ -278,6 +284,7 @@
           <a-form label-align="left" layout="vertical">
             <a-form-item label="Nama Jabatan" name="Nama Jabatan">
               <a-input
+                :prefix="selectedShorthand"
                 v-model:value="userManagement.formState.nama_jabatan"
                 placeholder="Nama jabatan"
               />
@@ -288,26 +295,18 @@
         <!-- History Jabatan Modal -->
         <a-modal v-model:visible="historyJabatanModal" title="History Jabatan User">
           <a-row>
-            <a-col :span="8">Nama</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.nama }}</a-col>
+            <a-col :span="8">Title Posisi</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.posisi_jabatan }}</a-col>
           </a-row>
           <a-row>
             <a-col :span="8">Level Posisi</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.level_posisi }}</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.jabatan }}</a-col>
           </a-row>
-          <!-- <a-row>
-            <a-col :span="8">Email</a-col>
-            <a-col :span="16">: Test</a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="8">No. Telp</a-col>
-            <a-col :span="16">: Test</a-col>
-          </a-row> -->
           <a-table
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -358,10 +357,8 @@ export default {
       dateLowerLimit: null,
       historyJabatanModal: false,
       historyJabatanItems: {
-        nama: '',
-        level_posisi: '',
-        email: '',
-        no_telp: '',
+        posisi_jabatan: '',
+        jabatan: '',
       },
     }
   },
@@ -592,7 +589,10 @@ export default {
     },
     async openModal() {
       this.modalTambahJabatan = true
-      this.userManagement.formState.nama_jabatan = this.selectedShorthand + ' - ' 
+      this.$store.commit('userManagement/changeUserManagement', {
+        selectedShorthand: this.selectedShorthand,
+      })
+      this.userManagement.formState.nama_jabatan = ''
     },
     async tambahJabatan() {
       if (this.userManagement.formState.nama_jabatan) {
@@ -704,10 +704,10 @@ export default {
     },
     fetchHistoryJabatan(item) {
       this.historyJabatanModal = true
-      this.historyJabatanItems.nama = item.nama || '-'
-      this.historyJabatanItems.level_posisi = item.titleJabatan
+      this.historyJabatanItems.posisi_jabatan = item.titleJabatan
+      this.historyJabatanItems.jabatan = item.jabatan
       this.logHistory({
-        userid: item.idUser,
+        idJabatan: item.idJabatan,
       })
     },
     closeHistoryJabatanModal() {

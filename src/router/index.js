@@ -3,6 +3,7 @@ import NProgress from 'nprogress'
 import AuthLayout from '@/layouts/Auth'
 import MainLayout from '@/layouts/Main'
 import LandingPage from '../views/LandingPage'
+import Tree from '../views/usermanagement/tree'
 import store from '@/store'
 import { canNavigate } from '@/services/ability/routeProtection'
 const routes = [
@@ -20,7 +21,7 @@ const routes = [
       // VB:REPLACE-START:ROUTER-CONFIG
       {
         path: '/dashboard',
-        meta: { title: 'Dashboards', resource: 'Dashboard', action: 'manage' },
+        meta: { title: 'Dashboards', resource: 'Dashboard', action: 'read' },
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard'),
       },
       // Fauzan ============ Start ===================>>
@@ -29,7 +30,7 @@ const routes = [
         meta: {
           title: 'Mapping Customer',
           resource: 'Settings & Configuration',
-          action: 'manage',
+          action: 'read',
         },
         component: () =>
           import(
@@ -41,7 +42,7 @@ const routes = [
         meta: {
           title: 'Mapping Customer',
           resource: 'Settings & Configuration',
-          action: 'manage',
+          action: 'read',
         },
         component: () =>
           import(
@@ -50,7 +51,7 @@ const routes = [
       },
       {
         path: '/uploadvisitplan',
-        meta: { title: 'Upload Visit', resource: 'VisitPlan', action: 'manage' },
+        meta: { title: 'Upload Visit', resource: 'VisitPlan', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "upload-visit-plan" */ '@/views/uploadvisitplan/uploadvisitplanindex'
@@ -58,7 +59,7 @@ const routes = [
       },
       {
         path: '/otomatisasivisit',
-        meta: { title: 'Otomatisasi Visit', resource: 'VisitPlan', action: 'manage' },
+        meta: { title: 'Otomatisasi Visit', resource: 'VisitPlan', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "otomatisasi-visit" */ '@/views/otomatisasivisitplan/otomatisasivisitplanindex'
@@ -68,24 +69,24 @@ const routes = [
       // ========== Start of Varis View ==========
       {
         path: '/marketing/berita',
-        meta: { title: 'Berita', resource: 'Berita', action: 'manage' },
+        meta: { title: 'Berita', resource: 'Berita', action: 'read' },
         component: () => import(/* webpackChunkName: "berita" */ '@/views/berita/Berita'),
       },
       {
         path: '/marketing/berita/tambah',
-        meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'manage' },
+        meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "tambah-berita" */ '@/views/berita/tambah/Tambah'),
       },
       {
         path: '/marketing/berita/update/:artikelId',
-        meta: { title: 'Update Berita', resource: 'Update Berita', action: 'manage' },
+        meta: { title: 'Update Berita', resource: 'Update Berita', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
         path: '/marketing/berita/detail/:artikelId',
-        meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'manage' },
+        meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'
@@ -93,12 +94,12 @@ const routes = [
       },
       {
         path: '/user/level_user',
-        meta: { title: 'Level User', resource: 'Level User', action: 'manage' },
+        meta: { title: 'Level User', resource: 'Level User', action: 'read' },
         component: () => import(/* webpackChunkName: "level-user" */ '@/views/leveluser/LevelUser'),
       },
       {
         path: '/sales/survey_sales',
-        meta: { title: 'Survey Sales', resource: 'SurveySales', action: 'manage' },
+        meta: { title: 'Survey Sales', resource: 'SurveySales', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "survey-sales" */ '@/views/surveysales/SurveySales'),
       },
@@ -120,7 +121,7 @@ const routes = [
       },
       {
         path: '/marketing/program/detailProgram/:userId',
-        meta: { title: 'Detail Program', resource: 'Detail_Program', action: 'manage' },
+        meta: { title: 'Detail Program', resource: 'Detail_Program', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
       },
@@ -141,19 +142,19 @@ const routes = [
         path: '/roles/update',
         name: 'roles-update',
         props: true,
-        meta: { title: 'Role Management', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Role Management', resource: 'Permissions', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "role-management" */ '@/views/roles/forms/Update'),
       },
       {
         path: '/permissions',
-        meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Permissions', resource: 'Permissions', action: 'read' },
         component: () => import(/* webpackChunkName: "permission" */ '@/views/permissions'),
       },
       {
         path: '/permissions/create',
         name: 'permissions-create',
-        meta: { title: 'Permissions', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Permissions', resource: 'Permissions', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "permision-creaate" */ '@/views/permissions/forms/Insert'),
       },
@@ -194,7 +195,7 @@ const routes = [
       {
         path: '/users/export',
         name: 'user-management-export',
-        meta: { title: 'Export User', resource: 'User', action: 'manage' },
+        meta: { title: 'Export User', resource: 'User', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "user-management-export" */ '@/views/usermanagement/forms/Export'
@@ -203,14 +204,14 @@ const routes = [
       {
         path: '/users/profile/jabatan/:id_jabatan',
         name: 'user-management-profile',
-        meta: { title: 'Export User', resource: 'User', action: 'manage' },
+        meta: { title: 'Export User', resource: 'User', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile" */ '@/views/usermanagement/profile/Profile'),
       },
       {
         path: '/listusers/history/userid/:userid',
         name: 'log-history',
-        meta: { title: 'Export User', resource: 'User', action: 'manage' },
+        meta: { title: 'Export User', resource: 'User', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
       },
@@ -224,7 +225,7 @@ const routes = [
       {
         path: '/koordinatlock',
         name: 'koordinat-lock',
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/Lock'),
       },
@@ -232,7 +233,7 @@ const routes = [
         path: '/koordinatlock/detail',
         name: 'koordinat-lock-detail',
         props: true,
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "koordinat-lock-detail" */ '@/views/coordinatelock/DetailLock'
@@ -242,7 +243,7 @@ const routes = [
         path: '/koordinatlock/surveyDetail',
         name: 'koordinat-lock-survey',
         props: true,
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'manage' },
+        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "koordinat-lock-survey" */ '@/views/coordinatelock/DetailSurvey'
@@ -253,7 +254,7 @@ const routes = [
       {
         path: '/customersync',
         name: 'sync-customer',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'manage' },
+        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'read' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/customersync'),
       },
       {
@@ -281,27 +282,27 @@ const routes = [
       // ========== Start of Iqbal View ==========
       {
         path: '/report/customer_mapping',
-        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'manage' },
+        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
       },
       {
         path: '/log-sync-customer',
-        meta: { title: 'Log Sync Customer', resource: 'SynCustomer', action: 'manage' },
+        meta: { title: 'Log Sync Customer', resource: 'SynCustomer', action: 'read' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/logasyncustomer'),
       },
 
       {
         path: '/users/profile/TSO/:id_jabatan',
         name: 'user-management-profile-tso',
-        meta: { title: 'Profile TSO', resource: 'User', action: 'manage' },
+        meta: { title: 'Profile TSO', resource: 'User', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileTSO'),
       },
       {
         path: '/users/profile/sales-distributor/:id_jabatan',
         name: 'user-management-profile-sales-distributor',
-        meta: { title: 'Profile Sales Distributor', resource: 'User', action: 'manage' },
+        meta: { title: 'Profile Sales Distributor', resource: 'User', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileSalesDistributor'
@@ -310,7 +311,7 @@ const routes = [
       {
         path: '/users/profile/admin-distributor/:id_jabatan',
         name: 'user-management-profile-admin-distributor',
-        meta: { title: 'Profile Admin Distributor', resource: 'User', action: 'manage' },
+        meta: { title: 'Profile Admin Distributor', resource: 'User', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
@@ -319,7 +320,16 @@ const routes = [
       // ========== End of iqbal View ==========
     ],
   },
-
+  // Hierarchy Tree
+  {
+    path: '/hierarchy_tree/:id_jabatan',
+    component: Tree,
+    meta: {
+      title: 'Hierarchy Tree',
+      authRequired: true,
+      hidden: true,
+    },
+  },
   // System Pages
   // ======================= Start Iqbal ====================
   {
@@ -340,6 +350,7 @@ const routes = [
       },
     ],
   },
+
   // ======================= Start Iqbal ====================
 
   {
@@ -356,6 +367,16 @@ const routes = [
           action: 'read',
         },
         component: () => import('@/views/auth/404'),
+      },
+      {
+        path: '/auth/underconstruct',
+        name: 'underconstruct',
+        meta: {
+          title: 'Under Construct',
+          resource: 'Auth',
+          action: 'read',
+        },
+        component: () => import('@/views/auth/under-construct'),
       },
       {
         path: '/auth/500',
