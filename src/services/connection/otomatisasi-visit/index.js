@@ -11,7 +11,7 @@ const state = {
     },
     columns: [
       {
-        title: 'IdSales',
+        title: 'Id Sales',
         dataIndex: 'idsales',
         key: 'username',
         width: 100,
@@ -29,6 +29,7 @@ const state = {
       {
         title: 'Distributor',
         dataIndex: 'distributor',
+        width: 300,
         key: 'distributor',
         // slots: { customRender: 'name' },
       },
@@ -51,16 +52,17 @@ const state = {
         title: 'Bulan',
         dataIndex: 'bulan',
         key: 'bulan',
+        slots: { customRender: 'bulan' },
       },
       {
         title: 'N Jadwal',
-        dataIndex: 'njadwal',
+        dataIndex: 'n_jadwal',
         key: 'njadwal',
       },
       {
         title: 'Status',
         fixed: 'right',
-        width: 100,
+        width: 150,
         dataIndex: 'status',
         key: 'status',
         slots: { customRender: 'status' },
@@ -122,7 +124,7 @@ const state = {
 
 const mutations = {
   changeOtomatisasiVisitPlan(state, payload) {
-    state.dat = Object.assign({}, state.data, payload)
+    state.data = Object.assign({}, state.data, payload)
   },
 }
 
@@ -138,12 +140,12 @@ const actions = {
       tahun: data.body.tahun,
       bulan: data.body.bulan,
       offset: data.body.offset,
-      limit: 10,
+      limit: 2000,
     }
 
     const result = await apiClient.post('/Visit/ReportLogVisitPlan', body)
 
-    if (result.data.status == false) {
+    if (!result.data.status) {
       notification.error({
         message: 'Error',
         description: result.data.message[0],
