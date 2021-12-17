@@ -1,22 +1,119 @@
 {
-  "mahasiswa": [
+  "hirarkiTree": [
     {
       "id": 1,
-      "nim": "1231",
-      "nama": "Nam Do San",
-      "jurusan": "Teknik Informatika"
+      "data": [
+        {
+          "idJabatan": 1,
+          "titleJabatan": "GSM 1",
+          "namaUser": "User GSM 1",
+          "idAtasan": null,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 9,
+          "titleJabatan": "SSM 3",
+          "namaUser": "User SSM 3",
+          "idAtasan": 1,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 1021,
+          "titleJabatan": "SSM 6",
+          "namaUser": "User SSM 6",
+          "idAtasan": 1,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 1139,
+          "titleJabatan": "SSM 8",
+          "namaUser": "User SSM 8",
+          "idAtasan": 1,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 41,
+          "titleJabatan": "SM 18",
+          "namaUser": "User SM 18",
+          "idAtasan": 9,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 43,
+          "titleJabatan": "SM 20",
+          "namaUser": "User SM 20",
+          "idAtasan": 9,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 45,
+          "titleJabatan": "SM 22",
+          "namaUser": "User SM 22",
+          "idAtasan": 9,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 34,
+          "titleJabatan": "SM 11",
+          "namaUser": "User SM 11",
+          "idAtasan": 1021,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 36,
+          "titleJabatan": "SM 13",
+          "namaUser": "User SM 13",
+          "idAtasan": 1021,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 35,
+          "titleJabatan": "SM 12",
+          "namaUser": "User SM 12",
+          "idAtasan": 1139,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 44,
+          "titleJabatan": "SM 21",
+          "namaUser": "User SM 21",
+          "idAtasan": 1139,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 50,
+          "titleJabatan": "SM 27",
+          "namaUser": "User SM 27",
+          "idAtasan": 1139,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        }
+      ]
     },
     {
-      "nim": "1232",
-      "nama": "Cui Lan Sengklek",
-      "jurusan": "Sistem Informasi",
-      "id": 2
-    },
-    {
-      "nim": "1233",
-      "nama": "Kim Jong Unch",
-      "jurusan": "Teknik Industri",
-      "id": 3
+      "id": 2,
+      "data": [
+        {
+          "idJabatan": 2,
+          "titleJabatan": "GSM 2",
+          "namaUser": "User GSM 2",
+          "idAtasan": null,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 1804,
+          "titleJabatan": "SSM 13",
+          "namaUser": "User SSM 13",
+          "idAtasan": 2,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        },
+        {
+          "idJabatan": 2629,
+          "titleJabatan": "SSM 17",
+          "namaUser": "User SSM 17",
+          "idAtasan": 2,
+          "imgUrl": "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png"
+        }
+      ]
     }
   ],
   "users": [
