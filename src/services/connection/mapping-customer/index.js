@@ -122,6 +122,8 @@ const actions = {
       let dataObject = {
         id_tso: x.id_tso,
         id_sales: x.sales,
+        id_jabatan: x.id_jabatan,
+        id_jabatan_distributor: x.id_jabatan_distributor,
         username: x.username,
         id_customer: x.id_toko,
         nama_customer: x.customer,
