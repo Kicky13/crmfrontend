@@ -178,7 +178,7 @@ const routes = [
           import(/* webpackChunkName: "assignrole-update" */ '@/views/assignrole/forms/Update'),
       },
       {
-        path: '/users/hierarchy/preview/:name/:id',
+        path: '/users/hierarchy/preview',
         name: 'user-hierarchy-preview',
         meta: { title: 'User Management', resource: 'User', action: 'read' },
         component: () =>

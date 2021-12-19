@@ -40,7 +40,7 @@
         <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
           <i class="fa fa-file mr-2" />
 
-          {{ 'Import Excel' + ' ' + selectedShorthand }}
+          Import Excel
         </a-button>
       </div>
       <div class="card-body">
@@ -300,7 +300,7 @@
         <!-- Import Exel -->
         <a-modal
           v-model:visible="modalImportExcel"
-          :title="`Import Excel ${selectedShorthand}`"
+          :title="`Import Excel`"
           :closable="false"
           :mask-closable="false"
           :width="700"
@@ -314,9 +314,8 @@
               <div class="row">
                 <div class="col-lg-8 col-xs-12 mb-2">
                   <p class="body-14 col-black-2 mr-3">
-                    Download template excel untuk mengisi data
-                    <strong>{{ selectedShorthand }}</strong
-                    >, input data sesuai format, jika selesai unggah file di bawah ini
+                    Download template excel untuk mengisi data tersebut, input data sesuai format,
+                    jika selesai unggah file di bawah ini
                   </p>
                 </div>
                 <div class="col-lg-4 col-xs-12 mb-2">
@@ -474,7 +473,12 @@ export default {
       )
     },
     submitPreviewExcel() {
-      this.$router.push(`/users/hierarchy/preview/${this.selectedShorthand}/${1}`)
+      this.$router.push(`/users/hierarchy/preview`)
+    },
+    openModalImport() {
+      this.modalImportExcel = true
+      this.importExelHirarki.body.file = null
+      this.importExelHirarki.body.filename = ''
     },
     deleteImportExcel() {
       this.importExelHirarki.body.file = null
@@ -679,9 +683,7 @@ export default {
       })
       this.userManagement.formState.nama_jabatan = ''
     },
-    openModalImport() {
-      this.modalImportExcel = true
-    },
+
     async tambahJabatan() {
       if (this.userManagement.formState.nama_jabatan) {
         await this.postJabatanGSM({

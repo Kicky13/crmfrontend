@@ -10,7 +10,7 @@
     </div>
     <div class="card card-top card-top-primary">
       <div class="card-header">
-        <strong>Preview Data {{ $route.params.name }}</strong>
+        <strong>Preview Data</strong>
       </div>
       <div class="card-body">
         <div class="table-visit table-responsive text-nowrap">
