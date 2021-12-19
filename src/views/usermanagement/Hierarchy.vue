@@ -39,7 +39,8 @@
         </a-button>
         <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
           <i class="fa fa-file mr-2" />
-          Import Excel
+
+          {{ 'Import Excel' + ' ' + selectedShorthand }}
         </a-button>
       </div>
       <div class="card-body">
@@ -306,7 +307,7 @@
         >
           <template #footer>
             <a-button key="back" @click="modalImportExcel = false">Batal</a-button>
-            <a-button key="submit" type="primary">Preview</a-button>
+            <a-button key="submit" @click="submitPreviewExcel()" type="primary">Preview</a-button>
           </template>
           <a-form label-align="left" layout="vertical">
             <div class="importexcel_hirarki">
@@ -471,6 +472,9 @@ export default {
         },
         500,
       )
+    },
+    submitPreviewExcel() {
+      this.$router.push(`/users/hierarchy/preview/${this.selectedShorthand}/${1}`)
     },
     deleteImportExcel() {
       this.importExelHirarki.body.file = null
