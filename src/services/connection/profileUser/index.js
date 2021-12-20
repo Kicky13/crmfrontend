@@ -17,13 +17,13 @@ const state = {
       },
       {
         title: 'Posisi Jabatan',
-        key: 'posisi_jabatan',
-        slots: { customRender: 'posisi_jabatan' },
+        key: 'nama',
+        dataIndex: 'titleJabatan',
       },
       {
         title: 'Nama User',
         key: 'name',
-        slots: { customRender: 'name' },
+        slots: { customRender: 'nama' },
       },
       {
         title: 'Tanggal Menjabat',
@@ -37,8 +37,7 @@ const state = {
       },
       {
         title: 'Status',
-        key: 'status',
-        slots: { customRender: 'status' },
+        dataIndex: 'statusJabat',
       },
     ],
     data_bawahan: [],
