@@ -201,39 +201,10 @@
 <script>
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
+import { mapState, mapActions } from 'vuex'
 import { getHistoryVisit, getLockCustomer } from '@/services/connection/koordinat-lock/api'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No.',
-    dataIndex: 'id_kunjungan',
-  },
-  {
-    title: 'Rencana Kunjungan',
-    dataIndex: 'tgl_rencana_kunjungan',
-  },
-  {
-    title: 'Supervisor',
-    dataIndex: 'nama_supervisor',
-  },
-  {
-    title: 'Dikunjungi',
-    dataIndex: 'checkin_date',
-    slots: { customRender: 'dikunjungi' },
-  },
-  {
-    title: 'Penugasan',
-    dataIndex: 'jenis_penugasan',
-  },
-  {
-    title: 'Detail',
-    dataIndex: 'id_kunjungan',
-    slots: { customRender: 'action' },
-    width: 100,
-    fixed: 'right',
-  },
-]
 
 export default {
   name: 'VbAntDesign',
@@ -256,7 +227,6 @@ export default {
       }),
     }
     return {
-      columns,
       rowSelection,
       itemsPerPage,
     }
@@ -271,35 +241,30 @@ export default {
       historyVisit: [],
     }
   },
+  computed: {
+    ...mapState({
+      koordinatLock: (state) => state.koordinatLock.data,
+    }),
+  },
   async mounted() {
-    this.detailCustomer = JSON.parse(this.customerInfo)
-    this.totalDistributor = this.detailCustomer.distributor.length
-    this.totalSales = this.detailCustomer.sales.length
     await this.fetchGetHistoryVisit()
   },
   methods: {
+    ...mapActions('koordinatLock', ['getHistoryVisitToko']),
+    getDataToko() {
+      const dataSource = [...this.koordinatLock.dataCustomer]
+      const filtered = dataSource.filter((x) => x.id_customer == this.$router.params.idCustomer)
+
+      this.detailCustomer = filtered[0]
+    },
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
     async fetchGetHistoryVisit() {
-      this.isLoading = true
-      let formData = {
-        idToko: this.detailCustomer.id_customer,
-      }
-      // let formData = {
-      //   idToko: 100013207,
-      // }
-      await getHistoryVisit(formData)
-        .then((response) => {
-          if (response.status) {
-            this.historyVisit = response.data
-          }
-          this.isLoading = false
-        })
-        .catch((err) => {
-          if (err) {
-          }
-        })
+      this.getDataToko()
+      await this.getHistoryVisitToko({
+        idToko: this.$router.params.idCustomer,
+      })
     },
     async fetchLockCoordinate() {
       let formData = {
@@ -328,7 +293,7 @@ export default {
       })
     },
     getDetailSurvey(id) {
-      const dataSource = [...this.historyVisit]
+      const dataSource = [...this.koordinatLock.dataVisit]
       let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
       let detailSurvey = filtered[0]
 

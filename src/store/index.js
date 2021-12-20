@@ -15,6 +15,7 @@ import ProfileAdminDistributor from '../services/connection/user-management/User
 import ProfileSPC from '../services/connection/user-management/UserHirarki/ProfileSPC'
 import ProfileUser from '../services/connection/profileUser'
 import ImportExelHirarki from '../services/connection/user-management/UserHirarki/ImportExcelHirarki'
+import KoordinatLock from '../services/connection/koordinat-lock'
 export default createStore({
   modules: {
     user,
@@ -33,6 +34,7 @@ export default createStore({
     profileSPC: ProfileSPC,
     profileUser: ProfileUser,
     importExelHirarki: ImportExelHirarki,
+    koordinatLock: KoordinatLock,
   },
   state: {},
   mutations: {},

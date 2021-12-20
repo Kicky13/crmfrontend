@@ -236,7 +236,7 @@ const routes = [
           import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/Lock'),
       },
       {
-        path: '/koordinatlock/detail',
+        path: '/koordinatlock/detail/:idCustomer',
         name: 'koordinat-lock-detail',
         props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
