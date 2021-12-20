@@ -178,6 +178,15 @@ const routes = [
           import(/* webpackChunkName: "assignrole-update" */ '@/views/assignrole/forms/Update'),
       },
       {
+        path: '/users/hierarchy/preview',
+        name: 'user-hierarchy-preview',
+        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "user-management-preview-import" */ '@/views/usermanagement/previewImportExcel'
+          ),
+      },
+      {
         path: '/users/hierarchy',
         name: 'user-hierarchy',
         meta: { title: 'User Management', resource: 'User', action: 'read' },
@@ -211,15 +220,13 @@ const routes = [
         path: '/listusers/history/userid/:userid',
         name: 'log-history',
         meta: { title: 'Export User', resource: 'User', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
+        component: () => import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
       },
       {
         path: '/users/list',
         name: 'list_user',
         meta: { title: 'User Management', resource: 'User', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "user-management" */ '@/views/listusers/List'),
+        component: () => import(/* webpackChunkName: "user-management" */ '@/views/listusers/List'),
       },
       {
         path: '/koordinatlock',
@@ -279,6 +286,13 @@ const routes = [
       },
 
       // ========== Start of Iqbal View ==========
+
+      {
+        path: '/report/customer_mapping',
+        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
+      },
       {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },

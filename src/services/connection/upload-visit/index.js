@@ -30,12 +30,6 @@ const state = {
         slots: { customRender: 'nama_toko' },
       },
       {
-        title: 'Distributor',
-        width: 150,
-        key: 'distributor',
-        slots: { customRender: 'distributor' },
-      },
-      {
         title: 'Min',
         dataIndex: 'minggu',
       },

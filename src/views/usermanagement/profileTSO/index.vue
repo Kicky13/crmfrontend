@@ -65,7 +65,7 @@
           <div class="card-body">
             <a-form :model="profileTSO.formData" :rules="profileTSO.rules">
               <div class="row mb-4">
-                <div class="col-xs-3 col-md-3">
+                <div class="col-xs-5 col-md-5">
                   <a-select
                     v-model:value="modalValue"
                     class="w-100"
@@ -122,10 +122,14 @@
                     />
                   </a-form-item>
                 </div>
-                <div class="col-xs-3 col-md-3">
-                  <a-button html-type="submit" type="primary" @click="handleSubmit()">
-                    <i class="fa fa-plus mr-2" />
-                    Tambahkan
+                <div class="col-xs-1 col-md-1 mt-1">
+                  <a-button
+                    title="Tambah"
+                    html-type="submit"
+                    type="primary"
+                    @click="handleSubmit()"
+                  >
+                    <i class="fa fa-plus" />
                   </a-button>
                 </div>
               </div>

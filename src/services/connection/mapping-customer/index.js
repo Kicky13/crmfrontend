@@ -122,6 +122,8 @@ const actions = {
       let dataObject = {
         id_tso: x.id_tso,
         id_sales: x.sales,
+        id_jabatan: x.id_jabatan,
+        id_jabatan_distributor: x.id_jabatan_distributor,
         username: x.username,
         id_customer: x.id_toko,
         nama_customer: x.customer,
@@ -129,16 +131,14 @@ const actions = {
         nama_distributor: x.distributor,
         start_date: x.start_date,
         end_date: x.end_date,
+        id_reference_wilayah: x.id_reference_wilayah,
         status_cek: 'success',
       }
       dataArray.push(dataObject)
     })
 
     data.listData.forEach(item => {
-      let dataObject = {
-        id_reference_wilayah: item.id_reference_wilayah,
-      }
-      dataIdRefenceWilayah.push(dataObject)
+      dataIdRefenceWilayah.push(item.id_reference_wilayah)
     })
 
     const config = {
@@ -149,7 +149,7 @@ const actions = {
 
     const formData = new FormData()
     formData.append('commitData', JSON.stringify(dataArray))
-    formData.append('id_reference_wilayah', dataIdRefenceWilayah)
+    formData.append('id_reference_wilayah', JSON.stringify(dataIdRefenceWilayah))
     const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
 
     if (result.data.status == 'error') {
