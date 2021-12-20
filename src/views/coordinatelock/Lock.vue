@@ -30,7 +30,8 @@
             v-if="selectedKabupaten == null"
             :disabled="true"
             type="primary"
-            :loading="koordinatLock.isLoading"
+            @click="handleView"
+            :loading="isSubmit"
           >
             <i class="fa fa-eye mr-2" />
             View
@@ -73,19 +74,17 @@
         </div>
         <div class="table-responsive text-nowrap">
           <a-table
-            :columns="koordinatLock.columnKoordLock"
-            :data-source="koordinatLock.dataCustomer"
-            :row-key="(data) => data.id_customer"
+            :columns="columns"
+            :data-source="customers"
+            :row-key="(customers) => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 1500 }"
-            :loading="koordinatLock.isLoading"
+            :loading="tableLoading"
           >
             <template #action="text">
               <div>
                 <button @click="gotoDetail(text)" type="button" class="btn btn-primary">
-                  <router-link :to="`/koordinatlock/${text.id_customer}`">
-                    <i class="fa fa-eye"></i>
-                  </router-link>
+                  <i class="fa fa-eye"></i>
                 </button>
               </div>
             </template>
@@ -99,11 +98,53 @@
 <script>
 import { toRaw } from 'vue'
 import { message } from 'ant-design-vue'
-import { mapState, mapActions } from 'vuex'
 import { getRegionList, getTokoList } from '@/services/connection/koordinat-lock/api'
 import { _ } from 'vue-underscore'
 
 const itemsPerPage = [5, 10, 15, 20]
+const columns = [
+  {
+    title: 'ID Customer',
+    dataIndex: 'id_customer',
+    width: 100,
+    fixed: 'left',
+  },
+  {
+    title: 'Nama Toko',
+    dataIndex: 'nm_customer',
+    width: 200,
+    fixed: 'left',
+  },
+  {
+    title: 'Alamat',
+    dataIndex: 'alamat',
+    ellipsis: true,
+  },
+  {
+    title: 'Provinsi',
+    dataIndex: 'provinsi',
+  },
+  {
+    title: 'Kabupaten',
+    dataIndex: 'kabupaten',
+  },
+  {
+    title: 'Koordinat',
+    dataIndex: 'kordinat',
+  },
+  {
+    title: 'Status Lock',
+    dataIndex: 'status_lock',
+  },
+  {
+    title: 'Detail',
+    dataIndex: 'id_customer',
+    slots: { customRender: 'action' },
+    width: 100,
+    fixed: 'right',
+  },
+]
+
 export default {
   name: 'VbAntDesign',
   setup() {
@@ -119,6 +160,7 @@ export default {
       }),
     }
     return {
+      columns,
       rowSelection,
       itemsPerPage,
     }
@@ -138,17 +180,11 @@ export default {
       tableLoading: false,
     }
   },
-  computed: {
-    ...mapState({
-      koordinatLock: (state) => state.koordinatLock.data,
-    }),
-  },
   mounted() {
     this.fetchGetRegion()
     // this.fetchGetCustomers()
   },
   methods: {
-    ...mapActions('koordinatLock', ['getDataCustomer']),
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
@@ -201,10 +237,24 @@ export default {
         })
     },
     async fetchGetCustomers() {
-      await this.getDataCustomer({
-        selectedKabupaten: this.selectedKabupaten,
-        search: this.searchText,
-      })
+      this.tableLoading = true
+      let formData = {
+        IDdistrik: this.selectedKabupaten,
+        offset: 0,
+        limit: 100,
+        q: this.searchText,
+      }
+      getTokoList(formData)
+        .then((response) => {
+          if (response.status) {
+            this.customers = response.data
+          }
+          this.tableLoading = false
+        })
+        .catch((err) => {
+          if (err) {
+          }
+        })
     },
   },
 }
