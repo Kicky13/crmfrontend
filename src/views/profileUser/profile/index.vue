@@ -134,7 +134,7 @@ export default {
     // await this.getListBawahanProfile()
 
     await this.getListDownHirarki({
-      id_jabatan: this.$store.state.user.idJabatan,
+      id_jabatan: this.$store.state.user.idJabatan ? this.$store.state.user.idJabatan : 0,
     })
   },
 

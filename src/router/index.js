@@ -297,7 +297,7 @@ const routes = [
         path: '/profile/tso',
         meta: { title: 'Profile User TSO', resource: 'ProfileUserTSO', action: 'read' },
         component: () =>
-          import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profileTSO'),
+          import(/* webpackChunkName: "profile-user-tso" */ '@/views/profileUser/profileTSO'),
       },
       {
         path: '/report/customer_mapping',

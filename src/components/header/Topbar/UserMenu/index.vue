@@ -8,7 +8,7 @@
     <template #overlay>
       <a-menu>
         <a-menu-item>
-          <router-link v-if="user.role === `TSO`" :to="`/profile/tso`">
+          <!-- <router-link v-if="user.role === `TSO`" :to="`/profile/tso`">
             <div>
               <strong>{{ $t('topBar.profileMenu.hello') }}, {{ user.name || 'Anonymous' }}</strong>
             </div>
@@ -20,8 +20,8 @@
               <strong class="mr-1">{{ $t('topBar.profileMenu.role') }}:</strong>
               {{ user.role || '—' }}
             </div>
-          </router-link>
-          <router-link v-else :to="`/profile`">
+          </router-link> -->
+          <router-link :to="`/profile`">
             <div>
               <strong>{{ $t('topBar.profileMenu.hello') }}, {{ user.name || 'Anonymous' }}</strong>
             </div>
