@@ -170,7 +170,7 @@ const actions = {
     } else {
       let formData = {
         idSpc: payload.id_tso,
-        idDistrik: payload.id_distrik,
+        idRegion: payload.id_distrik,
         tglAkhir: DateNow.toString()
           .replace('/', '-')
           .replace('/', '-'),

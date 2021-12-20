@@ -26,9 +26,9 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS` ||
-              selectedShorthand === `SPC`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS` ||
+            selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 ml-2 float-right"
@@ -37,11 +37,10 @@
           <i class="fa fa-plus mr-2" />
           {{ 'Posisi' + ' ' + selectedShorthand }}
         </a-button>
-        <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
+        <!-- <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
           <i class="fa fa-file mr-2" />
-
           Import Excel
-        </a-button>
+        </a-button> -->
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -76,7 +75,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -331,7 +330,15 @@
 
               <div
                 v-if="importExelHirarki.body.filename.length === 0"
-                class="d-flex align-items-center w-100 border-4 h-100 justify-content-center importexcel_hirarki_upload"
+                class="
+                  d-flex
+                  align-items-center
+                  w-100
+                  border-4
+                  h-100
+                  justify-content-center
+                  importexcel_hirarki_upload
+                "
                 @click="$refs.fileInput.click()"
               >
                 <div class="text-center pt-5 pb-5 w-50">
@@ -350,7 +357,15 @@
                 </div>
               </div>
               <div
-                class="d-flex align-items-center w-100 border-4 h-100 justify-content-left importexcel_hirarki_upload_prepare"
+                class="
+                  d-flex
+                  align-items-center
+                  w-100
+                  border-4
+                  h-100
+                  justify-content-left
+                  importexcel_hirarki_upload_prepare
+                "
                 v-else
               >
                 <img :src="require('@/assets/images/logo/upload_xls.svg')" alt="" />
@@ -377,7 +392,7 @@
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -436,9 +451,9 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
-      importExelHirarki: state => state.importExelHirarki.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
+      importExelHirarki: (state) => state.importExelHirarki.data,
     }),
   },
   async mounted() {
@@ -508,10 +523,10 @@ export default {
     searchData(keyword) {
       if (keyword) {
         this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function(item) {
+        let dataList = _.reject(this.userManagement.dataTable, function (item) {
           return item.nama === null
         })
-        this.userManagement.dataTable = dataList.filter(data =>
+        this.userManagement.dataTable = dataList.filter((data) =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
         )
         this.userManagement.isLoading = false
@@ -564,7 +579,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -719,7 +734,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -727,7 +742,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -774,13 +789,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }

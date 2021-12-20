@@ -205,6 +205,7 @@ const state = {
     detail_jabatan: Object,
     list_hirarki_down: [],
     history: [],
+    tree: [],
   },
 }
 
@@ -806,6 +807,30 @@ const actions = {
     } else {
       await commit('changeUserManagement', {
         history: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+  async viewTreeHierarchy({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      idJabatan: payload.idJabatan,
+    }
+
+    const result = await apiClient.post('/hirarki/viewTree', body)
+
+    if (result.data.status == false) {
+      await commit('changeUserManagement', {
+        isLoading: false,
+      })
+    } else {
+      await commit('changeUserManagement', {
+        tree: result.data.data,
         isLoading: false,
       })
     }
