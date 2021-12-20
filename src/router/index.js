@@ -290,7 +290,14 @@ const routes = [
       {
         path: '/profile',
         meta: { title: 'Profile User', resource: 'ProfileUser', action: 'read' },
-        component: () => import(/* webpackChunkName: "profile-user" */ '@/views/profileUser'),
+        component: () =>
+          import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profile'),
+      },
+      {
+        path: '/profile/tso',
+        meta: { title: 'Profile User TSO', resource: 'ProfileUserTSO', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profileTSO'),
       },
       {
         path: '/report/customer_mapping',
