@@ -13,7 +13,7 @@ import ProfileTSO from '../services/connection/user-management/UserHirarki/Profi
 import ProfileSalesDistributor from '../services/connection/user-management/UserHirarki/ProfileSalesDistributor'
 import ProfileAdminDistributor from '../services/connection/user-management/UserHirarki/ProfileAdminDistributor'
 import ProfileSPC from '../services/connection/user-management/UserHirarki/ProfileSPC'
-
+import ImportExelHirarki from '../services/connection/user-management/UserHirarki/ImportExcelHirarki'
 export default createStore({
   modules: {
     user,
@@ -30,6 +30,7 @@ export default createStore({
     profileSalesDistributor: ProfileSalesDistributor,
     profileAdminDistributor: ProfileAdminDistributor,
     profileSPC: ProfileSPC,
+    importExelHirarki: ImportExelHirarki,
   },
   state: {},
   mutations: {},
