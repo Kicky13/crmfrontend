@@ -409,7 +409,6 @@ import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
 import TreeHierarchy from '../tree'
 
-const itemsPerPage = [5, 10, 15, 20]
 
 export default {
   name: 'VbAntDesign',

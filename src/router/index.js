@@ -287,7 +287,18 @@ const routes = [
       },
 
       // ========== Start of Iqbal View ==========
-
+      {
+        path: '/profile',
+        meta: { title: 'Profile User', resource: 'ProfileUser', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profile'),
+      },
+      {
+        path: '/profile/tso',
+        meta: { title: 'Profile User TSO', resource: 'ProfileUserTSO', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-user-tso" */ '@/views/profileUser/profileTSO'),
+      },
       {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },

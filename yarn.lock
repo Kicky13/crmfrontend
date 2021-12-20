@@ -868,10 +868,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@balkangraph/orgchart.js@^8.0.34":
-  version "8.0.34"
-  resolved "https://registry.yarnpkg.com/@balkangraph/orgchart.js/-/orgchart.js-8.0.34.tgz#c477ec5851bbd45dfd3ee9318b7ab20aba5240bb"
-  integrity sha512-DoIHYaj83vs3Yt917IDJdD2WU97rNde/W2O8jyhYzh1Bx/M0ocxZiek5FrYNh8jXXonpQn8esmNrKZcU/QL72g==
+"@balkangraph/orgchart.js@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@balkangraph/orgchart.js/-/orgchart.js-8.1.1.tgz#19eafbfeefe1ce165fdc672bc358652b62ef8c64"
+  integrity sha512-hpq9sE25aYr4NmUN5dbihLirCUsi8g67GDZkSxQ3plHZ1jxyx/ASrQszC8Zd4IGx4XPAEAKTwmevmB6Q2pudQQ==
 
 "@casl/ability@^5.3.1":
   version "5.3.1"

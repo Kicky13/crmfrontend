@@ -22,15 +22,15 @@ const mapAuthProviders = {
 
 const DEV = process.env.VUE_APP_AUTHENTICATED
   ? {
-    id: '1',
-    name: 'Tom Jones',
-    role: 'admin',
-    email: 'demo@sellpixels.com',
-    avatar: '',
-    ability: [],
-    authorized: true,
-    accountFetchIsTouched: true,
-  }
+      id: '1',
+      name: 'Tom Jones',
+      role: 'admin',
+      email: 'demo@sellpixels.com',
+      avatar: '',
+      ability: [],
+      authorized: true,
+      accountFetchIsTouched: true,
+    }
   : {}
 
 export default {
@@ -45,6 +45,8 @@ export default {
     authorized: false,
     loading: false,
     accountFetchIsTouched: false,
+    userid: null,
+    idJabatan: null,
     ...DEV, // remove it, used for demo build
   },
   mutations: {
@@ -108,7 +110,7 @@ export default {
       currentAccount().then(response => {
         if (response) {
           localStorage.setItem('userData', JSON.stringify(response))
-          const { id, email, name, avatar, role, ability } = response
+          const { id, email, name, avatar, role, ability, userid, idJabatan } = response
           commit('SET_STATE', {
             id,
             name,
@@ -116,6 +118,8 @@ export default {
             avatar,
             role,
             ability,
+            userid,
+            idJabatan,
             authorized: true,
           })
         }
@@ -136,6 +140,8 @@ export default {
           ability: [],
           authorized: false,
           loading: false,
+          userid: null,
+          idJabatan: null,
         })
         localStorage.removeItem('userData')
         router.push('/auth/login')
