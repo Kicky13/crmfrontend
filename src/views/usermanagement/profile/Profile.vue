@@ -396,7 +396,7 @@
       <template #footer>
         <a-button @click="closeViewTree">Kembali</a-button>
       </template>
-      <tree-hierarchy :id-jabatan="getIdJabatan" />
+      <tree-hierarchy />
     </a-modal>
   </div>
 </template>
@@ -407,7 +407,7 @@ import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
-import TreeHierarchy from '../tree'
+import TreeHierarchy from '../tree/TreeHierarchy'
 
 
 export default {
@@ -425,7 +425,6 @@ export default {
       listData: '',
       dateLowerLimit: null,
       treeModal: false,
-      getIdJabatan: null,
     }
   },
   computed: {
@@ -461,7 +460,6 @@ export default {
       'postJabatanBawahan',
       'getListJenisUser',
       'searchSalesNonBawahan',
-      'viewTreeHierarchy',
     ]),
 
     async onSearch(searchText) {
@@ -636,7 +634,6 @@ export default {
       this.userManagement.modalVisibleAssignUser = false
     },
     assignUser(text) {
-      console.log(text.idJabatan)
       this.userManagement.modalVisibleAssignUser = true
       this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
       this.userManagement.form_assign_bawahan.id_user = null
@@ -668,8 +665,6 @@ export default {
     },
     openViewTree() {
       this.treeModal = true
-      const {id_jabatan} = this.$route.params
-      this.getIdJabatan = id_jabatan
     },
     closeViewTree() {
       this.treeModal = false

@@ -1,6 +1,5 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
-import listUser from '../../list-user'
 
 const state = {
   data: {

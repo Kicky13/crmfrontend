@@ -4,23 +4,27 @@
 
 <script>
 import OrgChart from '@balkangraph/orgchart.js'
-import axios from 'axios';
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'Tree',
-    props: ['idJabatan'],
     data() {
         return {
             nodes: [],
         }
     },
-    mounted(){
-        this.fetchData()
-        setTimeout(() => {
-            this.mytree(this.$refs.tree, this.nodes)
-        }, 500)
+    computed: {
+        ...mapState({
+            userManagement: state => state.userManagement.data,
+        }),
+    },
+    async mounted(){
+        await this.fetchDataTree()
     },
     methods: {
+        ...mapActions('userManagement', [
+            'viewTreeHierarchy',
+        ]),
         mytree: function(domEl, x) {
             this.chart = new OrgChart (domEl, {
                 nodes: x,
@@ -41,21 +45,22 @@ export default {
                 },
             });
         },
-        fetchData() {
-            axios
-            .get(`http://localhost:3004/hirarkiTree/${this.idJabatan}`)
-            .then(response => {
-                response.data.data.map(row => {
-                    this.nodes.push({
-                        id: row.idJabatan,
-                        pid: row.idAtasan,
-                        name: row.namaUser,
-                        title: row.titleJabatan,
-                        img: row.imgUrl,
-                        tags: ['main'],
-                    })
+        async fetchDataTree() {
+            const {id_jabatan} = this.$route.params
+            await this.viewTreeHierarchy({
+                idJabatan: id_jabatan,
+            })
+            this.userManagement.tree.map(row => {
+                this.nodes.push({
+                    id: row.idJabatan,
+                    pid: row.idAtasan,
+                    name: row.namaUser,
+                    title: row.titleJabatan,
+                    img: require('@/assets/images/users.png'),
+                    tags: ['main'],
                 })
             })
+            this.mytree(this.$refs.tree, this.nodes)
         },
     },
 }
