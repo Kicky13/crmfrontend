@@ -1,4 +1,32 @@
 {
+  "keluhan": [
+    {
+      "title": "Keluhan 1"
+    },
+    {
+      "title": "Keluhan 2"
+    },
+    {
+      "title": "Keluhan 3"
+    },
+    {
+      "title": "Keluhan 4"
+    }
+  ],
+  "promosi": [
+    {
+      "title": "Promosi 1"
+    },
+    {
+      "title": "Promosi 2"
+    },
+    {
+      "title": "Promosi 3"
+    },
+    {
+      "title": "Promosi 4"
+    }
+  ],
   "hirarkiTree": [
     {
       "id": 1,
