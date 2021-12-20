@@ -2447,5 +2447,28 @@
         "nohp": "08287231498"
       }
     ]
+  },
+
+  "profile_bawahan": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "id": 1,
+        "posisi_jabatan": "SSM",
+        "nama_user": "Iqbal",
+        "tanggal_menjabat": "2021-12-12",
+        "tanggal_selesai": "2021-12-24",
+        "status": "Aktif"
+      },
+      {
+        "id": 2,
+        "posisi_jabatan": "SSM",
+        "nama_user": "Iqbal",
+        "tanggal_menjabat": "2021-12-12",
+        "tanggal_selesai": "2021-12-24",
+        "status": "Aktif"
+      }
+    ]
   }
 }
