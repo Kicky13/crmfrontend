@@ -118,7 +118,11 @@ const actions = {
 
     const salesList = data.list_distributor
 
-    let filtered = salesList.filter(x => x.namaDistributor == data.formData.id_distributor)
+    const searchComponent = data.formData.id_distributor.split(' - ')
+
+    let filtered = salesList.filter(
+      x => x.idDistributor == searchComponent[0] && x.namaDistributor == searchComponent[1],
+    )
     const idDistributor = filtered[0].idDistributor
 
     let formData = {

@@ -91,7 +91,7 @@
               <a-table
                 :columns="profileSalesDistributor.columns"
                 :data-source="profileSalesDistributor.list_data_table"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="profileSalesDistributor.pagination"
                 :loading="profileSalesDistributor.isLoading"
               >
@@ -153,7 +153,7 @@
             <a-select-option
               v-for="(item, index) in profileSalesDistributor.list_distributor"
               :key="`level_${index}`"
-              :value="item.namaDistributor"
+              :value="item.idDistributor + ' - ' + item.namaDistributor"
             >
               {{ item.idDistributor }} - {{ item.namaDistributor }}
             </a-select-option>
@@ -207,8 +207,8 @@ export default {
   },
   computed: {
     ...mapState({
-      profileSalesDistributor: state => state.profileSalesDistributor.data,
-      userManagement: state => state.userManagement.data,
+      profileSalesDistributor: (state) => state.profileSalesDistributor.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
