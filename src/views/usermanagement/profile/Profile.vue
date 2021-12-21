@@ -29,7 +29,15 @@
                   {{ userManagement.detail_jabatan.namaUser }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                  Kode / ID User :
+                  {{
+                    userManagement.detail_jabatan.idUser
+                      ? userManagement.detail_jabatan.idUser
+                      : '-'
+                  }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -40,15 +48,7 @@
           </div>
           <div class="card-header align-self-center">
             <p>
-              <strong
-                >Posisi Saat ini :
-                {{
-                  '(' +
-                  userManagement.detail_jabatan.idJabatan +
-                  ') ' +
-                  userManagement.detail_jabatan.levelJabatan
-                }}</strong
-              >
+              <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
             </p>
             <div class="d-flex justify-content-center">
               <button class="btn btn-info" @click="openViewTree">
