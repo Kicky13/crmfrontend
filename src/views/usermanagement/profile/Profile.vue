@@ -39,12 +39,19 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <p><strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong></p>
-            <div class="d-flex justify-content-center">
-              <button
-                class="btn btn-info"
-                @click="openViewTree"
+            <p>
+              <strong
+                >Posisi Saat ini :
+                {{
+                  '(' +
+                  userManagement.detail_jabatan.idJabatan +
+                  ') ' +
+                  userManagement.detail_jabatan.levelJabatan
+                }}</strong
               >
+            </p>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-info" @click="openViewTree">
                 <i class="fa fa-sitemap mr-1" />
                 View Tree
               </button>
@@ -97,7 +104,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -409,7 +416,6 @@ import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
 import TreeHierarchy from '../tree/TreeHierarchy'
 
-
 export default {
   name: 'VbAntDesign',
   components: {
@@ -429,7 +435,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -481,7 +487,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 

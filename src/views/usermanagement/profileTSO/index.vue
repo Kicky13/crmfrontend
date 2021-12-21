@@ -53,7 +53,15 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <strong
+              >Level Jabatan :
+              {{
+                '(' +
+                userManagement.detail_jabatan.idJabatan +
+                ') ' +
+                userManagement.detail_jabatan.levelJabatan
+              }}</strong
+            >
           </div>
         </div>
       </div>
