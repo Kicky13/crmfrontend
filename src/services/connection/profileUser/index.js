@@ -1,5 +1,5 @@
 import apiClient from '@/services/axios/axios'
-import apiClientFake from '@/services/axios/index'
+// import apiClientFake from '@/services/axios/index'
 
 import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
@@ -40,8 +40,32 @@ const state = {
         dataIndex: 'statusJabat',
       },
     ],
+    columns_tso: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Nama Toko',
+        key: 'nama_toko',
+        slots: { customRender: 'nama_toko' },
+      },
+      {
+        title: 'No Telp',
+        key: 'telp_toko',
+        slots: { customRender: 'telp_toko' },
+      },
+      {
+        title: 'Alamat',
+        key: 'alamat_toko',
+        slots: { customRender: 'alamat_toko' },
+      },
+    ],
     data_bawahan: [],
     pagination: {},
+    data_sales_tso: [],
     limit: 500,
   },
 }
@@ -68,6 +92,30 @@ const actions = {
     } else {
       await commit('changeProfileUser', {
         data_bawahan: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async getSalesTSO({ commit, state }, payload) {
+    commit('changeProfileUser', {
+      isLoading: true,
+    })
+
+    let params = {
+      idJabatan: payload.idJabatan,
+    }
+
+    const result = await apiClient.post(`/hirarki/viewTokoSales`, params)
+
+    if (result.data.state == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      await commit('changeProfileUser', {
+        data_sales_tso: result.data.data,
         isLoading: false,
       })
     }

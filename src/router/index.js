@@ -293,12 +293,7 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profile'),
       },
-      {
-        path: '/profile/tso',
-        meta: { title: 'Profile User TSO', resource: 'ProfileUserTSO', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "profile-user-tso" */ '@/views/profileUser/profileTSO'),
-      },
+
       {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
@@ -341,6 +336,13 @@ const routes = [
           import(
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
           ),
+      },
+      {
+        path: '/profile/tso',
+        name: 'profile-tso',
+        meta: { title: 'Profile TSO', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
       },
       // ========== End of iqbal View ==========
     ],
