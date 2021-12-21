@@ -44,69 +44,9 @@
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
             </div>
-            <div class="d-flex justify-content-between mb-3">
-              <div class="d-flex">
-                <div class="align-self-center">
-                  <span>Show :</span>
-                </div>
-                <a-select
-                  :default-value="profileUser.itemsPerPage[1]"
-                  class="mx-2"
-                  @change="handlePaginationSize"
-                >
-                  <a-select-option
-                    v-for="itemPerPage in profileUser.itemsPerPage"
-                    :key="itemPerPage"
-                  >
-                    {{ itemPerPage }}
-                  </a-select-option>
-                </a-select>
-                <div class="align-self-center">
-                  <span>entries</span>
-                </div>
-              </div>
-              <!-- <a-input-search placeholder="input search text" style="width: 200px" /> -->
-            </div>
-            <div class="table-responsive text-nowrap">
-              <a-table
-                :columns="profileUser.columns_bawahan"
-                :data-source="profileUser.data_bawahan"
-                :row-key="data => data.id"
-                :pagination="profileUser.pagination"
-                :loading="profileUser.loading"
-              >
-                <template #no="{ index }">
-                  <div>
-                    {{ index + 1 }}
-                  </div>
-                </template>
-                <template #posisi_jabatan="{ text }">
-                  <div>
-                    {{ text.posisi_jabatan }}
-                  </div>
-                </template>
-                <template #name="{ text }">
-                  <div>
-                    {{ text.nama_user }}
-                  </div>
-                </template>
-                <template #start_date="{ text }">
-                  <div>
-                    {{ text.tanggal_menjabat }}
-                  </div>
-                </template>
-                <template #end_date="{ text }">
-                  <div>
-                    {{ text.tanggal_selesai }}
-                  </div>
-                </template>
-                <template #status="{ text }">
-                  <div>
-                    {{ text.status }}
-                  </div>
-                </template>
-              </a-table>
-            </div>
+
+            <a-collapse accordion style="background: white !important;" :bordered="false">
+            </a-collapse>
           </div>
         </div>
       </div>
