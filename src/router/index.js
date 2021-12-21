@@ -3,7 +3,7 @@ import NProgress from 'nprogress'
 import AuthLayout from '@/layouts/Auth'
 import MainLayout from '@/layouts/Main'
 import LandingPage from '../views/LandingPage'
-import Tree from '../views/usermanagement/tree'
+import Tree from '../views/usermanagement/tree/TreeHierarchy'
 import store from '@/store'
 import { canNavigate } from '@/services/ability/routeProtection'
 const routes = [

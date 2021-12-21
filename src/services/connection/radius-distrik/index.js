@@ -37,7 +37,7 @@ const state = {
     dataWilayah: [],
     isLoading: false,
     bodyList: {
-      offset: 1,
+      offset: 0,
       limit: 2000,
       filter: '',
     },
@@ -93,7 +93,6 @@ const actions = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
       q: data.bodyList.filter,
-     
     }
 
     const result = await apiClient.post('/RadiusWilayah/List', body)
@@ -218,7 +217,7 @@ const actions = {
       radius_lock: data.formData.radius,
       uuid_radius_wilayah: data.formData.id,
     }
-    
+
     if (body.radius_lock >= 100000) {
       notification.error({
         message: 'Error',
@@ -241,7 +240,7 @@ const actions = {
           description: result.data.message,
         })
       }
-     }
+    }
   },
   async deleteDataRadiusDistrik({ commit, state }, payload) {
     commit('changeRadiusDistrik', {
