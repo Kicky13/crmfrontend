@@ -2,10 +2,10 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
-        >
+          Kembali ke User Hirarki
+        </a>
       </div>
     </div>
     <div class="row">
@@ -39,12 +39,11 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <p><strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong></p>
+            <p>
+              <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            </p>
             <div class="d-flex justify-content-center">
-              <button
-                class="btn btn-info"
-                @click="openViewTree"
-              >
+              <button class="btn btn-info" @click="openViewTree">
                 <i class="fa fa-sitemap mr-1" />
                 View Tree
               </button>
@@ -408,7 +407,6 @@ import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
 import TreeHierarchy from '../tree/TreeHierarchy'
-
 
 export default {
   name: 'VbAntDesign',
