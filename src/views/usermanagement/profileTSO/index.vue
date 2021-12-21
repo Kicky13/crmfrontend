@@ -54,6 +54,12 @@
           </div>
           <div class="card-header align-self-center">
             <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-info" @click="openViewTree">
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -138,7 +144,7 @@
               <a-table
                 :columns="profileTSO.columns"
                 :data-source="profileTSO.list_distrik_bawahan"
-                :row-key="(data) => data.idDistrik"
+                :row-key="data => data.idDistrik"
                 :loading="profileTSO.isLoading"
               >
                 <template #no="{ index }">
@@ -196,6 +202,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy />
+    </a-modal>
   </div>
 </template>
 
@@ -204,6 +224,7 @@ import { mapState, mapActions } from 'vuex'
 import { notification } from 'ant-design-vue'
 import VueDatepicker from 'vue3-datepicker'
 import { filter } from 'lodash'
+import TreeHierarchy from '../tree/TreeHierarchy'
 
 export default {
   name: 'ProfileTSO',
@@ -212,6 +233,7 @@ export default {
   // },
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   setup() {
     return {
@@ -227,13 +249,14 @@ export default {
       data_distrik: '',
       dateLowerLimit: null,
       modalValue: null,
+      treeModal: false,
     }
   },
 
   computed: {
     ...mapState({
-      profileTSO: (state) => state.profileTSO.data,
-      userManagement: (state) => state.userManagement.data,
+      profileTSO: state => state.profileTSO.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -313,7 +336,7 @@ export default {
     },
     async handleSubmit() {
       let dataSource = [...this.profileTSO.daftar_distrik]
-      let filtered = dataSource.filter((x) => x.namaDistrik == this.modalValue)
+      let filtered = dataSource.filter(x => x.namaDistrik == this.modalValue)
       console.log(filtered)
       this.profileTSO.formData.id_distrik = filtered[0].idDistrik
 
@@ -335,6 +358,12 @@ export default {
           tgl_akhir: '',
         },
       })
+    },
+    openViewTree() {
+      this.treeModal = true
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }
