@@ -466,6 +466,7 @@ export default {
       'postJabatanBawahan',
       'getListJenisUser',
       'searchSalesNonBawahan',
+      'viewTreeHierarchy',
     ]),
 
     async onSearch(searchText) {
@@ -669,8 +670,24 @@ export default {
       })
       this.modalDeleteView = false
     },
-    openViewTree() {
-      this.treeModal = true
+    async openViewTree() {
+      await this.viewTreeHierarchy({
+        idJabatan: this.$route.params.id_jabatan,
+      })
+      this.userManagement.tree.map(row => {
+        this.userManagement.nodes.push({
+          id: row.idJabatan,
+          pid: row.idAtasan,
+          name: row.namaUser,
+          title: row.titleJabatan,
+          img: require('@/assets/images/users.png'),
+          tags: ['main'],
+        })
+      })
+
+      if (this.userManagement.nodes.length > 0) {
+        this.treeModal = true
+      }
     },
     closeViewTree() {
       this.treeModal = false
