@@ -19,9 +19,9 @@ export default {
     }),
   },
   async mounted() {
-    await this.viewTreeHierarchy({
-      idJabatan: this.$route.params.id_jabatan,
-    })
+    // await this.viewTreeHierarchy({
+    //   idJabatan: this.$route.params.id_jabatan,
+    // })
     await this.fetchDataTree()
   },
   methods: {
@@ -47,17 +47,17 @@ export default {
       })
     },
     async fetchDataTree() {
-      this.userManagement.tree.map(row => {
-        this.nodes.push({
-          id: row.idJabatan,
-          pid: row.idAtasan,
-          name: row.namaUser,
-          title: row.titleJabatan,
-          img: require('@/assets/images/users.png'),
-          tags: ['main'],
-        })
-      })
-      this.mytree(this.$refs.tree, this.nodes)
+      // this.userManagement.tree.map(row => {
+      //   this.userManagement.nodes.push({
+      //     id: row.idJabatan,
+      //     pid: row.idAtasan,
+      //     name: row.namaUser,
+      //     title: row.titleJabatan,
+      //     img: require('@/assets/images/users.png'),
+      //     tags: ['main'],
+      //   })
+      // })
+      this.mytree(this.$refs.tree, this.userManagement.nodes)
     },
   },
 }
