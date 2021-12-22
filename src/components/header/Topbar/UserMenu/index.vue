@@ -8,7 +8,7 @@
     <template #overlay>
       <a-menu>
         <a-menu-item>
-          <!-- <router-link v-if="user.role === `TSO`" :to="`/profile/tso`">
+          <a @click="profileData()">
             <div>
               <strong>{{ $t('topBar.profileMenu.hello') }}, {{ user.name || 'Anonymous' }}</strong>
             </div>
@@ -20,20 +20,7 @@
               <strong class="mr-1">{{ $t('topBar.profileMenu.role') }}:</strong>
               {{ user.role || '—' }}
             </div>
-          </router-link> -->
-          <router-link :to="`/profile`">
-            <div>
-              <strong>{{ $t('topBar.profileMenu.hello') }}, {{ user.name || 'Anonymous' }}</strong>
-            </div>
-            <div>
-              <strong class="mr-1">{{ $t('topBar.profileMenu.billingPlan') }}: </strong>
-              Professional
-            </div>
-            <div>
-              <strong class="mr-1">{{ $t('topBar.profileMenu.role') }}:</strong>
-              {{ user.role || '—' }}
-            </div>
-          </router-link>
+          </a>
         </a-menu-item>
         <a-menu-divider />
         <a-menu-item>
@@ -107,6 +94,15 @@ export default {
       user,
       logout,
     }
+  },
+  methods: {
+    profileData() {
+      if (this.user.role != 'TSO') {
+        this.$router.push('/profile')
+      } else {
+        this.$router.push('/profile/tso')
+      }
+    },
   },
 }
 </script>

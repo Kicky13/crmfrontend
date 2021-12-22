@@ -69,7 +69,7 @@
             </div>
             <div class="table-responsive text-nowrap">
               <a-table
-                :columns="userManagement.columns_hirarki"
+                :columns="profileUser.columns_bawahan"
                 :data-source="userManagement.list_hirarki_down"
                 :row-key="data => data.iduser"
                 :pagination="userManagement.pagination"
