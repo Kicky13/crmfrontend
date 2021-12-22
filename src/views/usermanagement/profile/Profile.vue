@@ -29,7 +29,15 @@
                   {{ userManagement.detail_jabatan.namaUser }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                  Kode / ID User :
+                  {{
+                    userManagement.detail_jabatan.idUser
+                      ? userManagement.detail_jabatan.idUser
+                      : '-'
+                  }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -96,7 +104,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -427,7 +435,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -480,7 +488,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 

@@ -33,12 +33,15 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID :
+                  Kode / ID User :
                   {{
                     userManagement.detail_jabatan.idUser
                       ? userManagement.detail_jabatan.idUser
                       : '-'
                   }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
