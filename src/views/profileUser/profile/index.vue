@@ -124,6 +124,9 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Profile',
+  data() {
+    return {}
+  },
   computed: {
     ...mapState({
       profileUser: state => state.profileUser.data,
@@ -131,15 +134,16 @@ export default {
     }),
   },
   async mounted() {
-    // await this.getListBawahanProfile()
-
     await this.getListDownHirarki({
       id_jabatan: this.$store.state.user.idJabatan ? this.$store.state.user.idJabatan : 0,
     })
+    // await this.getSalesTSO({
+    //   idJabatan: this.$store.state.user.idJabatan ? this.$store.state.user.idJabatan : 0,
+    // })
   },
 
   methods: {
-    ...mapActions('profileUser', ['getListBawahanProfile']),
+    // ...mapActions('profileUser', ['getSalesTSO']),
     ...mapActions('userManagement', ['getListDownHirarki']),
   },
 }
