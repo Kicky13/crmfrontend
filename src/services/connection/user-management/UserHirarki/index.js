@@ -11,6 +11,7 @@ const state = {
       email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
       nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
     },
+    nodes: [],
     selectedTitle: '',
     selectedShorthand: '',
     actiiveTabs: null,

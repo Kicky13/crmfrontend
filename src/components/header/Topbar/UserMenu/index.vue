@@ -97,11 +97,7 @@ export default {
   },
   methods: {
     profileData() {
-      if (this.user.role != 'TSO') {
-        this.$router.push('/profile')
-      } else {
-        this.$router.push('/profile/tso')
-      }
+      this.$router.push('/profile')
     },
   },
 }
