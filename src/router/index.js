@@ -237,9 +237,8 @@ const routes = [
           import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/Lock'),
       },
       {
-        path: '/koordinatlock/detail',
+        path: '/koordinatlock/detail/:id_toko',
         name: 'koordinat-lock-detail',
-        props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
         component: () =>
           import(
@@ -337,13 +336,13 @@ const routes = [
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
           ),
       },
-        {
-          path: '/profile/tso',
-          name: 'profile-tso',
-          meta: { title: 'Profile Data TSO', resource: 'User', action: 'read' },
-          component: () =>
-            import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
-        },
+      {
+        path: '/profile/tso',
+        name: 'profile-tso',
+        meta: { title: 'Profile Data TSO', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
+      },
       // ========== End of iqbal View ==========
     ],
   },
@@ -479,19 +478,12 @@ router.beforeEach((to, from, next) => {
     NProgress.done()
   }, 300)
 
-    if (to.matched.some(record => record.meta.authRequired)) {
-      if (!store.state.user.authorized) {
-        next({
-          path: '/auth/login',
-          query: { redirect: to.fullPath },
-        })
-      } else {
-        if (canNavigate(to)) {
-          next()
-        } else {
-          next({ name: 'route500' })
-        }
-      }
+  if (to.matched.some(record => record.meta.authRequired)) {
+    if (!store.state.user.authorized) {
+      next({
+        path: '/auth/login',
+        query: { redirect: to.fullPath },
+      })
     } else {
       if (canNavigate(to)) {
         next()
@@ -499,6 +491,13 @@ router.beforeEach((to, from, next) => {
         next({ name: 'route500' })
       }
     }
+  } else {
+    if (canNavigate(to)) {
+      next()
+    } else {
+      next({ name: 'route500' })
+    }
+  }
 })
 
 export default router
