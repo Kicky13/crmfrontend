@@ -217,7 +217,6 @@ export default {
       let filterIdKabupaten = dataSource.filter(item => item.kabupaten == this.selectedKabupaten)
       let id_customer = JSON.stringify(data.id_customer)
       let id_distrik = filterIdKabupaten[0].id
-      this.koordinatLock.detail_customer = data
       this.$router.push(`/koordinatlock/detail/${id_customer}/wilayah/${id_distrik}`)
     },
     searchData: _.debounce(function() {

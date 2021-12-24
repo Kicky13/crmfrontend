@@ -146,6 +146,42 @@ const state = {
         slots: { customRender: 'promosi' },
       },
     ],
+    column_distributor: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Id distributor',
+        key: 'id_distributor',
+        slots: { customRender: 'id_distributor' },
+      },
+      {
+        title: 'Nama',
+        key: 'nama',
+        slots: { customRender: 'nama' },
+      },
+    ],
+    column_sales: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Id sales',
+        key: 'id_sales',
+        slots: { customRender: 'id_sales' },
+      },
+      {
+        title: 'Nama',
+        key: 'nama',
+        slots: { customRender: 'nama' },
+      },
+    ],
     body: {
       file: null,
     },

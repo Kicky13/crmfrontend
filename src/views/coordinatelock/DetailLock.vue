@@ -19,15 +19,14 @@
               </div>
               <div class="col-md-6" style="margin-top: 5%">
                 <div class="text-dark font-weight-bold font-size-32">
-                  {{ detailCustomer.nm_customer }}
+                  {{
+                    koordinatLock.detail_customer.nm_customer
+                      ? koordinatLock.detail_customer.nm_customer
+                      : 'loading..'
+                  }}
                 </div>
                 <div class="font-size-16">
-                  KODE/ID :
-                  {{
-                    koordinatLock.detail_customer.id_customer
-                      ? koordinatLock.detail_customer.id_customer
-                      : `-`
-                  }}
+                  KODE/ID : {{ $route.params.id_toko ? $route.params.id_toko : 'loading..' }}
                 </div>
               </div>
             </div>
@@ -41,9 +40,7 @@
                     <span>Nama Pemilik</span>
                   </div>
                   <div class="col-md-4">
-                    <span
-                      >: {{ koordinatLock.detail_customer.nama_pemilik ?? 'Tidak Tersedia' }}</span
-                    >
+                    <span>: {{ koordinatLock.detail_customer.nama_pemilik ?? 'loading..' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -90,10 +87,54 @@
                   @change="changeActiveKey"
                 >
                   <a-collapse-panel key="1" header="Distributor">
-                    <p>sada</p>
+                    <a-table
+                      :columns="koordinatLock.column_distributor"
+                      :data-source="koordinatLock.detail_customer.distributor"
+                      :row-key="data => koordinatLock.detail_customer.distributor.id_distributor"
+                      :pagination="koordinatLock.pagination"
+                      :loading="koordinatLock.isLoading"
+                    >
+                      <template #no="{ index }">
+                        <div>
+                          {{ index + 1 }}
+                        </div>
+                      </template>
+                      <template #id_distributor="{ text }">
+                        <div>
+                          {{ text.id_distributor }}
+                        </div>
+                      </template>
+                      <template #nama="{ text }">
+                        <div>
+                          {{ text.nama_distributor }}
+                        </div>
+                      </template>
+                    </a-table>
                   </a-collapse-panel>
                   <a-collapse-panel key="2" header="Sales">
-                    <p>sada</p>
+                    <a-table
+                      :columns="koordinatLock.column_sales"
+                      :data-source="koordinatLock.detail_customer.sales"
+                      :row-key="data => koordinatLock.detail_customer.sales.id_sales"
+                      :pagination="koordinatLock.pagination"
+                      :loading="koordinatLock.isLoading"
+                    >
+                      <template #no="{ index }">
+                        <div>
+                          {{ index + 1 }}
+                        </div>
+                      </template>
+                      <template #id_sales="{ text }">
+                        <div>
+                          {{ text.id_sales }}
+                        </div>
+                      </template>
+                      <template #nama="{ text }">
+                        <div>
+                          {{ text.nama_sales }}
+                        </div>
+                      </template>
+                    </a-table>
                   </a-collapse-panel>
                 </a-collapse>
                 <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -159,7 +200,7 @@
                 <div class="table-responsive text-nowrap">
                   <a-table
                     :columns="columns"
-                    :data-source="historyVisit"
+                    :data-source="koordinatLock.dataVisit"
                     :row-key="historyVisit => historyVisit.id_kunjungan"
                     :pagination="pagination"
                     :loading="isLoading"
@@ -308,11 +349,10 @@ export default {
       idToko: this.$route.params.id_toko,
     })
     await this.getDataCustomer({
-      id_distrik: this.$route.params.id_distrik,
+      id_distrik: parseInt(this.$route.params.id_distrik),
+      search: '',
     })
-
-    this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
-    this.totalSales = this.koordinatLock.detail_customer.sales.length
+    this.dataDetailCustomer()
     // await this.fetchGetHistoryVisit()
   },
   methods: {
@@ -327,7 +367,12 @@ export default {
 
     dataDetailCustomer() {
       const dataSource = [...this.koordinatLock.dataCustomer]
-      const filtered = dataSource.filter(a => a.id_customer)
+      const filteredDetailCustomer = dataSource.filter(
+        a => a.id_customer == this.$route.params.id_toko,
+      )
+      this.koordinatLock.detail_customer = filteredDetailCustomer[0]
+      this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
+      this.totalSales = this.koordinatLock.detail_customer.sales.length
     },
     // async fetchGetHistoryVisit() {
     //   this.isLoading = true
@@ -366,20 +411,20 @@ export default {
     //       console.error(err)
     //     })
     // },
-    // gotoDetailSurvey(id) {
-    //   let detailSurvey = this.getDetailSurvey(id)
-    //   this.$router.push({
-    //     name: 'koordinat-lock-survey',
-    //     params: { surveyDetail: JSON.stringify(detailSurvey) },
-    //   })
-    // },
-    // getDetailSurvey(id) {
-    //   const dataSource = [...this.historyVisit]
-    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-    //   let detailSurvey = filtered[0]
+    gotoDetailSurvey(id) {
+      let detailSurvey = this.getDetailSurvey(id)
+      this.$router.push({
+        name: 'koordinat-lock-survey',
+        params: { surveyDetail: JSON.stringify(detailSurvey) },
+      })
+    },
+    getDetailSurvey(id) {
+      const dataSource = [...this.historyVisit]
+      let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
+      let detailSurvey = filtered[0]
 
-    //   return detailSurvey
-    // },
+      return detailSurvey
+    },
   },
 }
 </script>
