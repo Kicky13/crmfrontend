@@ -20,8 +20,8 @@ const state = {
         dataIndex: 'username',
       },
       {
-        title: 'Level',
-        dataIndex: 'levelJabatan',
+        title: 'Jenis User',
+        dataIndex: 'jenisUser',
       },
       {
         title: 'Jabatan',
@@ -49,6 +49,7 @@ const state = {
       nohp: '',
       userid: '',
       id_level_hirarki: null,
+      id_jenis_user: null,
     },
     formViewPassword: {
       loggedUserID: '',
@@ -118,6 +119,7 @@ const actions = {
       q: data.table.q,
     }
     const result = await apiClient.post(`/usercrm/all`, params)
+    console.log(result.data.data)
     if (result.data.state == false) {
       notification.error({
         message: 'Error',

@@ -399,6 +399,7 @@
       width=""
       :body-style="{ padding: '0' }"
       :style="{ top: '10px', padding: '10px' }"
+      :after-close="closeViewTree"
     >
       <template #footer>
         <a-button @click="closeViewTree">Kembali</a-button>
@@ -691,6 +692,7 @@ export default {
     },
     closeViewTree() {
       this.treeModal = false
+      this.userManagement.nodes = []
     },
   },
 }
