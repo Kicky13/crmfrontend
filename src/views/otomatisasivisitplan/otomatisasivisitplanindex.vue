@@ -12,7 +12,7 @@
                 v-model:value="otomatisasiVisitPlan.body.tahun"
                 @change="setSelectMethod"
                 class="col-lg-12 col-md-12 pr-2"
-                style="width: 100% !important;"
+                style="width: 100% !important"
                 placeholder=" -- Tahun -- "
               >
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
@@ -27,7 +27,7 @@
               <a-select
                 v-model:value="otomatisasiVisitPlan.body.bulan"
                 class="col-lg-12 col-md-12 pr-2"
-                style="width: 100% !important;"
+                style="width: 100% !important"
                 placeholder=" -- Bulan -- "
               >
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
@@ -61,15 +61,18 @@
               <a href="javascript:;">{{ text }}</a>
             </template>
             <template #status="{ text }">
-              <div v-if="text == sukses">
+              <div v-if="text.status == sukses">
                 <a-tag color="green">{{ text }}</a-tag>
               </div>
-              <div v-else-if="text == gagal">
+              <div v-else-if="text.status == gagal">
                 <a-tag color="red">{{ text }}</a-tag>
               </div>
-              <div v-else-if="text == nonwpm">
+              <div v-else-if="text.status == nonwpm">
                 <a-tag color="yellow">{{ text }}</a-tag>
               </div>
+            </template>
+            <template #bulan="{ text }">
+              <span>{{ getMonthName(text) }}</span>
             </template>
             <!-- <template #action="{ text }">
               <div>
@@ -112,7 +115,7 @@ export default {
   },
   computed: {
     ...mapState({
-      otomatisasiVisitPlan: state => state.otomatisasiVisitPlan.data,
+      otomatisasiVisitPlan: (state) => state.otomatisasiVisitPlan.data,
     }),
     years() {
       const year = new Date().getFullYear()
@@ -140,6 +143,12 @@ export default {
         })
         this.isLoading = false
       }
+    },
+    getMonthName(month) {
+      const dataSource = [...this.otomatisasiVisitPlan.data_bulan]
+      const filtered = dataSource.filter((x) => x.id == month)
+
+      return filtered[0].name
     },
   },
 }

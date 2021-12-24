@@ -133,16 +133,15 @@ const actions = {
     })
 
     const { data } = state
-    
+
     let DateNow = new Date(Date.now()).toLocaleDateString('en-GB')
 
     let endDate = new Date(data.formData.tgl_akhir).toLocaleDateString('en-GB')
 
-
     if (endDate.length > 0) {
       let formData = {
         idSpc: payload.id_tso,
-        idDistrik: payload.id_distrik,
+        idRegion: payload.id_distrik,
         tglAkhir: endDate
           .toString()
           .replace('/', '-')
@@ -170,7 +169,7 @@ const actions = {
     } else {
       let formData = {
         idSpc: payload.id_tso,
-        idDistrik: payload.id_distrik,
+        idRegion: payload.id_distrik,
         tglAkhir: DateNow.toString()
           .replace('/', '-')
           .replace('/', '-'),

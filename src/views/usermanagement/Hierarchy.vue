@@ -26,17 +26,21 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS` ||
-              selectedShorthand === `SPC`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS` ||
+            selectedShorthand === `SPC`
           "
           type="primary"
-          class="mb-3 float-right"
+          class="mb-3 ml-2 float-right"
           @click="openModal"
         >
           <i class="fa fa-plus mr-2" />
           {{ 'Posisi' + ' ' + selectedShorthand }}
         </a-button>
+        <!-- <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
+          <i class="fa fa-file mr-2" />
+          Import Excel
+        </a-button> -->
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -71,7 +75,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -292,21 +296,103 @@
           </a-form>
         </a-modal>
 
+        <!-- Import Exel -->
+        <a-modal
+          v-model:visible="modalImportExcel"
+          :title="`Import Excel`"
+          :closable="false"
+          :mask-closable="false"
+          :width="700"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalImportExcel = false">Batal</a-button>
+            <a-button key="submit" @click="submitPreviewExcel()" type="primary">Preview</a-button>
+          </template>
+          <a-form label-align="left" layout="vertical">
+            <div class="importexcel_hirarki">
+              <div class="row">
+                <div class="col-lg-8 col-xs-12 mb-2">
+                  <p class="body-14 col-black-2 mr-3">
+                    Download template excel untuk mengisi data tersebut, input data sesuai format,
+                    jika selesai unggah file di bawah ini
+                  </p>
+                </div>
+                <div class="col-lg-4 col-xs-12 mb-2">
+                  <a
+                    href="https://assets.onklas.id/excel-template/TEMPLATE_DATA_SISWA_ONKLAS.xlsx"
+                    download
+                    class="btn-block btn-download-file"
+                  >
+                    <i class="fa fa-file"></i> Download
+                  </a>
+                </div>
+              </div>
+
+              <div
+                v-if="importExelHirarki.body.filename.length === 0"
+                class="
+                  d-flex
+                  align-items-center
+                  w-100
+                  border-4
+                  h-100
+                  justify-content-center
+                  importexcel_hirarki_upload
+                "
+                @click="$refs.fileInput.click()"
+              >
+                <div class="text-center pt-5 pb-5 w-50">
+                  <input
+                    type="file"
+                    ref="fileInput"
+                    style="display: none"
+                    @change="onFileChanged"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  />
+                  <img :src="require('@/assets/images/logo/upload_xls.svg')" alt="" />
+                  <div class="upload mt-2"></div>
+                  <h5 class="subheading-14 col-blue-1 mt-3" v-if="filename === ''">
+                    Unggah file excel
+                  </h5>
+                </div>
+              </div>
+              <div
+                class="
+                  d-flex
+                  align-items-center
+                  w-100
+                  border-4
+                  h-100
+                  justify-content-left
+                  importexcel_hirarki_upload_prepare
+                "
+                v-else
+              >
+                <img :src="require('@/assets/images/logo/upload_xls.svg')" alt="" />
+                <span>{{ importExelHirarki.body.filename }}</span>
+                <span class="ml-auto" @click="deleteImportExcel()">
+                  <img :src="require('@/assets/images/logo/delete_square.svg')" alt="" />
+                </span>
+              </div>
+            </div>
+          </a-form>
+        </a-modal>
+
         <!-- History Jabatan Modal -->
         <a-modal v-model:visible="historyJabatanModal" title="History Jabatan User">
           <a-row>
-            <a-col :span="8">Nama</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.nama }}</a-col>
+            <a-col :span="8">Title Posisi</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.posisi_jabatan }}</a-col>
           </a-row>
           <a-row>
             <a-col :span="8">Level Posisi</a-col>
-            <a-col :span="16">: {{ historyJabatanItems.level_posisi }}</a-col>
+            <a-col :span="16">: {{ historyJabatanItems.jabatan }}</a-col>
           </a-row>
           <a-table
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -336,6 +422,7 @@ export default {
       users: [],
       selectedTabId: 1,
       modalTambahJabatan: false,
+      modalImportExcel: false,
       modalDeleteView: false,
       flagBawahan: null,
       formState: {
@@ -364,8 +451,9 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
+      importExelHirarki: (state) => state.importExelHirarki.data,
     }),
   },
   async mounted() {
@@ -388,6 +476,7 @@ export default {
       'searchSalesNonBawahan',
       'logHistory',
     ]),
+    ...mapActions('importExelHirarki', []),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     async onSearch(searchText) {
       await this.searchSalesNonBawahan(
@@ -398,10 +487,25 @@ export default {
         500,
       )
     },
+    submitPreviewExcel() {
+      this.$router.push(`/users/hierarchy/preview`)
+    },
+    openModalImport() {
+      this.modalImportExcel = true
+      this.importExelHirarki.body.file = null
+      this.importExelHirarki.body.filename = ''
+    },
+    deleteImportExcel() {
+      this.importExelHirarki.body.file = null
+      this.importExelHirarki.body.filename = ''
+    },
     onSelect(value) {
       this.userManagement.form_assign_bawahan.id_user = value
     },
-
+    onFileChanged(event) {
+      this.importExelHirarki.body.file = event.target.files[0]
+      this.importExelHirarki.body.filename = event.target.files[0].name
+    },
     disabledStartDate(startValue) {
       const endValue = this.userManagement.form_assign_bawahan.tgl_akhir
       if (!startValue || !endValue) {
@@ -419,10 +523,10 @@ export default {
     searchData(keyword) {
       if (keyword) {
         this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function(item) {
+        let dataList = _.reject(this.userManagement.dataTable, function (item) {
           return item.nama === null
         })
-        this.userManagement.dataTable = dataList.filter(data =>
+        this.userManagement.dataTable = dataList.filter((data) =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
         )
         this.userManagement.isLoading = false
@@ -475,7 +579,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -594,6 +698,7 @@ export default {
       })
       this.userManagement.formState.nama_jabatan = ''
     },
+
     async tambahJabatan() {
       if (this.userManagement.formState.nama_jabatan) {
         await this.postJabatanGSM({
@@ -629,7 +734,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -637,7 +742,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -684,13 +789,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }
@@ -740,4 +845,7 @@ export default {
     background: #b20838;
   }
 }
+</style>
+<style lang="scss" scoped>
+@import '@/assets/scss/Hirarki/index.scss';
 </style>

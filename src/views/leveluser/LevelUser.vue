@@ -75,10 +75,10 @@
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
-                <button type="button" class="btn btn-danger" @click="deleteConfirm(text)">
+                <!-- <button type="button" class="btn btn-danger" @click="deleteConfirm(text)">
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
-                </button>
+                </button> -->
               </div>
             </template>
           </a-table>

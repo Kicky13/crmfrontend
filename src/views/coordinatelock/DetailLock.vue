@@ -21,7 +21,9 @@
                 <div class="text-dark font-weight-bold font-size-32">
                   {{ detailCustomer.nm_customer }}
                 </div>
-                <div class="font-size-16">KODE/ID : {{ detailCustomer.id_customer }}</div>
+                <div class="font-size-16">
+                  KODE/ID : {{ detailCustomer.id_customer ? detailCustomer.id_customer : `-` }}
+                </div>
               </div>
             </div>
             <a-tabs default-active-key="1" @change="callback">
@@ -72,7 +74,20 @@
                 </div>
               </a-tab-pane>
               <a-tab-pane key="2" tab="Mapping Customer" force-render>
-                <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
+                <a-collapse
+                  accordion
+                  :bordered="false"
+                  :active-key="activeKey"
+                  @change="changeActiveKey"
+                >
+                  <a-collapse-panel key="1" header="Distributor">
+                    <p>sada</p>
+                  </a-collapse-panel>
+                  <a-collapse-panel key="2" header="Sales">
+                    <p>sada</p>
+                  </a-collapse-panel>
+                </a-collapse>
+                <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
                   <div class="col-md-1">
                     <i class="fa fa-balance-scale"></i>
                   </div>
@@ -109,7 +124,7 @@
                     >
                     <span class="font-weight-bold" v-else>-</span>
                   </div>
-                </div>
+                </div> -->
               </a-tab-pane>
               <a-tab-pane key="3" tab="History Visit">
                 <div class="d-flex justify-content-between mb-3">
@@ -136,7 +151,7 @@
                   <a-table
                     :columns="columns"
                     :data-source="historyVisit"
-                    :row-key="(historyVisit) => historyVisit.id_kunjungan"
+                    :row-key="historyVisit => historyVisit.id_kunjungan"
                     :pagination="pagination"
                     :loading="isLoading"
                   >
@@ -202,6 +217,7 @@
 import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getHistoryVisit, getLockCustomer } from '@/services/connection/koordinat-lock/api'
+import { mapState, mapActions } from 'vuex'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -243,12 +259,13 @@ export default {
       required: true,
     },
   },
+
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -269,7 +286,13 @@ export default {
       totalDistributor: 0,
       totalSales: 0,
       historyVisit: [],
+      activeKey: '',
     }
+  },
+  computed: {
+    ...mapState({
+      koordinatLock: state => state.koordinatLock.data,
+    }),
   },
   async mounted() {
     this.detailCustomer = JSON.parse(this.customerInfo)
@@ -278,6 +301,11 @@ export default {
     await this.fetchGetHistoryVisit()
   },
   methods: {
+    ...mapActions('koordinatLock', []),
+
+    changeActiveKey(key) {
+      this.activeKey = key
+    },
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
@@ -290,13 +318,13 @@ export default {
       //   idToko: 100013207,
       // }
       await getHistoryVisit(formData)
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             this.historyVisit = response.data
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -307,7 +335,7 @@ export default {
       }
       this.isLoading = true
       getLockCustomer(formData)
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             message.success(response.message)
             this.detailCustomer.status_lock = !this.detailCustomer.status_lock
@@ -316,7 +344,7 @@ export default {
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
         })
     },
@@ -329,7 +357,7 @@ export default {
     },
     getDetailSurvey(id) {
       const dataSource = [...this.historyVisit]
-      let filtered = dataSource.filter((x) => x.id_kunjungan == id.text)
+      let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
       let detailSurvey = filtered[0]
 
       return detailSurvey

@@ -2,9 +2,9 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
+          Kembali ke User Hirarki</a
         >
       </div>
     </div>
@@ -33,12 +33,15 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID :
+                  Kode / ID User :
                   {{
                     userManagement.detail_jabatan.idUser
                       ? userManagement.detail_jabatan.idUser
                       : '-'
                   }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -54,6 +57,12 @@
           </div>
           <div class="card-header align-self-center">
             <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-info" @click="openViewTree">
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -65,7 +74,7 @@
           <div class="card-body">
             <a-form :model="profileTSO.formData" :rules="profileTSO.rules">
               <div class="row mb-4">
-                <div class="col-xs-3 col-md-3">
+                <div class="col-xs-5 col-md-5">
                   <a-select
                     v-model:value="modalValue"
                     class="w-100"
@@ -122,10 +131,14 @@
                     />
                   </a-form-item>
                 </div>
-                <div class="col-xs-3 col-md-3">
-                  <a-button html-type="submit" type="primary" @click="handleSubmit()">
-                    <i class="fa fa-plus mr-2" />
-                    Tambahkan
+                <div class="col-xs-1 col-md-1 mt-1">
+                  <a-button
+                    title="Tambah"
+                    html-type="submit"
+                    type="primary"
+                    @click="handleSubmit()"
+                  >
+                    <i class="fa fa-plus" />
                   </a-button>
                 </div>
               </div>
@@ -134,7 +147,7 @@
               <a-table
                 :columns="profileTSO.columns"
                 :data-source="profileTSO.list_distrik_bawahan"
-                :row-key="(data) => data.idDistrik"
+                :row-key="data => data.idDistrik"
                 :loading="profileTSO.isLoading"
               >
                 <template #no="{ index }">
@@ -192,6 +205,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy />
+    </a-modal>
   </div>
 </template>
 
@@ -200,6 +227,7 @@ import { mapState, mapActions } from 'vuex'
 import { notification } from 'ant-design-vue'
 import VueDatepicker from 'vue3-datepicker'
 import { filter } from 'lodash'
+import TreeHierarchy from '../tree/TreeHierarchy'
 
 export default {
   name: 'ProfileTSO',
@@ -208,6 +236,7 @@ export default {
   // },
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   setup() {
     return {
@@ -223,13 +252,14 @@ export default {
       data_distrik: '',
       dateLowerLimit: null,
       modalValue: null,
+      treeModal: false,
     }
   },
 
   computed: {
     ...mapState({
-      profileTSO: (state) => state.profileTSO.data,
-      userManagement: (state) => state.userManagement.data,
+      profileTSO: state => state.profileTSO.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -309,7 +339,7 @@ export default {
     },
     async handleSubmit() {
       let dataSource = [...this.profileTSO.daftar_distrik]
-      let filtered = dataSource.filter((x) => x.namaDistrik == this.modalValue)
+      let filtered = dataSource.filter(x => x.namaDistrik == this.modalValue)
       console.log(filtered)
       this.profileTSO.formData.id_distrik = filtered[0].idDistrik
 
@@ -331,6 +361,12 @@ export default {
           tgl_akhir: '',
         },
       })
+    },
+    openViewTree() {
+      this.treeModal = true
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }

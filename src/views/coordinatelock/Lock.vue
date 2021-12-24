@@ -76,7 +76,7 @@
           <a-table
             :columns="columns"
             :data-source="customers"
-            :row-key="(customers) => customers.id_customer"
+            :row-key="customers => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 1500 }"
             :loading="tableLoading"
@@ -152,7 +152,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -192,22 +192,20 @@ export default {
       const dataSource = [...this.provinsiOption]
       this.kabupatenOption = null
       this.selectedKabupaten = null
-      const filtered = dataSource.filter((a) => a.id == this.selectedProvinsi)
+      const filtered = dataSource.filter(a => a.id == this.selectedProvinsi)
       this.kabupatenOption = filtered[0].kabupatens
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
-      this.$router.push({
-        name: 'koordinat-lock-detail',
-        params: { customerInfo: JSON.stringify(data) },
-      })
+      let id_customer = JSON.stringify(data.id_customer)
+      this.$router.push(`/koordinatlock/detail/${id_customer}`)
     },
-    searchData: _.debounce(function () {
+    searchData: _.debounce(function() {
       this.fetchGetCustomers()
     }, 3000),
     getDetail(id) {
       const dataSource = [...this.customers]
-      const filtered = dataSource.filter((a) => a.id_customer == id.text)
+      const filtered = dataSource.filter(a => a.id_customer == id.text)
       const detailData = filtered[0]
 
       return detailData
@@ -225,13 +223,13 @@ export default {
     fetchGetRegion() {
       this.tableLoading = true
       getRegionList()
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             this.provinsiOption = response.data
           }
           this.tableLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -245,13 +243,13 @@ export default {
         q: this.searchText,
       }
       getTokoList(formData)
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             this.customers = response.data
           }
           this.tableLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })

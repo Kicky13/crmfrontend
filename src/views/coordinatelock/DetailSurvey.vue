@@ -237,74 +237,9 @@ import { toRaw } from 'vue'
 import { notification, message } from 'ant-design-vue'
 import { getHistoryDetail } from '@/services/connection/koordinat-lock/api'
 import { filter } from 'lodash'
+import axios from 'axios'
 
 const itemsPerPage = [5, 10, 15, 20]
-const columns = [
-  {
-    title: 'No.',
-    align: 'center',
-    slots: { customRender: 'no' },
-  },
-  {
-    title: 'Nama',
-    dataIndex: 'namaProduk',
-  },
-  {
-    title: 'Harga',
-    children: [
-      {
-        title: 'Jual',
-        dataIndex: 'hargaJual',
-        key: 'hargaJual',
-      },
-      {
-        title: 'Beli',
-        dataIndex: 'hargaBeli',
-        key: 'hargaBeli',
-      },
-      {
-        title: 'TOP/hari',
-        dataIndex: 'top',
-        align: 'center',
-        key: 'top',
-      },
-    ],
-  },
-  {
-    title: 'Stok/Zak',
-    align: 'center',
-    dataIndex: 'stokHariini',
-  },
-  {
-    title: 'Volume/Zak',
-    children: [
-      {
-        title: 'Penjualan',
-        dataIndex: 'stokPenjualan',
-        align: 'center',
-        key: 'stokPenjualan',
-      },
-      {
-        title: 'Pembelian',
-        dataIndex: 'stokPembelian',
-        align: 'center',
-        key: 'stokPembelian',
-      },
-    ],
-  },
-  {
-    title: 'Keluhan',
-    align: 'center',
-    dataIndex: 'idProduk',
-    slots: { customRender: 'keluhan' },
-  },
-  {
-    title: 'Promosi',
-    align: 'center',
-    dataIndex: 'idProduk',
-    slots: { customRender: 'promosi' },
-  },
-]
 
 export default {
   name: 'VbAntDesign',
@@ -328,7 +263,6 @@ export default {
       }),
     }
     return {
-      columns,
       rowSelection,
       itemsPerPage,
     }
@@ -343,12 +277,104 @@ export default {
       promosiDetail: [],
       keluhanVisible: false,
       promosiVisible: false,
+      columns: [
+        {
+          title: 'No.',
+          align: 'center',
+          slots: { customRender: 'no' },
+        },
+        {
+          title: 'Nama',
+          dataIndex: 'namaProduk',
+        },
+        {
+          title: 'Harga',
+          children: [
+            {
+              title: 'Jual',
+              dataIndex: 'hargaJual',
+              key: 'hargaJual',
+            },
+            {
+              title: 'Beli',
+              dataIndex: 'hargaBeli',
+              key: 'hargaBeli',
+            },
+            {
+              title: 'TOP/hari',
+              dataIndex: 'top',
+              align: 'center',
+              key: 'top',
+            },
+          ],
+        },
+        {
+          title: 'Stok/Zak',
+          align: 'center',
+          dataIndex: 'stokHariini',
+        },
+        {
+          title: 'Volume/Zak',
+          children: [
+            {
+              title: 'Penjualan',
+              dataIndex: 'stokPenjualan',
+              align: 'center',
+              key: 'stokPenjualan',
+            },
+            {
+              title: 'Pembelian',
+              dataIndex: 'stokPembelian',
+              align: 'center',
+              key: 'stokPembelian',
+            },
+          ],
+        },
+        {
+          title: 'Keluhan',
+          align: 'center',
+          dataIndex: 'idProduk',
+          slots: { customRender: 'keluhan' },
+        },
+        {
+          title: 'Promosi',
+          align: 'center',
+          dataIndex: 'idProduk',
+          slots: { customRender: 'promosi' },
+        },
+      ],
     }
+  },
+  beforeMount() {
+    this.fetchKeluhan()
+    this.fetchPromosi()
   },
   async mounted() {
     this.pageValidation()
   },
   methods: {
+    fetchKeluhan() {
+      axios
+      .get(`http://localhost:3004/keluhan`)
+      .then(response => {
+          this.columns.map(column => {
+            if (column.title === 'Keluhan') {
+              column.children = response.data
+            }
+          })
+      })
+    },
+    fetchPromosi() {
+      axios
+      .get(`http://localhost:3004/promosi`)
+      .then(response => {
+          this.columns.map(column => {
+            if (column.title === 'Promosi') {
+              column.children = response.data
+            }
+          })
+      })
+    },
     onSlideStart(slide) {
       this.sliding = true
     },

@@ -13,7 +13,9 @@ import ProfileTSO from '../services/connection/user-management/UserHirarki/Profi
 import ProfileSalesDistributor from '../services/connection/user-management/UserHirarki/ProfileSalesDistributor'
 import ProfileAdminDistributor from '../services/connection/user-management/UserHirarki/ProfileAdminDistributor'
 import ProfileSPC from '../services/connection/user-management/UserHirarki/ProfileSPC'
-
+import ProfileUser from '../services/connection/profileUser'
+import ImportExelHirarki from '../services/connection/user-management/UserHirarki/ImportExcelHirarki'
+import KoordinatLock from '../services/connection/koordinat-lock'
 export default createStore({
   modules: {
     user,
@@ -30,6 +32,9 @@ export default createStore({
     profileSalesDistributor: ProfileSalesDistributor,
     profileAdminDistributor: ProfileAdminDistributor,
     profileSPC: ProfileSPC,
+    profileUser: ProfileUser,
+    importExelHirarki: ImportExelHirarki,
+    koordinatLock: KoordinatLock,
   },
   state: {},
   mutations: {},

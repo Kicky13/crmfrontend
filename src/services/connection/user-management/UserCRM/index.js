@@ -20,6 +20,10 @@ const state = {
         dataIndex: 'username',
       },
       {
+        title: 'Level',
+        dataIndex: 'levelJabatan',
+      },
+      {
         title: 'Jabatan',
         dataIndex: 'jabatan',
       },

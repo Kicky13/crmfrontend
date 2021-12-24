@@ -2,10 +2,10 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
-        >
+          Kembali ke User Hirarki
+        </a>
       </div>
     </div>
     <div class="row">
@@ -29,7 +29,15 @@
                   {{ userManagement.detail_jabatan.namaUser }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID : {{ userManagement.detail_jabatan.idUser }}
+                  Kode / ID User :
+                  {{
+                    userManagement.detail_jabatan.idUser
+                      ? userManagement.detail_jabatan.idUser
+                      : '-'
+                  }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -39,7 +47,15 @@
             </div>
           </div>
           <div class="card-header align-self-center">
-            <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <p>
+              <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            </p>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-info" @click="openViewTree">
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -88,7 +104,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="data => data.iduser"
+                :row-key="(data) => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -375,6 +391,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy />
+    </a-modal>
   </div>
 </template>
 
@@ -384,13 +414,13 @@ import { notification, message } from 'ant-design-vue'
 import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
-
-const itemsPerPage = [5, 10, 15, 20]
+import TreeHierarchy from '../tree/TreeHierarchy'
 
 export default {
   name: 'VbAntDesign',
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   data() {
     return {
@@ -400,11 +430,12 @@ export default {
       newJabatan: '',
       listData: '',
       dateLowerLimit: null,
+      treeModal: false,
     }
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -435,6 +466,7 @@ export default {
       'postJabatanBawahan',
       'getListJenisUser',
       'searchSalesNonBawahan',
+      'viewTreeHierarchy',
     ]),
 
     async onSearch(searchText) {
@@ -456,7 +488,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 
@@ -609,7 +641,6 @@ export default {
       this.userManagement.modalVisibleAssignUser = false
     },
     assignUser(text) {
-      console.log(text.idJabatan)
       this.userManagement.modalVisibleAssignUser = true
       this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
       this.userManagement.form_assign_bawahan.id_user = null
@@ -638,6 +669,28 @@ export default {
         id_jabatan: this.$route.params.id_jabatan,
       })
       this.modalDeleteView = false
+    },
+    async openViewTree() {
+      await this.viewTreeHierarchy({
+        idJabatan: this.$route.params.id_jabatan,
+      })
+      this.userManagement.tree.map(row => {
+        this.userManagement.nodes.push({
+          id: row.idJabatan,
+          pid: row.idAtasan,
+          name: row.namaUser,
+          title: row.titleJabatan,
+          img: require('@/assets/images/users.png'),
+          tags: ['main'],
+        })
+      })
+
+      if (this.userManagement.nodes.length > 0) {
+        this.treeModal = true
+      }
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }
