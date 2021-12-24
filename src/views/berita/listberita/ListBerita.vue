@@ -1,5 +1,5 @@
 <template>
-  <a-row :gutter="[40, 40]">
+  <a-row :gutter="[16, 16]">
     <a-col
       :xs="24"
       :sm="24"

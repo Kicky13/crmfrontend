@@ -40,3 +40,13 @@ export async function addLevelUser(data) {
     return false
   })
 }
+export async function getSelectUserList() {
+  return apiClient
+    .get('/hirarki/levelHirarki')
+    .then(response => {
+      if (response) {
+        return response.data
+      }
+      return false
+    })
+}

@@ -37,7 +37,7 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
+                  Kode / ID Jabatan : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -48,7 +48,7 @@
           </div>
           <div class="card-header align-self-center">
             <p>
-              <strong>Posisi Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+              <strong>Jabatan Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
             </p>
             <div class="d-flex justify-content-center">
               <button class="btn btn-info" @click="openViewTree">
@@ -399,6 +399,7 @@
       width=""
       :body-style="{ padding: '0' }"
       :style="{ top: '10px', padding: '10px' }"
+      :after-close="closeViewTree"
     >
       <template #footer>
         <a-button @click="closeViewTree">Kembali</a-button>
@@ -691,6 +692,7 @@ export default {
     },
     closeViewTree() {
       this.treeModal = false
+      this.userManagement.nodes = []
     },
   },
 }

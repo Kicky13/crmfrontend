@@ -37,7 +37,7 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID Posisi : {{ userManagement.detail_jabatan.idJabatan }}
+                  Kode / ID Jabatan : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
