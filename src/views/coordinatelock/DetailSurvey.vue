@@ -16,7 +16,7 @@
                       <h3>Supervisor</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.nama_supervisor ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataVisit[0].nama_supervisor ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -27,7 +27,7 @@
                       <h4>Tanggal</h4>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.tgl_rencana_kunjungan ?? '01/01/2021' }}</span>
+                      <span>{{ koordinatLock.dataVisit[0].tgl_rencana_kunjungan ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -38,7 +38,7 @@
                       <h4>Durasi</h4>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.durasi ?? 0 }} Menit</span>
+                      <span>{{ koordinatLock.dataVisit[0].durasi ?? 0 }} Menit</span>
                     </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                       <h3>Customer</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.nama_toko ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataVisit[0].nama_toko ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
                       <h3>Pemilik</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.nama_pemilik ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataVisit[0].nama_pemilik ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -73,7 +73,7 @@
                       <h3>Alamat</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detailCustomer.alamat_toko ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataVisit[0].alamat_toko ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -107,10 +107,10 @@
                 <div class="table-responsive text-nowrap">
                   <a-table
                     :columns="columns"
-                    :data-source="surveyProduct"
-                    :row-key="(surveyProduct) => surveyProduct.idProduk"
-                    :pagination="pagination"
-                    :loading="isLoading"
+                    :data-source="koordinatLock.dataProduct"
+                    :row-key="surveyProduct => surveyProduct.idProduk"
+                    :pagination="koordinatLock.pagination"
+                    :loading="koordinatLock.isLoading"
                   >
                     <template #no="data">
                       <span>{{ data.index + 1 }}</span>
@@ -238,6 +238,7 @@ import { notification, message } from 'ant-design-vue'
 import { getHistoryDetail } from '@/services/connection/koordinat-lock/api'
 import { filter } from 'lodash'
 import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 
 const itemsPerPage = [5, 10, 15, 20]
 
@@ -255,7 +256,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -267,6 +268,7 @@ export default {
       itemsPerPage,
     }
   },
+
   data() {
     return {
       pagination: {},
@@ -345,48 +347,55 @@ export default {
       ],
     }
   },
-  beforeMount() {
-    this.fetchKeluhan()
-    this.fetchPromosi()
+  computed: {
+    ...mapState({
+      koordinatLock: state => state.koordinatLock.data,
+    }),
   },
+  // beforeMount() {
+  //   this.fetchKeluhan()
+  //   this.fetchPromosi()
+  // },
   async mounted() {
-    this.pageValidation()
+    // this.pageValidation()
+
+    await this.getProductSurvey({
+      idHistoryVisit: this.koordinatLock.dataVisit[0].id_kunjungan,
+    })
   },
   methods: {
+    ...mapActions('koordinatLock', ['getProductSurvey']),
+
     fetchKeluhan() {
-      axios
-      .get(`http://localhost:3004/keluhan`)
-      .then(response => {
-          this.columns.map(column => {
-            if (column.title === 'Keluhan') {
-              column.children = response.data
-            }
-          })
+      axios.get(`http://localhost:3004/keluhan`).then(response => {
+        this.columns.map(column => {
+          if (column.title === 'Keluhan') {
+            column.children = response.data
+          }
+        })
       })
     },
     fetchPromosi() {
-      axios
-      .get(`http://localhost:3004/promosi`)
-      .then(response => {
-          this.columns.map(column => {
-            if (column.title === 'Promosi') {
-              column.children = response.data
-            }
-          })
+      axios.get(`http://localhost:3004/promosi`).then(response => {
+        this.columns.map(column => {
+          if (column.title === 'Promosi') {
+            column.children = response.data
+          }
+        })
       })
     },
     onSlideStart(slide) {
       this.sliding = true
     },
-    pageValidation() {
-      this.detailCustomer = JSON.parse(this.surveyDetail)
+    // pageValidation() {
+    //   this.detailCustomer = JSON.parse(this.surveyDetail)
 
-      if (!this.surveyDetail) {
-        this.$router.back()
-      } else {
-        this.fetchGetHistoryDetail()
-      }
-    },
+    //   if (!this.surveyDetail) {
+    //     this.$router.back()
+    //   } else {
+    //     this.fetchGetHistoryDetail()
+    //   }
+    // },
     openKeluhan(keluhan) {
       this.keluhanDetail = keluhan
       this.keluhanVisible = true
@@ -399,24 +408,25 @@ export default {
       this.keluhanVisible = false
       this.promosiVisible = false
     },
-    async fetchGetHistoryDetail() {
-      if (this.surveyDetail) {
-        this.isLoading = true
-        let formData = {
-          idHistoryVisit: this.detailCustomer.id_kunjungan,
-        }
-        await getHistoryDetail(formData)
-          .then((response) => {
-            if (response.status) {
-              this.surveyProduct = response.data
-            }
-            this.isLoading = false
-          })
-          .catch((err) => {
-            if (err) {}
-          })
-      }
-    },
+    // async fetchGetHistoryDetail() {
+    //   if (this.surveyDetail) {
+    //     this.isLoading = true
+    //     let formData = {
+    //       idHistoryVisit: this.detailCustomer.id_kunjungan,
+    //     }
+    //     await getHistoryDetail(formData)
+    //       .then(response => {
+    //         if (response.status) {
+    //           this.surveyProduct = response.data
+    //         }
+    //         this.isLoading = false
+    //       })
+    //       .catch(err => {
+    //         if (err) {
+    //         }
+    //       })
+    //   }
+    // },
   },
 }
 </script>

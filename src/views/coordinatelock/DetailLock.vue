@@ -88,9 +88,10 @@
                 >
                   <a-collapse-panel key="1" header="Distributor">
                     <a-table
+                      class="mt-2"
                       :columns="koordinatLock.column_distributor"
                       :data-source="koordinatLock.detail_customer.distributor"
-                      :row-key="data => koordinatLock.detail_customer.distributor.id_distributor"
+                      :row-key="data => data.id_distributor"
                       :pagination="koordinatLock.pagination"
                       :loading="koordinatLock.isLoading"
                     >
@@ -113,9 +114,10 @@
                   </a-collapse-panel>
                   <a-collapse-panel key="2" header="Sales">
                     <a-table
+                      class="mt-2"
                       :columns="koordinatLock.column_sales"
                       :data-source="koordinatLock.detail_customer.sales"
-                      :row-key="data => koordinatLock.detail_customer.sales.id_sales"
+                      :row-key="data => data.id_sales"
                       :pagination="koordinatLock.pagination"
                       :loading="koordinatLock.isLoading"
                     >
