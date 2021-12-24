@@ -22,7 +22,12 @@
                   {{ detailCustomer.nm_customer }}
                 </div>
                 <div class="font-size-16">
-                  KODE/ID : {{ detailCustomer.id_customer ? detailCustomer.id_customer : `-` }}
+                  KODE/ID :
+                  {{
+                    koordinatLock.detail_customer.id_customer
+                      ? koordinatLock.detail_customer.id_customer
+                      : `-`
+                  }}
                 </div>
               </div>
             </div>
@@ -36,7 +41,9 @@
                     <span>Nama Pemilik</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.nama_pemilik ?? 'Tidak Tersedia' }}</span>
+                    <span
+                      >: {{ koordinatLock.detail_customer.nama_pemilik ?? 'Tidak Tersedia' }}</span
+                    >
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -47,7 +54,9 @@
                     <span>Telepon</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.no_telp_toko ?? 'Tidak Tersedia' }}</span>
+                    <span
+                      >: {{ koordinatLock.detail_customer.no_telp_toko ?? 'Tidak Tersedia' }}</span
+                    >
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -58,7 +67,7 @@
                     <span>Alamat</span>
                   </div>
                   <div class="col-md-6">
-                    <span>: {{ detailCustomer.alamat ?? '-' }}</span>
+                    <span>: {{ koordinatLock.detail_customer.alamat ?? '-' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -69,7 +78,7 @@
                     <span>Kapasitas Toko</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ detailCustomer.kapasitas_toko ?? 0 }}</span>
+                    <span>: {{ koordinatLock.detail_customer.kapasitas_toko ?? 0 }}</span>
                   </div>
                 </div>
               </a-tab-pane>
@@ -295,13 +304,19 @@ export default {
     }),
   },
   async mounted() {
-    this.detailCustomer = JSON.parse(this.customerInfo)
-    this.totalDistributor = this.detailCustomer.distributor.length
-    this.totalSales = this.detailCustomer.sales.length
-    await this.fetchGetHistoryVisit()
+    await this.getHistoryVisitToko({
+      idToko: this.$route.params.id_toko,
+    })
+    await this.getDataCustomer({
+      id_distrik: this.$route.params.id_distrik,
+    })
+
+    this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
+    this.totalSales = this.koordinatLock.detail_customer.sales.length
+    // await this.fetchGetHistoryVisit()
   },
   methods: {
-    ...mapActions('koordinatLock', []),
+    ...mapActions('koordinatLock', ['getHistoryVisitToko', 'getDataCustomer']),
 
     changeActiveKey(key) {
       this.activeKey = key
@@ -309,59 +324,62 @@ export default {
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
-    async fetchGetHistoryVisit() {
-      this.isLoading = true
-      let formData = {
-        idToko: this.detailCustomer.id_customer,
-      }
-      // let formData = {
-      //   idToko: 100013207,
-      // }
-      await getHistoryVisit(formData)
-        .then(response => {
-          if (response.status) {
-            this.historyVisit = response.data
-          }
-          this.isLoading = false
-        })
-        .catch(err => {
-          if (err) {
-          }
-        })
-    },
-    async fetchLockCoordinate() {
-      let formData = {
-        idToko: this.detailCustomer.id_customer,
-      }
-      this.isLoading = true
-      getLockCustomer(formData)
-        .then(response => {
-          if (response.status) {
-            message.success(response.message)
-            this.detailCustomer.status_lock = !this.detailCustomer.status_lock
-          } else {
-            message.error(response.message)
-          }
-          this.isLoading = false
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    gotoDetailSurvey(id) {
-      let detailSurvey = this.getDetailSurvey(id)
-      this.$router.push({
-        name: 'koordinat-lock-survey',
-        params: { surveyDetail: JSON.stringify(detailSurvey) },
-      })
-    },
-    getDetailSurvey(id) {
-      const dataSource = [...this.historyVisit]
-      let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-      let detailSurvey = filtered[0]
 
-      return detailSurvey
+    dataDetailCustomer() {
+      const dataSource = [...this.koordinatLock.dataCustomer]
+      const filtered = dataSource.filter(a => a.id_customer)
     },
+    // async fetchGetHistoryVisit() {
+    //   this.isLoading = true
+    //   let formData = {
+    //     idToko: this.detailCustomer.id_customer,
+    //   }
+
+    //   await getHistoryVisit(formData)
+    //     .then(response => {
+    //       if (response.status) {
+    //         this.historyVisit = response.data
+    //       }
+    //       this.isLoading = false
+    //     })
+    //     .catch(err => {
+    //       if (err) {
+    //       }
+    //     })
+    // },
+    // async fetchLockCoordinate() {
+    //   let formData = {
+    //     idToko: this.detailCustomer.id_customer,
+    //   }
+    //   this.isLoading = true
+    //   getLockCustomer(formData)
+    //     .then(response => {
+    //       if (response.status) {
+    //         message.success(response.message)
+    //         this.detailCustomer.status_lock = !this.detailCustomer.status_lock
+    //       } else {
+    //         message.error(response.message)
+    //       }
+    //       this.isLoading = false
+    //     })
+    //     .catch(err => {
+    //       console.error(err)
+    //     })
+    // },
+    // gotoDetailSurvey(id) {
+    //   let detailSurvey = this.getDetailSurvey(id)
+    //   this.$router.push({
+    //     name: 'koordinat-lock-survey',
+    //     params: { surveyDetail: JSON.stringify(detailSurvey) },
+    //   })
+    // },
+    // getDetailSurvey(id) {
+    //   const dataSource = [...this.historyVisit]
+    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
+    //   let detailSurvey = filtered[0]
+
+    //   return detailSurvey
+    // },
   },
 }
 </script>

@@ -14,17 +14,26 @@
             @change="handleRegionChange"
             class="mx-3"
             style="width: 200px"
+            show-search
+            placeholder="Pilih provinsi"
           >
-            <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-            <a-select-option v-for="data in provinsiOption" :key="data.id" :value="data.id">{{
+            <a-select-option v-for="data in provinsiOption" :key="data.id" :value="data.provinsi">{{
               data.provinsi
             }}</a-select-option>
           </a-select>
-          <a-select v-model:value="selectedKabupaten" class="mx-3" style="width: 200px">
-            <a-select-option disabled :value="null">Pilih salah satu</a-select-option>
-            <a-select-option v-for="data in kabupatenOption" :key="data.id" :value="data.id">{{
-              data.kabupaten
-            }}</a-select-option>
+          <a-select
+            show-search
+            placeholder="Pilih kab/kota"
+            v-model:value="selectedKabupaten"
+            class="mx-3"
+            style="width: 200px"
+          >
+            <a-select-option
+              v-for="data in kabupatenOption"
+              :key="data.id"
+              :value="data.kabupaten"
+              >{{ data.kabupaten }}</a-select-option
+            >
           </a-select>
           <a-button
             v-if="selectedKabupaten == null"
@@ -68,7 +77,7 @@
           <a-input-search
             v-model:value="searchText"
             @input="searchData"
-            placeholder="input search text"
+            placeholder="Cari toko"
             style="width: 200px"
           />
         </div>
@@ -100,6 +109,7 @@ import { toRaw } from 'vue'
 import { message } from 'ant-design-vue'
 import { getRegionList, getTokoList } from '@/services/connection/koordinat-lock/api'
 import { _ } from 'vue-underscore'
+import { mapState, mapActions } from 'vuex'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -180,6 +190,11 @@ export default {
       tableLoading: false,
     }
   },
+  computed: {
+    ...mapState({
+      koordinatLock: state => state.koordinatLock.data,
+    }),
+  },
   mounted() {
     this.fetchGetRegion()
     // this.fetchGetCustomers()
@@ -190,15 +205,20 @@ export default {
     },
     handleRegionChange() {
       const dataSource = [...this.provinsiOption]
+      let filterProvince = dataSource.filter(item => item.provinsi == this.selectedProvinsi)
       this.kabupatenOption = null
       this.selectedKabupaten = null
-      const filtered = dataSource.filter(a => a.id == this.selectedProvinsi)
+      const filtered = dataSource.filter(a => a.provinsi == filterProvince[0].provinsi)
       this.kabupatenOption = filtered[0].kabupatens
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
+      let dataSource = [...this.kabupatenOption]
+      let filterIdKabupaten = dataSource.filter(item => item.kabupaten == this.selectedKabupaten)
       let id_customer = JSON.stringify(data.id_customer)
-      this.$router.push(`/koordinatlock/detail/${id_customer}`)
+      let id_distrik = filterIdKabupaten[0].id
+      this.koordinatLock.detail_customer = data
+      this.$router.push(`/koordinatlock/detail/${id_customer}/wilayah/${id_distrik}`)
     },
     searchData: _.debounce(function() {
       this.fetchGetCustomers()
@@ -236,8 +256,10 @@ export default {
     },
     async fetchGetCustomers() {
       this.tableLoading = true
+      let dataSource = [...this.kabupatenOption]
+      let filterIdKabupaten = dataSource.filter(item => item.kabupaten == this.selectedKabupaten)
       let formData = {
-        IDdistrik: this.selectedKabupaten,
+        IDdistrik: filterIdKabupaten[0].id,
         offset: 0,
         limit: 100,
         q: this.searchText,

@@ -154,6 +154,7 @@ const state = {
       limit: 2000,
       q: '',
     },
+    detail_customer: {},
     bodyViewHistory: {},
   },
 }
@@ -173,7 +174,7 @@ const actions = {
     const { data } = state
 
     let formData = {
-      IDdistrik: payload.selectedKabupaten,
+      IDdistrik: payload.id_distrik,
       offset: data.bodyViewCustomer.offset,
       limit: data.bodyViewCustomer.limit,
       q: payload.search,
