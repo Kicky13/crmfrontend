@@ -2,10 +2,26 @@
   <div>
     <div class="card card-top card-top-primary">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <strong>Level User</strong>
+        <div class="d-flex">
+            <div class="align-self-center">
+              <strong>Level User</strong>
+              <button
+                        data-toggle="tooltip" title="Help"
+                        type="button"
+                        class="btn btn-info btn-circle ml-3"
+                        @click="helpQuestion()"
+                      >
+                        <i class="fa fa-question"></i>
+                </button>
+              </div>
+          </div>
         <Can do="create" on="News">
           <div class="d-flex">
-            <div class="align-self-center">
+            <a-button type="primary" class="mb-3 float-right" @click="showModal">
+            <i class="fa fa-plus mr-2" />
+            Tambah Jenis User
+          </a-button>
+            <!-- <div class="align-self-center">
               <span>Tambah Jenis User :</span>
             </div>
             <a-input
@@ -17,7 +33,7 @@
             <a-button type="primary" @click="addNewUsername">
               <i class="fa fa-save mr-2" />
               Save
-            </a-button>
+            </a-button> -->
           </div>
         </Can>
       </div>
@@ -55,7 +71,7 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-success mr-1" @click="showUserEditModal(text)">
+                <button type="button" class="btn btn-success mr-1" @click="showModalEdit(text)">
                   <i class="fa fa-pencil-square-o mr-1" />
                   <span class="text-black">Ubah</span>
                 </button>
@@ -72,12 +88,57 @@
     <!-- User Edit Modal Start -->
     <vb-user-edit-modal
       :modal-visible="modalVisible"
-      :username="editItem.namaJenisUser"
+      :username="editItem.namaJenisUser2"
       :edit-username="editUsername"
       @handle-ok="handleOk"
       @handle-cancel="modalVisible = false"
     />
     <!-- User Edit Modal End -->
+    <a-modal
+          v-model:visible="modalHelp"
+          :title="`Help Customer Level Users`"
+          :closable="true"
+          :mask-closable="false"
+          
+        >
+          <template #footer>
+            
+            <a-pagination :total="20" :item-render="itemRender" />
+          </template>
+          
+          <a-table
+            :pagination="pagination"
+           
+          ></a-table>
+        </a-modal>
+
+        <a-modal
+          v-model:visible="visible"
+          title="Form Tambah Jenis User"
+          @ok="statusModal ? handleUpdate() : handleInsert()"
+        >
+          <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+            <a-form-item label="Pilih Jenis User">
+              <a-select
+                v-model:value="formState.hirarkiLevel"
+                @change="setSelectMethod"
+                placeholder=" -- Pilih Jenis User -- "
+                required
+              >
+                <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
+                <a-select-option
+                  v-for="(produk, index) in listProduk"
+                  :value="produk.id_level_hirarki"
+                  :key="index"
+                >
+                  {{ produk.nama_singkat }}
+                </a-select-option>
+              </a-select>
+              <a-input type="hidden" v-model:value="formState.namaJenisUser" />
+            </a-form-item>
+            
+          </a-form>
+        </a-modal>
   </div>
 </template>
 
@@ -87,9 +148,12 @@ import {
   deleteLevelUser,
   updateLevelUser,
   addLevelUser,
+  getSelectUserList,
 } from '@/services/connection/leveluser/api'
+
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
+import { toRaw } from 'vue'
 
 const itemsPerPage = [5, 10, 15, 20]
 
@@ -109,8 +173,18 @@ export default {
       modalVisible: false,
       editUsername: '',
       editItem: {},
+      listProduk: [],
       newUsername: '',
       isLoading: false,
+      modalHelp:false,
+      statusModal: false,
+      visible: false,
+      formState: {
+        idJenisUser: '',
+        namaJenisUser:'',
+        hirarkiLevel: '',
+        
+      },
       columns: [
         {
           title: 'No.',
@@ -135,8 +209,13 @@ export default {
   mounted() {
     this.fetchLevelUsers()
     this.removeAction()
+    this.fetchGetDataProduk()
   },
   methods: {
+    showModal() {
+      this.visible = true
+      this.statusModal = false
+    },
     fetchLevelUsers() {
       this.isLoading = true
       levelUserList()
@@ -158,17 +237,52 @@ export default {
           }
         })
     },
+    showModalEdit(value) {
+      
+      const id = value
+      this.visible = true
+      this.statusModal = true
+      // showpost(id)
+      levelUserList()
+        .then(response => {
+          if (response) {
+            const post = response.data.find(post => post.idJenisUser === id)
+            this.formState.idJenisUser = post.id
+            this.formState.hirarkiLevel = post.idproduk
+            this.formState.namaJenisUser = post.namaJenisUser
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
+    },
     addNewLevelUser(data) {
       addLevelUser(data)
         .then((response) => {
           if (response) {
             this.fetchLevelUsers()
+            notification.success({
+            message: 'Tambah User',
+            description: 'User berhasil ditambah',
+          })
+          }else{
+              notification.warning({
+                message: 'Tambah User',
+                description: 'User sudah tersedia',
+              })
           }
         })
         .catch((err) => {
           if (err) {
           }
         })
+        this.visible = false
+    },
+    handleInsert(){
+       const formData = toRaw(this.formState)
+        this.addNewLevelUser(formData)
+          
     },
     deleteLevelUserById(id) {
       deleteLevelUser(id)
@@ -240,6 +354,33 @@ export default {
         this.newUsername = ''
       }
     },
+     fetchGetDataProduk() {
+      getSelectUserList()
+        .then(response => {
+          if (response) {
+            this.listProduk = response.data
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
+    },
+    setSelectMethod(value) {
+      
+      const id = value
+      getSelectUserList()
+        .then(response => {
+          if (response) {
+            const post = response.data.find(post => post.id_level_hirarki === id)
+            this.formState.namaJenisUser = post.nama_singkat
+          }
+        })
+        .catch(err => {
+          if (err) {
+          }
+        })
+    },
     handlePaginationSize(size) {
       this.pagination.pageSize = size
     },
@@ -288,6 +429,20 @@ export default {
         this.dataList = this.dataSourceTable
       }
     },
+    async helpQuestion(){
+      this.modalHelp = true
+    },
   },
 }
 </script>
+<style>
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+</style>
