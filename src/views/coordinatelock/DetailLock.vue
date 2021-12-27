@@ -100,30 +100,48 @@
                   </div>
                   <a-input-search placeholder="input search text" style="width: 200px" />
                 </div>
-                <a-table
-                  class="mt-2"
-                  :columns="koordinatLock.column_distributor"
-                  :data-source="koordinatLock.detail_customer.distributor"
-                  :row-key="data => data.id_distributor"
-                  :pagination="koordinatLock.pagination"
-                  :loading="koordinatLock.isLoading"
-                >
-                  <template #no="{ index }">
-                    <div>
-                      {{ index + 1 }}
-                    </div>
-                  </template>
-                  <template #id_distributor="{ text }">
-                    <div>
-                      {{ text.id_distributor }}
-                    </div>
-                  </template>
-                  <template #nama="{ text }">
-                    <div>
-                      {{ text.nama_distributor }}
-                    </div>
-                  </template>
-                </a-table>
+                <div class="table-responsive text-nowrap">
+                  <a-table
+                    class="mt-2"
+                    :columns="koordinatLock.column_distributor"
+                    :data-source="koordinatLock.detail_customer.distributor"
+                    :row-key="data => data.id_distributor"
+                    :pagination="koordinatLock.pagination"
+                    :loading="koordinatLock.isLoading"
+                  >
+                    <template #no="{ index }">
+                      <div>
+                        {{ index + 1 }}
+                      </div>
+                    </template>
+                    <template #id_distributor="{ text }">
+                      <div>
+                        {{ text.id_distributor }}
+                      </div>
+                    </template>
+                    <template #nama="{ text }">
+                      <div>
+                        {{ text.nama_distributor }}
+                      </div>
+                    </template>
+                    <template #id_sales="{ text }">
+                      <div>
+                        {{ text.id_sales }}
+                      </div>
+                    </template>
+                    <template #sales="{ text }">
+                      <div>
+                        {{ text.nama_sales }}
+                      </div>
+                    </template>
+                    <template #hirarki="{ text }">
+                      <div>
+                        {{ text.nm_m_hierarchy }}
+                      </div>
+                    </template>
+                  </a-table>
+                </div>
+
                 <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
                   <div class="col-md-1">
                     <i class="fa fa-balance-scale"></i>
