@@ -8,7 +8,14 @@
             src="../../assets/LandingPage/images/logo.png"
             alt=""
           /> -->
-          <h1 for="" class="toggle-logo logo-white">SIG</h1>
+          <img
+            lazy="loading"
+            v-once
+            src="@/assets/images/logo/logo_crm.png"
+            alt="Logo SIG"
+            width="60"
+            class="mb-3"
+          />
 
           <!-- <img
             class="toggle-logo logo-blue"

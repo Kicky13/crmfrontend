@@ -9,18 +9,18 @@
               lazy="loading"
               v-once
               v-if="settings.theme === 'default'"
-              src="@/assets/images/logo/crm-icon-black.webp"
+              src="@/assets/images/logo/logo_crm.webp"
               alt="Logo SIG"
-              width="200"
+              width="140"
               class="mb-3"
             />
             <img
               lazy="loading"
               v-once
               v-else
-              src="@/assets/images/logo/crm-icon-white.webp"
+              src="@/assets/images/logo/logo_crm.webp"
               alt="Logo SIG"
-              width="200"
+              width="140"
             />
 
             <a-form
@@ -148,7 +148,8 @@ export default {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
-      if (errors) {}
+      if (errors) {
+      }
     }
 
     return {
