@@ -10,7 +10,7 @@
               v-once
               v-if="settings.theme === 'default'"
               src="@/assets/images/logo/logo_crm.webp"
-              alt="Logo SIG"
+              alt="Logo CRM"
               width="140"
               class="mb-3"
             />
@@ -141,13 +141,13 @@ export default {
       password: '',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       if (errors) {
       }
     }
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         if (response) {
           this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'

@@ -11,8 +11,8 @@
           <img
             lazy="loading"
             v-once
-            src="@/assets/images/logo/logo_crm.png"
-            alt="Logo SIG"
+            src="@/assets/images/logo/logo_landing.png"
+            alt="Logo CRM"
             width="60"
             class="mb-3"
           />
@@ -49,13 +49,13 @@
     <section
       class="main-header demo1"
       :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.webp')"
-      style="background-color: #b20838;"
+      style="background-color: #b20838"
       id="main"
     >
       <div class="home-cont">
         <div class="container">
           <div class="row">
-            <div class="col-xl-7 col-lg-6 col-md-12 ">
+            <div class="col-xl-7 col-lg-6 col-md-12">
               <div class="main-header-sub sub text-left">
                 <div class="content-text">
                   <h1>
@@ -195,8 +195,8 @@
             class="title-center mb-2"
             :style="
               'background-image: url(' +
-                require('@/assets/LandingPage/images/elements/line.png') +
-                'no-repeat bottom center'
+              require('@/assets/LandingPage/images/elements/line.png') +
+              'no-repeat bottom center'
             "
           >
             Tentang Solusi Digital Semen Indonesia
@@ -214,8 +214,8 @@
             class="title-center"
             :style="
               'background-image: url(' +
-                require('@/assets/LandingPage/images/elements/line.png') +
-                'no-repeat bottom center'
+              require('@/assets/LandingPage/images/elements/line.png') +
+              'no-repeat bottom center'
             "
           >
             Get Started
@@ -309,7 +309,7 @@
     <section
       class="information-mobile"
       :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.webp')"
-      style="background-color: #b20838;"
+      style="background-color: #b20838"
     >
       <div class="container">
         <div class="row">
@@ -1171,7 +1171,7 @@ export default {
     }
   },
   mounted() {
-    window.onscroll = function() {
+    window.onscroll = function () {
       onWindowScroll()
     }
 
