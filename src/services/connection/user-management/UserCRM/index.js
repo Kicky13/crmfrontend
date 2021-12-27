@@ -73,6 +73,7 @@ const state = {
     newUsername: '',
     keyword: '',
     isLoading: false,
+    changePasswordModal: false,
   },
 }
 
@@ -251,6 +252,35 @@ const actions = {
     await commit('changeUserManagementCRM', {
       isLoading: false,
     })
+  },
+
+  async changePassword({ commit, state }, payload) {
+    commit('changeUserManagementCRM', {
+      isLoading: true,
+      changePasswordModal: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      oldPassword: payload.oldPassword,
+      newPassword: payload.newPassword,
+      userID: payload.userID,
+    }
+
+    let result = await apiClient.post(`/usercrm/changepassword`, formData)
+
+    if (result.data.status == false) {
+      notification.warning({
+        message: 'Error',
+        description: result.data.message,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
+      })
+    }
   },
 }
 
