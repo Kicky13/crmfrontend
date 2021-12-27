@@ -244,6 +244,7 @@
                 input-format="dd-MM-yyyy"
                 v-model="userManagement.form_assign_bawahan.tgl_mulai"
                 :upper-limit="dateLowerLimit"
+                :lower-limit="dateBeforeLimit"
               />
             </a-form-item>
           </a-form>
@@ -442,6 +443,7 @@ export default {
       id_jabatan: null,
       dataList: [],
       dateLowerLimit: null,
+      dateBeforeLimit: null,
       historyJabatanModal: false,
       historyJabatanItems: {
         posisi_jabatan: '',
@@ -545,10 +547,23 @@ export default {
       this.userManagement.form_assign_bawahan.id_user = null
 
       await this.getListUserCRM()
+
+      this.historyJabatanItems.posisi_jabatan = item.titleJabatan
+      this.historyJabatanItems.jabatan = item.jabatan
+      await this.logHistory({
+        idJabatan: item.idJabatan,
+      })
+      if (this.userManagement.history.length) {
+        const dateData = this.userManagement.history[0].endDate.split('-')
+        let temp = []
+        dateData.map(data => temp.unshift(data))
+        this.dateBeforeLimit = new Date(temp.join('-'))
+      }
       this.modalVisible = true
     },
     closeModalAssignUser() {
       this.modalVisible = false
+      this.dateBeforeLimit = null
     },
     async handleSubmitAssignUser() {
       console.log(

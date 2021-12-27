@@ -9,22 +9,18 @@
       :key="post.id"
     >
       <div class="card card-top card-top-primary h-100">
-        <div class="card-header d-flex justify-content-between">
-          <h5
-            class="card-title title-ellipsis"
-            v-text="post.post_title"
-          />
+        <div class="card-body pb-0">
           <Can
             do="create"
             on="News"
           >
-            <div class="nav-item dropdown">
+            <div class="nav-item dropdown d-flex flex-row-reverse">
               <a-dropdown
                 placement="bottomCenter"
                 :trigger="['click']"
               >
                 <a
-                  class="nav-link pt-sm-0"
+                  class="nav-link pt-sm-0 pr-0"
                   href="javascript: void(0);"
                 >
                   <i class="fa fa-caret-down" />
@@ -44,19 +40,16 @@
               </a-dropdown>
             </div>
           </Can>
-        </div>
-        <div class="card-body pb-0">
-          <!-- <img
-            width="90"
-            height="90"
+          <img
             :src="post.post_image"
             alt="Gambar"
-            class="img-thumbnail float-left mr-2"
-          > -->
+            class="img-thumbnail mb-2"
+            style="width: 100%; height: 150px;"
+          />
           <!-- eslint-disable vue/no-v-html -->
-          <div
+          <h5
             class="card-text detail-ellipsis"
-            v-html="post.post_detail"
+            v-html="post.post_title"
           />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
