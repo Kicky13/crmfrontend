@@ -80,65 +80,50 @@
                 </div>
               </a-tab-pane>
               <a-tab-pane key="2" tab="Mapping Customer" force-render>
-                <a-collapse
-                  accordion
-                  :bordered="false"
-                  :active-key="activeKey"
-                  @change="changeActiveKey"
+                <div class="d-flex justify-content-between mb-3">
+                  <div class="d-flex">
+                    <div class="align-self-center">
+                      <span>Show :</span>
+                    </div>
+                    <a-select
+                      :default-value="itemsPerPage[1]"
+                      class="mx-2"
+                      @change="handlePaginationSize"
+                    >
+                      <a-select-option v-for="itemPerPage in itemsPerPage" :key="itemPerPage">
+                        {{ itemPerPage }}
+                      </a-select-option>
+                    </a-select>
+                    <div class="align-self-center">
+                      <span>entries</span>
+                    </div>
+                  </div>
+                  <a-input-search placeholder="input search text" style="width: 200px" />
+                </div>
+                <a-table
+                  class="mt-2"
+                  :columns="koordinatLock.column_distributor"
+                  :data-source="koordinatLock.detail_customer.distributor"
+                  :row-key="data => data.id_distributor"
+                  :pagination="koordinatLock.pagination"
+                  :loading="koordinatLock.isLoading"
                 >
-                  <a-collapse-panel key="1" header="Distributor">
-                    <a-table
-                      class="mt-2"
-                      :columns="koordinatLock.column_distributor"
-                      :data-source="koordinatLock.detail_customer.distributor"
-                      :row-key="data => data.id_distributor"
-                      :pagination="koordinatLock.pagination"
-                      :loading="koordinatLock.isLoading"
-                    >
-                      <template #no="{ index }">
-                        <div>
-                          {{ index + 1 }}
-                        </div>
-                      </template>
-                      <template #id_distributor="{ text }">
-                        <div>
-                          {{ text.id_distributor }}
-                        </div>
-                      </template>
-                      <template #nama="{ text }">
-                        <div>
-                          {{ text.nama_distributor }}
-                        </div>
-                      </template>
-                    </a-table>
-                  </a-collapse-panel>
-                  <a-collapse-panel key="2" header="Sales">
-                    <a-table
-                      class="mt-2"
-                      :columns="koordinatLock.column_sales"
-                      :data-source="koordinatLock.detail_customer.sales"
-                      :row-key="data => data.id_sales"
-                      :pagination="koordinatLock.pagination"
-                      :loading="koordinatLock.isLoading"
-                    >
-                      <template #no="{ index }">
-                        <div>
-                          {{ index + 1 }}
-                        </div>
-                      </template>
-                      <template #id_sales="{ text }">
-                        <div>
-                          {{ text.id_sales }}
-                        </div>
-                      </template>
-                      <template #nama="{ text }">
-                        <div>
-                          {{ text.nama_sales }}
-                        </div>
-                      </template>
-                    </a-table>
-                  </a-collapse-panel>
-                </a-collapse>
+                  <template #no="{ index }">
+                    <div>
+                      {{ index + 1 }}
+                    </div>
+                  </template>
+                  <template #id_distributor="{ text }">
+                    <div>
+                      {{ text.id_distributor }}
+                    </div>
+                  </template>
+                  <template #nama="{ text }">
+                    <div>
+                      {{ text.nama_distributor }}
+                    </div>
+                  </template>
+                </a-table>
                 <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
                   <div class="col-md-1">
                     <i class="fa fa-balance-scale"></i>
