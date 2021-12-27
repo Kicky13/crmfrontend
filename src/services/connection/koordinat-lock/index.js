@@ -163,6 +163,21 @@ const state = {
         key: 'nama',
         slots: { customRender: 'nama' },
       },
+      {
+        title: 'Id Sales',
+        key: 'id_sales',
+        slots: { customRender: 'id_sales' },
+      },
+      {
+        title: 'Sales',
+        key: 'sales',
+        slots: { customRender: 'sales' },
+      },
+      {
+        title: 'Hirarki',
+        key: 'hirarki',
+        slots: { customRender: 'hirarki' },
+      },
     ],
     column_sales: [
       {
