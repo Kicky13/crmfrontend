@@ -36,8 +36,12 @@
         <a-menu-divider />
         <a-menu-item>
           <a href="javascript: void(0);" @click="changePasswordHandle">
-            <i class="fe fe-user mr-2" />
-            {{ $t('topBar.profileMenu.editProfile') }}
+            <i
+              class="fa fa-unlock-alt"
+              style="margin-right: 12px;"
+            />
+            <!-- {{ $t('topBar.profileMenu.editProfile') }} -->
+            Ganti Password
           </a>
         </a-menu-item>
         <a-menu-divider />
