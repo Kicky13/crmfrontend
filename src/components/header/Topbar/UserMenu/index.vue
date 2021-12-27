@@ -36,10 +36,7 @@
         <a-menu-divider />
         <a-menu-item>
           <a href="javascript: void(0);" @click="changePasswordHandle">
-            <i
-              class="fa fa-unlock-alt"
-              style="margin-right: 12px;"
-            />
+            <i class="fa fa-unlock-alt" style="margin-right: 12px" />
             <!-- {{ $t('topBar.profileMenu.editProfile') }} -->
             Ganti Password
           </a>
@@ -60,14 +57,8 @@
     @ok="handleOk"
     @cancel="handleCancel"
   >
-    <a-form
-      label-align="left"
-      layout="vertical"
-    >
-      <a-form-item
-        label-align="left"
-        label="Passord Lama"
-      >
+    <a-form label-align="left" layout="vertical">
+      <a-form-item label-align="left" label="Passord Lama">
         <a-input-password
           placeholder="Masukkan password lama"
           v-model:value="formState.oldPassword"
@@ -107,7 +98,7 @@ export default {
     const user = computed(() => store.getters['user/user'])
 
     const logout = () => {
-      logoutData().then(response => {
+      logoutData().then((response) => {
         if (response) {
           if (response.status === 'success') {
             notification.success({
@@ -150,9 +141,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('userManagementCRM', [
-      `changePassword`,
-    ]),
+    ...mapActions('userManagementCRM', [`changePassword`]),
     profileData() {
       this.$router.push('/profile')
     },
@@ -166,7 +155,7 @@ export default {
           message: 'Ganti Password',
           description: 'Password lama masih kosong',
         })
-        
+
         return false
       }
       if (this.formState.newPassword.length <= 6) {
@@ -174,7 +163,7 @@ export default {
           message: 'Ganti Password',
           description: 'Password minimal 6 karakter',
         })
-        
+
         return false
       }
       if (this.formState.newPassword !== this.formState.confirmNewPassword) {
@@ -186,10 +175,13 @@ export default {
         return false
       }
 
-      if (!(this.formState.newPassword.match(/[a-z]/g)
-          && this.formState.newPassword.match(/[A-Z]/g)
-          && this.formState.newPassword.match(/[0-9]/g)
-          && this.formState.newPassword.match(/[^a-zA-Z\d]/g))) {
+      if (
+        !(
+          this.formState.newPassword.match(/[a-z]/g) &&
+          this.formState.newPassword.match(/[A-Z]/g) &&
+          this.formState.newPassword.match(/[0-9]/g)
+        )
+      ) {
         notification.warning({
           message: 'Ganti Password',
           description: 'Password harus kombinasi huruf besar, kecil, angka dan simbol',
