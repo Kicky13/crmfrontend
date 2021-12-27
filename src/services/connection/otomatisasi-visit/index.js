@@ -20,7 +20,7 @@ const state = {
       },
       {
         title: 'Nama Sales',
-        dataIndex: 'name',
+        dataIndex: 'namesales',
         key: 'name',
         width: 150,
         fixed: 'left',
@@ -40,7 +40,7 @@ const state = {
       },
       {
         title: 'TSO',
-        dataIndex: 'tso',
+        dataIndex: 'nametso',
         key: 'tso',
       },
       {
