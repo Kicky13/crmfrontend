@@ -685,7 +685,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_replace_bawahan.id_jabatan,
       userReplacerID: data.form_replace_bawahan.user_replace_id,
-      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_replace_bawahan.tgl_akhir,
     }
 
@@ -732,7 +732,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(0),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 
