@@ -8,15 +8,25 @@
             src="../../assets/LandingPage/images/logo.png"
             alt=""
           /> -->
+
+          <img
+            lazy="loading"
+            v-once
+            src="@/assets/images/logo/logo_crm_white.png"
+            alt="Logo CRM"
+            width="180"
+            class="mb-3 "
+            id="crm_white"
+          />
           <img
             lazy="loading"
             v-once
             src="@/assets/images/logo/logo_landing.png"
             alt="Logo CRM"
-            width="60"
-            class="mb-3"
+            width="180"
+            class="mb-3 d-none"
+            id="crm_color"
           />
-
           <!-- <img
             class="toggle-logo logo-blue"
             src="../../assets/LandingPage/images/toggle-logo.png"
@@ -195,8 +205,8 @@
             class="title-center mb-2"
             :style="
               'background-image: url(' +
-              require('@/assets/LandingPage/images/elements/line.png') +
-              'no-repeat bottom center'
+                require('@/assets/LandingPage/images/elements/line.png') +
+                'no-repeat bottom center'
             "
           >
             Tentang Solusi Digital Semen Indonesia
@@ -214,8 +224,8 @@
             class="title-center"
             :style="
               'background-image: url(' +
-              require('@/assets/LandingPage/images/elements/line.png') +
-              'no-repeat bottom center'
+                require('@/assets/LandingPage/images/elements/line.png') +
+                'no-repeat bottom center'
             "
           >
             Get Started
@@ -1171,17 +1181,26 @@ export default {
     }
   },
   mounted() {
-    window.onscroll = function () {
+    window.onscroll = function() {
       onWindowScroll()
     }
 
     let navbar = document.getElementById('minify_nav')
+    let image_navbar_color = document.getElementById('crm_color')
+    let image_navbar_white = document.getElementById('crm_white')
 
     function onWindowScroll() {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         navbar.classList.add('shrink')
+        image_navbar_color.classList.add(`show`)
+        image_navbar_color.classList.remove(`d-none`)
+        image_navbar_white.classList.add('d-none')
       } else {
         navbar.classList.remove('shrink')
+        image_navbar_color.classList.remove(`show`)
+        image_navbar_color.classList.add(`d-none`)
+        image_navbar_white.classList.remove('d-none')
+        // image_navbar_white.classList.remove('view')
       }
     }
   },
