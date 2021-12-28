@@ -648,7 +648,7 @@ const actions = {
     const formData = {
       IDuser: payload.id_user,
       IDbawahan: data.form_tambah_bawahan.id_bawahan,
-      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_tambah_bawahan.tgl_akhir,
     }
 
