@@ -172,7 +172,7 @@
                       type="button"
                       class="btn btn-outline-danger mr-2"
                     >
-                      <i class="fa fa-trash"></i><span> Hapus</span>
+                      <i class="fa fa-trash"></i>
                     </button>
                   </div>
                 </template>

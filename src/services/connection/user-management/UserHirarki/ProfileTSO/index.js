@@ -5,12 +5,12 @@ import { moment } from 'moment'
 const state = {
   data: {
     columns: [
-      {
-        title: 'No',
-        key: 'index',
-        render: (text, record, index) => index,
-        slots: { customRender: 'no' },
-      },
+      // {
+      //   title: 'No',
+      //   key: 'index',
+      //   render: (text, record, index) => index,
+      //   slots: { customRender: 'no' },
+      // },
       {
         title: 'ID Distrik',
         key: 'id_distrik',
@@ -20,6 +20,16 @@ const state = {
         title: 'Nama Distrik',
         key: 'nama_distrik',
         slots: { customRender: 'nama_distrik' },
+      },
+      {
+        title: 'Tanggal Mulai',
+        key: 'tgl_mulai',
+        slots: { customRender: 'tgl_mulai' },
+      },
+      {
+        title: 'Tanggal Akhir',
+        key: 'tgl_akhir',
+        slots: { customRender: 'tgl_akhir' },
       },
       {
         title: 'Action',
