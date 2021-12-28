@@ -118,10 +118,22 @@
           @ok="statusModal ? handleUpdate() : handleInsert()"
         >
           <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+            <a-input
+              placeholder="Nama jenis user"
+              class="mx-3 mb-2"
+              style="width: 200px"
+              v-model:value="newUsername"
+            />
+            <br>
+            <a-checkbox @change="checkJabatan" class="mx-3">
+              Tambahkan Jabatan
+            </a-checkbox>
+            <div 
+            :visible="checkVisible"> 
             <a-form-item label="Pilih Jenis User">
               <a-select
                 v-model:value="formState.hirarkiLevel"
-                @change="setSelectMethod"
+                
                 placeholder=" -- Pilih Jenis User -- "
                 required
               >
@@ -135,7 +147,8 @@
                 </a-select-option>
               </a-select>
               <a-input type="hidden" v-model:value="formState.namaJenisUser" />
-            </a-form-item>
+            </a-form-item></div>
+            
             
           </a-form>
         </a-modal>
@@ -179,6 +192,7 @@ export default {
       modalHelp:false,
       statusModal: false,
       visible: false,
+      checkVisible:false,
       formState: {
         idJenisUser: '',
         namaJenisUser:'',
@@ -213,8 +227,12 @@ export default {
   },
   methods: {
     showModal() {
-      this.visible = true
-      this.statusModal = false
+      // this.visible = true
+      // this.statusModal = false
+      alert('Masih dalam develop')
+    },
+    checkJabatan(e) {
+      console.log(`checked = ${e.target.checked}`);
     },
     fetchLevelUsers() {
       this.isLoading = true
@@ -238,24 +256,24 @@ export default {
         })
     },
     showModalEdit(value) {
-      
-      const id = value
-      this.visible = true
-      this.statusModal = true
-      // showpost(id)
-      levelUserList()
-        .then(response => {
-          if (response) {
-            const post = response.data.find(post => post.idJenisUser === id)
-            this.formState.idJenisUser = post.id
-            this.formState.hirarkiLevel = post.idproduk
-            this.formState.namaJenisUser = post.namaJenisUser
-          }
-        })
-        .catch(err => {
-          if (err) {
-          }
-        })
+      alert('Masih dalam develop')
+      // const id = value
+      // this.visible = true
+      // this.statusModal = true
+      // // showpost(id)
+      // levelUserList()
+      //   .then(response => {
+      //     if (response) {
+      //       const post = response.data.find(post => post.idJenisUser === id)
+      //       this.formState.idJenisUser = post.id
+      //       this.formState.hirarkiLevel = post.idproduk
+      //       this.formState.namaJenisUser = post.namaJenisUser
+      //     }
+      //   })
+      //   .catch(err => {
+      //     if (err) {
+      //     }
+      //   })
     },
     addNewLevelUser(data) {
       addLevelUser(data)

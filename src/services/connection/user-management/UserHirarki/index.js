@@ -724,7 +724,7 @@ const actions = {
     const idUser = filtered[0].iduser
 
     Date.prototype.addDays = function (days) {
-      
+      console.log(days)
       var date = new Date(this.valueOf())
       date.setDate(date.getDate() + days)
       return date
