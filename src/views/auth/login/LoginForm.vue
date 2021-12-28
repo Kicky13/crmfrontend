@@ -9,18 +9,18 @@
               lazy="loading"
               v-once
               v-if="settings.theme === 'default'"
-              src="@/assets/images/logo/crm-icon-black.webp"
-              alt="Logo SIG"
-              width="200"
+              src="@/assets/images/logo/logo_crm.webp"
+              alt="Logo CRM"
+              width="140"
               class="mb-3"
             />
             <img
               lazy="loading"
               v-once
               v-else
-              src="@/assets/images/logo/crm-icon-white.webp"
+              src="@/assets/images/logo/logo_crm.webp"
               alt="Logo SIG"
-              width="200"
+              width="140"
             />
 
             <a-form
@@ -141,14 +141,15 @@ export default {
       password: '',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
-      if (errors) {}
+    const handleFinishFailed = (errors) => {
+      if (errors) {
+      }
     }
 
     return {
@@ -164,7 +165,7 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         if (response) {
           this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'

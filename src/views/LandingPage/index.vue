@@ -8,8 +8,25 @@
             src="../../assets/LandingPage/images/logo.png"
             alt=""
           /> -->
-          <h1 for="" class="toggle-logo logo-white">SIG</h1>
 
+          <img
+            lazy="loading"
+            v-once
+            src="@/assets/images/logo/logo_crm_white.png"
+            alt="Logo CRM"
+            width="180"
+            class="mb-3 "
+            id="crm_white"
+          />
+          <img
+            lazy="loading"
+            v-once
+            src="@/assets/images/logo/logo_landing.png"
+            alt="Logo CRM"
+            width="180"
+            class="mb-3 d-none"
+            id="crm_color"
+          />
           <!-- <img
             class="toggle-logo logo-blue"
             src="../../assets/LandingPage/images/toggle-logo.png"
@@ -42,13 +59,13 @@
     <section
       class="main-header demo1"
       :style="'background-image: url(' + require('@/assets/LandingPage/images/MainBG.webp')"
-      style="background-color: #b20838;"
+      style="background-color: #b20838"
       id="main"
     >
       <div class="home-cont">
         <div class="container">
           <div class="row">
-            <div class="col-xl-7 col-lg-6 col-md-12 ">
+            <div class="col-xl-7 col-lg-6 col-md-12">
               <div class="main-header-sub sub text-left">
                 <div class="content-text">
                   <h1>
@@ -302,7 +319,7 @@
     <section
       class="information-mobile"
       :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.webp')"
-      style="background-color: #b20838;"
+      style="background-color: #b20838"
     >
       <div class="container">
         <div class="row">
@@ -1169,12 +1186,21 @@ export default {
     }
 
     let navbar = document.getElementById('minify_nav')
+    let image_navbar_color = document.getElementById('crm_color')
+    let image_navbar_white = document.getElementById('crm_white')
 
     function onWindowScroll() {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         navbar.classList.add('shrink')
+        image_navbar_color.classList.add(`show`)
+        image_navbar_color.classList.remove(`d-none`)
+        image_navbar_white.classList.add('d-none')
       } else {
         navbar.classList.remove('shrink')
+        image_navbar_color.classList.remove(`show`)
+        image_navbar_color.classList.add(`d-none`)
+        image_navbar_white.classList.remove('d-none')
+        // image_navbar_white.classList.remove('view')
       }
     }
   },

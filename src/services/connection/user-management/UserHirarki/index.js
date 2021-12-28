@@ -190,11 +190,11 @@ const state = {
     form_assign_bawahan: {
       id_jabatan: null,
       id_user: null,
-      tgl_mulai: new Date(),
+      tgl_mulai: null,
       tgl_akhir: '',
     },
     form_kosongkan_jabatan: {
-      tgl_akhir: new Date(),
+      tgl_akhir: null,
     },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
@@ -648,7 +648,7 @@ const actions = {
     const formData = {
       IDuser: payload.id_user,
       IDbawahan: data.form_tambah_bawahan.id_bawahan,
-      tglMulai: data.form_tambah_bawahan.tgl_mulai,
+      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(1),
       tglAkhir: data.form_tambah_bawahan.tgl_akhir,
     }
 
@@ -685,7 +685,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_replace_bawahan.id_jabatan,
       userReplacerID: data.form_replace_bawahan.user_replace_id,
-      tglMulai: data.form_replace_bawahan.tgl_mulai,
+      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(1),
       tglAkhir: data.form_replace_bawahan.tgl_akhir,
     }
 
@@ -723,8 +723,7 @@ const actions = {
     let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
     const idUser = filtered[0].iduser
 
-    Date.prototype.addDays = function (days) {
-      console.log(days)
+    Date.prototype.addDays = function(days) {
       var date = new Date(this.valueOf())
       date.setDate(date.getDate() + days)
       return date
@@ -733,7 +732,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(0),
+      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 
