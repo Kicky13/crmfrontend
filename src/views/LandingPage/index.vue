@@ -14,7 +14,7 @@
             v-once
             src="@/assets/images/logo/logo_crm_white.png"
             alt="Logo CRM"
-            width="180"
+            width="220"
             class="mb-3 "
             id="crm_white"
           />
@@ -23,7 +23,7 @@
             v-once
             src="@/assets/images/logo/logo_landing.png"
             alt="Logo CRM"
-            width="180"
+            width="220"
             class="mb-3 d-none"
             id="crm_color"
           />
