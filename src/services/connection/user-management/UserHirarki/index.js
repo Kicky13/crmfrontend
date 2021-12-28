@@ -131,7 +131,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 500,
+      limit: 5000,
       filter: '',
     },
 
