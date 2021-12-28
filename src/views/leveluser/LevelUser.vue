@@ -343,17 +343,18 @@ export default {
     updateLevelUserById(id, data) {
       updateLevelUser(id, data)
         .then((response) => {
-          if (response) {
-            console.log(response)
+          console.log(response.status)
+          if (response.status == 200) {
+            
             this.fetchLevelUsers()
             notification.success({
             message: 'Update User',
             description: 'User berhasil diupdate',
           })
           }else{
-            notification.danger({
+            notification.error({
                 message: 'Update User',
-                description: 'Update Data Gagal',
+                description: response.message,
               })
           }
         })
