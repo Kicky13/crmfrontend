@@ -30,8 +30,22 @@
         <div :class="$style.logo">
           <!-- <img v-if="settings.theme === 'default' " src="@/assets/images/logo/sig-light-logo.png" alt="Logo SIG" width="75">
           <img v-else src="@/assets/images/logo/sig-dark-logo.png" alt="Logo SIG" width="75">           -->
-          <img lazy="loading" v-once v-if="settings.theme === 'default' " src="@/assets/images/logo/crm-light-logo.webp" alt="Logo SIG" width="50">
-          <img lazy="loading" v-once v-else src="@/assets/images/logo/crm-dark-logo.webp" alt="Logo SIG" width="50">
+          <img
+            lazy="loading"
+            v-once
+            v-if="settings.theme === 'default'"
+            src="@/assets/images/logo/crm-light-logo.webp"
+            alt="Logo SIG"
+            width="50"
+          />
+          <img
+            lazy="loading"
+            v-once
+            v-else
+            src="@/assets/images/logo/crm-dark-logo.webp"
+            alt="Logo SIG"
+            width="50"
+          />
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -61,9 +75,17 @@
             </g>
           </svg> -->
           <!-- <div :class="$style.name">{{ settings.logo }}</div> -->
-          <div :class="$style.descr" class="text-capitalize" style="font-weight: 700 !important; font-size: large !important;">
+          <div
+            :class="$style.descr"
+            class="text-capitalize"
+            style="font-weight: 700 !important; font-size: large !important;"
+          >
             <!-- {{ settings.version }} -->
-            Akses<span style="color : #b20838 !important;">Toko</span>-CRM
+            Akses<span style="color : #b20838 !important;">Toko</span>-<span
+              style="color : #b20838 !important;"
+              >C</span
+            ><span style="color : #000 !important;">R</span>
+            <span style="color : #929090 !important;">M</span>
           </div>
         </div>
       </div>
@@ -127,7 +149,13 @@ export default {
     const store = useStore()
     const route = useRoute()
     const user = computed(() => store.getters['user/user'])
-    const menuData = computed(() => user.value.role.toLowerCase() === 'admin' ? getAdminMenuData : user.value.role.toLowerCase() === 'tso' ? getTsoMenuData : getUserMenuData)
+    const menuData = computed(() =>
+      user.value.role.toLowerCase() === 'admin'
+        ? getAdminMenuData
+        : user.value.role.toLowerCase() === 'tso'
+        ? getTsoMenuData
+        : getUserMenuData,
+    )
     const selectedKeys = ref([])
     const openKeys = ref([])
     const settings = computed(() => store.getters.settings)

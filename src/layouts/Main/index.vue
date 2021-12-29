@@ -11,6 +11,7 @@
         vb__layout__appMaxWidth: settings.isAppMaxWidth,
         vb__layout__squaredBorders: settings.isSquaredBorders,
         vb__layout__cardsShadow: settings.isCardShadow,
+
         vb__layout__borderless: settings.isBorderless,
       }"
     >
