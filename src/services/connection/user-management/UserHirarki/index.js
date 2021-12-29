@@ -131,7 +131,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 500,
+      limit: 5000,
       filter: '',
     },
 
@@ -648,7 +648,7 @@ const actions = {
     const formData = {
       IDuser: payload.id_user,
       IDbawahan: data.form_tambah_bawahan.id_bawahan,
-      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_tambah_bawahan.tgl_akhir,
     }
 
@@ -685,7 +685,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_replace_bawahan.id_jabatan,
       userReplacerID: data.form_replace_bawahan.user_replace_id,
-      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_replace_bawahan.tgl_akhir,
     }
 
@@ -732,7 +732,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(0),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 

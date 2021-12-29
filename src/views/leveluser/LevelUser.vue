@@ -114,14 +114,27 @@
 
         <a-modal
           v-model:visible="visible"
-          title="Form Tambah Jenis User"
+          title="Form Jenis User"
           @ok="statusModal ? handleUpdate() : handleInsert()"
         >
           <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+            <a-form-item label="Nama Jenis User">
+            <a-input
+              
+              class="mx-3 mb-2"
+              style="width: 200px"
+              v-model:value="formState.namaJenisUser"
+            />
+            </a-form-item>
+            <a-form-item label="Tambah Sebagai Jabatan">
+            <a-checkbox @change="checkJabatan" class="mx-3" :checked="checked">
+              
+            </a-checkbox>
+            </a-form-item> 
             <a-form-item label="Pilih Jenis User">
               <a-select
                 v-model:value="formState.hirarkiLevel"
-                @change="setSelectMethod"
+                :disabled="isDisabled"
                 placeholder=" -- Pilih Jenis User -- "
                 required
               >
@@ -134,8 +147,9 @@
                   {{ produk.nama_singkat }}
                 </a-select-option>
               </a-select>
-              <a-input type="hidden" v-model:value="formState.namaJenisUser" />
+              
             </a-form-item>
+            
             
           </a-form>
         </a-modal>
@@ -179,6 +193,9 @@ export default {
       modalHelp:false,
       statusModal: false,
       visible: false,
+      checkVisible:false,
+       isDisabled: true,
+       checked:false,
       formState: {
         idJenisUser: '',
         namaJenisUser:'',
@@ -215,6 +232,17 @@ export default {
     showModal() {
       this.visible = true
       this.statusModal = false
+     
+    },
+    checkJabatan(e) {
+      console.log(`checked = ${e.target.checked}`);
+      if(e.target.checked === true){
+        this.checked = true
+        this.isDisabled = false
+      }else{
+        this.checked = false
+        this.isDisabled = true
+      }
     },
     fetchLevelUsers() {
       this.isLoading = true
@@ -238,7 +266,7 @@ export default {
         })
     },
     showModalEdit(value) {
-      
+      // alert('Masih dalam develop')
       const id = value
       this.visible = true
       this.statusModal = true
@@ -247,15 +275,34 @@ export default {
         .then(response => {
           if (response) {
             const post = response.data.find(post => post.idJenisUser === id)
+            console.log(post)
             this.formState.idJenisUser = post.id
-            this.formState.hirarkiLevel = post.idproduk
+            
+            this.formState.hirarkiLevel = post.hirarkiLevel
             this.formState.namaJenisUser = post.namaJenisUser
+            if (post.hirarkiLevel == '' || post.hirarkiLevel == null) {
+              this.checked = false
+              this.isDisabled = true
+            }else{
+              this.checked = true
+              this.isDisabled = false
+            }
           }
         })
         .catch(err => {
           if (err) {
           }
         })
+    },
+    handleInsert(){
+       const formData = toRaw(this.formState)
+        this.addNewLevelUser(formData)
+          
+    },
+    handleUpdate(){
+       const formData = toRaw(this.formState)
+        this.updateLevelUserById(this.formState.idJenisUser,formData)
+          
     },
     addNewLevelUser(data) {
       addLevelUser(data)
@@ -279,11 +326,8 @@ export default {
         })
         this.visible = false
     },
-    handleInsert(){
-       const formData = toRaw(this.formState)
-        this.addNewLevelUser(formData)
-          
-    },
+   
+    
     deleteLevelUserById(id) {
       deleteLevelUser(id)
         .then((response) => {
@@ -299,14 +343,26 @@ export default {
     updateLevelUserById(id, data) {
       updateLevelUser(id, data)
         .then((response) => {
-          if (response) {
+          console.log(response.status)
+          if (response.status == 200) {
+            
             this.fetchLevelUsers()
+            notification.success({
+            message: 'Update User',
+            description: 'User berhasil diupdate',
+          })
+          }else{
+            notification.error({
+                message: 'Update User',
+                description: response.message,
+              })
           }
         })
         .catch((err) => {
           if (err) {
           }
         })
+        this.visible = false
     },
     deleteConfirm(id) {
       const deleteMethod = this.deleteLevelUserById
@@ -394,18 +450,18 @@ export default {
       this.getUserEdit(id)
       this.modalVisible = true
     },
-    handleOk(newEditUsername) {
-      const dataForm = {}
-      dataForm.idJenisUser = this.editItem.idJenisUser
-      dataForm.namaJenisUser = newEditUsername
-      this.updateLevelUserById(dataForm)
-      notification.success({
-        message: 'Update User',
-        description: 'User berhasil diupdate',
-      })
-      this.resetAfterSubmit()
-      this.modalVisible = false
-    },
+    // handleOk(newEditUsername) {
+    //   const dataForm = {}
+    //   dataForm.idJenisUser = this.editItem.idJenisUser
+    //   dataForm.namaJenisUser = newEditUsername
+    //   this.updateLevelUserById(dataForm)
+    //   notification.success({
+    //     message: 'Update User',
+    //     description: 'User berhasil diupdate',
+    //   })
+    //   this.resetAfterSubmit()
+    //   this.modalVisible = false
+    // },
     removeAction() {
       const abilityUser = this.$store.state.user.ability
       const check = abilityUser.filter(
@@ -445,4 +501,5 @@ export default {
     font-size: 12px;
     line-height: 1.42857;
 }
+
 </style>

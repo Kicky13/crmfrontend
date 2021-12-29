@@ -165,6 +165,19 @@
                     {{ text.namaDistrik != null ? text.namaDistrik : '-' }}
                   </div>
                 </template>
+                <template #tgl_mulai="{ text }">
+                  <div>
+                    {{ text.tanggalMulai != null ? text.tanggalMulai : '-' }}
+                  </div>
+                </template>
+                <template #tgl_akhir="{ text }">
+                  <div v-if="text.tanggalSelesai != null && text.tanggalSelesai.includes('9999')">
+                    -
+                  </div>
+                  <div v-else>
+                    {{ text.tanggalSelesai }}
+                  </div>
+                </template>
                 <template #action="{ text }">
                   <div>
                     <button
@@ -172,7 +185,7 @@
                       type="button"
                       class="btn btn-outline-danger mr-2"
                     >
-                      <i class="fa fa-trash"></i><span> Hapus</span>
+                      <i class="fa fa-trash"></i>
                     </button>
                   </div>
                 </template>

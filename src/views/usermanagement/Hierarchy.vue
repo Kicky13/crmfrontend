@@ -522,18 +522,53 @@ export default {
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
+    getData(data, keyword) {
+      const nullFilter = _.reject(this.userManagement.users, function (item) {
+        return item[data] === null
+      })
+      let dataTable = nullFilter.filter(item => {
+        return item[data].toLowerCase().includes(keyword.toLowerCase())
+      })
+
+      return dataTable
+    },
     searchData(keyword) {
+      this.userManagement.isLoading = true
       if (keyword) {
-        this.userManagement.isLoading = true
-        let dataList = _.reject(this.userManagement.dataTable, function (item) {
+        const dataTitleJabatan = this.getData('titleJabatan', keyword)
+        if (dataTitleJabatan.length) {
+          setTimeout(() => {
+            this.userManagement.dataTable = dataTitleJabatan
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
+        }
+
+        const dataNama = this.getData('nama', keyword)
+        if (dataNama.length) {
+          setTimeout(() => {
+            this.userManagement.dataTable = dataNama
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
+        }
+
+        setTimeout(() => {
+          this.userManagement.dataTable = []
+          this.userManagement.isLoading = false
+        }, 500)
+
+        /* let dataList = _.reject(this.userManagement.dataTable, function (item) {
           return item.nama === null
         })
         this.userManagement.dataTable = dataList.filter((data) =>
           data.nama.toLowerCase().includes(keyword.toLowerCase()),
-        )
-        this.userManagement.isLoading = false
+        ) */
       } else {
-        this.userManagement.dataTable = this.userManagement.users
+        setTimeout(() => {
+          this.userManagement.dataTable = this.userManagement.users
+          this.userManagement.isLoading = false
+        }, 500)
       }
     },
     async assignRow(item) {
