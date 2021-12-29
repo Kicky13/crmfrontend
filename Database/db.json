@@ -1,4 +1,32 @@
 {
+  "keluhan": [
+    {
+      "title": "Keluhan 1"
+    },
+    {
+      "title": "Keluhan 2"
+    },
+    {
+      "title": "Keluhan 3"
+    },
+    {
+      "title": "Keluhan 4"
+    }
+  ],
+  "promosi": [
+    {
+      "title": "Promosi 1"
+    },
+    {
+      "title": "Promosi 2"
+    },
+    {
+      "title": "Promosi 3"
+    },
+    {
+      "title": "Promosi 4"
+    }
+  ],
   "hirarkiTree": [
     {
       "id": 1,
@@ -2417,6 +2445,29 @@
         "jabatan": "TSO",
         "email": "frankie@gmail.com",
         "nohp": "08287231498"
+      }
+    ]
+  },
+
+  "profile_bawahan": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "id": 1,
+        "posisi_jabatan": "SSM",
+        "nama_user": "Iqbal",
+        "tanggal_menjabat": "2021-12-12",
+        "tanggal_selesai": "2021-12-24",
+        "status": "Aktif"
+      },
+      {
+        "id": 2,
+        "posisi_jabatan": "SSM",
+        "nama_user": "Iqbal",
+        "tanggal_menjabat": "2021-12-12",
+        "tanggal_selesai": "2021-12-24",
+        "status": "Aktif"
       }
     ]
   }

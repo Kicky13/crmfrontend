@@ -2,9 +2,9 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
+          Kembali ke User Hirarki</a
         >
       </div>
     </div>
@@ -33,12 +33,15 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID :
+                  Kode / ID User :
                   {{
                     userManagement.detail_jabatan.idUser
                       ? userManagement.detail_jabatan.idUser
                       : '-'
                   }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Jabatan : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -54,6 +57,12 @@
           </div>
           <div class="card-header align-self-center">
             <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-info" @click="openViewTree">
+                <i class="fa fa-sitemap mr-1" />
+                View Tree
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +165,19 @@
                     {{ text.namaDistrik != null ? text.namaDistrik : '-' }}
                   </div>
                 </template>
+                <template #tgl_mulai="{ text }">
+                  <div>
+                    {{ text.tanggalMulai != null ? text.tanggalMulai : '-' }}
+                  </div>
+                </template>
+                <template #tgl_akhir="{ text }">
+                  <div v-if="text.tanggalSelesai != null && text.tanggalSelesai.includes('9999')">
+                    -
+                  </div>
+                  <div v-else>
+                    {{ text.tanggalSelesai }}
+                  </div>
+                </template>
                 <template #action="{ text }">
                   <div>
                     <button
@@ -163,7 +185,7 @@
                       type="button"
                       class="btn btn-outline-danger mr-2"
                     >
-                      <i class="fa fa-trash"></i><span> Hapus</span>
+                      <i class="fa fa-trash"></i>
                     </button>
                   </div>
                 </template>
@@ -196,6 +218,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- Tree Modal -->
+    <a-modal
+      v-model:visible="treeModal"
+      title="Hierarchy Tree"
+      width=""
+      :body-style="{ padding: '0' }"
+      :style="{ top: '10px', padding: '10px' }"
+    >
+      <template #footer>
+        <a-button @click="closeViewTree">Kembali</a-button>
+      </template>
+      <tree-hierarchy />
+    </a-modal>
   </div>
 </template>
 
@@ -204,6 +240,7 @@ import { mapState, mapActions } from 'vuex'
 import { notification } from 'ant-design-vue'
 import VueDatepicker from 'vue3-datepicker'
 import { filter } from 'lodash'
+import TreeHierarchy from '../tree/TreeHierarchy'
 
 export default {
   name: 'ProfileTSO',
@@ -212,6 +249,7 @@ export default {
   // },
   components: {
     VueDatepicker,
+    TreeHierarchy,
   },
   setup() {
     return {
@@ -227,6 +265,7 @@ export default {
       data_distrik: '',
       dateLowerLimit: null,
       modalValue: null,
+      treeModal: false,
     }
   },
 
@@ -335,6 +374,12 @@ export default {
           tgl_akhir: '',
         },
       })
+    },
+    openViewTree() {
+      this.treeModal = true
+    },
+    closeViewTree() {
+      this.treeModal = false
     },
   },
 }

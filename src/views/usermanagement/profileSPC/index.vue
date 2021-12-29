@@ -2,9 +2,9 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <router-link :to="`/users/hierarchy`" class="font-weight-bold text-primary">
+        <ra @click="$router.go(-1)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</router-link
+          Kembali ke User Hirarki</ra
         >
       </div>
     </div>
@@ -33,12 +33,15 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  Kode / ID :
+                  Kode / ID User :
                   {{
                     userManagement.detail_jabatan.idUser
                       ? userManagement.detail_jabatan.idUser
                       : '-'
                   }}
+                </div>
+                <div class="font-size-16">
+                  Kode / ID Jabatan : {{ userManagement.detail_jabatan.idJabatan }}
                 </div>
                 <!-- <div class="font-size-16">
                   Username : {{ userManagement.detail_jabatan.namaUser }}
@@ -134,7 +137,7 @@
               <a-table
                 :columns="profileSPC.columns"
                 :data-source="profileSPC.list_distrik_bawahan"
-                :row-key="(data) => data.idRegion"
+                :row-key="data => data.idRegion"
                 :loading="profileSPC.isLoading"
               >
                 <template #no="{ index }">
@@ -225,8 +228,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileSPC: (state) => state.profileSPC.data,
-      userManagement: (state) => state.userManagement.data,
+      profileSPC: state => state.profileSPC.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -287,7 +290,7 @@ export default {
     },
     async handleSubmit() {
       let dataSource = [...this.profileSPC.daftar_distrik]
-      let filtered = dataSource.filter((x) => x.namaRegion == this.modalValue)
+      let filtered = dataSource.filter(x => x.namaRegion == this.modalValue)
       this.profileSPC.formData.id_distrik = filtered[0].idRegion
 
       if (this.profileSPC.formData.id_distrik) {

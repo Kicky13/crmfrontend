@@ -1,6 +1,5 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
-import listUser from '../../list-user'
 
 const state = {
   data: {
@@ -12,6 +11,7 @@ const state = {
       email: [{ required: true, message: 'Email wajib diisi', type: 'email' }],
       nohp: [{ required: true, message: 'No HP wajib diisi', type: 'number' }],
     },
+    nodes: [],
     selectedTitle: '',
     selectedShorthand: '',
     actiiveTabs: null,
@@ -131,7 +131,7 @@ const state = {
     bodyList: {
       jenis_user: '',
       offset: 0,
-      limit: 500,
+      limit: 5000,
       filter: '',
     },
 
@@ -190,11 +190,11 @@ const state = {
     form_assign_bawahan: {
       id_jabatan: null,
       id_user: null,
-      tgl_mulai: new Date(),
+      tgl_mulai: null,
       tgl_akhir: '',
     },
     form_kosongkan_jabatan: {
-      tgl_akhir: new Date(),
+      tgl_akhir: null,
     },
     modalVisibleHirarkiDown: false,
     modalVisibleReplaceUser: false,
@@ -648,7 +648,7 @@ const actions = {
     const formData = {
       IDuser: payload.id_user,
       IDbawahan: data.form_tambah_bawahan.id_bawahan,
-      tglMulai: data.form_tambah_bawahan.tgl_mulai,
+      tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_tambah_bawahan.tgl_akhir,
     }
 
@@ -685,7 +685,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_replace_bawahan.id_jabatan,
       userReplacerID: data.form_replace_bawahan.user_replace_id,
-      tglMulai: data.form_replace_bawahan.tgl_mulai,
+      tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_replace_bawahan.tgl_akhir,
     }
 
@@ -732,7 +732,7 @@ const actions = {
     const formData = {
       idJabatan: data.form_assign_bawahan.id_jabatan,
       idUser: idUser,
-      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(1),
+      tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(0),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
 

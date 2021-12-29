@@ -1,5 +1,5 @@
 <template>
-  <a-row :gutter="[40, 40]">
+  <a-row :gutter="[16, 16]">
     <a-col
       :xs="24"
       :sm="24"
@@ -16,7 +16,7 @@
           />
           <Can do="update" on="Program">
           <div class="nav-item dropdown">
-             <a-dropdown
+            <a-dropdown
               placement="bottomCenter"
               :trigger="['click']"
             >

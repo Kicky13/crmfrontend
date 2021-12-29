@@ -12,7 +12,7 @@
           </a-button>
         </div> -->
         <a
-          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_SALES_AKSESTOKOCRM.xlsx"
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_NEW.xlsx"
           download
           class="mb-3 btn btn-primary"
         >
@@ -24,7 +24,7 @@
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
-        <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px;">
+        <a-form-item label="Upload File" class="mb-3 float-right" style="margin-right: 10px">
           <input
             type="file"
             id="file"
@@ -37,13 +37,13 @@
         </a-form-item>
         <div class="table-visit table-responsive text-nowrap">
           <a-table
-            class=" "
+            class=""
             :columns="visitPlan.columns"
             :data-source="visitPlan.listData"
             :scroll="{ x: 1500 }"
             :loading="visitPlan.isLoading"
             :row-class-name="tableRowClassName"
-            :row-key="data => data.id_toko"
+            :row-key="(data) => data.id_toko"
           >
             <template #icon="{ text }">
               <div v-if="text.status === true">
@@ -120,7 +120,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -148,7 +148,7 @@ export default {
   },
   computed: {
     ...mapState({
-      visitPlan: state => state.visitPlan.data,
+      visitPlan: (state) => state.visitPlan.data,
     }),
   },
   mounted() {},
@@ -165,7 +165,7 @@ export default {
       this.visitPlan.body.file = this.$refs.file.files[0]
     },
     downloadData() {
-      import('@/vendor/Export2Excel').then(excel => {
+      import('@/vendor/Export2Excel').then((excel) => {
         const tHeader = [
           'Username',
           'Id Toko',
@@ -214,8 +214,8 @@ export default {
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v =>
-        filterVal.map(j => {
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
           if (j === 'timestamp') {
             return parseTime(v[j])
           } else {

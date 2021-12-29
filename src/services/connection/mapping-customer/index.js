@@ -12,6 +12,11 @@ const state = {
         key: 'id_reference_wilayah',
       },
       {
+        title: 'Nama Kota',
+        dataIndex: 'nm_wilayah',
+        key: 'nm_wilayah',
+      },
+      {
         title: 'ID Sales',
         dataIndex: 'sales',
         key: 'sales',
@@ -118,10 +123,12 @@ const actions = {
     let dataArray = []
     let dataIdRefenceWilayah = []
 
-    data.listData.forEach((x) => {
+    data.listData.forEach(x => {
       let dataObject = {
         id_tso: x.id_tso,
         id_sales: x.sales,
+        id_jabatan: x.id_jabatan,
+        id_jabatan_distributor: x.id_jabatan_distributor,
         username: x.username,
         id_customer: x.id_toko,
         nama_customer: x.customer,

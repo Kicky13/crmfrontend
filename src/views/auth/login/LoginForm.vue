@@ -1,6 +1,13 @@
 <template>
   <div class="right_side">
-    <div class="row">
+    <div
+      class="row"
+      :style="
+        'background-image: url(' +
+          require('@/assets/images/logo/login_page.png') +
+          '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
+      "
+    >
       <div class="col-xs-0 col-md-2"></div>
       <div class="col-xs-12 col-md-8">
         <div class="card card-top card-top-primary">
@@ -9,18 +16,18 @@
               lazy="loading"
               v-once
               v-if="settings.theme === 'default'"
-              src="@/assets/images/logo/crm-icon-black.webp"
-              alt="Logo SIG"
-              width="200"
+              src="@/assets/images/logo/logo_crm.webp"
+              alt="Logo CRM"
+              width="140"
               class="mb-3"
             />
             <img
               lazy="loading"
               v-once
               v-else
-              src="@/assets/images/logo/crm-icon-white.webp"
+              src="@/assets/images/logo/logo_crm.webp"
               alt="Logo SIG"
-              width="200"
+              width="140"
             />
 
             <a-form
@@ -78,21 +85,10 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <a href="https://aksestoko.id/application/ios" target="_blank">
-              <img lazy="loading" v-once src="@/assets/images/logo/app-store.webp" alt="Logo App Store" width="170" />
-            </a>
-          </div>
-          <div class="col-xs-12 col-md-6">
-            <a
-              href="https://play.google.com/store/apps/details?id=id.sisi.aksestokomobile"
-              target="_blank"
-            >
-              <img lazy="loading" v-once src="@/assets/images/logo/google-play.webp" alt="Logo Google Play" width="170" />
-            </a>
-          </div>
-        </div> -->
+
+        <div class="row">
+          <div class="col-xs-12 col-md-6"></div>
+        </div>
       </div>
       <div class="col-xs-0 col-md-2"></div>
     </div>
@@ -148,7 +144,8 @@ export default {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
-      if (errors) {}
+      if (errors) {
+      }
     }
 
     return {

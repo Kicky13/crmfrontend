@@ -12,7 +12,7 @@
             <img
               lazy="loading"
               v-once
-              src="@/assets/images/logo/logo-akses-toko.webp"
+              src="@/assets/images/logo/logo_crm_white.png"
               alt="Logo Akses Toko"
               width="150"
             />
@@ -29,11 +29,11 @@
             </div>
             <a
               class="text-lowercase badge rounded-pill bg-light text-dark p-2"
-              href="mailto:customerservice@aksestoko.id"
+              href="mailto:cs@crm.aksestoko.id"
               target="_blank"
             >
               <i class="fa fa-envelope-o" />
-              <span> customerservice@aksestoko.id</span>
+              <span> cs@crm.aksestoko.id</span>
             </a>
           </a-col>
           <a-col :lg="4" :md="6" :sm="24" :xs="24">

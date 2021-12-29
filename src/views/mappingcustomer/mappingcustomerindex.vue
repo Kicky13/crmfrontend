@@ -1,35 +1,24 @@
 <template>
   <div>
-    <loading
-      v-model:active="isLoading"
-      :is-full-page="fullPage"
-    />
+    <loading v-model:active="isLoading" :is-full-page="fullPage" />
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Import Mapping Toko Sales Distributor</strong>
       </div>
       <div class="card-body">
         <a
-          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW.xlsx"
+          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW(1).xlsx"
           download
           class="btn btn-main mb-3"
         >
           <i class="fa fa-download mr-2" />
           Download Template Mapping Customer
         </a>
-        <a-button
-          type="primary"
-          class="float-right mb-3"
-          @click="handleSubmit"
-        >
+        <a-button type="primary" class="float-right mb-3" @click="handleSubmit">
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
-        <a-form-item
-          label="Upload File"
-          class="float-right mb-3"
-          style="margin-right: 10px;"
-        >
+        <a-form-item label="Upload File" class="float-right mb-3" style="margin-right: 10px">
           <input
             type="file"
             id="file"
@@ -51,7 +40,9 @@
               <a href="javascript:;">{{ text }}</a>
             </template>
             <template #username="{ text }">
-              <template v-if="mappingCustomer.listData.find(data => data.username === text).username_cek">
+              <template
+                v-if="mappingCustomer.listData.find((data) => data.username === text).username_cek"
+              >
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
@@ -59,7 +50,9 @@
               </template>
             </template>
             <template #customer="{ text }">
-              <template v-if="mappingCustomer.listData.find(data => data.customer === text).customer_cek">
+              <template
+                v-if="mappingCustomer.listData.find((data) => data.customer === text).customer_cek"
+              >
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
@@ -67,7 +60,11 @@
               </template>
             </template>
             <template #distributor="{ text }">
-              <template v-if="mappingCustomer.listData.find(data => data.distributor === text).distributor_cek">
+              <template
+                v-if="
+                  mappingCustomer.listData.find((data) => data.distributor === text).distributor_cek
+                "
+              >
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
               <template v-else>
@@ -77,11 +74,7 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <a-button
-            type="primary"
-            :disabled="commitToDatabaseButtonDisabled"
-            @click="onSubmitData"
-          >
+          <a-button type="primary" :disabled="commitToDatabaseButtonDisabled" @click="onSubmitData">
             <i class="fa fa-upload mr-2" />
             Commit to Database
           </a-button>
@@ -89,7 +82,7 @@
             type="primary"
             class="mr-2"
             :disabled="isDisabled"
-            @click="downloadTokoSalesHandle" 
+            @click="downloadTokoSalesHandle"
           >
             Download
           </a-button>
@@ -115,7 +108,7 @@ export default defineComponent({
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -146,12 +139,12 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      mappingCustomer: state => state.mappingCustomer.data,
+      mappingCustomer: (state) => state.mappingCustomer.data,
     }),
     commitToDatabaseButtonDisabled() {
-      if (this.mappingCustomer.listData.find(data => data.username_cek === true)) {
-        if (this.mappingCustomer.listData.find(data => data.customer_cek === true)) {
-          if (this.mappingCustomer.listData.find(data => data.distributor_cek === true)) {
+      if (this.mappingCustomer.listData.find((data) => data.username_cek === true)) {
+        if (this.mappingCustomer.listData.find((data) => data.customer_cek === true)) {
+          if (this.mappingCustomer.listData.find((data) => data.distributor_cek === true)) {
             return false
           }
         }
@@ -162,9 +155,27 @@ export default defineComponent({
   methods: {
     ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
     downloadTokoSalesHandle() {
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['ID Kota' ,'ID Sales', 'Username', 'ID Toko', 'Nama Toko', 'ID Distributor', 'Nama Distributor', 'Laporan Cek Data']
-        const filterVal = ['id_reference_wilayah', 'sales', 'username', 'id_toko', 'customer', 'kode_distributor', 'distributor', 'message']
+      import('@/vendor/Export2Excel').then((excel) => {
+        const tHeader = [
+          'ID Kota',
+          'ID Sales',
+          'Username',
+          'ID Toko',
+          'Nama Toko',
+          'ID Distributor',
+          'Nama Distributor',
+          'Laporan Cek Data',
+        ]
+        const filterVal = [
+          'id_reference_wilayah',
+          'sales',
+          'username',
+          'id_toko',
+          'customer',
+          'kode_distributor',
+          'distributor',
+          'message',
+        ]
         const list = this.mappingCustomer.listData
         const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
@@ -177,13 +188,15 @@ export default defineComponent({
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
     },
     onFileChanged() {
       this.mappingCustomer.body.file = this.$refs.file.files[0]

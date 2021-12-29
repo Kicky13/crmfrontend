@@ -137,14 +137,14 @@
             placeholder="Ketik username"
           />
         </a-form-item>
-        <a-form-item label="Level" name="level">
+        <a-form-item label="Jenis" name="jenis">
           <a-select
-            v-model:value="userManagementCRM.formState.id_level_hirarki"
-            placeholder="Pilih Level"
+            v-model:value="userManagementCRM.formState.id_jenis_user"
+            placeholder="Pilih Jenis"
           >
             <a-select-option
               v-for="(item, index) in userManagementCRM.listUser"
-              :key="`level_${index}`"
+              :key="`jenis_${index}`"
               :value="item.id"
             >
               {{ item.namaJenisUser }}
@@ -367,6 +367,7 @@ export default {
           nohp: '',
           userid: '',
           id_level_hirarki: null,
+          id_jenis_user: null,
         },
       })
       this.getListJenisUser()
@@ -471,6 +472,7 @@ export default {
           nohp: row.nohp,
           userid: row.userid,
           id_level_hirarki: row.idLevelJabatan,
+          id_jenis_user: row.idJenisUser,
         },
       })
       this.userManagementCRM.modalVisible = true
