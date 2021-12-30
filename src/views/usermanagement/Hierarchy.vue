@@ -26,9 +26,9 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-            selectedShorthand === `ADMIN DIS` ||
-            selectedShorthand === `SALES DIS` ||
-            selectedShorthand === `SPC`
+              selectedShorthand === `ADMIN DIS` ||
+              selectedShorthand === `SALES DIS` ||
+              selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 ml-2 float-right"
@@ -75,7 +75,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -393,7 +393,7 @@
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -453,9 +453,9 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
-      userManagementCRM: (state) => state.userManagementCRM.data,
-      importExelHirarki: (state) => state.importExelHirarki.data,
+      userManagement: state => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
+      importExelHirarki: state => state.importExelHirarki.data,
     }),
   },
   async mounted() {
@@ -523,7 +523,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     getData(data, keyword) {
-      const nullFilter = _.reject(this.userManagement.users, function (item) {
+      const nullFilter = _.reject(this.userManagement.users, function(item) {
         return item[data] === null
       })
       let dataTable = nullFilter.filter(item => {
@@ -573,7 +573,7 @@ export default {
     },
     async assignRow(item) {
       this.userManagement.form_assign_bawahan.id_jabatan = item.idJabatan
-
+      this.userManagement.form_assign_bawahan.tgl_mulai = null
       await this.getSalesNonBawahan({
         id_jabatan: this.actiiveTabs.id_level_hirarki,
         id_user: 0,
@@ -585,9 +585,11 @@ export default {
 
       this.historyJabatanItems.posisi_jabatan = item.titleJabatan
       this.historyJabatanItems.jabatan = item.jabatan
+
       await this.logHistory({
         idJabatan: item.idJabatan,
       })
+
       if (this.userManagement.history.length) {
         const dateData = this.userManagement.history[0].endDate.split('-')
         let temp = []
@@ -629,7 +631,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -784,7 +786,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -792,7 +794,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -825,6 +827,7 @@ export default {
     openModalDelete(id) {
       this.modalDeleteView = true
       this.id_jabatan = id
+      this.userManagement.form_kosongkan_jabatan.tgl_akhir = null
     },
     async deleteRow() {
       await this.deleteDataRow({
@@ -839,13 +842,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
