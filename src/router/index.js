@@ -246,7 +246,7 @@ const routes = [
           ),
       },
       {
-        path: '/koordinatlock/surveyDetail',
+        path: '/koordinatlock/:id_toko/survey-detail/:id_kunjungan',
         name: 'koordinat-lock-survey',
         props: true,
         meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },

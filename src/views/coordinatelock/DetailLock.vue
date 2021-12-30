@@ -422,19 +422,15 @@ export default {
     //     })
     // },
     gotoDetailSurvey(id) {
-      let detailSurvey = this.getDetailSurvey(id)
-      this.$router.push({
-        name: 'koordinat-lock-survey',
-        params: { surveyDetail: JSON.stringify(detailSurvey) },
-      })
+      this.$router.push(`/koordinatlock/${this.$route.params.id_toko}/survey-detail/${id.text}`)
     },
-    getDetailSurvey(id) {
-      const dataSource = [...this.historyVisit]
-      let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-      let detailSurvey = filtered[0]
+    // getDetailSurvey(id) {
+    //   const dataSource = [...this.historyVisit]
+    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
+    //   let detailSurvey = filtered[0]
 
-      return detailSurvey
-    },
+    //   return detailSurvey
+    // },
   },
 }
 </script>
