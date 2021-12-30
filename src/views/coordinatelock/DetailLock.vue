@@ -134,6 +134,11 @@
                         {{ text.nama_sales }}
                       </div>
                     </template>
+                    <template #id_jabatan="{ text }">
+                      <div>
+                        {{ text.id_m_hierarchy }}
+                      </div>
+                    </template>
                     <template #hirarki="{ text }">
                       <div>
                         {{ text.nm_m_hierarchy }}
