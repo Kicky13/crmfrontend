@@ -255,6 +255,7 @@ export default {
     openModalDelete(id_distriks) {
       this.modalDeleteView = true
       this.data_distrik = id_distriks
+      this.profileSPC.formData.tgl_akhir = null
     },
     disabledStartDate(startValue) {
       const endValue = this.profileSPC.formData.tgl_akhir

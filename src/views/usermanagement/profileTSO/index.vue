@@ -147,7 +147,7 @@
               <a-table
                 :columns="profileTSO.columns"
                 :data-source="profileTSO.list_distrik_bawahan"
-                :row-key="(data) => data.idDistrik"
+                :row-key="data => data.idDistrik"
                 :loading="profileTSO.isLoading"
               >
                 <template #no="{ index }">
@@ -271,8 +271,8 @@ export default {
 
   computed: {
     ...mapState({
-      profileTSO: (state) => state.profileTSO.data,
-      userManagement: (state) => state.userManagement.data,
+      profileTSO: state => state.profileTSO.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -298,6 +298,7 @@ export default {
     openModalDelete(id_distriks) {
       this.modalDeleteView = true
       this.data_distrik = id_distriks
+      this.profileTSO.formDelete.tgl_akhir = null
     },
     disabledStartDate(startValue) {
       const endValue = this.profileTSO.formData.tgl_akhir
@@ -352,7 +353,7 @@ export default {
     },
     async handleSubmit() {
       let dataSource = [...this.profileTSO.daftar_distrik]
-      let filtered = dataSource.filter((x) => x.namaDistrik == this.modalValue)
+      let filtered = dataSource.filter(x => x.namaDistrik == this.modalValue)
       console.log(filtered)
       this.profileTSO.formData.id_distrik = filtered[0].idDistrik
 

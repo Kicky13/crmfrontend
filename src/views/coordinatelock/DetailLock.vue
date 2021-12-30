@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="row mb-2">
+      <div class="col-md-4 col-xs-4">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          Kembali ke Koordinat Lock
+        </a>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
@@ -132,6 +140,11 @@
                     <template #sales="{ text }">
                       <div>
                         {{ text.nama_sales }}
+                      </div>
+                    </template>
+                    <template #id_jabatan="{ text }">
+                      <div>
+                        {{ text.id_m_hierarchy }}
                       </div>
                     </template>
                     <template #hirarki="{ text }">
@@ -417,19 +430,15 @@ export default {
     //     })
     // },
     gotoDetailSurvey(id) {
-      let detailSurvey = this.getDetailSurvey(id)
-      this.$router.push({
-        name: 'koordinat-lock-survey',
-        params: { surveyDetail: JSON.stringify(detailSurvey) },
-      })
+      this.$router.push(`/koordinatlock/${this.$route.params.id_toko}/survey-detail/${id.text}`)
     },
-    getDetailSurvey(id) {
-      const dataSource = [...this.historyVisit]
-      let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-      let detailSurvey = filtered[0]
+    // getDetailSurvey(id) {
+    //   const dataSource = [...this.historyVisit]
+    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
+    //   let detailSurvey = filtered[0]
 
-      return detailSurvey
-    },
+    //   return detailSurvey
+    // },
   },
 }
 </script>
