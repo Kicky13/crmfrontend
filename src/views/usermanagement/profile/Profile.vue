@@ -104,7 +104,7 @@
               <a-table
                 :columns="userManagement.columns_hirarki"
                 :data-source="userManagement.list_hirarki_down"
-                :row-key="(data) => data.iduser"
+                :row-key="data => data.iduser"
                 :pagination="userManagement.pagination"
                 :loading="userManagement.isLoading"
               >
@@ -436,7 +436,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
@@ -489,7 +489,7 @@ export default {
 
     filterList() {
       this.listData = this.userManagement.listUser.filter(
-        (x) => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
+        x => x.id_level_hirarki === this.userManagement.detail_jabatan.levelJabatanBawahan,
       )
     },
 
@@ -645,6 +645,7 @@ export default {
       this.userManagement.modalVisibleAssignUser = true
       this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
       this.userManagement.form_assign_bawahan.id_user = null
+      this.userManagement.form_assign_bawahan.tgl_mulai = null
 
       // this.$store.commit('userManagement/changeUserManagement', {
       //   form_assign_bawah  an: {
@@ -657,6 +658,7 @@ export default {
     },
     openModalDelete(id) {
       this.modalDeleteView = true
+      this.userManagement.form_kosongkan_jabatan.tgl_akhir = null
       this.id_jabatan = parseInt(id.idJabatan)
     },
     async deleteRow() {

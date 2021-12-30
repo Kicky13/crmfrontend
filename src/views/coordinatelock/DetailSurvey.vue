@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="row mb-2">
+      <div class="col-md-4 col-xs-4">
+        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          Kembali ke Detail Lock
+        </a>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-8 col-xs-8">
         <div class="card card-top card-top-primary">
