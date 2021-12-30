@@ -174,6 +174,11 @@ const state = {
         slots: { customRender: 'sales' },
       },
       {
+        title: 'Id Jabatan',
+        key: 'id_jabatan',
+        slots: { customRender: 'id_jabatan' },
+      },
+      {
         title: 'Jabatan',
         key: 'hirarki',
         slots: { customRender: 'hirarki' },
