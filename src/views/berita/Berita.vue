@@ -14,6 +14,11 @@
         </a-button>
       </router-link>
     </Can>
+    <i
+      class="fa fa-question btn btn-info ml-3"
+      style="border-radius: 50%;"
+      @click="quickGuideModalHandle"
+    />
     <template v-if="isLoading">
       <div class="d-flex justify-content-center align-items-center">
         <div class="spinner-grow spinner-grow-sm text-main" role="status" />
@@ -42,6 +47,23 @@
         @change="onChange"
       />
     </div>
+    <a-modal
+      v-model:visible="quickGuideModalVisible"
+      title="Quick Guide"
+      @ok="handleOk"
+    >
+      <template #footer>
+        <a-pagination
+          :total="paginationTotal"
+          :default-page-size="1"
+          @change="paginationHandle"
+        />
+      </template>
+      <guide-news
+        :index="pagination"
+        @get-data="setPaginationTotal"
+      />
+    </a-modal>
   </div>
 </template>
 
@@ -49,10 +71,12 @@
 import { postList } from '@/services/connection/berita/api'
 import VbListBerita from './listberita/ListBerita'
 import { notification } from 'ant-design-vue';
+import GuideNews from '@/components/main/Guide/News'
 
 export default {
   components: {
     VbListBerita,
+    GuideNews,
   },
   data() {
     return {
@@ -61,6 +85,9 @@ export default {
       current: 1,
       postTotal: 0,
       temp: [],
+      quickGuideModalVisible: false,
+      pagination: 1,
+      paginationTotal: null,
     }
   },
   mounted() {
@@ -95,6 +122,15 @@ export default {
         message: 'Hapus Berita',
         description: 'Berita berhasil dihapus',
       })
+    },
+    quickGuideModalHandle() {
+      this.quickGuideModalVisible = true
+    },
+    paginationHandle(index) {
+      this.pagination = index
+    },
+    setPaginationTotal(total) {
+      this.paginationTotal = total
     },
   },
 }
