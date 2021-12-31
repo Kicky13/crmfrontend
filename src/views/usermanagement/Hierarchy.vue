@@ -26,9 +26,9 @@
         <a-button
           v-if="
             selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS` ||
-              selectedShorthand === `SPC`
+            selectedShorthand === `ADMIN DIS` ||
+            selectedShorthand === `SALES DIS` ||
+            selectedShorthand === `SPC`
           "
           type="primary"
           class="mb-3 ml-2 float-right"
@@ -37,10 +37,10 @@
           <i class="fa fa-plus mr-2" />
           {{ 'Posisi' + ' ' + selectedShorthand }}
         </a-button>
-        <!-- <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
+        <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
           <i class="fa fa-file mr-2" />
           Import Excel
-        </a-button> -->
+        </a-button>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -75,7 +75,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
             @change="handleTableChange"
@@ -340,12 +340,13 @@
                   justify-content-center
                   importexcel_hirarki_upload
                 "
-                @click="$refs.fileInput.click()"
+                @click="$refs.file.click()"
               >
                 <div class="text-center pt-5 pb-5 w-50">
                   <input
                     type="file"
-                    ref="fileInput"
+                    id="file"
+                    ref="file"
                     style="display: none"
                     @change="onFileChanged"
                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -393,7 +394,7 @@
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -416,6 +417,17 @@ export default {
   name: 'VbAntDesign',
   components: {
     VueDatepicker,
+  },
+  setup() {
+    
+    const FileList = []
+    return {
+      
+      FileList,
+      headers: {
+        authorization: 'authorization-text',
+      },
+    }
   },
   data() {
     return {
@@ -453,9 +465,9 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
-      userManagementCRM: state => state.userManagementCRM.data,
-      importExelHirarki: state => state.importExelHirarki.data,
+      userManagement: (state) => state.userManagement.data,
+      userManagementCRM: (state) => state.userManagementCRM.data,
+      importExelHirarki: (state) => state.importExelHirarki.data,
     }),
   },
   async mounted() {
@@ -478,7 +490,7 @@ export default {
       'searchSalesNonBawahan',
       'logHistory',
     ]),
-    ...mapActions('importExelHirarki', []),
+    ...mapActions('importExelHirarki', ['getDataFromExcel']),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
     async onSearch(searchText) {
       await this.searchSalesNonBawahan(
@@ -489,7 +501,10 @@ export default {
         500,
       )
     },
-    submitPreviewExcel() {
+    async submitPreviewExcel() {
+      await this.getDataFromExcel()
+      // let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
+      // this.isDisabled = dataStatus.length > 0 ? true : false
       this.$router.push(`/users/hierarchy/preview`)
     },
     openModalImport() {
@@ -505,7 +520,8 @@ export default {
       this.userManagement.form_assign_bawahan.id_user = value
     },
     onFileChanged(event) {
-      this.importExelHirarki.body.file = event.target.files[0]
+      console.log(this.$refs.file.files[0])
+      this.importExelHirarki.body.file =  this.$refs.file.files[0]
       this.importExelHirarki.body.filename = event.target.files[0].name
     },
     disabledStartDate(startValue) {
@@ -523,7 +539,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     getData(data, keyword) {
-      const nullFilter = _.reject(this.userManagement.users, function(item) {
+      const nullFilter = _.reject(this.userManagement.users, function (item) {
         return item[data] === null
       })
       let dataTable = nullFilter.filter(item => {
@@ -573,7 +589,7 @@ export default {
     },
     async assignRow(item) {
       this.userManagement.form_assign_bawahan.id_jabatan = item.idJabatan
-      this.userManagement.form_assign_bawahan.tgl_mulai = null
+
       await this.getSalesNonBawahan({
         id_jabatan: this.actiiveTabs.id_level_hirarki,
         id_user: 0,
@@ -585,11 +601,9 @@ export default {
 
       this.historyJabatanItems.posisi_jabatan = item.titleJabatan
       this.historyJabatanItems.jabatan = item.jabatan
-
       await this.logHistory({
         idJabatan: item.idJabatan,
       })
-
       if (this.userManagement.history.length) {
         const dateData = this.userManagement.history[0].endDate.split('-')
         let temp = []
@@ -631,7 +645,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
+      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -786,7 +800,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then(response => {
+        .then((response) => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -794,7 +808,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -827,7 +841,6 @@ export default {
     openModalDelete(id) {
       this.modalDeleteView = true
       this.id_jabatan = id
-      this.userManagement.form_kosongkan_jabatan.tgl_akhir = null
     },
     async deleteRow() {
       await this.deleteDataRow({
@@ -842,13 +855,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then(response => {
+        .then((response) => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             this.isLoading = false
           }
@@ -873,6 +886,7 @@ export default {
       this.userManagement.history = []
     },
   },
+  
 }
 </script>
 <style lang="scss" module scoped>
