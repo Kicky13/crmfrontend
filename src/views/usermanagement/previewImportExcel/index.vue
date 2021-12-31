@@ -17,12 +17,13 @@
           <a-table
             class=" "
             :columns="importExelHirarki.columns_preview"
-            :data-source="importExelHirarki.columns_preview"
+            :data-source="importExelHirarki.listData"
             :scroll="{ x: 1500 }"
-            :loading="importExelHirarki.loading_preview"
+            :loading="importExelHirarki.isLoading"
             :row-class-name="tableRowClassName"
-            :row-key="data => data.id_toko"
+            :row-key="data => data.idJabatan"
           >
+          
             <!-- <template #icon="{ text }">
               <div v-if="text.status === true">
                 <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
@@ -74,16 +75,28 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'PreviewExcel',
+  setup() {
+    
+    const fileList = []
+    return {
+      
+      fileList,
+      headers: {
+        authorization: 'authorization-text',
+      },
+    }
+  },
   computed: {
     ...mapState({
-      importExelHirarki: state => state.importExelHirarki.data,
+      importExelHirarki: (state) => state.importExelHirarki.data,
     }),
   },
   methods: {
-    ...mapActions('importExelHirarki', []),
+    ...mapActions('importExelHirarki', ['submitData']),
     tableRowClassName(text) {
       if (text.status === false) {
         return 'non-active'
@@ -91,6 +104,28 @@ export default {
         return ''
       }
     },
+    onSubmitData() {
+      this.$confirm({
+        title: 'Apakah anda yakin akan menambahkan  data tersebut?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk: async () => {
+          await this.submitData()
+          this.$store.commit('importExelHirarki/changeimportExelHirarki', {
+            listData: [],
+          })
+          this.$router.push(`/users/hierarchy`)
+        },
+        onCancel() {},
+      })
+    },
   },
 }
 </script>
+<style>
+.table-visit .ant-table-tbody .non-active td {
+  background-color: red !important;
+  color: white;
+}
+</style>
