@@ -503,8 +503,8 @@ export default {
     },
     async submitPreviewExcel() {
       await this.getDataFromExcel()
-      // let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
-      // this.isDisabled = dataStatus.length > 0 ? true : false
+      let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
+      this.isDisabled = dataStatus.length > 0 ? true : false
       this.$router.push(`/users/hierarchy/preview`)
     },
     openModalImport() {
