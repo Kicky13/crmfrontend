@@ -70,51 +70,51 @@ const state = {
     ],
     data_bulan: [
       {
-        id: 1,
+        id: '01',
         name: 'Januari',
       },
       {
-        id: 2,
+        id: '02',
         name: 'Februari',
       },
       {
-        id: 3,
+        id: '03',
         name: 'Maret',
       },
       {
-        id: 4,
+        id: '04',
         name: 'April',
       },
       {
-        id: 5,
+        id: '05',
         name: 'Mei',
       },
       {
-        id: 6,
+        id: '06',
         name: 'Juni',
       },
       {
-        id: 7,
+        id: '07',
         name: 'Juli',
       },
       {
-        id: 8,
+        id: '08',
         name: 'Agustus',
       },
       {
-        id: 9,
+        id: '09',
         name: 'September',
       },
       {
-        id: 10,
+        id: '10',
         name: 'Oktober',
       },
       {
-        id: 11,
+        id: '11',
         name: 'November',
       },
       {
-        id: 12,
+        id: '12',
         name: 'Desember',
       },
     ],
