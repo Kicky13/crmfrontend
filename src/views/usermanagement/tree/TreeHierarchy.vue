@@ -44,6 +44,7 @@ export default {
             { type: 'textbox', label: 'Title Jabatan', binding: 'title' },
           ],
         },
+        nodeMouseClick: OrgChart.action.none,
       })
     },
     async fetchDataTree() {
