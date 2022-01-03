@@ -23,7 +23,14 @@
             :row-class-name="tableRowClassName"
             :row-key="data => data.idJabatan"
           >
-          
+          <template #icon="{ text }">
+              <div v-if="text.cekData === true">
+                <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" data-toggle="tooltip" data-placement="top" :title="text.message"/>
+              </div>
+              <div v-else>
+                <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" data-toggle="tooltip" data-placement="top" :title="text.message"/>
+              </div>
+            </template>
             <!-- <template #icon="{ text }">
               <div v-if="text.status === true">
                 <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
@@ -64,7 +71,7 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <a-button type="primary" @click="onSubmitData()" class="mt-2">
+          <a-button type="primary" @click="onSubmitData()" class="mt-2" :disabled="isDisabled">
             <i class="fa fa-upload mr-2" />
             Commit to Database
           </a-button>
@@ -90,6 +97,13 @@ export default {
       },
     }
   },
+  data() {
+    return {
+      
+      isDisabled: true,
+      
+    }
+  },
   computed: {
     ...mapState({
       importExelHirarki: (state) => state.importExelHirarki.data,
@@ -98,9 +112,11 @@ export default {
   methods: {
     ...mapActions('importExelHirarki', ['submitData']),
     tableRowClassName(text) {
-      if (text.status === false) {
+      if (text.cekData === false) {
+        this.isDisabled = true
         return 'non-active'
       } else {
+        this.isDisabled = false
         return ''
       }
     },
