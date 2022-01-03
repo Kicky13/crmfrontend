@@ -125,63 +125,10 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
       },
-      // Kikik ====================================================================
-      {
-        path: '/roles',
-        meta: { title: 'Role Management', resource: 'Roles', action: 'read' },
-        component: () => import(/* webpackChunkName: "roles" */ '@/views/roles'),
-      },
-      {
-        path: '/roles/create',
-        name: 'roles-create',
-        meta: { title: 'Role Management', resource: 'Permissions', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "roles-create" */ '@/views/roles/forms/Insert'),
-      },
-      {
-        path: '/roles/update',
-        name: 'roles-update',
-        props: true,
-        meta: { title: 'Role Management', resource: 'Permissions', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "role-management" */ '@/views/roles/forms/Update'),
-      },
-      {
-        path: '/permissions',
-        meta: { title: 'Permissions', resource: 'Permissions', action: 'read' },
-        component: () => import(/* webpackChunkName: "permission" */ '@/views/permissions'),
-      },
-      {
-        path: '/permissions/create',
-        name: 'permissions-create',
-        meta: { title: 'Permissions', resource: 'Permissions', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "permision-creaate" */ '@/views/permissions/forms/Insert'),
-      },
-      {
-        path: '/assignrole',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'read' },
-        component: () => import(/* webpackChunkName: "assign-role" */ '@/views/assignrole/Assign'),
-      },
-      {
-        path: '/assignrole/create',
-        name: 'assignrole-create',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'create' },
-        component: () =>
-          import(/* webpackChunkName: "assingrole-cerate" */ '@/views/assignrole/forms/Insert'),
-      },
-      {
-        path: '/assignrole/update',
-        name: 'assignrole-update',
-        props: true,
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'update' },
-        component: () =>
-          import(/* webpackChunkName: "assignrole-update" */ '@/views/assignrole/forms/Update'),
-      },
       {
         path: '/users/hierarchy/preview',
         name: 'user-hierarchy-preview',
-        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'User', action: 'update' },
         component: () =>
           import(
             /* webpackChunkName: "user-management-preview-import" */ '@/views/usermanagement/previewImportExcel'
@@ -190,21 +137,21 @@ const routes = [
       {
         path: '/users/hierarchy',
         name: 'user-hierarchy',
-        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'User', action: 'update' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/Hierarchy'),
       },
       {
         path: '/users',
         name: 'user-management',
-        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'User', action: 'create' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/User'),
       },
       {
         path: '/users/export',
         name: 'user-management-export',
-        meta: { title: 'Export User', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'User', action: 'create' },
         component: () =>
           import(
             /* webpackChunkName: "user-management-export" */ '@/views/usermanagement/forms/Export'
@@ -213,14 +160,14 @@ const routes = [
       {
         path: '/users/profile/jabatan/:id_jabatan',
         name: 'user-management-profile',
-        meta: { title: 'Export User', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'User', action: 'update' },
         component: () =>
           import(/* webpackChunkName: "profile" */ '@/views/usermanagement/profile/Profile'),
       },
       {
         path: '/listusers/history/userid/:userid',
         name: 'log-history',
-        meta: { title: 'Export User', resource: 'User', action: 'read' },
+        meta: { title: 'Export User', resource: 'User', action: 'update' },
         component: () => import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
       },
       {
