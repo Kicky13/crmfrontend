@@ -51,6 +51,7 @@
       v-model:visible="quickGuideModalVisible"
       title="Quick Guide"
       @ok="handleOk"
+      :width="750"
     >
       <template #footer>
         <a-pagination

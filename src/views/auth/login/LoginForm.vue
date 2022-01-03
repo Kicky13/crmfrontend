@@ -4,8 +4,8 @@
       class="row"
       :style="
         'background-image: url(' +
-          require('@/assets/images/logo/login_page.png') +
-          '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
+        require('@/assets/images/logo/login_page.png') +
+        '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
       "
     >
       <div class="col-xs-0 col-md-2"></div>
@@ -137,13 +137,13 @@ export default {
       password: '',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       if (errors) {
       }
     }
@@ -161,7 +161,7 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         if (response) {
           this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'
@@ -180,35 +180,6 @@ export default {
       })
     },
   },
-  // data: function () {
-  //   return {
-  //     rules: {
-  //       email: [{ required: true, message: 'Please input your email!', trigger: 'change' }],
-  //       password: [{ required: true, message: 'Please input password!', trigger: 'change' }],
-  //     },
-  //     loginForm: {
-  //       email: 'demo@visualbuilder.cloud',
-  //       password: 'VisualBuilder',
-  //     },
-  //   }
-  // },
-  // computed: {
-  //   ...mapState(['settings']),
-  //   loading() {
-  //     return this.$store.state.user.loading
-  //   },
-  // },
-  // methods: {
-  //   changeAuthProvider(value) {
-  //     this.$store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
-  //   },
-  //   handleFinish(values) {
-  //     this.$store.dispatch('user/LOGIN', { payload: values })
-  //   },
-  //   handleFinishFailed(errors) {
-  //     console.log(errors)
-  //   },
-  // },
 }
 </script>
 <style lang="scss" module>

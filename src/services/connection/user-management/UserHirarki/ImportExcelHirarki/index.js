@@ -3,111 +3,197 @@ import { notification } from 'ant-design-vue'
 
 const state = {
   data: {
+    isLoading: false,
+    listData: [],
+    status: '',
     body: {
       file: null,
       filename: '',
     },
     columns_preview: [
       {
-        title: 'No',
-        key: 'index',
-        width: '10%',
-
-        render: (text, record, index) => index,
-        slots: { customRender: 'no' },
+        title: '',
+        width: 100,
+        slots: { customRender: 'icon' },
+        fixed: 'left',
       },
+      // {
+      //   title: 'No',
+      //   key: 'index',
+      //   width: '10%',
 
+      //   render: (text, record, index) => index,
+      //   slots: { customRender: 'no' },
+      // },
+      // {
+      //   title: 'Username',
+      //   key: 'username',
+      //   dataIndex: 'username',
+      // },
+      {
+        title: 'Id Jabatan',
+        key: 'idJabatan',
+        dataIndex: 'idJabatan',
+        width: 100,
+      },
       {
         title: 'Nama Jabatan',
-        key: 'nm_jabatan',
-        width: '10%',
-        slots: { customRender: 'nm_jabatan' },
+        key: 'namaJabatan',
+        width: '20%',
+        dataIndex: 'namaJabatan',
       },
 
       {
         title: 'Level Jabatan',
-        key: 'level_jabatan',
+        key: 'levelJabatan',
         width: '10%',
-
-        slots: { customRender: 'level_jabatan' },
+        dataIndex: 'levelJabatan',
+        slots: { customRender: 'levelJabatan' },
       },
-      {
-        title: 'Jenis User',
-        key: 'jenis_user',
-        width: '10%',
+      // {
+      //   title: 'Jenis User',
+      //   key: 'jenis_user',
+      //   width: '10%',
 
-        slots: { customRender: 'jenis_user' },
-      },
+      //   slots: { customRender: 'jenis_user' },
+      // },
       {
         title: 'Nama Jenis User',
-        key: 'nm_jenis_user',
+        key: 'roleUser',
         width: '10%',
-
-        slots: { customRender: 'nm_jenis_user' },
+        dataIndex: 'roleUser',
+        slots: { customRender: 'roleUser' },
       },
 
       {
         title: 'Nama User',
-        key: 'nm_user',
+        key: 'namaUser',
         width: '10%',
-
-        slots: { customRender: 'nm_user' },
+        dataIndex: 'namaUser',
+        slots: { customRender: 'namaUser' },
       },
       {
         title: 'Username',
         key: 'username',
-        width: '10%',
-
+        width: '20%',
+        dataIndex: 'username',
         slots: { customRender: 'username' },
       },
       {
         title: 'Email',
         key: 'email',
-        width: '10%',
-
+        width: '20%',
+        dataIndex: 'email',
         slots: { customRender: 'email' },
       },
       {
         title: 'No HP',
-        key: 'no_hp',
+        key: 'nohp',
         width: '10%',
-
-        slots: { customRender: 'no_hp' },
+        dataIndex: 'nohp',
+        slots: { customRender: 'nohp' },
       },
-      {
-        title: 'No HP',
-        key: 'no_hp',
-        width: '10%',
-
-        slots: { customRender: 'no_hp' },
-      },
+      
 
       {
         title: 'Tgl Mulai',
-        key: 'tgl_mulai',
+        key: 'tglMulai',
         width: '10%',
-
-        slots: { customRender: 'tgl_mulai' },
+        dataIndex: 'tglMulai',
+        slots: { customRender: 'tglMulai' },
       },
       {
-        title: 'Tgl Seles',
-        key: 'tgl_seles',
+        title: 'Tgl Selesai',
+        key: 'tglSelesai',
         width: '10%',
-
-        slots: { customRender: 'tgl_seles' },
+        dataIndex: 'tglSelesai',
+        slots: { customRender: 'tglSelesai' },
       },
     ],
-    loading_preview: false,
+    
   },
 }
 
 const mutations = {
-  changeImportExcelHirarki(state, payload) {
+  changeimportExelHirarki(state, payload) {
     state.data = Object.assign({}, state.data, payload)
   },
 }
 
-const actions = {}
+const actions = {
+  async getDataFromExcel({ commit, state }) {
+    commit('changeimportExelHirarki', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    
+    const formData = new FormData()
+
+    formData.append('_method', 'post')
+    formData.append('importedExcel', data.body.file)
+
+    const config = {
+      header: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    
+    const result = await apiClient.post('/hirarki/previewImportUserPosisi', formData, config)
+    
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeimportExelHirarki', {
+        isLoading: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: result.data.message,
+      })
+      await commit('changeimportExelHirarki', {
+        status: result.data.status,
+        listData: result.data.data,
+        isLoading: false,
+      })
+    }
+  },
+
+  async submitData({ commit, state }) {
+    commit('changeimportExelHirarki', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      uploadData: JSON.stringify(data.listData),
+    }
+    console.log(formData)
+    const result = await apiClient.post(`/hirarki/importUserPosisi`, formData)
+
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeimportExelHirarki', {
+        isLoading: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description: `Data berhasil ditambahkan`,
+      })
+      await commit('changeimportExelHirarki', {
+        isLoading: false,
+      })
+    }
+  },
+}
 
 export default {
   namespaced: true,
