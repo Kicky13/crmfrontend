@@ -10,7 +10,7 @@
     </div>
     <div class="row">
       <div class="col-md-8 col-xs-8">
-        <div class="card card-top card-top-primary">
+        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
           <div class="card-header d-flex">
             <strong class="align-self-center">Detail Customer</strong>
           </div>
@@ -34,7 +34,7 @@
                   }}
                 </div>
                 <div class="font-size-16">
-                  KODE/ID : {{ $route.params.id_toko ? $route.params.id_toko : 'loading..' }}
+                  ID Toko : {{ $route.params.id_toko ? $route.params.id_toko : 'loading..' }}
                 </div>
               </div>
             </div>
@@ -56,11 +56,11 @@
                     <i class="fa fa-phone"></i>
                   </div>
                   <div class="col-md-4 font-weight-bold">
-                    <span>Telepon</span>
+                    <span>Kontak</span>
                   </div>
                   <div class="col-md-4">
                     <span
-                      >: {{ koordinatLock.detail_customer.no_telp_toko ?? 'Tidak Tersedia' }}</span
+                      >: 0{{ koordinatLock.detail_customer.no_telp_toko ?? 'Tidak Tersedia' }}</span
                     >
                   </div>
                 </div>
@@ -242,10 +242,10 @@
               </a-tab-pane>
             </a-tabs>
           </div>
-        </div>
+        </a-card>
       </div>
       <div class="col-md-4 col-xs-4">
-        <div class="card card-top card-top-primary">
+        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
           <div class="card-header d-flex">
             <strong class="align-self-center">Koordinat Lokasi</strong>
           </div>
@@ -263,19 +263,21 @@
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20"></div>
                 <div class="font-size-16">
-                  Lng: {{ detailCustomer.longitude ?? '-' }} | Ltd:
-                  {{ detailCustomer.latitude ?? '-' }}
+                  Lng: {{ koordinatLock.detail_customer.longitude ?? '-' }} | Ltd:
+                  {{ koordinatLock.detail_customer.latitude ?? '-' }}
                 </div>
               </div>
             </div>
           </div>
-          <div class="card-header align-self-center">
-            <a-button :loading="isLoading" type="primary" @click="fetchLockCoordinate">
+          <div class="card-header text-center align-self-center">
+            <a-button :loading="koordinatLock.isLoading" type="primary" @click="getLockData()">
               <i class="fa fa-lock mr-2" />
-              {{ detailCustomer.status_lock ? 'Unlock Customer' : 'Lock Customer' }}
+              {{
+                koordinatLock.detail_customer.status_lock != 0 ? 'Unlock Customer' : 'Lock Customer'
+              }}
             </a-button>
           </div>
-        </div>
+        </a-card>
       </div>
     </div>
   </div>
@@ -321,6 +323,7 @@ const columns = [
 
 export default {
   name: 'VbAntDesign',
+
   props: {
     customerInfo: {
       type: String,
@@ -374,7 +377,7 @@ export default {
     // await this.fetchGetHistoryVisit()
   },
   methods: {
-    ...mapActions('koordinatLock', ['getHistoryVisitToko', 'getDataCustomer']),
+    ...mapActions('koordinatLock', ['getLockCustomer', 'getHistoryVisitToko', 'getDataCustomer']),
 
     changeActiveKey(key) {
       this.activeKey = key
@@ -391,6 +394,17 @@ export default {
       this.koordinatLock.detail_customer = filteredDetailCustomer[0]
       this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
       this.totalSales = this.koordinatLock.detail_customer.sales.length
+    },
+
+    async getLockData() {
+      await this.getLockCustomer({
+        id_toko: this.$route.params.id_toko,
+      })
+      await this.getDataCustomer({
+        id_distrik: parseInt(this.$route.params.id_distrik),
+        search: '',
+      })
+      this.dataDetailCustomer()
     },
     // async fetchGetHistoryVisit() {
     //   this.isLoading = true
