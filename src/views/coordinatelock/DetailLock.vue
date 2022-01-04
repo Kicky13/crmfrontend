@@ -255,7 +255,7 @@
                 <img
                   lazy="loading"
                   v-once
-                  :src="require('@/assets/images/maps.png')"
+                  :src="require('@/assets/images/logo/underconstruct.jpg')"
                   class="img-fluid"
                   alt="Mary Stanform"
                 />
