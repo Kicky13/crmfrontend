@@ -320,7 +320,7 @@
                 </div>
                 <div class="col-lg-4 col-xs-12 mb-2">
                   <a
-                    href="https://assets.onklas.id/excel-template/TEMPLATE_DATA_SISWA_ONKLAS.xlsx"
+                    href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOAD_USER_HIRARKI.xlsx"
                     download
                     class="btn-block btn-download-file"
                   >
@@ -419,10 +419,8 @@ export default {
     VueDatepicker,
   },
   setup() {
-    
     const FileList = []
     return {
-      
       FileList,
       headers: {
         authorization: 'authorization-text',
@@ -503,8 +501,8 @@ export default {
     },
     async submitPreviewExcel() {
       await this.getDataFromExcel()
-      // let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
-      // this.isDisabled = dataStatus.length > 0 ? true : false
+      let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
+      this.isDisabled = dataStatus.length > 0 ? true : false
       this.$router.push(`/users/hierarchy/preview`)
     },
     openModalImport() {
@@ -521,7 +519,7 @@ export default {
     },
     onFileChanged(event) {
       console.log(this.$refs.file.files[0])
-      this.importExelHirarki.body.file =  this.$refs.file.files[0]
+      this.importExelHirarki.body.file = this.$refs.file.files[0]
       this.importExelHirarki.body.filename = event.target.files[0].name
     },
     disabledStartDate(startValue) {
@@ -542,7 +540,7 @@ export default {
       const nullFilter = _.reject(this.userManagement.users, function (item) {
         return item[data] === null
       })
-      let dataTable = nullFilter.filter(item => {
+      let dataTable = nullFilter.filter((item) => {
         return item[data].toLowerCase().includes(keyword.toLowerCase())
       })
 
@@ -607,7 +605,7 @@ export default {
       if (this.userManagement.history.length) {
         const dateData = this.userManagement.history[0].endDate.split('-')
         let temp = []
-        dateData.map(data => temp.unshift(data))
+        dateData.map((data) => temp.unshift(data))
         this.dateBeforeLimit = new Date(temp.join('-'))
       }
       this.modalVisible = true
@@ -886,7 +884,6 @@ export default {
       this.userManagement.history = []
     },
   },
-  
 }
 </script>
 <style lang="scss" module scoped>
