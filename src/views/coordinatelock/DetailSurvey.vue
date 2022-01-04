@@ -176,16 +176,21 @@
             <strong class="align-self-center">Foto Survey</strong>
           </div>
           <div class="card-header">
-            <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="mb-3">
-                <img
-                  lazy="loading"
-                  v-once
-                  :src="require('@/assets/images/noimage.svg')"
-                  class="img-fluid"
-                  alt="Mary Stanform"
-                />
-              </div>
+            <div v-if="detail_visit.url_foto === null">
+              <img
+                lazy="loading"
+                v-once
+                :src="require('@/assets/images/noimage.svg')"
+                class="img-fluid"
+                alt="Mary Stanform"
+              />
+            </div>
+            <div v-else>
+              <a-carousel class="border" autoplay>
+                <div v-for="(item, index) in detail_visit.url_foto" :key="`index_${index}`">
+                  <img lazy="loading" v-once :src="item" class="img-fluid" alt="Mary Stanform" />
+                </div>
+              </a-carousel>
             </div>
           </div>
         </div>
@@ -424,4 +429,15 @@ export default {
 </script>
 <style lang="scss" module>
 @import './style.module.scss';
+</style>
+<style scoped>
+.ant-carousel >>> .slick-slide {
+  text-align: center;
+  height: auto;
+  overflow: hidden;
+}
+
+.ant-carousel >>> .slick-slide h3 {
+  color: #fff;
+}
 </style>
