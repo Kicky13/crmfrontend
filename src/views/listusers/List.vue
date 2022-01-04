@@ -286,7 +286,8 @@ export default {
     searchData: _.debounce(function () {
       this.$store.commit('listUsers/changeUserManagement', {
         bodyList: {
-          offset: 1,
+          offset: 0,
+          limit: 2000,
           filter: this.listUsers.bodyList.filter,
         },
       })
@@ -570,7 +571,7 @@ export default {
 </style>
 <style>
 .table-list .ant-table-tbody .non-active td {
-  background: #F2B872 !important;
+  background: #f2b872 !important;
   color: black;
   opacity: 0.6;
   font-weight: bold !important;
