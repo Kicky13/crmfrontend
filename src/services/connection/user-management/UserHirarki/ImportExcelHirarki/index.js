@@ -11,6 +11,12 @@ const state = {
       filename: '',
     },
     columns_preview: [
+      {
+        title: '',
+        width: 100,
+        slots: { customRender: 'icon' },
+        fixed: 'left',
+      },
       // {
       //   title: 'No',
       //   key: 'index',
@@ -33,7 +39,7 @@ const state = {
       {
         title: 'Nama Jabatan',
         key: 'namaJabatan',
-        width: '10%',
+        width: '20%',
         dataIndex: 'namaJabatan',
       },
 
@@ -69,7 +75,7 @@ const state = {
       {
         title: 'Username',
         key: 'username',
-        width: '10%',
+        width: '20%',
         dataIndex: 'username',
         slots: { customRender: 'username' },
       },

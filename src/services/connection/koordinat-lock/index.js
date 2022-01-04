@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { getLockCustomer } from './api'
 
 const state = {
   data: {
@@ -154,7 +155,7 @@ const state = {
         slots: { customRender: 'no' },
       },
       {
-        title: 'Id distributor',
+        title: 'ID Distributor',
         key: 'id_distributor',
         slots: { customRender: 'id_distributor' },
       },
@@ -164,7 +165,7 @@ const state = {
         slots: { customRender: 'nama' },
       },
       {
-        title: 'Id Sales',
+        title: 'ID Sales',
         key: 'id_sales',
         slots: { customRender: 'id_sales' },
       },
@@ -174,7 +175,7 @@ const state = {
         slots: { customRender: 'sales' },
       },
       {
-        title: 'Id Jabatan',
+        title: 'ID Jabatan',
         key: 'id_jabatan',
         slots: { customRender: 'id_jabatan' },
       },
@@ -212,6 +213,7 @@ const state = {
     },
     detail_customer: {},
     bodyViewHistory: {},
+    lock_customer: [],
   },
 }
 
@@ -295,6 +297,36 @@ const actions = {
         isLoading: false,
       })
     } else {
+      await commit('changeKoordinat', {
+        isLoading: false,
+      })
+    }
+  },
+
+  async getLockCustomer({ commit, state }, payload) {
+    commit('changeKoordinat', {
+      isLoading: true,
+    })
+
+    let formData = {
+      idToko: payload.id_toko,
+    }
+
+    const response = await apiClient.post('Kordinat/UpdateKordinatToko', formData)
+    if (response.data.status) {
+      await commit('changeKoordinat', {
+        lock_customer: response.data.data,
+        isLoading: false,
+      })
+      notification.success({
+        message: 'Success',
+        description: response.data.message,
+      })
+    } else {
+      notification.error({
+        message: 'Error',
+        description: response.data.message,
+      })
       await commit('changeKoordinat', {
         isLoading: false,
       })
