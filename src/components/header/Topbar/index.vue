@@ -65,7 +65,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 82%;
+    width: 100%;
   }
 }
 @media screen and (max-width: 1366px) and (min-width: 1366px) {
@@ -73,7 +73,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 82%;
+    width: 100%;
   }
 }
 
@@ -82,7 +82,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 82%;
+    width: 100%;
   }
 }
 @media screen and (max-width: 1440px) and (min-width: 1440px) {
@@ -90,7 +90,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 1;
-    width: 82%;
+    width: 100%;
   }
 }
 </style>
