@@ -11,6 +11,7 @@
   flex-wrap: nowrap;
   align-items: center;
   background-color: #343a40;
+  width: 100%;
 
   @media (max-width: $sm-max-width) {
     padding: 0 rem(16);
