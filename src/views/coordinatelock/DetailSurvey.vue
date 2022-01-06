@@ -404,8 +404,8 @@ export default {
   methods: {
     ...mapActions('koordinatLock', ['getProductSurvey', 'getHistoryVisitToko']),
     urlMap() {
-      let lat = this.detail_visit.latitude ?? 0
-      let long = this.detail_visit.latitude.longitude ?? 0
+      let lat = this.detail_visit.latitude === null ? 0 : this.detail_visit.latitude 
+      let long = this.detail_visit.longitude  === null ? 0 :this.detail_visit.latitude.longitude
       let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
       this.link =
         `https://www.google.com/maps/embed/v1/view?key=` +
