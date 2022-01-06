@@ -113,7 +113,7 @@
                     class="mt-2"
                     :columns="koordinatLock.column_distributor"
                     :data-source="koordinatLock.detail_customer.distributor"
-                    :row-key="data => data.id_distributor"
+                    :row-key="(data) => data.id_distributor"
                     :pagination="koordinatLock.pagination"
                     :loading="koordinatLock.isLoading"
                   >
@@ -154,45 +154,6 @@
                     </template>
                   </a-table>
                 </div>
-
-                <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
-                  <div class="col-md-1">
-                    <i class="fa fa-balance-scale"></i>
-                  </div>
-                  <div class="col-md-4 font-weight-bold">
-                    <span>Distributor</span>
-                  </div>
-                  <div class="col-md-6">
-                    <span>: </span>
-                    <span v-if="totalDistributor > 0">
-                      {{
-                        detailCustomer.distributor[0].id_distributor +
-                        ' - ' +
-                        detailCustomer.distributor[0].nama_distributor
-                      }}</span
-                    >
-                    <span class="font-weight-bold" v-else>-</span>
-                  </div>
-                </div>
-                <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
-                  <div class="col-md-1">
-                    <i class="fa fa-user"></i>
-                  </div>
-                  <div class="col-md-4 font-weight-bold">
-                    <span>Sales</span>
-                  </div>
-                  <div class="col-md-6">
-                    <span>: </span>
-                    <span v-if="totalSales > 0">
-                      {{
-                        detailCustomer.sales[0].id_sales +
-                        ' - ' +
-                        detailCustomer.sales[0].nama_sales
-                      }}</span
-                    >
-                    <span class="font-weight-bold" v-else>-</span>
-                  </div>
-                </div> -->
               </a-tab-pane>
               <a-tab-pane key="3" tab="History Visit">
                 <div class="d-flex justify-content-between mb-3">
@@ -219,7 +180,7 @@
                   <a-table
                     :columns="columns"
                     :data-source="koordinatLock.dataVisit"
-                    :row-key="historyVisit => historyVisit.id_kunjungan"
+                    :row-key="(historyVisit) => historyVisit.id_kunjungan"
                     :pagination="pagination"
                     :loading="isLoading"
                   >
@@ -252,13 +213,30 @@
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
               <div class="mb-3">
-                <img
+                <!-- <img
                   lazy="loading"
                   v-once
                   :src="require('@/assets/images/logo/underconstruct.jpg')"
                   class="img-fluid"
                   alt="Mary Stanform"
-                />
+                /> -->
+                <div class="mapouter">
+                  <div class="gmap_canvas">
+                    <iframe
+                      width="600"
+                      height="500"
+                      id="gmap_canvas"
+                      src="https://www.google.com/maps/embed/v1/view?key=AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI&center=-33.8569,151.2152&zoom=18&maptype=satellite"
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    >
+                    </iframe>
+                    <a href="https://fmovies-online.net" />
+                    <a href="https://www.embedgooglemap.net"></a>
+                  </div>
+                </div>
               </div>
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20"></div>
@@ -336,7 +314,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -362,7 +340,7 @@ export default {
   },
   computed: {
     ...mapState({
-      koordinatLock: state => state.koordinatLock.data,
+      koordinatLock: (state) => state.koordinatLock.data,
     }),
   },
   async mounted() {
@@ -389,11 +367,10 @@ export default {
     dataDetailCustomer() {
       const dataSource = [...this.koordinatLock.dataCustomer]
       const filteredDetailCustomer = dataSource.filter(
-        a => a.id_customer == this.$route.params.id_toko,
+        (a) => a.id_customer == this.$route.params.id_toko,
       )
       this.koordinatLock.detail_customer = filteredDetailCustomer[0]
       this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
-      this.totalSales = this.koordinatLock.detail_customer.sales.length
     },
 
     async getLockData() {
@@ -406,56 +383,24 @@ export default {
       })
       this.dataDetailCustomer()
     },
-    // async fetchGetHistoryVisit() {
-    //   this.isLoading = true
-    //   let formData = {
-    //     idToko: this.detailCustomer.id_customer,
-    //   }
-
-    //   await getHistoryVisit(formData)
-    //     .then(response => {
-    //       if (response.status) {
-    //         this.historyVisit = response.data
-    //       }
-    //       this.isLoading = false
-    //     })
-    //     .catch(err => {
-    //       if (err) {
-    //       }
-    //     })
-    // },
-    // async fetchLockCoordinate() {
-    //   let formData = {
-    //     idToko: this.detailCustomer.id_customer,
-    //   }
-    //   this.isLoading = true
-    //   getLockCustomer(formData)
-    //     .then(response => {
-    //       if (response.status) {
-    //         message.success(response.message)
-    //         this.detailCustomer.status_lock = !this.detailCustomer.status_lock
-    //       } else {
-    //         message.error(response.message)
-    //       }
-    //       this.isLoading = false
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //     })
-    // },
     gotoDetailSurvey(id) {
       this.$router.push(`/koordinatlock/${this.$route.params.id_toko}/survey-detail/${id.text}`)
     },
-    // getDetailSurvey(id) {
-    //   const dataSource = [...this.historyVisit]
-    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-    //   let detailSurvey = filtered[0]
-
-    //   return detailSurvey
-    // },
   },
 }
 </script>
 <style lang="scss" module>
 @import './style.module.scss';
+.mapouter {
+  position: relative;
+  text-align: right;
+  height: 500px;
+  width: 600px;
+}
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 500px;
+  width: 600px;
+}
 </style>
