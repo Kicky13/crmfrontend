@@ -158,12 +158,12 @@ export default defineComponent({
           if (response.status === 200) {
             router.push('/marketing/berita')
             notification.success({
-              message: 'Tambah Berita',
-              description: 'Berita berhasil ditambah',
+              message: 'Update Berita',
+              description: 'Berita berhasil diupdate',
             })
           } else {
             notification.warning({
-              message: 'Tambah Berita',
+              message: 'Update Berita',
               description: response.message[1].replace('image yang diperbolehkan adalah', 'Format gambar harus'),
             })
           }
