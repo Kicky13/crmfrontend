@@ -113,7 +113,7 @@
                     class="mt-2"
                     :columns="koordinatLock.column_distributor"
                     :data-source="koordinatLock.detail_customer.distributor"
-                    :row-key="(data) => data.id_distributor"
+                    :row-key="data => data.id_distributor"
                     :pagination="koordinatLock.pagination"
                     :loading="koordinatLock.isLoading"
                   >
@@ -180,7 +180,7 @@
                   <a-table
                     :columns="columns"
                     :data-source="koordinatLock.dataVisit"
-                    :row-key="(historyVisit) => historyVisit.id_kunjungan"
+                    :row-key="historyVisit => historyVisit.id_kunjungan"
                     :pagination="pagination"
                     :loading="isLoading"
                   >
@@ -206,13 +206,13 @@
         </a-card>
       </div>
       <div class="col-md-4 col-xs-4">
-        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
+        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary p-0">
           <div class="card-header d-flex">
             <strong class="align-self-center">Koordinat Lokasi</strong>
           </div>
-          <div class="card-header">
+          <div class="card-body p-0">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="mb-3">
+              <div class="mb-3 mt-1">
                 <!-- <img
                   lazy="loading"
                   v-once
@@ -223,10 +223,10 @@
                 <div class="mapouter">
                   <div class="gmap_canvas">
                     <iframe
-                      width="600"
-                      height="500"
+                      width="250"
+                      height="300"
                       id="gmap_canvas"
-                      src="https://www.google.com/maps/embed/v1/view?key=AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI&center=-33.8569,151.2152&zoom=18&maptype=satellite"
+                      :src="link"
                       frameborder="0"
                       scrolling="no"
                       marginheight="0"
@@ -314,7 +314,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -336,11 +336,12 @@ export default {
       totalSales: 0,
       historyVisit: [],
       activeKey: '',
+      link: '',
     }
   },
   computed: {
     ...mapState({
-      koordinatLock: (state) => state.koordinatLock.data,
+      koordinatLock: state => state.koordinatLock.data,
     }),
   },
   async mounted() {
@@ -352,6 +353,8 @@ export default {
       search: '',
     })
     this.dataDetailCustomer()
+
+    this.urlMap()
     // await this.fetchGetHistoryVisit()
   },
   methods: {
@@ -367,7 +370,7 @@ export default {
     dataDetailCustomer() {
       const dataSource = [...this.koordinatLock.dataCustomer]
       const filteredDetailCustomer = dataSource.filter(
-        (a) => a.id_customer == this.$route.params.id_toko,
+        a => a.id_customer == this.$route.params.id_toko,
       )
       this.koordinatLock.detail_customer = filteredDetailCustomer[0]
       this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
@@ -385,6 +388,20 @@ export default {
     },
     gotoDetailSurvey(id) {
       this.$router.push(`/koordinatlock/${this.$route.params.id_toko}/survey-detail/${id.text}`)
+    },
+
+    urlMap() {
+      let lat = this.koordinatLock.detail_customer.latitude ?? 0
+      let long = this.koordinatLock.detail_customer.longitude ?? 0
+      let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
+      this.link =
+        `https://www.google.com/maps/embed/v1/view?key=` +
+        keyApi +
+        `&center=` +
+        lat +
+        `,` +
+        long +
+        `&zoom=18&maptype=satellite`
     },
   },
 }

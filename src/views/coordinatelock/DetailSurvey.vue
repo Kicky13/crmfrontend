@@ -160,13 +160,30 @@
           <div class="card-header">
             <div class="d-flex flex-wrap flex-column align-items-center">
               <div class="mb-3">
-                <img
+                <!-- <img
                   lazy="loading"
                   v-once
                   :src="require('@/assets/images/logo/underconstruct.jpg')"
                   class="img-fluid"
                   alt="Mary Stanform"
-                />
+                /> -->
+                <div class="mapouter">
+                  <div class="gmap_canvas">
+                    <iframe
+                      width="250"
+                      height="300"
+                      id="gmap_canvas"
+                      :src="link"
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    >
+                    </iframe>
+                    <a href="https://fmovies-online.net" />
+                    <a href="https://www.embedgooglemap.net"></a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -292,6 +309,7 @@ export default {
       promosiDetail: [],
       keluhanVisible: false,
       promosiVisible: false,
+      link: '',
       columns: [
         {
           title: 'No.',
@@ -380,10 +398,24 @@ export default {
     })
 
     this.getDetailSurvey()
+
+    this.urlMap()
   },
   methods: {
     ...mapActions('koordinatLock', ['getProductSurvey', 'getHistoryVisitToko']),
-
+    urlMap() {
+      let lat = this.detail_visit.latitude === null ? 0 : this.detail_visit.latitude 
+      let long = this.detail_visit.longitude  === null ? 0 :this.detail_visit.latitude.longitude
+      let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
+      this.link =
+        `https://www.google.com/maps/embed/v1/view?key=` +
+        keyApi +
+        `&center=` +
+        lat +
+        `,` +
+        long +
+        `&zoom=18&maptype=satellite`
+    },
     getDetailSurvey() {
       const dataSource = [...this.koordinatLock.dataVisit]
       let filtered = dataSource.filter(x => x.id_kunjungan == this.$route.params.id_kunjungan)
