@@ -136,7 +136,7 @@ const actions = {
     }
 
     const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData, {
-      timeout: 300000,
+      timeout: 600000,
     })
     if (result.data.status == false) {
       notification.error({
