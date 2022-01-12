@@ -154,45 +154,6 @@
                     </template>
                   </a-table>
                 </div>
-
-                <!-- <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
-                  <div class="col-md-1">
-                    <i class="fa fa-balance-scale"></i>
-                  </div>
-                  <div class="col-md-4 font-weight-bold">
-                    <span>Distributor</span>
-                  </div>
-                  <div class="col-md-6">
-                    <span>: </span>
-                    <span v-if="totalDistributor > 0">
-                      {{
-                        detailCustomer.distributor[0].id_distributor +
-                        ' - ' +
-                        detailCustomer.distributor[0].nama_distributor
-                      }}</span
-                    >
-                    <span class="font-weight-bold" v-else>-</span>
-                  </div>
-                </div>
-                <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
-                  <div class="col-md-1">
-                    <i class="fa fa-user"></i>
-                  </div>
-                  <div class="col-md-4 font-weight-bold">
-                    <span>Sales</span>
-                  </div>
-                  <div class="col-md-6">
-                    <span>: </span>
-                    <span v-if="totalSales > 0">
-                      {{
-                        detailCustomer.sales[0].id_sales +
-                        ' - ' +
-                        detailCustomer.sales[0].nama_sales
-                      }}</span
-                    >
-                    <span class="font-weight-bold" v-else>-</span>
-                  </div>
-                </div> -->
               </a-tab-pane>
               <a-tab-pane key="3" tab="History Visit">
                 <div class="d-flex justify-content-between mb-3">
@@ -245,20 +206,37 @@
         </a-card>
       </div>
       <div class="col-md-4 col-xs-4">
-        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
+        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary p-0">
           <div class="card-header d-flex">
             <strong class="align-self-center">Koordinat Lokasi</strong>
           </div>
-          <div class="card-header">
+          <div class="card-body p-0">
             <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="mb-3">
-                <img
+              <div class="mb-3 mt-1">
+                <!-- <img
                   lazy="loading"
                   v-once
-                  :src="require('@/assets/images/maps.png')"
+                  :src="require('@/assets/images/logo/underconstruct.jpg')"
                   class="img-fluid"
                   alt="Mary Stanform"
-                />
+                /> -->
+                <div class="mapouter">
+                  <div class="gmap_canvas">
+                    <iframe
+                      width="250"
+                      height="300"
+                      id="gmap_canvas"
+                      :src="link"
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    >
+                    </iframe>
+                    <a href="https://fmovies-online.net" />
+                    <a href="https://www.embedgooglemap.net"></a>
+                  </div>
+                </div>
               </div>
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20"></div>
@@ -358,6 +336,7 @@ export default {
       totalSales: 0,
       historyVisit: [],
       activeKey: '',
+      link: '',
     }
   },
   computed: {
@@ -374,6 +353,8 @@ export default {
       search: '',
     })
     this.dataDetailCustomer()
+
+    this.urlMap()
     // await this.fetchGetHistoryVisit()
   },
   methods: {
@@ -393,7 +374,6 @@ export default {
       )
       this.koordinatLock.detail_customer = filteredDetailCustomer[0]
       this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
-      this.totalSales = this.koordinatLock.detail_customer.sales.length
     },
 
     async getLockData() {
@@ -406,56 +386,38 @@ export default {
       })
       this.dataDetailCustomer()
     },
-    // async fetchGetHistoryVisit() {
-    //   this.isLoading = true
-    //   let formData = {
-    //     idToko: this.detailCustomer.id_customer,
-    //   }
-
-    //   await getHistoryVisit(formData)
-    //     .then(response => {
-    //       if (response.status) {
-    //         this.historyVisit = response.data
-    //       }
-    //       this.isLoading = false
-    //     })
-    //     .catch(err => {
-    //       if (err) {
-    //       }
-    //     })
-    // },
-    // async fetchLockCoordinate() {
-    //   let formData = {
-    //     idToko: this.detailCustomer.id_customer,
-    //   }
-    //   this.isLoading = true
-    //   getLockCustomer(formData)
-    //     .then(response => {
-    //       if (response.status) {
-    //         message.success(response.message)
-    //         this.detailCustomer.status_lock = !this.detailCustomer.status_lock
-    //       } else {
-    //         message.error(response.message)
-    //       }
-    //       this.isLoading = false
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //     })
-    // },
     gotoDetailSurvey(id) {
       this.$router.push(`/koordinatlock/${this.$route.params.id_toko}/survey-detail/${id.text}`)
     },
-    // getDetailSurvey(id) {
-    //   const dataSource = [...this.historyVisit]
-    //   let filtered = dataSource.filter(x => x.id_kunjungan == id.text)
-    //   let detailSurvey = filtered[0]
 
-    //   return detailSurvey
-    // },
+    urlMap() {
+      let lat = this.koordinatLock.detail_customer.latitude ?? 0
+      let long = this.koordinatLock.detail_customer.longitude ?? 0
+      let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
+      this.link =
+        `https://www.google.com/maps/embed/v1/view?key=` +
+        keyApi +
+        `&center=` +
+        lat +
+        `,` +
+        long +
+        `&zoom=18&maptype=satellite`
+    },
   },
 }
 </script>
 <style lang="scss" module>
 @import './style.module.scss';
+.mapouter {
+  position: relative;
+  text-align: right;
+  height: 500px;
+  width: 600px;
+}
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 500px;
+  width: 600px;
+}
 </style>

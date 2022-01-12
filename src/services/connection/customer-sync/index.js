@@ -135,7 +135,9 @@ const actions = {
       kodedistributor: payload.kode_customer,
     }
 
-    const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData)
+    const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData, {
+      timeout: 300000,
+    })
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
