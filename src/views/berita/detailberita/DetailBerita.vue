@@ -49,12 +49,19 @@ export default {
     getPostById() {
       this.isLoading = true
       const artikelId = this.$route.params.artikelId
-      postList(artikelId).then(response => {
-        if (response) {
-          this.post = response.data.find(post => post.id === artikelId)
-          this.isLoading = false
-        }
-      })
+      try {
+        postList(artikelId).then(response => {
+          if (response) {
+            this.post = response.data.find(post => post.id === artikelId)
+            this.isLoading = false
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
   },
 }

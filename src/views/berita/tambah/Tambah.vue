@@ -62,7 +62,7 @@ function getBase64(file) {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result)
-    reader.onerror = (error) => reject(error)
+    reader.onerror = error => reject(error)
   })
 }
 
@@ -97,29 +97,36 @@ export default defineComponent({
     }
     const router = useRouter()
     const addNewPost = (param, config) => {
-      storePost(param, config)
-        .then((response) => {
-          if (response) {
-            if (response.status === 200) {
-              router.push('/marketing/berita')
-              notification.success({
-                message: 'Tambah Berita',
-                description: 'Berita berhasil ditambah',
-              })
-            } else {
-              notification.warning({
-                message: 'Tambah Berita',
-                description: response.message[1].replace(
-                  'image yang diperbolehkan adalah',
-                  'Format gambar harus',
-                ),
-              })
+      try {
+        storePost(param, config)
+          .then(response => {
+            if (response) {
+              if (response.status === 200) {
+                router.push('/marketing/berita')
+                notification.success({
+                  message: 'Tambah Berita',
+                  description: 'Berita berhasil ditambah',
+                })
+              } else {
+                notification.warning({
+                  message: 'Tambah Berita',
+                  description: response.message[1].replace(
+                    'image yang diperbolehkan adalah',
+                    'Format gambar harus',
+                  ),
+                })
+              }
             }
-          }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
         })
-        .catch((err) => {
-          console.log(err)
-        })
+      }
     }
     const getCurrentDate = () => {
       const today = new Date()
@@ -197,7 +204,7 @@ export default defineComponent({
     handleChange(info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
-      fileList = fileList.map((file) => {
+      fileList = fileList.map(file => {
         if (file.response) {
           file.url = file.response.url
         }
@@ -217,7 +224,7 @@ export default defineComponent({
         const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp']
         const nameInput = this.fileList[0].name
         const formatInput = this.fileList[0].type.split('/')[1]
-        const check = formats.some((element) => element === formatInput)
+        const check = formats.some(element => element === formatInput)
         if (!check) {
           this.fileList = [
             {

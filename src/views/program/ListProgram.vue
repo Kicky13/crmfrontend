@@ -1,61 +1,42 @@
 <template>
   <a-row :gutter="[16, 16]">
-    <a-col
-      :xs="24"
-      :sm="24"
-      :md="12"
-      :lg="8"
-      v-for="postItem in postItems"
-      :key="postItem.id"
-    >
+    <a-col :xs="24" :sm="24" :md="12" :lg="8" v-for="postItem in postItems" :key="postItem.id">
       <div class="card card-top card-top-primary h-100">
         <div class="card-header d-flex justify-content-between">
-          <h5
-            class="card-title title-ellipsis"
-            v-text="postItem.program_title"
-          />
+          <h5 class="card-title title-ellipsis" v-text="postItem.program_title" />
           <Can do="update" on="Program">
-          <div class="nav-item dropdown">
-            <a-dropdown
-              placement="bottomCenter"
-              :trigger="['click']"
-            >
-              <a
-                class="nav-link pt-sm-0"
-                href="javascript: void(0);"
-              >
-                <i class="fa fa-caret-down" />
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <router-link :to="{ path: `/marketing/program/edit/${postItem.id}` }">
+            <div class="nav-item dropdown">
+              <a-dropdown placement="bottomCenter" :trigger="['click']">
+                <a class="nav-link pt-sm-0" href="javascript: void(0);">
+                  <i class="fa fa-caret-down" />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <router-link :to="{ path: `/marketing/program/edit/${postItem.id}` }">
+                      <a-menu-item>
+                        <a>Edit</a>
+                      </a-menu-item>
+                    </router-link>
                     <a-menu-item>
-                      <a>Edit</a>
+                      <a @click="deleteConfirm(postItem.id)">Hapus</a>
                     </a-menu-item>
-                  </router-link>
-                  <a-menu-item>
-                    <a @click="deleteConfirm(postItem.id)">Hapus</a>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown> 
-          </div>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </div>
           </Can>
         </div>
         <div class="card-body pb-0">
-          <div
-            class="card-text detail-ellipsis"
-            v-html="postItem.program_detail"
-          />
+          <div class="card-text detail-ellipsis" v-html="postItem.program_detail" />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{postItem.start_date}} - {{postItem.finish_date}}</div>
+          <div class="text-main align-self-center">
+            {{ postItem.start_date }} - {{ postItem.finish_date }}
+          </div>
           <router-link :to="`/marketing/program/detailProgram/${postItem.id}`">
-          <a-button
-            type="primary"
-          >
-            Selengkapnya
-          </a-button>
+            <a-button type="primary">
+              Selengkapnya
+            </a-button>
           </router-link>
         </div>
       </div>
@@ -67,15 +48,21 @@ import axios from 'axios'
 import { deletePost } from '@/services/connection/program/api'
 
 export default {
- props:['postItems'],
+  props: ['postItems'],
   methods: {
     deletePostById(id) {
-      deletePost(id)
-      .then(response => {
-        if (response) {
-          this.$emit('deleteMessage')
-        }
-      })
+      try {
+        deletePost(id).then(response => {
+          if (response) {
+            this.$emit('deleteMessage')
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
     deleteConfirm(id) {
       const deleteMethod = this.deletePostById
@@ -88,7 +75,7 @@ export default {
         onOk() {
           deleteMethod(id)
         },
-      });
+      })
     },
   },
 }

@@ -1,14 +1,8 @@
 <template>
   <div>
-    <Can
-      do="create"
-      on="News"
-    >
+    <Can do="create" on="News">
       <router-link to="/marketing/berita/tambah">
-        <a-button
-          class="mb-4"
-          type="primary"
-        >
+        <a-button class="mb-4" type="primary">
           <i class="fa fa-plus mr-2" />
           Tambah Berita
         </a-button>
@@ -27,15 +21,8 @@
       </div>
     </template>
     <template v-else>
-      <vb-list-berita
-        v-if="posts.length"
-        :posts="posts"
-        @delete-success="deleteSuccess"
-      />
-      <div
-        v-else
-        class="text-main text-center font-italic"
-      >
+      <vb-list-berita v-if="posts.length" :posts="posts" @delete-success="deleteSuccess" />
+      <div v-else class="text-main text-center font-italic">
         --- Belum ada berita ---
       </div>
     </template>
@@ -54,16 +41,9 @@
       :width="750"
     >
       <template #footer>
-        <a-pagination
-          :total="paginationTotal"
-          :default-page-size="1"
-          @change="paginationHandle"
-        />
+        <a-pagination :total="paginationTotal" :default-page-size="1" @change="paginationHandle" />
       </template>
-      <guide-news
-        :index="pagination"
-        @get-data="setPaginationTotal"
-      />
+      <guide-news :index="pagination" @get-data="setPaginationTotal" />
     </a-modal>
   </div>
 </template>
@@ -71,7 +51,7 @@
 <script>
 import { postList } from '@/services/connection/berita/api'
 import VbListBerita from './listberita/ListBerita'
-import { notification } from 'ant-design-vue';
+import { notification } from 'ant-design-vue'
 import GuideNews from '@/components/main/Guide/News'
 
 export default {
@@ -104,18 +84,27 @@ export default {
     fetchPostList() {
       this.posts = []
       this.isLoading = true
-      postList()
-      .then(response => {
-        if (response) {
-          this.temp = response.data
-          this.postTotal = this.temp.length
-          this.posts = this.temp.slice(0, 6)
-          this.isLoading = false
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+
+      try {
+        postList()
+          .then(response => {
+            if (response) {
+              this.temp = response.data
+              this.postTotal = this.temp.length
+              this.posts = this.temp.slice(0, 6)
+              this.isLoading = false
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+       notification.error({
+          message: 'Error',
+          description: error.message,
+        }) 
+      }
     },
     deleteSuccess() {
       this.fetchPostList()
