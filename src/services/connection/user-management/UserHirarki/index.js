@@ -220,22 +220,29 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-    const { data } = state
 
-    const result = await apiClient.get(`/hirarki/levelHirarki`)
-    if (result.data.status == false) {
+    const { data } = state
+    try {
+      const result = await apiClient.get(`/hirarki/levelHirarki`)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+      } else {
+        await commit('changeUserManagement', {
+          id_level_hirarki: result.data.data[0].id_level_hirarki,
+          selectedTitle: result.data.data[0].nama_panjang,
+          selectedShorthand: result.data.data[0].nama_singkat,
+          actiiveTabs: result.data.data[0].id_level_hirarki,
+          listUser: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-    } else {
-      await commit('changeUserManagement', {
-        id_level_hirarki: result.data.data[0].id_level_hirarki,
-        selectedTitle: result.data.data[0].nama_panjang,
-        selectedShorthand: result.data.data[0].nama_singkat,
-        actiiveTabs: result.data.data[0].id_level_hirarki,
-        listUser: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -250,9 +257,7 @@ const actions = {
     //     offset: payload || data.offset,
     //   })
     // }
-
     const { data } = state
-
     let body = {
       idLevelHirarki: payload.id_level_hirarki,
       offset: data.bodyList.offset,
@@ -260,22 +265,28 @@ const actions = {
       q: data.bodyList.filter,
     }
 
-    const result = await apiClient.post(`/hirarki/users`, body)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/users`, body)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          users: result.data.data,
+          dataTable: result.data.data,
+          isLoading: false,
+          totalAll: result.data.totalAll,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        users: result.data.data,
-        dataTable: result.data.data,
-        isLoading: false,
-        totalAll: result.data.totalAll,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -286,7 +297,6 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       nama: data.formState.name,
       username: data.formState.username,
@@ -295,48 +305,60 @@ const actions = {
       nohp: data.formState.nohp,
       // idLevelHirarki: data.formState.idLevelHirarki,
     }
-
     let result = ''
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
-      if (result.data.status == false) {
+      try {
+        result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeUserManagement', {
+            isLoading: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: `Data berhasil diubah`,
+          })
+          await commit('changeUserManagement', {
+            isLoading: false,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
-        })
-        await commit('changeUserManagement', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil diubah`,
-        })
-        await commit('changeUserManagement', {
-          isLoading: false,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
     } else {
-      result = await apiClient.post(`/usercrm/add`, formData)
-      if (result.data.status == false) {
+      try {
+        result = await apiClient.post(`/usercrm/add`, formData)
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeUserManagement', {
+            isLoading: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: `Data berhasil ditambahkan`,
+          })
+          await commit('changeUserManagement', {
+            isLoading: false,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
-        })
-        await commit('changeUserManagement', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
-        })
-        await commit('changeUserManagement', {
-          isLoading: false,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
     }
-
     if (result.data.status == false) {
       notification.error({
         message: 'Error',
@@ -351,32 +373,35 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       idJabatanAtasan: null,
       idLevelHirarki: payload.id_level_hirarki,
       nmJabatan: data.selectedShorthand + ' - ' + data.formState.nama_jabatan,
     }
-
     let result = ''
-
-    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
-
-    if (result.data.status == false) {
+    try {
+      result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -387,32 +412,35 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       idJabatanAtasan: payload.id_jabatan_atasan,
       idLevelHirarki: payload.id_level_hirarki,
       nmJabatan: payload.nama_jabatan,
     }
-
     let result = ''
-
-    result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
-
-    if (result.data.status == false) {
+    try {
+      result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -421,10 +449,9 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
+
     const { data } = state
-
     let endDate = new Date(data.form_kosongkan_jabatan.tgl_akhir).toLocaleDateString('en-GB')
-
     let formData = {
       idJabatan: payload.id_jabatan,
       tglAkhir: endDate
@@ -432,24 +459,29 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-'),
     }
-
-    const result = await apiClient.post(`/hirarki/removeUser`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/removeUser`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -458,23 +490,30 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-    const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil direset`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil direset`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -484,25 +523,31 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-    const { data } = state
 
+    const { data } = state
     let formData = {
       idJabatan: parseInt(payload.id_jabatan),
     }
-    const result = await apiClient.post(`/hirarki/detailJabatan`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/detailJabatan`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          detail_jabatan: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        detail_jabatan: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -513,26 +558,31 @@ const actions = {
     })
 
     const { data } = state
-
     let formData = {
       idJabatan: payload.id_jabatan,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
-
-    const result = await apiClient.post(`/hirarki/hirarkidown`, formData)
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/hirarkidown`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          list_hirarki_down: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        list_hirarki_down: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -543,9 +593,7 @@ const actions = {
     })
 
     const { data } = state
-
     let endDate = new Date(data.form_kosongkan_jabatan.tgl_akhir).toLocaleDateString('en-GB')
-
     let formData = {
       idJabatan: payload.id_jabatan,
       tglAkhir: endDate
@@ -553,23 +601,29 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-'),
     }
-    const result = await apiClient.post(`/hirarki/removeUser`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/removeUser`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -578,33 +632,37 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-    const { data } = state
 
+    const { data } = state
     let formData = {
       offset: data.bodyList.offset,
       limit: 2000,
       idLevelJabatan: parseInt(payload.id_jabatan),
     }
-
     if (payload.search) {
       formData['q'] = payload.search
     }
-
-    const result = await apiClient.post(`/hirarki/salesList`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/salesList`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          sales_non_bawahan: result.data.data,
+          totalAllSales: result.data.totalAll,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        sales_non_bawahan: result.data.data,
-        totalAllSales: result.data.totalAll,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -615,25 +673,29 @@ const actions = {
       limit: 5000,
       idLevelJabatan: parseInt(payload.id_jabatan),
     }
-
     if (payload.search) {
       formData['q'] = payload.search
     }
-
-    const result = await apiClient.post(`/hirarki/salesList`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/salesList`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        const dataObj = result.data.data.map(item => {
+          item = item.namasales
+          return item
+        })
+        await commit('changeUserManagement', {
+          salesBawahan: dataObj || [],
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      const dataObj = result.data.data.map(item => {
-        item = item.namasales
-        return item
-      })
-      await commit('changeUserManagement', {
-        salesBawahan: dataObj || [],
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -644,33 +706,37 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       IDuser: payload.id_user,
       IDbawahan: data.form_tambah_bawahan.id_bawahan,
       tglMulai: data.form_tambah_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_tambah_bawahan.tgl_akhir,
     }
-
-    const result = await apiClient.post(`/hirarki/addHirarkiDown`, formData)
-
-    if (result.data.state == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/addHirarkiDown`, formData)
+      if (result.data.state == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagementCRM', {
+          isLoading: false,
+          modalVisibleHirarkiDown: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagementCRM', {
+          isLoading: false,
+          modalVisibleHirarkiDown: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagementCRM', {
-        isLoading: false,
-        modalVisibleHirarkiDown: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeUserManagementCRM', {
-        isLoading: false,
-        modalVisibleHirarkiDown: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -681,33 +747,37 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       idJabatan: data.form_replace_bawahan.id_jabatan,
       userReplacerID: data.form_replace_bawahan.user_replace_id,
       tglMulai: data.form_replace_bawahan.tgl_mulai.addDays(0),
       tglAkhir: data.form_replace_bawahan.tgl_akhir,
     }
-
-    const result = await apiClient.post(`/hirarki/replaceUser`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/replaceUser`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+          modalVisibleHirarkiDown: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil direplace`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+          modalVisibleHirarkiDown: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-        modalVisibleHirarkiDown: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil direplace`,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-        modalVisibleHirarkiDown: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -718,7 +788,6 @@ const actions = {
     })
 
     const { data } = state
-
     const salesList = [...data.sales_non_bawahan]
     let filtered = salesList.filter(x => x.namasales == data.form_assign_bawahan.id_user)
     const idUser = filtered[0].iduser
@@ -735,26 +804,31 @@ const actions = {
       tglMulai: data.form_assign_bawahan.tgl_mulai.addDays(0),
       // tglAkhir: data.form_assign_bawahan.tgl_akhir,
     }
-
-    const result = await apiClient.post(`/hirarki/assignUser`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/assignUser`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+          modalVisibleAssignUser: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil di assign `,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+          modalVisibleAssignUser: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-        modalVisibleAssignUser: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil di assign `,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-        modalVisibleAssignUser: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -763,26 +837,31 @@ const actions = {
     commit('changeUserManagement', {
       isLoading: true,
     })
-    const { data } = state
 
+    const { data } = state
     let body = {
       idUser: payload.userid,
     }
-
-    const result = await apiClient.post(`/hirarki/historyJabatan`, body)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/historyJabatan`, body)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          history: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        history: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -793,21 +872,25 @@ const actions = {
     })
 
     const { data } = state
-
     let body = {
       idJabatan: payload.idJabatan,
     }
-
-    const result = await apiClient.post(`/hirarki/historyJabatanbyIdJabatan`, body)
-
-    if (result.data.status == false) {
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        history: result.data.data,
-        isLoading: false,
+    try {
+      const result = await apiClient.post(`/hirarki/historyJabatanbyIdJabatan`, body)
+      if (result.data.status == false) {
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          history: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -817,21 +900,25 @@ const actions = {
     })
 
     const { data } = state
-
     let body = {
       idJabatan: payload.idJabatan,
     }
-
-    const result = await apiClient.post('/hirarki/viewTree', body)
-
-    if (result.data.status == false) {
-      await commit('changeUserManagement', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeUserManagement', {
-        tree: result.data.data,
-        isLoading: false,
+    try {
+      const result = await apiClient.post('/hirarki/viewTree', body)
+      if (result.data.status == false) {
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeUserManagement', {
+          tree: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
