@@ -21,11 +21,15 @@
             {{ distri.ID_DISTRIBUTOR }} - {{ distri.NM_DISTRIBUTOR }}
           </a-select-option>
         </a-select>
-        <a-button class="mb-3 btn_search mr-2" @click="buttonGet()">
+        <!-- <a-button class="mb-3 btn_search mr-2" @click="buttonGet()">
           <i class="fa fa-search mr-2" />
           Cari
+        </a-button> -->
+        <a-button class="mb-3 btn_search mr-2" @click="buttonGetData()">
+          <i class="fa fa-search mr-2" />
+          Get Data
         </a-button>
-        <a-button
+        <!-- <a-button
           type="primary"
           class="mb-3"
           :loading="synCustomer.isLoading"
@@ -33,6 +37,16 @@
         >
           <i class="fa fa-refresh mr-2" />
           SYNC
+        </a-button> -->
+        <a-button
+          v-if="synCustomer.listCustomer.length > 0"
+          type="primary"
+          class="mb-3"
+          :loading="synCustomer.isLoading"
+          @click="buttonGetSyncNew()"
+        >
+          <i class="fa fa-refresh mr-2" />
+          SYNC to Database
         </a-button>
 
         <div class="row">
@@ -55,18 +69,16 @@
           </div>
         </div>
         <br />
-        <!-- <span>Selected: {{ selectValue }}</span
-        > -->
         <br />
 
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="columns"
             :data-source="synCustomer.listCustomer"
-            :row-key="data => data.id"
+            :row-key="(data) => data.id"
             :loading="synCustomer.isLoading"
           >
-            <template #status="{text}"> {{ text.status }} 1111 </template>
+            <template #status="{ text }"> {{ text.status }} </template>
             <template #action="{ text }">
               <div>
                 <button type="button" class="btn btn-light">
@@ -95,71 +107,64 @@
 <script>
 import { select } from 'ant-design-vue'
 import {
-  // getDistributorList,
   getDataList,
   deleteData,
   getDataTokoDistributor,
 } from '@/services/connection/customer-sync/api'
-// import { getDistributorList } from '@/services/connection/master-data/api'
-// import { UploadOutlined } from '@ant-design/icons-vue';
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
 
 const columns = [
   {
-    title: 'No',
-    dataIndex: 'id',
-    key: 'id',
-    // fixed: 'left',
-    slots: { customRender: 'name' },
-  },
-  {
     title: 'ID Toko',
-    dataIndex: 'customerid',
-    key: 'customerid',
-    // fixed: 'left',
-    // slots: { customRender: 'name' },
+    dataIndex: 'bisnisKokohId',
+    key: 'bisnisKokohId',
   },
   {
     title: 'Nama Toko',
-    dataIndex: 'customername',
-    key: 'customername',
-    // slots: { customRender: 'name' },
+    dataIndex: 'storeName',
+    key: 'storeName',
   },
   {
-    title: 'Nama Distributor',
-    dataIndex: 'distributorname',
-    key: 'distributorname',
+    title: 'Kota',
+    dataIndex: 'cityName',
+    key: 'cityName',
   },
   {
-    title: 'Nama Customer',
-    dataIndex: 'customername',
-    key: 'customername',
+    title: 'Provinsi',
+    dataIndex: 'provinceName',
+    key: 'provinceName',
   },
   {
-    title: 'Id Distributor',
-    dataIndex: 'distributorid',
-    key: 'distributorid',
+    title: 'Area',
+    dataIndex: 'areaName',
+    key: 'areaName',
+  },
+  {
+    title: 'Region',
+    dataIndex: 'regionalName',
+    key: 'regionalName',
+  },
+  {
+    title: 'Segment',
+    dataIndex: 'segment',
+    key: 'segment',
   },
   {
     title: 'Status',
-    // fixed: 'right',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'storeStatus',
+    key: 'storeStatus',
   },
 ]
 export default {
   name: 'VbAntDesign',
-  // components: {
-  //   UploadOutlined,
-  // },
 
   setup() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -192,16 +197,20 @@ export default {
   },
   computed: {
     ...mapState({
-      synCustomer: state => state.synCustomer.data,
+      synCustomer: (state) => state.synCustomer.data,
     }),
   },
   mounted() {
-    // this.fetchGetDataSource()
     this.getListDistributor()
   },
   methods: {
-    ...mapActions('synCustomer', ['getListDistributor', 'getDataListCustomer', 'getAsyncData']),
-    searchData: _.debounce(function() {
+    ...mapActions('synCustomer', [
+      'getListDistributor',
+      'getDataListCustomer',
+      'getAsyncDataNew',
+      'getDataCustomerMDXL',
+    ]),
+    searchData: _.debounce(function () {
       this.$store.commit('synCustomer/changeSynCustomer', {
         bodyList: {
           filter: this.synCustomer.bodyList.filter,
@@ -242,6 +251,16 @@ export default {
         this.isDisabled = false
       }
     },
+    buttonGetSyncNew() {
+      if (this.selectValue == '' || this.selectValue == null) {
+        this.$message.error('Pilih Distributor Terlebih Dahulu!')
+      } else {
+        this.getAsyncDataNew({
+          kode_customer: this.selectValue,
+        })
+        this.isDisabled = false
+      }
+    },
     buttonGet() {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
@@ -251,9 +270,25 @@ export default {
       }
     },
 
+    buttonGetData() {
+      if (this.selectValue == '' || this.selectValue == null) {
+        this.$message.error('Pilih Distributor Terlebih Dahulu!')
+      } else {
+        this.fetchDataCustomerMDXL()
+        this.isDisabled = false
+      }
+    },
+
     async fetchDataListCustomer() {
       await this.getDataListCustomer({
-          id_distrib: this.selectValue,
+        id_distrib: this.selectValue,
+      })
+      this.dataTemp = this.synCustomer.listCustomer
+    },
+
+    async fetchDataCustomerMDXL() {
+      await this.getDataCustomerMDXL({
+        id_distrib: this.selectValue,
       })
       this.dataTemp = this.synCustomer.listCustomer
     },
@@ -261,13 +296,13 @@ export default {
     /* UNTUK GET DATA DISTRIBUTOR BY API*/
     fetchGetDataTokoDistributorLis() {
       getDataList()
-        .then(response => {
+        .then((response) => {
           const hide = this.$message.loading('Action in progress..', 0)
           if (response) {
             this.dataSourceTable = response
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
           }
         })
@@ -276,23 +311,13 @@ export default {
 
     searchKeyword(keyword) {
       if (keyword) {
-        this.synCustomer.listCustomer = this.dataTemp.filter(item => item.customername.toLowerCase().includes(keyword))
+        this.synCustomer.listCustomer = this.dataTemp.filter((item) =>
+          item.customername.toLowerCase().includes(keyword),
+        )
       } else {
         this.synCustomer.listCustomer = this.dataTemp
       }
     },
-
-    // fetchGetDataSource() {
-    //   getDistributorList()
-    //     .then(response => {
-    //       if (response) {
-    //         this.listDistributor = response
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.error(err)
-    //     })
-    // },
   },
 }
 </script>
