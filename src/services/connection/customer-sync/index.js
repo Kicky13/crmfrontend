@@ -126,13 +126,14 @@ const actions = {
         payload.id_distrib +
         `&method=post`,
     )
-    if (result.data.status == false) {
+    if (result.data.status == 404) {
       notification.error({
         message: 'Error',
         description: result.data.message,
       })
       await commit('changeSynCustomer', {
         isLoading: false,
+        listCustomer: [],
       })
     } else {
       if (data.bodyList.filter.length > 0) {
