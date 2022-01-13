@@ -6,6 +6,8 @@ const state = {
   data: {
     isLoading: false,
     dataCustomer: [],
+    dataDetailCustomer: Object,
+    dataDetailHistory: Object,
     dataVisit: [],
     dataProduct: [],
     status: '',
@@ -326,6 +328,58 @@ const actions = {
       notification.error({
         message: 'Error',
         description: response.data.message,
+      })
+      await commit('changeKoordinat', {
+        isLoading: false,
+      })
+    }
+  },
+
+  async getDataDetailCustomerList({ commit }, payload) {
+    commit('changeKoordinat', {
+      isLoading: true,
+    })
+    let formData = {
+      idToko: payload.id_toko,
+    }
+
+    const response = await apiClient.post('Kordinat/DetailCustomerList', formData)
+
+    if (response.data.status) {
+      await commit('changeKoordinat', {
+        dataDetailCustomer: response.data.data,
+        isLoading: false,
+      })
+    } else {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeKoordinat', {
+        isLoading: false,
+      })
+    }
+  },
+
+  async getDataDetailHistory({ commit }, payload) {
+    commit('changeKoordinat', {
+      isLoading: true,
+    })
+    let formData = {
+      idHistoryVisit: payload.id_history,
+    }
+
+    const response = await apiClient.post('Kordinat/DetailKunjungan', formData)
+
+    if (response.data.status) {
+      await commit('changeKoordinat', {
+        dataDetailHistory: response.data.data,
+        isLoading: false,
+      })
+    } else {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
       })
       await commit('changeKoordinat', {
         isLoading: false,
