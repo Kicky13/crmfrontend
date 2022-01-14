@@ -141,12 +141,11 @@ export default defineComponent({
     }
 
     const addNewPost = (param, config) => {
-      storePost(param, config)
-      .then((response) => {
-        if (response) {
-          console.log(response)
-          if (response.status === 200) {
-              
+      try {
+        storePost(param, config).then(response => {
+          if (response) {
+            console.log(response)
+            if (response.status === 200) {
               notification.success({
                 message: 'Tambah Program',
                 description: 'Program berhasil ditambah',
@@ -158,8 +157,14 @@ export default defineComponent({
                 description: 'Program Gagal Ditambah',
               })
             }
-        }
-      })
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     }
 
     const formState = reactive({
@@ -189,8 +194,14 @@ export default defineComponent({
       ) {
         let startDate = new Date(formState.startDate).toLocaleDateString('en-GB')
         let endDate = new Date(formState.FinishDate).toLocaleDateString('en-GB')
-        formState.startDate = startDate.toString().replace('/', '-').replace('/', '-')
-        formState.FinishDate = endDate.toString().replace('/', '-').replace('/', '-')
+        formState.startDate = startDate
+          .toString()
+          .replace('/', '-')
+          .replace('/', '-')
+        formState.FinishDate = endDate
+          .toString()
+          .replace('/', '-')
+          .replace('/', '-')
         addNewPost(toRaw(formState), config)
         formState.post_date = ''
         //  formState.program_time = ''
