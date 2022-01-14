@@ -122,47 +122,61 @@ export default defineComponent({
 
     const getPostById = () => {
       const id = route.params.userId
-      listPost().then((response) => {
-        if (response) {
-          const post = response.data.find((post) => post.id === id)
-          formState.programID = post.id
-          formState.post_date = post.program_date
-          // formState.post_time = post.program_time
-          formState.programName = post.program_title
-          // formState.post_slug = response.post_slug
-          formState.description = post.program_detail
-          formState.startDate = formatDate(post.start_date)
-          formState.FinishDate = formatDate(post.finish_date)
-          // formState.publication_status = response.publication_status
-          // formState.tag = response.tag
-          //   formState.image = response.image
-        }
-      })
+      try {
+        listPost().then(response => {
+          if (response) {
+            const post = response.data.find(post => post.id === id)
+            formState.programID = post.id
+            formState.post_date = post.program_date
+            // formState.post_time = post.program_time
+            formState.programName = post.program_title
+            // formState.post_slug = response.post_slug
+            formState.description = post.program_detail
+            formState.startDate = formatDate(post.start_date)
+            formState.FinishDate = formatDate(post.finish_date)
+            // formState.publication_status = response.publication_status
+            // formState.tag = response.tag
+            //   formState.image = response.image
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     }
 
-    const formatDate = (date) => {
+    const formatDate = date => {
       let components = date.split('-')
       let newDate = components[1] + '-' + components[0] + '-' + components[2]
       return new Date(newDate)
     }
 
     const updatePostById = (param, config) => {
-      updatePost(param, config).then((response) => {
-        if (response) {
-           if (response.status === 200) {
+      try {
+        updatePost(param, config).then(response => {
+          if (response) {
+            if (response.status === 200) {
               router.push('/marketing/program')
               notification.success({
                 message: 'Update Program',
                 description: 'Program berhasil diupdate',
               })
             } else {
-             notification.error({
+              notification.error({
                 message: 'Update Program',
                 description: 'Program Gagal diupdate',
               })
             }
-        }
-      })
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     }
 
     const formState = reactive({
@@ -191,8 +205,14 @@ export default defineComponent({
       ) {
         let startDate = new Date(formState.startDate).toLocaleDateString('en-GB')
         let endDate = new Date(formState.FinishDate).toLocaleDateString('en-GB')
-        formState.startDate = startDate.toString().replace('/', '-').replace('/', '-')
-        formState.FinishDate = endDate.toString().replace('/', '-').replace('/', '-')
+        formState.startDate = startDate
+          .toString()
+          .replace('/', '-')
+          .replace('/', '-')
+        formState.FinishDate = endDate
+          .toString()
+          .replace('/', '-')
+          .replace('/', '-')
         updatePostById(toRaw(formState), config)
         formState.programID = ''
         formState.post_date = ''
@@ -236,10 +256,17 @@ export default defineComponent({
   methods: {
     getPostById() {
       const id = this.$route.params.userId
-      listPost().then((response) => {
-        if (response) {
-        }
-      })
+      try {
+        listPost().then(response => {
+          if (response) {
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
     disabledStartDate(startValue) {
       const endValue = this.formState.FinishDate

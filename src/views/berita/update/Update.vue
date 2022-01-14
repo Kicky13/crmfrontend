@@ -4,34 +4,14 @@
       <vb-headers-card-header :data="{ title: 'Form Update Berita' }" />
     </div>
     <div class="card-body">
-      <a-form
-        label-align="left"
-        layout="vertical"
-        :model="formState"
-        :rules="rules"
-      >
-        <a-form-item
-          label="Judul"
-          name="judul"
-        >
-          <a-input
-            class="input-style"
-            v-model:value="formState.judul"
-          />
+      <a-form label-align="left" layout="vertical" :model="formState" :rules="rules">
+        <a-form-item label="Judul" name="judul">
+          <a-input class="input-style" v-model:value="formState.judul" />
         </a-form-item>
-        <a-form-item
-          label="Detail"
-          name="detail"
-        >
-          <quill-editor
-            style="height: 200px"
-            v-model:value="formState.detail"
-          />
+        <a-form-item label="Detail" name="detail">
+          <quill-editor style="height: 200px" v-model:value="formState.detail" />
         </a-form-item>
-        <a-form-item
-          label="Gambar"
-          name="image"
-        >
+        <a-form-item label="Gambar" name="image">
           <a-upload
             accept="image/png, image/jpg, image/jpeg"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -46,11 +26,7 @@
               Upload
             </div>
           </a-upload>
-          <a-modal
-            :footer="null"
-            :visible="previewVisible"
-            @cancel="previewVisible = false"
-          >
+          <a-modal :footer="null" :visible="previewVisible" @cancel="previewVisible = false">
             <img
               v-once
               lazy="loading"
@@ -61,12 +37,7 @@
           </a-modal>
         </a-form-item>
         <a-form-item>
-          <a-button
-            class="mr-2"
-            html-type="submit"
-            type="primary"
-            @click="onSubmit"
-          >
+          <a-button class="mr-2" html-type="submit" type="primary" @click="onSubmit">
             Update
           </a-button>
           <router-link to="/marketing/berita">
@@ -81,24 +52,20 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  onMounted,
-  reactive,
-} from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
 import { updatePost, postList } from '@/services/connection/berita/api'
-import { useRoute, useRouter } from 'vue-router';
-import { notification } from 'ant-design-vue';
+import { useRoute, useRouter } from 'vue-router'
+import { notification } from 'ant-design-vue'
 import { quillEditor } from 'vue3-quill'
 import VbHeadersCardHeader from '../header/Header'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
 }
 
 export default defineComponent({
@@ -137,41 +104,60 @@ export default defineComponent({
     })
     const getPostById = () => {
       const id = route.params.artikelId
-      postList()
-      .then(response => {
-        if (response) {
-          const post = response.data.find(post => post.id === id)
-          formState.id = post.id
-          formState.date = post.post_date + ' ' + post.post_time
-          formState.judul = post.post_title
-          formState.detail = post.post_detail
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+      try {
+        postList()
+          .then(response => {
+            if (response) {
+              const post = response.data.find(post => post.id === id)
+              formState.id = post.id
+              formState.date = post.post_date + ' ' + post.post_time
+              formState.judul = post.post_title
+              formState.detail = post.post_detail
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     }
     const updatePostById = (id, param, config) => {
-      updatePost(id, param, config)
-      .then(response => {
-        if (response) {
-          if (response.status === 200) {
-            router.push('/marketing/berita')
-            notification.success({
-              message: 'Update Berita',
-              description: 'Berita berhasil diupdate',
-            })
-          } else {
-            notification.warning({
-              message: 'Update Berita',
-              description: response.message[1].replace('image yang diperbolehkan adalah', 'Format gambar harus'),
-            })
-          }
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+      try {
+        updatePost(id, param, config)
+          .then(response => {
+            if (response) {
+              if (response.status === 200) {
+                router.push('/marketing/berita')
+                notification.success({
+                  message: 'Update Berita',
+                  description: 'Berita berhasil diupdate',
+                })
+              } else {
+                notification.warning({
+                  message: 'Update Berita',
+                  description: response.message[1].replace(
+                    'image yang diperbolehkan adalah',
+                    'Format gambar harus',
+                  ),
+                })
+              }
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     }
     const formState = reactive({
       id: '',
@@ -215,7 +201,7 @@ export default defineComponent({
       fileList: [],
       isLoading: false,
       imagedata: null,
-    };
+    }
   },
   mounted() {
     this.getPostById()
@@ -224,41 +210,48 @@ export default defineComponent({
     getPostById() {
       this.isLoading = true
       const id = this.$route.params.artikelId
-      postList()
-      .then(response => {
-        if (response) {
-          const imgObj = response.data.find(data => data.id === id).post_image
-          const imgName = imgObj.split('/')
-          const lastIndex = imgName.length - 1
-          const info = {
-            fileList: [
-              {
-                uid: '-1',
-                name: '.jpg/.png',
-                status: 'error',
-              },
-              {
-                uid: '0',
-                name: imgName[lastIndex],
-                status: 'done',
-                url: imgObj,
-              },
-            ],
-          }
-          this.handleChange(info)
-          this.isLoading = false
-        }
-      })
-      .catch(err => {
-        this.isLoading = false
-      })
+      try {
+        postList()
+          .then(response => {
+            if (response) {
+              const imgObj = response.data.find(data => data.id === id).post_image
+              const imgName = imgObj.split('/')
+              const lastIndex = imgName.length - 1
+              const info = {
+                fileList: [
+                  {
+                    uid: '-1',
+                    name: '.jpg/.png',
+                    status: 'error',
+                  },
+                  {
+                    uid: '0',
+                    name: imgName[lastIndex],
+                    status: 'done',
+                    url: imgObj,
+                  },
+                ],
+              }
+              this.handleChange(info)
+              this.isLoading = false
+            }
+          })
+          .catch(err => {
+            this.isLoading = false
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
     async handlePreview(file) {
       if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
+        file.preview = await getBase64(file.originFileObj)
       }
-      this.previewImage = file.url || file.preview;
-      this.previewVisible = true;
+      this.previewImage = file.url || file.preview
+      this.previewVisible = true
     },
     handleChange(info) {
       let fileList = [...info.fileList]

@@ -9,6 +9,7 @@ export async function postList() {
         }
         return false
     })
+    
 }
 
 export async function storePost(data, config) {

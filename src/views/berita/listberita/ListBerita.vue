@@ -1,33 +1,17 @@
 <template>
   <a-row :gutter="[16, 16]">
-    <a-col
-      :xs="24"
-      :sm="24"
-      :md="12"
-      :lg="8"
-      v-for="post in posts"
-      :key="post.id"
-    >
+    <a-col :xs="24" :sm="24" :md="12" :lg="8" v-for="post in posts" :key="post.id">
       <div class="card card-top card-top-primary h-100">
         <div class="card-body pb-0">
-          <Can
-            do="create"
-            on="News"
-          >
+          <Can do="create" on="News">
             <div class="nav-item dropdown d-flex flex-row-reverse">
-              <a-dropdown
-                placement="bottomCenter"
-                :trigger="['click']"
-              >
-                <a
-                  class="nav-link pt-sm-0 pr-0"
-                  href="javascript: void(0);"
-                >
+              <a-dropdown placement="bottomCenter" :trigger="['click']">
+                <a class="nav-link pt-sm-0 pr-0" href="javascript: void(0);">
                   <i class="fa fa-caret-down" />
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <router-link :to="{ path: `/marketing/berita/update/${ post.id }` }">
+                    <router-link :to="{ path: `/marketing/berita/update/${post.id}` }">
                       <a-menu-item>
                         <a>Update</a>
                       </a-menu-item>
@@ -47,14 +31,11 @@
             style="width: 100%; height: 150px;"
           />
           <!-- eslint-disable vue/no-v-html -->
-          <h5
-            class="card-text detail-ellipsis"
-            v-html="post.post_title"
-          />
+          <h5 class="card-text detail-ellipsis" v-html="post.post_title" />
         </div>
         <div class="card-footer bg-transparent d-flex justify-content-between">
-          <div class="text-main align-self-center">{{ post.post_date }} {{post.post_time}}</div>
-          <router-link :to="`/marketing/berita/detail/${ post.id }`">
+          <div class="text-main align-self-center">{{ post.post_date }} {{ post.post_time }}</div>
+          <router-link :to="`/marketing/berita/detail/${post.id}`">
             <a-button type="primary">Selengkapnya</a-button>
           </router-link>
         </div>
@@ -70,7 +51,7 @@ export default {
   props: {
     posts: {
       type: Array,
-      default: function () {
+      default: function() {
         return []
       },
     },
@@ -78,15 +59,23 @@ export default {
   emits: ['deleteSuccess'],
   methods: {
     deletePostById(id) {
-      deletePost(id)
-      .then(response => {
-        if (response) {
-          this.$emit('deleteSuccess')
-        }
-      })
-      .catch(err => {
-        if (err) {}
-      })
+      try {
+        deletePost(id)
+          .then(response => {
+            if (response) {
+              this.$emit('deleteSuccess')
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
     deleteConfirm(id) {
       const deleteMethod = this.deletePostById
@@ -99,7 +88,7 @@ export default {
         onOk() {
           deleteMethod(id)
         },
-      });
+      })
     },
   },
 }

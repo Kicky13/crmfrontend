@@ -28,8 +28,8 @@
               <div class="col-md-6" style="margin-top: 5%">
                 <div class="text-dark font-weight-bold font-size-32">
                   {{
-                    koordinatLock.detail_customer.nm_customer
-                      ? koordinatLock.detail_customer.nm_customer
+                    koordinatLock.dataDetailCustomer.nm_customer
+                      ? koordinatLock.dataDetailCustomer.nm_customer
                       : 'loading..'
                   }}
                 </div>
@@ -48,7 +48,9 @@
                     <span>Nama Pemilik</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ koordinatLock.detail_customer.nama_pemilik ?? 'loading..' }}</span>
+                    <span
+                      >: {{ koordinatLock.dataDetailCustomer.nama_pemilik ?? 'loading..' }}</span
+                    >
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -60,7 +62,9 @@
                   </div>
                   <div class="col-md-4">
                     <span
-                      >: 0{{ koordinatLock.detail_customer.no_telp_toko ?? 'Tidak Tersedia' }}</span
+                      >: 0{{
+                        koordinatLock.dataDetailCustomer.no_telp_toko ?? 'Tidak Tersedia'
+                      }}</span
                     >
                   </div>
                 </div>
@@ -72,7 +76,7 @@
                     <span>Alamat</span>
                   </div>
                   <div class="col-md-6">
-                    <span>: {{ koordinatLock.detail_customer.alamat ?? '-' }}</span>
+                    <span>: {{ koordinatLock.dataDetailCustomer.alamat ?? '-' }}</span>
                   </div>
                 </div>
                 <div class="row border-bottom font-size-16" style="margin-bottom: 12px">
@@ -83,7 +87,7 @@
                     <span>Kapasitas Toko</span>
                   </div>
                   <div class="col-md-4">
-                    <span>: {{ koordinatLock.detail_customer.kapasitas_toko ?? 0 }}</span>
+                    <span>: {{ koordinatLock.dataDetailCustomer.kapasitas_toko ?? 0 }}</span>
                   </div>
                 </div>
               </a-tab-pane>
@@ -112,7 +116,7 @@
                   <a-table
                     class="mt-2"
                     :columns="koordinatLock.column_distributor"
-                    :data-source="koordinatLock.detail_customer.distributor"
+                    :data-source="koordinatLock.dataDetailCustomer.distributor"
                     :row-key="data => data.id_distributor"
                     :pagination="koordinatLock.pagination"
                     :loading="koordinatLock.isLoading"
@@ -241,8 +245,8 @@
               <div class="text-center">
                 <div class="text-dark font-weight-bold font-size-20"></div>
                 <div class="font-size-16">
-                  Lng: {{ koordinatLock.detail_customer.longitude ?? '-' }} | Ltd:
-                  {{ koordinatLock.detail_customer.latitude ?? '-' }}
+                  Lng: {{ koordinatLock.dataDetailCustomer.longitude ?? '-' }} | Ltd:
+                  {{ koordinatLock.dataDetailCustomer.latitude ?? '-' }}
                 </div>
               </div>
             </div>
@@ -251,7 +255,9 @@
             <a-button :loading="koordinatLock.isLoading" type="primary" @click="getLockData()">
               <i class="fa fa-lock mr-2" />
               {{
-                koordinatLock.detail_customer.status_lock != 0 ? 'Unlock Customer' : 'Lock Customer'
+                koordinatLock.dataDetailCustomer.status_lock != 0
+                  ? 'Unlock Customer'
+                  : 'Lock Customer'
               }}
             </a-button>
           </div>
@@ -348,17 +354,27 @@ export default {
     await this.getHistoryVisitToko({
       idToko: this.$route.params.id_toko,
     })
-    await this.getDataCustomer({
-      id_distrik: parseInt(this.$route.params.id_distrik),
-      search: '',
+    // await this.getDataCustomer({
+    //   id_distrik: parseInt(this.$route.params.id_distrik),
+    //   search: '',
+    // })
+
+    await this.getDataDetailCustomerList({
+      id_toko: this.$route.params.id_toko,
     })
-    this.dataDetailCustomer()
+
+    // this.dataDetailCustomer()
 
     this.urlMap()
     // await this.fetchGetHistoryVisit()
   },
   methods: {
-    ...mapActions('koordinatLock', ['getLockCustomer', 'getHistoryVisitToko', 'getDataCustomer']),
+    ...mapActions('koordinatLock', [
+      'getLockCustomer',
+      'getHistoryVisitToko',
+      'getDataCustomer',
+      'getDataDetailCustomerList',
+    ]),
 
     changeActiveKey(key) {
       this.activeKey = key
@@ -367,14 +383,14 @@ export default {
       this.pagination.pageSize = size
     },
 
-    dataDetailCustomer() {
-      const dataSource = [...this.koordinatLock.dataCustomer]
-      const filteredDetailCustomer = dataSource.filter(
-        a => a.id_customer == this.$route.params.id_toko,
-      )
-      this.koordinatLock.detail_customer = filteredDetailCustomer[0]
-      this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
-    },
+    // dataDetailCustomer() {
+    //   const dataSource = [...this.koordinatLock.dataCustomer]
+    //   const filteredDetailCustomer = dataSource.filter(
+    //     a => a.id_customer == this.$route.params.id_toko,
+    //   )
+    //   this.koordinatLock.detail_customer = filteredDetailCustomer[0]
+    //   this.totalDistributor = this.koordinatLock.detail_customer.distributor.length
+    // },
 
     async getLockData() {
       await this.getLockCustomer({
@@ -391,8 +407,8 @@ export default {
     },
 
     urlMap() {
-      let lat = this.koordinatLock.detail_customer.latitude ?? 0
-      let long = this.koordinatLock.detail_customer.longitude ?? 0
+      let lat = this.koordinatLock.dataDetailCustomer.latitude ?? 0
+      let long = this.koordinatLock.dataDetailCustomer.longitude ?? 0
       let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
       this.link =
         `https://www.google.com/maps/embed/v1/view?key=` +
