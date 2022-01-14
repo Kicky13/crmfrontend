@@ -24,7 +24,7 @@
                       <h3>Supervisor</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.nama_supervisor ?? 'loading...' }}</span>
+                      <span>{{ koordinatLock.dataDetailHistory.nama_supervisor ?? 'loading...' }}</span>
                     </div>
                   </div>
                 </div>
@@ -35,7 +35,7 @@
                       <h4>Tanggal</h4>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.tgl_rencana_kunjungan ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataDetailHistory.tgl_rencana_kunjungan ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -46,7 +46,7 @@
                       <h4>Durasi</h4>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.durasi ?? 0 }} Menit</span>
+                      <span>{{ koordinatLock.dataDetailHistory.durasi ?? 0 }} Menit</span>
                     </div>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                       <h3>Customer</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.nama_toko ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataDetailHistory.nama_toko ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -70,7 +70,7 @@
                       <h3>Pemilik</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.nama_pemilik ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataDetailHistory.nama_pemilik ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -81,7 +81,7 @@
                       <h3>Alamat</h3>
                     </div>
                     <div class="text">
-                      <span>{{ detail_visit.alamat_toko ?? '-' }}</span>
+                      <span>{{ koordinatLock.dataDetailHistory.alamat_toko ?? '-' }}</span>
                     </div>
                   </div>
                 </div>
@@ -193,7 +193,7 @@
             <strong class="align-self-center">Foto Survey</strong>
           </div>
           <div class="card-header">
-            <div v-if="detail_visit.url_foto === null">
+            <div v-if="koordinatLock.dataDetailHistory.url_foto === null">
               <img
                 lazy="loading"
                 v-once
@@ -204,7 +204,7 @@
             </div>
             <div v-else>
               <a-carousel class="border" autoplay>
-                <div v-for="(item, index) in detail_visit.url_foto" :key="`index_${index}`">
+                <div v-for="(item, index) in koordinatLock.dataDetailHistory.url_foto" :key="`index_${index}`">
                   <img lazy="loading" v-once :src="item" class="img-fluid" alt="Mary Stanform" />
                 </div>
               </a-carousel>
@@ -397,15 +397,23 @@ export default {
       idHistoryVisit: this.$route.params.id_kunjungan,
     })
 
+    await this.getDataDetailHistory({
+      id_history: this.$route.params.id_kunjungan,
+    })
+
     this.getDetailSurvey()
 
     this.urlMap()
   },
   methods: {
-    ...mapActions('koordinatLock', ['getProductSurvey', 'getHistoryVisitToko']),
+    ...mapActions('koordinatLock', [
+      'getDataDetailHistory',
+      'getProductSurvey',
+      'getHistoryVisitToko',
+    ]),
     urlMap() {
-      let lat = this.detail_visit.latitude === null ? 0 : this.detail_visit.latitude 
-      let long = this.detail_visit.longitude  === null ? 0 :this.detail_visit.latitude.longitude
+      let lat = this.koordinatLock.dataDetailHistory.latitude === null ? 0 : this.detail_visit.latitude
+      let long = this.koordinatLock.dataDetailHistory.longitude === null ? 0 : this.detail_visit.latitude.longitude
       let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
       this.link =
         `https://www.google.com/maps/embed/v1/view?key=` +
