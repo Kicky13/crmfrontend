@@ -8,11 +8,11 @@
         </a-button>
       </router-link>
     </Can>
-    <i
+    <!-- <i
       class="fa fa-question btn btn-info ml-3"
       style="border-radius: 50%;"
       @click="quickGuideModalHandle"
-    />
+    /> -->
     <template v-if="isLoading">
       <div class="d-flex justify-content-center align-items-center">
         <div class="spinner-grow spinner-grow-sm text-main" role="status" />
