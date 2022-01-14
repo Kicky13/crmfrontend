@@ -1,18 +1,16 @@
 <template>
   <div>
-      <Can do="create" on="Program">
-    <router-link to="/marketing/program/tambah">
-      <button type="button" class="btn btn-main mb-3">
-        <i class="fa fa-plus" />
-        <span class="text-black"> Tambah Program</span>
-      </button>
-    </router-link>
+    <Can do="create" on="Program">
+      <router-link to="/marketing/program/tambah">
+        <button type="button" class="btn btn-main mb-3">
+          <i class="fa fa-plus" />
+          <span class="text-black"> Tambah Program</span>
+        </button>
+      </router-link>
     </Can>
-    
-    
-            <vb-list-program :post-items="posts"
-      @delete-message="deleteSuccess"/>
-       <template v-if="isLoading">
+
+    <vb-list-program :post-items="posts" @delete-message="deleteSuccess" />
+    <template v-if="isLoading">
       <div class="d-flex justify-content-center align-items-center">
         <div class="spinner-grow spinner-grow-sm text-main" role="status" />
         <div class="spinner-grow text-main mx-2" role="status" />
@@ -20,15 +18,8 @@
       </div>
     </template>
     <template v-else>
-      <vb-list-berita
-        v-if="posts.length"
-        :posts="posts"
-        @delete-success="deleteSuccess"
-      />
-      <div
-        v-else
-        class="text-main text-center font-italic"
-      >
+      <vb-list-berita v-if="posts.length" :posts="posts" @delete-success="deleteSuccess" />
+      <div v-else class="text-main text-center font-italic">
         --- Belum ada Program ---
       </div>
     </template>
@@ -39,15 +30,14 @@
         :default-page-size="6"
         @change="onChange"
       />
-    </div> 
-    
+    </div>
   </div>
 </template>
 
 <script>
 import { listPost } from '@/services/connection/program/api'
 import VbListProgram from './ListProgram'
-import { message } from 'ant-design-vue';
+import { message } from 'ant-design-vue'
 
 export default {
   components: {
@@ -61,7 +51,7 @@ export default {
       current: 1,
       postTotal: 0,
       temp: [],
-    };
+    }
   },
   mounted() {
     this.getListPost()
@@ -76,20 +66,26 @@ export default {
     getListPost() {
       this.posts = []
       this.isLoading = true
-      listPost()
-      .then(response => {
-        if (response) {
-          // response.data.forEach(item => this.posts.unshift(item))
-          this.temp = response.data
-          this.postTotal = this.temp.length
-          this.posts = this.temp.slice(0, 6)
-          this.isLoading = false
-        }
-      })
+      try {
+        listPost().then(response => {
+          if (response) {
+            // response.data.forEach(item => this.posts.unshift(item))
+            this.temp = response.data
+            this.postTotal = this.temp.length
+            this.posts = this.temp.slice(0, 6)
+            this.isLoading = false
+          }
+        })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: error.message,
+        })
+      }
     },
     deleteSuccess() {
       this.getListPost()
-      
+
       message.success('Program Name berhasil dihapus')
     },
   },
