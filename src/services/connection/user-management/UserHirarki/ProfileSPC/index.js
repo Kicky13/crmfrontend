@@ -83,20 +83,28 @@ const actions = {
       limit: 1000,
       q: '',
     }
-    const result = await apiClient.post(`/hirarki/allRegion`, formData)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/allRegion`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileTSO', {
+          daftar_distrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileTSO', {
-        daftar_distrik: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -110,20 +118,28 @@ const actions = {
     let formData = {
       idSpc: payload.id_tso,
     }
-    const result = await apiClient.post(`/hirarki/regionSpc`, formData)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/regionSpc`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileTSO', {
+          list_distrik_bawahan: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileTSO', {
-        list_distrik_bawahan: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -147,23 +163,31 @@ const actions = {
           .replace('/', '-')
           .replace('/', '-'),
       }
-      const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
 
-      if (result.data.status == false) {
+      try {
+        const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
+  
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+          await commit('changeProfileTSO', {
+            isLoading: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: `Data berhasil dihapus`,
+          })
+          await commit('changeProfileTSO', {
+            isLoading: false,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
     } else {
@@ -174,23 +198,31 @@ const actions = {
           .replace('/', '-')
           .replace('/', '-'),
       }
-      const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
 
-      if (result.data.status == false) {
+      try {
+        const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
+  
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+          await commit('changeProfileTSO', {
+            isLoading: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: `Data berhasil dihapus`,
+          })
+          await commit('changeProfileTSO', {
+            isLoading: false,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
-        })
-        await commit('changeProfileTSO', {
-          isLoading: false,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
     }
@@ -225,23 +257,30 @@ const actions = {
         .replace('/', '-')
     }
 
-    const result = await apiClient.post(`/hirarki/addRegionSpc`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/addRegionSpc`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
