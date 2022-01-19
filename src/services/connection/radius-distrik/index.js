@@ -95,20 +95,27 @@ const actions = {
       q: data.bodyList.filter,
     }
 
-    const result = await apiClient.post('/RadiusWilayah/List', body)
+    try {
+      const result = await apiClient.post('/RadiusWilayah/List', body)
 
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeRadiusDistrik', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          listRadiusDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeRadiusDistrik', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeRadiusDistrik', {
-        listRadiusDistrik: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -124,21 +131,27 @@ const actions = {
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
+    try {
+      const result = await apiClient.post('/RadiusWilayah/ListLevelWilayah', body)
 
-    const result = await apiClient.post('/RadiusWilayah/ListLevelWilayah', body)
-
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeRadiusDistrik', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataWilayah: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeRadiusDistrik', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeRadiusDistrik', {
-        dataWilayah: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -155,17 +168,24 @@ const actions = {
       idLevelWilayah: data.formData.wilayahid,
     }
 
-    const result = await apiClient.post('/RadiusWilayah/List_Distrik', body)
+    try {
+      const result = await apiClient.post('/RadiusWilayah/List_Distrik', body)
 
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      await commit('changeRadiusDistrik', {
-        dataDistrik: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -185,20 +205,27 @@ const actions = {
       radius_lock: data.formData.radius,
     }
 
-    result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
-    if (result.data.status == 'error') {
+    try {
+      result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      await commit('changeRadiusDistrik', {
-        dataDistrik: result.data.data,
-        isLoading: false,
-      })
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -224,20 +251,27 @@ const actions = {
         description: 'radius lock tidak boleh lebih dari 100000',
       })
     } else {
-      result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
-      if (result.data.status == 'error') {
+      try {
+        result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
+        if (result.data.status == 'error') {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+        } else {
+          await commit('changeRadiusDistrik', {
+            dataDistrik: result.data.data,
+            isLoading: false,
+          })
+          notification.success({
+            message: 'Success',
+            description: result.data.message,
+          })
+        }
+      } catch (error) {
         notification.error({
           message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        await commit('changeRadiusDistrik', {
-          dataDistrik: result.data.data,
-          isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
     }
@@ -252,21 +286,28 @@ const actions = {
       uuid: payload.id_distrik,
     }
 
-    const result = await apiClient.post('/RadiusWilayah/Delete_Radius', body)
+    try {
+      const result = await apiClient.post('/RadiusWilayah/Delete_Radius', body)
 
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeRadiusDistrik', {
+          isLoading: false,
+          listRadiusDistrik: result.data.data,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      await commit('changeRadiusDistrik', {
-        isLoading: false,
-        listRadiusDistrik: result.data.data,
-      })
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

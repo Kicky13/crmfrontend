@@ -94,21 +94,28 @@ const actions = {
         'Content-Type': 'multipart/form-data',
       },
     }
-    const result = await apiClient.post('/customer/Mapping', formData, config)
+    try {
+      const result = await apiClient.post('/customer/Mapping', formData, config)
 
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+        await commit('changeCustomerMapping', {
+          listData: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
-      })
-      await commit('changeCustomerMapping', {
-        listData: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -155,17 +162,24 @@ const actions = {
     const formData = new FormData()
     formData.append('commitData', JSON.stringify(dataArray))
     formData.append('id_reference_wilayah', JSON.stringify(dataIdRefenceWilayah))
-    const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
+    try {
+      const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
 
-    if (result.data.status == 'error') {
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
