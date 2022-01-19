@@ -93,20 +93,28 @@ const actions = {
     let formData = {
       idTso: payload.id_tso,
     }
-    const result = await apiClient.post(`/distrik/all`, formData)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/distrik/all`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileTSO', {
+          daftar_distrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileTSO', {
-        daftar_distrik: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -120,20 +128,28 @@ const actions = {
     let formData = {
       idTso: payload.id_tso,
     }
-    const result = await apiClient.post(`/distrik/distrikBawahan`, formData)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/distrik/distrikBawahan`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileTSO', {
+          list_distrik_bawahan: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileTSO', {
-        list_distrik_bawahan: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -154,23 +170,31 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-'),
     }
-    const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
 
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/distrik/hapusDistrikTugas`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -204,23 +228,30 @@ const actions = {
         .replace('/', '-')
     }
 
-    const result = await apiClient.post(`/distrik/tambahDistrikTugas`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/distrik/tambahDistrikTugas`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeProfileTSO', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

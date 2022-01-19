@@ -94,16 +94,23 @@ const actions = {
       offset: data.table.offset,
       limit: data.table.limit,
     }
-    const result = await apiClient.post(`/user/listJenis`, params)
-    if (result.data.state == false) {
+    try {
+      const result = await apiClient.post(`/user/listJenis`, params)
+      if (result.data.state == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeUserManagementCRM', {
+          listUser: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      await commit('changeUserManagementCRM', {
-        listUser: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -119,17 +126,23 @@ const actions = {
       limit: data.table.limit,
       q: data.table.q,
     }
-    const result = await apiClient.post(`/usercrm/all`, params)
-    console.log(result.data.data)
-    if (result.data.state == false) {
+    try {
+      const result = await apiClient.post(`/usercrm/all`, params)
+      if (result.data.state == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeUserManagementCRM', {
+          dataSourceTable: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      await commit('changeUserManagementCRM', {
-        dataSourceTable: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -140,7 +153,6 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       nama: data.formState.name,
       username: data.formState.username,
@@ -152,36 +164,48 @@ const actions = {
 
     let result = ''
     if (data.formState.id) {
-      result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
-      if (result.data.status == false) {
+      try {
+        result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: result.data.message,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
       await commit('changeUserManagementCRM', {
         isLoading: false,
       })
     } else {
-      result = await apiClient.post(`/usercrm/add`, formData)
-
-      if (result.data.status == false) {
+      try {
+        result = await apiClient.post(`/usercrm/add`, formData)
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: result.data.message,
+          })
+        }
+      } catch (err) {
         notification.error({
           message: 'Error',
-          description: result.data.message,
-        })
-      } else {
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+          description: 'Maaf, terjadi kesalahan',
         })
       }
-
       await commit('changeUserManagementCRM', {
         isLoading: false,
       })
@@ -189,25 +213,32 @@ const actions = {
   },
 
   async deleteDataUser({ commit }, payload) {
-    const result = await apiClient.delete(`/usercrm/delete/${payload.data_id}`)
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.delete(`/usercrm/delete/${payload.data_id}`)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        commit('changeUserManagementCRM', {
+          isLoading: false,
+        })
+        return false
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        commit('changeUserManagementCRM', {
+          isLoading: false,
+        })
+        return true
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
+        description: 'Maaf, terjadi kesalahan',
       })
-      commit('changeUserManagementCRM', {
-        isLoading: false,
-      })
-      return false
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      commit('changeUserManagementCRM', {
-        isLoading: false,
-      })
-      return true
     }
   },
 
@@ -217,36 +248,40 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       loggedUserID: payload.logged_user_id,
       password: data.formViewPassword.password,
       userID: payload.user_id,
     }
-
-    let result = await apiClient.post(`/usercrm/viewpassword`, formData)
-
-    if (result.data.status == false) {
-      // notification.error({
-      //   message: 'Error',
-      //   description: result.data.message,
-      // })
-      await commit('changeUserManagementCRM', {
-        isLoading: false,
-        modalPreviewPassword: false,
-        status: result.data.status,
-        messagePassword: result.data.message,
-      })
-    } else {
-      // notification.success({
-      //   message: 'Success',
-      //   description: result.data.message,
-      // })
-      await commit('changeUserManagementCRM', {
-        isLoading: false,
-        modalPreviewPassword: false,
-        status: result.data.status,
-        messagePassword: result.data.message,
+    try {
+      let result = await apiClient.post(`/usercrm/viewpassword`, formData)
+      if (result.data.status == false) {
+        // notification.error({
+        //   message: 'Error',
+        //   description: result.data.message,
+        // })
+        await commit('changeUserManagementCRM', {
+          isLoading: false,
+          modalPreviewPassword: false,
+          status: result.data.status,
+          messagePassword: result.data.message,
+        })
+      } else {
+        // notification.success({
+        //   message: 'Success',
+        //   description: result.data.message,
+        // })
+        await commit('changeUserManagementCRM', {
+          isLoading: false,
+          modalPreviewPassword: false,
+          status: result.data.status,
+          messagePassword: result.data.message,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
     await commit('changeUserManagementCRM', {
@@ -261,24 +296,28 @@ const actions = {
     })
 
     const { data } = state
-
     const formData = {
       oldPassword: payload.oldPassword,
       newPassword: payload.newPassword,
       userID: payload.userID,
     }
-
-    let result = await apiClient.post(`/usercrm/changepassword`, formData)
-
-    if (result.data.status == false) {
-      notification.warning({
+    try {
+      const result = await apiClient.post(`/usercrm/changepassword`, formData)
+      if (result.data.status == false) {
+        notification.warning({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (err) {
+      notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

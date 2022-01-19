@@ -15,37 +15,27 @@ const state = {
       },
       {
         title: 'ID Toko',
-        dataIndex: 'customerid',
-        key: 'customerid',
+        dataIndex: 'bisnisKokohId',
+        key: 'bisnisKokohId',
         // fixed: 'left',
         // slots: { customRender: 'name' },
       },
       {
         title: 'Nama Toko',
-        dataIndex: 'customername',
-        key: 'customername',
+        dataIndex: 'storeName',
+        key: 'storeName',
         // slots: { customRender: 'name' },
       },
       {
-        title: 'Nama Distributor',
-        dataIndex: 'distributorname',
-        key: 'distributorname',
-      },
-      {
-        title: 'Nama Customer',
-        dataIndex: 'customername',
-        key: 'customername',
-      },
-      {
-        title: 'Id Distributor',
-        dataIndex: 'distributorid',
-        key: 'distributorid',
+        title: 'Kota',
+        dataIndex: 'cityName',
+        key: 'cityName',
       },
       {
         title: 'Status',
         // fixed: 'right',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'storeStatus',
+        key: 'storeStatus',
       },
     ],
     bodyList: {
@@ -125,6 +115,42 @@ const actions = {
     }
   },
 
+  async getDataCustomerMDXL({ commit, state }, payload) {
+    commit('changeSynCustomer', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    const result = await apiClient.get(
+      `https://api-mdxl.aksestoko.com/api/data/toko?distributor=` +
+        payload.id_distrib +
+        `&method=post`,
+    )
+    if (result.data.status == 404) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
+        listCustomer: [],
+      })
+    } else {
+      if (data.bodyList.filter.length > 0) {
+      } else {
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil ditampilkan',
+        })
+      }
+
+      await commit('changeSynCustomer', {
+        listCustomer: result.data.datas,
+        isLoading: false,
+      })
+    }
+  },
+
   async getAsyncData({ commit, state }, payload) {
     commit('changeSynCustomer', {
       isLoading: true,
@@ -157,6 +183,44 @@ const actions = {
       notification.success({
         message: 'Success',
         description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
+      })
+    }
+  },
+  async getAsyncDataNew({ commit, state }, payload) {
+    commit('changeSynCustomer', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let formData = new FormData()
+
+    formData.append('data', JSON.stringify(data.listCustomer))
+    formData.append('kodedistributor', payload.kode_customer)
+
+    const result = await apiClient.post(`/scheduler/MappingCustomerDistributorJson`, formData, {
+      timeout: 800000,
+    })
+    if (result.data.status == false) {
+      notification.error({
+        message: 'Error',
+        description: result.data.message,
+      })
+      await commit('changeSynCustomer', {
+        isLoading: false,
+      })
+    } else {
+      notification.success({
+        message: 'Success',
+        description:
+          result.data.message +
+          ', ' +
+          result.data.insert +
+          ' Data berhasil ditambahkan & ' +
+          result.data.update +
+          ' Data berhasil diupdate',
       })
       await commit('changeSynCustomer', {
         isLoading: false,
