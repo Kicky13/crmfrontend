@@ -231,30 +231,41 @@ export default {
         return true
       }
       const formData = toRaw(this.formState)
-
-      insertProduk(formData)
-        .then(response => {
-          console.log(response)
-          if (response.status == true) {
-            this.fetchGetDataSource()
-            notification.success({
-              message: 'Berhasil',
-              description: response.message,
-            })
-          } else {
-            let message = response.message
-            message.forEach(x =>
+      try {
+        insertProduk(formData)
+          .then(response => {
+            console.log(response)
+            if (response.status == true) {
+              this.fetchGetDataSource()
+              notification.success({
+                message: 'Berhasil',
+                description: response.message,
+              })
+            } else {
+              let message = response.message
+              message.forEach(x =>
+                notification.error({
+                  message: 'Gagal!',
+                  description: x,
+                }),
+              )
+            }
+          })
+          .catch(err => {
+            if (err) {
               notification.error({
-                message: 'Gagal!',
-                description: x,
-              }),
-            )
-          }
+                message: 'Error',
+                description: 'Maaf, terjadi kesalahan',
+              })
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
         })
-        .catch(err => {
-          if (err) {
-          }
-        })
+      }
+
       setTimeout(() => {
         this.visible = false
         this.confirmLoading = false
@@ -280,25 +291,36 @@ export default {
         return true
       }
       const formData = toRaw(this.formState)
-      updateProduk(this.formState.id, formData)
-        .then(response => {
-          if (response == true) {
-            this.fetchGetDataSource()
-            notification.success({
-              message: 'Berhasil!',
-              description: 'Update Berhasil',
-            })
-          } else {
-            notification.error({
-              message: 'Gagal!',
-              description: 'Update Gagal',
-            })
-          }
+      try {
+        updateProduk(this.formState.id, formData)
+          .then(response => {
+            if (response == true) {
+              this.fetchGetDataSource()
+              notification.success({
+                message: 'Berhasil!',
+                description: 'Update Berhasil',
+              })
+            } else {
+              notification.error({
+                message: 'Gagal!',
+                description: 'Update Gagal',
+              })
+            }
+          })
+          .catch(err => {
+            if (err) {
+              notification.error({
+                message: 'Error',
+                description: 'Maaf, terjadi kesalahan',
+              })
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
         })
-        .catch(err => {
-          if (err) {
-          }
-        })
+      }
       setTimeout(() => {
         this.visible = false
         this.confirmLoading = false
