@@ -45,6 +45,7 @@
     "vue-tour": "^1.5.0",
     "vue-underscore": "^0.1.4",
     "vue3-apexcharts": "^1.4.1",
+    "vue3-blocks-tree": "^0.6.1",
     "vue3-datepicker": "^0.2.5",
     "vue3-echarts": "^1.0.3",
     "vue3-perfect-scrollbar": "^1.5.5",
