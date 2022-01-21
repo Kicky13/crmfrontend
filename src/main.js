@@ -10,6 +10,8 @@ import { i18n } from './localization'
 import ability from '@/services/ability/ability'
 import { Can, abilitiesPlugin } from '@casl/vue'
 import './services/axios/fakeApi' // mocking api
+import VueBlocksTree from 'vue3-blocks-tree';
+import 'vue3-blocks-tree/dist/vue3-blocks-tree.css';
 
 createApp(App)
   .use(store)
@@ -17,6 +19,7 @@ createApp(App)
   .use(i18n)
   .use(Antd)
   .use(PerfectScrollbar)
+  .use(VueBlocksTree, { treeName:'blocks-tree' })
   .use(abilitiesPlugin, ability, {
     useGlobalProperties: true,
   })
