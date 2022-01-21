@@ -61,20 +61,27 @@ const actions = {
       q: data.formData.q,
     }
 
-    const result = await apiClient.post(`/distributor/all`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/distributor/all`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileAdminDistributor', {
+          list_distributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileAdminDistributor', {
-        list_distributor: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -91,20 +98,27 @@ const actions = {
       idJabatan: payload.id_jabatan,
     }
 
-    const result = await apiClient.post(`/hirarki/userAdminDistributor`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/userAdminDistributor`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileAdminDistributor', {
+          list_data_table: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
-      })
-    } else {
-      await commit('changeProfileAdminDistributor', {
-        list_data_table: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -131,23 +145,30 @@ const actions = {
       idDistributor: idDistributor,
     }
 
-    const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -165,23 +186,30 @@ const actions = {
       idDistributor: payload.id_distributor,
     }
 
-    const result = await apiClient.post(`/hirarki/removeAdminDistributor`, formData)
-
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/hirarki/removeAdminDistributor`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeProfileAdminDistributor', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil dihapus`,
-      })
-      await commit('changeProfileAdminDistributor', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

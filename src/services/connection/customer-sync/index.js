@@ -58,21 +58,29 @@ const actions = {
     commit('changeSynCustomer', {
       isLoading: true,
     })
+
     const { data } = state
 
-    const result = await apiClient.post(`/ListDistributor`)
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/ListDistributor`)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: true,
+        })
+      } else {
+        await commit('changeSynCustomer', {
+          listDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: true,
-      })
-    } else {
-      await commit('changeSynCustomer', {
-        listDistributor: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -81,6 +89,7 @@ const actions = {
     commit('changeSynCustomer', {
       isLoading: true,
     })
+
     const { data } = state
 
     let formData = {
@@ -90,27 +99,34 @@ const actions = {
       search: data.bodyList.filter,
     }
 
-    const result = await apiClient.post(`/ListCustomer`, formData)
-    if (result.data.status == false) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
-      })
-    } else {
-      if (data.bodyList.filter.length > 0) {
+    try {
+      const result = await apiClient.post(`/ListCustomer`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+        })
       } else {
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil ditampilkan',
+        if (data.bodyList.filter.length > 0) {
+        } else {
+          notification.success({
+            message: 'Success',
+            description: 'Data berhasil ditampilkan',
+          })
+        }
+  
+        await commit('changeSynCustomer', {
+          listCustomer: result.data.data,
+          isLoading: false,
         })
       }
-
-      await commit('changeSynCustomer', {
-        listCustomer: result.data.data,
-        isLoading: false,
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -119,34 +135,42 @@ const actions = {
     commit('changeSynCustomer', {
       isLoading: true,
     })
+
     const { data } = state
 
-    const result = await apiClient.get(
-      `https://api-mdxl.aksestoko.com/api/data/toko?distributor=` +
-        payload.id_distrib +
-        `&method=post`,
-    )
-    if (result.data.status == 404) {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
-        listCustomer: [],
-      })
-    } else {
-      if (data.bodyList.filter.length > 0) {
+    try {
+      const result = await apiClient.get(
+        `https://api-mdxl.aksestoko.com/api/data/toko?distributor=` +
+          payload.id_distrib +
+          `&method=post`,
+      )
+      if (result.data.status == 404) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+          listCustomer: [],
+        })
       } else {
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil ditampilkan',
+        if (data.bodyList.filter.length > 0) {
+        } else {
+          notification.success({
+            message: 'Success',
+            description: 'Data berhasil ditampilkan',
+          })
+        }
+  
+        await commit('changeSynCustomer', {
+          listCustomer: result.data.datas,
+          isLoading: false,
         })
       }
-
-      await commit('changeSynCustomer', {
-        listCustomer: result.data.datas,
-        isLoading: false,
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -155,44 +179,54 @@ const actions = {
     commit('changeSynCustomer', {
       isLoading: true,
     })
+
     const { data } = state
 
     let formData = {
       kodedistributor: payload.kode_customer,
     }
 
-    // const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData, {
-    //   timeout: 600000,
-    // })
-    const result = await apiClient.post(
-      `/scheduler/masterMappingCustomerDistributorAreaQueue`,
-      formData,
-      {
-        timeout: 800000,
-      },
-    )
-    if (result.data.status == false) {
+    try {
+      // const result = await apiClient.post(`/scheduler/masterMappingCustomerDistributor`, formData, {
+      //   timeout: 600000,
+      // })
+      const result = await apiClient.post(
+        `/scheduler/masterMappingCustomerDistributorAreaQueue`,
+        formData,
+        {
+          timeout: 800000,
+        },
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
+
   async getAsyncDataNew({ commit, state }, payload) {
     commit('changeSynCustomer', {
       isLoading: true,
     })
+
     const { data } = state
 
     let formData = new FormData()
@@ -200,30 +234,37 @@ const actions = {
     formData.append('data', JSON.stringify(data.listCustomer))
     formData.append('kodedistributor', payload.kode_customer)
 
-    const result = await apiClient.post(`/scheduler/MappingCustomerDistributorJson`, formData, {
-      timeout: 800000,
-    })
-    if (result.data.status == false) {
+    try {
+      const result = await apiClient.post(`/scheduler/MappingCustomerDistributorJson`, formData, {
+        timeout: 800000,
+      })
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description:
+            result.data.message +
+            ', ' +
+            result.data.insert +
+            ' Data berhasil ditambahkan & ' +
+            result.data.update +
+            ' Data berhasil diupdate',
+        })
+        await commit('changeSynCustomer', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description:
-          result.data.message +
-          ', ' +
-          result.data.insert +
-          ' Data berhasil ditambahkan & ' +
-          result.data.update +
-          ' Data berhasil diupdate',
-      })
-      await commit('changeSynCustomer', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
