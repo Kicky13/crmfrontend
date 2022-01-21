@@ -79,7 +79,7 @@ export default {
     await this.getHirarkiInternal()
   },
   methods: {
-    ...mapActions('reporting', ['getHirarkiInternal']),
+    ...mapActions('reporting', ['getHirarkiInternal', 'getTsoDistrik']),
     async hirarkiInternalDownload() {
       const header = [
         'ID_JABATAN',
@@ -134,6 +134,7 @@ export default {
       )
     },
     async tsoDistrikDownload() {
+      await this.getTsoDistrik()
       const header = [
         'ID_USER_TSO',
         'USERNAME_TSO',
@@ -148,60 +149,60 @@ export default {
         'END_DISTRIK',
       ]
       const filterVal = [
-        'idTso',
-        'usernameTso',
-        'namaTso',
-        'idJabatan',
-        'namaJabatan',
-        'startJabatan',
-        'endJabatan',
-        'idDistrik',
-        'namaDistrik',
-        'startDistrik',
-        'endDistrik',
+        'id_user_tso',
+        'username_tso',
+        'nama_tso',
+        'id_jabatan',
+        'nama_jabatan',
+        'start_jabatan',
+        'end_jabatan',
+        'id_distrik',
+        'nama_distrik',
+        'start_distrik',
+        'end_distrik',
       ]
-      const list = [
-        {
-          idTso: 5666,
-          usernameTso: 'kiki22',
-          namaTso: 'Kiki',
-          idJabatan: 8237,
-          namaJabatan: 'TSO 1',
-          startJabatan: '12/02/2021',
-          endJabatan: '12/02/2022',
-          idDistrik: 2811,
-          namaDistrik: 'Kabupaten Gresik',
-          startDistrik: '12/02/2021',
-          endDistrik: '12/02/2022',
-        },
-        {
-          idTso: 5666,
-          usernameTso: 'kiki22',
-          namaTso: 'Kiki',
-          idJabatan: 8237,
-          namaJabatan: 'TSO 1',
-          startJabatan: '12/02/2021',
-          endJabatan: '12/02/2022',
-          idDistrik: 3531,
-          namaDistrik: 'Kabupaten Pasuruan',
-          startDistrik: '12/02/2021',
-          endDistrik: '12/02/2022',
-        },
-        {
-          idTso: 5667,
-          usernameTso: 'umam99',
-          namaTso: 'Umam',
-          idJabatan: 7887,
-          namaJabatan: 'TSO 5',
-          startJabatan: '12/02/2021',
-          endJabatan: '12/02/2022',
-          idDistrik: 8988,
-          namaDistrik: 'Kabupaten Probolinggo',
-          startDistrik: '12/02/2021',
-          endDistrik: '12/02/2022',
-        },
-      ]
-      this.exportToExcel(header, filterVal, list, 'mapping-tso-distrik')
+      // const list = [
+      //   {
+      //     idTso: 5666,
+      //     usernameTso: 'kiki22',
+      //     namaTso: 'Kiki',
+      //     idJabatan: 8237,
+      //     namaJabatan: 'TSO 1',
+      //     startJabatan: '12/02/2021',
+      //     endJabatan: '12/02/2022',
+      //     idDistrik: 2811,
+      //     namaDistrik: 'Kabupaten Gresik',
+      //     startDistrik: '12/02/2021',
+      //     endDistrik: '12/02/2022',
+      //   },
+      //   {
+      //     idTso: 5666,
+      //     usernameTso: 'kiki22',
+      //     namaTso: 'Kiki',
+      //     idJabatan: 8237,
+      //     namaJabatan: 'TSO 1',
+      //     startJabatan: '12/02/2021',
+      //     endJabatan: '12/02/2022',
+      //     idDistrik: 3531,
+      //     namaDistrik: 'Kabupaten Pasuruan',
+      //     startDistrik: '12/02/2021',
+      //     endDistrik: '12/02/2022',
+      //   },
+      //   {
+      //     idTso: 5667,
+      //     usernameTso: 'umam99',
+      //     namaTso: 'Umam',
+      //     idJabatan: 7887,
+      //     namaJabatan: 'TSO 5',
+      //     startJabatan: '12/02/2021',
+      //     endJabatan: '12/02/2022',
+      //     idDistrik: 8988,
+      //     namaDistrik: 'Kabupaten Probolinggo',
+      //     startDistrik: '12/02/2021',
+      //     endDistrik: '12/02/2022',
+      //   },
+      // ]
+      this.exportToExcel(header, filterVal, this.reporting.listTsoDistrik, 'mapping-tso-distrik')
     },
     async tokoDistributorDownload() {
       const header = [

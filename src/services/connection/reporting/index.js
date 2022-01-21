@@ -5,6 +5,7 @@ const state = {
   data: {
     isLoading: false,
     listHirarkiInternal: [],
+    listTsoDistrik: [],
   },
 }
 
@@ -39,6 +40,38 @@ const actions = {
         })
       }
     } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getTsoDistrik({ commit, state }) {
+    commit('changeReporting', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/reportAdmin/downloadTsoDistrik`)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReporting', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReporting', {
+          listTsoDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
