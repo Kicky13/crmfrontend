@@ -23,7 +23,7 @@
         </div>
 
         <!--  -->
-        <div class="list_download d-flex" @click="tokoDistributorDownload">
+        <div class="list_download d-flex" @click="openModalDistributor()">
           <div class="list_download_information">
             Download Mapping Toko Distributor
           </div>
@@ -33,7 +33,7 @@
         </div>
 
         <!--  -->
-        <div class="list_download d-flex" @click="customerSalesDownload">
+        <div class="list_download d-flex" @click="openModalCustomers()">
           <div class="list_download_information">
             Download Mapping Customer Sales
           </div>
@@ -63,6 +63,33 @@
         </div>
       </div>
     </div>
+
+    <a-modal v-model:visible="reporting.modalVisibleTSO" :closable="true" :mask-closable="true">
+      <template v-if="reporting.identify === `Distributor`" #footer>
+        <a-button @click="tokoDistributorDownload()" key="submit" type="primary">Download</a-button>
+      </template>
+      <template v-else #footer>
+        <a-button @click="customerSalesDownload()" key="submit" type="primary">Download</a-button>
+      </template>
+      <div class="form-group">
+        <label for="exampleFormControlInput1" class="font-weight-bold text-black">Pilih TSO</label>
+        <br />
+        <a-select
+          v-model:value="reporting.body.nama"
+          @change="handleTSOChange"
+          class="w-100"
+          show-search
+          placeholder="Pilih TSO"
+        >
+          <a-select-option
+            v-for="data in userManagement.users"
+            :key="data.idJabatan"
+            :value="data.nama"
+            >{{ data.idJabatan }} - {{ data.nama }}</a-select-option
+          >
+        </a-select>
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -73,13 +100,20 @@ export default {
   computed: {
     ...mapState({
       reporting: state => state.reporting.data,
+      userManagement: state => state.userManagement.data,
     }),
   },
   async mounted() {
     await this.getHirarkiInternal()
   },
   methods: {
-    ...mapActions('reporting', ['getHirarkiInternal', 'getTsoDistrik']),
+    ...mapActions('reporting', [
+      'getHirarkiInternal',
+      'getTsoDistrik',
+      'getDownloadTokoDist',
+      'getDownloadCustomers',
+    ]),
+    ...mapActions('userManagement', ['getDataTable']),
     async hirarkiInternalDownload() {
       const header = [
         'ID_JABATAN',
@@ -205,6 +239,10 @@ export default {
       this.exportToExcel(header, filterVal, this.reporting.listTsoDistrik, 'mapping-tso-distrik')
     },
     async tokoDistributorDownload() {
+      await this.getDownloadTokoDist({
+        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
+      })
+
       const header = [
         'KODE_TOKO',
         'NAMA_TOKO',
@@ -221,35 +259,44 @@ export default {
         'idDistrik',
         'namaDistrik',
       ]
-      const list = [
-        {
-          idToko: 1000292,
-          namaToko: 'UD. SUBUR',
-          idDistributor: 10092238,
-          namaDistributor: 'PT. Bersinar',
-          idDistrik: 29391,
-          namaDistrik: 'Kabupaten Gresik',
-        },
-        {
-          idToko: 1000777,
-          namaToko: 'UD. JAWA MAKMUR',
-          idDistributor: 88819,
-          namaDistributor: 'PT. Bersinar',
-          idDistrik: 29391,
-          namaDistrik: 'Kabupaten Gresik',
-        },
-        {
-          idToko: 10008191,
-          namaToko: 'UD. KALIMANTAN',
-          idDistributor: 12192,
-          namaDistributor: 'PT. Randuagung',
-          idDistrik: 72717,
-          namaDistrik: 'Kabupaten Probolinggo',
-        },
-      ]
-      this.exportToExcel(header, filterVal, list, 'mapping-toko-distributor')
+      // const list = [
+      //   {
+      //     idToko: 1000292,
+      //     namaToko: 'UD. SUBUR',
+      //     idDistributor: 10092238,
+      //     namaDistributor: 'PT. Bersinar',
+      //     idDistrik: 29391,
+      //     namaDistrik: 'Kabupaten Gresik',
+      //   },
+      //   {
+      //     idToko: 1000777,
+      //     namaToko: 'UD. JAWA MAKMUR',
+      //     idDistributor: 88819,
+      //     namaDistributor: 'PT. Bersinar',
+      //     idDistrik: 29391,
+      //     namaDistrik: 'Kabupaten Gresik',
+      //   },
+      //   {
+      //     idToko: 10008191,
+      //     namaToko: 'UD. KALIMANTAN',
+      //     idDistributor: 12192,
+      //     namaDistributor: 'PT. Randuagung',
+      //     idDistrik: 72717,
+      //     namaDistrik: 'Kabupaten Probolinggo',
+      //   },
+      // ]
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.reporting.listDownloadTokoDist,
+        'mapping-toko-distributor',
+      )
     },
     async customerSalesDownload() {
+      await this.getDownloadCustomers({
+        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
+      })
+
       const header = [
         'ID_USER_SALES',
         'USERNAME_SALES',
@@ -300,59 +347,64 @@ export default {
         'w4',
         'w5',
       ]
-      const list = [
-        {
-          idSales: 7272,
-          namaSales: 'Kiki',
-          usernameSales: 'kikik11',
-          idJabatanSales: 72732,
-          jabatanSales: 'MHJ.182.1H1',
-          startJabatan: '12/05/2021',
-          endJabatan: '12/05/2023',
-          idDistributor: 6267,
-          namaDistributor: 'PT. Selalu Bahagia',
-          kodeToko: 2123,
-          namaToko: 'Toko Bangunan, TK',
-          sun: 'N',
-          mon: 'N',
-          tue: 'Y',
-          wed: 'Y',
-          thu: 'N',
-          fri: 'Y',
-          sat: 'N',
-          w1: 'N',
-          w2: 'N',
-          w3: 'Y',
-          w4: 'Y',
-          w5: 'Y',
-        },
-        {
-          idSales: 5673,
-          namaSales: 'Fauzan',
-          usernameSales: 'fauzan',
-          idJabatanSales: 3828,
-          jabatanSales: 'MHJ.182.22Y',
-          startJabatan: '12/05/2021',
-          endJabatan: '12/05/2023',
-          idDistributor: 89182,
-          namaDistributor: 'PT. Bangun Karya',
-          kodeToko: 83829,
-          namaToko: 'Kokoh, TK',
-          sun: 'N',
-          mon: 'N',
-          tue: 'Y',
-          wed: 'Y',
-          thu: 'N',
-          fri: 'Y',
-          sat: 'N',
-          w1: 'N',
-          w2: 'N',
-          w3: 'Y',
-          w4: 'Y',
-          w5: 'Y',
-        },
-      ]
-      this.exportToExcel(header, filterVal, list, 'mapping-customer-sales')
+      // const list = [
+      //   {
+      //     idSales: 7272,
+      //     namaSales: 'Kiki',
+      //     usernameSales: 'kikik11',
+      //     idJabatanSales: 72732,
+      //     jabatanSales: 'MHJ.182.1H1',
+      //     startJabatan: '12/05/2021',
+      //     endJabatan: '12/05/2023',
+      //     idDistributor: 6267,
+      //     namaDistributor: 'PT. Selalu Bahagia',
+      //     kodeToko: 2123,
+      //     namaToko: 'Toko Bangunan, TK',
+      //     sun: 'N',
+      //     mon: 'N',
+      //     tue: 'Y',
+      //     wed: 'Y',
+      //     thu: 'N',
+      //     fri: 'Y',
+      //     sat: 'N',
+      //     w1: 'N',
+      //     w2: 'N',
+      //     w3: 'Y',
+      //     w4: 'Y',
+      //     w5: 'Y',
+      //   },
+      //   {
+      //     idSales: 5673,
+      //     namaSales: 'Fauzan',
+      //     usernameSales: 'fauzan',
+      //     idJabatanSales: 3828,
+      //     jabatanSales: 'MHJ.182.22Y',
+      //     startJabatan: '12/05/2021',
+      //     endJabatan: '12/05/2023',
+      //     idDistributor: 89182,
+      //     namaDistributor: 'PT. Bangun Karya',
+      //     kodeToko: 83829,
+      //     namaToko: 'Kokoh, TK',
+      //     sun: 'N',
+      //     mon: 'N',
+      //     tue: 'Y',
+      //     wed: 'Y',
+      //     thu: 'N',
+      //     fri: 'Y',
+      //     sat: 'N',
+      //     w1: 'N',
+      //     w2: 'N',
+      //     w3: 'Y',
+      //     w4: 'Y',
+      //     w5: 'Y',
+      //   },
+      // ]
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.reporting.listDownloadCustomers,
+        'mapping-customer-sales',
+      )
     },
     exportToExcel(header, filterVal, list, filename) {
       import('@/vendor/Export2Excel').then(excel => {
@@ -377,6 +429,29 @@ export default {
           }
         }),
       )
+    },
+    async openModalDistributor() {
+      this.reporting.modalVisibleTSO = true
+      this.reporting.identify = 'Distributor'
+
+      await this.getDataTable({
+        id_level_hirarki: 40,
+      })
+    },
+
+    async openModalCustomers() {
+      this.reporting.modalVisibleTSO = true
+      this.reporting.identify = 'Customers'
+
+      await this.getDataTable({
+        id_level_hirarki: 40,
+      })
+    },
+
+    handleTSOChange() {
+      const dataSource = [...this.userManagement.users]
+      let filterTSO = dataSource.filter(item => item.nama == this.reporting.body.nama)
+      this.reporting.body.id_jabatanTSO = filterTSO[0].idJabatan
     },
   },
 }
