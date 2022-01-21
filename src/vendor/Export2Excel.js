@@ -162,7 +162,7 @@ export function export_json_to_excel({
     data.unshift(multiHeader[i])
   }
 
-  var ws_name = "SheetJS";
+  var ws_name = "Sheet";
   var wb = new Workbook(),
     ws = sheet_from_array_of_arrays(data);
 

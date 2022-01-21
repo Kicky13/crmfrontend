@@ -143,17 +143,24 @@ const actions = {
       limit: 2000,
     }
 
-    const result = await apiClient.post('/Visit/ReportLogVisitPlan', body)
-
-    if (!result.data.status) {
+    try {
+      const result = await apiClient.post('/Visit/ReportLogVisitPlan', body)
+  
+      if (!result.data.status) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+      } else {
+        await commit('changeOtomatisasiVisitPlan', {
+          list_data: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message[0],
-      })
-    } else {
-      await commit('changeOtomatisasiVisitPlan', {
-        list_data: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

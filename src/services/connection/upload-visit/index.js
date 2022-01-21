@@ -107,25 +107,33 @@ const actions = {
         'Content-Type': 'multipart/form-data',
       },
     }
-    const result = await apiClient.post('/Visit/CekVisitPlan', formData, config)
 
-    if (result.data.status == 'error') {
+    try {
+      const result = await apiClient.post('/Visit/CekVisitPlan', formData, config)
+  
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeVisitPlan', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+        await commit('changeVisitPlan', {
+          status: result.data.status,
+          listData: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeVisitPlan', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: result.data.message,
-      })
-      await commit('changeVisitPlan', {
-        status: result.data.status,
-        listData: result.data.data,
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
@@ -140,23 +148,31 @@ const actions = {
     const formData = {
       data: JSON.stringify(data.listData),
     }
-    const result = await apiClient.post(`/Visit/UploadVisitPlan`, formData)
 
-    if (result.data.status == 'error') {
+    try {
+      const result = await apiClient.post(`/Visit/UploadVisitPlan`, formData)
+  
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeVisitPlan', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeVisitPlan', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
-        description: result.data.message,
-      })
-      await commit('changeVisitPlan', {
-        isLoading: false,
-      })
-    } else {
-      notification.success({
-        message: 'Success',
-        description: `Data berhasil ditambahkan`,
-      })
-      await commit('changeVisitPlan', {
-        isLoading: false,
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
