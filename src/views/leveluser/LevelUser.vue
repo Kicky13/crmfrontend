@@ -5,15 +5,6 @@
         <div class="d-flex">
           <div class="align-self-center">
             <strong>Level User</strong>
-            <button
-              data-toggle="tooltip"
-              title="Help"
-              type="button"
-              class="btn btn-info btn-circle ml-3"
-              @click="helpQuestion()"
-            >
-              <i class="fa fa-question"></i>
-            </button>
           </div>
         </div>
         <Can do="create" on="News">
