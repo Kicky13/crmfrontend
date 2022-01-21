@@ -23,7 +23,7 @@
         </div>
 
         <!--  -->
-        <div class="list_download d-flex" @click="tokoDistributorDownload"> 
+        <div class="list_download d-flex" @click="tokoDistributorDownload">
           <div class="list_download_information">
             Download Mapping Toko Distributor
           </div>
@@ -72,13 +72,15 @@ export default {
   name: 'Reporting',
   computed: {
     ...mapState({
-      reporting: (state) => state.reporting.data,
+      reporting: state => state.reporting.data,
     }),
+  },
+  async mounted() {
+    await this.getHirarkiInternal()
   },
   methods: {
     ...mapActions('reporting', ['getHirarkiInternal']),
     async hirarkiInternalDownload() {
-      // await this.getHirarkiInternal()
       const header = [
         'ID_JABATAN',
         'NM_JABATAN',
@@ -105,40 +107,31 @@ export default {
         'tglMulai',
         'tglAkhir',
       ]
-      // const list = this.reporting.listHirarkiInternal
-      const list = [
-        {
-          idJabatan: 28378,
-          namaJabatan: 'ASM Distrik 1',
-          jenisUser: 'ASM',
-          idUser: 8273,
-          namaUser: 'Kikik',
-          username: 'kikik13',
-          tglMulai: '12/02/2021',
-          tglAkhir: '10/12/2022',
-          idJabatanAtasan: 72367,
-          jabatanAtasan: 'GSM Region 1',
-          namaAtasan: 'Nidhom',
-          tglMulaiAtasan: '12/02/2021',
-          tglAkhirAtasan: '10/12/2022',
-        },
-        {
-          idJabatan: 9384,
-          namaJabatan: 'ASM Distrik 2',
-          jenisUser: 'ASM',
-          idUser: 7372,
-          namaUser: 'Fauzan',
-          username: 'fauzan1',
-          tglMulai: '12/02/2021',
-          tglAkhir: '10/12/2022',
-          idJabatanAtasan: 72367,
-          jabatanAtasan: 'GSM Region 1',
-          namaAtasan: 'Nidhom',
-          tglMulaiAtasan: '12/02/2021',
-          tglAkhirAtasan: '10/12/2022',
-        },
-      ]
-      this.exportToExcel(header, filterVal, list, 'master-mapping-hirarki-internal')
+
+      //   const list = [
+      //     // {
+      //     //   idJabatan: element.idJabatan,
+      //     //   // namaJabatan: 'ASM Distrik 1',
+      //     //   // jenisUser: 'ASM',
+      //     //   // idUser: 8273,
+      //     //   // namaUser: 'Kikik',
+      //     //   // username: 'kikik13',
+      //     //   // tglMulai: '12/02/2021',
+      //     //   // tglAkhir: '10/12/2022',
+      //     //   // idJabatanAtasan: 72367,
+      //     //   // jabatanAtasan: 'GSM Region 1',
+      //     //   // namaAtasan: 'Nidhom',
+      //     //   // tglMulaiAtasan: '12/02/2021',
+      //     //   // tglAkhirAtasan: '10/12/2022',
+      //     // },
+      //   ]
+
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.reporting.listHirarkiInternal,
+        'master-mapping-hirarki-internal',
+      )
     },
     async tsoDistrikDownload() {
       const header = [
@@ -361,7 +354,7 @@ export default {
       this.exportToExcel(header, filterVal, list, 'mapping-customer-sales')
     },
     exportToExcel(header, filterVal, list, filename) {
-      import('@/vendor/Export2Excel').then((excel) => {
+      import('@/vendor/Export2Excel').then(excel => {
         const data = this.formatJson(filterVal, list)
 
         excel.export_json_to_excel({
@@ -374,8 +367,8 @@ export default {
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map((v) =>
-        filterVal.map((j) => {
+      return jsonData.map(v =>
+        filterVal.map(j => {
           if (j === 'timestamp') {
             return parseTime(v[j])
           } else {
