@@ -68,7 +68,7 @@
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
-            @search="searchData"
+            @search="searchData1"
           />
         </div>
         <div class="table-responsive text-nowrap">
@@ -78,7 +78,6 @@
             :row-key="(data) => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
-            @change="handleTableChange"
           >
             <template #no="{ index }">
               <div>
@@ -546,6 +545,17 @@ export default {
 
       return dataTable
     },
+    searchData1: _.debounce(function() {
+      this.$store.commit('userManagement/changeUserManagement', {
+        body: {
+          offset: 1,
+        },
+      })
+
+      this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
+    }, 100),
     searchData(keyword) {
       this.userManagement.isLoading = true
       if (keyword) {
@@ -652,7 +662,7 @@ export default {
       this.selectedTabId = key
       this.$store.commit('userManagement/changeUserManagement', {
         bodyList: {
-          limit: 500,
+          limit: 5000,
           offset: 0,
         },
       }),
@@ -669,50 +679,38 @@ export default {
               limit: this.userManagement.totalAll,
               offset: 0,
             },
-          }),
-            await this.getDataTable({
-              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-            })
+          })
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
-          }),
-            await this.getDataTable({
-              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-            })
+          })
         }
       }
       if (pagination.pageSize === 10) {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
-          }),
-            await this.getDataTable({
-              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-            })
+          })
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
-          }),
-            await this.getDataTable({
-              id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-            })
+          })
         }
       }
       if (pagination.pageSize === 15) {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
           }),
@@ -722,7 +720,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
           }),
@@ -735,7 +733,7 @@ export default {
         if (pagination.current === 1) {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
           }),
@@ -745,7 +743,7 @@ export default {
         } else {
           await this.$store.commit('userManagement/changeUserManagement', {
             bodyList: {
-              limit: 2000,
+              limit: 5000,
               offset: 0,
             },
           }),
