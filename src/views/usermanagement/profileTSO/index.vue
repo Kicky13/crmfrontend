@@ -224,13 +224,16 @@
       v-model:visible="treeModal"
       title="Hierarchy Tree"
       width=""
-      :body-style="{ padding: '0' }"
-      :style="{ top: '10px', padding: '10px' }"
+      :body-style="{ overflow: 'auto', height: '80vh' }"
+      :style="{ padding: '0 10px', top: '10px' }"
+      :after-close="closeViewTree"
     >
       <template #footer>
         <a-button @click="closeViewTree">Kembali</a-button>
       </template>
-      <tree-hierarchy />
+      <div style="text-align: center">
+        <tree-hierarchy />
+      </div>
     </a-modal>
   </div>
 </template>
@@ -378,9 +381,18 @@ export default {
     },
     openViewTree() {
       this.treeModal = true
+      const newNode = {
+        idJabatan: this.userManagement.detail_jabatan.idJabatan,
+        imgUrl: require('@/assets/images/users.png'),
+        namaUser: this.userManagement.detail_jabatan.namaUser ? this.userManagement.detail_jabatan.namaUser : '-',
+        titleJabatan: this.userManagement.detail_jabatan.levelJabatan,
+      }
+
+      this.userManagement.nodes.push(newNode)
     },
     closeViewTree() {
       this.treeModal = false
+      this.userManagement.nodes = []
     },
   },
 }
