@@ -66,20 +66,32 @@
 
     <a-modal v-model:visible="reporting.modalVisibleTSO" :closable="true" :mask-closable="true">
       <template v-if="reporting.identify === `Distributor`" #footer>
-        <a-button @click="tokoDistributorDownload()" key="submit" type="primary">Download</a-button>
+        <a-button
+          @click="tokoDistributorDownload()"
+          :disabled="reporting.body.nama.length > 0 ? false : true"
+          key="submit"
+          type="primary"
+          >Download</a-button
+        >
       </template>
       <template v-else #footer>
-        <a-button @click="customerSalesDownload()" key="submit" type="primary">Download</a-button>
+        <a-button
+          @click="customerSalesDownload()"
+          :disabled="reporting.body.nama.length > 0 ? false : true"
+          key="submit"
+          type="primary"
+          >Download</a-button
+        >
       </template>
       <div class="form-group">
         <label for="exampleFormControlInput1" class="font-weight-bold text-black">Pilih TSO</label>
         <br />
         <a-select
+          placeholder="Pilih TSO"
           v-model:value="reporting.body.nama"
           @change="handleTSOChange"
           class="w-100"
           show-search
-          placeholder="Pilih TSO"
         >
           <a-select-option
             v-for="data in userManagement.users"
