@@ -1,9 +1,24 @@
 <template>
-  <div id="tree" ref="tree" />
+  <!-- <div id="tree" ref="tree" /> -->
+  <blocks-tree
+    :data="treeData"
+    :collapsable="true"
+    :label-width="275"
+  >
+    <template #node="{ data }">
+      <div>
+        <div class="d-flex justify-content-between mb-3">
+          <img :src="data.imgUrl" alt="" width="70">
+          <p class="text-white">{{ data.titleJabatan }}</p>
+        </div>
+        <h6 class="text-white">{{ data.namaUser }}</h6>
+      </div>
+    </template>
+  </blocks-tree>
+  <div></div>
 </template>
 
 <script>
-import OrgChart from '@balkangraph/orgchart.js'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -11,71 +26,45 @@ export default {
   data() {
     return {
       nodes: [],
+      treeData: {
+        namaUser: '',
+        titleJabatan: '',
+        children: [],
+        imgUrl: null,
+      },
     }
   },
   computed: {
     ...mapState({
-      userManagement: state => state.userManagement.data,
+      userManagement: (state) => state.userManagement.data,
     }),
   },
   async mounted() {
-    // await this.viewTreeHierarchy({
-    //   idJabatan: this.$route.params.id_jabatan,
-    // })
-    await this.fetchDataTree()
+    await this.fetchDataTree(this.userManagement.nodes[0])
   },
   methods: {
     ...mapActions('userManagement', ['viewTreeHierarchy']),
-    mytree: function(domEl, x) {
-      this.chart = new OrgChart(domEl, {
-        nodes: x,
-        nodeBinding: {
-          field_0: 'name',
-          field_1: 'title',
-          img_0: 'img',
-        },
-        editForm: {
-          buttons: {
-            edit: null,
-          },
-          generateElementsFromFields: false,
-          elements: [
-            { type: 'textbox', label: 'Nama User', binding: 'name' },
-            { type: 'textbox', label: 'Title Jabatan', binding: 'title' },
-          ],
-        },
-        nodeMouseClick: OrgChart.action.none,
-      })
-    },
-    async fetchDataTree() {
-      // this.userManagement.tree.map(row => {
-      //   this.userManagement.nodes.push({
-      //     id: row.idJabatan,
-      //     pid: row.idAtasan,
-      //     name: row.namaUser,
-      //     title: row.titleJabatan,
-      //     img: require('@/assets/images/users.png'),
-      //     tags: ['main'],
-      //   })
-      // })
-      this.mytree(this.$refs.tree, this.userManagement.nodes)
+    async fetchDataTree({ namaUser, titleJabatan, children, imgUrl }) {
+      this.treeData.namaUser = namaUser
+      this.treeData.titleJabatan = titleJabatan
+      this.treeData.children = children
+      this.treeData.imgUrl = imgUrl
     },
   },
 }
 </script>
 
 <style>
-.main > rect {
-  fill: #b20838 !important;
+.org-tree-node-label {
+  background: #b20838;
+  border-radius: 10px;
 }
-.edit-form.main .edit-form-header,
-.edit-form.main .ba-img-button {
-  background-color: #b20838 !important;
+.org-tree-node-label-inner {
+  height: 125px;
 }
-.edit-form.orange .ba-img-button:hover {
-  background-color: #b20838 !important;
-}
-#tree {
-  height: 75vh;
+.image-view {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
