@@ -68,7 +68,7 @@
             <div class="col-xl-7 col-lg-6 col-md-12">
               <div class="main-header-sub sub text-left">
                 <div class="content-text">
-                  <h1>MUDAH, AKURAT, EFEKTIF & EFISIEN.</h1>
+                  <h1>(TEST QA) MUDAH, AKURAT, EFEKTIF & EFISIEN.</h1>
                   <h3>
                     Selamat datang di AksesToko-CRM
                     <br />

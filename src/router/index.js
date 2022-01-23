@@ -290,6 +290,13 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
       },
+      {
+        path: '/reporting',
+        name: 'reporting',
+        meta: { title: 'Reporting', resource: 'User', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
+      },
       // ========== End of iqbal View ==========
     ],
   },

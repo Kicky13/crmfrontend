@@ -311,12 +311,22 @@ export default {
 
     searchKeyword(keyword) {
       if (keyword) {
-        this.synCustomer.listCustomer = this.dataTemp.filter((item) =>
-          item.customername.toLowerCase().includes(keyword),
-        )
+        const key = keyword.toLowerCase()
+        const props = ['bisnisKokohId', 'storeName', 'cityName', 'provinceName', 'areaName', 'regionalName', 'segment', 'storeStatus']
+        props.forEach(prop => {
+          if (this.getDataFilter(prop, key).length) {
+            this.synCustomer.listCustomer = this.getDataFilter(prop, key)
+            return true
+          }
+        })
       } else {
         this.synCustomer.listCustomer = this.dataTemp
       }
+    },
+
+    getDataFilter(prop, keyword) {
+      const notNullData = this.dataTemp.filter(item => item[prop] !== null)
+      return notNullData.filter(item => item[prop].toLowerCase().includes(keyword))
     },
   },
 }
