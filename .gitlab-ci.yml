@@ -56,20 +56,20 @@ deploy-dev:
   stage: deploy
   image: jenkins/ssh-agent
   script:
-        # Add the private SSH key to the build environment
+    # Add the private SSH key to the build environment
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - echo "$SSH_DEV_PRIVATE_KEY_188" | tr -d '\r' | ssh-add - > /dev/null
+    # - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - echo "$SSH_DEV_GCP" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     # login to gitlab registry
-    - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
+    # - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
-    - ssh deployer@128.199.252.219 "cd /Web/crm-aksestoko-frontend && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
-    - ssh deployer@188.166.184.213 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
+    # - ssh deployer@128.199.252.219 "cd /Web/crm-aksestoko-frontend && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
+    - ssh deployer@35.219.77.180 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
-    - ssh deployer@188.166.184.213 "cd /Web/crm-fe-dev && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
+    - ssh deployer@35.219.77.180 "cd /Web/crm-fe-dev && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
   environment:
       name: dev
   only:
@@ -82,17 +82,17 @@ deploy-qa:
         # Add the private SSH key to the build environment
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - echo "$SSH_DEV_PRIVATE_KEY_188" | tr -d '\r' | ssh-add - > /dev/null
+    # - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - echo "$SSH_DEV_GCP" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     # login to gitlab registry
     # - ssh deployer@128.199.252.219 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
     # - ssh deployer@128.199.252.219 "cd /Web/crm-aksestoko-frontend && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
-    - ssh deployer@188.166.184.213 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
+    - ssh deployer@35.219.77.180 docker login -u directoryx -p $CI_JOB_TOKEN $CI_REGISTRY
     # then we cd to folder with docker-compose, run docker-compose pull to update images, and run services with `docker-compose up -d`
-    - ssh deployer@188.166.184.213 "cd /Web/crm-fe-qa && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
+    - ssh deployer@35.219.77.180 "cd /Web/crm-fe-qa && docker-compose -f docker-compose.yml pull && HOME=/home/deployer docker-compose -f docker-compose.yml up -d"
   environment:
       name: qa
   only:
