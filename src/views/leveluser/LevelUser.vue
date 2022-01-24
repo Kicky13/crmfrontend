@@ -282,7 +282,6 @@ export default {
     },
     handleUpdate() {
       const formData = toRaw(this.formState)
-      this.updateLevelUserById(this.formState.idJenisUser, formData)
       this.updateLevelUserById(formData)
     },
     addNewLevelUser(data) {
