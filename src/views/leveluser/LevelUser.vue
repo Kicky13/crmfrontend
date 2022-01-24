@@ -258,7 +258,7 @@ export default {
           if (response) {
             const post = response.data.find((post) => post.idJenisUser === id)
             console.log(post)
-            this.formState.idJenisUser = post.id
+            this.formState.idJenisUser = post.idJenisUser
 
             this.formState.hirarkiLevel = post.hirarkiLevel
             this.formState.namaJenisUser = post.namaJenisUser
