@@ -283,6 +283,7 @@ export default {
     handleUpdate() {
       const formData = toRaw(this.formState)
       this.updateLevelUserById(this.formState.idJenisUser, formData)
+      this.updateLevelUserById(formData)
     },
     addNewLevelUser(data) {
       addLevelUser(data)
@@ -319,10 +320,9 @@ export default {
           }
         })
     },
-    updateLevelUserById(id, data) {
-      updateLevelUser(id, data)
+    updateLevelUserById(data) {
+      updateLevelUser(data)
         .then((response) => {
-          console.log(response.status)
           if (response.status == 200) {
             this.fetchLevelUsers()
             notification.success({
