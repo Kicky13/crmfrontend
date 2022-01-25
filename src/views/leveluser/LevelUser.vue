@@ -257,7 +257,9 @@ export default {
         .then((response) => {
           if (response) {
             const post = response.data.find((post) => post.idJenisUser === id)
-            this.formState.idJenisUser = post.id
+            console.log(post)
+            this.formState.idJenisUser = post.idJenisUser
+
             this.formState.hirarkiLevel = post.hirarkiLevel
             this.formState.namaJenisUser = post.namaJenisUser
             if (post.hirarkiLevel == '' || post.hirarkiLevel == null) {
