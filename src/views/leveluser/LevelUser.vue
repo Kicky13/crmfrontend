@@ -257,9 +257,7 @@ export default {
         .then((response) => {
           if (response) {
             const post = response.data.find((post) => post.idJenisUser === id)
-            console.log(post)
             this.formState.idJenisUser = post.id
-
             this.formState.hirarkiLevel = post.hirarkiLevel
             this.formState.namaJenisUser = post.namaJenisUser
             if (post.hirarkiLevel == '' || post.hirarkiLevel == null) {
@@ -282,7 +280,7 @@ export default {
     },
     handleUpdate() {
       const formData = toRaw(this.formState)
-      this.updateLevelUserById(this.formState.idJenisUser, formData)
+      this.updateLevelUserById(formData)
     },
     addNewLevelUser(data) {
       addLevelUser(data)
@@ -319,10 +317,9 @@ export default {
           }
         })
     },
-    updateLevelUserById(id, data) {
-      updateLevelUser(id, data)
+    updateLevelUserById(data) {
+      updateLevelUser(data)
         .then((response) => {
-          console.log(response.status)
           if (response.status == 200) {
             this.fetchLevelUsers()
             notification.success({
