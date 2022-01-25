@@ -142,7 +142,7 @@ export default defineComponent({
       mappingCustomer: (state) => state.mappingCustomer.data,
     }),
     commitToDatabaseButtonDisabled() {
-      if (this.mappingCustomer.listData.find((data) => data.cek_data === true)) {
+      if (this.mappingCustomer.listData.find((data) => data.cek_data === false)) {
         return false
       }
       return true
