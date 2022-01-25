@@ -71,6 +71,14 @@
                 <a-tag color="red">{{ text }}</a-tag>
               </template>
             </template>
+            <template #days="{ text }">
+              <div v-if="text == istrue">
+                <a-checkbox checked="true" />
+              </div>
+              <div v-else-if="text == isfalse">
+                <a-checkbox checked="true" disabled />
+              </div>
+            </template>
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
@@ -95,6 +103,7 @@
 <script>
 import { getDataList, deleteData } from '@/services/connection/mapping-customer/api'
 import { message } from 'ant-design-vue'
+import { filter } from 'lodash'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { mapState, mapActions } from 'vuex'
 
@@ -142,10 +151,12 @@ export default defineComponent({
       mappingCustomer: (state) => state.mappingCustomer.data,
     }),
     commitToDatabaseButtonDisabled() {
-      if (this.mappingCustomer.listData.find((data) => data.cek_data === false)) {
-        return false
+      let dataSource = [...this.mappingCustomer.listData]
+      let filtered = dataSource.filter((x) => x.cek_data == false)
+      if (dataSource.length == 0 || filtered.length > 0) {
+        return true
       }
-      return true
+      return false
     },
   },
   methods: {
