@@ -50,11 +50,11 @@
           <a-table
             :columns="radiusDistrik.columns"
             :data-source="radiusDistrik.listRadiusDistrik"
-            :row-key="(data) => data.uuid"
+            :row-key="data => data.uuid"
             :loading="radiusDistrik.isLoading"
             :pagination="radiusDistrik.pagination"
           >
-          <template #no="{ index }">
+            <template #no="{ index }">
               <div>
                 {{ index + 1 }}
               </div>
@@ -219,7 +219,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      radiusDistrik: (state) => state.radiusDistrik.data,
+      radiusDistrik: state => state.radiusDistrik.data,
     }),
   },
   mounted() {
@@ -238,7 +238,7 @@ export default defineComponent({
       'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
-    searchData: _.debounce(function () {
+    searchData: _.debounce(function() {
       this.$store.commit('radiusDistrik/changeRadiusDistrik', {
         bodyList: {
           filter: this.radiusDistrik.bodyList.filter,
@@ -309,48 +309,69 @@ export default defineComponent({
     },
     setSelectMethod(value) {
       const id = value
-      getDataListRefWilayah()
-        .then((response) => {
-          if (response) {
-            this.radiusDistrik.formData.distrikid = null
-            this.getDataDistrik(id)
-            // this.formState.namaproduk = post.namaproduk
-          }
+      try {
+        getDataListRefWilayah()
+          .then(response => {
+            if (response) {
+              this.radiusDistrik.formData.distrikid = null
+              this.getDataDistrik(id)
+              // this.formState.namaproduk = post.namaproduk
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
         })
-        .catch((err) => {
-          if (err) {
-          }
-        })
+      }
     },
     fetchGetDataSource() {
-      getDataList()
-        .then((response) => {
-          if (response) {
-            this.dataSourceTable = response
-          }
+      try {
+        getDataList()
+          .then(response => {
+            if (response) {
+              this.dataSourceTable = response
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
         })
-        .catch((err) => {
-          if (err) {
-          }
-        })
+      }
     },
     fetchGetDataDistrik() {
-      getDistrikList()
-        .then((response) => {
-          if (response) {
-            this.listDistrik = response
-          }
+      try {
+        getDistrikList()
+          .then(response => {
+            if (response) {
+              this.listDistrik = response
+            }
+          })
+          .catch(err => {
+            if (err) {
+            }
+          })
+      } catch (error) {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
         })
-        .catch((err) => {
-          if (err) {
-          }
-        })
+      }
     },
     fetchUpdateData(value) {
       const id = value
-      getDataList().then((response) => {
+      getDataList().then(response => {
         if (response) {
-          const post = response.data.find((post) => post.uuid === id)
+          const post = response.data.find(post => post.uuid === id)
           this.showModal()
           this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
           this.radiusDistrik.formData.distrikid = post.id_distrik

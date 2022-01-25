@@ -397,14 +397,16 @@
       v-model:visible="treeModal"
       title="Hierarchy Tree"
       width=""
-      :body-style="{ padding: '0' }"
-      :style="{ top: '10px', padding: '10px' }"
+      :body-style="{ overflow: 'auto', height: '80vh' }"
+      :style="{ padding: '0 10px', top: '10px' }"
       :after-close="closeViewTree"
     >
       <template #footer>
         <a-button @click="closeViewTree">Kembali</a-button>
       </template>
-      <tree-hierarchy />
+      <div style="text-align: center;">
+        <tree-hierarchy />
+      </div>
     </a-modal>
   </div>
 </template>
@@ -416,6 +418,7 @@ import { getUserList } from '@/services/connection/user-management/api'
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
 import TreeHierarchy from '../tree/TreeHierarchy'
+import { _ } from 'vue-underscore'
 
 export default {
   name: 'VbAntDesign',
@@ -677,15 +680,38 @@ export default {
       await this.viewTreeHierarchy({
         idJabatan: this.$route.params.id_jabatan,
       })
+
+      // this.userManagement.tree.map(row => {
+      //   this.userManagement.nodes.push({
+      //     id: row.idJabatan,
+      //     pid: row.idAtasan,
+      //     name: row.namaUser,
+      //     title: row.titleJabatan,
+      //     img: require('@/assets/images/users.png'),
+      //     tags: ['main'],
+      //   })
+      // })
+
       this.userManagement.tree.map(row => {
-        this.userManagement.nodes.push({
-          id: row.idJabatan,
-          pid: row.idAtasan,
-          name: row.namaUser,
-          title: row.titleJabatan,
-          img: require('@/assets/images/users.png'),
-          tags: ['main'],
-        })
+        const newNode = {
+          idJabatan: row.idJabatan,
+          idAtasan: row.idAtasan,
+          imgUrl: require('@/assets/images/users.png'),
+          namaUser: row.namaUser,
+          titleJabatan: row.titleJabatan,
+          children: null,
+        }
+
+        this.userManagement.nodes.push(newNode)
+      })
+
+      this.userManagement.nodes.map((node, index) => {
+        const children = this.userManagement.nodes.filter(item => item.idAtasan === node.idJabatan)
+        this.userManagement.nodes[index].children = children
+      })
+
+      this.userManagement.nodes = _.reject(this.userManagement.nodes, function(row) {
+        return row.idAtasan !== null
       })
 
       if (this.userManagement.nodes.length > 0) {
