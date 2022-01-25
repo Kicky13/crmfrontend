@@ -141,6 +141,7 @@ export default {
       isfalse: 0,
       istrue: 1,
       isDisabled: true,
+      isDownloadDisabled: true,
       file1: null,
       file2: null,
       permissions: [],
@@ -228,6 +229,7 @@ export default {
       await this.getDataFromExcel()
       let dataStatus = _.where(this.visitPlan.listData, { status: false })
       this.isDisabled = dataStatus.length > 0 ? true : false
+      this.isDownloadDisabled = this.visitPlan.listData.length > 0 ? true : false
     },
     onSubmitData() {
       this.$confirm({
