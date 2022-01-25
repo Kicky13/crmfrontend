@@ -74,17 +74,6 @@
             <template #bulan="{ text }">
               <span>{{ getMonthName(text) }}</span>
             </template>
-            <!-- <template #action="{ text }">
-              <div>
-                <button type="button" class="btn btn-light">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span></button
-                ><button type="button" class="btn btn-warning">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span></button
-                ><button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
-                  <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
-              </div>
-            </template> -->
           </a-table>
         </div>
       </div>
@@ -98,9 +87,6 @@ import { notification } from 'ant-design-vue'
 
 export default {
   name: 'VbAntDesign',
-  // components: {
-  //   UploadOutlined,
-  // },
   setup() {
     return {
       headers: {
@@ -119,7 +105,7 @@ export default {
     }),
     years() {
       const year = new Date().getFullYear()
-      return Array.from({ length: year - 2015 }, (value, index) => 2016 + index)
+      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
     },
   },
   mounted() {},
