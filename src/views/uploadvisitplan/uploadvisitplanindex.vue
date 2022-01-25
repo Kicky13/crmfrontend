@@ -227,7 +227,7 @@ export default {
     async handleSubmit() {
       await this.getDataFromExcel()
       let dataStatus = _.where(this.visitPlan.listData, { status: false })
-      this.isDisabled = dataStatus.length > 0 ? true : false
+      this.isDisabled = this.visitPlan.listData.length > 0 ? true : false
     },
     onSubmitData() {
       this.$confirm({
