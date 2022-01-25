@@ -414,7 +414,7 @@
 
     :global(.ant-menu-item-active) {
       > span {
-        color: $primary;
+        color: $white !important;
       }
       &:global(.ant-menu-item-selected) {
         background: $main-light !important;
