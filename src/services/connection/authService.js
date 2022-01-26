@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios'
 import serverClient from '@/services/axios/axios'
 import store from 'store'
+import { notification } from 'ant-design-vue'
 
 export async function oldlogin(email, password) {
   return apiClient
@@ -8,9 +9,9 @@ export async function oldlogin(email, password) {
     .then(response => {
       if (response) {
         const data = response.data[0]
-        const accessToken = data.id + "" + data.accessToken
+        const accessToken = data.id + '' + data.accessToken
         if (accessToken) {
-          localStorage.setItem('userData', JSON.stringify(data));
+          localStorage.setItem('userData', JSON.stringify(data))
           store.set('accessToken', accessToken)
           store.set('userID', data.id)
         }
@@ -19,7 +20,8 @@ export async function oldlogin(email, password) {
       return false
     })
     .catch(err => {
-      if (err) {}
+      if (err) {
+      }
     })
 }
 
@@ -31,7 +33,7 @@ export async function login(formData) {
         const data = response.data.data
         const accessToken = data.accesstoken
         if (accessToken) {
-          localStorage.setItem('userData', JSON.stringify(data));
+          localStorage.setItem('userData', JSON.stringify(data))
           store.set('accessToken', accessToken)
           store.set('userID', data.id)
         }
@@ -40,7 +42,8 @@ export async function login(formData) {
       return false
     })
     .catch(err => {
-      if (err) {}
+      if (err) {
+      }
     })
 }
 
@@ -62,7 +65,8 @@ export async function register(email, password, name) {
       return false
     })
     .catch(err => {
-      if (err) {}
+      if (err) {
+      }
     })
 }
 
@@ -71,20 +75,21 @@ export async function currentAccountOld() {
 
   if (userID) {
     return apiClient
-    .get('/users/' + userID)
-    .then(response => {
-      if (response) {
-        const { accessToken } = response.data
-        if (accessToken) {
-          store.set('accessToken', accessToken)
+      .get('/users/' + userID)
+      .then(response => {
+        if (response) {
+          const { accessToken } = response.data
+          if (accessToken) {
+            store.set('accessToken', accessToken)
+          }
+          return response.data
         }
-        return response.data
-      }
-      return false
-    })
-    .catch(err => {
-      if (err) {}
-    })
+        return false
+      })
+      .catch(err => {
+        if (err) {
+        }
+      })
   }
   return false
 }
@@ -95,20 +100,27 @@ export async function currentAccount() {
 
   if (userID) {
     return serverClient
-    .post('sessionUpdate')
-    .then(response => {
-      if (response && response.data.status !== 'error') {
-        const { accesstoken } = response.data.data
-        if (accesstoken) {
-          store.set('accessToken', accesstoken)
+      .post('sessionUpdate')
+      .then(response => {
+        if (response && response.data.status !== 'error') {
+          const { accesstoken } = response.data.data
+          if (accesstoken) {
+            store.set('accessToken', accesstoken)
+          }
+          return response.data.data
         }
-        return response.data.data
-      }
-      return false
-    })
-    .catch(err => {
-      if (err) {}
-    })
+        return false
+      })
+      .catch(err => {
+        if (err) {
+          setTimeout(function() {
+            notification.warning({
+              message: 'Opps !',
+              description: 'Mohon tidak melakukan refresh browser.',
+            })
+          }, 1000)
+        }
+      })
   }
   return false
 }
@@ -125,28 +137,28 @@ export async function logout() {
       return true
     })
     .catch(err => {
-      if (err) {}
+      if (err) {
+      }
     })
 }
 
 export async function getRoleList() {
-    return apiClient
+  return apiClient
     .get('/roles')
     .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
+      if (response) {
+        return response.data
+      }
+      return false
     })
     .catch(err => {
-      if (err) {}
+      if (err) {
+      }
     })
 }
 
 export async function insertRole(data) {
-  return apiClient
-  .post('/roles', data)
-  .then(response => {
+  return apiClient.post('/roles', data).then(response => {
     if (response) {
       return true
     }
@@ -154,10 +166,8 @@ export async function insertRole(data) {
   })
 }
 
-export async function deleteRole (id) {
-  return apiClient
-  .delete('/roles/' + id)
-  .then(response => {
+export async function deleteRole(id) {
+  return apiClient.delete('/roles/' + id).then(response => {
     if (response) {
       return true
     }
@@ -166,75 +176,61 @@ export async function deleteRole (id) {
 }
 
 export async function getPermissionList() {
-    return apiClient
-    .get('/permissions')
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
+  return apiClient.get('/permissions').then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
+  })
 }
 
 export async function listPost() {
-    return apiClient
-    .get('/posts')
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
+  return apiClient.get('/posts').then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
+  })
 }
 
 export async function showPost(id) {
-    return apiClient
-    .get(`/posts/${id}`)
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
+  return apiClient.get(`/posts/${id}`).then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
+  })
 }
 
 export async function deletePost(id) {
-    return apiClient
-    .delete(`/posts/${id}`)
-    .then(response => {
-        if (response) {
-            return response.data
-        }
-        return false
-    })
+  return apiClient.delete(`/posts/${id}`).then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
+  })
 }
 
 export async function storePost(formData, config) {
-  return apiClient
-  .post('/posts', formData, config)
-  .then(response => {
-      if (response) {
-          return response.data
-      }
-      return false
+  return apiClient.post('/posts', formData, config).then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
   })
 }
 
 export async function updatePost(id, formData, config) {
-  return apiClient
-  .put(`/posts/${id}`, formData, config)
-  .then(response => {
-      if (response) {
-          return response.data
-      }
-      return false
+  return apiClient.put(`/posts/${id}`, formData, config).then(response => {
+    if (response) {
+      return response.data
+    }
+    return false
   })
 }
 
 export async function deletePermission(id) {
-  return apiClient
-  .delete('/permissions/' + id)
-  .then(response => {
+  return apiClient.delete('/permissions/' + id).then(response => {
     if (response) {
       return true
     }
@@ -243,9 +239,7 @@ export async function deletePermission(id) {
 }
 
 export async function insertPermission(data) {
-  return apiClient
-  .post('/permissions', data)
-  .then(response => {
+  return apiClient.post('/permissions', data).then(response => {
     if (response) {
       return response
     }
