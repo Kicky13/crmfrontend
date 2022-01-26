@@ -218,10 +218,10 @@
       background: $main !important;
 
       > a {
-        color: white !important;
+        color: $white !important;
 
         .icon {
-          color: white !important;
+          color: $white !important;
         }
       }
 
@@ -414,7 +414,7 @@
 
     :global(.ant-menu-item-active) {
       > span {
-        color: white !important;
+        color: $white  !important;
       }
       &:global(.ant-menu-item-selected) {
         background: $main-light !important;
