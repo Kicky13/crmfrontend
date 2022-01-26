@@ -43,7 +43,7 @@
         </div>
 
         <!--  -->
-        <div class="list_download d-flex">
+        <div class="list_download d-flex" @click="openModalReportLastWeek()">
           <div class="list_download_information">
             Download Report Visit (7 Hari Terakhir)
           </div>
@@ -102,6 +102,49 @@
         </a-select>
       </div>
     </a-modal>
+
+    <!-- // Region -->
+
+    <a-modal v-model:visible="reporting.modalVisibleRegion" :closable="true" :mask-closable="true">
+      <template v-if="reporting.identify === `Distributor`" #footer>
+        <a-button
+          @click="tokoDistributorDownload()"
+          :disabled="reporting.body.nama.length > 0 ? false : true"
+          key="submit"
+          type="primary"
+          >Download</a-button
+        >
+      </template>
+      <template v-else #footer>
+        <a-button
+          @click="customerSalesDownload()"
+          :disabled="reporting.body.nama.length > 0 ? false : true"
+          key="submit"
+          type="primary"
+          >Download</a-button
+        >
+      </template>
+      <div class="form-group">
+        <label for="exampleFormControlInput1" class="font-weight-bold text-black"
+          >Pilih Region</label
+        >
+        <br />
+        <a-select
+          placeholder="Pilih Region"
+          v-model:value="reporting.bodyRegion.nama"
+          @change="handleRegionChange"
+          class="w-100"
+          show-search
+        >
+          <a-select-option
+            v-for="data in reporting.daftar_region"
+            :key="data.idRegion"
+            :value="data.namaRegion"
+            >{{ data.idRegion }} - {{ data.namaRegion }}</a-select-option
+          >
+        </a-select>
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -117,6 +160,7 @@ export default {
   },
   async mounted() {
     await this.getHirarkiInternal()
+    await this.getListAllRegion()
   },
   methods: {
     ...mapActions('reporting', [
@@ -124,6 +168,7 @@ export default {
       'getTsoDistrik',
       'getDownloadTokoDist',
       'getDownloadCustomers',
+      'getListAllRegion',
     ]),
     ...mapActions('userManagement', ['getDataTable']),
     async hirarkiInternalDownload() {
@@ -460,11 +505,18 @@ export default {
       })
     },
 
+    async openModalReportLastWeek() {
+      this.reporting.modalVisibleRegion = true
+      this.reporting.identify = 'Report Last Week'
+    },
+
     handleTSOChange() {
       const dataSource = [...this.userManagement.users]
       let filterTSO = dataSource.filter(item => item.nama == this.reporting.body.nama)
       this.reporting.body.id_jabatanTSO = filterTSO[0].idJabatan
     },
+
+    handleRegionChange() {},
   },
 }
 </script>
