@@ -41,13 +41,15 @@
         <a-modal
           v-model:visible="visible"
           title="Form Validasi Harga Survey"
+          :after-close="resetFormState"
           :confirm-loading="confirmLoading"
           @ok="statusModal ? handleUpdate() : handleOk()"
         >
           <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
             <a-form-item label="Pilih Produk">
               <a-select
-                v-model:value="formState.idproduk"
+                v-model:value="pilihProdukOption"
+                show-search
                 @change="setSelectMethod"
                 placeholder=" -- Pilih Produk -- "
                 required
@@ -55,7 +57,7 @@
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option
                   v-for="(produk, index) in listProduk"
-                  :value="produk.id"
+                  :value="`${produk.id}-${produk.namaproduk}`"
                   :key="index"
                 >
                   {{ produk.id }} - {{ produk.namaproduk }}
@@ -177,6 +179,7 @@ export default {
         status: 'active',
       },
       statusModal: false,
+      pilihProdukOption: '',
     }
   },
   mounted() {
@@ -204,6 +207,7 @@ export default {
             this.formState.hargaBeliMax = post.hargaBeliMax
             this.formState.hargaJualMin = post.hargaJualMin
             this.formState.hargaJualMax = post.hargaJualMax
+            this.pilihProdukOption = `${this.formState.idproduk} - ${this.formState.namaproduk}`
           }
         })
         .catch(err => {
@@ -234,7 +238,6 @@ export default {
       try {
         insertProduk(formData)
           .then(response => {
-            console.log(response)
             if (response.status == true) {
               this.fetchGetDataSource()
               notification.success({
@@ -296,6 +299,7 @@ export default {
           .then(response => {
             if (response == true) {
               this.fetchGetDataSource()
+              this.fetchGetDataProduk()
               notification.success({
                 message: 'Berhasil!',
                 description: 'Update Berhasil',
@@ -361,11 +365,12 @@ export default {
       })
     },
     setSelectMethod(value) {
-      const id = value
+      const id = parseInt(value.split('-')[0])
       getSelectProdukList()
         .then(response => {
           if (response) {
             const post = response.data.find(post => post.id === id)
+            this.formState.idproduk = id
             this.formState.namaproduk = post.namaproduk
           }
         })
@@ -384,20 +389,8 @@ export default {
       getProdukList()
         .then(response => {
           if (response) {
-            console.log(response)
             this.dataSourceTable = response.data
-            this.formState = {
-              id: '',
-              idproduk: '',
-              rownum: '',
-              namaproduk: '',
-              hargaBeliMin: '',
-              hargaBeliMax: '',
-              hargaJualMin: '',
-              hargaJualMax: '',
-              issig: 'true',
-              status: 'active',
-            }
+            this.resetFormState()
           }
         })
         .catch(err => {
@@ -416,6 +409,21 @@ export default {
           if (err) {
           }
         })
+    },
+    resetFormState() {
+      this.formState = {
+        id: '',
+        idproduk: '',
+        rownum: '',
+        namaproduk: '',
+        hargaBeliMin: '',
+        hargaBeliMax: '',
+        hargaJualMin: '',
+        hargaJualMax: '',
+        issig: 'true',
+        status: 'active',
+      }
+      this.pilihProdukOption = ''
     },
   },
 }

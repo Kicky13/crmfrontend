@@ -10,6 +10,7 @@ const state = {
       {
         title: '',
         width: 100,
+        dataIndex: 'message',
         slots: { customRender: 'icon' },
         fixed: 'left',
       },

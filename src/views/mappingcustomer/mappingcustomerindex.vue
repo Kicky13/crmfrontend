@@ -31,11 +31,33 @@
         </a-form-item>
         <div class="table-responsive text-nowrap">
           <a-table
+            table-layout="auto"
             :columns="mappingCustomer.columns"
             :data-source="mappingCustomer.listData"
+            :scroll="{ x: 1500 }"
             :loading="isLoading"
             row-key="id"
           >
+            <template #icon="{ text }">
+              <div v-if="text.cek_data === true">
+                <a-tooltip :title="text">
+                  <img
+                    lazy="loading"
+                    v-once src="@/assets/images/check.svg"
+                    alt="Benar"
+                  />
+                </a-tooltip>
+              </div>
+              <div v-else>
+                <a-tooltip :title="text">
+                  <img
+                    lazy="loading"
+                    v-once src="@/assets/images/wrong.svg"
+                    alt="Salah"
+                  />
+                </a-tooltip>
+              </div>
+            </template>
             <template #name="{ text }">
               <a href="javascript:;">{{ text }}</a>
             </template>
@@ -211,6 +233,7 @@ export default defineComponent({
     async handleSubmit() {
       this.isLoading = true
       await this.getDataFromExcel()
+      console.log(this.mappingCustomer.listData)
       this.isLoading = false
       this.isDisabled = this.mappingCustomer.listData.length ? false : true
     },
