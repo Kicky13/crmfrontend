@@ -5,12 +5,6 @@
         <strong>Import Visit Plan Sales Distributor</strong>
       </div>
       <div class="card-body">
-        <!-- <div class="col-xs-12 col-md-12" style="margin-bottom: 10px;">
-          <strong>Lihat Data</strong> : Sales Distributor dan Mapping Toko
-          <a-button type="primary" class="mb-3">
-            Disini
-          </a-button>
-        </div> -->
         <a
           href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_NEW.xlsx"
           download
@@ -96,7 +90,12 @@
             Commit to Database
           </a-button>
 
-          <a-button type="primary" class="mt-2 mr-2" :disabled="isDisabled" @click="downloadData">
+          <a-button
+            type="primary"
+            class="mt-2 mr-2"
+            :disabled="isDownloadDisabled"
+            @click="downloadData"
+          >
             Download
           </a-button>
         </div>
@@ -141,6 +140,7 @@ export default {
       isfalse: 0,
       istrue: 1,
       isDisabled: true,
+      isDownloadDisabled: true,
       file1: null,
       file2: null,
       permissions: [],
@@ -183,6 +183,7 @@ export default {
           'W3',
           'W4',
           'W5',
+          'Message',
         ]
         const filterVal = [
           'username',
@@ -201,6 +202,7 @@ export default {
           'w3',
           'w4',
           'w5',
+          'message',
         ]
         const list = this.visitPlan.listData
         const data = this.formatJson(filterVal, list)
@@ -228,6 +230,7 @@ export default {
       await this.getDataFromExcel()
       let dataStatus = _.where(this.visitPlan.listData, { status: false })
       this.isDisabled = dataStatus.length > 0 ? true : false
+      this.isDownloadDisabled = this.visitPlan.listData.length > 0 ? false : true
     },
     onSubmitData() {
       this.$confirm({

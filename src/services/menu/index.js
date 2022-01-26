@@ -200,31 +200,31 @@ export const getAdminMenuData = [
       },
     ],
   },
-  {
-    category: true,
-    title: 'Report Admin',
-    key: '2h83ot12',
-  },
-  {
-    title: 'Report Admin',
-    key: '82hskb',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'a32jab',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Customer Mapping',
-        key: '12sa2s',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
-      },
-    ],
-  },
+  // {
+  //   category: true,
+  //   title: 'Report Admin',
+  //   key: '2h83ot12',
+  // },
+  // {
+  //   title: 'Report Admin',
+  //   key: '82hskb',
+  //   url: '/roles-permissions',
+  //   icon: 'fa fa-list-ul',
+  //   children: [
+  //     {
+  //       title: 'Data Sales SBI',
+  //       key: 'a32jab',
+  //       // url: '/datasales',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Customer Mapping',
+  //       key: '12sa2s',
+  //       // url: '/report/customer_mapping',
+  //       url: '/auth/underconstruct',
+  //     },
+  //   ],
+  // },
   {
     title: 'Supervisory Visit',
     key: '78ehnf',
@@ -347,6 +347,39 @@ export const getTsoMenuData = [
     ],
   },
   {
+    title: 'Settings & Configuration',
+    key: 'St01Cf',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      // {
+      //   title: 'Penguncian Koordinat Toko',
+      //   key: 'gh898s',
+      //   url: '/koordinatlock',
+      // },
+      {
+        title: 'Radius Wilayah',
+        key: 'St11Cf',
+        url: '/radiusdistrik',
+      },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
+      // {
+      //   title: 'Sync Customer',
+      //   key: 'St13Cf',
+      //   url: '/customersync',
+      // },
+      // {
+      //   title: 'Validasi Harga Survey',
+      //   key: 'St14Cf',
+      //   url: '/validasiharga',
+      // },
+    ],
+  },
+  {
     title: 'Visit Plan',
     key: 'Vs01Pl',
     url: '/visit',
@@ -364,81 +397,81 @@ export const getTsoMenuData = [
       },
     ],
   },
-  {
-    title: 'Peta Kunjungan',
-    key: 'iw82km',
-    url: '/mappedVisit',
-    icon: 'fa fa-street-view',
-    children: [
-      {
-        title: 'Route Complient',
-        key: 'acs293',
-        // url: '/mappedVisit/route',
-        url: '/auth/underconstruct',
-      },
-    ],
-  },
-  {
-    title: 'Report Admin',
-    key: '82hskb',
-    url: '/report-admin',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'a32jab',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Customer Mapping',
-        key: '12sa2s',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Laporan Toko Dikunjungi',
-        key: '872ksj',
-        // url: '/report/toko_dikunjungi',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Laporan Visit Plan - Actual',
-        key: '888sja',
-        // url: '/report/visit_actual',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Laporan Kapasitas Toko',
-        key: 'jsdj22',
-        // url: '/report/kapasitasToko',
-        url: '/auth/underconstruct',
-      },
-      {
-        title: 'Hasil Survey',
-        key: '98ksds',
-        // url: '/report/hasilSurvey',
-        url: '/auth/underconstruct',
-      },
-    ],
-  },
-  {
-    title: 'Supervisory Visit',
-    key: '78ehnf',
-    url: '/sales',
-    icon: 'fa fa-book',
-    children: [
-      {
-        title: 'Master Penilaian Sales',
-        key: '8sugn8',
-        url: '/sales/survey_sales',
-      },
-      {
-        title: 'Report Supervisory Visit',
-        key: '23jsu2',
-        // url: '/sales/report_supervisory',
-        url: '/auth/underconstruct',
-      },
-    ],
-  },
+  // {
+  //   title: 'Peta Kunjungan',
+  //   key: 'iw82km',
+  //   url: '/mappedVisit',
+  //   icon: 'fa fa-street-view',
+  //   children: [
+  //     {
+  //       title: 'Route Complient',
+  //       key: 'acs293',
+  //       // url: '/mappedVisit/route',
+  //       url: '/auth/underconstruct',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Report Admin',
+  //   key: '82hskb',
+  //   url: '/report-admin',
+  //   icon: 'fa fa-list-ul',
+  //   children: [
+  //     {
+  //       title: 'Data Sales SBI',
+  //       key: 'a32jab',
+  //       // url: '/datasales',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Customer Mapping',
+  //       key: '12sa2s',
+  //       // url: '/report/customer_mapping',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Laporan Toko Dikunjungi',
+  //       key: '872ksj',
+  //       // url: '/report/toko_dikunjungi',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Laporan Visit Plan - Actual',
+  //       key: '888sja',
+  //       // url: '/report/visit_actual',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Laporan Kapasitas Toko',
+  //       key: 'jsdj22',
+  //       // url: '/report/kapasitasToko',
+  //       url: '/auth/underconstruct',
+  //     },
+  //     {
+  //       title: 'Hasil Survey',
+  //       key: '98ksds',
+  //       // url: '/report/hasilSurvey',
+  //       url: '/auth/underconstruct',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Supervisory Visit',
+  //   key: '78ehnf',
+  //   url: '/sales',
+  //   icon: 'fa fa-book',
+  //   children: [
+  //     {
+  //       title: 'Master Penilaian Sales',
+  //       key: '8sugn8',
+  //       url: '/sales/survey_sales',
+  //     },
+  //     {
+  //       title: 'Report Supervisory Visit',
+  //       key: '23jsu2',
+  //       // url: '/sales/report_supervisory',
+  //       url: '/auth/underconstruct',
+  //     },
+  //   ],
+  // },
 ]

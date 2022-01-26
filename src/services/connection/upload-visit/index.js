@@ -77,6 +77,12 @@ const state = {
         title: 'W5',
         dataIndex: 'w5',
       },
+      {
+        title: 'Message',
+        dataIndex: 'message',
+        width: 400,
+        ellipsis: true,
+      },
     ],
     body: {
       file: null,
@@ -110,7 +116,7 @@ const actions = {
 
     try {
       const result = await apiClient.post('/Visit/CekVisitPlan', formData, config)
-  
+
       if (result.data.status == 'error') {
         notification.error({
           message: 'Error',
@@ -151,7 +157,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/Visit/UploadVisitPlan`, formData)
-  
+
       if (result.data.status == 'error') {
         notification.error({
           message: 'Error',
