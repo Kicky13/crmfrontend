@@ -238,12 +238,12 @@ export const getAdminMenuData = [
       },
     ],
   },
-  // {
-  //   title: 'Reporting',
-  //   key: '123saz',
-  //   url: '/reporting',
-  //   icon: 'fa fa-newspaper-o',
-  // },
+  {
+    title: 'Reporting',
+    key: '123saz',
+    url: '/reporting',
+    icon: 'fa fa-newspaper-o',
+  },
 ]
 
 export const getUserMenuData = [

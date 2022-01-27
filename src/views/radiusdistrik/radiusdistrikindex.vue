@@ -50,7 +50,7 @@
           <a-table
             :columns="radiusDistrik.columns"
             :data-source="radiusDistrik.listRadiusDistrik"
-            :row-key="data => data.uuid"
+            :row-key="(data) => data.uuid"
             :loading="radiusDistrik.isLoading"
             :pagination="radiusDistrik.pagination"
           >
@@ -58,6 +58,9 @@
               <div>
                 {{ index + 1 }}
               </div>
+            </template>
+            <template #radius="{ text }">
+              <span>{{ numberFormatting(text) }}</span>
             </template>
             <template #action="{ text }">
               <div>
@@ -154,7 +157,8 @@
                 v-model:value="radiusDistrik.formData.radius"
                 class="input-style"
                 :min="0"
-                type="number"
+                :formatter="(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                 name="radiusval"
               />
             </a-form-item>
@@ -219,7 +223,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      radiusDistrik: state => state.radiusDistrik.data,
+      radiusDistrik: (state) => state.radiusDistrik.data,
     }),
   },
   mounted() {
@@ -238,7 +242,7 @@ export default defineComponent({
       'updateDataRadiusDistrik',
       'deleteDataRadiusDistrik',
     ]),
-    searchData: _.debounce(function() {
+    searchData: _.debounce(function () {
       this.$store.commit('radiusDistrik/changeRadiusDistrik', {
         bodyList: {
           filter: this.radiusDistrik.bodyList.filter,
@@ -249,6 +253,10 @@ export default defineComponent({
     }, 3000),
     handlePaginationSize(size) {
       this.radiusDistrik.pagination.pageSize = size
+    },
+    numberFormatting(numberForm) {
+      console.log(numberForm)
+      return numberForm.toLocaleString('en-US')
     },
     resetFormState() {
       // this.radiusDistrik.formData.id = null
@@ -278,9 +286,17 @@ export default defineComponent({
       this.visible = true
     },
     async handleSave() {
-      await this.postDataRadiusDistrik()
-      await this.getDataListDistrik()
-      this.visible = false
+      if (
+        this.radiusDistrik.formData.radius > 0 &&
+        this.radiusDistrik.formData.distrikid !== null &&
+        this.radiusDistrik.formData.wilayahid !== null
+      ) {
+        await this.postDataRadiusDistrik()
+        await this.getDataListDistrik()
+        this.visible = false
+      } else {
+        message.error('Semua Field Wajib Diisi')
+      }
     },
     async handleUpdate(e) {
       await this.updateDataRadiusDistrik(this.radiusDistrik.formData.id)
@@ -311,14 +327,14 @@ export default defineComponent({
       const id = value
       try {
         getDataListRefWilayah()
-          .then(response => {
+          .then((response) => {
             if (response) {
               this.radiusDistrik.formData.distrikid = null
               this.getDataDistrik(id)
               // this.formState.namaproduk = post.namaproduk
             }
           })
-          .catch(err => {
+          .catch((err) => {
             if (err) {
             }
           })
@@ -332,12 +348,12 @@ export default defineComponent({
     fetchGetDataSource() {
       try {
         getDataList()
-          .then(response => {
+          .then((response) => {
             if (response) {
               this.dataSourceTable = response
             }
           })
-          .catch(err => {
+          .catch((err) => {
             if (err) {
             }
           })
@@ -351,12 +367,12 @@ export default defineComponent({
     fetchGetDataDistrik() {
       try {
         getDistrikList()
-          .then(response => {
+          .then((response) => {
             if (response) {
               this.listDistrik = response
             }
           })
-          .catch(err => {
+          .catch((err) => {
             if (err) {
             }
           })
@@ -369,9 +385,9 @@ export default defineComponent({
     },
     fetchUpdateData(value) {
       const id = value
-      getDataList().then(response => {
+      getDataList().then((response) => {
         if (response) {
-          const post = response.data.find(post => post.uuid === id)
+          const post = response.data.find((post) => post.uuid === id)
           this.showModal()
           this.radiusDistrik.formData.wilayahid = post.idRefLevelWilayah
           this.radiusDistrik.formData.distrikid = post.id_distrik

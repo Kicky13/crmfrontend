@@ -8,10 +8,17 @@ const state = {
     listTsoDistrik: [],
     listDownloadTokoDist: [],
     listDownloadCustomers: [],
+    daftar_region: [],
     modalVisibleTSO: false,
+    modalVisibleRegion: false,
     identify: 'Distributor',
     body: {
       id_jabatanTSO: null,
+      nama: '',
+    },
+
+    bodyRegion: {
+      id_region: null,
       nama: '',
     },
   },
@@ -154,6 +161,44 @@ const actions = {
       }
     } catch (error) {
       console.log(`----error`, error)
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getListAllRegion({ commit, state }, payload) {
+    commit('changeReporting', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: 0,
+      limit: 1000,
+      q: '',
+    }
+
+    try {
+      const result = await apiClient.post(`/hirarki/allRegion`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeReporting', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReporting', {
+          daftar_region: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
