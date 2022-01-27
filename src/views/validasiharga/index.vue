@@ -66,16 +66,37 @@
             </a-form-item>
             <a-input type="hidden" v-model:value="formState.namaproduk" />
             <a-form-item label="Harga Beli Minimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMin" />
+              <a-input-number
+                v-model:value="formState.hargaBeliMin"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
             <a-form-item label="Harga Beli Maksimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMax" />
+              <a-input-number
+                v-model:value="formState.hargaBeliMax"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+                @change="onlyNumber"
+              />
             </a-form-item>
             <a-form-item label="Harga Jual Minimal">
-              <a-input type="number" v-model:value="formState.hargaJualMin" />
+              <a-input-number
+                v-model:value="formState.hargaJualMin"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
             <a-form-item label="Harga Jual Maksimal">
-              <a-input type="number" v-model:value="formState.hargaJualMax" />
+              <a-input-number
+                v-model:value="formState.hargaJualMax"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -96,7 +117,7 @@ import {
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal, notification } from 'ant-design-vue'
-import { forEach } from 'lodash'
+import { add, forEach } from 'lodash'
 
 const columns = [
   {
@@ -385,11 +406,21 @@ export default {
         name: 'validasi-harga',
       })
     },
+    addFormatNumber(harga) {
+      return harga
+        .split('s/d')
+        .map(value => `Rp. ${value.trim().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`)
+        .join(' s/d ')
+    },
     fetchGetDataSource() {
       getProdukList()
         .then(response => {
           if (response) {
             this.dataSourceTable = response.data
+            this.dataSourceTable.map(data => {
+              data.hargaBeli = this.addFormatNumber(data.hargaBeli)
+              data.hargaJual = this.addFormatNumber(data.hargaJual)
+            })
             this.resetFormState()
           }
         })
