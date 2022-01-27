@@ -125,9 +125,7 @@
       </template>
 
       <div class="form-group">
-        <label for="exampleFormControlInput1" class="font-weight-bold text-black"
-          >Pilih Region</label
-        >
+        <label for="exampleFormControlInput1" class="font-weight-bold text-black">Pilih TSO</label>
         <br />
         <a-select
           placeholder="Pilih Region"
@@ -137,10 +135,10 @@
           show-search
         >
           <a-select-option
-            v-for="data in reporting.daftar_region"
-            :key="data.idRegion"
-            :value="data.namaRegion"
-            >{{ data.idRegion }} - {{ data.namaRegion }}</a-select-option
+            v-for="data in userManagement.users"
+            :key="data.idJabatan"
+            :value="data.nama"
+            >{{ data.idJabatan }} - {{ data.nama }}</a-select-option
           >
         </a-select>
       </div>
@@ -159,7 +157,7 @@ export default {
     }),
   },
   async mounted() {
-    await this.getListAllRegion()
+    // await this.getListAllRegion()
   },
   methods: {
     ...mapActions('reporting', [
@@ -167,7 +165,7 @@ export default {
       'getTsoDistrik',
       'getDownloadTokoDist',
       'getDownloadCustomers',
-      'getListAllRegion',
+      // 'getListAllRegion',
       'getFinalSurveyLastWeek',
       'getFinalVisitLastWeek',
     ]),
@@ -212,6 +210,151 @@ export default {
           message: 'Error',
           description: 'Maaf, terjadi kesalahan',
         })
+      }
+    },
+    async tsoDistrikDownload() {
+      await this.getTsoDistrik()
+      if (this.reporting.status_download === `Sukses`) {
+        const header = [
+          'ID_USER_TSO',
+          'USERNAME_TSO',
+          'NAMA_TSO',
+          'ID_JABATAN_TSO',
+          'NAMA_JABATAN_TSO',
+          'START_JABATAN_TSO',
+          'END_JABATAN_TSO',
+          'ID_DISTRIK',
+          'NAMA_DISTRIK',
+          'START_DISTRIK',
+          'END_DISTRIK',
+          'KODE_TOKO',
+          'NAMA_TOKO',
+        ]
+        const filterVal = [
+          'id_user_tso',
+          'username_tso',
+          'nama_tso',
+          'id_jabatan',
+          'nama_jabatan',
+          'start_jabatan',
+          'end_jabatan',
+          'id_distrik',
+          'nama_distrik',
+          'start_distrik',
+          'end_distrik',
+          'kode_toko',
+          'nama_toko',
+        ]
+
+        this.exportToExcel(header, filterVal, this.reporting.listTsoDistrik, 'mapping-tso-distrik')
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
+        })
+      }
+    },
+    async tokoDistributorDownload() {
+      await this.getDownloadTokoDist({
+        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
+      })
+
+      if (this.reporting.status_download === `Sukses`) {
+        const header = [
+          'KODE_TOKO',
+          'NAMA_TOKO',
+          'ID_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
+          'ID_DISTRIK',
+          'NAMA_DISTRIK',
+        ]
+        const filterVal = [
+          'idToko',
+          'namaToko',
+          'idDistributor',
+          'namaDistributor',
+          'idDistrik',
+          'namaDistrik',
+        ]
+
+        this.exportToExcel(
+          header,
+          filterVal,
+          this.reporting.listDownloadTokoDist,
+          'mapping-toko-distributor',
+        )
+        this.reporting.modalVisibleTSO = false
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
+        })
+      }
+    },
+    async customerSalesDownload() {
+      await this.getDownloadCustomers({
+        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
+      })
+
+      if (this.reporting.status_download === `Sukses`) {
+        const header = [
+          'ID_USER_SALES',
+          'USERNAME_SALES',
+          'NAMA_SALES',
+          'ID_JABATAN_SALES',
+          'NAMA_JABATAN_SALES',
+          'START_JABATAN_SALES',
+          'END_JABATAN_SALES',
+          'ID_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
+          'KODE_TOKO',
+          'NAMA_TOKO',
+          'SUN',
+          'MON',
+          'TUE',
+          'WED',
+          'THU',
+          'FRI',
+          'SAT',
+          'WEEK_1',
+          'WEEK_2',
+          'WEEK_3',
+          'WEEK_4',
+          'WEEK_5',
+        ]
+        const filterVal = [
+          'idSales',
+          'usernameSales',
+          'namaSales',
+          'idJabatanSales',
+          'jabatanSales',
+          'startJabatan',
+          'endJabatan',
+          'idDistributor',
+          'namaDistributor',
+          'kodeToko',
+          'namaToko',
+          'sun',
+          'mon',
+          'tue',
+          'wed',
+          'thu',
+          'fri',
+          'sat',
+          'w1',
+          'w2',
+          'w3',
+          'w4',
+          'w5',
+        ]
+
+        this.exportToExcel(
+          header,
+          filterVal,
+          this.reporting.listDownloadCustomers,
+          'mapping-customer-sales',
+        )
+        this.reporting.modalVisibleTSO = false
       }
     },
     async handleDownloadReportVisit() {
@@ -518,147 +661,6 @@ export default {
         this.reporting.modalVisibleRegion = false
       }
     },
-    async tsoDistrikDownload() {
-      await this.getTsoDistrik()
-      if (this.reporting.status_download === `Sukses`) {
-        const header = [
-          'ID_USER_TSO',
-          'USERNAME_TSO',
-          'NAMA_TSO',
-          'ID_JABATAN_TSO',
-          'NAMA_JABATAN_TSO',
-          'START_JABATAN_TSO',
-          'END_JABATAN_TSO',
-          'ID_DISTRIK',
-          'NAMA_DISTRIK',
-          'START_DISTRIK',
-          'END_DISTRIK',
-          'KODE_TOKO',
-          'NAMA_TOKO',
-        ]
-        const filterVal = [
-          'id_user_tso',
-          'username_tso',
-          'nama_tso',
-          'id_jabatan',
-          'nama_jabatan',
-          'start_jabatan',
-          'end_jabatan',
-          'id_distrik',
-          'nama_distrik',
-          'start_distrik',
-          'end_distrik',
-          'kode_toko',
-          'nama_toko',
-        ]
-
-        this.exportToExcel(header, filterVal, this.reporting.listTsoDistrik, 'mapping-tso-distrik')
-      } else {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
-        })
-      }
-    },
-    async tokoDistributorDownload() {
-      await this.getDownloadTokoDist({
-        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
-      })
-
-      if (this.reporting.status_download === `Sukses`) {
-        const header = [
-          'KODE_TOKO',
-          'NAMA_TOKO',
-          'ID_DISTRIBUTOR',
-          'NAMA_DISTRIBUTOR',
-          'ID_DISTRIK',
-          'NAMA_DISTRIK',
-        ]
-        const filterVal = [
-          'idToko',
-          'namaToko',
-          'idDistributor',
-          'namaDistributor',
-          'idDistrik',
-          'namaDistrik',
-        ]
-
-        this.exportToExcel(
-          header,
-          filterVal,
-          this.reporting.listDownloadTokoDist,
-          'mapping-toko-distributor',
-        )
-      } else {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
-        })
-      }
-    },
-    async customerSalesDownload() {
-      await this.getDownloadCustomers({
-        id_jabatanTSO: this.reporting.body.id_jabatanTSO,
-      })
-
-      const header = [
-        'ID_USER_SALES',
-        'USERNAME_SALES',
-        'NAMA_SALES',
-        'ID_JABATAN_SALES',
-        'NAMA_JABATAN_SALES',
-        'START_JABATAN_SALES',
-        'END_JABATAN_SALES',
-        'ID_DISTRIBUTOR',
-        'NAMA_DISTRIBUTOR',
-        'KODE_TOKO',
-        'NAMA_TOKO',
-        'SUN',
-        'MON',
-        'TUE',
-        'WED',
-        'THU',
-        'FRI',
-        'SAT',
-        'WEEK_1',
-        'WEEK_2',
-        'WEEK_3',
-        'WEEK_4',
-        'WEEK_5',
-      ]
-      const filterVal = [
-        'idSales',
-        'usernameSales',
-        'namaSales',
-        'idJabatanSales',
-        'jabatanSales',
-        'startJabatan',
-        'endJabatan',
-        'idDistributor',
-        'namaDistributor',
-        'kodeToko',
-        'namaToko',
-        'sun',
-        'mon',
-        'tue',
-        'wed',
-        'thu',
-        'fri',
-        'sat',
-        'w1',
-        'w2',
-        'w3',
-        'w4',
-        'w5',
-      ]
-
-      this.exportToExcel(
-        header,
-        filterVal,
-        this.reporting.listDownloadCustomers,
-        'mapping-customer-sales',
-      )
-    },
     exportToExcel(header, filterVal, list, filename) {
       import('@/vendor/Export2Excel').then(excel => {
         const data = this.formatJson(filterVal, list)
@@ -706,15 +708,21 @@ export default {
     async openModalReportLastWeek() {
       this.reporting.modalVisibleRegion = true
       this.reporting.identify = 'Report Last Week'
-      this.reporting.bodyRegion.id_region = null
+      this.reporting.bodyRegion.id_tso = null
       this.reporting.bodyRegion.nama = ''
+      await this.getDataTable({
+        id_level_hirarki: 40,
+      })
     },
 
     async openModalReportSurveyLastWeek() {
       this.reporting.modalVisibleRegion = true
       this.reporting.identify = 'Survey Last Week'
-      this.reporting.bodyRegion.id_region = null
+      this.reporting.bodyRegion.id_tso = null
       this.reporting.bodyRegion.nama = ''
+      await this.getDataTable({
+        id_level_hirarki: 40,
+      })
     },
 
     handleTSOChange() {
@@ -724,11 +732,9 @@ export default {
     },
 
     handleRegionChange() {
-      const dataSource = [...this.reporting.daftar_region]
-      let filterRegion = dataSource.filter(
-        item => item.namaRegion == this.reporting.bodyRegion.nama,
-      )
-      this.reporting.bodyRegion.id_region = filterRegion[0].idRegion
+      const dataSource = [...this.userManagement.users]
+      let filterTSO = dataSource.filter(item => item.nama == this.reporting.bodyRegion.nama)
+      this.reporting.bodyRegion.id_tso = filterTSO[0].idJabatan
     },
   },
 }

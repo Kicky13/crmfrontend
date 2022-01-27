@@ -21,7 +21,7 @@ const state = {
     },
 
     bodyRegion: {
-      id_region: null,
+      id_tso: null,
       nama: '',
     },
   },
@@ -172,18 +172,23 @@ const actions = {
         })
         await commit('changeReporting', {
           isLoading: false,
+          status_download: 'Gagal',
         })
       } else {
         await commit('changeReporting', {
           listDownloadCustomers: result.data.data,
           isLoading: false,
+          status_download: 'Sukses',
         })
       }
     } catch (error) {
-      console.log(`----error`, error)
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
+      })
+      await commit('changeReporting', {
+        isLoading: false,
+        status_download:'Gagal',
       })
     }
   },
@@ -234,7 +239,7 @@ const actions = {
     const { data } = state
 
     let params = {
-      region: data.bodyRegion.id_region,
+      id_tso: data.bodyRegion.id_tso,
     }
 
     try {
@@ -271,7 +276,7 @@ const actions = {
     const { data } = state
 
     let params = {
-      region: data.bodyRegion.id_region,
+      id_tso: data.bodyRegion.id_tso,
     }
 
     try {
