@@ -7,6 +7,12 @@ const state = {
     listData: [],
     columns: [
       {
+        title: '',
+        dataIndex: 'message',
+        slots: { customRender: 'icon' },
+        fixed: 'left',
+      },
+      {
         title: 'ID Kota',
         dataIndex: 'id_reference_wilayah',
         key: 'id_reference_wilayah',
