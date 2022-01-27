@@ -216,6 +216,154 @@ export default {
     },
     async handleDownloadReportVisit() {
       await this.getFinalVisitLastWeek()
+
+      if (this.reporting.status_download === 'Sukses') {
+        const header = [
+          'ID_SALES',
+          'NAMA_SALES',
+          'USERNAME',
+          'NO_HP',
+          'ID_CUSTOMER',
+          'NAMA_TOKO',
+          'KODE_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
+          'ID_DISTRIK',
+          'NAMA_DISTRIK',
+          'ID_AREA',
+          'NAMA_AREA',
+          'ID_PROVINSI',
+          'NAMA_PROVINSI',
+          'ID_REGION',
+          'TAHUN',
+          'BULAN',
+          'HARI',
+          'ID_KUNJUNGAN_CUSTOMER',
+          'WAKTU_MULAI',
+          'WAKTU_SELESAI',
+          'VOLUME_PENJUALAN',
+          'HARGA_PENJUALAN',
+          'KAPASITAS_GUDANG_TOKO',
+          'KAPASITAS_JUAL_TOKO',
+          'KAPASITAS_TOKO',
+          'ID_USER',
+          'PEMBUAT',
+          'STATUS_VISIT',
+          'ID_SALES',
+          'NAMA_SALES',
+          'KODE_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
+          'SEMEN_MEMBANTU',
+          'SEMEN_TERLAMBAT_DATANG',
+          'KANTONG_TIDAK_KUAT',
+          'HARGA_TIDAK_STABIL',
+          'SEMEN_RUSAK_SAAT_DITERIMA',
+          'TOP_KURANG_LAMA',
+          'PEMESANAN_SULIT',
+          'KOMPLAIN_SULIT',
+          'STOK_SERING_KOSONG',
+          'PROSEDUR_RUMIT',
+          'TIDAK_SESUAI_SPESIFIKASI',
+          'TIDAK_ADA_KELUHAN',
+          'KELUHAN_LAIN_LAIN',
+          'HARGA_TIDAK_BERSAING',
+          'PP_TIDAK_MENARIK',
+          'HADIAH_BELUM_DICAIRKAN',
+          'BONUS_SEMEN',
+          'SETIAP_PEMBELIAN_SEMEN',
+          'BONUS_WISATA',
+          'SETIAP_PEMBELIAN_WISATA',
+          'POINT_REWARD',
+          'SETIAP_PEMBELIAN_POINT',
+          'BONUS_VOUCER',
+          'SETIAP_PEMBELIAN_VOUCER',
+          'POTONGAN_HARGA',
+          'SETIAP_PEMBELIAN_POTONGAN',
+          'LAIN_LAIN',
+          'TIDAK_ADA_PROMOSI',
+          'ID_SO',
+          'NAMA_SO',
+          'ID_SM',
+          'NAMA_SM',
+          'ID_SSM',
+          'NAMA_SSM',
+          'ID_GSM',
+          'NAMA_GSM',
+        ]
+        const filterVal = [
+          'id_hasil_survey',
+          'id_kunjungan_customer',
+          'tanggal_rencana_kunjungan',
+          'tahun',
+          'bulan',
+          'hari',
+          'id_user',
+          'nm_customer',
+          'id_region',
+          'id_provinsi',
+          'nama_provinsi',
+          'id_area',
+          'nama_area',
+          'id_distrik',
+          'nama_distrik',
+          'id_produk',
+          'nama_produk',
+          'stok_saat_ini',
+          'volume_pembelian',
+          'harga_pembelian',
+          'tanggal_pembelian',
+          'top_pembelian',
+          'volume_penjualan',
+          'harga_penjualan',
+          'kapasitas_gudang_toko',
+          'kapasitas_jual_toko',
+          'kapasitas_toko',
+          'id_user',
+          'pembuat',
+          'status_visit',
+          'id_sales',
+          'nama_sales',
+          'id_distributor',
+          'nama_distributor',
+          'semen_membatu',
+          'semen_terlambat_datang',
+          'kantong_semen_tidak_kuat',
+          'harga_tidak_stabil',
+          'semen_rusak_saat_diterima',
+          'top_kurang_lama',
+          'pemesanan_sulit',
+          'komplain_sulit',
+          'stok_sering_kosong',
+          'prosedur_pembayaran_rumit',
+          'tidak_sesuai_spesifikasi',
+          'tidak_ada_keluhan',
+          'keluhan_lain',
+          'harga_tidak_bersaing_dengan_kompetitor',
+          'program_penjualan_tidak_menarik',
+          'hadiah_program_penjualan_belum_dicairkan',
+          'bonus_semen',
+          'setiap_pembelian',
+          'wisata',
+          'setiap_pembelian1',
+          'point_reward',
+          'setiap_pembelian2',
+          'voucher',
+          'setiap_pembelian3',
+          'potongan_harga',
+          'setiap_pembelian4',
+          'lain_lain',
+          'tidak_ada_promosi',
+          'id_so',
+          'nama_so',
+          'id_sm',
+          'nama_sm',
+          'id_ssm',
+          'nama_ssm',
+          'id_gsm',
+          'nama_gsm',
+        ]
+        this.exportToExcel(header, filterVal, this.reporting.visit_last_week, 'survey-last-week')
+        this.reporting.modalVisibleRegion = false
+      }
     },
     async handleDownloadSurveyVisit() {
       await this.getFinalSurveyLastWeek()
@@ -538,7 +686,8 @@ export default {
     async openModalDistributor() {
       this.reporting.modalVisibleTSO = true
       this.reporting.identify = 'Distributor'
-
+      this.reporting.body.id_jabatanTSO = null
+      this.reporting.body.nama = ''
       await this.getDataTable({
         id_level_hirarki: 40,
       })
@@ -547,7 +696,8 @@ export default {
     async openModalCustomers() {
       this.reporting.modalVisibleTSO = true
       this.reporting.identify = 'Customers'
-
+      this.reporting.body.id_jabatanTSO = null
+      this.reporting.body.nama = ''
       await this.getDataTable({
         id_level_hirarki: 40,
       })
@@ -556,11 +706,15 @@ export default {
     async openModalReportLastWeek() {
       this.reporting.modalVisibleRegion = true
       this.reporting.identify = 'Report Last Week'
+      this.reporting.bodyRegion.id_region = null
+      this.reporting.bodyRegion.nama = ''
     },
 
     async openModalReportSurveyLastWeek() {
       this.reporting.modalVisibleRegion = true
       this.reporting.identify = 'Survey Last Week'
+      this.reporting.bodyRegion.id_region = null
+      this.reporting.bodyRegion.nama = ''
     },
 
     handleTSOChange() {

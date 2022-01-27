@@ -10,6 +10,7 @@ const state = {
     listDownloadCustomers: [],
     daftar_region: [],
     survey_last_week: [],
+    visit_last_week: [],
     modalVisibleTSO: false,
     modalVisibleRegion: false,
     identify: 'Distributor',
@@ -242,7 +243,6 @@ const actions = {
         notification.error({
           message: 'Error',
           description: result.data.message,
-          status_download: 'Gagal',
         })
         await commit('changeReporting', {
           isLoading: false,
@@ -283,10 +283,13 @@ const actions = {
         })
         await commit('changeReporting', {
           isLoading: false,
+          visit_last_week: result.data.data,
+          status_download: 'Sukses',
         })
       } else {
         await commit('changeReporting', {
           isLoading: false,
+          status_download: 'Gagal',
         })
       }
     } catch (err) {
