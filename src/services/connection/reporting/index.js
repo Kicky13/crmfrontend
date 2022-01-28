@@ -160,7 +160,7 @@ const actions = {
 
     try {
       let bodyForm = {
-        idJabatanTso: payload.id_jabatanTSO,
+        id_tso: payload.id_jabatanTSO,
       }
 
       const result = await apiClient.post(`/reportAdmin/downloadCustomerSales`, bodyForm)
@@ -188,7 +188,7 @@ const actions = {
       })
       await commit('changeReporting', {
         isLoading: false,
-        status_download:'Gagal',
+        status_download: 'Gagal',
       })
     }
   },
@@ -280,7 +280,7 @@ const actions = {
     }
 
     try {
-      const result = await apiClient.post(`/report/visitLastWeek`, params)
+      const result = await apiClient.post(`/report/reportVisitLastWeek`, params)
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -288,19 +288,23 @@ const actions = {
         })
         await commit('changeReporting', {
           isLoading: false,
-          visit_last_week: result.data.data,
-          status_download: 'Sukses',
+          status_download: 'Gagal',
         })
       } else {
         await commit('changeReporting', {
           isLoading: false,
-          status_download: 'Gagal',
+          visit_last_week: result.data.data,
+          status_download: 'Sukses',
         })
       }
     } catch (err) {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
+      })
+      await commit('changeReporting', {
+        isLoading: false,
+        status_download: 'Gagal',
       })
     }
   },
