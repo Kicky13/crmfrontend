@@ -66,6 +66,7 @@
     <a-modal v-model:visible="reporting.modalVisibleTSO" :closable="true" :mask-closable="true">
       <template v-if="reporting.identify === `Distributor`" #footer>
         <a-button
+          :loading="reporting.isLoading"
           @click="tokoDistributorDownload()"
           :disabled="reporting.body.nama.length > 0 ? false : true"
           key="submit"
@@ -75,6 +76,7 @@
       </template>
       <template v-else #footer>
         <a-button
+          :loading="reporting.isLoading"
           @click="customerSalesDownload()"
           :disabled="reporting.body.nama.length > 0 ? false : true"
           key="submit"
@@ -107,6 +109,7 @@
     <a-modal v-model:visible="reporting.modalVisibleRegion" :closable="true" :mask-closable="true">
       <template v-if="reporting.identify === `Report Last Week`" #footer>
         <a-button
+          :loading="reporting.isLoading"
           @click="handleDownloadReportVisit()"
           :disabled="reporting.bodyRegion.nama.length > 0 ? false : true"
           key="submit"
@@ -116,6 +119,7 @@
       </template>
       <template v-else #footer>
         <a-button
+          :loading="reporting.isLoading"
           @click="handleDownloadSurveyVisit()"
           :disabled="reporting.bodyRegion.nama.length > 0 ? false : true"
           key="submit"
