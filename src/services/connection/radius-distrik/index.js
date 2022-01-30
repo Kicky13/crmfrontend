@@ -25,6 +25,7 @@ const state = {
         title: 'Radius Lock (Meter)',
         dataIndex: 'radius_lock',
         key: 'radius_lock',
+        slots: { customRender: 'radius' },
       },
       {
         title: 'Action',
