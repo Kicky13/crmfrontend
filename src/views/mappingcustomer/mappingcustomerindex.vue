@@ -40,7 +40,7 @@
           >
             <template #icon="{ text }">
               <div v-if="text.cek_data === true">
-                <a-tooltip :title="text">
+                <a-tooltip :title="text.message">
                   <img
                     lazy="loading"
                     v-once src="@/assets/images/check.svg"
@@ -49,7 +49,7 @@
                 </a-tooltip>
               </div>
               <div v-else>
-                <a-tooltip :title="text">
+                <a-tooltip :title="text.message">
                   <img
                     lazy="loading"
                     v-once src="@/assets/images/wrong.svg"
