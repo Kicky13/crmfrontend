@@ -79,7 +79,6 @@
                 :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
                 :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
                 style="width: 100%;"
-                @change="onlyNumber"
               />
             </a-form-item>
             <a-form-item label="Harga Jual Minimal">
