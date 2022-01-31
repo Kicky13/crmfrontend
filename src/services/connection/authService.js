@@ -1,10 +1,10 @@
-import apiClient from '@/services/axios'
+// import serverClient from '@/services/axios'
 import serverClient from '@/services/axios/axios'
 import store from 'store'
 import { notification } from 'ant-design-vue'
 
 export async function oldlogin(email, password) {
-  return apiClient
+  return serverClient
     .get('/users?email=' + email + '&password=' + password)
     .then(response => {
       if (response) {
@@ -48,7 +48,7 @@ export async function login(formData) {
 }
 
 export async function register(email, password, name) {
-  return apiClient
+  return serverClient
     .post('/auth/register', {
       email,
       password,
@@ -74,7 +74,7 @@ export async function currentAccountOld() {
   const userID = store.get('userID')
 
   if (userID) {
-    return apiClient
+    return serverClient
       .get('/users/' + userID)
       .then(response => {
         if (response) {
@@ -126,24 +126,23 @@ export async function currentAccount() {
 }
 
 export async function logout() {
-  const userID = store.get('userID')
-
-  return apiClient
-    .get('/users/' + userID)
-    .then(response => {
-      localStorage.removeItem('userData')
-      store.remove('accessToken')
-      store.remove('userID')
-      return true
-    })
-    .catch(err => {
-      if (err) {
-      }
-    })
+  // const userID = store.get('userID')
+  // return serverClient
+  //   .get('/users/' + userID)
+  //   .then(response => {
+  //     localStorage.removeItem('userData')
+  //     store.remove('accessToken')
+  //     store.remove('userID')
+  //     return true
+  //   })
+  //   .catch(err => {
+  //     if (err) {
+  //     }
+  //   })
 }
 
 export async function getRoleList() {
-  return apiClient
+  return serverClient
     .get('/roles')
     .then(response => {
       if (response) {
@@ -158,7 +157,7 @@ export async function getRoleList() {
 }
 
 export async function insertRole(data) {
-  return apiClient.post('/roles', data).then(response => {
+  return serverClient.post('/roles', data).then(response => {
     if (response) {
       return true
     }
@@ -167,7 +166,7 @@ export async function insertRole(data) {
 }
 
 export async function deleteRole(id) {
-  return apiClient.delete('/roles/' + id).then(response => {
+  return serverClient.delete('/roles/' + id).then(response => {
     if (response) {
       return true
     }
@@ -176,7 +175,7 @@ export async function deleteRole(id) {
 }
 
 export async function getPermissionList() {
-  return apiClient.get('/permissions').then(response => {
+  return serverClient.get('/permissions').then(response => {
     if (response) {
       return response.data
     }
@@ -185,7 +184,7 @@ export async function getPermissionList() {
 }
 
 export async function listPost() {
-  return apiClient.get('/posts').then(response => {
+  return serverClient.get('/posts').then(response => {
     if (response) {
       return response.data
     }
@@ -194,7 +193,7 @@ export async function listPost() {
 }
 
 export async function showPost(id) {
-  return apiClient.get(`/posts/${id}`).then(response => {
+  return serverClient.get(`/posts/${id}`).then(response => {
     if (response) {
       return response.data
     }
@@ -203,7 +202,7 @@ export async function showPost(id) {
 }
 
 export async function deletePost(id) {
-  return apiClient.delete(`/posts/${id}`).then(response => {
+  return serverClient.delete(`/posts/${id}`).then(response => {
     if (response) {
       return response.data
     }
@@ -212,7 +211,7 @@ export async function deletePost(id) {
 }
 
 export async function storePost(formData, config) {
-  return apiClient.post('/posts', formData, config).then(response => {
+  return serverClient.post('/posts', formData, config).then(response => {
     if (response) {
       return response.data
     }
@@ -221,7 +220,7 @@ export async function storePost(formData, config) {
 }
 
 export async function updatePost(id, formData, config) {
-  return apiClient.put(`/posts/${id}`, formData, config).then(response => {
+  return serverClient.put(`/posts/${id}`, formData, config).then(response => {
     if (response) {
       return response.data
     }
@@ -230,7 +229,7 @@ export async function updatePost(id, formData, config) {
 }
 
 export async function deletePermission(id) {
-  return apiClient.delete('/permissions/' + id).then(response => {
+  return serverClient.delete('/permissions/' + id).then(response => {
     if (response) {
       return true
     }
@@ -239,7 +238,7 @@ export async function deletePermission(id) {
 }
 
 export async function insertPermission(data) {
-  return apiClient.post('/permissions', data).then(response => {
+  return serverClient.post('/permissions', data).then(response => {
     if (response) {
       return response
     }
