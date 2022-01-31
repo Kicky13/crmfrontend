@@ -5,8 +5,10 @@ import { notification } from 'ant-design-vue'
 // env
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
-  // timeout: 1000,
-  // headers: { 'Access-Control-Allow-Origin': '*', 'Content-type': 'application/json' },
+  timeout: 100000,
+  // headers: {
+  //   timeout: 100000,
+  // },
 })
 
 apiClient.interceptors.request.use(request => {
