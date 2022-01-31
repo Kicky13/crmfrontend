@@ -41,13 +41,15 @@
         <a-modal
           v-model:visible="visible"
           title="Form Validasi Harga Survey"
+          :after-close="resetFormState"
           :confirm-loading="confirmLoading"
           @ok="statusModal ? handleUpdate() : handleOk()"
         >
           <a-form :model="formState" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
             <a-form-item label="Pilih Produk">
               <a-select
-                v-model:value="formState.idproduk"
+                v-model:value="pilihProdukOption"
+                show-search
                 @change="setSelectMethod"
                 placeholder=" -- Pilih Produk -- "
                 required
@@ -55,7 +57,7 @@
                 <a-select-option disabled value="">Pilih Salah Satu</a-select-option>
                 <a-select-option
                   v-for="(produk, index) in listProduk"
-                  :value="produk.id"
+                  :value="`${produk.id}-${produk.namaproduk}`"
                   :key="index"
                 >
                   {{ produk.id }} - {{ produk.namaproduk }}
@@ -64,16 +66,37 @@
             </a-form-item>
             <a-input type="hidden" v-model:value="formState.namaproduk" />
             <a-form-item label="Harga Beli Minimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMin" />
+              <a-input-number
+                v-model:value="formState.hargaBeliMin"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
             <a-form-item label="Harga Beli Maksimal">
-              <a-input type="number" v-model:value="formState.hargaBeliMax" />
+              <a-input-number
+                v-model:value="formState.hargaBeliMax"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+                @change="onlyNumber"
+              />
             </a-form-item>
             <a-form-item label="Harga Jual Minimal">
-              <a-input type="number" v-model:value="formState.hargaJualMin" />
+              <a-input-number
+                v-model:value="formState.hargaJualMin"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
             <a-form-item label="Harga Jual Maksimal">
-              <a-input type="number" v-model:value="formState.hargaJualMax" />
+              <a-input-number
+                v-model:value="formState.hargaJualMax"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                style="width: 100%;"
+              />
             </a-form-item>
           </a-form>
         </a-modal>
@@ -94,7 +117,7 @@ import {
 } from '@/services/connection/master-data/api'
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal, notification } from 'ant-design-vue'
-import { forEach } from 'lodash'
+import { add, forEach } from 'lodash'
 
 const columns = [
   {
@@ -177,6 +200,7 @@ export default {
         status: 'active',
       },
       statusModal: false,
+      pilihProdukOption: '',
     }
   },
   mounted() {
@@ -204,6 +228,7 @@ export default {
             this.formState.hargaBeliMax = post.hargaBeliMax
             this.formState.hargaJualMin = post.hargaJualMin
             this.formState.hargaJualMax = post.hargaJualMax
+            this.pilihProdukOption = `${this.formState.idproduk} - ${this.formState.namaproduk}`
           }
         })
         .catch(err => {
@@ -234,7 +259,6 @@ export default {
       try {
         insertProduk(formData)
           .then(response => {
-            console.log(response)
             if (response.status == true) {
               this.fetchGetDataSource()
               notification.success({
@@ -296,6 +320,7 @@ export default {
           .then(response => {
             if (response == true) {
               this.fetchGetDataSource()
+              this.fetchGetDataProduk()
               notification.success({
                 message: 'Berhasil!',
                 description: 'Update Berhasil',
@@ -361,11 +386,12 @@ export default {
       })
     },
     setSelectMethod(value) {
-      const id = value
+      const id = parseInt(value.split('-')[0])
       getSelectProdukList()
         .then(response => {
           if (response) {
             const post = response.data.find(post => post.id === id)
+            this.formState.idproduk = id
             this.formState.namaproduk = post.namaproduk
           }
         })
@@ -380,24 +406,22 @@ export default {
         name: 'validasi-harga',
       })
     },
+    addFormatNumber(harga) {
+      return harga
+        .split('s/d')
+        .map(value => `Rp. ${value.trim().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`)
+        .join(' s/d ')
+    },
     fetchGetDataSource() {
       getProdukList()
         .then(response => {
           if (response) {
-            console.log(response)
             this.dataSourceTable = response.data
-            this.formState = {
-              id: '',
-              idproduk: '',
-              rownum: '',
-              namaproduk: '',
-              hargaBeliMin: '',
-              hargaBeliMax: '',
-              hargaJualMin: '',
-              hargaJualMax: '',
-              issig: 'true',
-              status: 'active',
-            }
+            this.dataSourceTable.map(data => {
+              data.hargaBeli = this.addFormatNumber(data.hargaBeli)
+              data.hargaJual = this.addFormatNumber(data.hargaJual)
+            })
+            this.resetFormState()
           }
         })
         .catch(err => {
@@ -416,6 +440,21 @@ export default {
           if (err) {
           }
         })
+    },
+    resetFormState() {
+      this.formState = {
+        id: '',
+        idproduk: '',
+        rownum: '',
+        namaproduk: '',
+        hargaBeliMin: '',
+        hargaBeliMax: '',
+        hargaJualMin: '',
+        hargaJualMax: '',
+        issig: 'true',
+        status: 'active',
+      }
+      this.pilihProdukOption = ''
     },
   },
 }
