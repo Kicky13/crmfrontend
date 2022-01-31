@@ -73,7 +73,7 @@
             <ul class="list-unstyled">
               <li>
                 <a
-                  href="https://play.google.com/store/apps/details?id=id.sisi.aksestokomobile"
+                  href="https://play.google.com/store/apps/details?id=id.sisi.aksestokocrm"
                   target="_blank"
                 >
                   <img
@@ -94,7 +94,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://aksestoko.id/application/ios" target="_blank">
+                <a href="https://dply.me/5orni3" target="_blank">
                   <img
                     lazy="loading"
                     v-once

@@ -41,10 +41,21 @@
           >
             <template #icon="{ text }">
               <div v-if="text.status === true">
-                <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
+                <a-tooltip :title="text">
+                  <img
+                    lazy="loading"
+                    v-once src="@/assets/images/check.svg"
+                    alt="Benar"
+                  />
+                </a-tooltip>
               </div>
               <div v-else>
-                <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
+                <a-tooltip :title="text">
+                  <img lazy="loading"
+                    v-once src="@/assets/images/wrong.svg"
+                    alt="Salah"
+                  />
+                </a-tooltip>
               </div>
             </template>
             <template #nama_toko="{ text }">
