@@ -163,8 +163,6 @@ export default {
     login() {
       login(this.loginForm).then(response => {
         if (response) {
-          console.log(`----response`, response.ability.length)
-
           if (response.ability.length === 0) {
             notification.error({
               message: 'Oppss !',
@@ -173,6 +171,7 @@ export default {
             this.$router.push('/auth/login')
           } else {
             this.$router.push('/dashboard')
+            this.$ability.update(response.ability)
             notification.success({
               message: 'Logged In',
               description: 'Anda berhasil Login!',
