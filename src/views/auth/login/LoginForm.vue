@@ -172,11 +172,12 @@ export default {
             })
             this.$router.push('/auth/login')
           } else {
+            this.$router.push('/dashboard')
             notification.success({
               message: 'Logged In',
               description: 'Anda berhasil Login!',
             })
-            this.$router.push('/dashboard')
+            this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
           }
           // this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'
@@ -185,7 +186,6 @@ export default {
           //   message: 'Logged In',
           //   description: 'Anda berhasil Login!',
           // })
-          this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
         } else {
           notification.error({
             message: 'Login Failed',
