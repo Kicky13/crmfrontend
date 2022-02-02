@@ -4,8 +4,8 @@
       class="row"
       :style="
         'background-image: url(' +
-          require('@/assets/images/logo/login_page.png') +
-          '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
+        require('@/assets/images/logo/login_page.png') +
+        '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
       "
     >
       <div class="col-xs-0 col-md-2"></div>
@@ -137,13 +137,13 @@ export default {
       password: '',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       if (errors) {
       }
     }
@@ -159,9 +159,73 @@ export default {
       handleFinishFailed,
     }
   },
+  data() {
+    return {
+      ability_admin: [
+        {
+          action: 'read',
+          subject: 'all',
+        },
+        {
+          action: 'create',
+          subject: 'all',
+        },
+        {
+          action: 'update',
+          subject: 'all',
+        },
+        {
+          action: 'delete',
+          subject: 'all',
+        },
+      ],
+      ability_nonadmin: [
+        {
+          action: 'read',
+          subject: 'Dashboard',
+        },
+        {
+          action: 'read',
+          subject: 'Berita',
+        },
+        {
+          action: 'read',
+          subject: 'Program',
+        },
+        {
+          action: 'read',
+          subject: 'VisitPlan',
+        },
+        {
+          action: 'read',
+          subject: 'MappingCustomer',
+        },
+        {
+          action: 'read',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'update',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'read',
+          subject: 'Reporting',
+        },
+        {
+          action: 'read',
+          subject: 'UserManagement',
+        },
+        {
+          action: 'read',
+          subject: 'Auth',
+        },
+      ],
+    }
+  },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         if (response) {
           if (response.ability.length === 0) {
             notification.error({
@@ -171,7 +235,12 @@ export default {
             this.$router.push('/auth/login')
           } else {
             this.$router.push('/dashboard')
-            this.$ability.update(response.ability)
+
+            if (response.role === `Admin`) {
+              this.$ability.update(this.ability_admin)
+            } else {
+              this.$ability.update(this.ability_nonadmin)
+            }
             notification.success({
               message: 'Logged In',
               description: 'Anda berhasil Login!',
