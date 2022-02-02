@@ -202,6 +202,14 @@ export default {
         },
         {
           action: 'read',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'update',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'read',
           subject: 'Reporting',
         },
         {
