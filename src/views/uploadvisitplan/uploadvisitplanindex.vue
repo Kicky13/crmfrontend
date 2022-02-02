@@ -83,25 +83,28 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <a-button
-            type="primary"
-            @click="onSubmitData()"
-            class="mt-2"
-            :disabled="isDisabled"
-            :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
-          >
-            <i class="fa fa-upload mr-2" />
-            Commit to Database
-          </a-button>
-
-          <a-button
-            type="primary"
-            class="mt-2 mr-2"
-            :disabled="isDownloadDisabled"
-            @click="downloadData"
-          >
-            Download
-          </a-button>
+          <Can do="create" on="VisitPlan">
+            <a-button
+              type="primary"
+              @click="onSubmitData()"
+              class="mt-2"
+              :disabled="isDisabled"
+              :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
+            >
+              <i class="fa fa-upload mr-2" />
+              Commit to Database
+            </a-button>
+          </Can>
+          <Can do="create" on="VisitPlan">
+            <a-button
+              type="primary"
+              class="mt-2 mr-2"
+              :disabled="isDownloadDisabled"
+              @click="downloadData"
+            >
+              Download
+            </a-button>
+          </Can>
         </div>
       </div>
     </div>
