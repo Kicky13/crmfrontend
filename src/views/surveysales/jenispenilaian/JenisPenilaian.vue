@@ -2,7 +2,7 @@
   <div class="card card-radius">
     <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="text-white">Jenis Penilaian</h5>
-      <Can do="create" on="Survey Sales">
+      <Can do="create" on="SurveySales">
         <a
           class="fa fa-plus-circle fa-lg align-self-center text-white"
           @click="modalVisible = true"
@@ -12,18 +12,15 @@
     <div class="card-body">
       <a-collapse
         accordion
-        style="background: white !important;"
+        style="background: white !important"
         :bordered="false"
         @change="changeActiveKey"
       >
-        <template
-          v-for="(survey, i) in list"
-          :key="i + 1"
-        >
+        <template v-for="(survey, i) in list" :key="i + 1">
           <a-collapse-panel
             class="text-center"
             :class="i + 1 === getActiveMenu ? { active: true } : { active: false }"
-            :header="`${ survey.jenis_penilaian } [${ survey.pertanyaan.length }]`"
+            :header="`${survey.jenis_penilaian} [${survey.pertanyaan.length}]`"
             :show-arrow="false"
             :style="customStyle"
             @click="getJenisPenilaianById(survey.id)"
@@ -63,16 +60,13 @@ export default {
       type: Boolean,
     },
   },
-  emits: [
-    'selectedJenisPenilaian',
-    'addJenisPenilaian',
-    'activeKey',
-  ],
+  emits: ['selectedJenisPenilaian', 'addJenisPenilaian', 'activeKey'],
   data() {
     return {
       modalVisible: false,
       activeKey: 1,
-      customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
+      customStyle:
+        'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
       jenisPenilaian: '',
     }
   },
@@ -83,7 +77,7 @@ export default {
       }
     },
     getJenisPenilaianById(id) {
-      const survey = this.list.find(survey => survey.id === id)
+      const survey = this.list.find((survey) => survey.id === id)
       const jenis_penilaian = survey.jenis_penilaian
       const pertanyaan = survey.pertanyaan
       const data = {
