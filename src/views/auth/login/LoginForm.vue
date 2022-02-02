@@ -104,7 +104,7 @@ import {
   // KeyOutlined,
   LockOutlined,
 } from '@ant-design/icons-vue'
-
+import dataAbility from '../../../services/ability/defaultAbility.json'
 export default {
   name: 'VbLogin',
   components: {
@@ -373,9 +373,9 @@ export default {
             this.$router.push('/dashboard')
 
             if (response.role === `Admin`) {
-              this.$ability.update(this.ability_admin)
+              this.$ability.update(dataAbility.ability_admin)
             } else {
-              this.$ability.update(this.ability_nonadmin)
+              this.$ability.update(dataAbility.ability_nonadmin)
             }
             notification.success({
               message: 'Logged In',

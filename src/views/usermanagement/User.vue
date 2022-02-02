@@ -4,7 +4,7 @@
       <div class="card-header d-flex align-items-center justify-content-between">
         <div></div>
 
-        <Can do="create" on="News">
+        <Can do="create" on="UserManagement">
           <div class="d-flex">
             <a-button type="primary" class="float-right" @click="openModal()">
               <i class="fa fa-plus mr-2" />
