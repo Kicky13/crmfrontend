@@ -28,8 +28,8 @@ const routes = [
       {
         path: '/radiusdistrik',
         meta: {
-          title: 'Mapping Customer',
-          resource: 'Settings & Configuration',
+          title: 'Radius Distrik',
+          resource: 'RadiusDistrik',
           action: 'read',
         },
         component: () =>
@@ -41,7 +41,7 @@ const routes = [
         path: '/mappingcustomer',
         meta: {
           title: 'Mapping Customer',
-          resource: 'Settings & Configuration',
+          resource: 'MappingCustomer',
           action: 'read',
         },
         component: () =>
@@ -74,19 +74,19 @@ const routes = [
       },
       {
         path: '/marketing/berita/tambah',
-        meta: { title: 'Tambah Berita', resource: 'Tambah Berita', action: 'read' },
+        meta: { title: 'Tambah Berita', resource: 'Berita', action: 'create' },
         component: () =>
           import(/* webpackChunkName: "tambah-berita" */ '@/views/berita/tambah/Tambah'),
       },
       {
         path: '/marketing/berita/update/:artikelId',
-        meta: { title: 'Update Berita', resource: 'Update Berita', action: 'read' },
+        meta: { title: 'Update Berita', resource: 'Berita', action: 'update' },
         component: () =>
           import(/* webpackChunkName: "update-berita" */ '@/views/berita/update/Update'),
       },
       {
         path: '/marketing/berita/detail/:artikelId',
-        meta: { title: 'Detail Berita', resource: 'Detail Berita', action: 'read' },
+        meta: { title: 'Detail Berita', resource: 'Berita', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "detail-berita" */ '@/views/berita/detailberita/DetailBerita'
@@ -94,7 +94,7 @@ const routes = [
       },
       {
         path: '/user/level_user',
-        meta: { title: 'Level User', resource: 'Level User', action: 'read' },
+        meta: { title: 'Level User', resource: 'LevelUser', action: 'read' },
         component: () => import(/* webpackChunkName: "level-user" */ '@/views/leveluser/LevelUser'),
       },
       {
@@ -111,24 +111,24 @@ const routes = [
       },
       {
         path: '/marketing/program/tambah',
-        meta: { title: 'Tambah Program', resource: 'Add_Program', action: 'create' },
+        meta: { title: 'Tambah Program', resource: 'Program', action: 'create' },
         component: () => import(/* webpackChunkName: "tambah-program" */ '@/views/program/tambah'),
       },
       {
         path: '/marketing/program/edit/:userId',
-        meta: { title: 'Edit Program', resource: 'Edit_Program', action: 'update' },
+        meta: { title: 'Edit Program', resource: 'Program', action: 'update' },
         component: () => import(/* webpackChunkName: "edit-program" */ '@/views/program/edit/Edit'),
       },
       {
         path: '/marketing/program/detailProgram/:userId',
-        meta: { title: 'Detail Program', resource: 'Detail_Program', action: 'read' },
+        meta: { title: 'Detail Program', resource: 'Program', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "edit-program" */ '@/views/program/detailProgram'),
       },
       {
         path: '/users/hierarchy/preview',
         name: 'user-hierarchy-preview',
-        meta: { title: 'User Management', resource: 'User', action: 'update' },
+        meta: { title: 'User Management', resource: 'UserHirarki', action: 'update' },
         component: () =>
           import(
             /* webpackChunkName: "user-management-preview-import" */ '@/views/usermanagement/previewImportExcel'
@@ -137,21 +137,21 @@ const routes = [
       {
         path: '/users/hierarchy',
         name: 'user-hierarchy',
-        meta: { title: 'User Management', resource: 'User', action: 'update' },
+        meta: { title: 'User Management', resource: 'UserHirarki', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/Hierarchy'),
       },
       {
         path: '/users',
         name: 'user-management',
-        meta: { title: 'User Management', resource: 'User', action: 'create' },
+        meta: { title: 'User Management', resource: 'UserManagement', action: 'create' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/usermanagement/User'),
       },
       {
         path: '/users/export',
         name: 'user-management-export',
-        meta: { title: 'User Management', resource: 'User', action: 'create' },
+        meta: { title: 'User Management', resource: 'UserManagement', action: 'create' },
         component: () =>
           import(
             /* webpackChunkName: "user-management-export" */ '@/views/usermanagement/forms/Export'
@@ -160,20 +160,20 @@ const routes = [
       {
         path: '/users/profile/jabatan/:id_jabatan',
         name: 'user-management-profile',
-        meta: { title: 'User Management', resource: 'User', action: 'update' },
+        meta: { title: 'User Management', resource: 'UserManagement', action: 'update' },
         component: () =>
           import(/* webpackChunkName: "profile" */ '@/views/usermanagement/profile/Profile'),
       },
       {
         path: '/listusers/history/userid/:userid',
         name: 'log-history',
-        meta: { title: 'Export User', resource: 'User', action: 'update' },
+        meta: { title: 'Export User', resource: 'UserManagement', action: 'update' },
         component: () => import(/* webpackChunkName: "profile" */ '@/views/listusers/history/Log'),
       },
       {
         path: '/users/list',
         name: 'list_user',
-        meta: { title: 'User Management', resource: 'User', action: 'read' },
+        meta: { title: 'User Management', resource: 'UserManagement', action: 'read' },
         component: () => import(/* webpackChunkName: "user-management" */ '@/views/listusers/List'),
       },
       {
@@ -207,13 +207,13 @@ const routes = [
       {
         path: '/customersync',
         name: 'sync-customer',
-        meta: { title: 'Assign Roles', resource: 'Permissions', action: 'read' },
+        meta: { title: 'Assign Roles', resource: 'SynCustomer', action: 'read' },
         component: () => import(/* webpackChunkName: "sync-customer" */ '@/views/customersync'),
       },
       {
         path: '/validasiharga',
         name: 'validasi-harga',
-        meta: { title: 'Validasi Harga', resource: 'validasiHarga', action: 'read' },
+        meta: { title: 'Validasi Harga', resource: 'ValidasiHarga', action: 'read' },
         component: () => import(/* webpackChunkName: "validasi-harga" */ '@/views/validasiharga'),
       },
 
@@ -227,7 +227,7 @@ const routes = [
       {
         path: '/users/profile/SPC/:id_jabatan',
         name: 'user-management-profile-spc',
-        meta: { title: 'Profile SPC', resource: 'User', action: 'read' },
+        meta: { title: 'Profile SPC', resource: 'UserManagement', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileSPC'),
       },
@@ -242,13 +242,13 @@ const routes = [
 
       {
         path: '/report/customer_mapping',
-        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
       },
       {
         path: '/report/customer_mapping',
-        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
       },
@@ -261,14 +261,14 @@ const routes = [
       {
         path: '/users/profile/TSO/:id_jabatan',
         name: 'user-management-profile-tso',
-        meta: { title: 'Profile TSO', resource: 'User', action: 'read' },
+        meta: { title: 'Profile TSO', resource: 'UserManagement', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile-tso" */ '@/views/usermanagement/profileTSO'),
       },
       {
         path: '/users/profile/sales-distributor/:id_jabatan',
         name: 'user-management-profile-sales-distributor',
-        meta: { title: 'Profile Sales Distributor', resource: 'User', action: 'read' },
+        meta: { title: 'Profile Sales Distributor', resource: 'UserManagement', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileSalesDistributor'
@@ -277,7 +277,7 @@ const routes = [
       {
         path: '/users/profile/admin-distributor/:id_jabatan',
         name: 'user-management-profile-admin-distributor',
-        meta: { title: 'Profile Admin Distributor', resource: 'User', action: 'read' },
+        meta: { title: 'Profile Admin Distributor', resource: 'UserManagement', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "profile-sales-distributor" */ '@/views/usermanagement/profileAdminDistributor'
@@ -286,16 +286,15 @@ const routes = [
       {
         path: '/profile/tso',
         name: 'profile-tso',
-        meta: { title: 'Profile Data TSO', resource: 'User', action: 'read' },
+        meta: { title: 'Profile Data TSO', resource: 'UserManagement', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
       },
       {
         path: '/reporting',
         name: 'reporting',
-        meta: { title: 'Reporting', resource: 'User', action: 'read' },
-        component: () =>
-          import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
+        meta: { title: 'Reporting', resource: 'Reporting', action: 'read' },
+        component: () => import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
       },
       // ========== End of iqbal View ==========
     ],
