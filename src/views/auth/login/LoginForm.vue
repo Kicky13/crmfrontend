@@ -373,9 +373,9 @@ export default {
             this.$router.push('/dashboard')
 
             if (response.role === `Admin`) {
-              this.$ability.update(ability_admin)
+              this.$ability.update(this.ability_admin)
             } else {
-              this.$ability.update(ability_nonadmin)
+              this.$ability.update(this.ability_nonadmin)
             }
             notification.success({
               message: 'Logged In',
