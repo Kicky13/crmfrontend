@@ -179,14 +179,14 @@ const routes = [
       {
         path: '/koordinatlock',
         name: 'koordinat-lock',
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
+        meta: { title: 'Koordinat Lock', resource: 'CoordLock', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "koordinat-lock" */ '@/views/coordinatelock/Lock'),
       },
       {
         path: '/koordinatlock/detail/:id_toko/wilayah/:id_distrik',
         name: 'koordinat-lock-detail',
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
+        meta: { title: 'Koordinat Lock', resource: 'CoordLock', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "koordinat-lock-detail" */ '@/views/coordinatelock/DetailLock'
@@ -196,7 +196,7 @@ const routes = [
         path: '/koordinatlock/:id_toko/survey-detail/:id_kunjungan',
         name: 'koordinat-lock-survey',
         props: true,
-        meta: { title: 'Koordinat Lock', resource: 'Settings', action: 'read' },
+        meta: { title: 'Koordinat Lock', resource: 'CoordLock', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "koordinat-lock-survey" */ '@/views/coordinatelock/DetailSurvey'
