@@ -8,7 +8,6 @@ const state = {
     columns: [
       {
         title: '',
-        dataIndex: 'message',
         slots: { customRender: 'icon' },
         fixed: 'left',
       },
