@@ -4,10 +4,12 @@
     <div class="card card-top card-top-primary">
       <div class="card-header">
         <strong>Setting Radius Lock Wilayah</strong>
-        <a-button type="primary" class="mb-3 float-right" @click="openModal">
-          <i class="fa fa-plus mr-2" />
-          Tambah Setting Radius
-        </a-button>
+        <Can do="create" on="RadiusDistrik">
+          <a-button type="primary" class="mb-3 float-right" @click="openModal">
+            <i class="fa fa-plus mr-2" />
+            Tambah Setting Radius
+          </a-button>
+        </Can>
       </div>
 
       <div class="card-body">
@@ -64,13 +66,17 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button @click="fetchUpdateData(text)" type="button" class="btn btn-success mr-2">
-                  <i class="fa fa-pencil-square-o"></i>
-                  <span class="text-black">Ubah</span>
-                </button>
-                <button @click="deleteSelected(text)" type="button" class="btn btn-danger">
-                  <i class="fa fa-trash"></i><span> Hapus </span>
-                </button>
+                <Can do="update" on="RadiusDistrik">
+                  <button @click="fetchUpdateData(text)" type="button" class="btn btn-success mr-2">
+                    <i class="fa fa-pencil-square-o"></i>
+                    <span class="text-black">Ubah</span>
+                  </button>
+                </Can>
+                <Can do="delete" on="RadiusDistrik">
+                  <button @click="deleteSelected(text)" type="button" class="btn btn-danger">
+                    <i class="fa fa-trash"></i><span> Hapus </span>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>

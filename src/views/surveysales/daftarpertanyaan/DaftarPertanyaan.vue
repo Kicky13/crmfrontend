@@ -4,35 +4,37 @@
       <h5 class="text-white">Daftar Pertanyaan {{ list.jenis_penilaian }}</h5>
       <Can do="update" on="Survey Sales">
         <div class="nav-item dropdown">
-          <a-dropdown
-            placement="bottomLeft"
-            :trigger="['click']"
-          >
-            <a
-              class="nav-link pt-sm-0"
-              href="javascript: void(0);"
-            >
+          <a-dropdown placement="bottomLeft" :trigger="['click']">
+            <a class="nav-link pt-sm-0" href="javascript: void(0);">
               <i class="fa fa-list text-white" />
             </a>
             <template #overlay>
               <a-menu>
-                <a-menu-item>
-                  <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a @click="deleteConfirm
-                  (
-                    'Hapus Jenis Penilaian',
-                    'Jenis penilaian berhasil dihapus',
-                    hapusJenisPenilaian
-                  )"
-                  >
-                    Hapus Jenis Penilaian
-                  </a>
-                </a-menu-item>
+                <Can do="create" on="SurveySales">
+                  <a-menu-item>
+                    <a @click="showTambahPertanyaanModal">Tambah Pertanyaan</a>
+                  </a-menu-item>
+                </Can>
+                <Can do="update" on="SurveySales">
+                  <a-menu-item>
+                    <a @click="showEditJenisPenilaianModal">Edit Jenis Penilaian</a>
+                  </a-menu-item>
+                </Can>
+                <Can do="delete" on="SurveySales">
+                  <a-menu-item>
+                    <a
+                      @click="
+                        deleteConfirm(
+                          'Hapus Jenis Penilaian',
+                          'Jenis penilaian berhasil dihapus',
+                          hapusJenisPenilaian,
+                        )
+                      "
+                    >
+                      Hapus Jenis Penilaian
+                    </a>
+                  </a-menu-item>
+                </Can>
               </a-menu>
             </template>
           </a-dropdown>
@@ -42,19 +44,13 @@
     <div class="card-body">
       <a-collapse
         accordion
-        style="background: white !important;"
+        style="background: white !important"
         :bordered="false"
         :active-key="activeKey"
         @change="changeActiveKey"
       >
-        <template
-          v-for="(question, i) in list.pertanyaan"
-          :key="String(i)"
-        >
-          <a-collapse-panel
-            :header="question.judul"
-            :style="customStyle"
-          >
+        <template v-for="(question, i) in list.pertanyaan" :key="String(i)">
+          <a-collapse-panel :header="question.judul" :style="customStyle">
             <div class="d-flex justify-content-between mx-3 mt-3">
               <a @click="showTambahOpsionalJawabanModal(list, question)">
                 <i class="fa fa-plus-circle fa-lg text-main align-self-center mr-2" />
@@ -67,11 +63,11 @@
                 />
                 <a
                   class="btn btn-outline-danger fa fa-trash"
-                  @click="deleteConfirm(
-                    'Hapus Pertanyaan',
-                    'Pertanyaan berhasil dihapus',
-                    () => hapusPertanyaan(question)
-                  )"
+                  @click="
+                    deleteConfirm('Hapus Pertanyaan', 'Pertanyaan berhasil dihapus', () =>
+                      hapusPertanyaan(question),
+                    )
+                  "
                 />
               </div>
             </div>
@@ -93,11 +89,13 @@
                   />
                   <a
                     class="btn btn-outline-danger fa fa-trash"
-                    @click="deleteConfirm(
-                      'Hapus Opsional Jawaban',
-                      'Opsional jawaban berhasil dihapus',
-                      () => hapusJawaban(text)
-                    )"
+                    @click="
+                      deleteConfirm(
+                        'Hapus Opsional Jawaban',
+                        'Opsional jawaban berhasil dihapus',
+                        () => hapusJawaban(text),
+                      )
+                    "
                   />
                 </div>
               </template>
@@ -210,7 +208,8 @@ export default {
       indexJawaban: null,
       indexPertanyaan: null,
       activeKey: '',
-      customStyle: 'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
+      customStyle:
+        'background: white; border-radius: 5px; margin-bottom: 12px; border:1px solid #f0f0f0; overflow: hidden',
       tempData: {},
       dataSourceTable: [],
       idJenisPenilaian: '',
@@ -247,7 +246,7 @@ export default {
       this.opsionalJawabanModalVisible = true
     },
     showEditOpsionalJawabanModal(listJawaban, key) {
-      const opsiJawaban = listJawaban.find(jawaban => jawaban.key === key)
+      const opsiJawaban = listJawaban.find((jawaban) => jawaban.key === key)
       this.idJawaban = opsiJawaban.key
       this.jawaban = opsiJawaban.judul
       this.poin = opsiJawaban.poin
@@ -390,7 +389,7 @@ export default {
             description,
           })
         },
-      });
+      })
     },
     hapusJenisPenilaian() {
       const dataForm = {}
