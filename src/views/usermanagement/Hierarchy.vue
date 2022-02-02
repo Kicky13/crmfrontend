@@ -39,10 +39,12 @@
             {{ 'Posisi' + ' ' + selectedShorthand }}
           </a-button>
         </Can>
-        <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
-          <i class="fa fa-file mr-2" />
-          Import Excel
-        </a-button>
+        <Can do="create" on="UserHirarki">
+          <a-button type="primary" class="mb-3 float-right" @click="openModalImport">
+            <i class="fa fa-file mr-2" />
+            Import Excel
+          </a-button>
+        </Can>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
@@ -170,30 +172,35 @@
                   <span class="text-black">Hirarki</span>
                 </router-link>
                 <div>
-                  <button
-                    type="button"
-                    class="btn btn-warning mr-2"
-                    @click="fetchHistoryJabatan(text)"
-                  >
-                    <i class="fa fa-history" />
-                    History
-                  </button>
-                  <button
-                    v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
-                    type="button"
-                    class="btn btn-info mr-2"
-                    @click="assignRow(text)"
-                  >
-                    <i class="fa fa-user-plus"></i>
-                    <span class="text-black"> Assign User</span></button
-                  ><button
-                    v-else
-                    @click="openModalDelete(text.idJabatan)"
-                    type="button"
-                    class="btn btn-outline-danger mr-2"
-                  >
-                    <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
-                  </button>
+                  <Can do="read" on="UserHirarki">
+                    <button
+                      type="button"
+                      class="btn btn-warning mr-2"
+                      @click="fetchHistoryJabatan(text)"
+                    >
+                      <i class="fa fa-history" />
+                      History
+                    </button>
+                  </Can>
+                  <Can do="create" on="UserHirarki">
+                    <button
+                      v-if="text.idUser === `Kosong` || text.idUser === null || text.idUser === ''"
+                      type="button"
+                      class="btn btn-info mr-2"
+                      @click="assignRow(text)"
+                    >
+                      <i class="fa fa-user-plus"></i>
+                      <span class="text-black"> Assign User</span>
+                    </button>
+                    <button
+                      v-else
+                      @click="openModalDelete(text.idJabatan)"
+                      type="button"
+                      class="btn btn-outline-danger mr-2"
+                    >
+                      <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
+                    </button>
+                  </Can>
                 </div>
               </div>
             </template>

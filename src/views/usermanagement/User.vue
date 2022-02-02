@@ -61,44 +61,52 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button
-                  type="button"
-                  class="btn btn-info mr-1"
-                  @click="showModalPassword(text)"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Lihat Password"
-                >
-                  <i class="fa fa-eye mr-1" />
-                  <!-- <span class="text-black">View Password</span> -->
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-success mr-1"
-                  data-toggle="tooltip"
-                  title="Sunting Data"
-                  @click="showUserEditModal(text)"
-                >
-                  <i class="fa fa-pencil-square-o mr-1" />
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger mr-1"
-                  data-toggle="tooltip"
-                  title="Hapus Data"
-                  @click="deleteConfirm(text)"
-                >
-                  <i class="fa fa-trash mr-1" />
-                </button>
-                <button
-                  @click="resetRow(text)"
-                  type="button"
-                  data-toggle="tooltip"
-                  title="Reset Password"
-                  class="btn btn-warning"
-                >
-                  <i class="fa fa-refresh"></i>
-                </button>
+                <Can do="read" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-info mr-1"
+                    @click="showModalPassword(text)"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Lihat Password"
+                  >
+                    <i class="fa fa-eye mr-1" />
+                    <!-- <span class="text-black">View Password</span> -->
+                  </button>
+                </Can>
+                <Can do="update" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-success mr-1"
+                    data-toggle="tooltip"
+                    title="Sunting Data"
+                    @click="showUserEditModal(text)"
+                  >
+                    <i class="fa fa-pencil-square-o mr-1" />
+                  </button>
+                </Can>
+                <Can do="delete" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-danger mr-1"
+                    data-toggle="tooltip"
+                    title="Hapus Data"
+                    @click="deleteConfirm(text)"
+                  >
+                    <i class="fa fa-trash mr-1" />
+                  </button>
+                </Can>
+                <Can do="update" on="UserManagement">
+                  <button
+                    @click="resetRow(text)"
+                    type="button"
+                    data-toggle="tooltip"
+                    title="Reset Password"
+                    class="btn btn-warning"
+                  >
+                    <i class="fa fa-refresh"></i>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>
