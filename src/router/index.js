@@ -59,7 +59,7 @@ const routes = [
       },
       {
         path: '/otomatisasivisit',
-        meta: { title: 'Otomatisasi Visit', resource: 'OtomatisasiVisit', action: 'read' },
+        meta: { title: 'Otomatisasi Visit', resource: 'VisitPlan', action: 'read' },
         component: () =>
           import(
             /* webpackChunkName: "otomatisasi-visit" */ '@/views/otomatisasivisitplan/otomatisasivisitplanindex'
@@ -213,7 +213,7 @@ const routes = [
       {
         path: '/validasiharga',
         name: 'validasi-harga',
-        meta: { title: 'Validasi Harga', resource: 'validasiHarga', action: 'read' },
+        meta: { title: 'Validasi Harga', resource: 'ValidasiHarga', action: 'read' },
         component: () => import(/* webpackChunkName: "validasi-harga" */ '@/views/validasiharga'),
       },
 
@@ -242,13 +242,13 @@ const routes = [
 
       {
         path: '/report/customer_mapping',
-        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
       },
       {
         path: '/report/customer_mapping',
-        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "customer-mapping" */ '@/views/reportadmin/customermapping'),
       },
