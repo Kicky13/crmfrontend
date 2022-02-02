@@ -38,17 +38,18 @@
           <i class="fa fa-refresh mr-2" />
           SYNC
         </a-button> -->
-        <a-button
-          v-if="synCustomer.listCustomer.length > 0"
-          type="primary"
-          class="mb-3"
-          :loading="synCustomer.isLoading"
-          @click="buttonGetSyncNew()"
-        >
-          <i class="fa fa-refresh mr-2" />
-          SYNC to Database
-        </a-button>
-
+        <Can do="update" on="SynCustomer">
+          <a-button
+            v-if="synCustomer.listCustomer.length > 0"
+            type="primary"
+            class="mb-3"
+            :loading="synCustomer.isLoading"
+            @click="buttonGetSyncNew()"
+          >
+            <i class="fa fa-refresh mr-2" />
+            SYNC to Database
+          </a-button>
+        </Can>
         <div class="row">
           <div class="col-md-6 col-xs-12"></div>
           <div class="col-md-6 col-xs-12">
@@ -79,19 +80,6 @@
             :loading="synCustomer.isLoading"
           >
             <template #status="{ text }"> {{ text.status }} </template>
-            <template #action="{ text }">
-              <div>
-                <button type="button" class="btn btn-light">
-                  <i class="fa fa-file-text-o"></i> <span class="text-black">Detail</span>
-                </button>
-                <button type="button" class="btn btn-warning">
-                  <i class="fa fa-pencil-square-o"></i> <span class="text-black">Ubah</span>
-                </button>
-                <button @click="deleteRow(text)" type="button" class="btn btn-outline-danger">
-                  <i class="fa fa-trash"></i><span> Hapus</span>
-                </button>
-              </div>
-            </template>
           </a-table>
         </div>
 
@@ -312,8 +300,17 @@ export default {
     searchKeyword(keyword) {
       if (keyword) {
         const key = keyword.toLowerCase()
-        const props = ['bisnisKokohId', 'storeName', 'cityName', 'provinceName', 'areaName', 'regionalName', 'segment', 'storeStatus']
-        props.forEach(prop => {
+        const props = [
+          'bisnisKokohId',
+          'storeName',
+          'cityName',
+          'provinceName',
+          'areaName',
+          'regionalName',
+          'segment',
+          'storeStatus',
+        ]
+        props.forEach((prop) => {
           if (this.getDataFilter(prop, key).length) {
             this.synCustomer.listCustomer = this.getDataFilter(prop, key)
             return true
@@ -325,8 +322,8 @@ export default {
     },
 
     getDataFilter(prop, keyword) {
-      const notNullData = this.dataTemp.filter(item => item[prop] !== null)
-      return notNullData.filter(item => item[prop].toLowerCase().includes(keyword))
+      const notNullData = this.dataTemp.filter((item) => item[prop] !== null)
+      return notNullData.filter((item) => item[prop].toLowerCase().includes(keyword))
     },
   },
 }

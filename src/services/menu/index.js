@@ -352,11 +352,6 @@ export const getTsoMenuData = [
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
-      // {
-      //   title: 'Penguncian Koordinat Toko',
-      //   key: 'gh898s',
-      //   url: '/koordinatlock',
-      // },
       {
         title: 'Radius Wilayah',
         key: 'St11Cf',
@@ -367,16 +362,6 @@ export const getTsoMenuData = [
         key: 'St12Cf',
         url: '/mappingcustomer',
       },
-      // {
-      //   title: 'Sync Customer',
-      //   key: 'St13Cf',
-      //   url: '/customersync',
-      // },
-      // {
-      //   title: 'Validasi Harga Survey',
-      //   key: 'St14Cf',
-      //   url: '/validasiharga',
-      // },
     ],
   },
   {
@@ -461,11 +446,6 @@ export const getTsoMenuData = [
   //   url: '/sales',
   //   icon: 'fa fa-book',
   //   children: [
-  //     {
-  //       title: 'Master Penilaian Sales',
-  //       key: '8sugn8',
-  //       url: '/sales/survey_sales',
-  //     },
   //     {
   //       title: 'Report Supervisory Visit',
   //       key: '23jsu2',

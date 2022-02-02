@@ -41,20 +41,12 @@
             <template #icon="{ text }">
               <div v-if="text.cek_data === true">
                 <a-tooltip :title="text.message">
-                  <img
-                    lazy="loading"
-                    v-once src="@/assets/images/check.svg"
-                    alt="Benar"
-                  />
+                  <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
                 </a-tooltip>
               </div>
               <div v-else>
                 <a-tooltip :title="text.message">
-                  <img
-                    lazy="loading"
-                    v-once src="@/assets/images/wrong.svg"
-                    alt="Salah"
-                  />
+                  <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
                 </a-tooltip>
               </div>
             </template>
@@ -104,10 +96,16 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <a-button type="primary" :disabled="commitToDatabaseButtonDisabled" @click="onSubmitData">
-            <i class="fa fa-upload mr-2" />
-            Commit to Database
-          </a-button>
+          <Can do="create" on="MappingCustomer">
+            <a-button
+              type="primary"
+              :disabled="commitToDatabaseButtonDisabled"
+              @click="onSubmitData"
+            >
+              <i class="fa fa-upload mr-2" />
+              Commit to Database
+            </a-button>
+          </Can>
           <a-button
             type="primary"
             class="mr-2"
