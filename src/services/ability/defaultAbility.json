@@ -1,0 +1,206 @@
+{
+  "ability_admin": [
+    {
+      "action": "read",
+      "subject": "Dashboard"
+    },
+    {
+      "action": "read",
+      "subject": "RadiusDistrik"
+    },
+    {
+      "action": "read",
+      "subject": "MappingCustomer"
+    },
+    {
+      "action": "read",
+      "subject": "VisitPlan"
+    },
+    {
+      "action": "create",
+      "subject": "VisitPlan"
+    },
+    {
+      "action": "read",
+      "subject": "OtomatisasiVisit"
+    },
+    {
+      "action": "read",
+      "subject": "OtomatisasiVisit"
+    },
+    {
+      "action": "read",
+      "subject": "Berita"
+    },
+    {
+      "action": "create",
+      "subject": "Berita"
+    },
+    {
+      "action": "update",
+      "subject": "Berita"
+    },
+    {
+      "action": "read",
+      "subject": "LevelUser"
+    },
+    {
+      "action": "create",
+      "subject": "LevelUser"
+    },
+    {
+      "action": "read",
+      "subject": "SurveySales"
+    },
+    {
+      "action": "read",
+      "subject": "Program"
+    },
+    {
+      "action": "create",
+      "subject": "Program"
+    },
+    {
+      "action": "update",
+      "subject": "Program"
+    },
+    {
+      "action": "update",
+      "subject": "UserHirarki"
+    },
+    {
+      "action": "read",
+      "subject": "UserHirarki"
+    },
+    {
+      "action": "create",
+      "subject": "UserManagement"
+    },
+    {
+      "action": "update",
+      "subject": "UserManagement"
+    },
+    {
+      "action": "read",
+      "subject": "UserManagement"
+    },
+    {
+      "action": "read",
+      "subject": "Settings"
+    },
+    {
+      "action": "read",
+      "subject": "SynCustomer"
+    },
+    {
+      "action": "read",
+      "subject": "validasiHarga"
+    },
+    {
+      "action": "read",
+      "subject": "DataSales"
+    },
+
+    {
+      "action": "read",
+      "subject": "ProfileUser"
+    },
+    {
+      "action": "read",
+      "subject": "CustomerMapping"
+    },
+    {
+      "action": "read",
+      "subject": "Reporting"
+    },
+    {
+      "action": "read",
+      "subject": "Auth"
+    }
+  ],
+  "ability_nonadmin": [
+    {
+      "action": "read",
+      "subject": "Dashboard"
+    },
+    {
+      "action": "read",
+      "subject": "RadiusDistrik"
+    },
+    {
+      "action": "read",
+      "subject": "MappingCustomer"
+    },
+    {
+      "action": "read",
+      "subject": "VisitPlan"
+    },
+    {
+      "action": "read",
+      "subject": "OtomatisasiVisit"
+    },
+    {
+      "action": "read",
+      "subject": "OtomatisasiVisit"
+    },
+    {
+      "action": "read",
+      "subject": "Berita"
+    },
+
+    {
+      "action": "read",
+      "subject": "LevelUser"
+    },
+    {
+      "action": "read",
+      "subject": "SurveySales"
+    },
+    {
+      "action": "read",
+      "subject": "Program"
+    },
+    {
+      "action": "read",
+      "subject": "UserHirarki"
+    },
+
+    {
+      "action": "read",
+      "subject": "UserManagement"
+    },
+    {
+      "action": "read",
+      "subject": "Settings"
+    },
+    {
+      "action": "read",
+      "subject": "SynCustomer"
+    },
+    {
+      "action": "read",
+      "subject": "validasiHarga"
+    },
+    {
+      "action": "read",
+      "subject": "DataSales"
+    },
+
+    {
+      "action": "read",
+      "subject": "ProfileUser"
+    },
+    {
+      "action": "read",
+      "subject": "CustomerMapping"
+    },
+    {
+      "action": "read",
+      "subject": "Reporting"
+    },
+    {
+      "action": "read",
+      "subject": "Auth"
+    }
+  ]
+}

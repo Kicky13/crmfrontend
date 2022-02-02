@@ -57,7 +57,7 @@
             class=""
             :columns="listUsers.columns"
             :data-source="listUsers.users"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="listUsers.isLoading"
             :row-class-name="tableRowClassName"
@@ -90,14 +90,16 @@
             </template>
             <template #action="{ text }">
               <div class="d-flex align-items-center">
-                <button
-                  tooltip="Log History"
-                  type="button"
-                  class="btn btn-info mr-2"
-                  @click="assignRow(text)"
-                >
-                  <i class="fa fa-history"></i>
-                </button>
+                <Can do="read" on="UserManagement">
+                  <button
+                    tooltip="Log History"
+                    type="button"
+                    class="btn btn-info mr-2"
+                    @click="assignRow(text)"
+                  >
+                    <i class="fa fa-history"></i>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>
@@ -150,7 +152,7 @@
           <a-table
             :columns="listUsers.columns_history"
             :data-source="listUsers.history"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
           >
           </a-table>
         </a-modal>
@@ -228,8 +230,8 @@ export default {
   },
   computed: {
     ...mapState({
-      listUsers: (state) => state.listUsers.data,
-      userManagementCRM: (state) => state.userManagementCRM.data,
+      listUsers: state => state.listUsers.data,
+      userManagementCRM: state => state.userManagementCRM.data,
     }),
   },
   async mounted() {
@@ -283,7 +285,7 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
 
-    searchData: _.debounce(function () {
+    searchData: _.debounce(function() {
       this.$store.commit('listUsers/changeUserManagement', {
         bodyList: {
           offset: 0,
@@ -338,7 +340,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.listUsers.listUser]
-      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       console.log(this.actiiveTabs)
       this.flagBawahan = filtered[0].flag_bawahan
@@ -493,7 +495,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -501,7 +503,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -545,13 +547,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
