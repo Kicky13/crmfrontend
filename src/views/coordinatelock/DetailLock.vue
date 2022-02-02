@@ -117,7 +117,7 @@
                     class="mt-2"
                     :columns="koordinatLock.column_distributor"
                     :data-source="koordinatLock.dataDetailCustomer.distributor"
-                    :row-key="data => data.id_distributor"
+                    :row-key="(data) => data.id_distributor"
                     :pagination="koordinatLock.pagination"
                     :loading="koordinatLock.isLoading"
                   >
@@ -184,7 +184,7 @@
                   <a-table
                     :columns="columns"
                     :data-source="koordinatLock.dataVisit"
-                    :row-key="historyVisit => historyVisit.id_kunjungan"
+                    :row-key="(historyVisit) => historyVisit.id_kunjungan"
                     :pagination="pagination"
                     :loading="isLoading"
                   >
@@ -252,14 +252,16 @@
             </div>
           </div>
           <div class="card-header text-center align-self-center">
-            <a-button :loading="koordinatLock.isLoading" type="primary" @click="getLockData()">
-              <i class="fa fa-lock mr-2" />
-              {{
-                koordinatLock.dataDetailCustomer.status_lock != 0
-                  ? 'Unlock Customer'
-                  : 'Lock Customer'
-              }}
-            </a-button>
+            <Can do="update" on="CoordLock">
+              <a-button :loading="koordinatLock.isLoading" type="primary" @click="getLockData()">
+                <i class="fa fa-lock mr-2" />
+                {{
+                  koordinatLock.dataDetailCustomer.status_lock != 0
+                    ? 'Unlock Customer'
+                    : 'Lock Customer'
+                }}
+              </a-button>
+            </Can>
           </div>
         </a-card>
       </div>
@@ -320,7 +322,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -347,7 +349,7 @@ export default {
   },
   computed: {
     ...mapState({
-      koordinatLock: state => state.koordinatLock.data,
+      koordinatLock: (state) => state.koordinatLock.data,
     }),
   },
   async mounted() {

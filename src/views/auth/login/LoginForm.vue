@@ -4,8 +4,8 @@
       class="row"
       :style="
         'background-image: url(' +
-          require('@/assets/images/logo/login_page.png') +
-          '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
+        require('@/assets/images/logo/login_page.png') +
+        '); background-repeat: no-repeat; background-position: bottom; height: 98vh;'
       "
     >
       <div class="col-xs-0 col-md-2"></div>
@@ -137,13 +137,13 @@ export default {
       password: '',
     })
 
-    const changeAuthProvider = value => {
+    const changeAuthProvider = (value) => {
       storeState.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
-    const handleFinish = values => {
+    const handleFinish = (values) => {
       storeState.dispatch('user/LOGIN', { payload: values })
     }
-    const handleFinishFailed = errors => {
+    const handleFinishFailed = (errors) => {
       if (errors) {
       }
     }
@@ -164,112 +164,19 @@ export default {
       ability_admin: [
         {
           action: 'read',
-          subject: 'Dashboard',
-        },
-        {
-          action: 'read',
-          subject: 'RadiusDistrik',
-        },
-        {
-          action: 'read',
-          subject: 'MappingCustomer',
-        },
-        {
-          action: 'read',
-          subject: 'VisitPlan',
-        },
-        {
-          action: 'read',
-          subject: 'OtomatisasiVisit',
-        },
-        {
-          action: 'read',
-          subject: 'OtomatisasiVisit',
-        },
-        {
-          action: 'read',
-          subject: 'Berita',
+          subject: 'all',
         },
         {
           action: 'create',
-          subject: 'Berita',
+          subject: 'all',
         },
         {
           action: 'update',
-          subject: 'Berita',
+          subject: 'all',
         },
         {
-          action: 'read',
-          subject: 'LevelUser',
-        },
-        {
-          action: 'read',
-          subject: 'SurveySales',
-        },
-        {
-          action: 'read',
-          subject: 'Program',
-        },
-        {
-          action: 'create',
-          subject: 'Program',
-        },
-        {
-          action: 'update',
-          subject: 'Program',
-        },
-        {
-          action: 'update',
-          subject: 'UserHirarki',
-        },
-        {
-          action: 'read',
-          subject: 'UserHirarki',
-        },
-        {
-          action: 'create',
-          subject: 'UserManagement',
-        },
-        {
-          action: 'update',
-          subject: 'UserManagement',
-        },
-        {
-          action: 'read',
-          subject: 'UserManagement',
-        },
-        {
-          action: 'read',
-          subject: 'Settings',
-        },
-        {
-          action: 'read',
-          subject: 'SynCustomer',
-        },
-        {
-          action: 'read',
-          subject: 'validasiHarga',
-        },
-        {
-          action: 'read',
-          subject: 'DataSales',
-        },
-
-        {
-          action: 'read',
-          subject: 'ProfileUser',
-        },
-        {
-          action: 'read',
-          subject: 'CustomerMapping',
-        },
-        {
-          action: 'read',
-          subject: 'Reporting',
-        },
-        {
-          action: 'read',
-          subject: 'Auth',
+          action: 'delete',
+          subject: 'all',
         },
       ],
       ability_nonadmin: [
@@ -279,36 +186,7 @@ export default {
         },
         {
           action: 'read',
-          subject: 'RadiusDistrik',
-        },
-        {
-          action: 'read',
-          subject: 'MappingCustomer',
-        },
-        {
-          action: 'read',
-          subject: 'VisitPlan',
-        },
-        {
-          action: 'read',
-          subject: 'OtomatisasiVisit',
-        },
-        {
-          action: 'read',
-          subject: 'OtomatisasiVisit',
-        },
-        {
-          action: 'read',
           subject: 'Berita',
-        },
-
-        {
-          action: 'read',
-          subject: 'LevelUser',
-        },
-        {
-          action: 'read',
-          subject: 'SurveySales',
         },
         {
           action: 'read',
@@ -316,41 +194,27 @@ export default {
         },
         {
           action: 'read',
-          subject: 'UserHirarki',
-        },
-
-        {
-          action: 'read',
-          subject: 'UserManagement',
+          subject: 'VisitPlan',
         },
         {
           action: 'read',
-          subject: 'Settings',
+          subject: 'MappingCustomer',
         },
         {
           action: 'read',
-          subject: 'SynCustomer',
+          subject: 'RadiusDistrik',
         },
         {
-          action: 'read',
-          subject: 'validasiHarga',
-        },
-        {
-          action: 'read',
-          subject: 'DataSales',
-        },
-
-        {
-          action: 'read',
-          subject: 'ProfileUser',
-        },
-        {
-          action: 'read',
-          subject: 'CustomerMapping',
+          action: 'update',
+          subject: 'RadiusDistrik',
         },
         {
           action: 'read',
           subject: 'Reporting',
+        },
+        {
+          action: 'read',
+          subject: 'UserManagement',
         },
         {
           action: 'read',
@@ -361,7 +225,7 @@ export default {
   },
   methods: {
     login() {
-      login(this.loginForm).then(response => {
+      login(this.loginForm).then((response) => {
         if (response) {
           if (response.ability.length === 0) {
             notification.error({
