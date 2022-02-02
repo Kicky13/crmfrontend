@@ -159,6 +159,206 @@ export default {
       handleFinishFailed,
     }
   },
+  data() {
+    return {
+      ability_admin: [
+        {
+          action: 'read',
+          subject: 'Dashboard',
+        },
+        {
+          action: 'read',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'read',
+          subject: 'MappingCustomer',
+        },
+        {
+          action: 'read',
+          subject: 'VisitPlan',
+        },
+        {
+          action: 'read',
+          subject: 'OtomatisasiVisit',
+        },
+        {
+          action: 'read',
+          subject: 'OtomatisasiVisit',
+        },
+        {
+          action: 'read',
+          subject: 'Berita',
+        },
+        {
+          action: 'create',
+          subject: 'Berita',
+        },
+        {
+          action: 'update',
+          subject: 'Berita',
+        },
+        {
+          action: 'read',
+          subject: 'LevelUser',
+        },
+        {
+          action: 'read',
+          subject: 'SurveySales',
+        },
+        {
+          action: 'read',
+          subject: 'Program',
+        },
+        {
+          action: 'create',
+          subject: 'Program',
+        },
+        {
+          action: 'update',
+          subject: 'Program',
+        },
+        {
+          action: 'update',
+          subject: 'UserHirarki',
+        },
+        {
+          action: 'read',
+          subject: 'UserHirarki',
+        },
+        {
+          action: 'create',
+          subject: 'UserManagement',
+        },
+        {
+          action: 'update',
+          subject: 'UserManagement',
+        },
+        {
+          action: 'read',
+          subject: 'UserManagement',
+        },
+        {
+          action: 'read',
+          subject: 'Settings',
+        },
+        {
+          action: 'read',
+          subject: 'SynCustomer',
+        },
+        {
+          action: 'read',
+          subject: 'validasiHarga',
+        },
+        {
+          action: 'read',
+          subject: 'DataSales',
+        },
+
+        {
+          action: 'read',
+          subject: 'ProfileUser',
+        },
+        {
+          action: 'read',
+          subject: 'CustomerMapping',
+        },
+        {
+          action: 'read',
+          subject: 'Reporting',
+        },
+        {
+          action: 'read',
+          subject: 'Auth',
+        },
+      ],
+      ability_nonadmin: [
+        {
+          action: 'read',
+          subject: 'Dashboard',
+        },
+        {
+          action: 'read',
+          subject: 'RadiusDistrik',
+        },
+        {
+          action: 'read',
+          subject: 'MappingCustomer',
+        },
+        {
+          action: 'read',
+          subject: 'VisitPlan',
+        },
+        {
+          action: 'read',
+          subject: 'OtomatisasiVisit',
+        },
+        {
+          action: 'read',
+          subject: 'OtomatisasiVisit',
+        },
+        {
+          action: 'read',
+          subject: 'Berita',
+        },
+
+        {
+          action: 'read',
+          subject: 'LevelUser',
+        },
+        {
+          action: 'read',
+          subject: 'SurveySales',
+        },
+        {
+          action: 'read',
+          subject: 'Program',
+        },
+        {
+          action: 'read',
+          subject: 'UserHirarki',
+        },
+
+        {
+          action: 'read',
+          subject: 'UserManagement',
+        },
+        {
+          action: 'read',
+          subject: 'Settings',
+        },
+        {
+          action: 'read',
+          subject: 'SynCustomer',
+        },
+        {
+          action: 'read',
+          subject: 'validasiHarga',
+        },
+        {
+          action: 'read',
+          subject: 'DataSales',
+        },
+
+        {
+          action: 'read',
+          subject: 'ProfileUser',
+        },
+        {
+          action: 'read',
+          subject: 'CustomerMapping',
+        },
+        {
+          action: 'read',
+          subject: 'Reporting',
+        },
+        {
+          action: 'read',
+          subject: 'Auth',
+        },
+      ],
+    }
+  },
   methods: {
     login() {
       login(this.loginForm).then(response => {
@@ -171,7 +371,12 @@ export default {
             this.$router.push('/auth/login')
           } else {
             this.$router.push('/dashboard')
-            this.$ability.update(response.ability)
+
+            if (response.role === `Admin`) {
+              this.$ability.update(ability_admin)
+            } else {
+              this.$ability.update(ability_nonadmin)
+            }
             notification.success({
               message: 'Logged In',
               description: 'Anda berhasil Login!',
