@@ -368,6 +368,16 @@ const routes = [
         component: () => import('@/views/auth/500'),
       },
       {
+        path: '/auth/403',
+        name: 'route403',
+        meta: {
+          title: 'Error 4030',
+          resource: 'Auth',
+          action: 'read',
+        },
+        component: () => import('@/views/auth/403'),
+      },
+      {
         path: '/auth/login',
         name: 'login',
         meta: {
@@ -441,14 +451,14 @@ router.beforeEach((to, from, next) => {
       if (canNavigate(to)) {
         next()
       } else {
-        next({ name: 'route500' })
+        next({ name: 'route403' })
       }
     }
   } else {
     if (canNavigate(to)) {
       next()
     } else {
-      next({ name: 'route500' })
+      next({ name: 'route403' })
     }
   }
 })
