@@ -253,44 +253,44 @@ export default {
     ]),
 
     ...mapActions('userManagement', ['resetDataRow']),
-    async handleTableChange(pagination, filters, sorter) {
-      if (pagination.pageSize === 5) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 10) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 15) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 20) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-    },
+    // async handleTableChange(pagination, filters, sorter) {
+    //   if (pagination.pageSize === 5) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 10) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 15) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 20) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    // },
     showModalPassword(text) {
       this.userManagementCRM.modalPreviewPassword = true
       this.itemPassword = text
