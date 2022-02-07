@@ -288,6 +288,7 @@ export default {
 
       if (this.reporting.status_download === `Sukses`) {
         const header = [
+          'ID_JADWAL_SALES',
           'ID_USER_SALES',
           'USERNAME_SALES',
           'NAMA_SALES',
@@ -315,6 +316,7 @@ export default {
           'WEEK_5',
         ]
         const filterVal = [
+          'ID_JADWAL_SALES',
           'ID_USER_SALES',
           'USERNAME_SALES',
           'NAMA_SALES',
