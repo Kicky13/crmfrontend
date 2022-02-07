@@ -4,7 +4,7 @@
       <div class="card-header d-flex align-items-center justify-content-between">
         <div></div>
 
-        <Can do="create" on="News">
+        <Can do="create" on="UserManagement">
           <div class="d-flex">
             <a-button type="primary" class="float-right" @click="openModal()">
               <i class="fa fa-plus mr-2" />
@@ -61,44 +61,52 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button
-                  type="button"
-                  class="btn btn-info mr-1"
-                  @click="showModalPassword(text)"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Lihat Password"
-                >
-                  <i class="fa fa-eye mr-1" />
-                  <!-- <span class="text-black">View Password</span> -->
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-success mr-1"
-                  data-toggle="tooltip"
-                  title="Sunting Data"
-                  @click="showUserEditModal(text)"
-                >
-                  <i class="fa fa-pencil-square-o mr-1" />
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger mr-1"
-                  data-toggle="tooltip"
-                  title="Hapus Data"
-                  @click="deleteConfirm(text)"
-                >
-                  <i class="fa fa-trash mr-1" />
-                </button>
-                <button
-                  @click="resetRow(text)"
-                  type="button"
-                  data-toggle="tooltip"
-                  title="Reset Password"
-                  class="btn btn-warning"
-                >
-                  <i class="fa fa-refresh"></i>
-                </button>
+                <Can do="read" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-info mr-1"
+                    @click="showModalPassword(text)"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Lihat Password"
+                  >
+                    <i class="fa fa-eye mr-1" />
+                    <!-- <span class="text-black">View Password</span> -->
+                  </button>
+                </Can>
+                <Can do="update" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-success mr-1"
+                    data-toggle="tooltip"
+                    title="Sunting Data"
+                    @click="showUserEditModal(text)"
+                  >
+                    <i class="fa fa-pencil-square-o mr-1" />
+                  </button>
+                </Can>
+                <Can do="delete" on="UserManagement">
+                  <button
+                    type="button"
+                    class="btn btn-danger mr-1"
+                    data-toggle="tooltip"
+                    title="Hapus Data"
+                    @click="deleteConfirm(text)"
+                  >
+                    <i class="fa fa-trash mr-1" />
+                  </button>
+                </Can>
+                <Can do="update" on="UserManagement">
+                  <button
+                    @click="resetRow(text)"
+                    type="button"
+                    data-toggle="tooltip"
+                    title="Reset Password"
+                    class="btn btn-warning"
+                  >
+                    <i class="fa fa-refresh"></i>
+                  </button>
+                </Can>
               </div>
             </template>
           </a-table>
@@ -245,44 +253,44 @@ export default {
     ]),
 
     ...mapActions('userManagement', ['resetDataRow']),
-    async handleTableChange(pagination, filters, sorter) {
-      if (pagination.pageSize === 5) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 10) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 15) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-      if (pagination.pageSize === 20) {
-        await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
-          table: {
-            limit: 2000,
-            offset: 0,
-          },
-        }),
-          await this.getListUserCRM()
-      }
-    },
+    // async handleTableChange(pagination, filters, sorter) {
+    //   if (pagination.pageSize === 5) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 10) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 15) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    //   if (pagination.pageSize === 20) {
+    //     await this.$store.commit('userManagementCRM/changeUserManagementCRM', {
+    //       table: {
+    //         limit: 2000,
+    //         offset: 0,
+    //       },
+    //     }),
+    //       await this.getListUserCRM()
+    //   }
+    // },
     showModalPassword(text) {
       this.userManagementCRM.modalPreviewPassword = true
       this.itemPassword = text

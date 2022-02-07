@@ -7,7 +7,7 @@
             <strong>Level User</strong>
           </div>
         </div>
-        <Can do="create" on="News">
+        <Can do="create" on="LevelUser">
           <div class="d-flex">
             <a-button type="primary" class="mb-3 float-right" @click="showModal">
               <i class="fa fa-plus mr-2" />
@@ -54,7 +54,7 @@
           <a-table
             :columns="columns"
             :data-source="dataList"
-            :row-key="(dataSourceTable) => dataSourceTable.id"
+            :row-key="dataSourceTable => dataSourceTable.id"
             :pagination="pagination"
             :loading="isLoading"
           >
@@ -63,10 +63,12 @@
             </template>
             <template #action="{ text }">
               <div>
-                <button type="button" class="btn btn-success mr-1" @click="showModalEdit(text)">
-                  <i class="fa fa-pencil-square-o mr-1" />
-                  <span class="text-black">Ubah</span>
-                </button>
+                <Can do="update" on="LevelUser">
+                  <button type="button" class="btn btn-success mr-1" @click="showModalEdit(text)">
+                    <i class="fa fa-pencil-square-o mr-1" />
+                    <span class="text-black">Ubah</span>
+                  </button>
+                </Can>
                 <!-- <button type="button" class="btn btn-danger" @click="deleteConfirm(text)">
                   <i class="fa fa-trash mr-1" />
                   <span>Hapus</span>
@@ -229,11 +231,11 @@ export default {
     fetchLevelUsers() {
       this.isLoading = true
       levelUserList()
-        .then((response) => {
+        .then(response => {
           let i = 1
           this.dataSourceTable = []
           if (response) {
-            response.data.forEach((item) => {
+            response.data.forEach(item => {
               item.no = i++
               this.dataSourceTable.push(item)
             })
@@ -241,7 +243,7 @@ export default {
             this.isLoading = false
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
@@ -254,9 +256,9 @@ export default {
       this.statusModal = true
       // showpost(id)
       levelUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.idJenisUser === id)
+            const post = response.data.find(post => post.idJenisUser === id)
             console.log(post)
             this.formState.idJenisUser = post.idJenisUser
 
@@ -271,7 +273,7 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -286,7 +288,7 @@ export default {
     },
     addNewLevelUser(data) {
       addLevelUser(data)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.fetchLevelUsers()
             notification.success({
@@ -300,7 +302,7 @@ export default {
             })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -309,19 +311,19 @@ export default {
 
     deleteLevelUserById(id) {
       deleteLevelUser(id)
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.fetchLevelUsers()
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
     },
     updateLevelUserById(data) {
       updateLevelUser(data)
-        .then((response) => {
+        .then(response => {
           if (response.status == 200) {
             this.fetchLevelUsers()
             notification.success({
@@ -335,7 +337,7 @@ export default {
             })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -364,7 +366,7 @@ export default {
         const dataForm = {}
         dataForm.namaJenisUser = this.newUsername
         const exist = this.dataSourceTable.find(
-          (data) => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase(),
+          data => data.namaJenisUser.toLowerCase() === dataForm.namaJenisUser.toLowerCase(),
         )
         if (!exist) {
           this.addNewLevelUser(dataForm)
@@ -389,12 +391,12 @@ export default {
     },
     fetchGetDataProduk() {
       getSelectUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.listProduk = response.data
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -402,13 +404,13 @@ export default {
     setSelectMethod(value) {
       const id = value
       getSelectUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.id_level_hirarki === id)
+            const post = response.data.find(post => post.id_level_hirarki === id)
             this.formState.namaJenisUser = post.nama_singkat
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -417,7 +419,7 @@ export default {
       this.pagination.pageSize = size
     },
     getUserEdit(id) {
-      const row = this.dataSourceTable.find((data) => data.idJenisUser === id)
+      const row = this.dataSourceTable.find(data => data.idJenisUser === id)
       this.editItem.idJenisUser = row.idJenisUser
       this.editItem.namaJenisUser = row.namaJenisUser
       this.editUsername = row.namaJenisUser
@@ -441,7 +443,7 @@ export default {
     removeAction() {
       const abilityUser = this.$store.state.user.ability
       const check = abilityUser.filter(
-        (ability) => ability.action === 'update' || ability.action === 'delete',
+        ability => ability.action === 'update' || ability.action === 'delete',
       )
       if (!check.length) {
         this.columns.pop()
@@ -454,7 +456,7 @@ export default {
     },
     searchData(keyword) {
       if (keyword) {
-        this.dataList = this.dataSourceTable.filter((dataSource) =>
+        this.dataList = this.dataSourceTable.filter(dataSource =>
           dataSource.namaJenisUser.toLowerCase().includes(keyword.toLowerCase()),
         )
       } else {

@@ -1,0 +1,62 @@
+{
+  "ability_admin": [
+    {
+      "action": "read",
+      "subject": "all"
+    },
+    {
+      "action": "create",
+      "subject": "all"
+    },
+    {
+      "action": "update",
+      "subject": "all"
+    },
+    {
+      "action": "delete",
+      "subject": "all"
+    }
+  ],
+  "ability_nonadmin": [
+    {
+      "action": "read",
+      "subject": "Dashboard"
+    },
+    {
+      "action": "read",
+      "subject": "Berita"
+    },
+    {
+      "action": "read",
+      "subject": "Program"
+    },
+    {
+      "action": "read",
+      "subject": "VisitPlan"
+    },
+    {
+      "action": "read",
+      "subject": "MappingCustomer"
+    },
+    {
+      "action": "read",
+      "subject": "RadiusDistrik"
+    },
+    {
+      "action": "update",
+      "subject": "RadiusDistrik"
+    },
+    {
+      "action": "read",
+      "subject": "Reporting"
+    },
+    {
+      "action": "read",
+      "subject": "UserManagement"
+    },
+    {
+      "action": "read",
+      "subject": "Auth"
+    }
+  ]
+}
