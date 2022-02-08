@@ -174,10 +174,11 @@ export default {
     downloadData() {
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
+          'ID User',
           'Username',
-          'Id Toko',
+          'ID Toko',
           'Nama Toko',
-          'Distributor',
+          // 'Distributor',
           'Minggu',
           'Senin',
           'Selasa',
@@ -193,10 +194,11 @@ export default {
           'Message',
         ]
         const filterVal = [
+          'id_sales',
           'username',
           'id_toko',
           'nama_toko',
-          'nama_distributor',
+          // 'nama_distributor',
           'minggu',
           'senin',
           'selasa',
