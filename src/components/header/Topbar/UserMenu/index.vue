@@ -35,7 +35,7 @@
         </a-menu-item>
         <a-menu-divider />
         <a-menu-item @click="changePasswordHandle">
-          <a href="javascript: void(0);" @click="changePasswordHandle">
+          <a href="javascript: void(0);">
             <i class="fa fa-unlock-alt" style="margin-right: 12px" />
             <!-- {{ $t('topBar.profileMenu.editProfile') }} -->
             Ganti Password

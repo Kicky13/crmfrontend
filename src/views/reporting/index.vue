@@ -150,6 +150,7 @@
   </div>
 </template>
 <script>
+import { notification } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -209,11 +210,6 @@ export default {
           this.reporting.listHirarkiInternal,
           'master-mapping-hirarki-internal',
         )
-      } else {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
-        })
       }
     },
     async tsoDistrikDownload() {
@@ -251,11 +247,6 @@ export default {
         ]
 
         this.exportToExcel(header, filterVal, this.reporting.listTsoDistrik, 'mapping-tso-distrik')
-      } else {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
-        })
       }
     },
     async tokoDistributorDownload() {
@@ -288,11 +279,6 @@ export default {
           'mapping-toko-distributor',
         )
         this.reporting.modalVisibleTSO = false
-      } else {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
-        })
       }
     },
     async customerSalesDownload() {
@@ -302,6 +288,7 @@ export default {
 
       if (this.reporting.status_download === `Sukses`) {
         const header = [
+          'ID_JADWAL_SALES',
           'ID_USER_SALES',
           'USERNAME_SALES',
           'NAMA_SALES',
@@ -329,6 +316,7 @@ export default {
           'WEEK_5',
         ]
         const filterVal = [
+          'ID_JADWAL_SALES',
           'ID_USER_SALES',
           'USERNAME_SALES',
           'NAMA_SALES',
