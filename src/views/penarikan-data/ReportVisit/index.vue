@@ -31,6 +31,8 @@
               class="ant-calendar-picker ant-calendar-picker-input ant-input w-100"
               placeholder="Tanggal Mulai"
               input-format="dd-MM-yyyy"
+              :upper-limit="dateLowerLimit"
+              :lower-limit="dateBeforeLimit"
               v-model="penarikanData.body_report_visit.start_date"
             />
           </div>
@@ -41,6 +43,8 @@
               class="ant-calendar-picker ant-calendar-picker-input ant-input w-100"
               placeholder="Tanggal Akhir"
               input-format="dd-MM-yyyy"
+              :upper-limit="dateLowerLimit"
+              :lower-limit="dateBeforeLimit"
             />
           </div>
           <div class="col-md-3">
@@ -73,11 +77,30 @@
         </div>
       </div>
       <div class="card-body p-0">
+        <div class="d-flex mt-4 justify-content-between mb-3">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Show :</span>
+            </div>
+            <a-select
+              :default-value="penarikanData.itemsPerPage[1]"
+              class="mx-2"
+              @change="handlePaginationSize"
+            >
+              <a-select-option v-for="itemPerPage in penarikanData.itemsPerPage" :key="itemPerPage">
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="penarikanData.columns_report_visit"
             :data-source="penarikanData.list_report_visit"
-            :pagination="penarikanData.pagination_report_visit"
+            :pagination="penarikanData.pagination"
             :loading="penarikanData.isLoading"
             :row-key="data => data"
           >
@@ -86,7 +109,179 @@
             </template>
             <template #id_sales="{ text }">
               <div>
-                {{ text.id_sales }}
+                {{ text.ID_SALES }}
+              </div>
+            </template>
+            <template #nama_sales="{ text }">
+              <div>
+                {{ text.NAMA_SALES }}
+              </div>
+            </template>
+            <template #username="{ text }">
+              <div>
+                {{ text.USERNAME }}
+              </div>
+            </template>
+            <template #np_hp="{ text }">
+              <div>
+                {{ text.NO_HP }}
+              </div>
+            </template>
+            <template #id_toko="{ text }">
+              <div>
+                {{ text.ID_TOKO }}
+              </div>
+            </template>
+            <template #nama_toko="{ text }">
+              <div>
+                {{ text.NAMA_TOKO }}
+              </div>
+            </template>
+            <template #kode_distributor="{ text }">
+              <div>
+                {{ text.KODE_DISTRIBUTOR }}
+              </div>
+            </template>
+            <template #nama_distributor="{ text }">
+              <div>
+                {{ text.NAMA_DISTRIBUTOR }}
+              </div>
+            </template>
+            <template #id_distrik="{ text }">
+              <div>
+                {{ text.ID_DISTRIK }}
+              </div>
+            </template>
+            <template #nama_distrik="{ text }">
+              <div>
+                {{ text.NAMA_DISTRIK }}
+              </div>
+            </template>
+            <template #id_area="{ text }">
+              <div>
+                {{ text.ID_AREA }}
+              </div>
+            </template>
+            <template #nama_area="{ text }">
+              <div>
+                {{ text.NAMA_AREA }}
+              </div>
+            </template>
+            <template #id_provinsi="{ text }">
+              <div>
+                {{ text.ID_PROVINSI }}
+              </div>
+            </template>
+            <template #nama_provinsi="{ text }">
+              <div>
+                {{ text.NAMA_PROVINSI }}
+              </div>
+            </template>
+            <template #id_region="{ text }">
+              <div>
+                {{ text.ID_REGION }}
+              </div>
+            </template>
+            <template #tahun="{ text }">
+              <div>
+                {{ text.TAHUN }}
+              </div>
+            </template>
+
+            <template #bulan="{ text }">
+              <div>
+                {{ text.BULAN }}
+              </div>
+            </template>
+            <template #hari="{ text }">
+              <div>
+                {{ text.HARI }}
+              </div>
+            </template>
+            <template #waktu_mulai="{ text }">
+              <div>
+                {{ text.WAKTU_MULAI }}
+              </div>
+            </template>
+            <template #waktu_selesai="{ text }">
+              <div>
+                {{ text.WAKTU_SELESAI }}
+              </div>
+            </template>
+            <template #waktu_kunjungan="{ text }">
+              <div>
+                {{ text.WAKTU_KUNJUNGAN }}
+              </div>
+            </template>
+            <template #jam="{ text }">
+              <div>
+                {{ text.JAM }}
+              </div>
+            </template>
+            <template #menit="{ text }">
+              <div>
+                {{ text.MENIS }}
+              </div>
+            </template>
+            <template #apps_info="{ text }">
+              <div>
+                {{ text.APPS_INFO }}
+              </div>
+            </template>
+            <template #jml_order="{ text }">
+              <div>
+                {{ text.JML_ORDER }}
+              </div>
+            </template>
+            <template #target="{ text }">
+              <div>
+                {{ text.TARGET }}
+              </div>
+            </template>
+            <template #realisasi="{ text }">
+              <div>
+                {{ text.REALISASI }}
+              </div>
+            </template>
+            <template #unplan_target="{ text }">
+              <div>
+                {{ text.UNPLAN_TARGET }}
+              </div>
+            </template>
+            <template #unplan_real="{ text }">
+              <div>
+                {{ text.UNPLAN_REAL }}
+              </div>
+            </template>
+            <template #id_gsm="{ text }">
+              <div>
+                {{ text.ID_GSM }}
+              </div>
+            </template>
+            <template #nama_gsm="{ text }">
+              <div>
+                {{ text.NAMA_GSM }}
+              </div>
+            </template>
+
+            <template #id_sm="{ text }">
+              <div>
+                {{ text.ID_SM }}
+              </div>
+            </template>
+            <template #nama_sm="{ text }">
+              <div>
+                {{ text.NAMA_SM }}
+              </div>
+            </template>
+            <template #id_so="{ text }">
+              <div>
+                {{ text.ID_SO }}
+              </div>
+            </template>
+            <template #nama_so="{ text }">
+              <div>
+                {{ text.NAMA_SO }}
               </div>
             </template>
           </a-table>
@@ -99,14 +294,22 @@
         :mask-closable="true"
       >
         <div class="information pl-5 pr-5 pt-2 text-center">
-          Apakah anda yakin akan melakukan export data hasil survey pada tanggal 2022-02-07 hingga
-          2022-02-07 untuk <br />
-          region 1 - Surabaya ?
+          Apakah anda yakin akan melakukan export data report visit pada tanggal
+          <span class="font-weight-bold">{{ startDate }}</span> hingga
+          <span class="font-weight-bold">{{ endDate }}</span> untuk <br />
+          <span class="font-weight-bold text-uppercase">
+            region {{ penarikanData.body_report_visit.id_region }}</span
+          >
+          ?
         </div>
 
         <template #footer>
           <div>
-            <a-button :loading="penarikanData.isLoading" key="submit" type="primary"
+            <a-button
+              @click="reportVisitDownload()"
+              :loading="penarikanData.isLoading"
+              key="submit"
+              type="primary"
               >Export Data</a-button
             >
           </div>
@@ -118,6 +321,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import VueDatepicker from 'vue3-datepicker'
+import moment from 'moment'
 
 export default {
   name: 'ReportVisit',
@@ -125,7 +329,12 @@ export default {
     VueDatepicker,
   },
   data() {
-    return {}
+    return {
+      startDate: null,
+      endDate: null,
+      dateLowerLimit: null,
+      dateBeforeLimit: null,
+    }
   },
 
   computed: {
@@ -151,6 +360,8 @@ export default {
 
     handleModalReportVisit() {
       this.penarikanData.modalVisibleVisit = true
+      this.startDate = moment(this.penarikanData.body_report_visit.start_date).format('DD-MM-YYYY')
+      this.endDate = moment(this.penarikanData.body_report_visit.end_date).format('DD-MM-YYYY')
     },
 
     handleRegion() {
@@ -163,6 +374,113 @@ export default {
 
     async handleView() {
       await this.getDataReportVisit()
+    },
+
+    reportVisitDownload() {
+      const header = [
+        'ID_SALES',
+        'NAMA_SALES',
+        'USERNAME',
+        'NO_HP',
+        'NM_USER',
+        'ID_TOKO',
+        'NAMA_TOKO',
+        'KODE_DISTRIBUTOR',
+        'NAMA_DISTRIBUTOR',
+        'ID_DISTRIK',
+        'NAMA_DISTRIK',
+        'ID_AREA',
+        'NAMA_AREA',
+        'ID_PROVINSI',
+        'NAMA_PROVINSI',
+        'ID_REGION',
+        'TAHUN',
+        'BULAN',
+        'HARI',
+        'WAKTU_MULAI',
+        'WAKTU_SELESAI',
+        'WAKTU_KUNJUNGAN',
+        'JAM',
+        'MENIT',
+        'APPS_INFO',
+        'JUMLAH_ORDER',
+        'TARGET',
+        'REALISASI',
+        'UNPLAN_TARGET',
+        'UNPLAN_REAL',
+        'ID_GSM',
+        'NAMA_GSM',
+        'ID_SM',
+        'NAMA_SM',
+        'ID_SO',
+        'NAMA_SO',
+      ]
+      const filterVal = [
+        'ID_SALES',
+        'NAMA_SALES',
+        'USERNAME',
+        'NO_HP',
+        'NM_USER',
+        'ID_TOKO',
+        'NAMA_TOKO',
+        'KODE_DISTRIBUTOR',
+        'NAMA_DISTRIBUTOR',
+        'ID_DISTRIK',
+        'NAMA_DISTRIK',
+        'ID_AREA',
+        'NAMA_AREA',
+        'ID_PROVINSI',
+        'NAMA_PROVINSI',
+        'ID_REGION',
+        'TAHUN',
+        'BULAN',
+        'HARI',
+        'WAKTU_MULAI',
+        'WAKTU_SELESAI',
+        'WAKTU_KUNJUNGAN',
+        'JAM',
+        'MENIT',
+        'APPS_INFO',
+        'JML_ORDERS',
+        'TARGET',
+        'REALISASI',
+        'UNPLAN_TARGET',
+        'UNPLAN_REAL',
+        'ID_GSM',
+        'NAMA_GSM',
+        'ID_SM',
+        'NAMA_SM',
+        'ID_SO',
+        'NAMA_SO',
+      ]
+      this.exportToExcel(header, filterVal, this.penarikanData.list_report_visit, 'report-visit')
+    },
+    handlePaginationSize(size) {
+      this.penarikanData.pagination.pageSize = size
+    },
+    exportToExcel(header, filterVal, list, filename) {
+      import('@/vendor/Export2Excel').then(excel => {
+        const data = this.formatJson(filterVal, list)
+
+        excel.export_json_to_excel({
+          header,
+          data,
+          filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
     },
   },
 }
