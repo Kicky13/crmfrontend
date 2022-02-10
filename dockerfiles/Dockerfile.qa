@@ -6,7 +6,7 @@ COPY package*.json ./
 #RUN yarn install
 COPY . .
 RUN yarn cache clean
-RUN yarn install
+RUN yarn install --network-timeout 1000000
 #RUN npx browserslist@latest --update-db
 RUN mv .env.qa .env
 RUN yarn build

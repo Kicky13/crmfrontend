@@ -90,7 +90,6 @@ const actions = {
           isLoading: false,
         })
       } else {
-        console.log(`---result.data.data`, result.data.data)
         await commit('changeReporting', {
           listTsoDistrik: result.data.data,
           isLoading: false,
@@ -251,18 +250,22 @@ const actions = {
         })
         await commit('changeReporting', {
           isLoading: false,
+          status_download: 'Gagal',
         })
       } else {
         await commit('changeReporting', {
           isLoading: false,
-          status_download: 'Sukses',
           survey_last_week: result.data.data,
+          status_download: 'Sukses',
         })
       }
     } catch (err) {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
+      })
+      await commit('changeReporting', {
+        isLoading: false,
         status_download: 'Gagal',
       })
     }
