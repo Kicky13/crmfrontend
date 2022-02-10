@@ -453,7 +453,12 @@ export default {
         'ID_SO',
         'NAMA_SO',
       ]
-      this.exportToExcel(header, filterVal, this.penarikanData.list_report_survey, 'report-visit')
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.penarikanData.list_report_survey,
+        'report-hasil-survey',
+      )
     },
     handlePaginationSize(size) {
       this.penarikanData.pagination.pageSize = size
