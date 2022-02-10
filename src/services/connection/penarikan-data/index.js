@@ -438,7 +438,6 @@ const actions = {
       }
 
       const result = await apiClientSIG.post(`ReportCRMRevamp/ReportVisit`, formBody)
-      console.log(`----result`, result)
 
       if (result.data.status == false) {
         notification.error({
@@ -449,6 +448,10 @@ const actions = {
         await commit('changePenarikanData', {
           list_report_visit: result.data.data,
           isLoading: false,
+          body_report_visit: {
+            start_date: null,
+            end_date: null,
+          },
         })
       }
     } catch (error) {
@@ -485,8 +488,12 @@ const actions = {
         })
       } else {
         await commit('changePenarikanData', {
-          list_report_visit: result.data.data,
+          list_report_survey: result.data.data,
           isLoading: false,
+          body_report_survey: {
+            start_date: null,
+            end_date: null,
+          },
         })
       }
     } catch (error) {
