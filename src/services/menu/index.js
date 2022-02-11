@@ -244,6 +244,24 @@ export const getAdminMenuData = [
     url: '/reporting',
     icon: 'fa fa-newspaper-o',
   },
+  {
+    title: 'Penarikan Data',
+    key: '123swa',
+    url: '/penarikan-data',
+    icon: 'fa fa-get-pocket',
+    children: [
+      {
+        title: 'Report Visit',
+        key: '10092x',
+        url: '/penarikan-data/report-visit',
+      },
+      {
+        title: 'Hasil Survey',
+        key: 'ppla21',
+        url: '/penarikan-data/hasil-survey',
+      },
+    ],
+  },
 ]
 
 export const getUserMenuData = [

@@ -296,6 +296,32 @@ const routes = [
         meta: { title: 'Reporting', resource: 'Reporting', action: 'read' },
         component: () => import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
       },
+      {
+        path: '/penarikan-data/report-visit',
+        name: 'penarikan-data-report-visit',
+        meta: {
+          title: 'Penarikan Data Report Visit',
+          resource: 'PenarikanDataReportVisit',
+          action: 'read',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "penarikan-data-report-visit" */ '@/views/penarikan-data/ReportVisit'
+          ),
+      },
+      {
+        path: '/penarikan-data/hasil-survey',
+        name: 'penarikan-data-hasil-survey',
+        meta: {
+          title: 'Penarikan Data Hasil Survey',
+          resource: 'PenarikanDataHasilSurvey',
+          action: 'read',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "penarikan-data-hasil-survey" */ '@/views/penarikan-data/HasilSurvey'
+          ),
+      },
       // ========== End of iqbal View ==========
     ],
   },
