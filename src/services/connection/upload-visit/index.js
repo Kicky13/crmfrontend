@@ -134,6 +134,9 @@ const actions = {
           status: result.data.status,
           listData: result.data.data,
           isLoading: false,
+          body: {
+            file: null,
+          },
         })
       }
     } catch (err) {
