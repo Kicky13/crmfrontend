@@ -18,6 +18,7 @@ import ImportExelHirarki from '../services/connection/user-management/UserHirark
 import KoordinatLock from '../services/connection/koordinat-lock'
 import Reporting from '../services/connection/reporting'
 import PenarikanData from '../services/connection/penarikan-data'
+import ReportingCustomerMapping from '../services/connection/reporting/customer-mapping'
 export default createStore({
   modules: {
     user,
@@ -39,6 +40,7 @@ export default createStore({
     koordinatLock: KoordinatLock,
     reporting: Reporting,
     penarikanData: PenarikanData,
+    reportingCustomerMapping: ReportingCustomerMapping,
   },
   state: {},
   mutations: {},

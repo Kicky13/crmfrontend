@@ -400,6 +400,20 @@ export const getTsoMenuData = [
       },
     ],
   },
+  {
+    title: 'Reporting',
+    key: 'Rs123s',
+    url: '/reporting-tso',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
+      },
+    ],
+  },
+
   // {
   //   title: 'Peta Kunjungan',
   //   key: 'iw82km',
