@@ -8,7 +8,7 @@
               placeholder="Pilih Distrik"
               class="w-100"
               show-search
-              @change="handleRegion()"
+              @change="handleDistrik()"
               v-model:value="reportingCustomerMapping.filter.distrik_name"
             >
               <a-select-option disabled value="">Pilih Salah Satu Distrik</a-select-option>
@@ -35,7 +35,7 @@
               <a-select-option disabled value="">Pilih Salah Satu Distributor</a-select-option>
               <a-select-option
                 v-for="(item, index) in profileAdminDistributor.list_distributor"
-                :value="item.idDistributor"
+                :value="item.namaDistributor"
                 :key="`distributor_${index}`"
                 data-toggle="tooltip"
                 data-placement="top"
@@ -129,6 +129,20 @@ export default {
       ) {
         await this.getListCustomerMapping()
       }
+    },
+    handleDistrik() {
+      let dataSource = [...this.reportingCustomerMapping.list_distrik]
+      let filtered = dataSource.filter(
+        x => x.namaDistrik == this.reportingCustomerMapping.filter.distrik_name,
+      )
+      this.reportingCustomerMapping.filter.id_distrik = filtered[0].idDistrik
+    },
+    handleRegion() {
+      let dataSource = [...this.profileAdminDistributor.list_distributor]
+      let filtered = dataSource.filter(
+        x => x.namaDistributor == this.reportingCustomerMapping.filter.distributor_name,
+      )
+      this.reportingCustomerMapping.filter.id_distributor = filtered[0].idDistributor
     },
     async downloadCustomerMapping() {
       if (this.reportingCustomerMapping.status_download === `sukses`) {
