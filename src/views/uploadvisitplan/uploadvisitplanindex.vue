@@ -14,7 +14,7 @@
           Download Template Visit Plan
         </a>
 
-        <a-button type="primary" @click="handleSubmit()" class="mb-3 float-right">
+        <a-button type="primary" @click="handleSubmit" class="mb-3 float-right">
           <i class="fa fa-eye mr-2" />
           Preview
         </a-button>
@@ -158,7 +158,6 @@ export default {
       visitPlan: state => state.visitPlan.data,
     }),
   },
-  mounted() {},
   methods: {
     ...mapActions('visitPlan', ['submitData', 'getDataFromExcel']),
     tableRowClassName(text) {
@@ -240,10 +239,13 @@ export default {
       let dataStatus = _.where(this.visitPlan.listData, { status: false })
       this.isDisabled = dataStatus.length > 0 ? true : false
       this.isDownloadDisabled = this.visitPlan.listData.length > 0 ? false : true
+      if (!this.visitPlan.body.file) {
+        document.getElementById("file").value = null; 
+      }
     },
     onSubmitData() {
       this.$confirm({
-        title: 'Apakah anda yakin akan menambahkan  data tersebut?',
+        title: 'Apakah anda yakin akan menambahkan data tersebut?',
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
