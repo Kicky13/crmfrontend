@@ -115,7 +115,7 @@ const state = {
     list_customer: [],
     list_distrik: [],
     isLoading: false,
-    status_download: 'gagal',
+    status_download: 'sukses',
   },
 }
 
