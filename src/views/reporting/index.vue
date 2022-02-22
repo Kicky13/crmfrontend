@@ -1,13 +1,8 @@
 <template>
   <div>
-    
     <a-card class="card card-top card-top-primary" :loading="reporting.isLoading">
       <div class="card-body p-4">
-        <router-link
-          :to="`/reporting/customer-mapping`"
-          class="list_download d-flex"
-          @click="hirarkiInternalDownload"
-        >
+        <router-link :to="`/reporting/customer-mapping`" class="list_download d-flex">
           <div class="list_download_information">
             Download Report Customer Mapping
           </div>

@@ -115,7 +115,7 @@ const state = {
     list_customer: [],
     list_distrik: [],
     isLoading: false,
-    status_download: 'sukses',
+    status_download: 'gagal',
   },
 }
 
@@ -127,6 +127,44 @@ const mutations = {
 
 const actions = {
   async getListDistrik({ commit, state }, payload) {
+    commit('changeReportingCustomerMapping', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idTso: payload.id_tso,
+      offset: 0,
+      limit: 1000,
+      q: '',
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/all`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReportingCustomerMapping', {
+          list_distrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getListCustomerMapping({ commit, state }, payload) {
     commit('changeReportingCustomerMapping', {
       isLoading: true,
     })
@@ -152,11 +190,16 @@ const actions = {
         })
       } else {
         await commit('changeReportingCustomerMapping', {
-          list_distrik: result.data.data,
+          list_customer: result.data.data,
           isLoading: false,
+          status_download: 'sukses',
         })
       }
     } catch (err) {
+      await commit('changeReportingCustomerMapping', {
+        isLoading: false,
+        status_download: 'gagal',
+      })
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',

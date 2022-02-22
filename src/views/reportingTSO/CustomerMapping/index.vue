@@ -2,14 +2,6 @@
   <div>
     <a-card class="card card-top card-top-primary">
       <div class="card-header pl-0 pr-3">
-        <div class="row mb-4">
-          <div class="col-md-4 col-xs-4">
-            <router-link :to="`/reporting`" class="font-weight-bold text-primary">
-              <i class="fa fa-chevron-left" aria-hidden="true"></i>
-              Kembali ke Reporting</router-link
-            >
-          </div>
-        </div>
         <div class="row">
           <div class="col-md-3">
             <a-select
@@ -22,13 +14,13 @@
               <a-select-option disabled value="">Pilih Salah Satu Distrik</a-select-option>
               <a-select-option
                 v-for="(item, index) in reportingCustomerMapping.list_distrik"
-                :value="item.namaRegion"
+                :value="item.namaDistrik"
                 :key="`distrik_${index}`"
                 data-toggle="tooltip"
                 data-placement="top"
-                :title="item.namaRegion"
+                :title="item.namaDistrik"
               >
-                {{ item.idRegion }} - {{ item.namaRegion }}
+                {{ item.idDistrik }} - {{ item.namaDistrik }}
               </a-select-option>
             </a-select>
           </div>
@@ -113,7 +105,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'CustomerMapping',
+  name: 'CusttomerMappingTSO',
 
   computed: {
     ...mapState({
@@ -122,14 +114,22 @@ export default {
     }),
   },
   async mounted() {
-    await this.getListDistrik()
+    await this.getListDistrik({
+      id_tso: this.$store.state.user.userid,
+    })
     await this.getListAllSalesDistributor()
   },
   methods: {
-    ...mapActions('reportingCustomerMapping', ['getListDistrik']),
+    ...mapActions('reportingCustomerMapping', ['getListDistrik', 'getListCustomerMapping']),
     ...mapActions('profileAdminDistributor', ['getListAllSalesDistributor']),
-
-    handleView() {},
+    async handleView() {
+      if (
+        reportingCustomerMapping.filter.distrik_name.length > 0 ||
+        reportingCustomerMapping.filter.distributor_name.length > 0
+      ) {
+        await this.getListCustomerMapping()
+      }
+    },
     async downloadCustomerMapping() {
       if (this.reportingCustomerMapping.status_download === `sukses`) {
         const header = [
@@ -184,7 +184,6 @@ export default {
         )
       }
     },
-
     exportToExcel(header, filterVal, list, filename) {
       import('@/vendor/Export2Excel').then(excel => {
         const data = this.formatJson(filterVal, list)

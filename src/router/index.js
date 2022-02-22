@@ -240,11 +240,11 @@ const routes = [
           import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profile'),
       },
       {
-        path: '/reporting/customer-mapping',
-        meta: { title: 'Customer Mapping', resource: 'CusttomerMapping', action: 'read' },
+        path: '/reporting-tso/customer-mapping',
+        meta: { title: 'Customer Mapping', resource: 'CustomerMappingTSO', action: 'read' },
         component: () =>
           import(
-            /* webpackChunkName: "reporting-customer-mapping" */ '@/views/reporting/CustomerMapping'
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reportingTSO/CustomerMapping'
           ),
       },
       {
