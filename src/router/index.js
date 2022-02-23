@@ -248,6 +248,14 @@ const routes = [
           ),
       },
       {
+        path: '/reporting-tso/sales-distributor',
+        meta: { title: 'Sales Distributor', resource: 'CustomerMappingTSO', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reportingTSO/SalesDistributor'
+          ),
+      },
+      {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>

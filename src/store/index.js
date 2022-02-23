@@ -19,6 +19,7 @@ import KoordinatLock from '../services/connection/koordinat-lock'
 import Reporting from '../services/connection/reporting'
 import PenarikanData from '../services/connection/penarikan-data'
 import ReportingCustomerMapping from '../services/connection/reporting/customer-mapping'
+import ReposrtingSalesDistributor from '../services/connection/reporting/sales-distributor'
 export default createStore({
   modules: {
     user,
@@ -41,6 +42,7 @@ export default createStore({
     reporting: Reporting,
     penarikanData: PenarikanData,
     reportingCustomerMapping: ReportingCustomerMapping,
+    reportingSalesDistributor: ReposrtingSalesDistributor,
   },
   state: {},
   mutations: {},
