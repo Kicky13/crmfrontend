@@ -1,4 +1,116 @@
 {
+  "handsone_table": [
+    {
+      "company_name": "Tagcat",
+      "country": "United Kingdom",
+      "name": "Classic Vest",
+      "date": "11/10/2020",
+      "order_id": "01-2331942",
+      "check_stock": true,
+      "stock": "172",
+      "progress": 2,
+      "rate": 2
+    },
+    {
+      "company_name": "Zoomzone",
+      "country": "Indonesia",
+      "name": "Cycling Cap",
+      "date": "03/05/2020",
+      "order_id": "88-2768633",
+      "check_stock": true,
+      "stock": "188",
+      "progress": 6,
+      "rate": 2
+    },
+    {
+      "company_name": "Meeveo",
+      "country": "United States",
+      "name": "Full-Finger Gloves",
+      "date": "27/03/2020",
+      "order_id": "51-6775945",
+      "check_stock": true,
+      "stock": "162",
+      "progress": 1,
+      "rate": 3
+    },
+    {
+      "company_name": "Buzzdog",
+      "country": "Philippines",
+      "name": "HL Mountain Frame",
+      "date": "29/08/2020",
+      "order_id": "44-4028109",
+      "check_stock": true,
+      "stock": "133",
+      "progress": 7,
+      "rate": 1
+    },
+    {
+      "company_name": "Katz",
+      "country": "India",
+      "name": "Half-Finger Gloves",
+      "date": "02/10/2020",
+      "order_id": "08-2758492",
+      "check_stock": true,
+      "stock": "87",
+      "progress": 1,
+      "rate": 3
+    },
+    {
+      "company_name": "Jaxbean",
+      "country": "China",
+      "name": "HL Road Frame",
+      "date": "28/09/2020",
+      "order_id": "84-3557705",
+      "check_stock": false,
+      "stock": "26",
+      "progress": 8,
+      "rate": 1
+    },
+    {
+      "company_name": "Wikido",
+      "country": "Brazil",
+      "name": "HL Touring Frame",
+      "date": "24/06/2020",
+      "order_id": "20-9397637",
+      "check_stock": true,
+      "stock": "110",
+      "progress": 4,
+      "rate": 1
+    },
+    {
+      "company_name": "Browsedrive",
+      "country": "United States",
+      "name": "LL Mountain Frame",
+      "date": "13/03/2020",
+      "order_id": "36-0079556",
+      "check_stock": true,
+      "stock": "50",
+      "progress": 4,
+      "rate": 4
+    },
+    {
+      "company_name": "Twinder",
+      "country": "United Kingdom",
+      "name": "LL Road Frame",
+      "date": "06/04/2020",
+      "order_id": "41-1489542",
+      "check_stock": false,
+      "stock": "160",
+      "progress": 6,
+      "rate": 1
+    },
+    {
+      "company_name": "Jetwire",
+      "country": "China",
+      "name": "LL Touring Frame",
+      "date": "01/02/2020",
+      "order_id": "37-1531629",
+      "check_stock": true,
+      "stock": "30",
+      "progress": 8,
+      "rate": 5
+    }
+  ],
   "keluhan": [
     {
       "title": "Keluhan 1"

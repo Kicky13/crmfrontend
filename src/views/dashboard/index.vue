@@ -1,11 +1,10 @@
 <template>
-  <!-- <div class="d-flex justify-content-center">
-    <hot-table :data="data" :settings="hotSettings" />
-  </div>
+  <!-- <a-button class="mb-4" type="primary" @click="deleteRow">
+    <i class="fa fa-plus mr-2" />
+    Tambah Data
+  </a-button>
   <div class="d-flex justify-content-center">
-    <a-button class="mt-4" type="primary">
-      Simpan
-    </a-button>
+    <hot-table :data="data" :settings="hotSettings" />
   </div> -->
   <div></div>
 </template>
@@ -13,7 +12,6 @@
 <script>
 import { HotTable } from '@handsontable/vue3'
 import { registerAllModules } from 'handsontable/registry'
-import { getData } from "./constants";
 import {
   progressBarRenderer,
   starRenderer,
@@ -24,7 +22,10 @@ import {
   addClassesToRows,
   changeCheckboxCell,
 } from "./hooksCallbacks";
+import axios from 'axios'
 import 'handsontable/dist/handsontable.full.css'
+import { ContextMenu } from 'handsontable/plugins';
+// import Handsontable from 'handsontable';
 
 registerAllModules()
 
@@ -35,6 +36,7 @@ export default {
   },
   data() {
     return {
+      data: [],
       hotSettings: {
         width: '75vw',
         height: 450,
@@ -62,32 +64,45 @@ export default {
           'Rating',
         ],
         columns: [
-          { data: 1, type: 'text' },
-          { data: 2, type: 'text' },
-          { data: 3, type: 'text' },
           {
-            data: 4,
+            data: 'company_name',
+            type: 'text',
+          },
+          {
+            data: 'country',
+            type: 'dropdown',
+            source: ['Brazil', 'China', 'India', 'Indonesia', 'Philippines', 'United Kingdom', 'United States'],
+          },
+          {
+            data: 'name',
+            type: 'text',
+          },
+          {
+            data: 'date',
             type: 'date',
             allowInvalid: false,
           },
-          { data: 5, type: 'text' },
           {
-            data: 6,
+            data: 'order_id',
+            type: 'text',
+          },
+          {
+            data: 'check_stock',
             type: 'checkbox',
             className: 'htCenter',
           },
           {
-            data: 7,
+            data: 'stock',
             type: 'numeric',
           },
           {
-            data: 8,
+            data: 'progress',
             renderer: progressBarRenderer,
             readOnly: true,
             className: 'htMiddle',
           },
           {
-            data: 9,
+            data: 'rate',
             renderer: starRenderer,
             readOnly: true,
             className: 'star htCenter',
@@ -95,8 +110,25 @@ export default {
         ],
         licenseKey: 'non-commercial-and-evaluation',
       },
-      data: getData(),
     }
+  },
+  mounted() {
+    // axios
+    // .create({
+    //   baseURL: 'http://localhost:3000/',
+    // })
+    // .get('/handsone_table')
+    // .then(response => {
+    //     if (response) {
+    //       response.data.map(item => this.data.push(item))
+    //     }
+    //     return false
+    // })
+  },
+  methods: {
+    deleteRow() {
+      console.log('Hello, World!')
+    },
   },
 }
 </script>
