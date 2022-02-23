@@ -14,13 +14,13 @@
               <a-select-option disabled value="">Pilih Salah Satu Distrik</a-select-option>
               <a-select-option
                 v-for="(item, index) in reportingCustomerMapping.list_distrik"
-                :value="item.namaDistrik"
+                :value="item.namaWilayah"
                 :key="`distrik_${index}`"
                 data-toggle="tooltip"
                 data-placement="top"
-                :title="item.namaDistrik"
+                :title="item.namaWilayah"
               >
-                {{ item.idDistrik }} - {{ item.namaDistrik }}
+                {{ item.idReferenceWilayah }} - {{ item.namaWilayah }}
               </a-select-option>
             </a-select>
           </div>
@@ -29,19 +29,19 @@
               placeholder="Pilih Distributor"
               class="w-100"
               show-search
-              @change="handleRegion()"
+              @change="handleDistributor()"
               v-model:value="reportingCustomerMapping.filter.distributor_name"
             >
               <a-select-option disabled value="">Pilih Salah Satu Distributor</a-select-option>
               <a-select-option
-                v-for="(item, index) in profileAdminDistributor.list_distributor"
-                :value="item.namaDistributor"
+                v-for="(item, index) in reportingCustomerMapping.list_distributor"
+                :value="item.nm_distributor"
                 :key="`distributor_${index}`"
                 data-toggle="tooltip"
                 data-placement="top"
-                :title="item.namaDistributor"
+                :title="item.nm_distributor"
               >
-                {{ item.idDistributor }} - {{ item.namaDistributor }}
+                {{ item.id_distributor }} - {{ item.nm_distributor }}
               </a-select-option>
             </a-select>
           </div>
@@ -50,15 +50,7 @@
               <i class="fa fa-download mr-2" />
               Export
             </a-button>
-            <a-button
-              :disabled="
-                reportingCustomerMapping.filter.distrik_name.length === 0 ||
-                  reportingCustomerMapping.filter.distributor_name.length === 0
-              "
-              type="primary"
-              class="mb-3 float-right mr-2"
-              @click="handleView()"
-            >
+            <a-button type="primary" class="mb-3 float-right mr-2" @click="handleView()">
               <i class="fa fa-eye mr-2" />
               View
             </a-button>
@@ -95,7 +87,68 @@
             :pagination="reportingCustomerMapping.pagination"
             :loading="reportingCustomerMapping.isLoading"
             :row-key="data => data"
-          ></a-table>
+          >
+            <template #id_distrik="{ text }">
+              <span>{{ text.ID_DISTRIK != null ? text.ID_DISTRIK : '-' }}</span>
+            </template>
+            <template #nama_distrik="{ text }">
+              <span>{{ text.DISTRIK != null ? text.DISTRIK : '-' }}</span>
+            </template>
+            <template #id_toko="{ text }">
+              <span>{{ text.ID_TOKO != null ? text.ID_TOKO : '-' }}</span>
+            </template>
+            <template #nama_toko="{ text }">
+              <span>{{ text.NAMA_TOKO != null ? text.NAMA_TOKO : '-' }}</span>
+            </template>
+            <template #id_distributor="{ text }">
+              <span>{{ text.ID_DISTRIBUTOR != null ? text.ID_DISTRIBUTOR : '-' }}</span>
+            </template>
+            <template #posisi="{ text }">
+              <span>{{ text.POSISI != null ? text.POSISI : '-' }}</span>
+            </template>
+            <template #username="{ text }">
+              <span>{{ text.USERNAME != null ? text.USERNAME : '-' }}</span>
+            </template>
+            <template #sales="{ text }">
+              <span>{{ text.SALES != null ? text.SALES : '-' }}</span>
+            </template>
+            <template #min="{ text }">
+              <span>{{ text.MIN != null ? text.MIN : '-' }}</span>
+            </template>
+            <template #sen="{ text }">
+              <span>{{ text.SEN != null ? text.SEN : '-' }}</span>
+            </template>
+            <template #sel="{ text }">
+              <span>{{ text.SEL != null ? text.SEL : '-' }}</span>
+            </template>
+            <template #rab="{ text }">
+              <span>{{ text.RAB != null ? text.RAB : '-' }}</span>
+            </template>
+            <template #kam="{ text }">
+              <span>{{ text.KAM != null ? text.KAM : '-' }}</span>
+            </template>
+            <template #jum="{ text }">
+              <span>{{ text.JUM != null ? text.JUM : '-' }}</span>
+            </template>
+            <template #sab="{ text }">
+              <span>{{ text.SAB != null ? text.SAB : '-' }}</span>
+            </template>
+            <template #w1="{ text }">
+              <span>{{ text.W1 != null ? text.W1 : '-' }}</span>
+            </template>
+            <template #w2="{ text }">
+              <span>{{ text.W2 != null ? text.W2 : '-' }}</span>
+            </template>
+            <template #w3="{ text }">
+              <span>{{ text.W3 != null ? text.W3 : '-' }}</span>
+            </template>
+            <template #w4="{ text }">
+              <span>{{ text.W4 != null ? text.W4 : '-' }}</span>
+            </template>
+            <template #w5="{ text }">
+              <span>{{ text.W5 != null ? text.W5 : '-' }}</span>
+            </template>
+          </a-table>
         </div>
       </div>
     </a-card>
@@ -117,32 +170,41 @@ export default {
     await this.getListDistrik({
       id_tso: this.$store.state.user.userid,
     })
-    await this.getListAllSalesDistributor()
   },
   methods: {
-    ...mapActions('reportingCustomerMapping', ['getListDistrik', 'getListCustomerMapping']),
-    ...mapActions('profileAdminDistributor', ['getListAllSalesDistributor']),
+    ...mapActions('reportingCustomerMapping', [
+      'getListDistrik',
+      'getListCustomerMapping',
+      'getListDistributor',
+    ]),
     async handleView() {
       if (
-        reportingCustomerMapping.filter.distrik_name.length > 0 ||
-        reportingCustomerMapping.filter.distributor_name.length > 0
+        this.reportingCustomerMapping.filter.distrik_name.length > 0 ||
+        this.reportingCustomerMapping.filter.distributor_name.length > 0
       ) {
-        await this.getListCustomerMapping()
+        await this.getListCustomerMapping({
+          id_distrik: this.reportingCustomerMapping.filter.id_distrik,
+          id_distributor: this.reportingCustomerMapping.filter.id_distributor,
+        })
       }
     },
     handleDistrik() {
       let dataSource = [...this.reportingCustomerMapping.list_distrik]
       let filtered = dataSource.filter(
-        x => x.namaDistrik == this.reportingCustomerMapping.filter.distrik_name,
+        x => x.namaWilayah == this.reportingCustomerMapping.filter.distrik_name,
       )
-      this.reportingCustomerMapping.filter.id_distrik = filtered[0].idDistrik
+      this.reportingCustomerMapping.filter.id_distrik = filtered[0].idReferenceWilayah
+
+      this.getListDistributor({
+        id_distrik: this.reportingCustomerMapping.filter.id_distrik,
+      })
     },
-    handleRegion() {
-      let dataSource = [...this.profileAdminDistributor.list_distributor]
+    handleDistributor() {
+      let dataSource = [...this.reportingCustomerMapping.list_distributor]
       let filtered = dataSource.filter(
-        x => x.namaDistributor == this.reportingCustomerMapping.filter.distributor_name,
+        x => x.nm_distributor == this.reportingCustomerMapping.filter.distributor_name,
       )
-      this.reportingCustomerMapping.filter.id_distributor = filtered[0].idDistributor
+      this.reportingCustomerMapping.filter.id_distributor = filtered[0].id_distributor
     },
     async downloadCustomerMapping() {
       if (this.reportingCustomerMapping.status_download === `sukses`) {

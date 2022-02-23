@@ -1,6 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
-
+import apiClientFake from '@/services/axios'
 const state = {
   data: {
     itemsPerPage: [5, 10, 15, 20],
@@ -114,6 +114,7 @@ const state = {
     },
     list_customer: [],
     list_distrik: [],
+    list_distributor: [],
     isLoading: false,
     status_download: 'sukses',
   },
@@ -134,14 +135,14 @@ const actions = {
     const { data } = state
 
     let formData = {
-      idTso: payload.id_tso,
+      idTSO: payload.id_tso,
       offset: 0,
       limit: 1000,
       q: '',
     }
 
     try {
-      const result = await apiClient.post(`/distrik/all`, formData)
+      const result = await apiClient.post(`/distrik/distrikByTso`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -172,13 +173,12 @@ const actions = {
     const { data } = state
 
     let formData = {
-      offset: 0,
-      limit: 1000,
-      q: '',
+      idDistrik: payload.id_distrik,
+      idDistributor: payload.id_distributor,
     }
 
     try {
-      const result = await apiClient.post(`/hirarki/allRegion`, formData)
+      const result = await apiClient.post(`/report/CustomerMapping`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -200,6 +200,44 @@ const actions = {
         isLoading: false,
         status_download: 'gagal',
       })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getListDistributor({ commit, state }, payload) {
+    commit('changeReportingCustomerMapping', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idDistrict: payload.id_distrik,
+      offset: 0,
+      limit: 1000,
+      q: '',
+    }
+
+    try {
+      const result = await apiClient.post(`/distributor/getTokoDistributorTso`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReportingCustomerMapping', {
+          list_distributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
