@@ -172,38 +172,137 @@ const actions = {
 
     const { data } = state
 
-    let formData = {
-      idDistrik: payload.id_distrik,
-      idDistributor: payload.id_distributor,
-    }
+    if (payload.id_distrik && payload.id_distributor === null) {
+      let formData = {
+        idDistrik: payload.id_distrik,
+      }
 
-    try {
-      const result = await apiClient.post(`/report/CustomerMapping`, formData)
+      try {
+        const result = await apiClient.post(`/report/CustomerMapping`, formData)
 
-      if (result.data.status == false) {
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeReportingCustomerMapping', {
+            isLoading: false,
+          })
+        } else {
+          await commit('changeReportingCustomerMapping', {
+            list_customer: result.data.data,
+            isLoading: false,
+            status_download: 'sukses',
+          })
+        }
+      } catch (err) {
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+          status_download: 'gagal',
+        })
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
-        })
-        await commit('changeReportingCustomerMapping', {
-          isLoading: false,
-        })
-      } else {
-        await commit('changeReportingCustomerMapping', {
-          list_customer: result.data.data,
-          isLoading: false,
-          status_download: 'sukses',
+          description: 'Maaf, terjadi kesalahan',
         })
       }
-    } catch (err) {
-      await commit('changeReportingCustomerMapping', {
-        isLoading: false,
-        status_download: 'gagal',
-      })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
-      })
+    } else if (payload.id_distrik && payload.id_distributor) {
+      let formData = {
+        idDistrik: payload.id_distrik,
+        idDistributor: payload.id_distributor,
+      }
+
+      try {
+        const result = await apiClient.post(`/report/CustomerMapping`, formData)
+
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeReportingCustomerMapping', {
+            isLoading: false,
+          })
+        } else {
+          await commit('changeReportingCustomerMapping', {
+            list_customer: result.data.data,
+            isLoading: false,
+            status_download: 'sukses',
+          })
+        }
+      } catch (err) {
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+          status_download: 'gagal',
+        })
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
+        })
+      }
+    } else if (payload.id_distrik === null && payload.id_distributor === null) {
+      let formData = {
+        idTSO: payload.id_tso,
+      }
+      try {
+        const result = await apiClient.post(`/report/CustomerMapping`, formData)
+
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeReportingCustomerMapping', {
+            isLoading: false,
+          })
+        } else {
+          await commit('changeReportingCustomerMapping', {
+            list_customer: result.data.data,
+            isLoading: false,
+            status_download: 'sukses',
+          })
+        }
+      } catch (err) {
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+          status_download: 'gagal',
+        })
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
+        })
+      }
+    } else {
+      let formData = {
+        idTSO: payload.id_tso,
+      }
+      try {
+        const result = await apiClient.post(`/report/CustomerMapping`, formData)
+
+        if (result.data.status == false) {
+          notification.error({
+            message: 'Error',
+            description: result.data.message[0],
+          })
+          await commit('changeReportingCustomerMapping', {
+            isLoading: false,
+          })
+        } else {
+          await commit('changeReportingCustomerMapping', {
+            list_customer: result.data.data,
+            isLoading: false,
+            status_download: 'sukses',
+          })
+        }
+      } catch (err) {
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+          status_download: 'gagal',
+        })
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan',
+        })
+      }
     }
   },
   async getListDistributor({ commit, state }, payload) {

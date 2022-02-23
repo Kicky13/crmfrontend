@@ -46,7 +46,12 @@
             </a-select>
           </div>
           <div class="col-md-6">
-            <a-button type="primary" class="mb-3 float-right" @click="downloadCustomerMapping()">
+            <a-button
+              :disabled="reportingCustomerMapping.list_customer.length > 0 ? false : true"
+              type="primary"
+              class="mb-3 float-right"
+              @click="downloadCustomerMapping()"
+            >
               <i class="fa fa-download mr-2" />
               Export
             </a-button>
@@ -170,6 +175,9 @@ export default {
     await this.getListDistrik({
       id_tso: this.$store.state.user.userid,
     })
+    await this.getListCustomerMapping({
+      id_tso: this.$store.state.user.userid,
+    })
   },
   methods: {
     ...mapActions('reportingCustomerMapping', [
@@ -186,6 +194,20 @@ export default {
           id_distrik: this.reportingCustomerMapping.filter.id_distrik,
           id_distributor: this.reportingCustomerMapping.filter.id_distributor,
         })
+        this.reportingCustomerMapping.filter.distrik_name = ''
+        this.reportingCustomerMapping.filter.distributor_name = ''
+        this.reportingCustomerMapping.filter.id_distrik = null
+        this.reportingCustomerMapping.filter.id_distributor = null
+      } else {
+        await this.getListCustomerMapping({
+          id_distrik: null,
+          id_distributor: null,
+          id_tso: this.$store.state.user.userid,
+        })
+        this.reportingCustomerMapping.filter.distrik_name = ''
+        this.reportingCustomerMapping.filter.distributor_name = ''
+        this.reportingCustomerMapping.filter.id_distrik = null
+        this.reportingCustomerMapping.filter.id_distributor = null
       }
     },
     handleDistrik() {
