@@ -31,6 +31,11 @@ const state = {
         slots: { customRender: 'id_distributor' },
       },
       {
+        title: 'Nama Distributor',
+        key: 'nama_distributor',
+        slots: { customRender: 'nama_distributor' },
+      },
+      {
         title: 'Posisi',
         key: 'posisi',
         slots: { customRender: 'posisi' },
@@ -306,9 +311,9 @@ const actions = {
     }
   },
   async getListDistributor({ commit, state }, payload) {
-    commit('changeReportingCustomerMapping', {
-      isLoading: true,
-    })
+    // commit('changeReportingCustomerMapping', {
+    //   isLoading: true,
+    // })
 
     const { data } = state
 

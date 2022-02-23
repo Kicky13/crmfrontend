@@ -108,6 +108,9 @@
             <template #id_distributor="{ text }">
               <span>{{ text.ID_DISTRIBUTOR != null ? text.ID_DISTRIBUTOR : '-' }}</span>
             </template>
+            <template #nama_distributor="{ text }">
+              <span>{{ text.NAMA_DISTRIBUTOR != null ? text.NAMA_DISTRIBUTOR : '-' }}</span>
+            </template>
             <template #posisi="{ text }">
               <span>{{ text.POSISI != null ? text.POSISI : '-' }}</span>
             </template>
@@ -175,9 +178,9 @@ export default {
     await this.getListDistrik({
       id_tso: this.$store.state.user.userid,
     })
-    await this.getListCustomerMapping({
-      id_tso: this.$store.state.user.userid,
-    })
+    // await this.getListCustomerMapping({
+    //   id_tso: this.$store.state.user.userid,
+    // })
   },
   methods: {
     ...mapActions('reportingCustomerMapping', [
@@ -194,20 +197,20 @@ export default {
           id_distrik: this.reportingCustomerMapping.filter.id_distrik,
           id_distributor: this.reportingCustomerMapping.filter.id_distributor,
         })
-        this.reportingCustomerMapping.filter.distrik_name = ''
-        this.reportingCustomerMapping.filter.distributor_name = ''
-        this.reportingCustomerMapping.filter.id_distrik = null
-        this.reportingCustomerMapping.filter.id_distributor = null
+        // this.reportingCustomerMapping.filter.distrik_name = ''
+        // this.reportingCustomerMapping.filter.distributor_name = ''
+        // this.reportingCustomerMapping.filter.id_distrik = null
+        // this.reportingCustomerMapping.filter.id_distributor = null
       } else {
         await this.getListCustomerMapping({
           id_distrik: null,
           id_distributor: null,
           id_tso: this.$store.state.user.userid,
         })
-        this.reportingCustomerMapping.filter.distrik_name = ''
-        this.reportingCustomerMapping.filter.distributor_name = ''
-        this.reportingCustomerMapping.filter.id_distrik = null
-        this.reportingCustomerMapping.filter.id_distributor = null
+        // this.reportingCustomerMapping.filter.distrik_name = ''
+        // this.reportingCustomerMapping.filter.distributor_name = ''
+        // this.reportingCustomerMapping.filter.id_distrik = null
+        // this.reportingCustomerMapping.filter.id_distributor = null
       }
     },
     handleDistrik() {
@@ -220,6 +223,10 @@ export default {
       this.getListDistributor({
         id_distrik: this.reportingCustomerMapping.filter.id_distrik,
       })
+      // this.reportingCustomerMapping.filter.distrik_name = ''
+      // this.reportingCustomerMapping.filter.id_distrik = null
+      this.reportingCustomerMapping.filter.distributor_name = ''
+      this.reportingCustomerMapping.filter.id_distributor = null
     },
     handleDistributor() {
       let dataSource = [...this.reportingCustomerMapping.list_distributor]
@@ -236,6 +243,7 @@ export default {
           'ID_TOKO',
           'NAMA_TOKO',
           'ID_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
           'POSISI',
           'USERNAME',
           'SALES',
@@ -258,6 +266,7 @@ export default {
           'ID_TOKO',
           'NAMA_TOKO',
           'ID_DISTRIBUTOR',
+          'NAMA_DISTRIBUTOR',
           'POSISI',
           'USERNAME',
           'SALES',
