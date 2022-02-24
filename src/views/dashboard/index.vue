@@ -10,24 +10,21 @@
 </template>
 
 <script>
-import { HotTable } from '@handsontable/vue3'
-import { registerAllModules } from 'handsontable/registry'
-import {
-  progressBarRenderer,
-  starRenderer,
-} from "./customRenderers";
-import {
-  alignHeaders,
-  drawCheckboxInRowHeaders,
-  addClassesToRows,
-  changeCheckboxCell,
-} from "./hooksCallbacks";
+// import { HotTable } from '@handsontable/vue3'
+// import { registerAllModules } from 'handsontable/registry'
+// import { progressBarRenderer, starRenderer } from './customRenderers'
+// import {
+//   alignHeaders,
+//   drawCheckboxInRowHeaders,
+//   addClassesToRows,
+//   changeCheckboxCell,
+// } from './hooksCallbacks'
 import axios from 'axios'
-import 'handsontable/dist/handsontable.full.css'
-import { ContextMenu } from 'handsontable/plugins';
+// import 'handsontable/dist/handsontable.full.css'
+// import { ContextMenu } from 'handsontable/plugins';
 // import Handsontable from 'handsontable';
 
-registerAllModules()
+// registerAllModules()
 
 export default {
   name: 'VbDashboards',
@@ -37,79 +34,87 @@ export default {
   data() {
     return {
       data: [],
-      hotSettings: {
-        width: '75vw',
-        height: 450,
-        dropdownMenu: true,
-        hiddenColumns: {
-          indicators: true,
-        },
-        contextMenu: true,
-        multiColumnSorting: true,
-        filters: true,
-        rowHeaders: true,
-        afterOnCellMouseDown: changeCheckboxCell,
-        afterGetColHeader: alignHeaders,
-        afterGetRowHeader: drawCheckboxInRowHeaders,
-        beforeRenderer: addClassesToRows,
-        colHeaders: [
-          'Nama Perusahaan',
-          'Negara',
-          'Nama',
-          'Tanggal Penjualan',
-          'ID Pemesanan',
-          'Stok',
-          'Jumlah',
-          'Progres',
-          'Rating',
-        ],
-        columns: [
-          {
-            data: 'company_name',
-            type: 'text',
-          },
-          {
-            data: 'country',
-            type: 'dropdown',
-            source: ['Brazil', 'China', 'India', 'Indonesia', 'Philippines', 'United Kingdom', 'United States'],
-          },
-          {
-            data: 'name',
-            type: 'text',
-          },
-          {
-            data: 'date',
-            type: 'date',
-            allowInvalid: false,
-          },
-          {
-            data: 'order_id',
-            type: 'text',
-          },
-          {
-            data: 'check_stock',
-            type: 'checkbox',
-            className: 'htCenter',
-          },
-          {
-            data: 'stock',
-            type: 'numeric',
-          },
-          {
-            data: 'progress',
-            renderer: progressBarRenderer,
-            readOnly: true,
-            className: 'htMiddle',
-          },
-          {
-            data: 'rate',
-            renderer: starRenderer,
-            readOnly: true,
-            className: 'star htCenter',
-          },
-        ],
-        licenseKey: 'non-commercial-and-evaluation',
-      },
+      // hotSettings: {
+      //   width: '75vw',
+      //   height: 450,
+      //   dropdownMenu: true,
+      //   hiddenColumns: {
+      //     indicators: true,
+      //   },
+      //   contextMenu: true,
+      //   multiColumnSorting: true,
+      //   filters: true,
+      //   rowHeaders: true,
+      //   afterOnCellMouseDown: changeCheckboxCell,
+      //   afterGetColHeader: alignHeaders,
+      //   afterGetRowHeader: drawCheckboxInRowHeaders,
+      //   beforeRenderer: addClassesToRows,
+      //   colHeaders: [
+      //     'Nama Perusahaan',
+      //     'Negara',
+      //     'Nama',
+      //     'Tanggal Penjualan',
+      //     'ID Pemesanan',
+      //     'Stok',
+      //     'Jumlah',
+      //     'Progres',
+      //     'Rating',
+      //   ],
+      //   columns: [
+      //     {
+      //       data: 'company_name',
+      //       type: 'text',
+      //     },
+      //     {
+      //       data: 'country',
+      //       type: 'dropdown',
+      //       source: [
+      //         'Brazil',
+      //         'China',
+      //         'India',
+      //         'Indonesia',
+      //         'Philippines',
+      //         'United Kingdom',
+      //         'United States',
+      //       ],
+      //     },
+      //     {
+      //       data: 'name',
+      //       type: 'text',
+      //     },
+      //     {
+      //       data: 'date',
+      //       type: 'date',
+      //       allowInvalid: false,
+      //     },
+      //     {
+      //       data: 'order_id',
+      //       type: 'text',
+      //     },
+      //     {
+      //       data: 'check_stock',
+      //       type: 'checkbox',
+      //       className: 'htCenter',
+      //     },
+      //     {
+      //       data: 'stock',
+      //       type: 'numeric',
+      //     },
+      //     {
+      //       data: 'progress',
+      //       renderer: progressBarRenderer,
+      //       readOnly: true,
+      //       className: 'htMiddle',
+      //     },
+      //     {
+      //       data: 'rate',
+      //       renderer: starRenderer,
+      //       readOnly: true,
+      //       className: 'star htCenter',
+      //     },
+      //   ],
+      //   licenseKey: 'non-commercial-and-evaluation',
+      // },
     }
   },
   mounted() {
@@ -134,6 +139,7 @@ export default {
 </script>
 
 <style>
+/* 
 table.htCore td.star {
   color: #fcb515;
 }
@@ -173,11 +179,12 @@ table.htCore tr.selected td {
   font: 1.4em sans-serif;
 }
 
-[data-color="green"] {
+[data-color='green'] {
   background: #37bc6c;
 }
 
-[data-color="orange"] {
+[data-color='orange'] {
   background: #fcb515;
 }
+*/
 </style>
