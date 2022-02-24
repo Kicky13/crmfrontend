@@ -95,7 +95,7 @@
               Commit to Database
             </a-button>
           </Can>
-          <Can do="create" on="VisitPlan">
+          <Can do="read" on="VisitPlan">
             <a-button
               type="primary"
               class="mt-2 mr-2"
