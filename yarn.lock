@@ -1239,11 +1239,6 @@
     protobufjs "^6.10.0"
     yargs "^16.2.0"
 
-"@handsontable/vue3@^11.1.0":
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/@handsontable/vue3/-/vue3-11.1.0.tgz#ef30bac2c7ae0ce414382a4e6af89b2216e3da81"
-  integrity sha512-hp+4U7KMVuBNrdbgHA7IelIEF1NxfdSWLccRLod8CqWbOcjfeviqB+5gpX9KPuLyqpKoUdKCUuSGvbt9I+vdAA==
-
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

@@ -19,7 +19,6 @@
     "@casl/ability": "^5.3.1",
     "@casl/vue": "^2.1.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@handsontable/vue3": "^11.1.0",
     "ant-design-vue": "^2.0.0-rc.9",
     "apexcharts": "^3.32.1",
     "axios": "^0.21.1",
