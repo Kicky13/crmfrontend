@@ -253,12 +253,12 @@ export const getAdminMenuData = [
       {
         title: 'Customer Mapping',
         key: 'Rp1nsx',
-        url: '/reporting-tso/customer-mapping',
+        url: '/reporting/customer-mapping',
       },
       {
         title: 'Sales Distributor',
         key: '125a92',
-        url: '/reporting-tso/sales-distributor',
+        url: '/reporting/sales-distributor',
       },
       {
         title: 'Download Data',

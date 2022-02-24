@@ -116,10 +116,13 @@ const state = {
       distrik_name: '',
       id_distributor: null,
       distributor_name: '',
+      id_tso:null,
+      tso_name:'',
     },
     list_customer: [],
     list_distrik: [],
     list_distributor: [],
+    list_tso: [],
     isLoading: false,
     status_download: 'sukses',
   },
@@ -160,6 +163,45 @@ const actions = {
       } else {
         await commit('changeReportingCustomerMapping', {
           list_distrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getListTSO({ commit, state }, payload) {
+    commit('changeReportingCustomerMapping', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idLevelHirarki: 40,
+      limit: 5000,
+      offset: 0,
+    }
+
+    try {
+      const result = await apiClient.post(`/hirarki/users`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+        })
+      } else {
+        let dataTSO = result.data.data.filter(x => x.idUser != null)
+
+        await commit('changeReportingCustomerMapping', {
+          list_tso: dataTSO,
           isLoading: false,
         })
       }
