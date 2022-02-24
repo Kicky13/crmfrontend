@@ -6,14 +6,15 @@
         <strong>Import Mapping Toko Sales Distributor</strong>
       </div>
       <div class="card-body">
-        <a
-          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW(1).xlsx"
-          download
-          class="btn btn-main mb-3"
-        >
-          <i class="fa fa-download mr-2" />
-          Download Template Mapping Customer
-        </a>
+        <a-button type="primary">
+          <a
+            href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_MAPPING_TOKO_SALES_NEW(1).xlsx"
+            download
+          >
+            <i class="fa fa-download mr-2" />
+            Download Template Mapping Customer
+          </a>
+        </a-button>
         <a-button type="primary" class="float-right mb-3" @click="handleSubmit">
           <i class="fa fa-eye mr-2" />
           Preview
@@ -96,7 +97,7 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <Can do="create" on="MappingCustomer">
+          <Can do="read" on="MappingCustomer">
             <a-button
               type="primary"
               :disabled="commitToDatabaseButtonDisabled"
