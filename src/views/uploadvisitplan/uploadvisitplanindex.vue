@@ -83,7 +83,7 @@
           </a-table>
         </div>
         <div class="d-flex flex-row-reverse mt-4">
-          <Can do="create" on="VisitPlan">
+          <Can do="read" on="VisitPlan">
             <a-button
               type="primary"
               @click="onSubmitData()"
@@ -95,7 +95,7 @@
               Commit to Database
             </a-button>
           </Can>
-          <Can do="create" on="VisitPlan">
+          <Can do="read" on="VisitPlan">
             <a-button
               type="primary"
               class="mt-2 mr-2"
