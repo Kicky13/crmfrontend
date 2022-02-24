@@ -121,12 +121,6 @@ export const getAdminMenuData = [
             url: '/users/profile/admin-distributor',
             statusId: true,
           },
-          {
-            title: 'Mapping Sales Distributor',
-            key: '125a92',
-            url: '/users/profile/sales-distributor',
-            statusId: true,
-          },
         ],
       },
     ],
@@ -141,6 +135,11 @@ export const getAdminMenuData = [
         title: 'Level User',
         key: 'e38wke',
         url: '/user/level_user',
+      },
+      {
+        title: 'Sales Distributor',
+        key: 's4d10r',
+        url: '/reporting-tso/sales-distributor',
       },
     ],
   },
@@ -243,6 +242,24 @@ export const getAdminMenuData = [
     key: '123saz',
     url: '/reporting',
     icon: 'fa fa-newspaper-o',
+  },
+  {
+    title: 'Penarikan Data',
+    key: '123swa',
+    url: '/penarikan-data',
+    icon: 'fa fa-get-pocket',
+    children: [
+      {
+        title: 'Report Visit',
+        key: '10092x',
+        url: '/penarikan-data/report-visit',
+      },
+      {
+        title: 'Hasil Survey',
+        key: 'ppla21',
+        url: '/penarikan-data/hasil-survey',
+      },
+    ],
   },
 ]
 
@@ -382,6 +399,25 @@ export const getTsoMenuData = [
       },
     ],
   },
+  {
+    title: 'Reporting',
+    key: 'Rs123s',
+    url: '/reporting-tso',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
+      },
+      {
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
+      },
+    ],
+  },
+
   // {
   //   title: 'Peta Kunjungan',
   //   key: 'iw82km',
