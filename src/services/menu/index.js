@@ -237,30 +237,55 @@ export const getAdminMenuData = [
       },
     ],
   },
+  // {
+  //   title: 'Reporting',
+  //   key: '123saz',
+  //   url: '/reporting',
+  //   icon: 'fa fa-newspaper-o',
+  // },
+
   {
     title: 'Reporting',
-    key: '123saz',
-    url: '/reporting',
+    key: 'Rs123s',
+    url: '/reporting-tso',
     icon: 'fa fa-newspaper-o',
-  },
-  {
-    title: 'Penarikan Data',
-    key: '123swa',
-    url: '/penarikan-data',
-    icon: 'fa fa-get-pocket',
     children: [
       {
-        title: 'Report Visit',
-        key: '10092x',
-        url: '/penarikan-data/report-visit',
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting/customer-mapping',
       },
       {
-        title: 'Hasil Survey',
-        key: 'ppla21',
-        url: '/penarikan-data/hasil-survey',
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting/sales-distributor',
+      },
+      {
+        title: 'Download Data',
+        key: '12sa92',
+        url: '/reporting',
       },
     ],
   },
+
+  //  {
+  //    title: 'Penarikan Data',
+  //    key: '123swa',
+  //    url: '/penarikan-data',
+  //    icon: 'fa fa-get-pocket',
+  //    children: [
+  //      {
+  //        title: 'Report Visit',
+  //        key: '10092x',
+  //        url: '/penarikan-data/report-visit',
+  //      },
+  //      {
+  //        title: 'Hasil Survey',
+  //        key: 'ppla21',
+  //        url: '/penarikan-data/hasil-survey',
+  //      },
+  //    ],
+  //  },
 ]
 
 export const getUserMenuData = [
