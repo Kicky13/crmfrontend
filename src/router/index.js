@@ -256,6 +256,22 @@ const routes = [
           ),
       },
       {
+        path: '/reporting/customer-mapping',
+        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reporting/CustomerMapping'
+          ),
+      },
+      {
+        path: '/reporting/sales-distributor',
+        meta: { title: 'Sales Distributor', resource: 'SalesDistributor', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reporting/SalesDistributor'
+          ),
+      },
+      {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
