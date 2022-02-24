@@ -239,7 +239,38 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "profile-user" */ '@/views/profileUser/profile'),
       },
-
+      {
+        path: '/reporting-tso/customer-mapping',
+        meta: { title: 'Customer Mapping', resource: 'CustomerMappingTSO', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reportingTSO/CustomerMapping'
+          ),
+      },
+      {
+        path: '/reporting-tso/sales-distributor',
+        meta: { title: 'Sales Distributor', resource: 'CustomerMappingTSO', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reportingTSO/SalesDistributor'
+          ),
+      },
+      {
+        path: '/reporting/customer-mapping',
+        meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reporting/CustomerMapping'
+          ),
+      },
+      {
+        path: '/reporting/sales-distributor',
+        meta: { title: 'Sales Distributor', resource: 'SalesDistributor', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reportingTSO-customer-mapping" */ '@/views/reporting/SalesDistributor'
+          ),
+      },
       {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
@@ -295,6 +326,32 @@ const routes = [
         name: 'reporting',
         meta: { title: 'Reporting', resource: 'Reporting', action: 'read' },
         component: () => import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
+      },
+      {
+        path: '/penarikan-data/report-visit',
+        name: 'penarikan-data-report-visit',
+        meta: {
+          title: 'Penarikan Data Report Visit',
+          resource: 'PenarikanDataReportVisit',
+          action: 'read',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "penarikan-data-report-visit" */ '@/views/penarikan-data/ReportVisit'
+          ),
+      },
+      {
+        path: '/penarikan-data/hasil-survey',
+        name: 'penarikan-data-hasil-survey',
+        meta: {
+          title: 'Penarikan Data Hasil Survey',
+          resource: 'PenarikanDataHasilSurvey',
+          action: 'read',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "penarikan-data-hasil-survey" */ '@/views/penarikan-data/HasilSurvey'
+          ),
       },
       // ========== End of iqbal View ==========
     ],
@@ -371,7 +428,7 @@ const routes = [
         path: '/auth/403',
         name: 'route403',
         meta: {
-          title: 'Error 4030',
+          title: 'Error 403',
           resource: 'Auth',
           action: 'read',
         },
@@ -435,12 +492,16 @@ const router = createRouter({
   routes,
 })
 
+const isAuth = false
+
 router.beforeEach((to, from, next) => {
+  // console.log(to)
+  // next()
   NProgress.start()
   setTimeout(() => {
     NProgress.done()
   }, 300)
-
+  
   if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({
@@ -451,14 +512,14 @@ router.beforeEach((to, from, next) => {
       if (canNavigate(to)) {
         next()
       } else {
-        next({ name: 'route403' })
+        next()
       }
     }
   } else {
     if (canNavigate(to)) {
       next()
     } else {
-      next({ name: 'route403' })
+      next()
     }
   }
 })

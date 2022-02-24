@@ -86,7 +86,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/allRegion`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -121,7 +121,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/regionSpc`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -166,7 +166,7 @@ const actions = {
 
       try {
         const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
-  
+
         if (result.data.status == false) {
           notification.error({
             message: 'Error',
@@ -201,7 +201,7 @@ const actions = {
 
       try {
         const result = await apiClient.post(`/hirarki/removeRegionSpc`, formData)
-  
+
         if (result.data.status == false) {
           notification.error({
             message: 'Error',
@@ -259,7 +259,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/addRegionSpc`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',

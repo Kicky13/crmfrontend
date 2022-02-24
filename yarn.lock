@@ -10121,15 +10121,15 @@ vue3-apexcharts@^1.4.1:
   resolved "https://registry.yarnpkg.com/vue3-apexcharts/-/vue3-apexcharts-1.4.1.tgz#ea561308430a1c5213b7f17c44ba3c845f6c490d"
   integrity sha512-96qP8JDqB9vwU7bkG5nVU+E0UGQn7yYQVqUUCLQMYWDuQyu2vE77H/UFZ1yI+hwzlSTBKT9BqnNG8JsFegB3eg==
 
-vue3-component-base@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/vue3-component-base/-/vue3-component-base-0.0.9.tgz#2b5d9c10b6c6ff17e8aa73994cca27d5b55f4186"
-  integrity sha512-uuef43JSlsrpiZVto2GLklxWzvkrDBtbtz8z7dgRBl1aCnQ+JK5rbcwqlFhsDUmdy5oBnnYcbxS0r0K/1u5RYw==
-
 vue3-blocks-tree@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/vue3-blocks-tree/-/vue3-blocks-tree-0.6.1.tgz#0334cf6b876bb67e213bf946b47c57e247323612"
   integrity sha512-/B+a0801YyxKlUH+glPVyOlxTrpLjjRkpfRaiOZWsXCkDdFfW8LVkmAawrFEAUd/F1HFZlx5C1PtnfyYNAPZfQ==
+
+vue3-component-base@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/vue3-component-base/-/vue3-component-base-0.0.9.tgz#2b5d9c10b6c6ff17e8aa73994cca27d5b55f4186"
+  integrity sha512-uuef43JSlsrpiZVto2GLklxWzvkrDBtbtz8z7dgRBl1aCnQ+JK5rbcwqlFhsDUmdy5oBnnYcbxS0r0K/1u5RYw==
   dependencies:
     lodash-es "^4.17.21"
     tslib "^2.3.1"
