@@ -29,7 +29,6 @@
     "core-js": "^3.6.5",
     "file-saver": "^2.0.5",
     "firebase": "^8.2.5",
-    "handsontable": "^11.1.0",
     "he-tree-vue": "3",
     "lodash": "^4.17.20",
     "nprogress": "^0.2.0",
