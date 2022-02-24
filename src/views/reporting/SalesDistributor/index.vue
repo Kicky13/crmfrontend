@@ -46,7 +46,12 @@
             </a-select>
           </div>
           <div class="col-md-6">
-            <a-button type="primary" class="mb-3 float-right" @click="downloadReport()">
+            <a-button
+              type="primary"
+              :disabled="reportingSalesDistributor.list_report.length > 0 ? false : true"
+              class="mb-3 float-right"
+              @click="downloadReport()"
+            >
               <i class="fa fa-download mr-2" />
               Export
             </a-button>
@@ -110,12 +115,15 @@ export default {
     }),
   },
   async mounted() {
+    this.reportingCustomerMapping.filter.id_tso = null
+    this.reportingCustomerMapping.filter.tso_name = ''
+
     await this.getListTSO()
   },
   methods: {
     ...mapActions('reportingSalesDistributor', [
       'getReportDistributorTSO',
-      'getListTokoDistributorTSO',
+      'getListTokoDistributorByTSO',
     ]),
     ...mapActions('reportingCustomerMapping', ['getListTSO']),
 
@@ -131,14 +139,10 @@ export default {
       let filtered = dataSource.filter(x => x.nama == this.reportingCustomerMapping.filter.tso_name)
       this.reportingCustomerMapping.filter.id_tso = filtered[0].idJabatan
 
-      console.log(
-        `--this.reportingCustomerMapping.filter.id_tso`,
-        this.reportingCustomerMapping.filter.id_tso,
-      )
       this.reportingSalesDistributor.filter.distributor_name = ''
       this.reportingSalesDistributor.filter.id_distributor = null
-      this.reportingCustomerMapping.list_customer = []
-      await this.getListTokoDistributorTSO({
+      this.reportingSalesDistributor.list_report = []
+      await this.getListTokoDistributorByTSO({
         id_tso: this.reportingCustomerMapping.filter.id_tso,
       })
     },

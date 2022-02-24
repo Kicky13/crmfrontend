@@ -207,6 +207,9 @@ export default {
     }),
   },
   async mounted() {
+    this.reportingCustomerMapping.filter.id_tso = null
+    this.reportingCustomerMapping.filter.tso_name = ''
+
     await this.getListTSO()
     // await this.getListDistrik({
     //   id_tso: this.$store.state.user.userid,

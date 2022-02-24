@@ -116,8 +116,8 @@ const state = {
       distrik_name: '',
       id_distributor: null,
       distributor_name: '',
-      id_tso:null,
-      tso_name:'',
+      id_tso: null,
+      tso_name: '',
     },
     list_customer: [],
     list_distrik: [],
@@ -137,7 +137,7 @@ const mutations = {
 const actions = {
   async getListDistrik({ commit, state }, payload) {
     commit('changeReportingCustomerMapping', {
-      isLoading: true,
+      isLoading: false,
     })
 
     const { data } = state
@@ -175,7 +175,7 @@ const actions = {
   },
   async getListTSO({ commit, state }, payload) {
     commit('changeReportingCustomerMapping', {
-      isLoading: true,
+      isLoading: false,
     })
 
     const { data } = state
@@ -236,6 +236,10 @@ const actions = {
             isLoading: false,
           })
         } else {
+          notification.success({
+            message: 'Sukses',
+            description: 'Data berhasil ditampilkan',
+          })
           await commit('changeReportingCustomerMapping', {
             list_customer: result.data.data,
             isLoading: false,
