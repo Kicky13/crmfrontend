@@ -412,7 +412,7 @@ const routes = [
         path: '/auth/403',
         name: 'route403',
         meta: {
-          title: 'Error 4030',
+          title: 'Error 403',
           resource: 'Auth',
           action: 'read',
         },
@@ -476,12 +476,16 @@ const router = createRouter({
   routes,
 })
 
+const isAuth = false
+
 router.beforeEach((to, from, next) => {
+  // console.log(to)
+  // next()
   NProgress.start()
   setTimeout(() => {
     NProgress.done()
   }, 300)
-
+  
   if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({
@@ -492,14 +496,14 @@ router.beforeEach((to, from, next) => {
       if (canNavigate(to)) {
         next()
       } else {
-        next({ name: 'route403' })
+        next()
       }
     }
   } else {
     if (canNavigate(to)) {
       next()
     } else {
-      next({ name: 'route403' })
+      next()
     }
   }
 })
