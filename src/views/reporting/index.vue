@@ -12,7 +12,7 @@
         </router-link> -->
         <div class="list_download d-flex" @click="hirarkiInternalDownload">
           <div class="list_download_information">
-            Download Master Mapping Hirarki Internal
+            Download Master User
           </div>
           <div class="list_download_icon ml-auto">
             <i class="fa fa-download" aria-hidden="true"></i>
@@ -50,24 +50,24 @@
         </div>
 
         <!--  -->
-        <div class="list_download d-flex" @click="openModalReportLastWeek()">
+        <!-- <div class="list_download d-flex" @click="openModalReportLastWeek()">
           <div class="list_download_information">
             Download Report Visit (7 Hari Terakhir)
           </div>
           <div class="list_download_icon ml-auto">
             <i class="fa fa-download" aria-hidden="true"></i>
           </div>
-        </div>
+        </div> -->
 
         <!--  -->
-        <div class="list_download d-flex" @click="openModalReportSurveyLastWeek()">
+        <!-- <div class="list_download d-flex" @click="openModalReportSurveyLastWeek()">
           <div class="list_download_information">
             Download Hasil Survey (7 Hari Terakhir)
           </div>
           <div class="list_download_icon ml-auto">
             <i class="fa fa-download" aria-hidden="true"></i>
           </div>
-        </div>
+        </div> -->
       </div>
     </a-card>
 
