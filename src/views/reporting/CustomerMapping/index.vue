@@ -20,7 +20,7 @@
                 data-placement="top"
                 :title="item.nama"
               >
-                {{ item.idJabatan }} - {{ item.nama }}
+                {{ item.idUser }} - {{ item.nama }}
               </a-select-option>
             </a-select>
           </div>
@@ -276,7 +276,7 @@ export default {
     async handleTSO() {
       let dataSource = [...this.reportingCustomerMapping.list_tso]
       let filtered = dataSource.filter(x => x.nama == this.reportingCustomerMapping.filter.tso_name)
-      this.reportingCustomerMapping.filter.id_tso = filtered[0].idJabatan
+      this.reportingCustomerMapping.filter.id_tso = filtered[0].idUser
 
       this.reportingCustomerMapping.filter.distrik_name = ''
       this.reportingCustomerMapping.filter.id_distrik = null
