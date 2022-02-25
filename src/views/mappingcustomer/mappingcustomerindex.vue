@@ -56,7 +56,7 @@
             </template>
             <template #username="{ text }">
               <template
-                v-if="mappingCustomer.listData.find((data) => data.username === text).username_cek"
+                v-if="mappingCustomer.listData.find(data => data.username === text).username_cek"
               >
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
@@ -66,7 +66,7 @@
             </template>
             <template #customer="{ text }">
               <template
-                v-if="mappingCustomer.listData.find((data) => data.customer === text).customer_cek"
+                v-if="mappingCustomer.listData.find(data => data.customer === text).customer_cek"
               >
                 <a-tag color="green">{{ text }}</a-tag>
               </template>
@@ -77,7 +77,7 @@
             <template #distributor="{ text }">
               <template
                 v-if="
-                  mappingCustomer.listData.find((data) => data.distributor === text).distributor_cek
+                  mappingCustomer.listData.find(data => data.distributor === text).distributor_cek
                 "
               >
                 <a-tag color="green">{{ text }}</a-tag>
@@ -138,7 +138,7 @@ export default defineComponent({
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -169,11 +169,11 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      mappingCustomer: (state) => state.mappingCustomer.data,
+      mappingCustomer: state => state.mappingCustomer.data,
     }),
     commitToDatabaseButtonDisabled() {
       let dataSource = [...this.mappingCustomer.listData]
-      let filtered = dataSource.filter((x) => x.cek_data == false)
+      let filtered = dataSource.filter(x => x.cek_data == false)
       if (dataSource.length == 0 || filtered.length > 0) {
         return true
       }
@@ -183,7 +183,7 @@ export default defineComponent({
   methods: {
     ...mapActions('mappingCustomer', ['submitData', 'getDataFromExcel']),
     downloadTokoSalesHandle() {
-      import('@/vendor/Export2Excel').then((excel) => {
+      import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
           'ID Kota',
           'ID Sales',
@@ -209,15 +209,15 @@ export default defineComponent({
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: this.filename,
+          filename: 'Data Mapping Customer',
           autoWidth: this.autoWidth,
           bookType: this.bookType,
         })
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map((v) =>
-        filterVal.map((j) => {
+      return jsonData.map(v =>
+        filterVal.map(j => {
           if (j === 'timestamp') {
             return parseTime(v[j])
           } else {

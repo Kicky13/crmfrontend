@@ -20,7 +20,7 @@
                 data-placement="top"
                 :title="item.nama"
               >
-                {{ item.idJabatan }} - {{ item.nama }}
+                {{ item.idUser }} - {{ item.nama }}
               </a-select-option>
             </a-select>
           </div>
@@ -78,13 +78,7 @@
             </a-button>
             <a-button
               type="primary"
-              :disabled="
-                reportingCustomerMapping.filter.id_distrik != null &&
-                reportingCustomerMapping.filter.id_distributor != null &&
-                reportingCustomerMapping.filter.id_tso != null
-                  ? false
-                  : true
-              "
+              :disabled="reportingCustomerMapping.filter.id_tso != null ? false : true"
               class="mb-3 float-right mr-2"
               @click="handleView()"
             >
@@ -242,7 +236,7 @@ export default {
         await this.getListCustomerMapping({
           id_distrik: null,
           id_distributor: null,
-          id_tso: this.$store.state.user.userid,
+          id_tso: this.reportingCustomerMapping.filter.id_tso,
         })
         // this.reportingCustomerMapping.filter.distrik_name = ''
         // this.reportingCustomerMapping.filter.distributor_name = ''
@@ -276,7 +270,7 @@ export default {
     async handleTSO() {
       let dataSource = [...this.reportingCustomerMapping.list_tso]
       let filtered = dataSource.filter(x => x.nama == this.reportingCustomerMapping.filter.tso_name)
-      this.reportingCustomerMapping.filter.id_tso = filtered[0].idJabatan
+      this.reportingCustomerMapping.filter.id_tso = filtered[0].idUser
 
       this.reportingCustomerMapping.filter.distrik_name = ''
       this.reportingCustomerMapping.filter.id_distrik = null

@@ -80,8 +80,7 @@ const state = {
       {
         title: 'Message',
         dataIndex: 'message',
-        width: 400,
-        ellipsis: true,
+        width: 500,
       },
     ],
     body: {
@@ -172,7 +171,7 @@ const actions = {
       } else {
         notification.success({
           message: 'Success',
-          description: `Data berhasil ditambahkan`,
+          description: result.data.message,
         })
         await commit('changeVisitPlan', {
           isLoading: false,
