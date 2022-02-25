@@ -172,7 +172,7 @@ const actions = {
       } else {
         notification.success({
           message: 'Success',
-          description: `Data berhasil ditambahkan`,
+          description: result.data.message,
         })
         await commit('changeVisitPlan', {
           isLoading: false,
