@@ -78,13 +78,7 @@
             </a-button>
             <a-button
               type="primary"
-              :disabled="
-                reportingCustomerMapping.filter.id_distrik != null &&
-                reportingCustomerMapping.filter.id_distributor != null &&
-                reportingCustomerMapping.filter.id_tso != null
-                  ? false
-                  : true
-              "
+              :disabled="reportingCustomerMapping.filter.id_tso != null ? false : true"
               class="mb-3 float-right mr-2"
               @click="handleView()"
             >
@@ -242,7 +236,7 @@ export default {
         await this.getListCustomerMapping({
           id_distrik: null,
           id_distributor: null,
-          id_tso: this.$store.state.user.userid,
+          id_tso: this.reportingCustomerMapping.filter.id_tso,
         })
         // this.reportingCustomerMapping.filter.distrik_name = ''
         // this.reportingCustomerMapping.filter.distributor_name = ''
