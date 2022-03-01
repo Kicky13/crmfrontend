@@ -134,13 +134,52 @@ const actions = {
 
   async getListTokoDistributorTSO({ commit, state }, payload) {
     commit('changeReportingSalesDistributor', {
-      isLoading: true,
+      isLoading: false,
     })
 
     const { data } = state
 
     let formData = {
       idTSO: JSON.parse(localStorage.getItem('userData')).userid,
+    }
+
+    try {
+      const result = await apiClient.post(`/distributor/getTokoDistributorTso`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReportingSalesDistributor', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReportingSalesDistributor', {
+          list_distributor_tso: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeReportingSalesDistributor', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getListTokoDistributorByTSO({ commit, state }, payload) {
+    commit('changeReportingSalesDistributor', {
+      isLoading: false,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idTSO: payload.id_tso,
     }
 
     try {

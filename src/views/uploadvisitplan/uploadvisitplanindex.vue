@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <a
-          href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOADS_VISIT_PLAN_NEW.xlsx"
+          href="https://storage.googleapis.com/crm-assets/Template/Template%20Upload%20Visit%20Plan.xlsx"
           download
           class="mb-3 btn btn-primary"
         >
@@ -217,7 +217,7 @@ export default {
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: this.filename,
+          filename: 'Data Visit Plan',
           autoWidth: this.autoWidth,
           bookType: this.bookType,
         })
@@ -240,7 +240,7 @@ export default {
       this.isDisabled = dataStatus.length > 0 ? true : false
       this.isDownloadDisabled = this.visitPlan.listData.length > 0 ? false : true
       if (!this.visitPlan.body.file) {
-        document.getElementById("file").value = null; 
+        document.getElementById('file').value = null
       }
     },
     onSubmitData() {

@@ -116,10 +116,13 @@ const state = {
       distrik_name: '',
       id_distributor: null,
       distributor_name: '',
+      id_tso: null,
+      tso_name: '',
     },
     list_customer: [],
     list_distrik: [],
     list_distributor: [],
+    list_tso: [],
     isLoading: false,
     status_download: 'sukses',
   },
@@ -134,7 +137,7 @@ const mutations = {
 const actions = {
   async getListDistrik({ commit, state }, payload) {
     commit('changeReportingCustomerMapping', {
-      isLoading: true,
+      isLoading: false,
     })
 
     const { data } = state
@@ -170,6 +173,45 @@ const actions = {
       })
     }
   },
+  async getListTSO({ commit, state }, payload) {
+    commit('changeReportingCustomerMapping', {
+      isLoading: false,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idLevelHirarki: 40,
+      limit: 5000,
+      offset: 0,
+    }
+
+    try {
+      const result = await apiClient.post(`/hirarki/users`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeReportingCustomerMapping', {
+          isLoading: false,
+        })
+      } else {
+        let dataTSO = result.data.data.filter(x => x.idUser != null)
+
+        await commit('changeReportingCustomerMapping', {
+          list_tso: dataTSO,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getListCustomerMapping({ commit, state }, payload) {
     commit('changeReportingCustomerMapping', {
       isLoading: true,
@@ -194,6 +236,10 @@ const actions = {
             isLoading: false,
           })
         } else {
+          notification.success({
+            message: 'Sukses',
+            description: 'Data berhasil ditampilkan',
+          })
           await commit('changeReportingCustomerMapping', {
             list_customer: result.data.data,
             isLoading: false,
