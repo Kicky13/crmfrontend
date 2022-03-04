@@ -107,7 +107,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'CustomerMappingTSO',
+  name: 'SalesDistributorTSO',
   computed: {
     ...mapState({
       reportingSalesDistributor: state => state.reportingSalesDistributor.data,

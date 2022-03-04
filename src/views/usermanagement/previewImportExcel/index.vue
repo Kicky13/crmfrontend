@@ -18,12 +18,20 @@
             class=" "
             :columns="importExelHirarki.columns_preview"
             :data-source="importExelHirarki.listData"
-            :scroll="{ x: 1500 }"
+            :scroll="{ x: 3000 }"
             :loading="importExelHirarki.isLoading"
             :row-class-name="tableRowClassName"
             :row-key="data => data.idJabatan"
           >
-          <template #icon="{ text }">
+            <template #username_atasan="{ text }">
+              <div v-if="text.atasan == null">
+                <span>-</span>
+              </div>
+              <div v-else>
+                <span>{{text.atasan}}</span>
+              </div>
+            </template>
+            <template #icon="{ text }">
               <div v-if="text.cekData === true">
                 <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" data-toggle="tooltip" data-placement="top" :title="text.message"/>
               </div>

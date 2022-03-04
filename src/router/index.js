@@ -492,8 +492,6 @@ const router = createRouter({
   routes,
 })
 
-const isAuth = false
-
 router.beforeEach((to, from, next) => {
   NProgress.start()
   setTimeout(() => {
