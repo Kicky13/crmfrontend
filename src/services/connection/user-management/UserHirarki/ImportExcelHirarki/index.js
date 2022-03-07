@@ -82,7 +82,7 @@ const state = {
         title: 'Username Atasan',
         key: 'atasan',
         // width: '20%',
-        slots: { customRender: 'username_atasan' },
+        slots: { customRender: 'usernameJabatanAtasan' },
       },
       {
         title: 'Email',
@@ -121,7 +121,6 @@ const state = {
         // slots: { customRender: 'message' },
       },
     ],
-    
   },
 }
 
@@ -138,7 +137,7 @@ const actions = {
     })
 
     const { data } = state
-    
+
     const formData = new FormData()
 
     formData.append('_method', 'post')
@@ -152,7 +151,7 @@ const actions = {
 
     try {
       const result = await apiClient.post('/hirarki/previewImportUserPosisi', formData, config)
-      
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -193,7 +192,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/importUserPosisi`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
