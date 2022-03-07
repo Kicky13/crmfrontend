@@ -82,7 +82,7 @@ const state = {
         title: 'Username Atasan',
         key: 'atasan',
         // width: '20%',
-        slots: { customRender: 'usernameJabatanAtasan' },
+        slots: { customRender: 'username_atasan' },
       },
       {
         title: 'Email',
