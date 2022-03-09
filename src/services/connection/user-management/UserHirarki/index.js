@@ -445,6 +445,46 @@ const actions = {
     }
   },
 
+  async editJabatanBawahan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idJabatan: payload.id_jabatan,
+      nmJabatan: payload.nama_jabatan,
+    }
+
+    let result = ''
+    try {
+      result = await apiClient.post(`/hirarki/editJabatan`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async deleteDataRow({ commit, state }, payload) {
     commit('changeUserManagement', {
       isLoading: true,
