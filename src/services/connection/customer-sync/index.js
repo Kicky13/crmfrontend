@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import axios from 'axios'
 
 const state = {
   data: {
@@ -139,12 +140,12 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(
+      const result = await axios.get(
         `https://api-mdxl.aksestoko.com/external/distributor/toko?distributor=` +
           payload.id_distrib +
           `&access-token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDY4MzcxMzksInN1YiI6MTQ0OTgyMn0.sIBeo2CE45Zt3kAjsILPWP9TkHTkYzED_7Wd2HMOJ8w`,
       )
-      if (result.data.status == 404) {
+      if (result.data.status !== 200) {
         notification.error({
           message: 'Error',
           description: result.data.message,
