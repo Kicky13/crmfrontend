@@ -71,7 +71,7 @@
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2"></div>
               <div class="col-md-4 col-xs-12 mb-2">
-                <a-button @click="openModal()" type="primary" class="float-right">
+                <a-button @click="openModal(`Tambah`)" type="primary" class="float-right">
                   <i class="fa fa-plus mr-2" />
                   {{ listData ? 'Tambah ' + listData[0].nama_singkat : 'Loading...' }}
                 </a-button>
@@ -184,11 +184,32 @@
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
+                      title="Lihat Hirarki"
+                      @click="changeProfile(text)"
+                      class="btn btn-outline-success mr-1"
+                    >
+                      <i class="fa fa-sitemap"></i>
+                    </button>
+                    <button
+                      v-if="text.iduser === null"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
                       title="Assign User"
                       @click="assignUser(text)"
-                      class="btn btn-outline-info"
+                      class="btn btn-outline-info mr-1"
                     >
                       <i class="fa fa-user-plus"></i>
+                    </button>
+                    <button
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Edit Jabatan"
+                      @click="openModal(text)"
+                      class="btn btn-outline-success mr-1"
+                    >
+                      <i class="fa fa-edit"></i>
                     </button>
                   </div>
                 </template>
@@ -372,7 +393,7 @@
 
     <a-modal
       v-model:visible="modalTambahBawahan"
-      :title="`Tambah Jabatan`"
+      :title="idJabatan === null ? `Tambah Jabatan` : 'Edit Jabatan'"
       :closable="false"
       :mask-closable="false"
     >
@@ -432,9 +453,12 @@ export default {
       id_jabatan: null,
       modalTambahBawahan: false,
       newJabatan: '',
+      namaJabatan: '',
       listData: '',
       dateLowerLimit: null,
       treeModal: false,
+      idJabatan: null,
+      userEdit: null,
     }
   },
   computed: {
@@ -471,6 +495,7 @@ export default {
       'getListJenisUser',
       'searchSalesNonBawahan',
       'viewTreeHierarchy',
+      'editJabatanBawahan',
     ]),
 
     async onSearch(searchText) {
@@ -482,9 +507,19 @@ export default {
         500,
       )
     },
-    openModal() {
+    openModal(item) {
+      console.log(`-----item`, item)
       this.modalTambahBawahan = true
-      this.newJabatan = ''
+
+      if (item.idJabatan) {
+        this.namaJabatan = item.titleJabatan
+        this.newJabatan = item.titleJabatan
+        this.idJabatan = item.idJabatan
+        this.userEdit = item
+      } else {
+        this.newJabatan = ''
+        this.idJabatan = null
+      }
     },
     onSelect(value) {
       this.userManagement.form_assign_bawahan.id_user = value
@@ -554,7 +589,24 @@ export default {
       this.userManagement.modalVisibleHirarkiDown = false
     },
     async submitTambahBawahan() {
-      if (this.newJabatan) {
+      if (this.idJabatan != null) {
+        if (this.namaJabatan === this.listData[0].nama_singkat + ' - ' + this.newJabatan) {
+          notification.error({
+            message: 'Gagal Menyimpan',
+            description: 'Nama jabatan tidak boleh sama seperti sebelumnya.',
+          })
+        } else {
+          await this.editJabatanBawahan({
+            id_jabatan: this.idJabatan,
+            nama_jabatan: this.listData[0].nama_singkat + ' - ' + this.newJabatan,
+          })
+
+          await this.getListDownHirarki({
+            id_jabatan: this.$route.params.id_jabatan,
+          })
+          this.modalTambahBawahan = false
+        }
+      } else if (this.idJabatan === null) {
         await this.postJabatanBawahan({
           id_jabatan_atasan: this.userManagement.detail_jabatan.idJabatan,
           id_level_hirarki: this.userManagement.detail_jabatan.levelJabatanBawahan,
