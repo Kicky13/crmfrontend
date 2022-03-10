@@ -91,6 +91,48 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+
+    columns_tso: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Posisi Jabatan',
+        key: 'nama',
+        dataIndex: 'titleJabatan',
+      },
+      {
+        title: 'Nama User',
+        key: 'name',
+        slots: { customRender: 'nama' },
+      },
+      // {
+      //   title: 'Distrik',
+      //   key: 'distrik',
+      //   slots: { customRender: 'distrik' },
+      // },
+      {
+        title: 'Tanggal Menjabat',
+        key: 'start_date',
+        slots: { customRender: 'start_date' },
+      },
+      {
+        title: 'Tanggal Selesai Menjabat',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
+      },
+      {
+        title: 'Status',
+        dataIndex: 'statusJabat',
+      },
+      {
+        title: 'Action',
+        slots: { customRender: 'action' },
+      },
+    ],
     columns_history: [
       {
         title: 'Nama User',

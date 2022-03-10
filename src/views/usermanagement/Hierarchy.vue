@@ -68,6 +68,14 @@
               <span>entries</span>
             </div>
           </div>
+          <!-- <a-input-search
+            v-if="selectedShorthand === `TSO`"
+            placeholder="Cari nama"
+            style="width: 200px"
+            v-model:value="userManagement.bodyList.filter"
+            @search="searchDataTSO"
+          /> -->
+
           <a-input-search
             placeholder="Cari nama"
             style="width: 200px"
@@ -75,6 +83,7 @@
             @search="searchData1"
           />
         </div>
+
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="userManagement.columns"
@@ -458,6 +467,29 @@
             </a-form-item>
           </a-form>
         </a-modal>
+
+        <!-- Modal Detail Distrik TSO-->
+        <a-modal
+          v-model:visible="modalEditJabatan"
+          :title="'Edit Jabatan'"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalEditJabatan = false">Batal</a-button>
+            <a-button @click="submitEditJabatan()" key="submit" type="primary">Ubah</a-button>
+          </template>
+
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+              <a-input
+                :prefix="selectedShorthand"
+                v-model:value="newJabatan"
+                placeholder="Nama jabatan"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </div>
     </a-card>
   </div>
@@ -495,6 +527,7 @@ export default {
       modalTambahJabatan: false,
       modalImportExcel: false,
       modalDeleteView: false,
+      modalDetailDistrik: false,
       flagBawahan: null,
       formState: {
         name: '',
@@ -648,6 +681,18 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 100),
+    searchDataTSO(keyword) {
+      if (keyword) {
+        console.log(`--keyword`, keyword.toLowerCase().includes(keyword.toLowerCase()))
+        let dataList = this.userManagement.dataTable.forEach(element => {
+          console.log(
+            `---element.distrik`,
+            element.distrik.filter(x => x.nm_wilayah.toLowerCase().includes(keyword.toLowerCase() )),
+          )
+        })
+        console.log(`--dataList`, dataList)
+      }
+    },
     searchData(keyword) {
       this.userManagement.isLoading = true
       if (keyword) {
