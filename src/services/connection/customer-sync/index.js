@@ -117,7 +117,7 @@ const actions = {
             description: 'Data berhasil ditampilkan',
           })
         }
-  
+
         await commit('changeSynCustomer', {
           listCustomer: result.data.data,
           isLoading: false,
@@ -140,9 +140,9 @@ const actions = {
 
     try {
       const result = await apiClient.get(
-        `https://api-mdxl.aksestoko.com/api/data/toko?distributor=` +
+        `https://api-mdxl.aksestoko.com/external/distributor/toko?distributor=` +
           payload.id_distrib +
-          `&method=post`,
+          `&access-token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDY4MzcxMzksInN1YiI6MTQ0OTgyMn0.sIBeo2CE45Zt3kAjsILPWP9TkHTkYzED_7Wd2HMOJ8w`,
       )
       if (result.data.status == 404) {
         notification.error({
@@ -161,7 +161,7 @@ const actions = {
             description: 'Data berhasil ditampilkan',
           })
         }
-  
+
         await commit('changeSynCustomer', {
           listCustomer: result.data.datas,
           isLoading: false,
