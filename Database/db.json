@@ -1,230 +1,7 @@
 {
-  "rbp_movement": [
+  "handsontable": [
     {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "produksku": "Semen Andalas 40",
-      "w1": "50000",
-      "w2": "51000",
-      "w3": "53000",
-      "w4": "53000",
-      "w5": "52000"
-    }
-  ],
-  "volume_analityc": [
-    {
-      "area": "Area 41",
-      "distrik": "Gresik",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Surabaya",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Sidoarjo",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Mojokerto",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Madiun",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Lamongan",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Tuban",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    },
-    {
-      "area": "Area 41",
-      "distrik": "Bojonegoro",
-      "soldto": "175",
-      "distributor": "KWSG",
-      "cam2": "200",
-      "cam1": "210",
-      "camtd": "100",
-      "som2": "10000",
-      "som1": "15000",
-      "somtd": "34000",
-      "vm2": "340",
-      "vm1": "380",
-      "vmtd": "200"
-    }
-  ],
-  "handsone_table": [
-    {
+      "id": 1,
       "company_name": "Tagcat",
       "country": "United Kingdom",
       "name": "Classic Vest",
@@ -236,6 +13,7 @@
       "rate": 2
     },
     {
+      "id": 2,
       "company_name": "Zoomzone",
       "country": "Indonesia",
       "name": "Cycling Cap",
@@ -247,6 +25,7 @@
       "rate": 2
     },
     {
+      "id": 3,
       "company_name": "Meeveo",
       "country": "United States",
       "name": "Full-Finger Gloves",
@@ -258,6 +37,7 @@
       "rate": 3
     },
     {
+      "id": 4,
       "company_name": "Buzzdog",
       "country": "Philippines",
       "name": "HL Mountain Frame",
@@ -269,6 +49,7 @@
       "rate": 1
     },
     {
+      "id": 5,
       "company_name": "Katz",
       "country": "India",
       "name": "Half-Finger Gloves",
@@ -280,6 +61,7 @@
       "rate": 3
     },
     {
+      "id": 6,
       "company_name": "Jaxbean",
       "country": "China",
       "name": "HL Road Frame",
@@ -291,6 +73,7 @@
       "rate": 1
     },
     {
+      "id": 7,
       "company_name": "Wikido",
       "country": "Brazil",
       "name": "HL Touring Frame",
@@ -302,6 +85,7 @@
       "rate": 1
     },
     {
+      "id": 8,
       "company_name": "Browsedrive",
       "country": "United States",
       "name": "LL Mountain Frame",
@@ -313,6 +97,7 @@
       "rate": 4
     },
     {
+      "id": 9,
       "company_name": "Twinder",
       "country": "United Kingdom",
       "name": "LL Road Frame",
@@ -324,6 +109,7 @@
       "rate": 1
     },
     {
+      "id": 10,
       "company_name": "Jetwire",
       "country": "China",
       "name": "LL Touring Frame",
@@ -333,6 +119,30 @@
       "stock": "30",
       "progress": 8,
       "rate": 5
+    },
+    {
+      "id": 11,
+      "company_name": "Chatterpoint",
+      "country": "China",
+      "name": "Long-Sleeve Logo Jersey",
+      "date": "14/07/2020",
+      "order_id": "25-5083429",
+      "check_stock": true,
+      "stock": "39",
+      "progress": 7,
+      "rate": 2
+    },
+    {
+      "id": 12,
+      "company_name": "Twinder",
+      "country": "Egypt",
+      "name": "Men's Bib-Shorts",
+      "date": "31/08/2020",
+      "order_id": "04-4281278",
+      "check_stock": false,
+      "stock": "96",
+      "progress": 6,
+      "rate": 1
     }
   ],
   "keluhan": [
@@ -2784,7 +2594,6 @@
       }
     ]
   },
-
   "profile_bawahan": {
     "status": true,
     "message": "success",
