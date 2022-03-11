@@ -68,15 +68,16 @@
               <span>entries</span>
             </div>
           </div>
-          <!-- <a-input-search
+          <a-input-search
             v-if="selectedShorthand === `TSO`"
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
             @search="searchDataTSO"
-          /> -->
+          />
 
           <a-input-search
+            v-else
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
@@ -682,15 +683,24 @@ export default {
       })
     }, 100),
     searchDataTSO(keyword) {
+      this.userManagement.isLoading = true
+
       if (keyword) {
-        console.log(`--keyword`, keyword.toLowerCase().includes(keyword.toLowerCase()))
-        let dataList = this.userManagement.dataTable.forEach(element => {
-          console.log(
-            `---element.distrik`,
-            element.distrik.filter(x => x.nm_wilayah.toLowerCase().includes(keyword.toLowerCase() )),
-          )
-        })
-        console.log(`--dataList`, dataList)
+        let data = this.userManagement.dataTable.filter(dataSource =>
+          dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
+        )
+        if (data.length > 0) {
+          setTimeout(() => {
+            this.userManagement.dataTable = data
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
+        }
+      } else {
+        setTimeout(() => {
+          this.userManagement.dataTable = this.userManagement.users
+          this.userManagement.isLoading = false
+        }, 500)
       }
     },
     searchData(keyword) {
