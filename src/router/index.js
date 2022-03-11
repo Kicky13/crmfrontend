@@ -24,6 +24,21 @@ const routes = [
         meta: { title: 'Dashboards', resource: 'Dashboard', action: 'read' },
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard'),
       },
+      {
+        path: '/dashboard/promotion',
+        meta: { title: 'Promotion', resource: 'Promotion', action: 'read' },
+        component: () => import(/* webpackChunkName: "promotion" */ '@/views/dashboard/promotion'),
+      },
+      {
+        path: '/dashboard/rbp_movement',
+        meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
+        component: () => import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
+      },
+      {
+        path: '/dashboard/price_monitoring',
+        meta: { title: 'Price Monitoring', resource: 'PriceMonitoring', action: 'read' },
+        component: () => import(/* webpackChunkName: "pricemonitoring" */ '@/views/dashboard/pricemonitoring'),
+      },
       // Fauzan ============ Start ===================>>
       {
         path: '/radiusdistrik',

@@ -20,6 +20,8 @@ import Reporting from '../services/connection/reporting'
 import PenarikanData from '../services/connection/penarikan-data'
 import ReportingCustomerMapping from '../services/connection/reporting/customer-mapping'
 import ReportingSalesDistributor from '../services/connection/reporting/sales-distributor'
+import RbpMovement from '../services/connection/dashboard/rbpmovement'
+import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
 
 export default createStore({
   modules: {
@@ -44,6 +46,8 @@ export default createStore({
     penarikanData: PenarikanData,
     reportingCustomerMapping: ReportingCustomerMapping,
     reportingSalesDistributor: ReportingSalesDistributor,
+    rbpMovement: RbpMovement,
+    priceMonitoring: PriceMonitoring,
   },
   state: {},
   mutations: {},
