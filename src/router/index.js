@@ -47,6 +47,11 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "volumeAnalytcs" */ '@/views/dashboard/volume_analytcs'),
       },
+      {
+        path: '/dashboard/visit',
+        meta: { title: 'Visit', resource: 'Visit', action: 'read' },
+        component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
+      },
       // Fauzan ============ Start ===================>>
       {
         path: '/radiusdistrik',

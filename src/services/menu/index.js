@@ -11,6 +11,11 @@ export const getAdminMenuData = [
         url: '/dashboard/volume_analytcs',
       },
       {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
         title: 'Promotion',
         key: 'dpr017',
         url: '/dashboard/promotion',
