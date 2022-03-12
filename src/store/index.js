@@ -22,7 +22,7 @@ import ReportingCustomerMapping from '../services/connection/reporting/customer-
 import ReportingSalesDistributor from '../services/connection/reporting/sales-distributor'
 import RbpMovement from '../services/connection/dashboard/rbpmovement'
 import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
-
+import VolumeAnalytcs from '../services/connection/dashboard/volume_analytcs'
 export default createStore({
   modules: {
     user,
@@ -48,6 +48,7 @@ export default createStore({
     reportingSalesDistributor: ReportingSalesDistributor,
     rbpMovement: RbpMovement,
     priceMonitoring: PriceMonitoring,
+    volumeAnalytcs: VolumeAnalytcs,
   },
   state: {},
   mutations: {},
