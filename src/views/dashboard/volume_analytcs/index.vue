@@ -37,22 +37,22 @@
       </div>
       <div class="row mt-2">
         <div class="col-md-2">
-          <a-select placeholder="Area" class="w-100">
-            <a-select-option disabled value="">Pilih Area</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Area</a-select-option>
+          <a-select placeholder="Bulan" class="w-100">
+            <a-select-option disabled value="">Pilih Bulan</a-select-option>
+            <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-select placeholder="Distrik" class="w-100">
-            <a-select-option disabled value="">Pilih Distrik</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
+          <a-select placeholder="Kategori" class="w-100">
+            <a-select-option disabled value="">Pilih Kategori</a-select-option>
+            <a-select-option data-toggle="tooltip" data-placement="top">Kategori</a-select-option>
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-select placeholder="Distributor" class="w-100">
-            <a-select-option disabled value="">Pilih Distributor</a-select-option>
+          <a-select placeholder="Brand SIG" class="w-100">
+            <a-select-option disabled value="">Pilih Brand SIG</a-select-option>
             <a-select-option data-toggle="tooltip" data-placement="top"
-              >Distributor</a-select-option
+              >Brand</a-select-option
             >
           </a-select>
         </div>

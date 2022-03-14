@@ -71,6 +71,76 @@ const state = {
         key: 'vimtd',
       },
     ],
+
+    columns_toko: [
+      {
+        title: 'Distrik',
+        dataIndex: 'distrik',
+        key: 'distrik',
+      },
+      {
+        title: 'Toko',
+        dataIndex: 'toko',
+        key: 'toko',
+      },
+      {
+        title: 'Distributor',
+        dataIndex: 'distributor',
+        key: 'distributor',
+      },
+    ],
+    columns_sales: [
+      {
+        title: 'Sales',
+        dataIndex: 'sales',
+        key: 'sales',
+      },
+
+      {
+        title: 'Distributor',
+        dataIndex: 'distributor',
+        key: 'distributor',
+      },
+      {
+        title: 'Distributor',
+        dataIndex: 'distributor',
+        key: 'distributor',
+      },
+    ],
+    columns_jadwal: [
+      {
+        title: 'Distrik',
+        dataIndex: 'distrik',
+        key: 'distrik',
+      },
+      {
+        title: 'Toko',
+        dataIndex: 'toko',
+        key: 'toko',
+      },
+      {
+        title: 'Distributor',
+        dataIndex: 'distributor',
+        key: 'distributor',
+      },
+    ],
+    columns_kunjungan: [
+      {
+        title: 'Distrik',
+        dataIndex: 'distrik',
+        key: 'distrik',
+      },
+      {
+        title: 'Toko',
+        dataIndex: 'toko',
+        key: 'toko',
+      },
+      {
+        title: 'Distributor',
+        dataIndex: 'distributor',
+        key: 'distributor',
+      },
+    ],
     isLoading: false,
     pagination: {},
   },
