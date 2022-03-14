@@ -27,12 +27,7 @@
             <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
           </a-select>
         </div>
-        <!-- <div class="col-md-2">
-          <a-select placeholder="Tahun" class="w-100">
-            <a-select-option disabled value="">Pilih Tahun</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Tahun</a-select-option>
-          </a-select>
-        </div> -->
+        <div class="col-md-2"></div>
         <div class="col-md-2">
           <a-button type="primary" class="w-100">
             <i class="fa fa-filter mr-2"></i> Tampilkan</a-button
