@@ -3,9 +3,11 @@
     <div class="analytcs_filter">
       <div class="row">
         <div class="col-md-2">
-          <a-select placeholder="Distrik" class="w-100">
-            <a-select-option disabled value="">Pilih Distrik</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
+          <a-select placeholder="Distributor" class="w-100">
+            <a-select-option disabled value="">Pilih Distributor</a-select-option>
+            <a-select-option data-toggle="tooltip" data-placement="top"
+              >Distributor</a-select-option
+            >
           </a-select>
         </div>
         <div class="col-md-2">
@@ -27,7 +29,12 @@
             <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
           </a-select>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <a-select placeholder="Distrik" class="w-100">
+            <a-select-option disabled value="">Pilih Distrik</a-select-option>
+            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
+          </a-select>
+        </div>
         <div class="col-md-2">
           <a-button type="primary" class="w-100">
             <i class="fa fa-filter mr-2"></i> Tampilkan</a-button
@@ -38,13 +45,13 @@
 
     <div class="analytcs_chart mt-4">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Customer</small>
             </legend>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="d-flex">
@@ -57,7 +64,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="d-flex">
@@ -73,7 +80,7 @@
             </div>
             <div class="box mt-4">
               <div class="row ">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div>
                     <apexchart
                       type="pie"
@@ -82,7 +89,7 @@
                     ></apexchart>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div>
                     <apexchart
                       type="pie"
@@ -91,10 +98,7 @@
                     ></apexchart>
                   </div>
                 </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-2"></div>
-                <div class="col-md-8 text-center">
+                <div class="col-md-4">
                   <div>
                     <apexchart
                       type="pie"
@@ -103,18 +107,19 @@
                     ></apexchart>
                   </div>
                 </div>
-                <div class="col-md-2"></div>
               </div>
             </div>
           </fieldset>
         </div>
-        <div class="col-md-6">
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Visit</small>
             </legend>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="d-flex">
@@ -129,7 +134,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="d-flex">
@@ -144,9 +149,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="text-center">
@@ -159,12 +162,13 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="box p-3">
                   <div class="customer-visit">
                     <div class="text-center">
                       <div class="">
                         <label>Un - Planned</label>
+                        <br />
                         <span>4000</span>
                       </div>
                     </div>
@@ -172,7 +176,8 @@
                 </div>
               </div>
             </div>
-            <div class="box mt-2">
+
+            <div class="box mt-4">
               <div class="row ">
                 <div class="col-md-12">
                   <div>
@@ -191,7 +196,7 @@
     </div>
     <div class="analytcs_information mt-4">
       <div class="row ">
-        <div class="col-md-3">
+        <div class="col-md-6">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Toko Belum di Mapping</small>
@@ -203,6 +208,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
+                        <br>
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -225,7 +231,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Sales Belum di Mapping</small>
@@ -237,6 +243,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Sales</label>
+                        <br>
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -259,7 +266,9 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-md-3">
+      </div>
+      <div class="row mt-4">
+         <div class="col-md-6">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Toko Belum di Jadwalkan</small>
@@ -271,6 +280,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
+                        <br>
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -293,7 +303,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Toko Belum di Kunjungi</small>
@@ -305,6 +315,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
+                        <br>
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -373,7 +384,7 @@ export default {
   data() {
     return {
       dataPieMapping: {
-        series: [44, 55],
+        series: [50, 50],
         chartOptions: {
           chart: {
             width: '100%',

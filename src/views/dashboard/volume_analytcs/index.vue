@@ -5,7 +5,13 @@
         <div class="col-md-2">
           <a-select placeholder="Area" class="w-100">
             <a-select-option disabled value="">Pilih Area</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Area</a-select-option>
+            <a-select-option
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in dataDummy.area.data"
+              :key="`index_${index}`"
+              >{{ item.area_id }} - {{ item.nama }}</a-select-option
+            >
           </a-select>
         </div>
         <div class="col-md-2">
@@ -45,14 +51,24 @@
         <div class="col-md-2">
           <a-select placeholder="Kategori" class="w-100">
             <a-select-option disabled value="">Pilih Kategori</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Kategori</a-select-option>
+            <a-select-option
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in dataDummy.kategori.data"
+              :key="`index_${index}`"
+              >{{ item.id }} - {{ item.nama }}</a-select-option
+            >
           </a-select>
         </div>
         <div class="col-md-2">
           <a-select placeholder="Brand SIG" class="w-100">
             <a-select-option disabled value="">Pilih Brand SIG</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top"
-              >Brand</a-select-option
+            <a-select-option
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in dataDummy.brand.data"
+              :key="`index_${index}`"
+              >{{ item.id }} - {{ item.nama }}</a-select-option
             >
           </a-select>
         </div>
@@ -60,22 +76,23 @@
     </div>
     <div class="analytcs_information mt-4">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
                 <img src="@/assets/images/icon/registerOutlet.png" alt="Logo SIG" v-once />
               </div>
-              <div class="information ml-1">
+              <div class="information ml-2">
                 <label for="">Registerd Outlet</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.register_outlet) }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
@@ -83,14 +100,15 @@
               </div>
               <div class="information ml-1">
                 <label for="">Visited Outled</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.visited_outlet) }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
@@ -98,14 +116,17 @@
               </div>
               <div class="information ml-1">
                 <label for="">Customer Active</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.customer_active) }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
@@ -113,14 +134,15 @@
               </div>
               <div class="information ml-1">
                 <label for="">Number Of Visited</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.number_visit) }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
@@ -128,14 +150,15 @@
               </div>
               <div class="information ml-1">
                 <label for="">Transaction (SO)</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.transaction) }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="analytcs_info">
             <div class="d-flex">
               <div class="icon_image">
@@ -143,8 +166,9 @@
               </div>
               <div class="information ml-1">
                 <label for="">Volume (SO)</label>
+                <br />
                 <span>
-                  5000
+                  {{ formatNumber(dataDummy.information.data.volume) }}
                 </span>
               </div>
             </div>
@@ -168,7 +192,7 @@
     </div>
     <div class="analytcs_chart mt-4">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="box">
             <fieldset>
               <legend class="w-auto px-2">
@@ -185,7 +209,7 @@
             </fieldset>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="box">
             <fieldset>
               <legend class="w-auto px-2">
@@ -202,7 +226,9 @@
             </fieldset>
           </div>
         </div>
-        <div class="col-md-4">
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
           <div class="box">
             <fieldset>
               <legend class="w-auto px-2">
@@ -211,7 +237,7 @@
               <div style="background: white">
                 <vue-apex-charts
                   type="area"
-                  height="260"
+                  height="400"
                   :options="dataSell.chartOptions"
                   :series="dataSell.series"
                 />
@@ -255,6 +281,8 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 import { mapState, mapActions } from 'vuex'
+import DataDummy from './data.json'
+import numeral from 'numeral'
 
 export default {
   name: 'VolumeAnalytcs',
@@ -267,17 +295,21 @@ export default {
       dataCustomer: {
         series: [
           {
-            name: 'series1',
+            name: 'Customer Active',
             data: [31, 40, 28, 51, 42, 109, 100],
           },
         ],
-        legend: {
-          show: false,
-        },
+
         chartOptions: {
           chart: {
             height: 350,
             type: 'area',
+          },
+          legend: {
+            show: true,
+            showForSingleSeries: true,
+            showForNullSeries: true,
+            showForZeroSeries: true,
           },
           dataLabels: {
             enabled: false,
@@ -313,17 +345,22 @@ export default {
       dataVisit: {
         series: [
           {
-            name: 'series1',
+            name: 'Visit',
             data: [31, 40, 28, 51, 42, 109, 100],
           },
         ],
-        legend: {
-          show: false,
-        },
+
         chartOptions: {
           chart: {
             height: 350,
             type: 'area',
+            stacked: true,
+          },
+          legend: {
+            show: true,
+            showForSingleSeries: true,
+            showForNullSeries: true,
+            showForZeroSeries: true,
           },
           dataLabels: {
             enabled: false,
@@ -367,9 +404,7 @@ export default {
             data: [50, 40, 50, 51, 21, 120, 110],
           },
         ],
-        legend: {
-          show: false,
-        },
+
         chartOptions: {
           chart: {
             height: 350,
@@ -406,6 +441,7 @@ export default {
           },
         },
       },
+      dataDummy: DataDummy,
     }
   },
   computed: {
@@ -414,6 +450,10 @@ export default {
     }),
   },
   methods: {
+    formatNumber(value) {
+      let formatted = numeral(value).format('0,0')
+      return formatted
+    },
     handlePaginationSize(size) {
       this.volumeAnalytcs.pagination.pageSize = size
     },
