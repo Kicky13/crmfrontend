@@ -3,40 +3,102 @@
     <div class="analytcs_filter">
       <div class="row">
         <div class="col-md-2">
-          <a-select placeholder="Distributor" class="w-100">
+          <a-select
+            @change="handleDistributor()"
+            placeholder="Distributor"
+            show-search
+            v-model:value="visitDashboard.filter.distributor"
+            class="w-100"
+          >
             <a-select-option disabled value="">Pilih Distributor</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top"
-              >Distributor</a-select-option
+            <a-select-option
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in visitDashboard.listDistributor"
+              :key="`index_${index}`"
+              :title="item.namaDistributor"
+              :value="item.namaDistributor"
+              >{{ item.kdDistributor }} - {{ item.namaDistributor }}</a-select-option
             >
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-select placeholder="Salesman" class="w-100">
+          <a-select
+            placeholder="Salesman"
+            show-search
+            @change="handleSalesman()"
+            v-model:value="visitDashboard.filter.sales"
+            class="w-100"
+          >
             <a-select-option disabled value="">Pilih Salesman</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Salesman</a-select-option>
-          </a-select>
-        </div>
+            <a-select-option disabled v-if="visitDashboard.listSalesman.length == 0"
+              >Sales Tidak Tersedia</a-select-option
+            >
 
+            <a-select-option
+              v-else
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in visitDashboard.listSalesman"
+              :key="`index_${index}`"
+              :title="item.nama_sales"
+              :value="item.nama_sales"
+              >{{ item.id_sales }} - {{ item.nama_sales }}</a-select-option
+            >
+          </a-select>
+        </div>
         <div class="col-md-2">
-          <a-select placeholder="Tahun" class="w-100">
+          <a-select placeholder="Tahun" v-model:value="visitDashboard.filter.tahun" class="w-100">
             <a-select-option disabled value="">Pilih Tahun</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Tahun</a-select-option>
+            <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
+              {{ tahun }}
+            </a-select-option>
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-select placeholder="Bulan" class="w-100">
-            <a-select-option disabled value="">Pilih Bulan</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
+          <a-select
+            v-model:value="visitDashboard.filter.bulan"
+            class="col-lg-12 col-md-12 pr-2"
+            style="width: 100% !important"
+            placeholder=" -- Bulan -- "
+          >
+            <a-select-option disabled value="">Bulan</a-select-option>
+            <a-select-option
+              v-for="(bulan, index) in visitDashboard.data_bulan"
+              :value="bulan.id"
+              :key="index"
+            >
+              {{ bulan.name }}
+            </a-select-option>
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-select placeholder="Distrik" class="w-100">
+          <a-select
+            placeholder="Distrik"
+            show-search
+            @change="handleDistrik()"
+            v-model:value="visitDashboard.filter.distrik"
+            class="w-100"
+          >
             <a-select-option disabled value="">Pilih Distrik</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
+            <a-select-option disabled v-if="visitDashboard.listDistrik.length == 0"
+              >Distrik Tidak Tersedia</a-select-option
+            >
+
+            <a-select-option
+              v-else
+              data-toggle="tooltip"
+              data-placement="top"
+              v-for="(item, index) in visitDashboard.listDistrik"
+              :key="`index_${index}`"
+              :title="item.namaDistrik"
+              :value="item.namaDistrik"
+              >{{ item.idDistrik }} - {{ item.namaDistrik }}</a-select-option
+            >
           </a-select>
         </div>
         <div class="col-md-2">
-          <a-button type="primary" class="w-100">
+          <a-button type="primary" @click="handleClick()" class="w-100">
             <i class="fa fa-filter mr-2"></i> Tampilkan</a-button
           >
         </div>
@@ -208,7 +270,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
-                        <br>
+                        <br />
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -243,7 +305,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Sales</label>
-                        <br>
+                        <br />
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -268,7 +330,7 @@
         </div>
       </div>
       <div class="row mt-4">
-         <div class="col-md-6">
+        <div class="col-md-6">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
               <small class="font-weight-light">Toko Belum di Jadwalkan</small>
@@ -280,7 +342,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
-                        <br>
+                        <br />
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -315,7 +377,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Total Customer</label>
-                        <br>
+                        <br />
                         <span>4000</span>
                       </div>
                       <div class="icon_image ml-auto">
@@ -374,6 +436,7 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
 
 export default {
   name: 'VisitDashboard',
@@ -525,10 +588,80 @@ export default {
     ...mapState({
       visitDashboard: state => state.visitDashboard.data,
     }),
+
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2019 }, (value, index) => 2020 + index)
+    },
+  },
+  async mounted() {
+    await this.getDataDistributor()
   },
   methods: {
+    ...mapActions('visitDashboard', [
+      'getDataDistributor',
+      'getDataSalesman',
+      'getDataDistrikBySales',
+      'postChartVisit',
+    ]),
+
+    async handleDistributor() {
+      let dataSource = [...this.visitDashboard.listDistributor]
+
+      let filtered = dataSource.filter(
+        x => x.namaDistributor == this.visitDashboard.filter.distributor,
+      )
+
+      this.visitDashboard.filter.id_distributor = filtered[0].kdDistributor
+      this.visitDashboard.listDistrik = []
+      this.visitDashboard.filter.sales = ''
+      this.visitDashboard.filter.id_sales = null
+
+      await this.getDataSalesman({
+        id_distributor: this.visitDashboard.filter.id_distributor,
+      })
+    },
+
+    async handleSalesman() {
+      let dataSource = [...this.visitDashboard.listSalesman]
+      let filtered = dataSource.filter(x => x.nama_sales == this.visitDashboard.filter.sales)
+      this.visitDashboard.filter.id_sales = filtered[0].id_sales
+
+      this.visitDashboard.listDistrik = []
+      this.visitDashboard.filter.distrik = ''
+      this.visitDashboard.filter.id_distrik = null
+
+      await this.getDataDistrikBySales({
+        id_sales: this.visitDashboard.filter.id_sales,
+        id_distributor: this.visitDashboard.filter.id_distributor,
+      })
+    },
+
+    async handleDistrik() {
+      let dataSource = [...this.visitDashboard.listDistrik]
+      let filtered = dataSource.filter(x => x.namaDistrik == this.visitDashboard.filter.distrik)
+      this.visitDashboard.filter.id_distrik = filtered[0].idDistrik
+    },
+
     handlePaginationSize(size) {
       this.visitDashboard.pagination.pageSize = size
+    },
+
+    async handleClick() {
+      if (
+        this.visitDashboard.filter.tahun != '' &&
+        this.visitDashboard.filter.bulan != null &&
+        this.visitDashboard.filter.id_distrik != null &&
+        this.visitDashboard.filter.id_sales != null &&
+        this.visitDashboard.filter.id_distributor != null
+      ) {
+        await this.postChartVisit()
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, semua filter harap diisi',
+        })
+      }
     },
   },
 }

@@ -143,6 +143,72 @@ const state = {
     ],
     isLoading: false,
     pagination: {},
+    listDistributor: [],
+    listSalesman: [],
+    listDistrik: [],
+    filter: {
+      id_distributor: null,
+      distributor: '',
+      id_sales: null,
+      sales: '',
+      tahun: '',
+      bulan: '',
+      id_distrik: null,
+      distrik: '',
+      tahun: null,
+      bulan: '',
+    },
+    data_bulan: [
+      {
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
+      },
+    ],
+    listVisitInformation: [],
   },
 }
 
@@ -152,7 +218,143 @@ const mutations = {
   },
 }
 
-const actions = {}
+const actions = {
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.post(`/distributor/all`)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataSalesman({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    try {
+      const result = await apiClient.get(
+        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}`,
+      )
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listSalesman: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataDistrikBySales({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    try {
+      const result = await apiClient.get(
+        `/dashboard/getDistrikSales?idSales=${payload.id_sales}&idDistributor=${payload.id_distributor}`,
+      )
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async postChartVisit({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let formData = {
+      tahun: data.filter.tahun,
+      bulan: data.filter.bulan,
+      idDistrik: data.filter.id_distrik,
+      idSales: data.filter.id_sales,
+      idDistributor: data.filter.id_distributor,
+    }
+
+    try {
+      const result = await apiClient.post(`/visit/visited`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listVisitInformation: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+}
 
 export default {
   namespaced: true,
