@@ -2,7 +2,7 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
+        <a @click="$router.push(`/users/hierarchy`)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
           Kembali ke User Hirarki
         </a>
@@ -50,10 +50,21 @@
             <p>
               <strong>Jabatan Saat ini : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
             </p>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mb-2">
               <button class="btn btn-info" @click="openViewTree">
                 <i class="fa fa-sitemap mr-1" />
                 View Tree
+              </button>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button
+                :disabled="userManagement.detail_jabatan.idLevelJabatan == 10"
+                class="btn"
+                :class="`${userManagement.detail_jabatan.idLevelJabatan == 10 ? 'btn-secondary' : 'btn-success'}`"
+                @click="lihatAtasan(userManagement.detail_jabatan.idJabatanAtasan)"
+              >
+                <i class="fa fa-arrow-up mr-1" />
+                Lihat Atasan
               </button>
             </div>
           </div>
@@ -546,6 +557,9 @@ export default {
       } else {
         this.$router.push(`/users/profile/jabatan/${item.idJabatan}`)
       }
+    },
+    lihatAtasan(item) {
+      this.$router.push(`/users/profile/jabatan/${item}`)
     },
     handlePaginationSize(size) {
       this.userManagement.pagination.pageSize = size

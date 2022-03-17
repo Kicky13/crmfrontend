@@ -3,39 +3,108 @@
     <a-col :xs="24" :md="12">
       <a-row :gutter="[24, 16]">
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Provinsi" class="w-100">
+          <a-select
+            placeholder="Provinsi"
+            class="w-100"
+            show-search
+            @change="handleProvinsi"
+          >
             <a-select-option disabled value="">Pilih Provinsi</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Provinsi</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listProvinsi"
+              :value="`${item.id_provinsi} - ${item.nama_provinsi}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_provinsi"
+            >
+              {{ item.id_provinsi }} - {{ item.nama_provinsi }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Area" class="w-100">
+          <a-select
+            placeholder="Area"
+            class="w-100"
+            show-search
+            @change="handleArea"
+          >
             <a-select-option disabled value="">Pilih Area</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Area</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listArea"
+              :value="`${item.id_area} - ${item.nama_area}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_area"
+            >
+              {{ item.id_area }} - {{ item.nama_area }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Distrik" class="w-100">
+          <a-select
+            placeholder="Distrik"
+            class="w-100"
+            show-search
+            @change="handleDistrik"
+          >
             <a-select-option disabled value="">Pilih Distrik</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listDistrik"
+              :value="`${item.id_distrik} - ${item.nama_distrik}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_distrik"
+            >
+              {{ item.id_distrik }} - {{ item.nama_distrik }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
           <a-select placeholder="Brand" class="w-100">
             <a-select-option disabled value="">Pilih Brand</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Brand</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listBrand"
+              :value="`${item.id_brand} - ${item.nama_brand}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_brand"
+            >
+              {{ item.id_brand }} - {{ item.nama_brand }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
           <a-select placeholder="Tahun" class="w-100">
             <a-select-option disabled value="">Pilih Tahun</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Tahun</a-select-option>
+            <a-select-option
+              v-for="(year, index) in years"
+              :value="year"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="year"
+            >
+              {{ year }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
           <a-select placeholder="Bulan" class="w-100">
             <a-select-option disabled value="">Pilih Bulan</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listBulan"
+              :value="item.nama"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama"
+            >
+              {{ item.nama }}
+            </a-select-option>
           </a-select>
         </a-col>
       </a-row>
@@ -45,15 +114,36 @@
         <a-col :xs="24" :md="8">
           <a-select placeholder="Distributor" class="w-100">
             <a-select-option disabled value="">Pilih Distributor</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top"
-              >Distributor</a-select-option
+            <a-select-option
+              v-for="(item, index) in filter.listDistributor"
+              :value="`${item.id_distributor} - ${item.nama_distributor}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_distributor"
             >
+              {{ item.id_distributor }} - {{ item.nama_distributor }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Kategori" class="w-100">
+          <a-select
+            placeholder="Kategori"
+            class="w-100"
+            show-search
+            @change="handleKategori"
+          >
             <a-select-option disabled value="">Pilih Kategori</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Kategori</a-select-option>
+            <a-select-option
+              v-for="(item, index) in filter.listKategori"
+              :value="`${item.id_kategori} - ${item.nama_kategori}`"
+              :key="index"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="item.nama_kategori"
+            >
+              {{ item.id_kategori }} - {{ item.nama_kategori }}
+            </a-select-option>
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
@@ -106,7 +196,7 @@
     <a-col :sm="24" :md="12" :lg="8">
       <fieldset class="border shadow px-3 pb-3">
         <legend class="w-auto px-2">
-          <small class="font-weight-light">Promo Lain - Lain</small>
+          <small class="font-weight-light">Promo Lain</small>
         </legend>
         <div style="background: white">
           <vue-apex-charts type="pie" :options="chartOptions2" :series="series2" />
@@ -129,6 +219,7 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -210,31 +301,31 @@ export default {
       },
       series: [
         {
-          name: 'Bonus Semen',
+          name: 'Brand 1',
           data: [44, 55, 41, 67, 22, 43, 11],
         },
         {
-          name: 'Bonus Wisata',
+          name: 'Brand 2',
           data: [13, 23, 20, 8, 13, 27, 12],
         },
         {
-          name: 'Bonus Voucher',
+          name: 'Brand 3',
           data: [11, 17, 15, 15, 21, 14, 13],
         },
         {
-          name: 'Potongan Harga',
+          name: 'Brand 4',
           data: [21, 7, 25, 13, 22, 8, 14],
         },
         {
-          name: 'Point Reward',
+          name: 'Brand 5',
           data: [44, 55, 41, 67, 22, 43, 15],
         },
         {
-          name: 'Produk Lain',
+          name: 'Brand 6',
           data: [13, 23, 20, 8, 13, 27, 16],
         },
         {
-          name: 'Tidak Ada Promo',
+          name: 'Brand 7',
           data: [11, 17, 15, 15, 21, 14, 17],
         },
       ],
@@ -277,7 +368,7 @@ export default {
             'Bonus Voucher',
             'Potongan Harga',
             'Point Reward',
-            'Produk Lain',
+            'Promo Lain',
             'Tidak Ada Promo',
           ],
         },
@@ -289,6 +380,49 @@ export default {
         },
       },
     }
+  },
+  computed: {
+    ...mapState({
+      filter: state => state.filter.data,
+    }),
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
+    },
+  },
+  async mounted() {
+    await this.getAllProvinsi()
+    await this.getAllArea()
+    await this.getAllDistrik()
+    await this.getAllDistributor()
+    await this.getAllKategori()
+    await this.getAllBrand()
+  },
+  methods: {
+    ...mapActions('filter', [
+      'getAllProvinsi',
+      'getAllArea',
+      'getAllDistrik',
+      'getAllDistributor',
+      'getAllKategori',
+      'getAllBrand',
+    ]),
+    async handleProvinsi(value) {
+      const idProvinsi = value.split('-')[0]
+      await this.getAllArea({ id_provinsi: idProvinsi })
+    },
+    async handleArea(value) {
+      const idArea = value.split('-')[0]
+      await this.getAllDistrik({ id_area: idArea })
+    },
+    async handleDistrik(value) {
+      const idDistrik = value.split('-')[0]
+      await this.getAllDistributor({ id_distrik: idDistrik })
+    },
+    async handleKategori(value) {
+      const idKategori = value.split('-')[0]
+      await this.getAllBrand({ id_kategori: idKategori })
+    },
   },
 }
 </script>

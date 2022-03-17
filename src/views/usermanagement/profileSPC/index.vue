@@ -2,9 +2,9 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <ra @click="$router.go(-1)" class="font-weight-bold text-primary">
+        <a @click="$router.push(`/users/hierarchy`)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke User Hirarki</ra
+          Kembali ke User Hirarki</a
         >
       </div>
     </div>

@@ -2,7 +2,7 @@
   <div>
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
-        <a @click="$router.go(-1)" class="font-weight-bold text-primary">
+        <a @click="$router.push(`/users/hierarchy`)" class="font-weight-bold text-primary">
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
           Kembali ke User Hirarki</a
         >
@@ -57,10 +57,16 @@
           </div>
           <div class="card-header align-self-center">
             <strong>Level Jabatan : {{ userManagement.detail_jabatan.levelJabatan }}</strong>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mb-2">
               <button class="btn btn-info" @click="openViewTree">
                 <i class="fa fa-sitemap mr-1" />
                 View Tree
+              </button>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-success" @click="lihatAtasan(userManagement.detail_jabatan.idJabatanAtasan)">
+                <i class="fa fa-arrow-up mr-1" />
+                Lihat Atasan
               </button>
             </div>
           </div>
@@ -181,9 +187,22 @@
                 <template #action="{ text }">
                   <div>
                     <button
+                      @click="showDetailModal(text.idDistrik)"
+                      type="button"
+                      class="btn btn-outline-info mr-2"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Detail"
+                    >
+                      <i class="fa fa-info mx-1" />
+                    </button>
+                    <button
                       @click="openModalDelete(text.idDistrik)"
                       type="button"
                       class="btn btn-outline-danger mr-2"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Hapus"
                     >
                       <i class="fa fa-trash"></i>
                     </button>
@@ -235,6 +254,48 @@
         <tree-hierarchy />
       </div>
     </a-modal>
+
+    <!-- Detail Modal -->
+    <a-modal
+      v-model:visible="detailModal"
+      title="Detail"
+      width=""
+      :body-style="{ overflow: 'auto' }"
+      :style="{ padding: '0 50px' }"
+    >
+      <a-table
+        :columns="profileTSO.modal_columns"
+        :data-source="profileTSO.detailDistrik"
+      >
+        <template #id_jabatan_sales="{ text }">
+          <span v-if="text.id_jabatan_sales !== null">{{ text.id_jabatan_sales }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #nama_jabatan_sales="{ text }">
+          <span v-if="text.nama_jabatan_sales !== null">{{ text.nama_jabatan_sales }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #id_user="{ text }">
+          <span v-if="text.id_user !== null">{{ text.id_user }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #nama_user="{ text }">
+          <span v-if="text.nama_user !== null">{{ text.nama_user }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #id_distributor="{ text }">
+          <span v-if="text.id_distributor !== null">{{ text.id_distributor }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #nama_distributor="{ text }">
+          <span v-if="text.nama_distributor !== null">{{ text.nama_distributor }}</span>
+          <span v-else>-</span>
+        </template>
+      </a-table>
+      <template #footer>
+          <a-button type="primary" @click="closeDetailModal">Kembali</a-button>
+        </template>
+    </a-modal>
   </div>
 </template>
 
@@ -269,6 +330,7 @@ export default {
       dateLowerLimit: null,
       modalValue: null,
       treeModal: false,
+      detailModal: false,
     }
   },
 
@@ -296,6 +358,7 @@ export default {
       'getListDistrikHirarki',
       'deleteListDistrikHirarki',
       'addDistrikHirarki',
+      'getDetailDistrik',
     ]),
     ...mapActions('userManagement', ['getDetailProfile']),
     openModalDelete(id_distriks) {
@@ -393,6 +456,17 @@ export default {
     closeViewTree() {
       this.treeModal = false
       this.userManagement.nodes = []
+    },
+    async showDetailModal(id) {
+      this.detailModal = true
+      await this.getDetailDistrik(id)
+      console.log(this.profileTSO)
+    },
+    closeDetailModal() {
+      this.detailModal = false
+    },
+    lihatAtasan(item) {
+      this.$router.push(`/users/profile/jabatan/${item}`)
     },
   },
 }
