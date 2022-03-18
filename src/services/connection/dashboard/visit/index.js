@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { _ } from 'vue-underscore'
 
 const state = {
   data: {
@@ -208,7 +209,10 @@ const state = {
         name: 'Desember',
       },
     ],
-    listVisitInformation: [],
+    listVisitInformation: {},
+    dataTarget: [],
+    dataRealisasi: [],
+    status: 'gagal',
   },
 }
 
@@ -332,7 +336,7 @@ const actions = {
     }
 
     try {
-      const result = await apiClient.post(`/visit/visited`, formData)
+      const result = await apiClient.post(`/dashboard/visit`, formData)
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -343,9 +347,32 @@ const actions = {
         })
       } else {
         await commit('changeVisitDashboard', {
-          listVisitInformation: result.data.data,
+          listVisitInformation: result.data,
           isLoading: false,
+          status: 'sukses',
         })
+
+        if (result.data.harian.length > 0) {
+          // Mencari target
+          let target = _.find(result.data.harian, function(item) {
+            return item.nama == `Target`
+          })
+          if (target != 0) {
+            target.informasi.forEach(element => {
+              data.dataTarget.push(element)
+            })
+          }
+
+          // Mencari realisasi
+          let realisasi = _.find(result.data.harian, function(item) {
+            return item.nama == `Realisasi`
+          })
+          if (realisasi != 0) {
+            realisasi.informasi.forEach(element => {
+              data.dataRealisasi.push(element)
+            })
+          }
+        }
       }
     } catch (error) {
       notification.error({

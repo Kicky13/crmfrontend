@@ -18,7 +18,7 @@
               :key="`index_${index}`"
               :title="item.namaDistributor"
               :value="item.namaDistributor"
-              >{{ item.kdDistributor }} - {{ item.namaDistributor }}</a-select-option
+              >{{ item.idDistributor }} - {{ item.namaDistributor }}</a-select-option
             >
           </a-select>
         </div>
@@ -104,7 +104,6 @@
         </div>
       </div>
     </div>
-
     <div class="analytcs_chart mt-4">
       <div class="row">
         <div class="col-md-12">
@@ -187,7 +186,8 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Realisasi Visit</label>
-                        <span>4000</span>
+                        <br />
+                        <span>{{ visitDashboard.listVisitInformation.realisasi_visit ?? 0 }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -202,7 +202,7 @@
                     <div class="d-flex">
                       <div class="align-self-center">
                         <label>Customer Visited</label>
-                        <span>4000</span>
+                        <span>{{ visitDashboard.listVisitInformation.customer_visit ?? 0 }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -218,7 +218,7 @@
                       <div class="">
                         <label>Planned</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{ visitDashboard.listVisitInformation.planned ?? 0 }}</span>
                       </div>
                     </div>
                   </div>
@@ -231,7 +231,7 @@
                       <div class="">
                         <label>Un - Planned</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{ visitDashboard.listVisitInformation.unplanned ?? 0 }}</span>
                       </div>
                     </div>
                   </div>
@@ -245,6 +245,7 @@
                   <div>
                     <apexchart
                       type="bar"
+                      height="330"
                       :options="dataBarVisited.chartOptions"
                       :series="dataBarVisited.series"
                     ></apexchart>
@@ -535,17 +536,17 @@ export default {
         series: [
           {
             name: 'Target',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+            data: [],
           },
           {
             name: 'Realisasi',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+            data: [],
           },
         ],
         chartOptions: {
           chart: {
             type: 'bar',
-            height: 350,
+            height: 200,
           },
           plotOptions: {
             bar: {
@@ -563,7 +564,7 @@ export default {
             colors: ['transparent'],
           },
           xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            categories: [],
           },
           yaxis: {
             // title: {
@@ -576,7 +577,7 @@ export default {
           tooltip: {
             y: {
               formatter: function(val) {
-                return '$ ' + val + ' thousands'
+                return val
               },
             },
           },
@@ -612,7 +613,7 @@ export default {
         x => x.namaDistributor == this.visitDashboard.filter.distributor,
       )
 
-      this.visitDashboard.filter.id_distributor = filtered[0].kdDistributor
+      this.visitDashboard.filter.id_distributor = filtered[0].idDistributor
       this.visitDashboard.listDistrik = []
       this.visitDashboard.filter.sales = ''
       this.visitDashboard.filter.id_sales = null
@@ -651,15 +652,26 @@ export default {
       if (
         this.visitDashboard.filter.tahun != '' &&
         this.visitDashboard.filter.bulan != null &&
-        this.visitDashboard.filter.id_distrik != null &&
-        this.visitDashboard.filter.id_sales != null &&
         this.visitDashboard.filter.id_distributor != null
       ) {
         await this.postChartVisit()
+
+        if (this.visitDashboard.status === `sukses`) {
+          this.visitDashboard.dataTarget.forEach(element => {
+            this.dataBarVisited.series[0].data.push(element.jumlah)
+            this.dataBarVisited.chartOptions.xaxis.categories.push(
+              element.tanggal_rencana_kunjungan,
+            )
+          })
+
+          this.visitDashboard.dataRealisasi.forEach(element => {
+            this.dataBarVisited.series[1].data.push(element.jumlah)
+          })
+        }
       } else {
         notification.error({
           message: 'Error',
-          description: 'Maaf, semua filter harap diisi',
+          description: 'Maaf, filter Distributor, tahun dan bulan wajib diisi',
         })
       }
     },
