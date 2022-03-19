@@ -4,7 +4,7 @@ import { _ } from 'vue-underscore'
 
 const state = {
   data: {
-    itemsPerPage: [5, 10, 15, 20],
+    itemsPerPage: [3, 5],
     columns: [
       {
         title: 'Area',
@@ -76,35 +76,30 @@ const state = {
     columns_toko: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Toko',
-        dataIndex: 'toko',
+        slots: { customRender: 'toko' },
         key: 'toko',
       },
       {
         title: 'Distributor',
-        dataIndex: 'distributor',
+        slots: { customRender: 'distributor' },
         key: 'distributor',
       },
     ],
     columns_sales: [
       {
         title: 'Sales',
-        dataIndex: 'sales',
+        slots: { customRender: 'sales' },
         key: 'sales',
       },
 
       {
         title: 'Distributor',
-        dataIndex: 'distributor',
-        key: 'distributor',
-      },
-      {
-        title: 'Distributor',
-        dataIndex: 'distributor',
+        slots: { customRender: 'distributor' },
         key: 'distributor',
       },
     ],
@@ -128,22 +123,25 @@ const state = {
     columns_kunjungan: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Toko',
-        dataIndex: 'toko',
+        slots: { customRender: 'toko' },
         key: 'toko',
       },
       {
         title: 'Distributor',
-        dataIndex: 'distributor',
+        slots: { customRender: 'distributor' },
         key: 'distributor',
       },
     ],
     isLoading: false,
-    pagination: {},
+    paginationTokoBelumMapping: {},
+    paginationTokoBelumDikunjungi: {},
+    paginationSalesBelumMapping: {},
+
     listDistributor: [],
     listSalesman: [],
     listDistrik: [],
@@ -209,6 +207,7 @@ const state = {
         name: 'Desember',
       },
     ],
+    listCustomerTotal: {},
     listVisitInformation: {},
     dataTarget: [],
     dataRealisasi: [],
@@ -373,6 +372,45 @@ const actions = {
             })
           }
         }
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async postCustomerTotal({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let formData = {
+      tahun: data.filter.tahun,
+      bulan: data.filter.bulan,
+      idDistrik: data.filter.id_distrik,
+      idSales: data.filter.id_sales,
+      idDistributor: data.filter.id_distributor,
+    }
+
+    try {
+      const result = await apiClient.post(`/dashboard/customerTotal`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listCustomerTotal: result.data,
+          isLoading: false,
+          status: 'sukses',
+        })
       }
     } catch (error) {
       notification.error({

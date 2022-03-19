@@ -272,7 +272,9 @@
                       <div class="align-self-center">
                         <label>Total Customer</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{
+                          visitDashboard.listCustomerTotal.total_customer_belum_mapping ?? 0
+                        }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -286,8 +288,44 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="box mt-2">
+                  <div class="d-flex mb-2">
+                    <div class="align-self-center">
+                      <span>Show :</span>
+                    </div>
+                    <a-select
+                      :default-value="visitDashboard.itemsPerPage[0]"
+                      class="mx-2"
+                      @change="handlePaginationTokoBelumMapping"
+                    >
+                      <a-select-option
+                        v-for="itemPerPage in visitDashboard.itemsPerPage"
+                        :key="itemPerPage"
+                      >
+                        {{ itemPerPage }}
+                      </a-select-option>
+                    </a-select>
+                    <div class="align-self-center">
+                      <span>entries</span>
+                    </div>
+                  </div>
                   <div class="table-responsive text-nowrap">
-                    <a-table :columns="visitDashboard.columns_toko"></a-table>
+                    <a-table
+                      :columns="visitDashboard.columns_toko"
+                      :data-source="visitDashboard.listCustomerTotal.data_belum_mapping"
+                      :loading="visitDashboard.isLoading"
+                      :pagination="visitDashboard.paginationTokoBelumMapping"
+                      :row-key="data => data"
+                    >
+                      <template #distrik="{ text }">
+                        <span>{{ text.distrik }}</span>
+                      </template>
+                      <template #toko="{ text }">
+                        <span>{{ text.nm_customer }}</span>
+                      </template>
+                      <template #distributor="{ text }">
+                        <span>{{ text.nm_distributor }}</span>
+                      </template>
+                    </a-table>
                   </div>
                 </div>
               </div>
@@ -307,7 +345,9 @@
                       <div class="align-self-center">
                         <label>Total Sales</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{
+                          visitDashboard.listCustomerTotal.total_sales_belum_mapping ?? 0
+                        }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -321,8 +361,41 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="box mt-2">
+                  <div class="d-flex mb-2">
+                    <div class="align-self-center">
+                      <span>Show :</span>
+                    </div>
+                    <a-select
+                      :default-value="visitDashboard.itemsPerPage[0]"
+                      class="mx-2"
+                      @change="handlePaginationSalesBelumMapping"
+                    >
+                      <a-select-option
+                        v-for="itemPerPage in visitDashboard.itemsPerPage"
+                        :key="itemPerPage"
+                      >
+                        {{ itemPerPage }}
+                      </a-select-option>
+                    </a-select>
+                    <div class="align-self-center">
+                      <span>entries</span>
+                    </div>
+                  </div>
                   <div class="table-responsive text-nowrap">
-                    <a-table :columns="visitDashboard.columns_sales"></a-table>
+                    <a-table
+                      :columns="visitDashboard.columns_sales"
+                      :data-source="visitDashboard.listCustomerTotal.data_sales_belum_mapping"
+                      :loading="visitDashboard.isLoading"
+                      :pagination="visitDashboard.paginationSalesBelumMapping"
+                      :row-key="data => data"
+                    >
+                      <template #sales="{ text }">
+                        <span>{{ text.nm_user }}</span>
+                      </template>
+                      <template #distributor="{ text }">
+                        <span>{{ text.nm_distributor }}</span>
+                      </template>
+                    </a-table>
                   </div>
                 </div>
               </div>
@@ -344,7 +417,9 @@
                       <div class="align-self-center">
                         <label>Total Customer</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{
+                          visitDashboard.listCustomerTotal.total_customer_belum_jadwal ?? 0
+                        }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -358,8 +433,44 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="box mt-2">
+                  <div class="d-flex mb-2">
+                    <div class="align-self-center">
+                      <span>Show :</span>
+                    </div>
+                    <a-select
+                      :default-value="visitDashboard.itemsPerPage[0]"
+                      class="mx-2"
+                      @change="handlePaginationTokoBelumMapping"
+                    >
+                      <a-select-option
+                        v-for="itemPerPage in visitDashboard.itemsPerPage"
+                        :key="itemPerPage"
+                      >
+                        {{ itemPerPage }}
+                      </a-select-option>
+                    </a-select>
+                    <div class="align-self-center">
+                      <span>entries</span>
+                    </div>
+                  </div>
                   <div class="table-responsive text-nowrap">
-                    <a-table :columns="visitDashboard.columns_jadwal"></a-table>
+                    <a-table
+                      :columns="visitDashboard.columns_toko"
+                      :data-source="visitDashboard.listCustomerTotal.data_customer_belum_jadwal"
+                      :loading="visitDashboard.isLoading"
+                      :pagination="visitDashboard.paginationTokoBelumMapping"
+                      :row-key="data => data"
+                    >
+                      <template #distrik="{ text }">
+                        <span>{{ text.distrik }}</span>
+                      </template>
+                      <template #toko="{ text }">
+                        <span>{{ text.nm_customer }}</span>
+                      </template>
+                      <template #distributor="{ text }">
+                        <span>{{ text.nm_distributor }}</span>
+                      </template>
+                    </a-table>
                   </div>
                 </div>
               </div>
@@ -379,7 +490,9 @@
                       <div class="align-self-center">
                         <label>Total Customer</label>
                         <br />
-                        <span>4000</span>
+                        <span>{{
+                          visitDashboard.listCustomerTotal.total_customer_belum_dikunjungi ?? 0
+                        }}</span>
                       </div>
                       <div class="icon_image ml-auto">
                         <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
@@ -393,8 +506,44 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="box mt-2">
+                  <div class="d-flex mb-2">
+                    <div class="align-self-center">
+                      <span>Show :</span>
+                    </div>
+                    <a-select
+                      :default-value="visitDashboard.itemsPerPage[0]"
+                      class="mx-2"
+                      @change="handlePaginationTokoBelumDikunjungi"
+                    >
+                      <a-select-option
+                        v-for="itemPerPage in visitDashboard.itemsPerPage"
+                        :key="itemPerPage"
+                      >
+                        {{ itemPerPage }}
+                      </a-select-option>
+                    </a-select>
+                    <div class="align-self-center">
+                      <span>entries</span>
+                    </div>
+                  </div>
                   <div class="table-responsive text-nowrap">
-                    <a-table :columns="visitDashboard.columns_kunjungan"></a-table>
+                    <a-table
+                      :columns="visitDashboard.columns_kunjungan"
+                      :data-source="visitDashboard.listCustomerTotal.data_customer_belum_dikunjungi"
+                      :loading="visitDashboard.isLoading"
+                      :pagination="visitDashboard.paginationTokoBelumMapping"
+                      :row-key="data => data"
+                    >
+                      <template #distrik="{ text }">
+                        <span>{{ text.distrik }}</span>
+                      </template>
+                      <template #toko="{ text }">
+                        <span>{{ text.nm_customer }}</span>
+                      </template>
+                      <template #distributor="{ text }">
+                        <span>{{ text.nm_distributor }}</span>
+                      </template>
+                    </a-table>
                   </div>
                 </div>
               </div>
@@ -412,7 +561,7 @@
           <a-select
             :default-value="visitDashboard.itemsPerPage[1]"
             class="mx-2"
-            @change="handlePaginationSize"
+            @change="handlePaginationTokoBelumMapping"
           >
             <a-select-option v-for="itemPerPage in visitDashboard.itemsPerPage" :key="itemPerPage">
               {{ itemPerPage }}
@@ -597,6 +746,9 @@ export default {
   },
   async mounted() {
     await this.getDataDistributor()
+    this.handlePaginationTokoBelumMapping(3)
+    this.handlePaginationSalesBelumMapping(3)
+    this.handlePaginationTokoBelumDikunjungi(3)
   },
   methods: {
     ...mapActions('visitDashboard', [
@@ -604,6 +756,7 @@ export default {
       'getDataSalesman',
       'getDataDistrikBySales',
       'postChartVisit',
+      'postCustomerTotal',
     ]),
 
     async handleDistributor() {
@@ -644,28 +797,46 @@ export default {
       this.visitDashboard.filter.id_distrik = filtered[0].idDistrik
     },
 
-    handlePaginationSize(size) {
-      this.visitDashboard.pagination.pageSize = size
+    handlePaginationTokoBelumMapping(size) {
+      this.visitDashboard.paginationTokoBelumMapping.pageSize = size
+    },
+    handlePaginationTokoBelumDikunjungi(size) {
+      this.visitDashboard.paginationTokoBelumDikunjungi.pageSize = size
+    },
+    handlePaginationSalesBelumMapping(size) {
+      this.visitDashboard.paginationSalesBelumMapping.pageSize = size
     },
 
     async handleClick() {
+      this.visitDashboard.dataTarget = []
+      this.visitDashboard.dataRealisasi = []
+      this.dataBarVisited.series[0].data = []
+      this.dataBarVisited.series[1].data = []
+      this.dataBarVisited.chartOptions.xaxis.categories = []
+
       if (
         this.visitDashboard.filter.tahun != '' &&
         this.visitDashboard.filter.bulan != null &&
         this.visitDashboard.filter.id_distributor != null
       ) {
         await this.postChartVisit()
+        await this.postCustomerTotal()
 
         if (this.visitDashboard.status === `sukses`) {
+          // Section Visit
           this.visitDashboard.dataTarget.forEach(element => {
             this.dataBarVisited.series[0].data.push(element.jumlah)
             this.dataBarVisited.chartOptions.xaxis.categories.push(
               element.tanggal_rencana_kunjungan,
             )
           })
-
           this.visitDashboard.dataRealisasi.forEach(element => {
             this.dataBarVisited.series[1].data.push(element.jumlah)
+          })
+
+          notification.success({
+            message: 'Success',
+            description: 'Data berhasil ditampilkan.',
           })
         }
       } else {
