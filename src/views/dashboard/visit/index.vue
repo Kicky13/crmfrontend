@@ -121,7 +121,7 @@
                         <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
                       </div>
                     </div>
-                    <span>4000</span>
+                    <span>{{ visitDashboard.listCustomerChart.customer_active ?? 0 }}</span>
                   </div>
                 </div>
               </div>
@@ -134,7 +134,7 @@
                         <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
                       </div>
                     </div>
-                    <span>4000</span>
+                    <span>{{ visitDashboard.listCustomerChart.total_customer ?? 0 }}</span>
                   </div>
                 </div>
               </div>
@@ -597,7 +597,7 @@ export default {
   data() {
     return {
       dataPieMapping: {
-        series: [50, 50],
+        series: [0,0],
         chartOptions: {
           chart: {
             width: '100%',
@@ -625,7 +625,7 @@ export default {
         },
       },
       dataPieJadwal: {
-        series: [44, 55],
+        series: [0,0],
         chartOptions: {
           chart: {
             width: '100%',
@@ -653,7 +653,7 @@ export default {
         },
       },
       dataPieKunjungan: {
-        series: [44, 55],
+        series: [0,0],
         chartOptions: {
           chart: {
             width: `100%`,
@@ -757,6 +757,7 @@ export default {
       'getDataDistrikBySales',
       'postChartVisit',
       'postCustomerTotal',
+      'postCustomerChart',
     ]),
 
     async handleDistributor() {
@@ -813,12 +814,16 @@ export default {
       this.dataBarVisited.series[0].data = []
       this.dataBarVisited.series[1].data = []
       this.dataBarVisited.chartOptions.xaxis.categories = []
+      this.dataPieMapping.series = []
+      this.dataPieJadwal.series = []
+      this.dataPieKunjungan.series = []
 
       if (
         this.visitDashboard.filter.tahun != '' &&
         this.visitDashboard.filter.bulan != null &&
         this.visitDashboard.filter.id_distributor != null
       ) {
+        await this.postCustomerChart()
         await this.postChartVisit()
         await this.postCustomerTotal()
 
@@ -833,6 +838,11 @@ export default {
           this.visitDashboard.dataRealisasi.forEach(element => {
             this.dataBarVisited.series[1].data.push(element.jumlah)
           })
+
+          // Section Customer Chart
+          this.dataPieMapping.series = this.visitDashboard.pieMapping
+          this.dataPieJadwal.series = this.visitDashboard.pieJadwal
+          this.dataPieKunjungan.series = this.visitDashboard.pieKunjungan
 
           notification.success({
             message: 'Success',

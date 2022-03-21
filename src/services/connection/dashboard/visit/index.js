@@ -208,9 +208,13 @@ const state = {
       },
     ],
     listCustomerTotal: {},
+    listCustomerChart: {},
     listVisitInformation: {},
     dataTarget: [],
     dataRealisasi: [],
+    pieMapping: [],
+    pieJadwal: [],
+    pieKunjungan:[],
     status: 'gagal',
   },
 }
@@ -411,6 +415,80 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async postCustomerChart({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let formData = {
+      tahun: data.filter.tahun,
+      bulan: data.filter.bulan,
+      idDistrik: data.filter.id_distrik,
+      idSales: data.filter.id_sales,
+      idDistributor: data.filter.id_distributor,
+    }
+
+    try {
+      const result = await apiClient.post(`/dashboard/customerChart`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          listCustomerChart: result.data,
+          isLoading: false,
+          status: 'sukses',
+        })
+
+        // Proses Chart
+        let dataChart = result.data
+
+        // Chart Mapping
+        let belumMapping = dataChart.jumlah_belum_mapping
+        let sudahMapping = dataChart.jumlah_sudah_mapping
+        let totalMapping = belumMapping + sudahMapping
+        let persentaseBelumMapping = (belumMapping / totalMapping) * 100
+        let persentaseSudahMapping = (sudahMapping / totalMapping) * 100
+
+        data.pieMapping.push(Math.round(persentaseSudahMapping), Math.round(persentaseBelumMapping))
+
+        // Chart Jadwal
+        let belumJadwal = dataChart.jumlah_belum_jadwal
+        let sudahJadwal = dataChart.jumlah_sudah_jadwal
+        let totalJadwal = belumJadwal + sudahJadwal
+        let persentasebBelumJadwal = (belumJadwal / totalJadwal) * 100
+        let persentaseSudahJadwal = (sudahJadwal / totalJadwal) * 100
+
+        data.pieJadwal.push(Math.round(persentaseSudahJadwal), Math.round(persentasebBelumJadwal))
+
+        // Chart Kunjungan
+         let belumKunjungan = dataChart.jumlah_belum_jadwal
+         let sudahKunjungan = dataChart.jumlah_sudah_dikunjungi
+         let totalKunjungan = belumJadwal + sudahJadwal
+         let persentasebBelumKunjungan = (belumKunjungan / totalKunjungan) * 100
+         let persentaseSudahKunjungan = (sudahKunjungan / totalKunjungan) * 100
+
+         data.pieKunjungan.push(
+           Math.round(persentasebBelumKunjungan),
+           Math.round(persentaseSudahKunjungan),
+         )
+        // console.log(Math.round(persentaseBelumMapping), Math.round(persentaseSudahMapping))
+        // console.log(data.pieMapping)
       }
     } catch (error) {
       notification.error({
