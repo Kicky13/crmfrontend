@@ -597,7 +597,7 @@ export default {
   data() {
     return {
       dataPieMapping: {
-        series: [0,0],
+        series: [0, 0],
         chartOptions: {
           chart: {
             width: '100%',
@@ -625,7 +625,7 @@ export default {
         },
       },
       dataPieJadwal: {
-        series: [0,0],
+        series: [0, 0],
         chartOptions: {
           chart: {
             width: '100%',
@@ -653,7 +653,7 @@ export default {
         },
       },
       dataPieKunjungan: {
-        series: [0,0],
+        series: [0, 0],
         chartOptions: {
           chart: {
             width: `100%`,
@@ -745,6 +745,7 @@ export default {
     },
   },
   async mounted() {
+    this.resetChart()
     await this.getDataDistributor()
     this.handlePaginationTokoBelumMapping(3)
     this.handlePaginationSalesBelumMapping(3)
@@ -808,7 +809,7 @@ export default {
       this.visitDashboard.paginationSalesBelumMapping.pageSize = size
     },
 
-    async handleClick() {
+    resetChart() {
       this.visitDashboard.dataTarget = []
       this.visitDashboard.dataRealisasi = []
       this.dataBarVisited.series[0].data = []
@@ -817,6 +818,10 @@ export default {
       this.dataPieMapping.series = []
       this.dataPieJadwal.series = []
       this.dataPieKunjungan.series = []
+    },
+
+    async handleClick() {
+      this.resetChart()
 
       if (
         this.visitDashboard.filter.tahun != '' &&
