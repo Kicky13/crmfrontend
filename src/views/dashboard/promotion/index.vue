@@ -78,7 +78,12 @@
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Tahun" class="w-100">
+          <a-select
+            placeholder="Tahun"
+            class="w-100"
+            show-search
+            @change="handleTahun"
+          >
             <a-select-option disabled value="">Pilih Tahun</a-select-option>
             <a-select-option
               v-for="(year, index) in years"
@@ -93,11 +98,16 @@
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Bulan" class="w-100">
+          <a-select
+            placeholder="Bulan"
+            class="w-100"
+            show-search
+            @change="handleBulan"
+          >
             <a-select-option disabled value="">Pilih Bulan</a-select-option>
             <a-select-option
               v-for="(item, index) in filter.listBulan"
-              :value="item.nama"
+              :value="item.id"
               :key="index"
               data-toggle="tooltip"
               data-placement="top"
@@ -112,7 +122,12 @@
     <a-col :xs="24" :md="12">
       <a-row :gutter="[24, 16]">
         <a-col :xs="24" :md="8">
-          <a-select placeholder="Distributor" class="w-100">
+          <a-select
+            placeholder="Distributor"
+            class="w-100"
+            show-search
+            @change="handleDistributor"
+          >
             <a-select-option disabled value="">Pilih Distributor</a-select-option>
             <a-select-option
               v-for="(item, index) in filter.listDistributor"
@@ -147,7 +162,14 @@
           </a-select>
         </a-col>
         <a-col :xs="24" :md="8">
-          <a-button type="primary" class="w-100">Tampilkan</a-button>
+          <a-button
+            :disabled="promotion.buttonPrevent"
+            type="primary"
+            class="w-100"
+            @click="handleTampilkan"
+          >
+            Tampilkan
+          </a-button>
         </a-col>
       </a-row>
     </a-col>
@@ -214,7 +236,7 @@
       </fieldset>
     </a-col>
   </a-row>
-  <vue-apex-charts type="bar" height="350" :options="chartOptions" :series="series" />
+  <vue-apex-charts ref="mychart" type="bar" height="350" :options="chartOptions" :series="series" />
 </template>
 
 <script>
@@ -227,6 +249,15 @@ export default {
   },
   data() {
     return {
+      formData: {
+        id_provinsi: null,
+        id_area: null,
+        id_kota: null,
+        id_distributor: null,
+        id_kategori_produk: null,
+        bulan: null,
+        tahun: null,
+      },
       series1: [55, 45],
       chartOptions1: {
         chart: {
@@ -299,36 +330,7 @@ export default {
           },
         ],
       },
-      series: [
-        {
-          name: 'Brand 1',
-          data: [44, 55, 41, 67, 22, 43, 11],
-        },
-        {
-          name: 'Brand 2',
-          data: [13, 23, 20, 8, 13, 27, 12],
-        },
-        {
-          name: 'Brand 3',
-          data: [11, 17, 15, 15, 21, 14, 13],
-        },
-        {
-          name: 'Brand 4',
-          data: [21, 7, 25, 13, 22, 8, 14],
-        },
-        {
-          name: 'Brand 5',
-          data: [44, 55, 41, 67, 22, 43, 15],
-        },
-        {
-          name: 'Brand 6',
-          data: [13, 23, 20, 8, 13, 27, 16],
-        },
-        {
-          name: 'Brand 7',
-          data: [11, 17, 15, 15, 21, 14, 17],
-        },
-      ],
+      series: [],
       chartOptions: {
         chart: {
           type: 'bar',
@@ -341,7 +343,6 @@ export default {
             enabled: true,
           },
         },
-        colors: ['#7EACEF', '#444248', '#66FF76', '#FCA452', '#9065ED', '#FE2E7E', '#DEE043'],
         responsive: [
           {
             breakpoint: 480,
@@ -362,15 +363,7 @@ export default {
         },
         xaxis: {
           type: 'text',
-          categories: [
-            'Bonus Semen',
-            'Bonus Wisata',
-            'Bonus Voucher',
-            'Potongan Harga',
-            'Point Reward',
-            'Promo Lain',
-            'Tidak Ada Promo',
-          ],
+          categories: [],
         },
         legend: {
           position: 'bottom',
@@ -378,12 +371,16 @@ export default {
         fill: {
           opacity: 1,
         },
+        noData: {
+          text: 'Loading...',
+        },
       },
     }
   },
   computed: {
     ...mapState({
       filter: state => state.filter.data,
+      promotion: state => state.promotion.data,
     }),
     years() {
       const year = new Date().getFullYear()
@@ -397,6 +394,7 @@ export default {
     await this.getAllDistributor()
     await this.getAllKategori()
     await this.getAllBrand()
+    await this.setSeriesAndCategories()
   },
   methods: {
     ...mapActions('filter', [
@@ -407,21 +405,60 @@ export default {
       'getAllKategori',
       'getAllBrand',
     ]),
+    ...mapActions('promotion', [
+      'getAllPromotion',
+    ]),
     async handleProvinsi(value) {
-      const idProvinsi = value.split('-')[0]
+      const idProvinsi = (value.split('-')[0]).trim()
       await this.getAllArea({ id_provinsi: idProvinsi })
+      this.formData.id_provinsi = idProvinsi
     },
     async handleArea(value) {
-      const idArea = value.split('-')[0]
+      const idArea = (value.split('-')[0]).trim()
       await this.getAllDistrik({ id_area: idArea })
+      this.formData.id_area = idArea
     },
     async handleDistrik(value) {
-      const idDistrik = value.split('-')[0]
+      const idDistrik = (value.split('-')[0]).trim()
       await this.getAllDistributor({ id_distrik: idDistrik })
+      this.formData.id_kota = idDistrik
+    },
+    handleDistributor(value) {
+      const idDistributor = (value.split('-')[0]).trim()
+      this.formData.id_distributor = idDistributor
     },
     async handleKategori(value) {
-      const idKategori = value.split('-')[0]
+      const idKategori = (value.split('-')[0]).trim()
       await this.getAllBrand({ id_kategori: idKategori })
+      this.formData.id_kategori_produk = idKategori
+    },
+    handleTahun(value) {
+      this.formData.tahun = value
+    },
+    handleBulan(value) {
+      this.formData.bulan = value
+    },
+    async handleTampilkan() {
+      this.series = []
+      await this.setSeriesAndCategories(this.formData)
+    },
+    async setSeriesAndCategories() {
+      let colors = []
+      await this.getAllPromotion()
+      this.promotion.listSeries.map(serie => this.series.push(serie))
+      this.series.map(serie => colors.push(this.randomColor()))
+      this.chartOptions = {
+        ...this.chartOptions,
+        ...{
+          xaxis: {
+            type: 'text',
+            categories: this.promotion.listCategories,
+          },
+        },
+      }
+    },
+    randomColor() {
+      return `#${Math.floor(Math.random() * 16777215).toString(16)}`
     },
   },
 }
