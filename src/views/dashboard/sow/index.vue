@@ -15,7 +15,7 @@
         </div>
         <iframe
           class="w-100"
-          :src="priceMonitoring.dataMetabase"
+          :src="sowDashboard.dataMetabase"
           frameborder="0"
           height="800"
           allowtransparency
@@ -43,17 +43,17 @@ export default {
   },
   computed: {
     ...mapState({
-      priceMonitoring: state => state.priceMonitoring.data,
+      sowDashboard: state => state.sowDashboard.data,
     }),
   },
   async mounted() {
-    await this.getMetabasePriceMonitoring()
+    await this.getMetabaseSOW()
   },
   methods: {
-    ...mapActions('priceMonitoring', ['getMetabasePriceMonitoring']),
+    ...mapActions('sowDashboard', ['getMetabaseSOW']),
 
     async handleRefresh() {
-      await this.getMetabasePriceMonitoring()
+      await this.getMetabaseSOW()
     },
   },
 }
