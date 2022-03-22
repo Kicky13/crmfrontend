@@ -1,100 +1,33 @@
 <template>
-  <a-row :gutter="[32, 16]">
-    <a-col :xs="24" :md="12">
-      <a-row :gutter="[24, 16]">
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Distrik" class="w-100">
-            <a-select-option disabled value="">Pilih Distrik</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Distrik</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Provinsi" class="w-100">
-            <a-select-option disabled value="">Pilih Provinsi</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Provinsi</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Distributor" class="w-100">
-            <a-select-option disabled value="">Pilih Distributor</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top"
-              >Distributor</a-select-option
-            >
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Tahun" class="w-100">
-            <a-select-option disabled value="">Pilih Tahun</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Tahun</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Bulan" class="w-100">
-            <a-select-option disabled value="">Pilih Bulan</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Bulan</a-select-option>
-          </a-select>
-        </a-col>
-      </a-row>
-    </a-col>
-    <a-col :xs="24" :md="12">
-      <a-row :gutter="[24, 16]">
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Kategori" class="w-100">
-            <a-select-option disabled value="">Pilih Kategori</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Kategori</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-select placeholder="Brand" class="w-100">
-            <a-select-option disabled value="">Pilih Brand</a-select-option>
-            <a-select-option data-toggle="tooltip" data-placement="top">Brand</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :xs="24" :md="8">
-          <a-button type="primary" class="w-100">Tampilkan</a-button>
-        </a-col>
-      </a-row>
-    </a-col>
-  </a-row>
-  <a-row>
-    <a-col :xs="12">
-      <div class="card my-3">
-        <div class="card-body d-flex justify-content-between">
-          <div>
-            <h5 class="text-secondary">Outlet Surveyed</h5>
-            <h2 class="text-primary">8056</h2>
-          </div>
-          <div>
-            <i class="fa fa-user text-primary" style="font-size: 5em" />
+  <div>
+    <div class="card card-top card-top-primary">
+      <div class="card-body p-2">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
+              <i class="fa fa-eye mr-2" />
+              Refresh
+            </a-button>
           </div>
         </div>
+        <iframe
+          class="w-100"
+          :src="rbpMovement.dataMetabase"
+          frameborder="0"
+          height="800"
+          allowtransparency
+        ></iframe>
+        <!-- <iframe
+          src="https://mtb.aksestoko.com/public/dashboard/47812e1e-1dc4-4c26-a2ee-e4b32541e8ab"
+          frameborder="0"
+          height="800"
+          class="w-100 border-0 rounded"
+          allowtransparency
+        ></iframe> -->
       </div>
-    </a-col>
-  </a-row>
-  <div class="card card-top card-top-primary">
-    <div class="card-body">
-      <div class="d-flex mb-3">
-        <div class="align-self-center">
-          <span>Show :</span>
-        </div>
-        <a-select
-          :default-value="rbpMovement.itemsPerPage[1]"
-          class="mx-2"
-        >
-          <a-select-option
-            v-for="itemPerPage in rbpMovement.itemsPerPage"
-            :key="itemPerPage"
-          >
-            {{ itemPerPage }}
-          </a-select-option>
-        </a-select>
-        <div class="align-self-center">
-          <span>entries</span>
-        </div>
-      </div>
-      <a-table
-        :columns="rbpMovement.columns"
-      />
     </div>
   </div>
 </template>
@@ -103,11 +36,25 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  components: {},
+
+  data() {
+    return {}
+  },
   computed: {
     ...mapState({
       rbpMovement: state => state.rbpMovement.data,
     }),
   },
-  
+  async mounted() {
+    await this.getMetabaseRBPMovement()
+  },
+  methods: {
+    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
+
+    async handleRefresh() {
+      await this.getMetabaseRBPMovement()
+    },
+  },
 }
 </script>
