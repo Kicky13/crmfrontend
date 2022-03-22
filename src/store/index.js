@@ -24,6 +24,7 @@ import RbpMovement from '../services/connection/dashboard/rbpmovement'
 import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
 import VolumeAnalytcs from '../services/connection/dashboard/volume_analytcs'
 import VisitDashboard from '../services/connection/dashboard/visit'
+import PromotionDashboard from '../services/connection/dashboard/promotion'
 export default createStore({
   modules: {
     user,
@@ -51,6 +52,7 @@ export default createStore({
     priceMonitoring: PriceMonitoring,
     volumeAnalytcs: VolumeAnalytcs,
     visitDashboard: VisitDashboard,
+    promotionDashboard: PromotionDashboard,
   },
   state: {},
   mutations: {},
