@@ -214,7 +214,7 @@ const state = {
     dataRealisasi: [],
     pieMapping: [],
     pieJadwal: [],
-    pieKunjungan:[],
+    pieKunjungan: [],
     status: 'gagal',
   },
 }
@@ -227,10 +227,6 @@ const mutations = {
 
 const actions = {
   async getDataDistributor({ commit, state }, payload) {
-    commit('changeVisitDashboard', {
-      isLoading: true,
-    })
-
     const { data } = state
 
     try {
@@ -241,13 +237,9 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
-        await commit('changeVisitDashboard', {
-          isLoading: false,
-        })
       } else {
         await commit('changeVisitDashboard', {
           listDistributor: result.data.data,
-          isLoading: false,
         })
       }
     } catch (error) {
@@ -259,10 +251,6 @@ const actions = {
   },
 
   async getDataSalesman({ commit, state }, payload) {
-    commit('changeVisitDashboard', {
-      isLoading: true,
-    })
-
     try {
       const result = await apiClient.get(
         `/dashboard/getSalesman?idDistributor=${payload.id_distributor}`,
@@ -273,14 +261,9 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
-
-        await commit('changeVisitDashboard', {
-          isLoading: false,
-        })
       } else {
         await commit('changeVisitDashboard', {
           listSalesman: result.data.data,
-          isLoading: false,
         })
       }
     } catch (error) {
@@ -292,10 +275,6 @@ const actions = {
   },
 
   async getDataDistrikBySales({ commit, state }, payload) {
-    commit('changeVisitDashboard', {
-      isLoading: true,
-    })
-
     try {
       const result = await apiClient.get(
         `/dashboard/getDistrikSales?idSales=${payload.id_sales}&idDistributor=${payload.id_distributor}`,
@@ -306,14 +285,9 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
-
-        await commit('changeVisitDashboard', {
-          isLoading: false,
-        })
       } else {
         await commit('changeVisitDashboard', {
           listDistrik: result.data.data,
-          isLoading: false,
         })
       }
     } catch (error) {
@@ -477,16 +451,16 @@ const actions = {
         data.pieJadwal.push(Math.round(persentaseSudahJadwal), Math.round(persentasebBelumJadwal))
 
         // Chart Kunjungan
-         let belumKunjungan = dataChart.jumlah_belum_jadwal
-         let sudahKunjungan = dataChart.jumlah_sudah_dikunjungi
-         let totalKunjungan = belumJadwal + sudahJadwal
-         let persentasebBelumKunjungan = (belumKunjungan / totalKunjungan) * 100
-         let persentaseSudahKunjungan = (sudahKunjungan / totalKunjungan) * 100
+        let belumKunjungan = dataChart.jumlah_belum_jadwal
+        let sudahKunjungan = dataChart.jumlah_sudah_dikunjungi
+        let totalKunjungan = belumJadwal + sudahJadwal
+        let persentasebBelumKunjungan = (belumKunjungan / totalKunjungan) * 100
+        let persentaseSudahKunjungan = (sudahKunjungan / totalKunjungan) * 100
 
-         data.pieKunjungan.push(
-           Math.round(persentasebBelumKunjungan),
-           Math.round(persentaseSudahKunjungan),
-         )
+        data.pieKunjungan.push(
+          Math.round(persentasebBelumKunjungan),
+          Math.round(persentaseSudahKunjungan),
+        )
         // console.log(Math.round(persentaseBelumMapping), Math.round(persentaseSudahMapping))
         // console.log(data.pieMapping)
       }
