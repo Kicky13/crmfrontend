@@ -23,6 +23,77 @@ export const getAdminMenuData = [
     ],
   },
   {
+    title: 'Master Data',
+    key: 'mrda01',
+    url: '/master_data',
+    icon: 'fa fa-database',
+    children: [
+      {
+        title: 'Tipe',
+        key: 'tipe01',
+        url: '/master_data/tipe',
+      },
+      {
+        title: 'Brand',
+        key: 'brnd02',
+        url: '/master_data/brand',
+      },
+      {
+        title: 'Kemasan',
+        key: 'kmsn03',
+        url: '/master_data/kemasan',
+      },
+      {
+        title: 'Produk',
+        key: 'prdk04',
+        url: '/master_data/produk',
+      },
+      {
+        title: 'Distrik RET',
+        key: 'dire05',
+        url: '/master_data/distrik_ret',
+      },
+      {
+        title: 'Kategori Promo',
+        key: 'kapr06',
+        url: '/master_data/kategori_promo',
+      },
+      {
+        title: 'Weekly Config',
+        key: 'weco07',
+        url: '/master_data/weekly_config',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'Weekly Input',
+        key: 'wein01',
+        url: '/weekly_price/weekly_input',
+      },
+      {
+        title: 'Promotion',
+        key: 'prom02',
+        url: '/weekly_price/promotion',
+      },
+      {
+        title: 'WP Approval',
+        key: 'wpap03',
+        url: '/weekly_price/wp_approval',
+      },
+      {
+        title: 'WP Publish',
+        key: 'wppu04',
+        url: '/weekly_price/wp_publish',
+      },
+    ],
+  },
+  {
     title: 'Marketing',
     key: 'aw57eky',
     url: '/marketing',

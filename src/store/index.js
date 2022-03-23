@@ -24,6 +24,17 @@ import Filter from '../services/connection/dashboard/filter'
 import Promotion from '../services/connection/dashboard/promotion'
 import RbpMovement from '../services/connection/dashboard/rbpmovement'
 import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
+import Tipe from '../services/connection/master-data/tipe'
+import Brand from '../services/connection/master-data/brand'
+import Kemasan from '../services/connection/master-data/kemasan'
+import Produk from '../services/connection/master-data/produk'
+import DistrikRET from '../services/connection/master-data/distrik-ret'
+import KategoriPromo from '../services/connection/master-data/kategori-promo'
+import WeeklyConfig from '../services/connection/master-data/weekly-config'
+import WeeklyInput from '../services/connection/weekly-price/weekly-input'
+import WPPromotion from '../services/connection/weekly-price/promotion'
+import WPApproval from '../services/connection/weekly-price/wp-approval'
+import WPPublish from '../services/connection/weekly-price/wp-publish'
 
 export default createStore({
   modules: {
@@ -52,6 +63,17 @@ export default createStore({
     promotion: Promotion,
     rbpMovement: RbpMovement,
     priceMonitoring: PriceMonitoring,
+    tipe: Tipe,
+    brand: Brand,
+    kemasan: Kemasan,
+    produk: Produk,
+    distrikRET: DistrikRET,
+    kategoriPromo: KategoriPromo,
+    weeklyConfig: WeeklyConfig,
+    weeklyInput: WeeklyInput,
+    wpPromotion: WPPromotion,
+    wpApproval: WPApproval,
+    wpPublish: WPPublish,
   },
   state: {},
   mutations: {},
