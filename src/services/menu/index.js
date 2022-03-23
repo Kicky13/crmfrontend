@@ -6,44 +6,6 @@ export const getAdminMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
-        key: 'dpr214',
-        url: '/dashboard/volume_analytcs',
-      },
-      {
-        title: 'Visit',
-        key: 'dpr512',
-        url: '/dashboard/visit',
-      },
-      {
-        title: 'Promotion',
-        key: 'dpr017',
-        url: '/dashboard/promotion',
-      },
-      {
-        title: 'RBP Movement',
-        key: 'rbp126',
-        url: '/dashboard/rbp_movement',
-      },
-      {
-        title: 'Price Monitoring',
-        key: 'pmo235',
-        url: '/dashboard/price_monitoring',
-      },
-      {
-        title: 'SOW',
-        key: 'pmo231',
-        url: '/dashboard/sow',
-      },
-    ],
-  },
-  {
-    title: 'Marketing',
-    key: 'aw57eky',
-    url: '/marketing',
-    icon: 'fa fa-newspaper-o',
-    children: [
-      {
         title: 'News',
         key: 'jkr01l',
         url: '/marketing/berita',
@@ -55,7 +17,6 @@ export const getAdminMenuData = [
         children: [
           {
             title: 'Tambah Berita',
-            key: 'tbr322',
             url: '/marketing/berita/tambah',
           },
           {
@@ -75,7 +36,6 @@ export const getAdminMenuData = [
       {
         title: 'Program',
         key: 'jkr02l',
-        url: '/marketing/program',
       },
       {
         title: 'Program',
