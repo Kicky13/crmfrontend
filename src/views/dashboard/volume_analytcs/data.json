@@ -1,0 +1,67 @@
+{
+  "area": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "nama": "Area 41",
+        "area_id": 41
+      },
+      {
+        "nama": "Area 42",
+        "area_id": 42
+      },
+      {
+        "nama": "Area 43",
+        "area_id": 43
+      }
+    ]
+  },
+
+  "kategori": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "nama": "Semen",
+        "id": 1
+      },
+      {
+        "nama": "Non Semen",
+        "id": 2
+      }
+    ]
+  },
+
+  "brand": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "nama": "SG",
+        "id": 1
+      },
+      {
+        "nama": "SP",
+        "id": 2
+      },
+      {
+        "nama": "ST",
+        "id": 3
+      }
+    ]
+  },
+
+  "information": {
+    "status": true,
+    "message": "success",
+    "data": {
+      "register_outlet": 5000,
+      "visited_outlet": 2502,
+      "customer_active": 2102,
+      "number_visit": 1263,
+      "transaction": 5531,
+      "volume": 5532
+    }
+  }
+}

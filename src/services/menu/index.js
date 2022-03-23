@@ -4,29 +4,6 @@ export const getAdminMenuData = [
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
-    // children: [
-    //   {
-    //     title: 'Promotion',
-    //     key: 'dpr017',
-    //     url: '/dashboard/promotion',
-    //   },
-    //   {
-    //     title: 'RBP Movement',
-    //     key: 'rbp126',
-    //     url: '/dashboard/rbp_movement',
-    //   },
-    //   {
-    //     title: 'Price Monitoring',
-    //     key: 'pmo235',
-    //     url: '/dashboard/price_monitoring',
-    //   },
-    // ],
-  },
-  {
-    title: 'Marketing',
-    key: 'aw57eky',
-    url: '/marketing',
-    icon: 'fa fa-newspaper-o',
     children: [
       {
         title: 'News',
@@ -40,7 +17,6 @@ export const getAdminMenuData = [
         children: [
           {
             title: 'Tambah Berita',
-            key: 'tbr322',
             url: '/marketing/berita/tambah',
           },
           {
@@ -60,7 +36,6 @@ export const getAdminMenuData = [
       {
         title: 'Program',
         key: 'jkr02l',
-        url: '/marketing/program',
       },
       {
         title: 'Program',
