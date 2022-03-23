@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;700&display=swap');
+
+.analytcs {
+  &_filter {
+  }
+
+  &_information {
+    .box {
+      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      height: auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+
+      .customer-visit {
+        label {
+          font-size: 16px;
+          font-weight: 700;
+          font-family: 'Montserrat';
+          color: #c4c4c4;
+          line-height: normal;
+          margin: 0;
+        }
+        span {
+          font-weight: 700;
+          font-size: 34px;
+          color: brown;
+          font-family: 'Montserrat';
+        }
+        .icon_image {
+          img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+
+  &_chart {
+    .box {
+      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      height: auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+
+      .customer-visit {
+        label {
+          font-size: 16px;
+          font-weight: 700;
+          font-family: 'Montserrat';
+          color: #c4c4c4;
+          line-height: normal;
+          margin: 0;
+        }
+        span {
+          font-weight: 700;
+          font-size: 34px;
+          color: brown;
+          font-family: 'Montserrat';
+        }
+        .icon_image {
+          img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+}

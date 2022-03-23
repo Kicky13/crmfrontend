@@ -35,6 +35,10 @@ import WeeklyInput from '../services/connection/weekly-price/weekly-input'
 import WPPromotion from '../services/connection/weekly-price/promotion'
 import WPApproval from '../services/connection/weekly-price/wp-approval'
 import WPPublish from '../services/connection/weekly-price/wp-publish'
+import VolumeAnalytcs from '../services/connection/dashboard/volume_analytcs'
+import VisitDashboard from '../services/connection/dashboard/visit'
+import PromotionDashboard from '../services/connection/dashboard/promotion'
+import SOWDashboard from '../services/connection/dashboard/sow'
 
 export default createStore({
   modules: {
@@ -74,6 +78,10 @@ export default createStore({
     wpPromotion: WPPromotion,
     wpApproval: WPApproval,
     wpPublish: WPPublish,
+    volumeAnalytcs: VolumeAnalytcs,
+    visitDashboard: VisitDashboard,
+    promotionDashboard: PromotionDashboard,
+    sowDashboard: SOWDashboard,
   },
   state: {},
   mutations: {},
