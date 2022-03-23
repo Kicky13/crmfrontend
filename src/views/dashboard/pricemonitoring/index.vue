@@ -43,52 +43,12 @@ export default {
   },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
-      priceMonitoring: state => state.priceMonitoring.data,
+      filter: (state) => state.filter.data,
+      priceMonitoring: (state) => state.priceMonitoring.data,
     }),
     years() {
       const year = new Date().getFullYear()
       return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
-    },
-  },
-  async mounted() {
-    await this.getAllProvinsi()
-    await this.getAllDistrik()
-    await this.getAllDistributor()
-    await this.getAllKategori()
-    await this.getAllBrand()
-    this.listDistrik = this.filter.listDistrik
-  },
-  methods: {
-    ...mapActions('filter', [
-      'getAllProvinsi',
-      'getAllArea',
-      'getAllDistrik',
-      'getAllDistributor',
-      'getAllKategori',
-      'getAllBrand',
-    ]),
-    async handleProvinsi(value) {
-      this.listDistrik = []
-      const idProvinsi = value.split('-')[0]
-      await this.getAllArea({ id_provinsi: idProvinsi })
-      const allArea = this.filter.listArea
-      allArea.map(async item => {
-        await this.getAllDistrik({ id_area: item.id_area })
-        this.filter.listDistrik.map(distrik => this.listDistrik.push(distrik))
-      })
-    },
-    async handleArea(value) {
-      const idArea = value.split('-')[0]
-      await this.getAllDistrik({ id_area: idArea })
-    },
-    async handleDistrik(value) {
-      const idDistrik = value.split('-')[0]
-      await this.getAllDistributor({ id_distrik: idDistrik })
-    },
-    async handleKategori(value) {
-      const idKategori = value.split('-')[0]
-      await this.getAllBrand({ id_kategori: idKategori })
     },
   },
   async mounted() {
