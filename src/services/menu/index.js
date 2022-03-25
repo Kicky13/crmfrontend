@@ -4,6 +4,18 @@ export const getAdminMenuData = [
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
+    children: [
+      {
+        title: 'SOW',
+        key: 'jkr01l2',
+        url: '/dashboard/sow',
+      },
+      {
+        title: 'Sales Route',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+    ],
   },
   {
     title: 'Marketing',

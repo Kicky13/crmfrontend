@@ -10153,6 +10153,11 @@ vue3-echarts@^1.0.3:
     vue "^3.2.26"
     vue3-component-base "^0.0.9"
 
+vue3-geolocation@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue3-geolocation/-/vue3-geolocation-1.0.0.tgz#fc1c758e8d5fa84e4bdc8cc631fd8ea636faf6ae"
+  integrity sha512-6zZkFH0aRVwmY7z7YkaA4riLy5sI6dRW1NiMZMI8NtjcFxC39UF4c9huxVnpN3yQSJYAsHAWzqIc75RdNBujnQ==
+
 vue3-perfect-scrollbar@^1.5.5:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/vue3-perfect-scrollbar/-/vue3-perfect-scrollbar-1.5.5.tgz#3557e0fd7f337886171e60fd8a271855e8717db8"
@@ -10193,6 +10198,14 @@ vuedraggable@^4.0.1:
   integrity sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==
   dependencies:
     sortablejs "1.14.0"
+
+vuejs3-google-maps@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vuejs3-google-maps/-/vuejs3-google-maps-0.2.2.tgz#d4f6c668d9bd76be2b6df5a4e083a6d1b97d66ad"
+  integrity sha512-WoL6RSRNNJatVEfDmV/rkGjRiQLrzNa7gCHzXhaGwk0IXXYiT5oZXbYhAXXkdJWOp3DD1lAkzAKnV63X48z2UQ==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^3.0.0"
 
 vuex@^4.0.0-0:
   version "4.0.2"

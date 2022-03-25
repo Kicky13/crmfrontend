@@ -24,6 +24,20 @@ const routes = [
         meta: { title: 'Dashboards', resource: 'Dashboard', action: 'read' },
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard'),
       },
+      {
+        path: '/dashboard/sow',
+        name: 'dashbord_sow',
+        meta: { title: 'Dashboard', resource: 'UserHirarki', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/dashboard/Sow'),
+      },
+      {
+        path: '/dashboard/sales_route',
+        name: 'dashbord_route',
+        meta: { title: 'Dashboard', resource: 'UserHirarki', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/dashboard/SalesRoute'),
+      },
       // Fauzan ============ Start ===================>>
       {
         path: '/radiusdistrik',

@@ -48,9 +48,11 @@
     "vue3-blocks-tree": "^0.6.1",
     "vue3-datepicker": "^0.2.5",
     "vue3-echarts": "^1.0.3",
+    "vue3-geolocation": "^1.0.0",
     "vue3-perfect-scrollbar": "^1.5.5",
     "vue3-quill": "^0.2.2",
     "vuedraggable": "^4.0.1",
+    "vuejs3-google-maps": "^0.2.2",
     "vuex": "^4.0.0-0",
     "xlsx": "^0.17.3"
   },
