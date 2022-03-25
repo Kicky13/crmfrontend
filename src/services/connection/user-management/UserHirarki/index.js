@@ -91,6 +91,48 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+
+    columns_tso: [
+      {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
+        title: 'Posisi Jabatan',
+        key: 'nama',
+        dataIndex: 'titleJabatan',
+      },
+      {
+        title: 'Nama User',
+        key: 'name',
+        slots: { customRender: 'nama' },
+      },
+      // {
+      //   title: 'Distrik',
+      //   key: 'distrik',
+      //   slots: { customRender: 'distrik' },
+      // },
+      {
+        title: 'Tanggal Menjabat',
+        key: 'start_date',
+        slots: { customRender: 'start_date' },
+      },
+      {
+        title: 'Tanggal Selesai Menjabat',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
+      },
+      {
+        title: 'Status',
+        dataIndex: 'statusJabat',
+      },
+      {
+        title: 'Action',
+        slots: { customRender: 'action' },
+      },
+    ],
     columns_history: [
       {
         title: 'Nama User',
@@ -420,6 +462,46 @@ const actions = {
     let result = ''
     try {
       result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditambahkan`,
+        })
+        await commit('changeUserManagement', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async editJabatanBawahan({ commit, state }, payload) {
+    commit('changeUserManagement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      idJabatan: payload.id_jabatan,
+      nmJabatan: payload.nama_jabatan,
+    }
+
+    let result = ''
+    try {
+      result = await apiClient.post(`/hirarki/editJabatan`, formData)
       if (result.data.status == false) {
         notification.error({
           message: 'Error',

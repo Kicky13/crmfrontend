@@ -30,6 +30,11 @@ export const getAdminMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+      {
+        title: 'SOW',
+        key: 'pmo231',
+        url: '/dashboard/sow',
+      },
     ],
   },
   {

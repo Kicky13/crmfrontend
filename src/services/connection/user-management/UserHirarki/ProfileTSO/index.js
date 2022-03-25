@@ -72,6 +72,55 @@ const state = {
     formDelete: {
       tgl_akhir: new Date(),
     },
+    modal_columns: [
+      {
+        title: 'ID Toko',
+        dataIndex: 'id_toko',
+        key: 'id_toko',
+      },
+      {
+        title: 'Nama Toko',
+        dataIndex: 'nama_toko',
+        key: 'nama_toko',
+      },
+      {
+        title: 'ID Jabatan',
+        // dataIndex: 'id_jabatan_sales',
+        key: 'id_jabatan_sales',
+        slots: { customRender: 'id_jabatan_sales' },
+      },
+      {
+        title: 'Nama Jabatan Sales',
+        // dataIndex: 'nama_jabatan_sales',
+        key: 'nama_jabatan_sales',
+        slots: { customRender: 'nama_jabatan_sales' },
+      },
+      {
+        title: 'ID User',
+        // dataIndex: 'id_user',
+        key: 'id_user',
+        slots: { customRender: 'id_user' },
+      },
+      {
+        title: 'Nama User',
+        // dataIndex: 'nama_user',
+        key: 'nama_user',
+        slots: { customRender: 'nama_user' },
+      },
+      {
+        title: 'ID Distributor',
+        // dataIndex: 'id_distributor',
+        key: 'id_distributor',
+        slots: { customRender: 'id_distributor' },
+      },
+      {
+        title: 'Nama Distributor',
+        // dataIndex: 'nama_distributor',
+        key: 'nama_distributor',
+        slots: { customRender: 'nama_distributor' },
+      },
+    ],
+    detailDistrik: [],
     isLoading: false,
   },
 }
@@ -245,6 +294,41 @@ const actions = {
           description: `Data berhasil ditambahkan`,
         })
         await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDetailDistrik({ commit, state }, payload) {
+    commit('changeProfileTSO', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      id_distrik: payload,
+    }
+
+    try {
+      const result = await apiClient.post(`/hirarki/detailCustomerDistrik`, formData)
+  
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeProfileTSO', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeProfileTSO', {
+          detailDistrik: result.data.data,
           isLoading: false,
         })
       }

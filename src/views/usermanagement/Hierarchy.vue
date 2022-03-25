@@ -69,12 +69,22 @@
             </div>
           </div>
           <a-input-search
+            v-if="selectedShorthand === `TSO`"
+            placeholder="Cari nama"
+            style="width: 200px"
+            v-model:value="userManagement.bodyList.filter"
+            @search="searchDataTSO"
+          />
+
+          <a-input-search
+            v-else
             placeholder="Cari nama"
             style="width: 200px"
             v-model:value="userManagement.bodyList.filter"
             @search="searchData1"
           />
         </div>
+
         <div class="table-responsive text-nowrap">
           <a-table
             :columns="userManagement.columns"
@@ -121,18 +131,22 @@
                   "
                   type="button"
                   class="mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Hirarki"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   :to="`/users/profile/TSO/${text.idJabatan}`"
                   v-else-if="selectedShorthand === `TSO`"
                   type="button"
                   class="btn btn-success mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Hirarki"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else-if="selectedShorthand === `SALES DIS`"
@@ -144,9 +158,11 @@
                   "
                   type="button"
                   class="mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Hirarki"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else-if="selectedShorthand === `ADMIN DIS`"
@@ -158,18 +174,22 @@
                   "
                   type="button"
                   class="mr-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Hirarki"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <router-link
                   v-else
                   :to="`/users/profile/jabatan/${text.idJabatan}`"
                   type="button"
                   class="mr-2 btn btn-success"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Hirarki"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                  <span class="text-black">Hirarki</span>
                 </router-link>
                 <div>
                   <Can do="read" on="UserHirarki">
@@ -177,9 +197,11 @@
                       type="button"
                       class="btn btn-warning mr-2"
                       @click="fetchHistoryJabatan(text)"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="History"
                     >
                       <i class="fa fa-history" />
-                      History
                     </button>
                   </Can>
                   <Can do="create" on="UserHirarki">
@@ -188,19 +210,34 @@
                       type="button"
                       class="btn btn-info mr-2"
                       @click="assignRow(text)"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Assign User"
                     >
                       <i class="fa fa-user-plus"></i>
-                      <span class="text-black"> Assign User</span>
                     </button>
                     <button
                       v-else
                       @click="openModalDelete(text.idJabatan)"
                       type="button"
                       class="btn btn-outline-danger mr-2"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Kosongkan Jabatan"
                     >
-                      <i class="fa fa-user-times"></i><span> Kosongkan Jabatan</span>
+                      <i class="fa fa-user-times"></i>
                     </button>
                   </Can>
+                  <button
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Edit Jabatan"
+                    @click="openModalEditJabatan(text)"
+                    class="btn btn-outline-warning mr-1"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
                 </div>
               </div>
             </template>
@@ -408,6 +445,52 @@
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
           </template>
         </a-modal>
+
+        <!-- Modal Edit Nama Jabatan -->
+        <a-modal
+          v-model:visible="modalEditJabatan"
+          :title="'Edit Jabatan'"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalEditJabatan = false">Batal</a-button>
+            <a-button @click="submitEditJabatan()" key="submit" type="primary">Ubah</a-button>
+          </template>
+
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+              <a-input
+                :prefix="selectedShorthand"
+                v-model:value="newJabatan"
+                placeholder="Nama jabatan"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
+
+        <!-- Modal Detail Distrik TSO-->
+        <a-modal
+          v-model:visible="modalEditJabatan"
+          :title="'Edit Jabatan'"
+          :closable="false"
+          :mask-closable="false"
+        >
+          <template #footer>
+            <a-button key="back" @click="modalEditJabatan = false">Batal</a-button>
+            <a-button @click="submitEditJabatan()" key="submit" type="primary">Ubah</a-button>
+          </template>
+
+          <a-form label-align="left" layout="vertical">
+            <a-form-item label="Nama Jabatan" name="Nama Jabatan">
+              <a-input
+                :prefix="selectedShorthand"
+                v-model:value="newJabatan"
+                placeholder="Nama jabatan"
+              />
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </div>
     </a-card>
   </div>
@@ -440,9 +523,12 @@ export default {
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
+      newJabatan: '',
+      modalEditJabatan: false,
       modalTambahJabatan: false,
       modalImportExcel: false,
       modalDeleteView: false,
+      modalDetailDistrik: false,
       flagBawahan: null,
       formState: {
         name: '',
@@ -467,6 +553,9 @@ export default {
         posisi_jabatan: '',
         jabatan: '',
       },
+      namaJabatan: '',
+      idJabatan: null,
+      userEdit: null,
     }
   },
   computed: {
@@ -495,9 +584,36 @@ export default {
       'submitAssignSalesHirarki',
       'searchSalesNonBawahan',
       'logHistory',
+      'editJabatanBawahan',
     ]),
     ...mapActions('importExelHirarki', ['getDataFromExcel']),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
+
+    openModalEditJabatan(item) {
+      this.modalEditJabatan = true
+      this.namaJabatan = item.titleJabatan
+      this.newJabatan = item.titleJabatan
+      this.idJabatan = item.idJabatan
+      this.userEdit = item
+    },
+    async submitEditJabatan() {
+      if (this.namaJabatan === this.selectedShorthand + ' - ' + this.newJabatan) {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Nama jabatan tidak boleh sama seperti sebelumnya.',
+        })
+      } else {
+        await this.editJabatanBawahan({
+          id_jabatan: this.idJabatan,
+          nama_jabatan: this.selectedShorthand + ' - ' + this.newJabatan,
+        })
+
+        await this.getDataTable({
+          id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+        })
+        this.modalEditJabatan = false
+      }
+    },
     async onSearch(searchText) {
       await this.searchSalesNonBawahan(
         {
@@ -507,6 +623,7 @@ export default {
         500,
       )
     },
+
     async submitPreviewExcel() {
       await this.getDataFromExcel()
       let dataStatus = _.where(this.importExelHirarki.listData, { status: false })
@@ -565,6 +682,27 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 100),
+    searchDataTSO(keyword) {
+      this.userManagement.isLoading = true
+
+      if (keyword) {
+        let data = this.userManagement.dataTable.filter(dataSource =>
+          dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
+        )
+        if (data.length > 0) {
+          setTimeout(() => {
+            this.userManagement.dataTable = data
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
+        }
+      } else {
+        setTimeout(() => {
+          this.userManagement.dataTable = this.userManagement.users
+          this.userManagement.isLoading = false
+        }, 500)
+      }
+    },
     searchData(keyword) {
       this.userManagement.isLoading = true
       if (keyword) {

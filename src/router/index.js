@@ -52,6 +52,11 @@ const routes = [
         meta: { title: 'Visit', resource: 'Visit', action: 'read' },
         component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
       },
+      {
+        path: '/dashboard/sow',
+        meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/sow'),
+      },
       // Fauzan ============ Start ===================>>
       {
         path: '/radiusdistrik',
