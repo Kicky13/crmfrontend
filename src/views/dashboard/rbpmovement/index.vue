@@ -37,14 +37,15 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {},
-
-  data() {
-    return {}
-  },
   computed: {
     ...mapState({
-      rbpMovement: state => state.rbpMovement.data,
+      filter: (state) => state.filter.data,
+      rbpMovement: (state) => state.rbpMovement.data,
     }),
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
+    },
   },
   async mounted() {
     await this.getMetabaseRBPMovement()

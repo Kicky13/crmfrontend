@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     ...mapState({
-      promotionDashboard: state => state.promotionDashboard.data,
+      promotionDashboard: (state) => state.promotionDashboard.data,
     }),
   },
   async mounted() {

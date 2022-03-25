@@ -43,8 +43,13 @@ export default {
   },
   computed: {
     ...mapState({
-      priceMonitoring: state => state.priceMonitoring.data,
+      filter: (state) => state.filter.data,
+      priceMonitoring: (state) => state.priceMonitoring.data,
     }),
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
+    },
   },
   async mounted() {
     await this.getMetabasePriceMonitoring()

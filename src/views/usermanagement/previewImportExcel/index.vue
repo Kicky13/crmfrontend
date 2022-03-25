@@ -15,28 +15,44 @@
       <div class="card-body">
         <div class="table-visit table-responsive text-nowrap">
           <a-table
-            class=" "
+            class=""
             :columns="importExelHirarki.columns_preview"
             :data-source="importExelHirarki.listData"
             :scroll="{ x: 3000 }"
             :loading="importExelHirarki.isLoading"
             :row-class-name="tableRowClassName"
-            :row-key="data => data.idJabatan"
+            :row-key="(data) => data.idJabatan"
           >
             <template #username_atasan="{ text }">
-              <div v-if="text.atasan == null">
+              <div v-if="text.usernameJabatanAtasan == null">
                 <span>-</span>
               </div>
               <div v-else>
-                <span>{{text.atasan}}</span>
+                <span>{{ text.usernameJabatanAtasan }}</span>
               </div>
             </template>
             <template #icon="{ text }">
               <div v-if="text.cekData === true">
-                <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" data-toggle="tooltip" data-placement="top" :title="text.message"/>
+                <img
+                  lazy="loading"
+                  v-once
+                  src="@/assets/images/check.svg"
+                  alt="Benar"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  :title="text.message"
+                />
               </div>
               <div v-else>
-                <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" data-toggle="tooltip" data-placement="top" :title="text.message"/>
+                <img
+                  lazy="loading"
+                  v-once
+                  src="@/assets/images/wrong.svg"
+                  alt="Salah"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  :title="text.message"
+                />
               </div>
             </template>
             <!-- <template #icon="{ text }">
@@ -95,10 +111,8 @@ import { _ } from 'vue-underscore'
 export default {
   name: 'PreviewExcel',
   setup() {
-    
     const fileList = []
     return {
-      
       fileList,
       headers: {
         authorization: 'authorization-text',
@@ -107,9 +121,7 @@ export default {
   },
   data() {
     return {
-      
       isDisabled: true,
-      
     }
   },
   computed: {
