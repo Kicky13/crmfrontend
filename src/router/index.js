@@ -55,7 +55,7 @@ const routes = [
       {
         path: '/dashboard/sow',
         meta: { title: 'Sow', resource: 'Sow', action: 'read' },
-        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/sow'),
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),
       },
       {
         path: '/dashboard/sales_route',
