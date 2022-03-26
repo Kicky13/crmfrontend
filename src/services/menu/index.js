@@ -35,6 +35,12 @@ export const getAdminMenuData = [
         key: 'pmo231',
         url: '/dashboard/sow',
       },
+
+      {
+        title: 'Sales Route',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
