@@ -40,7 +40,7 @@
         </a-button> -->
         <Can do="update" on="SynCustomer">
           <a-button
-            v-if="synCustomer.listCustomer.length > 0"
+            v-if="isChecked"
             type="primary"
             class="mb-3"
             :loading="synCustomer.isLoading"
@@ -181,6 +181,7 @@ export default {
       listTokoDistributor: [],
       dataTemp: null,
       isDisabled: true,
+      isChecked: false,
     }
   },
   computed: {
@@ -243,9 +244,28 @@ export default {
       if (this.selectValue == '' || this.selectValue == null) {
         this.$message.error('Pilih Distributor Terlebih Dahulu!')
       } else {
-        this.getAsyncDataNew({
-          kode_customer: this.selectValue,
-        })
+        const dataCheck = this.synCustomer.listCustomer.length == 0
+        if (dataCheck) {
+          this.$confirm({
+            title: 'Data Toko Kosong',
+            content: 'Apakah anda tetap sync ke database?',
+            okText: 'Iya',
+            okType: 'primary',
+            cancelText: 'Batal',
+            onOk: () => {
+              this.getAsyncDataNew({
+                data: null,
+                kode_customer: this.selectValue,
+              })
+            },
+            onCancel: () => {},
+          })
+        } else {
+          this.getAsyncDataNew({
+            data: JSON.stringify(this.synCustomer.listCustomer),
+            kode_customer: this.selectValue,
+          })
+        }
         this.isDisabled = false
       }
     },
@@ -264,6 +284,7 @@ export default {
       } else {
         this.fetchDataCustomerMDXL()
         this.isDisabled = false
+        this.isChecked = true
       }
     },
 
