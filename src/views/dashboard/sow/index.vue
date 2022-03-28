@@ -15,7 +15,7 @@
         </div>
         <iframe
           class="w-100"
-          :src="promotionDashboard.dataMetabase"
+          :src="sowDashboard.dataMetabase"
           frameborder="0"
           height="800"
           allowtransparency
@@ -37,22 +37,23 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {},
+
   data() {
     return {}
   },
   computed: {
     ...mapState({
-      promotionDashboard: (state) => state.promotionDashboard.data,
+      sowDashboard: state => state.sowDashboard.data,
     }),
   },
   async mounted() {
-    await this.getMetabasePromotion()
+    await this.getMetabaseSOW()
   },
   methods: {
-    ...mapActions('promotionDashboard', ['getMetabasePromotion']),
+    ...mapActions('sowDashboard', ['getMetabaseSOW']),
 
     async handleRefresh() {
-      await this.getMetabasePromotion()
+      await this.getMetabaseSOW()
     },
   },
 }

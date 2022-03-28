@@ -14,20 +14,20 @@ const state = {
 }
 
 const mutations = {
-  changePromotionDashboard(state, payload) {
+  changeSOW(state, payload) {
     state.data = Object.assign({}, state.data, payload)
   },
 }
 
 const actions = {
-  async getMetabasePromotion({ commit, state }, payload) {
-    commit('changePromotionDashboard', {
+  async getMetabaseSOW({ commit, state }, payload) {
+    commit('changeSOW', {
       isLoading: true,
     })
     const { data } = state
 
     let params = {
-      dashboard: 208,
+      dashboard: 218,
     }
 
     try {
@@ -38,11 +38,11 @@ const actions = {
           message: 'Error',
           description: result.data.message[0],
         })
-        commit('changePromotionDashboard', {
+        commit('changeSOW', {
           isLoading: false,
         })
       } else {
-        await commit('changePromotionDashboard', {
+        await commit('changeSOW', {
           dataMetabase: result.data.url,
           isLoading: false,
         })

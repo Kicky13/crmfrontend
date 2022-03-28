@@ -32,12 +32,30 @@ const routes = [
       {
         path: '/dashboard/rbp_movement',
         meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
-        component: () => import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
+        component: () =>
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
       },
       {
         path: '/dashboard/price_monitoring',
         meta: { title: 'Price Monitoring', resource: 'PriceMonitoring', action: 'read' },
-        component: () => import(/* webpackChunkName: "pricemonitoring" */ '@/views/dashboard/pricemonitoring'),
+        component: () =>
+          import(/* webpackChunkName: "pricemonitoring" */ '@/views/dashboard/pricemonitoring'),
+      },
+      {
+        path: '/dashboard/volume_analytcs',
+        meta: { title: 'CA & Volume Analytcs', resource: 'VolumeAnalytcs', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "volumeAnalytcs" */ '@/views/dashboard/volume_analytcs'),
+      },
+      {
+        path: '/dashboard/visit',
+        meta: { title: 'Visit', resource: 'Visit', action: 'read' },
+        component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
+      },
+      {
+        path: '/dashboard/sow',
+        meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/sow'),
       },
       // Fauzan ============ Start ===================>>
       {
@@ -512,7 +530,7 @@ router.beforeEach((to, from, next) => {
   setTimeout(() => {
     NProgress.done()
   }, 300)
-  
+
   if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({

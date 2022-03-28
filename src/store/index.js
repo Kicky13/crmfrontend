@@ -24,7 +24,10 @@ import Filter from '../services/connection/dashboard/filter'
 import Promotion from '../services/connection/dashboard/promotion'
 import RbpMovement from '../services/connection/dashboard/rbpmovement'
 import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
-
+import VolumeAnalytcs from '../services/connection/dashboard/volume_analytcs'
+import VisitDashboard from '../services/connection/dashboard/visit'
+import PromotionDashboard from '../services/connection/dashboard/promotion'
+import SOWDashboard from '../services/connection/dashboard/sow'
 export default createStore({
   modules: {
     user,
@@ -52,6 +55,10 @@ export default createStore({
     promotion: Promotion,
     rbpMovement: RbpMovement,
     priceMonitoring: PriceMonitoring,
+    volumeAnalytcs: VolumeAnalytcs,
+    visitDashboard: VisitDashboard,
+    promotionDashboard: PromotionDashboard,
+    sowDashboard: SOWDashboard,
   },
   state: {},
   mutations: {},
