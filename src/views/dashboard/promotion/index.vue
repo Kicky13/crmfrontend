@@ -43,23 +43,9 @@ export default {
   },
   computed: {
     ...mapState({
-      promotionDashboard: state => state.promotionDashboard.data,
-    }),
-  },
-  async mounted() {
-    await this.getMetabasePromotion()
-  },
-  methods: {
-    ...mapActions('promotionDashboard', ['getMetabasePromotion']),
-
-    async handleRefresh() {
-      await this.getMetabasePromotion()
-    },
-  },
-  computed: {
-    ...mapState({
       filter: state => state.filter.data,
       promotion: state => state.promotion.data,
+      promotionDashboard: state => state.promotionDashboard.data,
     }),
     years() {
       const year = new Date().getFullYear()
@@ -74,6 +60,7 @@ export default {
     await this.getAllKategori()
     await this.getAllBrand()
     await this.setSeriesAndCategories()
+    await this.getMetabasePromotion()
   },
   methods: {
     ...mapActions('filter', [
@@ -87,6 +74,10 @@ export default {
     ...mapActions('promotion', [
       'getAllPromotion',
     ]),
+    ...mapActions('promotionDashboard', ['getMetabasePromotion']),
+    async handleRefresh() {
+      await this.getMetabasePromotion()
+    },
     async handleProvinsi(value) {
       const idProvinsi = (value.split('-')[0]).trim()
       await this.getAllArea({ id_provinsi: idProvinsi })

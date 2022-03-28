@@ -38,6 +38,72 @@ export const getAdminMenuData = [
     ],
   },
   {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/marketing',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+        children: [
+          {
+            title: 'Tambah Berita',
+            key: 'tbr322',
+            url: '/marketing/berita/tambah',
+          },
+          {
+            title: 'Update Berita',
+            key: 'ubr322',
+            url: '/marketing/berita/update',
+            statusId: true,
+          },
+          {
+            title: 'Detail Berita',
+            key: 'dbr322',
+            url: '/marketing/berita/detail',
+            statusId: true,
+          },
+        ],
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+        children: [
+          {
+            title: 'Tambah Program',
+            key: 'tpr322',
+            url: '/marketing/program/tambah',
+          },
+          {
+            title: 'Update Program',
+            key: 'upr322',
+            url: '/marketing/program/edit',
+            statusId: true,
+          },
+          {
+            title: 'Detail Program',
+            key: 'dpr322',
+            url: '/marketing/program/detailProgram',
+            statusId: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'Master Data',
     key: 'mrda01',
     url: '/master_data',
@@ -109,68 +175,30 @@ export const getAdminMenuData = [
     ],
   },
   {
-    title: 'Marketing',
-    key: 'aw57eky',
-    url: '/marketing',
-    icon: 'fa fa-newspaper-o',
+    title: 'Weekly Price Monitoring',
+    key: 'wpmo03',
+    url: '/wpm',
+    icon: 'fa fa-file',
     children: [
       {
-        title: 'News',
-        key: 'jkr01l',
-        url: '/marketing/berita',
+        title: 'Report',
+        key: 'rprt01',
+        url: '/wpm/report',
       },
       {
-        title: 'News',
-        key: 'jkr01l',
-        url: '/marketing/berita',
-        children: [
-          {
-            title: 'Tambah Berita',
-            key: 'tbr322',
-            url: '/marketing/berita/tambah',
-          },
-          {
-            title: 'Update Berita',
-            key: 'ubr322',
-            url: '/marketing/berita/update',
-            statusId: true,
-          },
-          {
-            title: 'Detail Berita',
-            key: 'dbr322',
-            url: '/marketing/berita/detail',
-            statusId: true,
-          },
-        ],
+        title: 'Promotion',
+        key: 'prmt02',
+        url: '/wpm/promotion',
       },
       {
-        title: 'Program',
-        key: 'jkr02l',
-        url: '/marketing/program',
+        title: 'Price Movement',
+        key: 'prnt03',
+        url: '/wpm/price_movement',
       },
       {
-        title: 'Program',
-        key: 'jkr02l',
-        url: '/marketing/program',
-        children: [
-          {
-            title: 'Tambah Program',
-            key: 'tpr322',
-            url: '/marketing/program/tambah',
-          },
-          {
-            title: 'Update Program',
-            key: 'upr322',
-            url: '/marketing/program/edit',
-            statusId: true,
-          },
-          {
-            title: 'Detail Program',
-            key: 'dpr322',
-            url: '/marketing/program/detailProgram',
-            statusId: true,
-          },
-        ],
+        title: 'GAP Harga',
+        key: 'gaph04',
+        url: '/wpm/gap_harga',
       },
     ],
   },

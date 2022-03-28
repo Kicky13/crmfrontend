@@ -62,6 +62,7 @@ export default {
     await this.getAllDistributor()
     await this.getAllKategori()
     await this.getAllBrand()
+    await this.getMetabaseRBPMovement()
     this.listDistrik = this.filter.listDistrik
   },
   methods: {
@@ -73,6 +74,7 @@ export default {
       'getAllKategori',
       'getAllBrand',
     ]),
+    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
     async handleProvinsi(value) {
       this.listDistrik = []
       const idProvinsi = value.split('-')[0]
@@ -95,13 +97,6 @@ export default {
       const idKategori = value.split('-')[0]
       await this.getAllBrand({ id_kategori: idKategori })
     },
-  },
-  async mounted() {
-    await this.getMetabaseRBPMovement()
-  },
-  methods: {
-    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
-
     async handleRefresh() {
       await this.getMetabaseRBPMovement()
     },

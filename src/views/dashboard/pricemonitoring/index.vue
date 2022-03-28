@@ -57,6 +57,7 @@ export default {
     await this.getAllDistributor()
     await this.getAllKategori()
     await this.getAllBrand()
+    await this.getMetabasePriceMonitoring()
     this.listDistrik = this.filter.listDistrik
   },
   methods: {
@@ -68,6 +69,7 @@ export default {
       'getAllKategori',
       'getAllBrand',
     ]),
+    ...mapActions('priceMonitoring', ['getMetabasePriceMonitoring']),
     async handleProvinsi(value) {
       this.listDistrik = []
       const idProvinsi = value.split('-')[0]
@@ -90,13 +92,6 @@ export default {
       const idKategori = value.split('-')[0]
       await this.getAllBrand({ id_kategori: idKategori })
     },
-  },
-  async mounted() {
-    await this.getMetabasePriceMonitoring()
-  },
-  methods: {
-    ...mapActions('priceMonitoring', ['getMetabasePriceMonitoring']),
-
     async handleRefresh() {
       await this.getMetabasePriceMonitoring()
     },

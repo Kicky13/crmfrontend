@@ -23,6 +23,7 @@ import ReportingSalesDistributor from '../services/connection/reporting/sales-di
 import Filter from '../services/connection/dashboard/filter'
 import Promotion from '../services/connection/dashboard/promotion'
 import RbpMovement from '../services/connection/dashboard/rbpmovement'
+import RbpMovement2 from '../services/connection/dashboard/rbpmovement2'
 import PriceMonitoring from '../services/connection/dashboard/pricemonitoring'
 import Tipe from '../services/connection/master-data/tipe'
 import Brand from '../services/connection/master-data/brand'
@@ -39,6 +40,10 @@ import VolumeAnalytcs from '../services/connection/dashboard/volume_analytcs'
 import VisitDashboard from '../services/connection/dashboard/visit'
 import PromotionDashboard from '../services/connection/dashboard/promotion'
 import SOWDashboard from '../services/connection/dashboard/sow'
+import Report from '../services/connection/wpm/report'
+import WPMPromotion from '../services/connection/wpm/promotion'
+import PriceMovement from '../services/connection/wpm/price-movement'
+import GAPHarga from '../services/connection/wpm/gap-harga'
 
 export default createStore({
   modules: {
@@ -66,6 +71,7 @@ export default createStore({
     filter: Filter,
     promotion: Promotion,
     rbpMovement: RbpMovement,
+    rbpMovement2: RbpMovement2,
     priceMonitoring: PriceMonitoring,
     tipe: Tipe,
     brand: Brand,
@@ -82,6 +88,10 @@ export default createStore({
     visitDashboard: VisitDashboard,
     promotionDashboard: PromotionDashboard,
     sowDashboard: SOWDashboard,
+    report: Report,
+    wpmPromotion: WPMPromotion,
+    priceMovement: PriceMovement,
+    gapHarga: GAPHarga,
   },
   state: {},
   mutations: {},

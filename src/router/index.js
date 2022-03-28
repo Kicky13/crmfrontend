@@ -33,7 +33,7 @@ const routes = [
         path: '/dashboard/rbp_movement',
         meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
         component: () =>
-          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement2'),
       },
       {
         path: '/dashboard/price_monitoring',
@@ -157,6 +157,43 @@ const routes = [
           action: 'read',
         },
         component: () => import(/* webpackChunkName: "weekly_publish" */ '@/views/weeklyprice/wpPublish'),
+      },
+      // Reporting
+      {
+        path: '/wpm/report',
+        meta: {
+          title: 'Weekly Price Monitoring Report',
+          resource: 'WPMReport',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_report" */ '@/views/wpm/report'),
+      },
+      {
+        path: '/wpm/promotion',
+        meta: {
+          title: 'Weekly Price Monitoring Promotion',
+          resource: 'WPMPromotion',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_promotion" */ '@/views/wpm/promotion'),
+      },
+      {
+        path: '/wpm/price_movement',
+        meta: {
+          title: 'Weekly Price Monitoring Price Movement',
+          resource: 'WPMPriceMovement',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_price_movement" */ '@/views/wpm/price_movement'),
+      },
+      {
+        path: '/wpm/gap_harga',
+        meta: {
+          title: 'Weekly Price Monitoring GAP Harga',
+          resource: 'WPMGapHarga',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_gap_harga" */ '@/views/wpm/gap_harga'),
       },
       // Fauzan ============ Start ===================>>
       {
