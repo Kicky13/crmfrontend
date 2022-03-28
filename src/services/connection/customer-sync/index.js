@@ -232,7 +232,7 @@ const actions = {
 
     let formData = new FormData()
 
-    formData.append('data', JSON.stringify(data.listCustomer))
+    formData.append('data', payload.data)
     formData.append('kodedistributor', payload.kode_customer)
 
     try {
