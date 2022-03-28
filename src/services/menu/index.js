@@ -37,7 +37,7 @@ export const getAdminMenuData = [
       },
 
       {
-        title: 'Sales Route',
+        title: 'Sales Route  Compliance',
         key: 'jkr01l23',
         url: '/dashboard/sales_route',
       },
