@@ -70,7 +70,7 @@
           </div>
           <div v-if="selectedShorthand === `TSO`">
             <a-input-search
-              placeholder="Cari posisi"
+              placeholder="Cari nama"
               style="width: 200px"
               v-model:value="userManagement.bodyList.filter"
               @search="searchDataTSO"
@@ -717,13 +717,21 @@ export default {
 
       if (keyword) {
         if (this.searchTSOByField == `General`) {
-          let data = this.userManagement.dataTable.filter(dataSource =>
-            dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
+          // let data = this.userManagement.dataTable.filter(dataSource =>
+          //   dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
+          // )
+
+          let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
+
+          let filter = dataNama.filter(
+            dataSource =>
+              dataSource.nama.toLowerCase().includes(keyword.toLowerCase()) ||
+              dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           )
 
-          if (data.length > 0) {
+          if (dataNama.length > 0) {
             setTimeout(() => {
-              this.userManagement.dataTable = data
+              this.userManagement.dataTable = filter
               this.userManagement.isLoading = false
             }, 500)
             return false
