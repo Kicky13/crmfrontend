@@ -68,21 +68,42 @@
               <span>entries</span>
             </div>
           </div>
-          <a-input-search
-            v-if="selectedShorthand === `TSO`"
-            placeholder="Cari nama"
-            style="width: 200px"
-            v-model:value="userManagement.bodyList.filter"
-            @search="searchDataTSO"
-          />
+          <div v-if="selectedShorthand === `TSO`">
+            <a-input-search
+              placeholder="Cari posisi"
+              style="width: 200px"
+              v-model:value="userManagement.bodyList.filter"
+              @search="searchDataTSO"
+            />
+            <!-- <button
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit Jabatan"
+              class="btn btn-primary mr-1"
+            >
+              <i class="fa fa-edit"></i>
+            </button> -->
+            <a-select
+              v-model:value="searchTSOBy"
+              class="ml-2"
+              style="width: 150px"
+              @change="searchTSOChoose()"
+              :default-value="{ key: 'General' }"
+            >
+              <a-select-option value="General">General</a-select-option>
+              <a-select-option value="Distrik">Distrik</a-select-option>
+            </a-select>
+          </div>
 
-          <a-input-search
-            v-else
-            placeholder="Cari nama"
-            style="width: 200px"
-            v-model:value="userManagement.bodyList.filter"
-            @search="searchData1"
-          />
+          <div v-else>
+            <a-input-search
+              placeholder="Cari nama"
+              style="width: 200px"
+              v-model:value="userManagement.bodyList.filter"
+              @search="searchData1"
+            />
+          </div>
         </div>
 
         <div class="table-responsive text-nowrap">
@@ -520,6 +541,8 @@ export default {
   },
   data() {
     return {
+      searchTSOBy: 'General',
+      searchTSOByField: 'General',
       actiiveTabs: {},
       users: [],
       selectedTabId: 1,
@@ -589,6 +612,13 @@ export default {
     ...mapActions('importExelHirarki', ['getDataFromExcel']),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
 
+    searchTSOChoose() {
+      if (this.searchTSOBy == 'General') {
+        this.searchTSOByField = 'General'
+      } else {
+        this.searchTSOByField = 'Distrik'
+      }
+    },
     openModalEditJabatan(item) {
       this.modalEditJabatan = true
       this.namaJabatan = item.titleJabatan
@@ -686,21 +716,42 @@ export default {
       this.userManagement.isLoading = true
 
       if (keyword) {
-        let data = this.userManagement.dataTable.filter(dataSource =>
-          dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
-        )
-        if (data.length > 0) {
-          setTimeout(() => {
-            this.userManagement.dataTable = data
-            this.userManagement.isLoading = false
-          }, 500)
-          return false
+        if (this.searchTSOByField == `General`) {
+          let data = this.userManagement.dataTable.filter(dataSource =>
+            dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
+          )
+
+          if (data.length > 0) {
+            setTimeout(() => {
+              this.userManagement.dataTable = data
+              this.userManagement.isLoading = false
+            }, 500)
+            return false
+          }
+        } else {
+          let data = this.userManagement.dataTable.filter(dataSource =>
+            dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
+          )
+
+          if (data.length > 0) {
+            setTimeout(() => {
+              this.userManagement.dataTable = data
+              this.userManagement.isLoading = false
+            }, 500)
+            return false
+          }
         }
+        setTimeout(() => {
+          this.userManagement.dataTable = this.userManagement.users
+          this.userManagement.isLoading = false
+        }, 500)
+        return false
       } else {
         setTimeout(() => {
           this.userManagement.dataTable = this.userManagement.users
           this.userManagement.isLoading = false
         }, 500)
+        return false
       }
     },
     searchData(keyword) {
