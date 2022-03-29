@@ -4,6 +4,38 @@ export const getAdminMenuData = [
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      {
+        title: 'SOW',
+        key: 'pmo231',
+        url: '/dashboard/sow',
+      },
+    ],
   },
   {
     title: 'Marketing',

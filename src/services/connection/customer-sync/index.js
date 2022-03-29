@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import axios from 'axios'
 
 const state = {
   data: {
@@ -117,7 +118,7 @@ const actions = {
             description: 'Data berhasil ditampilkan',
           })
         }
-  
+
         await commit('changeSynCustomer', {
           listCustomer: result.data.data,
           isLoading: false,
@@ -139,12 +140,12 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(
-        `https://api-mdxl.aksestoko.com/api/data/toko?distributor=` +
+      const result = await axios.get(
+        `https://api-mdxl.aksestoko.com/external/distributor/toko?distributor=` +
           payload.id_distrib +
-          `&method=post`,
+          `&access-token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDY4MzcxMzksInN1YiI6MTQ0OTgyMn0.sIBeo2CE45Zt3kAjsILPWP9TkHTkYzED_7Wd2HMOJ8w`,
       )
-      if (result.data.status == 404) {
+      if (result.data.status !== 200) {
         notification.error({
           message: 'Error',
           description: result.data.message,
@@ -161,7 +162,7 @@ const actions = {
             description: 'Data berhasil ditampilkan',
           })
         }
-  
+
         await commit('changeSynCustomer', {
           listCustomer: result.data.datas,
           isLoading: false,
@@ -231,7 +232,7 @@ const actions = {
 
     let formData = new FormData()
 
-    formData.append('data', JSON.stringify(data.listCustomer))
+    formData.append('data', payload.data)
     formData.append('kodedistributor', payload.kode_customer)
 
     try {
