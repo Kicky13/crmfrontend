@@ -84,5 +84,26 @@
         }
       ]
     }
+  },
+
+  "scatter": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "name": "PRODUK A",
+        "data": {
+          "xAxis": 16.4,
+          "yAxis": 5.4
+        }
+      },
+      {
+        "name": "PRODUK B",
+        "data": {
+          "xAxis": 16.4,
+          "yAxis": 5.4
+        }
+      }
+    ]
   }
 }

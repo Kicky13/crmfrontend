@@ -102,6 +102,7 @@
             class="col-lg-12 col-md-12 pr-2"
             style="width: 100% !important"
             placeholder="Tahun"
+            v-model:value="sowDashboard.formData.selectedYear"
           >
             <a-select-option value="2019">2019</a-select-option>
             <a-select-option value="2020">2020</a-select-option>
@@ -114,6 +115,7 @@
             class="col-lg-12 col-md-12 pr-2"
             style="width: 100% !important"
             placeholder="Bulan"
+            v-model:value="sowDashboard.formData.selectedMonth"
           >
             <a-select-option value="1">1</a-select-option>
             <a-select-option value="2">2</a-select-option>
@@ -132,76 +134,74 @@
       </div>
     </a-form>
     <div class="row mt-4">
-      <div class="col-md-9 col-sm-9">
-        <fieldset class="border border-dark shadow px-3 pb-3">
-          <legend class="w-auto px-2">
-            <small class="font-weight-light">
-              Share Of Wallet & Product Position
-            </small>
-          </legend>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="bg-white p-3 style_donut">
-                <vue-apex-charts
-                  type="pie"
-                  height="340"
-                  :options="chartOptions"
-                  :series="series"
-                ></vue-apex-charts>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="bg-white p-3 style_area">
-                <vue-apex-charts
-                  type="area"
-                  height="320"
-                  :options="chartOptions_area"
-                  :series="series_area"
-                ></vue-apex-charts>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-      <div class="col-md-3 col-sm-3 mt-3">
-        <div class="list_download d-flex border shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Total Customer</label>
-            <br />
-            <span>8.056</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
-          </div>
-        </div>
-
-        <div class="list_download d-flex mt-3 border shadow px-3 pb-3">
+      <div class="col-md-4 col-sm-4">
+        <div class="list_download d-flex mt-3 rounded shadow px-3 pb-3">
           <div class="list_download_information">
             <label for="">Produk (SKU)</label>
             <br />
-            <span>156</span>
+            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.produk : 0 }}</span>
           </div>
           <div class="list_download_icon ml-auto">
             <img src="@/assets/images/icon/package.png" alt="Logo SIG" v-once />
           </div>
         </div>
-
-        <div class="list_download d-flex mt-3 border shadow px-3 pb-3">
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
           <div class="list_download_information">
             <label for="">Brands</label>
             <br />
-            <span>156</span>
+            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.brand : 0 }}</span>
           </div>
           <div class="list_download_icon ml-auto">
             <img src="@/assets/images/icon/globe-1.png" alt="Logo SIG" v-once />
           </div>
         </div>
-
-        <div class="list_download d-flex mt-3 border shadow px-3 pb-3">
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
+          <div class="list_download_information">
+            <label for="">Total Customer</label>
+            <br />
+            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.customer : 0 }}</span>
+          </div>
+          <div class="list_download_icon ml-auto">
+            <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
           <div class="list_download_information">
             <label for="">Distributor</label>
             <br />
-            <span>2000</span>
+            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.distributor : 0 }}</span>
+          </div>
+          <div class="list_download_icon ml-auto">
+            <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
+          <div class="list_download_information">
+            <label for="">Registered Outled</label>
+            <br />
+            <span>0</span>
+          </div>
+          <div class="list_download_icon ml-auto">
+            <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
+          <div class="list_download_information">
+            <label for="">Outled Surveyed</label>
+            <br />
+            <span>0</span>
           </div>
           <div class="list_download_icon ml-auto">
             <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
@@ -214,17 +214,45 @@
         <fieldset class="border border-dark shadow px-3 pb-3">
           <legend class="w-auto px-2">
             <small class="font-weight-light">
+              Share Of Wallet & Product Position
+            </small>
+          </legend>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="bg-white p-3 style_donut">
+                <vue-apex-charts
+                  type="pie"
+                  height="340"
+                  :options="chartOptions"
+                  :series="series"
+                ></vue-apex-charts>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="bg-white p-3 style_area">
+                <vue-apex-charts
+                  type="bubble"
+                  height="320"
+                  :options="chartOptions_area"
+                  :series="chartOptions_area.series_area"
+                ></vue-apex-charts>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <!-- <div class="row mt-4">
+      <div class="col-md-12 col-sm-12">
+        <fieldset class="border border-dark shadow px-3 pb-3">
+          <legend class="w-auto px-2">
+            <small class="font-weight-light">
               Brand Leading
             </small>
           </legend>
           <div class="row">
             <div class="col-md-12">
               <div class="bg-white p-3">
-                <!-- <PlaceSearch v-bind:ready="ready" placeholder="Enter a location" loading="Map is loading"
-                  v-bind:fallbackProcedure="fallbackProcedure" v-bind:zoom="zoom" v-bind:geolocation="geolocation"
-                  v-bind:gps_timeout="3000" v-bind:address="address" @changed="getMapData"> -->
-                <!-- </PlaceSearch> -->
-
                 <iframe
                   width="250"
                   height="300"
@@ -241,10 +269,29 @@
           </div>
         </fieldset>
       </div>
-    </div>
+    </div> -->
     <div class="card card-top card-top-primary mt-3">
       <div class="card-body">
         <div class="row">
+          <div class="col-xs-2 col-md-2">
+            <a-select
+              class="col-lg-12 col-md-12 pr-2"
+              style="width: 100% !important"
+              placeholder="Provinsi"
+              v-model:value="sowDashboard.formData.selectedProvinsi"
+              show-search
+              @change="handleArea"
+            >
+              <a-select-option
+                v-for="(provinsi, index) in sowDashboard.dataProvinsi"
+                :key="index"
+                :value="provinsi.id_provinsi"
+                >{{ provinsi.nama_provinsi }}</a-select-option
+              >
+            </a-select>
+          </div>
+        </div>
+        <div class="row mt-4">
           <div class="col-md-12 col-sm-12">
             <div class="table-responsive text-nowrap">
               <a-table
@@ -333,40 +380,56 @@ export default {
       },
       series: [25, 15, 44, 55, 41],
 
-      series_area: [
-        {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41],
-        },
-      ],
       chartOptions_area: {
         chart: {
-          type: 'area',
+          height: 350,
+          type: 'bubble',
           zoom: {
-            enabled: false,
+            enabled: true,
+            type: 'xy',
           },
         },
-        dataLabels: {
-          enabled: false,
+        series: [
+          {
+            name: 'Bubble1',
+            data: {
+              min: 10,
+              max: 60,
+            },
+          },
+          {
+            name: 'Bubble2',
+            data: {
+              min: 10,
+              max: 60,
+            },
+          },
+          {
+            name: 'Bubble3',
+            data: {
+              min: 10,
+              max: 60,
+            },
+          },
+          {
+            name: 'Bubble4',
+            data: {
+              min: 10,
+              max: 60,
+            },
+          },
+        ],
+        xaxis: {
+          tickAmount: 10,
+          labels: {
+            formatter: function(val) {
+              return parseFloat(val).toFixed(1)
+            },
+          },
         },
-        stroke: {
-          curve: 'smooth',
+        yaxis: {
+          tickAmount: 7,
         },
-        // xaxis: {
-        //   type: 'date',
-        //   categories: ["2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19",
-        //     "2018-09-19",
-        //   ],
-        // },
-        // tooltip: {
-        //   x: {
-        //     format: 'dd/MM/yy',
-        //   },
-        // },
       },
     }
   },
@@ -375,9 +438,10 @@ export default {
       sowDashboard: state => state.sowDashboard.data,
     }),
   },
-  mounted() {
-    this.getProvinsi()
+  async mounted() {
+    await this.getProvinsi()
     this.urlMap()
+    await this.submitLabel()
   },
   methods: {
     ...mapActions('sowDashboard', [
@@ -387,6 +451,7 @@ export default {
       'getDistrik',
       'getDistributor',
       'getBrand',
+      'submitLabel',
     ]),
     urlMap() {
       // let lat =
@@ -421,6 +486,12 @@ export default {
     handleBrand(value) {
       const id = value
       this.getBrand(id)
+    },
+    async handleOk() {
+      if (this.sowDashboard.formData.selectedProvinsi == null && this.sowDashboard.selectedArea) {
+      } else {
+        await this.submitLabel()
+      }
     },
   },
 }
