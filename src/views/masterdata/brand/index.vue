@@ -48,8 +48,11 @@
   >
     <a-input
       placeholder="Brand"
-      class="mb-3"
     />
+    <a-select placeholder="Perusahaan" class="w-100 my-3">
+      <a-select-option disabled value="">Pilih Perusahaan</a-select-option>
+      <a-select-option data-toggle="tooltip" data-placement="top">Perusahaan</a-select-option>
+    </a-select>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"

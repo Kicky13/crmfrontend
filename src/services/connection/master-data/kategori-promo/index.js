@@ -6,31 +6,25 @@ const state = {
     columns: [
       {
         title: 'Kategori',
-        dataIndex: 'kategori',
-        key: 'kategori',
+        dataIndex: 'NAMA_KATEGORI_PROMO',
+        key: 'NAMA_KATEGORI_PROMO',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    kategoriList: [
-      {
-        kategori: 'Kategori 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    kategoriList: [],
     isLoading: false,
   },
 }
@@ -42,7 +36,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getAllKategori({ commit, state }, payload) {
     commit('changeKategori', {
       isLoading: true,
     })
@@ -50,7 +44,46 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/kategoriPromo`)
+
+      if (result.data.status == false) {
+        await commit('changeKategori', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeKategori', {
+          kategoriList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeKategori', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async addKategori({ commit, state }, payload) {
+    commit('changeKategori', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      user_id: payload.id_user,
+      nm_kategori: payload.kategori_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/kategoriPromo/addnew`, formData)
 
       if (result.data.status == false) {
         await commit('changeKategori', {
@@ -63,6 +96,95 @@ const actions = {
       } else {
         await commit('changeKategori', {
           isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Kategori berhasil ditambahkan',
+        })
+      }
+    } catch (err) {
+      await commit('changeKategori', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async deleteKategori({ commit, state }, payload) {
+    commit('changeKategori', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_kategori,
+      user_id: payload.id_user,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/kategoriPromo/delete`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeKategori', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeKategori', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Kategori berhasil dihapus',
+        })
+      }
+    } catch (err) {
+      await commit('changeKategori', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async editKategori({ commit, state }, payload) {
+    commit('changeKategori', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_kategori,
+      user_id: payload.id_user,
+      nm_kategori: payload.kategori_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/kategoriPromo/edit`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeKategori', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeKategori', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Kategori berhasil diupdate',
         })
       }
     } catch (err) {

@@ -1,11 +1,11 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <div class="d-flex justify-content-between mb-3">
-      <div>
+    <a-row :gutter="[16, 16]" class="mb-3">
+      <a-col :xs="24" :md="4">
         <a-select
           placeholder="Distrik"
           show-search
-          class="mr-2"
+          class="w-100"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
@@ -15,10 +15,12 @@
             Distrik
           </a-select-option>
         </a-select>
+      </a-col>
+      <a-col :xs="24" :md="4">
         <a-select
           placeholder="Tahun"
           show-search
-          class="mr-2"
+          class="w-100"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option
@@ -28,9 +30,12 @@
             Tahun
           </a-select-option>
         </a-select>
+      </a-col>
+      <a-col :xs="24" :md="4">
         <a-select
           placeholder="Bulan"
           show-search
+          class="w-100"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -40,18 +45,19 @@
             Bulan
           </a-select-option>
         </a-select>
-      </div>
-      <div>
-        <a-button
-          type="primary"
-          class="mr-2"
-          @click="showAddModal"
-        >
-          <i class="fa fa-plus mr-2" />
-          Tambah
-        </a-button>
-      </div>
-    </div>
+      </a-col>
+      <a-col :xs="24" :md="12">
+        <div class="d-flex justify-content-end">
+          <a-button
+            type="primary"
+            @click="showAddModal"
+          >
+            <i class="fa fa-plus mr-2" />
+            Tambah
+          </a-button>
+        </div>
+      </a-col>
+    </a-row>
     <a-table
       :columns="wpPromotion.columns"
       :data-source="wpPromotion.promotionList"

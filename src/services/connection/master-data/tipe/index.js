@@ -6,31 +6,25 @@ const state = {
     columns: [
       {
         title: 'Tipe',
-        dataIndex: 'tipe',
-        key: 'tipe',
+        dataIndex: 'NAMA_TIPE_SEMEN',
+        key: 'NAMA_TIPE_SEMEN',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    tipeList: [
-      {
-        tipe: 'Tipe 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    tipeList: [],
     isLoading: false,
   },
 }
@@ -50,7 +44,46 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/tipe`)
+
+      if (result.data.status == false) {
+        await commit('changeTipe', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeTipe', {
+          tipeList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeTipe', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async addTipe({ commit, state }, payload) {
+    commit('changeTipe', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      user_id: payload.id_user,
+      nm_tipe: payload.tipe_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/tipe/addnew`, formData)
 
       if (result.data.status == false) {
         await commit('changeTipe', {
@@ -63,6 +96,95 @@ const actions = {
       } else {
         await commit('changeTipe', {
           isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Tipe berhasil ditambahkan',
+        })
+      }
+    } catch (err) {
+      await commit('changeTipe', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async deleteTipe({ commit, state }, payload) {
+    commit('changeTipe', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_tipe,
+      user_id: payload.id_user,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/tipe/delete`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeTipe', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeTipe', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Tipe berhasil dihapus',
+        })
+      }
+    } catch (err) {
+      await commit('changeTipe', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async editTipe({ commit, state }, payload) {
+    commit('changeTipe', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_tipe,
+      user_id: payload.id_user,
+      nm_tipe: payload.tipe_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/tipe/edit`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeTipe', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeTipe', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Tipe berhasil diupdate',
         })
       }
     } catch (err) {

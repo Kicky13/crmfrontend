@@ -20,7 +20,7 @@
             class="btn btn-success mr-1"
             data-toggle="tooltip"
             title="Sunting"
-            @click="showEditModal(text)"
+            @click="showEditModal(text.ID)"
           >
             <i class="fa fa-pencil-square-o" />
           </button>
@@ -29,7 +29,7 @@
             class="btn btn-danger"
             data-toggle="tooltip"
             title="Hapus"
-            @click="showDeleteModal(text)"
+            @click="showDeleteModal(text.ID)"
           >
             <i class="fa fa-trash" />
           </button>
@@ -40,15 +40,16 @@
   
   <!-- Add Modal -->
   <a-modal
-    v-model:visible="addModal"
+    v-model:visible="kategoriModal"
     title="Form Kategori"
-    ok-text="Simpan"
+    :ok-text="modalStatus ? 'Update' : 'Simpan'"
     cancel-text="Batal"
     :on-ok="saveKategori"
   >
     <a-input
       placeholder="Kategori"
       class="mb-3"
+      v-model:value="formState.kategori_baru"
     />
     <a-textarea
       placeholder="Keterangan"
@@ -58,13 +59,25 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
+import store from '@/store'
 
 export default {
   data() {
     return {
-      addModal: false,
+      kategoriModal: false,
+      formState: {
+        id: null,
+        id_user: null,
+        kategori_baru: '',
+      },
+      modalStatus: false,
     }
+  },
+  async mounted() {
+    await this.getAllKategori()
+    this.getUserId()
   },
   computed: {
     ...mapState({
@@ -72,13 +85,70 @@ export default {
     }),
   },
   methods: {
-    showAddModal() {
-      this.addModal = true
+    ...mapActions('kategoriPromo', ['getAllKategori', 'addKategori', 'deleteKategori', 'editKategori']),
+    getUserId() {
+      this.formState.id_user = store.state.user.userid
     },
-    showEditModal(value) {},
-    showDeleteModal(value) {},
-    saveKategori() {
-      this.addModal = false
+    showAddModal() {
+      this.modalStatus = false
+      this.kategoriModal = true
+      this.formState.kategori_baru = ''
+    },
+    showEditModal(id) {
+      this.modalStatus = true
+      this.kategoriModal = true
+      this.formState.id = id
+      this.formState.kategori_baru = this.kategoriPromo.kategoriList.find(element => element.ID == id).NAMA_KATEGORI_PROMO
+    },
+    showDeleteModal(id) {
+      this.formState.id = id
+      this.$confirm({
+        title: 'Hapus Kategori',
+        content: 'Apakah anda yakin?',
+        okText: 'Hapus',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk: async () => {
+          await this.deleteKategori({
+            id_kategori: this.formState.id,
+            id_user: this.formState.id_user,
+          })
+          await this.getAllKategori()
+          this.formState.id = null
+        },
+        onCancel: () => {
+          this.formState.id = null
+        },
+      })
+    },
+    async saveKategori() {
+      const validation = this.formState.kategori_baru.toString().trim()
+      if (validation.length < 1) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Kolom kategori tidak boleh kosong',
+        })
+        this.formState.kategori_baru = ''
+        this.kategoriModal = true
+      } else {
+        if (this.modalStatus) {
+          await this.editKategori({
+            id_kategori: this.formState.id,
+            id_user: this.formState.id_user,
+            kategori_baru: this.formState.kategori_baru,
+          })
+        } else {
+          await this.addKategori({
+            id_user: this.formState.id_user,
+            kategori_baru: this.formState.kategori_baru,
+          })
+        }
+        this.modalStatus = false
+        this.kategoriModal = false
+        await this.getAllKategori()
+        this.formState.id = null
+        this.formState.kategori_baru = ''
+      }
     },
   },
 }

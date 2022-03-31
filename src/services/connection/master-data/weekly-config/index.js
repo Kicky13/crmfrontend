@@ -6,31 +6,25 @@ const state = {
     columns: [
       {
         title: 'Week Name',
-        dataIndex: 'week_name',
-        key: 'week_name',
+        dataIndex: 'WEEK_NAME',
+        key: 'WEEK_NAME',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    weeklyConfigList: [
-      {
-        week_name: 'Week 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    weeklyConfigList: [],
     isLoading: false,
   },
 }
@@ -42,7 +36,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getAllWeeklyConfig({ commit, state }, payload) {
     commit('changeWeeklyConfig', {
       isLoading: true,
     })
@@ -50,7 +44,7 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/weeklyConfig`)
 
       if (result.data.status == false) {
         await commit('changeWeeklyConfig', {
@@ -62,6 +56,7 @@ const actions = {
         })
       } else {
         await commit('changeWeeklyConfig', {
+          weeklyConfigList: result.data.data,
           isLoading: false,
         })
       }
