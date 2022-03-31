@@ -273,32 +273,64 @@
     <div class="card card-top card-top-primary mt-3">
       <div class="card-body">
         <div class="row">
-          <div class="col-xs-2 col-md-2">
-            <a-select
-              class="col-lg-12 col-md-12 pr-2"
-              style="width: 100% !important"
-              placeholder="Provinsi"
-              v-model:value="sowDashboard.formData.selectedProvinsi"
-              show-search
-              @change="handleArea"
-            >
-              <a-select-option
-                v-for="(provinsi, index) in sowDashboard.dataProvinsi"
-                :key="index"
-                :value="provinsi.id_provinsi"
-                >{{ provinsi.nama_provinsi }}</a-select-option
-              >
-            </a-select>
+          <div class="col-xs-3 col-md-3">
+            <a-input-search
+              v-model:value="sowDashboard.bodyList.filter"
+              placeholder="Cari nama toko"
+              @search="searchToko()"
+            />
           </div>
         </div>
         <div class="row mt-4">
           <div class="col-md-12 col-sm-12">
             <div class="table-responsive text-nowrap">
               <a-table
+                :data-source="sowDashboard.dataTable"
                 :columns="sowDashboard.columns"
                 :loading="sowDashboard.isLoading"
                 :pagination="sowDashboard.pagination"
+                :row-key="data => data.id_toko"
               >
+                <template #no="{ index }">
+                  <div>
+                    {{ index + 1 }}
+                  </div>
+                </template>
+                <template #distrik="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #id_toko="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #nama_toko="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #produk="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #kapasitas_jual="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #volume_jual="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
+                <template #sow="{ text }">
+                  <div>
+                    {{ text }}
+                  </div>
+                </template>
               </a-table>
             </div>
           </div>
@@ -442,7 +474,8 @@ export default {
   async mounted() {
     await this.getProvinsi()
     this.urlMap()
-    await this.submitLabel()
+    // await this.submitLabel()
+    // await this.getDataTable()
   },
   methods: {
     ...mapActions('sowDashboard', [
@@ -453,6 +486,7 @@ export default {
       'getDistributor',
       'getBrand',
       'submitLabel',
+      'getDataTable',
     ]),
     urlMap() {
       // let lat =
@@ -488,6 +522,29 @@ export default {
       const id = value
       this.getBrand(id)
     },
+    searchToko(keyword) {
+      this.sowDashboard.isLoading = true
+
+      if (keyword) {
+        let data = this.sowDashboard.dataTable.filter(dataSource =>
+          dataSource.nm_toko.toLowerCase().includes(keyword.toLowerCase()),
+        )
+
+        if (data.length > 0) {
+          setTimeout(() => {
+            this.sowDashboard.dataTable = data
+            this.sowDashboard.isLoading = false
+          }, 500)
+
+          return false
+        }
+      } else {
+        setTimeout(() => {
+          this.sowDashboard.dataTable = this.sowDashboard.dataTable
+          this.sowDashboard.isLoading = false
+        }, 500)
+      }
+    },
     async handleOk() {
       if (
         this.sowDashboard.formData.selectedProvinsi == null &&
@@ -501,6 +558,8 @@ export default {
         })
       } else {
         await this.submitLabel()
+        await this.getDataTable()
+        await this.getDataChart()
       }
     },
   },

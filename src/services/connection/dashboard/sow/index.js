@@ -71,39 +71,45 @@ const state = {
     dataSourceTable: [],
     columns: [
       {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'ID Toko',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'id_toko' },
+        key: 'id_toko',
       },
       {
         title: 'Nama Toko',
-        dataIndex: 'nama Toko',
-        key: 'Nama Toko',
+        slots: { customRender: 'nama_toko' },
+        key: 'nama_toko',
       },
       {
         title: 'Produk(SKU)',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'produk' },
+        key: 'produk',
       },
       {
         title: 'Kapasitas Jual',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'kapasitas_jual' },
+        key: 'kapasitas_jual',
       },
       {
         title: 'Volume Jual',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'volume_jual' },
+        key: 'volume_jual',
       },
       {
         title: 'SOW',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'sow' },
+        key: 'sow',
       },
     ],
     // provinsiOption: [],
@@ -131,6 +137,8 @@ const state = {
       selectedYear: null,
     },
     dataLabel: null,
+    dataTable: [],
+    chartDashboard: [],
     itemsPerPage: [5, 10, 15, 20],
   },
 }
@@ -381,7 +389,7 @@ const actions = {
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
+          description: result.data.message,
         })
         await commit('changeSOW', {
           isLoading: false,
@@ -389,6 +397,90 @@ const actions = {
       } else {
         await commit('changeSOW', {
           dataLabel: result.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: data.formData.selectedProvinsi,
+      id_area: data.formData.selectedArea,
+      id_kota: data.formData.selectedDistrik,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/TabelDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataTable: result.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataChart({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: data.formData.selectedProvinsi,
+      id_area: data.formData.selectedArea,
+      id_kota: data.formData.selectedDistrik,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/ChartDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          chartDashboard: result.data,
           isLoading: false,
         })
       }
