@@ -47,7 +47,7 @@
         </Can>
       </div>
       <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
+        <div v-if="selectedShorthand === `TSO`" class="d-flex justify-content-between mb-3">
           <div class="d-flex">
             <div class="align-self-center">
               <span>Show :</span>
@@ -68,42 +68,43 @@
               <span>entries</span>
             </div>
           </div>
-          <label>Search by </label>
-          <a-select
-            v-model:value="searchTSOBy"
-            class="ml-2"
-            style="width: 150px"
-            @change="searchTSOChoose()"
-            :default-value="{ key: 'General' }"
-          >
-            <a-select-option value="General">General</a-select-option>
-            <a-select-option value="Distrik">Distrik</a-select-option>
-          </a-select>
-          <div v-if="selectedShorthand === `TSO`">
-            <a-input-search
-              placeholder="Cari nama"
-              style="width: 200px"
-              v-model:value="userManagement.bodyList.filter"
-              @search="searchDataTSO"
-            />
-            <!-- <button
-              type="button"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Edit Jabatan"
-              class="btn btn-primary mr-1"
+          <div class="d-flex">
+            <div class="align-self-center">Search by :</div>
+            <a-select
+              v-model:value="searchTSOBy"
+              class="mx-2"
+              style="width: 150px"
+              @change="searchTSOChoose()"
+              :default-value="{ key: 'General' }"
             >
-              <i class="fa fa-edit"></i>
-            </button> -->
-          </div>
-
-          <div v-else>
-            <a-input-search
-              placeholder="Cari nama"
-              style="width: 200px"
-              v-model:value="userManagement.bodyList.filter"
-              @search="searchData1"
-            />
+              <a-select-option value="General">General</a-select-option>
+              <a-select-option value="Distrik">Distrik</a-select-option>
+            </a-select>
+            <div v-if="selectedShorthand === `TSO`">
+              <a-input-search
+                placeholder="Cari nama"
+                style="width: 200px"
+                v-model:value="userManagement.bodyList.filter"
+                @search="searchDataTSO"
+              />
+              <!-- <button
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Edit Jabatan"
+                class="btn btn-primary mr-1"
+              >
+                <i class="fa fa-edit"></i>
+              </button> -->
+            </div>
+            <div v-else>
+              <a-input-search
+                placeholder="Cari nama"
+                style="width: 200px"
+                v-model:value="userManagement.bodyList.filter"
+                @search="searchData1"
+              />
+            </div>
           </div>
         </div>
 

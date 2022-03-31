@@ -50,6 +50,7 @@ const state = {
       userid: '',
       id_level_hirarki: null,
       id_jenis_user: null,
+      mobileAccess: null,
     },
     formViewPassword: {
       loggedUserID: '',
@@ -160,6 +161,7 @@ const actions = {
       nohp: data.formState.nohp,
       userid: Math.floor(1000 + Math.random() * 9000),
       idJenis: data.formState.id_jenis_user,
+      mobileAccess: data.formState.id_jenis_user == 5 || data.formState.id_jenis_user == 8 ? 1 : 0,
     }
 
     let result = ''
