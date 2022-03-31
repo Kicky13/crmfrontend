@@ -311,6 +311,7 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 // import { getRegionList,getDataListArea,getDataListDistrik,getDataListBrand,getDataListDistributor } from '@/services/connection/dashboard/api'
+import { notification, message } from 'ant-design-vue'
 
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
@@ -488,7 +489,16 @@ export default {
       this.getBrand(id)
     },
     async handleOk() {
-      if (this.sowDashboard.formData.selectedProvinsi == null && this.sowDashboard.selectedArea) {
+      if (
+        this.sowDashboard.formData.selectedProvinsi == null &&
+        this.sowDashboard.selectedArea == null &&
+        this.sowDashboard.selectedMonth == null &&
+        this.sowDashboard.selectedYear == null
+      ) {
+        notification.error({
+          message: 'Gagal Menyimpan',
+          description: 'Provinsi, Area , Bulan dan Tahun tidak boleh kosong.',
+        })
       } else {
         await this.submitLabel()
       }
