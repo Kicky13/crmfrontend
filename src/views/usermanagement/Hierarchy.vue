@@ -27,9 +27,9 @@
           <a-button
             v-if="
               selectedShorthand === `GSM` ||
-              selectedShorthand === `ADMIN DIS` ||
-              selectedShorthand === `SALES DIS` ||
-              selectedShorthand === `SPC`
+                selectedShorthand === `ADMIN DIS` ||
+                selectedShorthand === `SALES DIS` ||
+                selectedShorthand === `SPC`
             "
             type="primary"
             class="mb-3 ml-2 float-right"
@@ -80,24 +80,38 @@
               <a-select-option value="General">General</a-select-option>
               <a-select-option value="Distrik">Distrik</a-select-option>
             </a-select>
-            <div v-if="selectedShorthand === `TSO`">
-              <a-input-search
-                placeholder="Cari nama"
-                style="width: 200px"
-                v-model:value="userManagement.bodyList.filter"
-                @search="searchDataTSO"
-              />
-              <!-- <button
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Edit Jabatan"
-                class="btn btn-primary mr-1"
-              >
-                <i class="fa fa-edit"></i>
-              </button> -->
+            <a-input-search
+              placeholder="Cari nama"
+              style="width: 200px"
+              v-model:value="userManagement.bodyList.filter"
+              @search="searchDataTSO"
+            />
+          </div>
+        </div>
+
+        <div v-else class="d-flex justify-content-between mb-3">
+          <div class="d-flex">
+            <div class="align-self-center">
+              <span>Show :</span>
             </div>
-            <div v-else>
+            <a-select
+              :default-value="userManagement.itemsPerPage[1]"
+              class="mx-2"
+              @change="handlePaginationSize"
+            >
+              <a-select-option
+                v-for="itemPerPage in userManagement.itemsPerPage"
+                :key="itemPerPage"
+              >
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div>
               <a-input-search
                 placeholder="Cari nama"
                 style="width: 200px"
@@ -112,7 +126,7 @@
           <a-table
             :columns="userManagement.columns"
             :data-source="userManagement.dataTable"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
             :pagination="pagination"
             :loading="userManagement.isLoading"
           >
@@ -462,7 +476,7 @@
             class="mt-3"
             :columns="userManagement.columns_history"
             :data-source="userManagement.history"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
           />
           <template #footer>
             <a-button @click="closeHistoryJabatanModal">Kembali</a-button>
@@ -585,9 +599,9 @@ export default {
   },
   computed: {
     ...mapState({
-      userManagement: (state) => state.userManagement.data,
-      userManagementCRM: (state) => state.userManagementCRM.data,
-      importExelHirarki: (state) => state.importExelHirarki.data,
+      userManagement: state => state.userManagement.data,
+      userManagementCRM: state => state.userManagementCRM.data,
+      importExelHirarki: state => state.importExelHirarki.data,
     }),
   },
   async mounted() {
@@ -694,16 +708,16 @@ export default {
       return startValue.valueOf() >= endValue.valueOf()
     },
     getData(data, keyword) {
-      const nullFilter = _.reject(this.userManagement.users, function (item) {
+      const nullFilter = _.reject(this.userManagement.users, function(item) {
         return item[data] === null
       })
-      let dataTable = nullFilter.filter((item) => {
+      let dataTable = nullFilter.filter(item => {
         return item[data].toLowerCase().includes(keyword.toLowerCase())
       })
 
       return dataTable
     },
-    searchData1: _.debounce(function () {
+    searchData1: _.debounce(function() {
       this.$store.commit('userManagement/changeUserManagement', {
         body: {
           offset: 1,
@@ -723,12 +737,10 @@ export default {
           //   dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           // )
 
-          let dataNama = this.userManagement.dataTable.filter(
-            (dataSource) => dataSource.nama != null,
-          )
+          let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
 
           let filter = dataNama.filter(
-            (dataSource) =>
+            dataSource =>
               dataSource.nama.toLowerCase().includes(keyword.toLowerCase()) ||
               dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           )
@@ -741,7 +753,7 @@ export default {
             return false
           }
         } else {
-          let data = this.userManagement.dataTable.filter((dataSource) =>
+          let data = this.userManagement.dataTable.filter(dataSource =>
             dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
           )
 
@@ -825,7 +837,7 @@ export default {
       if (this.userManagement.history.length) {
         const dateData = this.userManagement.history[0].endDate.split('-')
         let temp = []
-        dateData.map((data) => temp.unshift(data))
+        dateData.map(data => temp.unshift(data))
         this.dateBeforeLimit = new Date(temp.join('-'))
       }
       this.modalVisible = true
@@ -863,7 +875,7 @@ export default {
     },
     changeTabs(key) {
       const dataRes = [...this.userManagement.listUser]
-      const filtered = dataRes.filter((x) => x.id_level_hirarki == key)
+      const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
 
@@ -1006,7 +1018,7 @@ export default {
       const formData = toRaw(this.formState)
 
       insertUser(formData)
-        .then((response) => {
+        .then(response => {
           if (response) {
             message.success('User berhasil Ditambahkan')
             this.getDataTable()
@@ -1014,7 +1026,7 @@ export default {
           this.isSubmit = false
           this.closeModal()
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err)
           message.error('Oops, sepertinya ada masalah')
           this.isSubmit = false
@@ -1061,13 +1073,13 @@ export default {
     fetchGetUsers() {
       this.isLoading = true
       getUserList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.users = response
           }
           this.isLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
             this.isLoading = false
           }
