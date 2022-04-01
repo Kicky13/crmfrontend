@@ -11,7 +11,7 @@
           class="mb-3 btn btn-primary"
         >
           <i class="fa fa-download mr-2" />
-          Download Template Visit Plan
+          Download Template Upload Visit Plan
         </a>
 
         <a-button type="primary" @click="handleSubmit" class="mb-3 float-right">
@@ -37,7 +37,7 @@
             :scroll="{ x: 1500 }"
             :loading="visitPlan.isLoading"
             :row-class-name="tableRowClassName"
-            :row-key="data => data.id_toko"
+            :row-key="(data) => data.id_toko"
           >
             <template #icon="{ text }">
               <div v-if="text.status === true">
@@ -92,7 +92,7 @@
               :class="visitPlan.listData.length > 0 ? `mb-3 float-right` : `mb-3 float-right`"
             >
               <i class="fa fa-upload mr-2" />
-              Commit to Database
+              Commit Database
             </a-button>
           </Can>
           <Can do="read" on="VisitPlan">
@@ -126,7 +126,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: record => ({
+      getCheckboxProps: (record) => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -155,7 +155,7 @@ export default {
   },
   computed: {
     ...mapState({
-      visitPlan: state => state.visitPlan.data,
+      visitPlan: (state) => state.visitPlan.data,
     }),
   },
   methods: {
@@ -171,7 +171,7 @@ export default {
       this.visitPlan.body.file = this.$refs.file.files[0]
     },
     downloadData() {
-      import('@/vendor/Export2Excel').then(excel => {
+      import('@/vendor/Export2Excel').then((excel) => {
         const tHeader = [
           'ID User',
           'Username',
@@ -224,8 +224,8 @@ export default {
       })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v =>
-        filterVal.map(j => {
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
           if (j === 'timestamp') {
             return parseTime(v[j])
           } else {
