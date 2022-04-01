@@ -487,6 +487,7 @@ export default {
       'getBrand',
       'submitLabel',
       'getDataTable',
+      'getDataScatterChart',
     ]),
     urlMap() {
       // let lat =
@@ -560,6 +561,7 @@ export default {
         await this.submitLabel()
         await this.getDataTable()
         await this.getDataChart()
+        await this.getDataScatterChart()
       }
     },
   },

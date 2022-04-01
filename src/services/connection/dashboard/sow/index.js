@@ -139,6 +139,7 @@ const state = {
     dataLabel: null,
     dataTable: [],
     chartDashboard: [],
+    scatterChart: [],
     itemsPerPage: [5, 10, 15, 20],
   },
 }
@@ -481,6 +482,48 @@ const actions = {
       } else {
         await commit('changeSOW', {
           chartDashboard: result.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataScatterChart({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: data.formData.selectedProvinsi,
+      id_area: data.formData.selectedArea,
+      id_kota: data.formData.selectedDistrik,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/ScatterDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          scatterChart: result.data,
           isLoading: false,
         })
       }
