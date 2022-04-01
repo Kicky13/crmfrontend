@@ -104,10 +104,10 @@
             placeholder="Tahun"
             v-model:value="sowDashboard.formData.selectedYear"
           >
-            <a-select-option value="2019">2019</a-select-option>
-            <a-select-option value="2020">2020</a-select-option>
-            <a-select-option value="2021">2021</a-select-option>
-            <a-select-option value="2022">2022</a-select-option>
+            <a-select-option disabled value="">Pilih Tahun</a-select-option>
+            <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
+              {{ tahun }}
+            </a-select-option>
           </a-select>
         </div>
         <div class="col-xs-2 col-md-2">
@@ -117,18 +117,14 @@
             placeholder="Bulan"
             v-model:value="sowDashboard.formData.selectedMonth"
           >
-            <a-select-option value="1">1</a-select-option>
-            <a-select-option value="2">2</a-select-option>
-            <a-select-option value="3">3</a-select-option>
-            <a-select-option value="4">4</a-select-option>
-            <a-select-option value="5">5</a-select-option>
-            <a-select-option value="6">6</a-select-option>
-            <a-select-option value="7">7</a-select-option>
-            <a-select-option value="8">8</a-select-option>
-            <a-select-option value="9">9</a-select-option>
-            <a-select-option value="10">10</a-select-option>
-            <a-select-option value="11">11</a-select-option>
-            <a-select-option value="12">12</a-select-option>
+            <a-select-option disabled value="">Bulan</a-select-option>
+            <a-select-option
+              v-for="(bulan, index) in sowDashboard.data_bulan"
+              :value="bulan.id"
+              :key="index"
+            >
+              {{ bulan.name }}
+            </a-select-option>
           </a-select>
         </div>
       </div>
@@ -136,76 +132,88 @@
     <div class="row mt-4">
       <div class="col-md-4 col-sm-4">
         <div class="list_download d-flex mt-3 rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Produk (SKU)</label>
-            <br />
-            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.produk : 0 }}</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/package.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Produk (SKU)</label>
+              <br />
+              <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.produk : 0 }}</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/package.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
       <div class="col-md-4 col-sm-4">
         <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Brands</label>
-            <br />
-            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.brand : 0 }}</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/globe-1.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Brands</label>
+              <br />
+              <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.brand : 0 }}</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/globe-1.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
       <div class="col-md-4 col-sm-4">
         <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Total Customer</label>
-            <br />
-            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.customer : 0 }}</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Total Customer</label>
+              <br />
+              <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.customer : 0 }}</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/user-check.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
         <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Distributor</label>
-            <br />
-            <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.distributor : 0 }}</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Distributor</label>
+              <br />
+              <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.distributor : 0 }}</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
       <div class="col-md-4">
         <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Registered Outled</label>
-            <br />
-            <span>0</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Registered Outled</label>
+              <br />
+              <span>0</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
       <div class="col-md-4">
         <div class="list_download d-flex mt-3  rounded shadow px-3 pb-3">
-          <div class="list_download_information">
-            <label for="">Outled Surveyed</label>
-            <br />
-            <span>0</span>
-          </div>
-          <div class="list_download_icon ml-auto">
-            <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
-          </div>
+          <a-skeleton active :loading="sowDashboard.isLoadingLabel" :paragraph="{ rows: 1 }">
+            <div class="list_download_information">
+              <label for="">Outled Surveyed</label>
+              <br />
+              <span>0</span>
+            </div>
+            <div class="list_download_icon ml-auto">
+              <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
+            </div>
+          </a-skeleton>
         </div>
       </div>
     </div>
@@ -220,17 +228,21 @@
           <div class="row">
             <div class="col-md-4">
               <div class="bg-white p-3 style_donut">
-                <vue-apex-charts
-                  type="pie"
-                  height="340"
-                  :options="chartOptions"
-                  :series="series"
-                ></vue-apex-charts>
+                <a-skeleton active :loading="sowDashboard.isLoadingChart" :paragraph="{ rows: 4 }">
+                  <vue-apex-charts
+                    type="pie"
+                    height="340"
+                    :options="chartOptions"
+                    :series="chartOptions.series"
+                  ></vue-apex-charts>
+                </a-skeleton>
               </div>
             </div>
             <div class="col-md-8">
               <div class="bg-white p-3 style_area">
-                <vue-highcharts :highcharts="Highcharts" :options="chartBubble"></vue-highcharts>
+                <a-skeleton active :loading="sowDashboard.isLoadingChart" :paragraph="{ rows: 4 }">
+                  <vue-highcharts :highcharts="Highcharts" :options="chartBubble"></vue-highcharts>
+                </a-skeleton>
               </div>
             </div>
           </div>
@@ -267,68 +279,81 @@
     </div> -->
     <div class="card card-top card-top-primary mt-3">
       <div class="card-body">
-        <div class="row">
-          <div class="col-xs-3 col-md-3">
-            <a-input-search
-              v-model:value="sowDashboard.bodyList.filter"
-              placeholder="Cari nama toko"
-              @search="searchToko()"
-            />
-          </div>
-        </div>
-        <div class="row mt-4">
-          <div class="col-md-12 col-sm-12">
-            <div class="table-responsive text-nowrap">
-              <a-table
-                :data-source="sowDashboard.dataTable"
-                :columns="sowDashboard.columns"
-                :loading="sowDashboard.isLoading"
-                :pagination="sowDashboard.pagination"
-                :row-key="data => data.id_toko"
-              >
-                <template #no="{ index }">
-                  <div>
-                    {{ index + 1 }}
-                  </div>
-                </template>
-                <template #distrik="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #id_toko="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #nama_toko="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #produk="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #kapasitas_jual="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #volume_jual="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-                <template #sow="{ text }">
-                  <div>
-                    {{ text }}
-                  </div>
-                </template>
-              </a-table>
+        <div class="d-flex justify-content-between mb-3">
+          <div class="d-flex mb-2">
+            <div class="align-self-center">
+              <span>Show :</span>
+            </div>
+            <a-select
+              :default-value="sowDashboard.itemsPerPage[0]"
+              class="mx-2"
+              @change="handlePagination"
+            >
+              <a-select-option v-for="itemPerPage in sowDashboard.itemsPerPage" :key="itemPerPage">
+                {{ itemPerPage }}
+              </a-select-option>
+            </a-select>
+            <div class="align-self-center">
+              <span>entries</span>
             </div>
           </div>
+          <a-input-search
+            v-model:value="sowDashboard.bodyList.filter"
+            placeholder="Cari nama toko"
+            @search="searchToko"
+            style="width: 200px; height:34px;"
+          />
+        </div>
+        <div class="table-sow table-responsive text-nowrap">
+          <a-table
+            :data-source="sowDashboard.dataTable"
+            :columns="sowDashboard.columns"
+            :loading="sowDashboard.isLoading"
+            :pagination="sowDashboard.pagination"
+            :row-class-name="tableRowClassName"
+            :row-key="data => data.id_toko"
+          >
+            <template #no="{ index }">
+              <div>
+                {{ index + 1 }}
+              </div>
+            </template>
+            <template #distrik="{ text }">
+              <div>
+                {{ text.nm_wilayah }}
+              </div>
+            </template>
+            <template #id_toko="{ text }">
+              <div>
+                {{ text.id_toko }}
+              </div>
+            </template>
+            <template #nama_toko="{ text }">
+              <div>
+                {{ text.nm_customer }}
+              </div>
+            </template>
+            <template #produk="{ text }">
+              <div>
+                {{ text.nm_produk }}
+              </div>
+            </template>
+            <template #kapasitas_jual="{ text }">
+              <div>
+                {{ text.kapasitas_jual }}
+              </div>
+            </template>
+            <template #volume_jual="{ text }">
+              <div>
+                {{ text.volume_penjualan_total }}
+              </div>
+            </template>
+            <template #sow="{ text }">
+              <div>
+                {{ text.sow }}
+              </div>
+            </template>
+          </a-table>
         </div>
       </div>
     </div>
@@ -394,6 +419,8 @@ export default {
         legend: {
           position: 'bottom',
         },
+        series: [25, 15, 44, 55, 41],
+
         labels: ['Semen Gresik', 'Semen Rembang', 'Semen Tuban', 'Semen Padang', 'Semen Mortar'],
         responsive: [
           {
@@ -409,7 +436,6 @@ export default {
           },
         ],
       },
-      series: [25, 15, 44, 55, 41],
 
       chartOptions_area: {
         chart: {
@@ -469,22 +495,22 @@ export default {
           type: 'bubble',
           plotBorderWidth: 1,
           zoomType: 'xy',
+          height: 320,
         },
         legend: {
           enabled: false,
         },
-        // title: {
-        //   text: 'Sugar and fat intake per country',
-        // },
-        // subtitle: {
-        //   text:
-        //     'Source: <a href="http://www.euromonitor.com/">Euromonitor</a> and <a href="https://data.oecd.org/">OECD</a>',
-        // },
+        title: {
+          text: '',
+        },
+        subtitle: {
+          text: '',
+        },
         xAxis: {
           gridLineWidth: 1,
-          // title: {
-          //   text: 'Daily fat intake',
-          // },
+          title: {
+            text: '',
+          },
           labels: {
             format: '{value} gr',
           },
@@ -509,9 +535,9 @@ export default {
         yAxis: {
           startOnTick: false,
           endOnTick: false,
-          // title: {
-          //   text: 'Daily sugar intake',
-          // },
+          title: {
+            text: '',
+          },
           labels: {
             format: '{value} gr',
           },
@@ -581,10 +607,15 @@ export default {
     ...mapState({
       sowDashboard: state => state.sowDashboard.data,
     }),
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2019 }, (value, index) => 2020 + index)
+    },
   },
   async mounted() {
     await this.getProvinsi()
     this.urlMap()
+    this.handlePagination(5)
     // await this.submitLabel()
     // await this.getDataTable()
   },
@@ -599,7 +630,18 @@ export default {
       'submitLabel',
       'getDataTable',
       'getDataScatterChart',
+      'getDataChart',
     ]),
+    tableRowClassName(text) {
+      if (text.sow > '100%') {
+        return 'non-active'
+      } else {
+        return ''
+      }
+    },
+    handlePagination(size) {
+      this.sowDashboard.pagination.pageSize = size
+    },
     urlMap() {
       // let lat =
       //   this.koordinatLock.dataDetailHistory.latitude === null ? 0 : this.detail_visit.latitude
@@ -639,7 +681,7 @@ export default {
 
       if (keyword) {
         let data = this.sowDashboard.dataTable.filter(dataSource =>
-          dataSource.nm_toko.toLowerCase().includes(keyword.toLowerCase()),
+          dataSource.nm_customer.toLowerCase().includes(keyword.toLowerCase()),
         )
 
         if (data.length > 0) {
@@ -652,7 +694,7 @@ export default {
         }
       } else {
         setTimeout(() => {
-          this.sowDashboard.dataTable = this.sowDashboard.dataTable
+          this.sowDashboard.dataTable = this.sowDashboard.dataTableSearch
           this.sowDashboard.isLoading = false
         }, 500)
       }
@@ -670,9 +712,24 @@ export default {
         })
       } else {
         await this.submitLabel()
-        await this.getDataTable()
+
         await this.getDataChart()
+        if (this.sowDashboard.statusPie == 'sukses') {
+          console.log(`---- this.sowDashboard.chartDashboard`, this.sowDashboard.chartDashboard)
+          this.sowDashboard.chartDashboard.forEach(element => {
+            this.chartOptions.series.push(element.persentase_data)
+            this.chartOptions.labels.push(element.nama)
+          })
+        }
+
         await this.getDataScatterChart()
+        console.log(`---- this.sowDashboard.statusScatter`, this.sowDashboard.statusScatter)
+
+        if (this.sowDashboard.statusScatter == 'sukses') {
+          this.chartBubble.series = this.sowDashboard.scatterChart
+        }
+
+        await this.getDataTable()
       }
     },
   },
@@ -699,7 +756,10 @@ export default {
   -webkit-box-shadow: 0px 12px 21px -14px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 0px 12px 21px -14px rgba(0, 0, 0, 0.16);
 }
-
+.table-sow .ant-table-tbody .non-active td {
+  background-color: red !important;
+  color: white;
+}
 .style_icon {
   font-size: 30px;
 }

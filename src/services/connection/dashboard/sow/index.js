@@ -122,11 +122,64 @@ const state = {
     // selectedDistrik: null,
     pagination: {},
     isLoading: false,
+    isLoadingLabel: false,
+    isLoadingChart: false,
     bodyList: {
       offset: 0,
       limit: 2000,
       filter: '',
     },
+    itemsPerPage: [3, 5],
+    data_bulan: [
+      {
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
+      },
+    ],
     formData: {
       selectedProvinsi: null,
       selectedArea: null,
@@ -138,8 +191,11 @@ const state = {
     },
     dataLabel: null,
     dataTable: [],
+    dataTableSearch: [],
     chartDashboard: [],
     scatterChart: [],
+    statusPie: '',
+    statusScatter: '',
     itemsPerPage: [5, 10, 15, 20],
   },
 }
@@ -369,7 +425,7 @@ const actions = {
 
   async submitLabel({ commit, state }, payload) {
     commit('changeSOW', {
-      isLoading: true,
+      isLoadingLabel: true,
     })
 
     const { data } = state
@@ -393,12 +449,12 @@ const actions = {
           description: result.data.message,
         })
         await commit('changeSOW', {
-          isLoading: false,
+          isLoadingLabel: false,
         })
       } else {
         await commit('changeSOW', {
           dataLabel: result.data,
-          isLoading: false,
+          isLoadingLabel: false,
         })
       }
     } catch (error) {
@@ -439,7 +495,8 @@ const actions = {
         })
       } else {
         await commit('changeSOW', {
-          dataTable: result.data,
+          dataTable: result.data.data,
+          dataTableSearch: result.data.data,
           isLoading: false,
         })
       }
@@ -453,7 +510,7 @@ const actions = {
 
   async getDataChart({ commit, state }, payload) {
     commit('changeSOW', {
-      isLoading: true,
+      isLoadingChart: true,
     })
 
     const { data } = state
@@ -477,12 +534,14 @@ const actions = {
           description: result.data.message,
         })
         await commit('changeSOW', {
-          isLoading: false,
+          isLoadingChart: false,
+          statusPie: 'gagal',
         })
       } else {
         await commit('changeSOW', {
-          chartDashboard: result.data,
-          isLoading: false,
+          chartDashboard: result.data.brands,
+          isLoadingChart: false,
+          statusPie: 'sukses',
         })
       }
     } catch (error) {
@@ -495,7 +554,7 @@ const actions = {
 
   async getDataScatterChart({ commit, state }, payload) {
     commit('changeSOW', {
-      isLoading: true,
+      isLoadingChart: true,
     })
 
     const { data } = state
@@ -519,12 +578,14 @@ const actions = {
           description: result.data.message,
         })
         await commit('changeSOW', {
-          isLoading: false,
+          isLoadingChart: false,
+          statusScatter: 'gagal',
         })
       } else {
         await commit('changeSOW', {
           scatterChart: result.data,
-          isLoading: false,
+          statusScatter: 'sukses',
+          isLoadingChart: false,
         })
       }
     } catch (error) {
