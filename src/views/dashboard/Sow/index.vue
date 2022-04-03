@@ -226,7 +226,7 @@
             </small>
           </legend>
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
               <div class="bg-white p-3 style_donut">
                 <a-skeleton active :loading="sowDashboard.isLoadingChart" :paragraph="{ rows: 4 }">
                   <vue-apex-charts
@@ -238,7 +238,7 @@
                 </a-skeleton>
               </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-7">
               <div class="bg-white p-3 style_area">
                 <a-skeleton active :loading="sowDashboard.isLoadingChart" :paragraph="{ rows: 4 }">
                   <vue-highcharts :highcharts="Highcharts" :options="chartBubble"></vue-highcharts>
@@ -419,9 +419,8 @@ export default {
         legend: {
           position: 'bottom',
         },
-        series: [25, 15, 44, 55, 41],
-
-        labels: ['Semen Gresik', 'Semen Rembang', 'Semen Tuban', 'Semen Padang', 'Semen Mortar'],
+        series: [100],
+        labels: ['Default'],
         responsive: [
           {
             breakpoint: 480,
@@ -512,7 +511,7 @@ export default {
             text: '',
           },
           labels: {
-            format: '{value} gr',
+            format: '{value}',
           },
           // plotLines: [
           //   {
@@ -539,7 +538,7 @@ export default {
             text: '',
           },
           labels: {
-            format: '{value} gr',
+            format: '{value}',
           },
           maxPadding: 0.2,
           // plotLines: [
@@ -581,23 +580,7 @@ export default {
         },
         series: [
           {
-            data: [
-              { x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium' },
-              { x: 86.5, y: 102.9, z: 14.7, name: 'DE', country: 'Germany' },
-              { x: 80.8, y: 91.5, z: 15.8, name: 'FI', country: 'Finland' },
-              { x: 80.4, y: 102.5, z: 12, name: 'NL', country: 'Netherlands' },
-              { x: 80.3, y: 86.1, z: 11.8, name: 'SE', country: 'Sweden' },
-              { x: 78.4, y: 70.1, z: 16.6, name: 'ES', country: 'Spain' },
-              { x: 74.2, y: 68.5, z: 14.5, name: 'FR', country: 'France' },
-              { x: 73.5, y: 83.1, z: 10, name: 'NO', country: 'Norway' },
-              { x: 71, y: 93.2, z: 24.7, name: 'UK', country: 'United Kingdom' },
-              { x: 69.2, y: 57.6, z: 10.4, name: 'IT', country: 'Italy' },
-              { x: 68.6, y: 20, z: 16, name: 'RU', country: 'Russia' },
-              { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
-              { x: 65.4, y: 50.8, z: 28.5, name: 'HU', country: 'Hungary' },
-              { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' },
-              { x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand' },
-            ],
+            data: [{ x: 95, y: 95, z: 13.8, name: 'Default' }],
           },
         ],
       },
@@ -715,15 +698,26 @@ export default {
 
         await this.getDataChart()
         if (this.sowDashboard.statusPie == 'sukses') {
-          console.log(`---- this.sowDashboard.chartDashboard`, this.sowDashboard.chartDashboard)
+          let labelName = []
+          let presentaseData = []
           this.sowDashboard.chartDashboard.forEach(element => {
-            this.chartOptions.series.push(element.persentase_data)
-            this.chartOptions.labels.push(element.nama)
+            presentaseData.push(element.persentase_data)
+            labelName.push(element.nama)
           })
+
+          let dataLabel = _.filter(labelName, function(x) {
+            return x != null
+          })
+          let dataPersentase = _.filter(presentaseData, function(x) {
+            return x != 0
+          })
+
+          console.log(`----dataPersentase`, dataPersentase)
+          this.chartOptions.series = dataPersentase
+          this.chartOptions.labels = dataLabel
         }
 
         await this.getDataScatterChart()
-        console.log(`---- this.sowDashboard.statusScatter`, this.sowDashboard.statusScatter)
 
         if (this.sowDashboard.statusScatter == 'sukses') {
           this.chartBubble.series = this.sowDashboard.scatterChart
