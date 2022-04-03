@@ -49,8 +49,24 @@
                   class="col-lg-12 col-md-12 pr-2"
                   style="width: 100% !important"
                   placeholder="Sales"
+                  v-model:value="salesRoute.formData.selectedSalesman"
+                  show-search
                 >
-                  <a-select-option value="">Pilih Salah Satu</a-select-option>
+                  <a-select-option disabled value="">Pilih Salesman</a-select-option>
+                  <a-select-option disabled v-if="salesRoute.dataSalesman.length == 0"
+                    >Sales Tidak Tersedia</a-select-option
+                  >
+
+                  <a-select-option
+                    v-else
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    v-for="(item, index) in salesRoute.dataSalesman"
+                    :key="`index_${index}`"
+                    :title="item.nama_sales"
+                    :value="item.nama_sales"
+                    >{{ item.id_sales }} - {{ item.nama_sales }}</a-select-option
+                  >
                 </a-select>
               </a-form-item>
             </div>
@@ -282,7 +298,7 @@ export default {
     this.getDistrik()
   },
   methods: {
-    ...mapActions('salesRoute', ['getDistrik', 'getDistributor']),
+    ...mapActions('salesRoute', ['getSalesman', 'getDistrik', 'getDistributor']),
     handleDistributor(value) {
       const id = value
       this.getDistributor(id)
@@ -292,6 +308,11 @@ export default {
     },
     onChange(a, b, c) {
       console.log(a, b, c)
+    },
+    async handleSales() {
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.selectedDistributor,
+      })
     },
   },
 }
