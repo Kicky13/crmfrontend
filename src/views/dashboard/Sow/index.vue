@@ -722,10 +722,13 @@ export default {
           description: 'Provinsi, Area , Bulan dan Tahun tidak boleh kosong.',
         })
       } else {
+        // post data submit all label
         await this.submitLabel({
           provinsi_id: this.sowDashboard.formData.id_provinsi,
           distrik_id: this.sowDashboard.formData.id_distrik,
         })
+
+        // get data chart pie
         await this.getDataChart({
           provinsi_id: this.sowDashboard.formData.id_provinsi,
           distrik_id: this.sowDashboard.formData.id_distrik,
@@ -749,6 +752,7 @@ export default {
           this.chartOptions.labels = dataLabel
         }
 
+        // get data bubble chart
         await this.getDataScatterChart({
           provinsi_id: this.sowDashboard.formData.id_provinsi,
           distrik_id: this.sowDashboard.formData.id_distrik,
@@ -774,6 +778,7 @@ export default {
           console.log(` this.chartBubble.series.data`, this.chartBubble.series[0])
         }
 
+        // get data table
         await this.getDataTable({
           provinsi_id: this.sowDashboard.formData.id_provinsi,
           distrik_id: this.sowDashboard.formData.id_distrik,

@@ -93,8 +93,8 @@
         </div>
       </div>
     </a-form>
-    <div class="row">
-      <!-- <div class="col-md-6">
+    <!-- <div class="row">
+      <div class="col-md-6">
         <div class="col-md-12 col-sm-12">
           <fieldset class="border border-dark shadow px-3 pb-3">
             <legend class="w-auto px-2">
@@ -116,26 +116,30 @@
             </div>
           </fieldset>
         </div>
+      </div>
+      <div class="col-md-12 bg-white rounded p-3 mt-3"></div>
+    </div> -->
+    <div class="row p-3">
+      <!-- <div class="col-md-12 bg-white rounded p-3 mt-3">
+        <a-carousel :after-change="onChange">
+          <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+            <img :src="item.src" />
+          </div>
+        </a-carousel>
       </div> -->
-      <div class="col-md-12 bg-white rounded p-3 mt-3">
-        <div class="row">
-          <div class="col-md-12">
-            <a-carousel :after-change="onChange">
-              <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-                <img :src="item.src" />
-              </div>
-            </a-carousel>
+      <div class="col-md-12 col-sm-12 bg-white rounded p-3">
+        <a-carousel :after-change="onChange" class="">
+          <div v-if="itemRadio == null">
+            <img src="@/assets/images/maps2.jpg" class="img-fluid w-100" style="height:auto;" />
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 col-sm-12">
-            <img src="@/assets/images/maps2.jpg" alt="Los Angeles" height="150px" />
+          <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+            <img :src="item.src" />
           </div>
-        </div>
+        </a-carousel>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8 col-sm-8">
+      <div class="col-md-7 col-sm-7">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
@@ -237,7 +241,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 col-sm-4">
+      <div class="col-md-5 col-sm-5">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
@@ -296,7 +300,7 @@ import { _ } from 'vue-underscore'
 export default {
   data: function() {
     return {
-      itemRadio: {},
+      itemRadio: null,
       selectedRowKeys: [],
       //fungsi menampilkan google map
       ready: false,
