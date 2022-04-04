@@ -1,74 +1,76 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { moment } from 'moment'
+
 const state = {
   data: {
     columns: [
       {
-        title: 'No',
-        dataIndex: 'distrik',
-        key: 'distrik',
+        title: '',
+        slots: { customRender: 'radio' },
+        key: 'radio',
       },
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
-        title: 'Distributor',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        title: 'ID Toko',
+        slots: { customRender: 'id_toko' },
+        key: 'id_toko',
       },
       {
         title: 'Toko',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'toko' },
+        key: 'toko',
       },
       {
         title: 'Sales',
-        dataIndex: 'nama Toko',
-        key: 'Nama Toko',
+        slots: { customRender: 'sales' },
+        key: 'sales',
       },
       {
         title: 'Tanggal',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'tanggal' },
+        key: 'tanggal',
       },
       {
         title: 'Check-In',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'check_in' },
+        key: 'check_in',
       },
       {
         title: 'Check-Out',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'check_out' },
+        key: 'check_out',
       },
       {
         title: 'Durasi Visit',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'durasi_visit' },
+        key: 'durasi_visit',
       },
       {
         title: 'Jarak Check',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'jarak_check' },
+        key: 'jarak_check',
       },
       {
         title: 'Perjalanan',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'perjalanan' },
+        key: 'perjalanan',
       },
       {
         title: 'Plan/Unplan',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'plan' },
+        key: 'plan',
       },
     ],
     columns2: [
       {
         title: 'Toko Belum Dikunjungi',
-        dataIndex: 'distrik',
-        key: 'distrik',
+        slots: { customRender: 'toko' },
+        key: 'toko',
       },
     ],
     dataList: null,
@@ -76,7 +78,11 @@ const state = {
     dataSalesman: [],
     dataDistrik: [],
     dataDistributor: [],
+    detailVisit: [],
+    detailMerchant: [],
+    dataMap: [],
     pagination: {},
+    paginationToko: {},
     isLoading: false,
     pagination2: {},
     isLoading2: false,
@@ -86,9 +92,10 @@ const state = {
       filter: '',
     },
     formData: {
-      selectedDistrik: null,
-      selectedDistributor: null,
-      selectedSalesman: null,
+      selectedDistrik: '',
+      selectedDistributor: '',
+      selectedSalesman: '',
+      selectedDate: '',
     },
     itemsPerPage: [5, 10, 15, 20],
   },
@@ -195,6 +202,120 @@ const actions = {
         await commit('changeSalesRoute', {
           dataSalesman: result.data.data,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDetailVisit({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          detailVisit: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getMerchantSurvey({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading2: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading2: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          detailMerchant: result.data.data,
+          isLoading2: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getMap({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading2: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading2: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataMap: result.data.data,
+          isLoading2: false,
         })
       }
     } catch (error) {

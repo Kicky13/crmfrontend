@@ -2,7 +2,7 @@
   <div>
     <a-form :model="sowDashboard.formData" label-align="left" layout="vertical">
       <div class="row">
-        <div class="col-xs-2 col-md-2">
+        <div class="col-xs-3 col-md-3">
           <a-select
             class="col-lg-12 col-md-12 pr-2"
             style="width: 100% !important"
@@ -14,7 +14,8 @@
             <a-select-option
               v-for="(provinsi, index) in sowDashboard.dataProvinsi"
               :key="index"
-              :value="provinsi.id_provinsi"
+              :value="provinsi.nama_provinsi"
+              :title="provinsi.nama_provinsi"
               >{{ provinsi.nama_provinsi }}</a-select-option
             >
           </a-select>
@@ -37,7 +38,7 @@
             >
           </a-select>
         </div>
-        <div class="col-xs-2 col-md-2">
+        <div class="col-xs-3 col-md-3">
           <a-select
             class="col-lg-12 col-md-12 pr-2"
             style="width: 100% !important"
@@ -49,7 +50,8 @@
             <a-select-option
               v-for="(distrik, index) in sowDashboard.dataDistrik"
               :key="index"
-              :value="distrik.id_distrik"
+              :value="distrik.nama_distrik"
+              :title="distrik.nama_distrik"
             >
               {{ distrik.nama_distrik }}</a-select-option
             >
@@ -73,6 +75,14 @@
           </a-select>
         </div>
         <div class="col-xs-2 col-md-2">
+          <a-button type="primary" class="w-100" @click="handleOk()">
+            <i class="fa fa-eye mr-2" />
+            Tampilkan
+          </a-button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-xs-3 col-md-3">
           <a-select
             class="col-lg-12 col-md-12 pr-2"
             style="width: 100% !important"
@@ -89,14 +99,6 @@
             >
           </a-select>
         </div>
-        <div class="col-xs-2 col-md-2">
-          <a-button type="primary" class="w-100" @click="handleOk()">
-            <i class="fa fa-eye mr-2" />
-            Tampilkan
-          </a-button>
-        </div>
-      </div>
-      <div class="row mt-2">
         <div class="col-xs-2 col-md-2">
           <a-select
             class="col-lg-12 col-md-12 pr-2"
@@ -208,7 +210,7 @@
             <div class="list_download_information">
               <label for="">Outled Surveyed</label>
               <br />
-              <span>0</span>
+              <span>{{ sowDashboard.dataLabel ? sowDashboard.dataLabel.OutledSurveyed : 0 }}</span>
             </div>
             <div class="list_download_icon ml-auto">
               <img src="@/assets/images/icon/users-more.png" alt="Logo SIG" v-once />
@@ -498,6 +500,16 @@ export default {
         },
         legend: {
           enabled: false,
+          minSize: 20,
+          maxSize: 60,
+          ranges: [
+            {
+              value: 14,
+            },
+            {
+              value: 89,
+            },
+          ],
         },
         title: {
           text: '',
@@ -505,6 +517,7 @@ export default {
         subtitle: {
           text: '',
         },
+
         xAxis: {
           gridLineWidth: 1,
           title: {
@@ -513,23 +526,24 @@ export default {
           labels: {
             format: '{value}',
           },
-          // plotLines: [
-          //   {
-          //     color: 'black',
-          //     dashStyle: 'dot',
-          //     width: 2,
-          //     value: 65,
-          //     // label: {
-          //     //   rotation: 0,
-          //     //   y: 15,
-          //     //   style: {
-          //     //     fontStyle: 'italic',
-          //     //   },
-          //     //   text: 'Safe fat intake 65g/day',
-          //     // },
-          //     zIndex: 3,
-          //   },
-          // ],
+          plotLines: [
+            {
+              // color: 'black',
+              // dashStyle: 'dot',
+              // width: 2,
+              // value: 65
+              // showInLegend: true,
+              // label: {
+              //   rotation: 0,
+              //   y: 15,
+              //   style: {
+              //     fontStyle: 'italic',
+              //   },
+              //   text: 'Safe fat intake 65g/day',
+              // },
+              // zIndex: 3,
+            },
+          ],
         },
         yAxis: {
           startOnTick: false,
@@ -563,10 +577,10 @@ export default {
           useHTML: true,
           headerFormat: '<table>',
           pointFormat:
-            '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
-            '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
-            '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
-            '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
+            '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
+            '<tr><th>Persentase:</th><td>{point.x}%</td></tr>' +
+            '<tr><th>Total Customer:</th><td>{point.y}</td></tr>' +
+            '<tr><th>Volume Penjualan:</th><td>{point.z}</td></tr>',
           footerFormat: '</table>',
           followPointer: true,
         },
@@ -578,9 +592,10 @@ export default {
             },
           },
         },
+
         series: [
           {
-            data: [{ x: 95, y: 95, z: 13.8, name: 'Default' }],
+            data: [],
           },
         ],
       },
@@ -642,18 +657,31 @@ export default {
     getMapData(place) {
       this.place = place
     },
-    handleArea(value) {
-      const id = value
-      this.getArea(id)
+    async handleArea() {
+      let dataSource = [...this.sowDashboard.dataProvinsi]
+      let filtered = dataSource.filter(
+        x => x.nama_provinsi == this.sowDashboard.formData.selectedProvinsi,
+      )
+      this.sowDashboard.formData.id_provinsi = filtered[0].id_provinsi
+
+      await this.getArea({
+        provinsi_id: this.sowDashboard.formData.id_provinsi,
+      })
     },
 
     handleDistrik(value) {
       const id = value
       this.getDistrik(id)
     },
-    handleDistributor(value) {
-      const id = value
-      this.getDistributor(id)
+    handleDistributor() {
+      let dataSource = [...this.sowDashboard.dataDistrik]
+      let filtered = dataSource.filter(
+        x => x.nama_distrik == this.sowDashboard.formData.selectedDistrik,
+      )
+      this.sowDashboard.formData.id_distrik = filtered[0].id_distrik
+      this.getDistributor({
+        distrik_id: this.sowDashboard.formData.id_distrik,
+      })
     },
     handleBrand(value) {
       const id = value
@@ -694,9 +722,14 @@ export default {
           description: 'Provinsi, Area , Bulan dan Tahun tidak boleh kosong.',
         })
       } else {
-        await this.submitLabel()
-
-        await this.getDataChart()
+        await this.submitLabel({
+          provinsi_id: this.sowDashboard.formData.id_provinsi,
+          distrik_id: this.sowDashboard.formData.id_distrik,
+        })
+        await this.getDataChart({
+          provinsi_id: this.sowDashboard.formData.id_provinsi,
+          distrik_id: this.sowDashboard.formData.id_distrik,
+        })
         if (this.sowDashboard.statusPie == 'sukses') {
           let labelName = []
           let presentaseData = []
@@ -712,18 +745,39 @@ export default {
             return x != 0
           })
 
-          console.log(`----dataPersentase`, dataPersentase)
           this.chartOptions.series = dataPersentase
           this.chartOptions.labels = dataLabel
         }
 
-        await this.getDataScatterChart()
+        await this.getDataScatterChart({
+          provinsi_id: this.sowDashboard.formData.id_provinsi,
+          distrik_id: this.sowDashboard.formData.id_distrik,
+        })
 
         if (this.sowDashboard.statusScatter == 'sukses') {
-          this.chartBubble.series = this.sowDashboard.scatterChart
+          let persentaseWithColor = []
+
+          this.sowDashboard.scatterChart.data.forEach(element => {
+            persentaseWithColor.push({
+              name: element.name,
+              x: element.x,
+              y: element.y,
+              z: element.z,
+              color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+            })
+          })
+          // console.log(`-this.sowDashboard.scatterChart`, persentaseWithColor)
+          // console.log(`this.sowDashboard.scatterChart`, this.sowDashboard.scatterChart)
+
+          this.chartBubble.series[0].data = persentaseWithColor
+
+          console.log(` this.chartBubble.series.data`, this.chartBubble.series[0])
         }
 
-        await this.getDataTable()
+        await this.getDataTable({
+          provinsi_id: this.sowDashboard.formData.id_provinsi,
+          distrik_id: this.sowDashboard.formData.id_distrik,
+        })
       }
     },
   },

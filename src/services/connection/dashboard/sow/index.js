@@ -188,6 +188,10 @@ const state = {
       selectedBrand: null,
       selectedMonth: null,
       selectedYear: null,
+      id_provinsi: null,
+      id_distrik: null,
+      id_distributor: null,
+      id_brand: null,
     },
     dataLabel: null,
     dataTable: [],
@@ -278,18 +282,18 @@ const actions = {
       })
     }
   },
-  async getArea({ commit, state }) {
+  async getArea({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
 
     const { data } = state
-
     let body = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
+
     try {
       const result = await apiClient.post('/filter/Area', body)
 
@@ -350,7 +354,7 @@ const actions = {
       })
     }
   },
-  async getDistributor({ commit, state }) {
+  async getDistributor({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
@@ -358,7 +362,7 @@ const actions = {
     const { data } = state
 
     let body = {
-      id_distrik: data.formData.selectedDistrik,
+      id_distrik: payload.distrik_id,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -431,9 +435,9 @@ const actions = {
     const { data } = state
 
     let formBody = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       id_area: data.formData.selectedArea,
-      id_kota: data.formData.selectedDistrik,
+      id_kota: payload.distrik_id,
       id_distributor: data.formData.selectedDistributor,
       id_brand: data.formData.selectedBrand,
       bulan: data.formData.selectedMonth,
@@ -473,9 +477,9 @@ const actions = {
     const { data } = state
 
     let formBody = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       id_area: data.formData.selectedArea,
-      id_kota: data.formData.selectedDistrik,
+      id_kota: payload.distrik_id,
       id_distributor: data.formData.selectedDistributor,
       id_brand: data.formData.selectedBrand,
       bulan: data.formData.selectedMonth,
@@ -516,9 +520,9 @@ const actions = {
     const { data } = state
 
     let formBody = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       id_area: data.formData.selectedArea,
-      id_kota: data.formData.selectedDistrik,
+      id_kota: payload.distrik_id,
       id_distributor: data.formData.selectedDistributor,
       id_brand: data.formData.selectedBrand,
       bulan: data.formData.selectedMonth,
@@ -560,9 +564,9 @@ const actions = {
     const { data } = state
 
     let formBody = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       id_area: data.formData.selectedArea,
-      id_kota: data.formData.selectedDistrik,
+      id_kota: payload.distrik_id,
       id_distributor: data.formData.selectedDistributor,
       id_brand: data.formData.selectedBrand,
       bulan: data.formData.selectedMonth,
