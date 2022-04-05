@@ -128,12 +128,12 @@
         </a-carousel>
       </div> -->
       <div class="col-md-12 col-sm-12 bg-white rounded p-3">
-        <a-carousel :after-change="onChange" class="">
+        <a-carousel :after-change="onChange" class="" style="height:auto">
           <div v-if="itemRadio == null">
-            <img src="@/assets/images/maps2.jpg" class="img-fluid w-100" style="height:auto;" />
+            <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:300px;" />
           </div>
           <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-            <img :src="item.src" />
+            <img :src="item.src" class="img-fluid w-100" style="height:300px;" />
           </div>
         </a-carousel>
       </div>
@@ -459,7 +459,7 @@ export default {
 /* For demo */
 .ant-carousel >>> .slick-slide {
   text-align: center;
-  height: 160px;
+  height: 300px;
   line-height: 160px;
   background: #364d79;
   overflow: hidden;
