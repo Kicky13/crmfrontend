@@ -55,7 +55,14 @@ const routes = [
       {
         path: '/dashboard/sow',
         meta: { title: 'Sow', resource: 'Sow', action: 'read' },
-        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/sow'),
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),
+      },
+      {
+        path: '/dashboard/sales_route',
+        name: 'dashbord_route',
+        meta: { title: 'Dashboard', resource: 'UserHirarki', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "user-management" */ '@/views/dashboard/SalesRoute'),
       },
       // Master Data
       {

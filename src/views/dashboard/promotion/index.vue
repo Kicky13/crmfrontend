@@ -43,88 +43,17 @@ export default {
   },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
-      promotion: state => state.promotion.data,
-      promotionDashboard: state => state.promotionDashboard.data,
+      promotionDashboard: (state) => state.promotionDashboard.data,
     }),
-    years() {
-      const year = new Date().getFullYear()
-      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
-    },
   },
   async mounted() {
-    await this.getAllProvinsi()
-    await this.getAllArea()
-    await this.getAllDistrik()
-    await this.getAllDistributor()
-    await this.getAllKategori()
-    await this.getAllBrand()
-    await this.setSeriesAndCategories()
     await this.getMetabasePromotion()
   },
   methods: {
-    ...mapActions('filter', [
-      'getAllProvinsi',
-      'getAllArea',
-      'getAllDistrik',
-      'getAllDistributor',
-      'getAllKategori',
-      'getAllBrand',
-    ]),
-    ...mapActions('promotion', [
-      'getAllPromotion',
-    ]),
     ...mapActions('promotionDashboard', ['getMetabasePromotion']),
+
     async handleRefresh() {
       await this.getMetabasePromotion()
-    },
-    async handleProvinsi(value) {
-      const idProvinsi = (value.split('-')[0]).trim()
-      await this.getAllArea({ id_provinsi: idProvinsi })
-      this.formData.id_provinsi = idProvinsi
-    },
-    async handleArea(value) {
-      const idArea = (value.split('-')[0]).trim()
-      await this.getAllDistrik({ id_area: idArea })
-      this.formData.id_area = idArea
-    },
-    async handleDistrik(value) {
-      const idDistrik = (value.split('-')[0]).trim()
-      await this.getAllDistributor({ id_distrik: idDistrik })
-      this.formData.id_kota = idDistrik
-    },
-    handleDistributor(value) {
-      const idDistributor = (value.split('-')[0]).trim()
-      this.formData.id_distributor = idDistributor
-    },
-    async handleKategori(value) {
-      const idKategori = (value.split('-')[0]).trim()
-      await this.getAllBrand({ id_kategori: idKategori })
-      this.formData.id_kategori_produk = idKategori
-    },
-    handleTahun(value) {
-      this.formData.tahun = value
-    },
-    handleBulan(value) {
-      this.formData.bulan = value
-    },
-    async handleTampilkan() {
-      this.series = []
-      await this.setSeriesAndCategories(this.formData)
-    },
-    async setSeriesAndCategories() {
-      await this.getAllPromotion()
-      this.promotion.listSeries.map(serie => this.series.push(serie))
-      this.series.map(serie => colors.push(this.randomColor()))
-      this.chartOptions = {
-        ...this.chartOptions,
-        ...{
-          xaxis: {
-            type: 'text',
-            categories: this.promotion.listCategories,
-          },
-        },
-      }
     },
   },
 }

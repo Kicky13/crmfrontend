@@ -1,0 +1,23 @@
+{
+  "sow_table": {
+    "status": true,
+    "message": "success",
+    "data": {
+      "total_customer": 1200,
+      "produk_sku": 100,
+      "brand": 100,
+      "distributor": 2000,
+      "data_sow": [
+        {
+          "distrik": "MATARAM",
+          "id_toko": 41,
+          "nama_toko": "BJBU",
+          "produk_sku": 21,
+          "kapasitas_jual": 2000,
+          "volume_jual": 1000,
+          "sow": "50%"
+        }
+      ]
+    }
+  }
+}

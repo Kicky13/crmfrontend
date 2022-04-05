@@ -5,6 +5,8 @@ import UserManagementHirarki from '../services/connection/user-management/UserHi
 import ListUsersHirarki from '../services/connection/list-user'
 import UserManagementCRM from '../services/connection/user-management/UserCRM'
 import RadiusDistrik from '../services/connection/radius-distrik'
+import sow from '../services/connection/dashboard'
+import SalesRoute from '../services/connection/dashboard/sales_route'
 import SynCustomer from '../services/connection/customer-sync'
 import OtomatisasiVisitPlan from '../services/connection/otomatisasi-visit'
 import VisitPlan from '../services/connection/upload-visit'
@@ -54,6 +56,8 @@ export default createStore({
     userManagementCRM: UserManagementCRM,
     radiusDistrik: RadiusDistrik,
     synCustomer: SynCustomer,
+    SOW: sow,
+    salesRoute: SalesRoute,
     otomatisasiVisitPlan: OtomatisasiVisitPlan,
     visitPlan: VisitPlan,
     mappingCustomer: MappingCustomer,
