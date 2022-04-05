@@ -58,7 +58,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
+import store from '@/store'
 
 export default {
   data() {
@@ -71,7 +73,11 @@ export default {
       kemasan: state => state.kemasan.data,
     }),
   },
+  async mounted() {
+    await this.getAllBrand()
+  },
   methods: {
+    ...mapActions('kemasan', ['getAllKemasan']),
     showAddModal() {
       this.addModal = true
     },

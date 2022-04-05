@@ -1,36 +1,31 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { result } from 'lodash'
 
 const state = {
   data: {
     columns: [
       {
         title: 'Kemasan',
-        dataIndex: 'kemasan',
-        key: 'kemasan',
+        dataIndex: 'NAMA_KEMASAN',
+        key: 'NAMA_KEMASAN',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    kemasanList: [
-      {
-        kemasan: 'Kemasan 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    kemasanList: [],
     isLoading: false,
   },
 }
@@ -42,7 +37,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getAllKemasan({ commit, state }, payload) {
     commit('changeKemasan', {
       isLoading: true,
     })
@@ -50,7 +45,7 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/kemasan`)
 
       if (result.data.status == false) {
         await commit('changeKemasan', {
@@ -67,6 +62,7 @@ const actions = {
       }
     } catch (err) {
       await commit('changeKemasan', {
+        kemasanList: result.data.data,
         isLoading: false,
       })
       notification.error({

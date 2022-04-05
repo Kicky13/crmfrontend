@@ -35,6 +35,9 @@
           </button>
         </div>
       </template>
+      <template #TANGGAL_DIBUAT="{ text }">
+        <span>{{ changeFormatdate(text.TANGGAL_DIBUAT) }}</span>
+      </template>
     </a-table>
   </a-card>
   
@@ -42,10 +45,23 @@
   <a-modal
     v-model:visible="kategoriModal"
     title="Form Kategori"
-    :ok-text="modalStatus ? 'Update' : 'Simpan'"
-    cancel-text="Batal"
-    :on-ok="saveKategori"
   >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="kategoriModal = false"
+      >
+        Batal
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="kategoriPromo.isLoading"
+        @click="saveKategori"
+      >
+        {{ modalStatus ? 'Update' : 'Simpan' }}
+      </a-button>
+    </template>
     <a-input
       placeholder="Kategori"
       class="mb-3"
@@ -149,6 +165,9 @@ export default {
         this.formState.id = null
         this.formState.kategori_baru = ''
       }
+    },
+    changeFormatdate(date) {
+      return date.split('T')[0].split('-').reverse().join('-')
     },
   },
 }

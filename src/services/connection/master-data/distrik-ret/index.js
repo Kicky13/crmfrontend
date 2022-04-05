@@ -6,31 +6,25 @@ const state = {
     columns: [
       {
         title: 'Distrik RET',
-        dataIndex: 'distrik_ret',
-        key: 'distrik_ret',
+        dataIndex: 'NAMA_DISTRIK_RET',
+        key: 'NAMA_DISTRIK_RET',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    distrikRetList: [
-      {
-        distrik_ret: 'Distrik RET 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    distrikRetList: [],
     isLoading: false,
   },
 }
@@ -42,7 +36,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getAllDistrikRET({ commit, state }, payload) {
     commit('changeDistrikRET', {
       isLoading: true,
     })
@@ -50,7 +44,46 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/distrikret`)
+
+      if (result.data.status == false) {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeDistrikRET', {
+          distrikRetList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeDistrikRET', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async addDistrikRET({ commit, state }, payload) {
+    commit('changeDistrikRET', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      user_id: payload.id_user,
+      nm_distrik: payload.distrik_ret_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/distrikret/addnew`, formData)
 
       if (result.data.status == false) {
         await commit('changeDistrikRET', {
@@ -63,6 +96,95 @@ const actions = {
       } else {
         await commit('changeDistrikRET', {
           isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Distrik RET berhasil ditambahkan',
+        })
+      }
+    } catch (err) {
+      await commit('changeDistrikRET', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async deleteDistrikRET({ commit, state }, payload) {
+    commit('changeDistrikRET', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_distrik_ret,
+      user_id: payload.id_user,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/distrikret/delete`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Distrik RET berhasil dihapus',
+        })
+      }
+    } catch (err) {
+      await commit('changeDistrikRET', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async editDistrikRET({ commit, state }, payload) {
+    commit('changeDistrikRET', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_distrik_ret,
+      user_id: payload.id_user,
+      nm_distrik: payload.distrik_ret_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/distrikret/edit`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Distrik RET berhasil diupdate',
         })
       }
     } catch (err) {

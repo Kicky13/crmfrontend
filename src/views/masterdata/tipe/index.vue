@@ -42,10 +42,23 @@
   <a-modal
     v-model:visible="tipeModal"
     title="Form Tipe"
-    :ok-text="modalStatus ? 'Update' : 'Simpan'"
-    cancel-text="Batal"
-    :on-ok="saveTipe"
   >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="tipeModal = false"
+      >
+        Batal
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="tipe.isLoading"
+        @click="saveTipe"
+      >
+        {{ modalStatus ? 'Update' : 'Simpan' }}
+      </a-button>
+    </template>
     <a-input
       placeholder="Tipe"
       class="mb-3"
@@ -149,6 +162,9 @@ export default {
         this.formState.id = null
         this.formState.tipe_baru = ''
       }
+    },
+    changeFormatdate(date) {
+      return date.split('T')[0].split('-').reverse().join('-')
     },
   },
 }

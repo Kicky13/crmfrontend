@@ -6,31 +6,26 @@ const state = {
     columns: [
       {
         title: 'Brand',
-        dataIndex: 'brand',
-        key: 'brand',
+        dataIndex: 'NAMA_BRAND',
+        key: 'NAMA_BRAND',
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'tanggal_buat',
-        key: 'tanggal_buat',
+        dataIndex: 'TANGGAL_DIBUAT',
+        key: 'TANGGAL_DIBUAT',
       },
       {
         title: 'Dibuat Oleh',
-        dataIndex: 'dibuat_oleh',
-        key: 'dibuat_oleh',
+        dataIndex: 'DIBUAT_OLEH',
+        key: 'DIBUAT_OLEH',
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
       },
     ],
-    brandList: [
-      {
-        brand: 'Brand 1',
-        tanggal_buat: '22/03/2022',
-        dibuat_oleh: 'SIG',
-      },
-    ],
+    companyList: [],
+    brandList: [],
     isLoading: false,
   },
 }
@@ -42,7 +37,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getAllCompany({ commit, state }, payload) {
     commit('changeBrand', {
       isLoading: true,
     })
@@ -50,7 +45,81 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/company`)
+
+      if (result.data.status == false) {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeBrand', {
+          companyList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeBrand', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getAllBrand({ commit, state }, payload) {
+    commit('changeBrand', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/brand`)
+
+      if (result.data.status == false) {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeBrand', {
+          brandList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeBrand', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async addBrand({ commit, state }, payload) {
+    commit('changeBrand', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      user_id: payload.id_user,
+      id_company: payload.id_company,
+      nm_brand: payload.brand_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/brand/addnew`, formData)
 
       if (result.data.status == false) {
         await commit('changeBrand', {
@@ -63,6 +132,95 @@ const actions = {
       } else {
         await commit('changeBrand', {
           isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Brand berhasil ditambahkan',
+        })
+      }
+    } catch (err) {
+      await commit('changeBrand', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async deleteBrand({ commit, state }, payload) {
+    commit('changeBrand', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_tipe,
+      user_id: payload.id_user,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/brand/delete`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Brand berhasil dihapus',
+        })
+      }
+    } catch (err) {
+      await commit('changeBrand', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async editBrand({ commit, state }, payload) {
+    commit('changeBrand', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_brand,
+      user_id: payload.id_user,
+      nm_brand: payload.brand_baru,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/brand/edit`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeBrand', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Brand berhasil diupdate',
         })
       }
     } catch (err) {

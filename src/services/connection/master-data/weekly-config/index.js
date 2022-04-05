@@ -10,14 +10,14 @@ const state = {
         key: 'WEEK_NAME',
       },
       {
-        title: 'Tanggal Buat',
-        dataIndex: 'TANGGAL_DIBUAT',
-        key: 'TANGGAL_DIBUAT',
+        title: 'Tanggal Mulai',
+        dataIndex: 'TANGGAL_MULAI',
+        key: 'TANGGAL_MULAI',
       },
       {
-        title: 'Dibuat Oleh',
-        dataIndex: 'DIBUAT_OLEH',
-        key: 'DIBUAT_OLEH',
+        title: 'Tanggal Selesai',
+        dataIndex: 'TANGGAL_SELESAI',
+        key: 'TANGGAL_SELESAI',
       },
       {
         title: 'Action',
@@ -58,6 +58,137 @@ const actions = {
         await commit('changeWeeklyConfig', {
           weeklyConfigList: result.data.data,
           isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeWeeklyConfig', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async addWeeklyConfig({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      user_id: payload.id_user,
+      nm_weekly_config: payload.weekly_config_baru,
+      start_date: payload.start_date,
+      end_date: payload.end_date,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/weeklyConfig/addnew`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Weekly config berhasil ditambahkan',
+        })
+      }
+    } catch (err) {
+      await commit('changeWeeklyConfig', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async deleteWeeklyConfig({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_weekly_config,
+      user_id: payload.id_user,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/weeklyConfig/delete`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Weekly config berhasil dihapus',
+        })
+      }
+    } catch (err) {
+      await commit('changeWeeklyConfig', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async editWeeklyConfig({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id: payload.id_weekly_config,
+      user_id: payload.id_user,
+      nm_weekly_config: payload.weekly_config_baru,
+      start_date: payload.start_date,
+      end_date: payload.end_date,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/weeklyConfig/edit`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Weekly config berhasil diupdate',
         })
       }
     } catch (err) {

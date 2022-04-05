@@ -29,7 +29,7 @@
             class="btn btn-success mr-1"
             data-toggle="tooltip"
             title="Sunting"
-            @click="showEditModal(text)"
+            @click="showEditModal(text.ID)"
           >
             <i class="fa fa-pencil-square-o" />
           </button>
@@ -38,7 +38,7 @@
             class="btn btn-danger"
             data-toggle="tooltip"
             title="Hapus"
-            @click="showDeleteModal(text)"
+            @click="showDeleteModal(text.ID)"
           >
             <i class="fa fa-trash" />
           </button>
@@ -49,15 +49,29 @@
   
   <!-- Add Modal -->
   <a-modal
-    v-model:visible="addModal"
+    v-model:visible="distrikRetModal"
     title="Form Distrik RET"
-    ok-text="Simpan"
-    cancel-text="Batal"
-    :on-ok="saveDistrikRet"
   >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="distrikRetModal = false"
+      >
+        Batal
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="distrikRET.isLoading"
+        @click="saveDistrikRet"
+      >
+        {{ modalStatus ? 'Update' : 'Simpan' }}
+      </a-button>
+    </template>
     <a-input
       placeholder="Distrik RET"
       class="mb-3"
+      v-model:value="formState.distrik_ret_baru"
     />
     <a-textarea
       placeholder="Keterangan"
@@ -85,13 +99,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
+import store from '@/store'
 
 export default {
   data() {
     return {
-      addModal: false,
+      distrikRetModal: false,
       tambahDistrikModal: false,
+      formState: {
+        id: null,
+        id_user: null,
+        distrik_ret_baru: '',
+      },
+      modalStatus: false,
     }
   },
   computed: {
@@ -99,17 +121,78 @@ export default {
       distrikRET: state => state.distrikRET.data,
     }),
   },
+  async mounted() {
+    await this.getAllDistrikRET()
+    this.getUserId()
+  },
   methods: {
-    showAddModal() {
-      this.addModal = true
+    ...mapActions('distrikRET', ['getAllDistrikRET', 'addDistrikRET', 'deleteDistrikRET', 'editDistrikRET']),
+    getUserId() {
+      this.formState.id_user = store.state.user.userid
     },
-    showEditModal(value) {},
-    showDeleteModal(value) {},
+    showAddModal() {
+      this.distrikRetModal = true
+      this.modalStatus = false
+      this.formState.distrik_ret_baru = ''
+    },
+    showEditModal(id) {
+      this.distrikRetModal = true
+      this.modalStatus = true
+      this.formState.id = id
+      this.formState.distrik_ret_baru = this.distrikRET.distrikRetList.find(element => element.ID == id).NAMA_DISTRIK_RET
+    },
+    showDeleteModal(id) {
+      this.formState.id = id
+      this.$confirm({
+        title: 'Hapus Distrik RET',
+        content: 'Apakah anda yakin?',
+        okText: 'Hapus',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk: async () => {
+          await this.deleteDistrikRET({
+            id_distrik_ret: this.formState.id,
+            id_user: this.formState.id_user,
+          })
+          await this.getAllDistrikRET()
+          this.formState.id = null
+        },
+        onCancel: () => {
+          this.formState.id = null
+        },
+      })
+    },
     showTambahDistrikModal() {
       this.tambahDistrikModal = true
     },
-    saveDistrikRet() {
-      this.addModal = false
+    async saveDistrikRet() {
+      const validation = this.formState.distrik_ret_baru.toString().trim()
+      if (validation.length < 1) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Kolom distrik ret tidak boleh kosong',
+        })
+        this.formState.distrik_ret_baru = ''
+        this.distrikRetModal = true
+      } else {
+        if (this.modalStatus) {
+          await this.editDistrikRET({
+            id_distrik_ret: this.formState.id,
+            id_user: this.formState.id_user,
+            distrik_ret_baru: this.formState.distrik_ret_baru,
+          })
+        } else {
+          await this.addDistrikRET({
+            id_user: this.formState.id_user,
+            distrik_ret_baru: this.formState.distrik_ret_baru,
+          })
+        }
+        this.modalStatus = false
+        this.distrikRetModal = false
+        await this.getAllDistrikRET()
+        this.formState.id = null
+        this.formState.distrik_ret_baru = ''
+      }
     },
     saveTambahDistrik(){
       this.tambahDistrikModal = false

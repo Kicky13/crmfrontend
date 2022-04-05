@@ -11,8 +11,8 @@ const state = {
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'TANGGAL_DIBUAT',
         key: 'TANGGAL_DIBUAT',
+        slots: { customRender: 'TANGGAL_DIBUAT' },
       },
       {
         title: 'Dibuat Oleh',
