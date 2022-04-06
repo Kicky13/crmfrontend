@@ -6,67 +6,67 @@ const state = {
     columns: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Tahun',
-        dataIndex: 'tahun',
+        slots: { customRender: 'tahun' },
         key: 'tahun',
       },
       {
         title: 'Bulan',
-        dataIndex: 'bulan',
+        slots: { customRender: 'bulan' },
         key: 'bulan',
       },
       {
         title: 'Week',
-        dataIndex: 'week',
+        slots: { customRender: 'week' },
         key: 'week',
       },
       {
         title: 'Status',
-        dataIndex: 'status',
+        slots: { customRender: 'status' },
         key: 'status',
       },
       {
         title: 'Produk',
-        dataIndex: 'produk',
+        slots: { customRender: 'produk' },
         key: 'produk',
       },
       {
         title: 'Brand',
-        dataIndex: 'brand',
+        slots: { customRender: 'brand' },
         key: 'brand',
       },
       {
         title: 'Type',
-        dataIndex: 'type',
+        slots: { customRender: 'type' },
         key: 'type',
       },
       {
         title: 'RBP Gross',
-        dataIndex: 'rbp_gross',
+        slots: { customRender: 'rbp_gross' },
         key: 'rbp_gross',
       },
       {
         title: 'Promo',
-        dataIndex: 'promo',
+        slots: { customRender: 'promo' },
         key: 'promo',
       },
       {
         title: 'RBP Net',
-        dataIndex: 'rbp_net',
+        slots: { customRender: 'rbp_net' },
         key: 'rbp_net',
       },
       {
         title: 'RSP',
-        dataIndex: 'rsp',
+        slots: { customRender: 'rsp' },
         key: 'rsp',
       },
       {
         title: 'Notes',
-        dataIndex: 'notes',
+        slots: { customRender: 'notes' },
         key: 'notes',
       },
       {
@@ -74,23 +74,93 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
-    weeklyInputList: [
+    data_bulan: [
       {
-        distrik: 'Distrik 1',
-        tahun: '2022',
-        bulan: 'Maret',
-        week: 'Week 1',
-        status: 'Approve',
-        produk: 'Produk 1',
-        brand: 'Brand 1',
-        type: 'Type 1',
-        rbp_gross: 'RBP Gross 1',
-        promo: 'Promo 1',
-        rbp_net: 'RBP Net 1',
-        rsp: 'RSP 1',
-        notes: 'Notes 1',
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
       },
     ],
+    dataWeekly: [
+      {
+        id: 1,
+        name: 'Week 1',
+      },
+      {
+        id: 2,
+        name: 'Week 2',
+      },
+      {
+        id: 3,
+        name: 'Week 3',
+      },
+      {
+        id: 4,
+        name: 'Week 4',
+      },
+    ],
+    formData: {
+      tahun: '',
+      bulan: '',
+      week: '',
+    },
+    pagination: {},
+    params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+    },
+    dataTable: [],
+    dataProduct: [],
+    brandList: [],
+    tipeList: [],
+    kemasanList: [],
+    dataDistrik: [],
     isLoading: false,
   },
 }
@@ -102,7 +172,54 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getDataTable({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: data.params.week,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getData`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          dataTable: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getMasterProduct({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
     })
@@ -110,7 +227,42 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/master/listSelectProduk`)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          dataProduct: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllBrand({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/brand`)
 
       if (result.data.status == false) {
         await commit('changeWeeklyInput', {
@@ -122,6 +274,7 @@ const actions = {
         })
       } else {
         await commit('changeWeeklyInput', {
+          brandList: result.data.data,
           isLoading: false,
         })
       }
@@ -132,6 +285,110 @@ const actions = {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllTipe({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/tipe`)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          tipeList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllKemasan({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/kemasan`)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          kemasanList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getDistrik({ commit, state }) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      //   id_area:data.formData.selectedArea,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Distrik', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          dataDistrik: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
