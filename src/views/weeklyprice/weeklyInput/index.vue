@@ -7,6 +7,7 @@
           placeholder="Tahun"
           show-search
           class="w-100"
+          @change="handleChangeTahun"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
@@ -20,6 +21,7 @@
           placeholder="Bulan"
           show-search
           class="w-100"
+          @change="handleChangeBulan"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -55,11 +57,17 @@
             <i class="fa fa-plus mr-2" />
             Tambah
           </a-button>
-          <a-button type="primary" class="mr-2">
+          <a-button type="primary" @click="showConfirmDuplicate" class="mr-2">
             <i class="fa fa-copy mr-2" />
             Duplicate Last Week
           </a-button>
-          <a-button type="primary" @click="showConfirmModal">
+          <a-button
+            type="primary"
+            :disabled="
+              weeklyInput.dataTable.length == 0 ? true : weeklyInput.dataTable == 0 ? true : false
+            "
+            @click="showConfirmModal"
+          >
             <i class="fa fa-upload mr-2" />
             Submit
           </a-button>
@@ -98,6 +106,9 @@
       </template>
       <template #type="{ text }">
         <span>{{ text.nm_type_produk }}</span>
+      </template>
+      <template #kemasan="{ text }">
+        <span>{{ text.nm_satuan }}</span>
       </template>
       <template #rbp_gross="{ text }">
         <span>{{ text.rbp_gross }}</span>
@@ -144,20 +155,45 @@
     v-model:visible="addModal"
     title="Form Weekly Price"
     ok-text="Simpan"
-    cancel-text="Batal"
     width=""
     :style="{ padding: '0 20px' }"
     :on-ok="saveWeeklyPrice"
   >
+    <template #footer>
+      <a-button key="back" @click="addModal = false">
+        Batal
+      </a-button>
+      <a-button key="submit" type="primary" @click="saveWeeklyPrice">
+        {{ editdata == true ? 'Ubah' : 'Simpan' }}
+      </a-button>
+    </template>
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Distrik" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="editdata != true ? false : true"
+          v-model:value="weeklyInput.formData.id_distrik"
+          placeholder="Distrik"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
-          <a-select-option value="distrik1">Distrik 1</a-select-option>
+          <a-select-option
+            v-for="(distrik, index) in weeklyInput.dataDistrik"
+            :value="distrik.id_distrik"
+            :key="index"
+          >
+            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+          </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Tahun" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="editdata != true ? false : true"
+          v-model:value="weeklyInput.formData.tahun"
+          placeholder="Tahun"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
             {{ tahun }}
@@ -165,7 +201,13 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Bulan" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="editdata != true ? false : true"
+          v-model:value="weeklyInput.formData.bulan"
+          placeholder="Bulan"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
             v-for="(bulan, index) in weeklyInput.data_bulan"
@@ -177,7 +219,13 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Week" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="editdata != true ? false : true"
+          v-model:value="weeklyInput.formData.week"
+          placeholder="Week"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
             v-for="(week, index) in weeklyInput.dataWeekly"
@@ -191,13 +239,25 @@
     </a-row>
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Produk" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="editdata != true ? false : true"
+          v-model:value="weeklyInput.formData.id_produk"
+          placeholder="Produk"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Produk</a-select-option>
           <a-select-option value="produk1">Produk 1</a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="brand" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.brand"
+          placeholder="brand"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih brand</a-select-option>
           <a-select-option
             v-for="(brand, index) in weeklyInput.brandList"
@@ -209,7 +269,13 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Tipe" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.type"
+          placeholder="Tipe"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Tipe</a-select-option>
           <a-select-option
             v-for="(type, index) in weeklyInput.tipeList"
@@ -222,7 +288,13 @@
       </a-col>
 
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select placeholder="Kemasan" class="w-100 mb-4" show-search>
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.kemasan"
+          placeholder="Kemasan"
+          class="w-100 mb-4"
+          show-search
+        >
           <a-select-option disabled value="">Pilih Kemasan</a-select-option>
           <a-select-option
             v-for="(kemasan, index) in weeklyInput.kemasanList"
@@ -236,18 +308,47 @@
     </a-row>
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="RBP Gross" class=" mb-4" />
+        <a-input-number
+          :min="1"
+          :max="100000"
+          v-model:value="weeklyInput.formData.rbp_gross"
+          placeholder="RBP Gross"
+          class=" mb-4 w-100"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="Promo" class=" mb-4" />
+        <a-input-number
+          :min="1"
+          :max="100000"
+          v-model:value="weeklyInput.formData.promo"
+          placeholder="Promo"
+          class=" mb-4 w-100"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="RBP Net" class=" mb-4" />
+        <a-input-number
+          :min="1"
+          :max="100000"
+          v-model:value="weeklyInput.formData.rbp_net"
+          placeholder="RBP Net"
+          class=" mb-4 w-100"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="RSP" class=" mb-4" />
+        <a-input-number
+          :min="1"
+          :max="100000"
+          v-model:value="weeklyInput.formData.rsp"
+          placeholder="RSP"
+          class=" mb-4 w-100"
+        />
       </a-col>
     </a-row>
+    <div class="row">
+      <div class="col-md-12">
+        <a-textarea v-model:value="weeklyInput.formData.notes" show-count :maxlength="100" />
+      </div>
+    </div>
   </a-modal>
 </template>
 
@@ -258,6 +359,8 @@ export default {
   data() {
     return {
       addModal: false,
+      editdata: false,
+      uuid: '',
     }
   },
   computed: {
@@ -274,6 +377,7 @@ export default {
     await this.getAllBrand()
     await this.getAllTipe()
     await this.getAllKemasan()
+    await this.getDistrik()
   },
   methods: {
     ...mapActions('weeklyInput', [
@@ -283,13 +387,52 @@ export default {
       'getDataTable',
       'getMasterProduct',
       'getDistrik',
+      'deleteDataRow',
+      'insertDataWeekly',
+      'updateDataWeekly',
+      'submitDataWeekly',
+      'duplicateDataWeekly',
     ]),
 
     showAddModal() {
       this.addModal = true
     },
-    showEditModal(value) {},
-    showDeleteModal(value) {},
+    async showEditModal(value) {
+      this.addModal = true
+      this.editdata = true
+      this.uuid = value.uuid
+      console.log(`---value`, value)
+      await this.$store.commit('weeklyInput/changeWeeklyInput', {
+        formData: {
+          id_distrik: value.id_distrik,
+          tahun: value.tahun,
+          bulan: value.bulan,
+          week: value.week,
+          id_produk: value.id_distrik,
+          rbp_gross: value.id_distrik,
+          promo: value.id_distrik,
+          rbp_net: value.id_distrik,
+          rsp: value.id_distrik,
+          notes: value.notes,
+        },
+      })
+    },
+    showDeleteModal(value) {
+      this.$confirm({
+        title: 'Weekly Price Confirmation',
+        content: 'Apakah anda yakin menghapus data ini?',
+        okText: 'Konfirmasi',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk: async () => {
+          await this.deleteDataRow({
+            uuid: value.uuid,
+          })
+          await this.getDataTable()
+        },
+        onCancel: () => {},
+      })
+    },
     showConfirmModal() {
       this.$confirm({
         title: 'Weekly Price Confirmation',
@@ -297,12 +440,107 @@ export default {
         okText: 'Konfirmasi',
         okType: 'primary',
         cancelText: 'Batal',
-        onOk: () => {},
+        onOk: async () => {
+          await this.submitDataWeekly()
+        },
         onCancel: () => {},
       })
     },
-    saveWeeklyPrice() {
-      this.addModal = false
+    showConfirmDuplicate() {
+      this.$confirm({
+        title: 'Weekly Price Confirmation',
+        content: 'Apakah anda yakin menduplikat dari minggu sebelumnya?',
+        okText: 'Konfirmasi',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk: async () => {
+          await this.duplicateDataWeekly()
+        },
+        onCancel: () => {},
+      })
+    },
+    async saveWeeklyPrice() {
+      if (
+        this.weeklyInput.formData.id_distrik != null &&
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week != '' &&
+        this.weeklyInput.formData.id_produk != null &&
+        this.weeklyInput.formData.rbp_gross != null &&
+        this.weeklyInput.formData.promo != null &&
+        this.weeklyInput.formData.rbp_net != null &&
+        this.weeklyInput.formData.rsp != null
+      ) {
+        if (this.editdata == true) {
+          await this.updateDataWeekly({
+            uuid: this.uuid,
+          })
+          if (this.weeklyInput.status == 'sukses') {
+            await this.$store.commit('weeklyInput/changeWeeklyInput', {
+              formData: {
+                id_distrik: null,
+                tahun: '',
+                bulan: '',
+                week: '',
+                id_produk: 1,
+                rbp_gross: null,
+                promo: null,
+                rbp_net: null,
+                rsp: null,
+                brand: null,
+                type: null,
+                kemasan: null,
+                notes: '',
+              },
+            })
+            await this.getDataTable()
+          }
+        } else {
+          await this.insertDataWeekly()
+        }
+        this.addModal = false
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Mohon Maaf. Data harus terisi lengkap.',
+        })
+      }
+    },
+    async handleChangeTahun() {
+      if (
+        this.weeklyInput.params.tahun != '' &&
+        this.weeklyInput.params.bulan != '' &&
+        this.weeklyInput.params.week != ''
+      ) {
+        await this.getDataTable()
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil ditampilkan.',
+        })
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
+        })
+      }
+    },
+    async handleChangeBulan() {
+      if (
+        this.weeklyInput.params.tahun != '' &&
+        this.weeklyInput.params.bulan != '' &&
+        this.weeklyInput.params.week != ''
+      ) {
+        await this.getDataTable()
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil ditampilkan.',
+        })
+      } else {
+        notification.error({
+          message: 'Error',
+          description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
+        })
+      }
     },
     async handleSubmit() {
       if (

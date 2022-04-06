@@ -45,6 +45,11 @@ const state = {
         key: 'type',
       },
       {
+        title: 'Kemasan',
+        slots: { customRender: 'kemasan' },
+        key: 'type',
+      },
+      {
         title: 'RBP Gross',
         slots: { customRender: 'rbp_gross' },
         key: 'rbp_gross',
@@ -143,10 +148,21 @@ const state = {
       },
     ],
     formData: {
+      id_distrik: null,
       tahun: '',
       bulan: '',
       week: '',
+      id_produk: 1,
+      rbp_gross: null,
+      promo: null,
+      rbp_net: null,
+      rsp: null,
+      brand: null,
+      type: null,
+      kemasan: null,
+      notes: '',
     },
+    data_uuid: [],
     pagination: {},
     params: {
       offset: 0,
@@ -161,6 +177,7 @@ const state = {
     tipeList: [],
     kemasanList: [],
     dataDistrik: [],
+    status: '',
     isLoading: false,
   },
 }
@@ -200,7 +217,7 @@ const actions = {
         })
       } else {
         await commit('changeWeeklyInput', {
-          dataTable: result.data.data,
+          dataTable: result.data.data || 0,
           isLoading: false,
         })
         notification.success({
@@ -389,6 +406,236 @@ const actions = {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async deleteDataRow({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      uuid: payload.uuid,
+    }
+    try {
+      const result = await apiClient.post(`/WPM/DeleteWPM`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async insertDataWeekly({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      id_distrik: data.formData.id_distrik,
+      tahun: data.formData.tahun,
+      bulan: data.formData.bulan,
+      week: data.formData.week,
+      id_produk: data.formData.id_produk,
+      rbp_gross: data.formData.rbp_gross,
+      promo: data.formData.promo,
+      rbp_net: data.formData.rbp_net,
+      rsp: data.formData.rsp,
+      brand: data.formData.brand,
+      type: data.formData.type,
+      kemasan: data.formData.kemasan,
+      notes: data.formData.notes,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/InsertWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async updateDataWeekly({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      rbp_gross: data.formData.rbp_gross,
+      promo: data.formData.promo,
+      rbp_net: data.formData.rbp_net,
+      rsp: data.formData.rsp,
+      notes: data.formData.notes,
+      uuid: payload.uuid,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+          status: 'gagal',
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+          status: 'sukses',
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+        status: 'gagal',
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async submitDataWeekly({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let dataTable = data.dataTable
+
+    // let formData = {
+    //   uuid: data.data_uuid,
+    // }
+
+    dataTable.forEach(element => {
+      data.data_uuid.push(element.uuid)
+    })
+    let formData = new FormData()
+    formData.append('uuid', JSON.stringify(data.data_uuid))
+    
+    try {
+      const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async duplicateDataWeekly({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.post(`/WPM/DuplicateLastWeekWPM`)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
