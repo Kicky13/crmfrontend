@@ -500,16 +500,6 @@ export default {
         },
         legend: {
           enabled: false,
-          minSize: 20,
-          maxSize: 60,
-          ranges: [
-            {
-              value: 14,
-            },
-            {
-              value: 89,
-            },
-          ],
         },
         title: {
           text: '',
@@ -521,7 +511,7 @@ export default {
         xAxis: {
           gridLineWidth: 1,
           title: {
-            text: '',
+            text: 'Persentasi SOW',
           },
           labels: {
             format: '{value}',
@@ -549,7 +539,7 @@ export default {
           startOnTick: false,
           endOnTick: false,
           title: {
-            text: '',
+            text: 'Total Customer',
           },
           labels: {
             format: '{value}',
