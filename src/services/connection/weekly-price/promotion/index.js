@@ -6,42 +6,42 @@ const state = {
     columns: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Tanggal Mulai',
-        dataIndex: 'tanggal_mulai',
+        slots: { customRender: 'tanggal_mulai' },
         key: 'tanggal_mulai',
       },
       {
         title: 'Tanggal Selesai',
-        dataIndex: 'tanggal_selesai',
+        slots: { customRender: 'tanggal_selesai' },
         key: 'tanggal_selesai',
       },
       {
         title: 'Brand',
-        dataIndex: 'brand',
+        slots: { customRender: 'brand' },
         key: 'brand',
       },
       {
         title: 'Kategori',
-        dataIndex: 'kategori',
+        slots: { customRender: 'kategori' },
         key: 'kategori',
       },
       {
         title: 'Asal Program',
-        dataIndex: 'asal_program',
+        slots: { customRender: 'asal_program' },
         key: 'asal_program',
       },
       {
         title: 'Nilai / ZAK',
-        dataIndex: 'nilai',
+        slots: { customRender: 'nilai' },
         key: 'nilai',
       },
       {
         title: 'Mekanisme',
-        dataIndex: 'mekanisme',
+        slots: { customRender: 'mekanisme' },
         key: 'mekanisme',
       },
       {
@@ -61,7 +61,31 @@ const state = {
         mekanisme: 'Mekanisne 1',
       },
     ],
+    params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+      id_distrik_ret: null,
+    },
+    formData: {
+      id_distrik_ret: null,
+      start_date: '',
+      end_date: '',
+      id_brand: null,
+      id_kategori_promo: null,
+      program: '',
+      nilai_zak: null,
+      mekanisme: '',
+    },
+    dataDistrikRET: [],
+    brandList: [],
+    promoList: [],
+    dataTable: [],
+    pagination: {},
     isLoading: false,
+    status: '',
   },
 }
 
@@ -72,7 +96,231 @@ const mutations = {
 }
 
 const actions = {
-  async getAllPromotion({ commit, state }, payload) {
+  async getDistrikRET({ commit, state }) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      //   id_area:data.formData.selectedArea,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.get('/wpm/master-data/distrikret', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotion', {
+          dataDistrikRET: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: data.params.week,
+      id_distrik_ret: data.params.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getPromo`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotion', {
+          dataTable: result.data.data || 0,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changePromotion', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async deleteDataRow({ commit, state }, payload) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      uuid: payload.uuid,
+    }
+    try {
+      const result = await apiClient.post(`/WPM/DeletePromo`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil dihapus`,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async insertDataPromo({ commit, state }, payload) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      id_distrik_ret: data.formData.id_distrik_ret,
+      start_date: data.formData.start_date,
+      end_date: data.formData.end_date,
+      id_brand: data.formData.id_brand,
+      id_kategori_promo: data.formData.id_kategori_promo,
+      program: data.formData.program,
+      nilai_zak: data.formData.nilai_zak,
+      mekanisme: data.formData.mekanisme,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/InsertPromo`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+          status: 'gagal',
+        })
+      } else {
+        await commit('changePromotion', {
+          isLoading: false,
+          status: 'sukses',
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changePromotion', {
+        isLoading: false,
+        status: 'gagal',
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async updateDataPromo({ commit, state }, payload) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      uuid: payload.uuid,
+      start_date: data.formData.start_date,
+      end_date: data.formData.end_date,
+      nilai_zak: data.formData.nilai_zak,
+      mekanisme: data.formData.mekanisme,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePromotion', {
+          isLoading: false,
+          status: 'gagal',
+        })
+      } else {
+        await commit('changePromotion', {
+          isLoading: false,
+          status: 'sukses',
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changePromotion', {
+        isLoading: false,
+        status: 'gagal',
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllBrand({ commit, state }, payload) {
     commit('changePromotion', {
       isLoading: true,
     })
@@ -80,7 +328,7 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/master-data/brand`)
 
       if (result.data.status == false) {
         await commit('changePromotion', {
@@ -92,6 +340,42 @@ const actions = {
         })
       } else {
         await commit('changePromotion', {
+          brandList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changePromotion', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllKategoriPromo({ commit, state }, payload) {
+    commit('changePromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/kategoriPromo`)
+
+      if (result.data.status == false) {
+        await commit('changePromotion', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changePromotion', {
+          promoList: result.data.data,
           isLoading: false,
         })
       }

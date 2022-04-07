@@ -401,7 +401,6 @@ export default {
       this.addModal = true
       this.editdata = true
       this.uuid = value.uuid
-      console.log(`---value`, value)
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: value.id_distrik,
