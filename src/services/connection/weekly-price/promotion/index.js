@@ -66,7 +66,6 @@ const state = {
       limit: 2000,
       tahun: '',
       bulan: '',
-      week: '',
       id_distrik_ret: null,
     },
     formData: {
@@ -145,7 +144,6 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      week: data.params.week,
       id_distrik_ret: data.params.id_distrik_ret,
     }
 
@@ -226,10 +224,13 @@ const actions = {
 
     const { data } = state
 
+    let StartDateFormat = new Date(data.formData.start_date).toISOString().slice(0, 10)
+    let EndDateFormat = new Date(data.formData.end_date).toISOString().slice(0, 10)
+
     let formData = {
       id_distrik_ret: data.formData.id_distrik_ret,
-      start_date: data.formData.start_date,
-      end_date: data.formData.end_date,
+      start_date: StartDateFormat,
+      end_date: EndDateFormat,
       id_brand: data.formData.id_brand,
       id_kategori_promo: data.formData.id_kategori_promo,
       program: data.formData.program,

@@ -7,23 +7,25 @@
           placeholder="Distrik"
           show-search
           class="w-100"
+          @change="handleChangeDistrik"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in wpPromotion.dataDistrikRET"
-            :value="distrik.id_distrik"
+            :value="distrik.ID"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
           </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="4">
         <a-select
-          v-model:value="wpPromotion.params.year"
+          v-model:value="wpPromotion.params.tahun"
           placeholder="Tahun"
           show-search
           class="w-100"
+          @change="handleChangeTahun"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
@@ -37,6 +39,7 @@
           placeholder="Bulan"
           show-search
           class="w-100"
+          @change="handleChangeBulan"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -150,6 +153,7 @@
           placeholder="Tanggal Mulai"
           v-model:value="wpPromotion.formData.start_date"
           class="w-100"
+          format="YYYY-MM-DD"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -157,6 +161,7 @@
           placeholder="Tanggal Selesai"
           v-model:value="wpPromotion.formData.end_date"
           class="w-100"
+          format="YYYY-MM-DD"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6" />
@@ -187,7 +192,13 @@
           show-search
         >
           <a-select-option disabled value="">Pilih Kategori</a-select-option>
-          <a-select-option value="kategori1">Kategori 1</a-select-option>
+          <a-select-option
+            v-for="(promo, index) in wpPromotion.promoList"
+            :value="promo.ID"
+            :key="index"
+          >
+            {{ promo.ID }} - {{ promo.NAMA_KATEGORI_PROMO }}
+          </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -207,6 +218,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
 
 export default {
   data() {
@@ -229,7 +241,6 @@ export default {
     await this.getDistrikRET()
     await this.getAllKategoriPromo()
     await this.getAllBrand()
-    await this.getDataTable()
   },
   methods: {
     ...mapActions('wpPromotion', [
@@ -242,9 +253,22 @@ export default {
       'deleteDataRow',
     ]),
 
-    showAddModal() {
+    async showAddModal() {
       this.addModal = true
+      await this.$store.commit('wpPromotion/changePromotion', {
+        formData: {
+          id_distrik_ret: null,
+          start_date: '',
+          end_date: '',
+          id_brand: null,
+          id_kategori_promo: null,
+          program: '',
+          nilai_zak: null,
+          mekanisme: '',
+        },
+      })
     },
+
     async showEditModal(value) {
       this.addModal = true
       this.editdata = true
@@ -262,6 +286,7 @@ export default {
         },
       })
     },
+
     showDeleteModal(value) {
       this.$confirm({
         title: 'Weekly Price Confirmation',
@@ -278,6 +303,7 @@ export default {
         onCancel: () => {},
       })
     },
+
     async savePromo() {
       if (
         this.wpPromotion.formData.id_distrik_ret != null &&
@@ -317,6 +343,39 @@ export default {
           message: 'Error',
           description: 'Mohon Maaf. Data harus terisi lengkap.',
         })
+      }
+    },
+
+    async handleChangeDistrik() {
+      if (
+        this.wpPromotion.params.id_distrik_ret != null &&
+        this.wpPromotion.params.tahun != '' &&
+        this.wpPromotion.params.bulan != ''
+      ) {
+        await this.getDataTable()
+      } else {
+      }
+    },
+
+    async handleChangeTahun() {
+      if (
+        this.wpPromotion.params.id_distrik_ret != null &&
+        this.wpPromotion.params.tahun != '' &&
+        this.wpPromotion.params.bulan != ''
+      ) {
+        await this.getDataTable()
+      } else {
+      }
+    },
+
+    async handleChangeBulan() {
+      if (
+        this.wpPromotion.params.id_distrik_ret != null &&
+        this.wpPromotion.params.tahun != '' &&
+        this.wpPromotion.params.bulan != ''
+      ) {
+        await this.getDataTable()
+      } else {
       }
     },
   },
