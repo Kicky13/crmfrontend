@@ -386,7 +386,7 @@ const actions = {
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/filter/Distrik', body)
+      const result = await apiClient.post('/wpm/master-data/distrikret', body)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -570,7 +570,7 @@ const actions = {
     })
     let formData = new FormData()
     formData.append('uuid', JSON.stringify(data.data_uuid))
-    
+
     try {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
 
