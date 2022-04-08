@@ -1,98 +1,109 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
-const state = {
-    data: {
-        columns: [
-            {
-                title: 'No',
-                dataIndex: 'distrik',
-                key: 'distrik',
-            },
-            {
-                title: 'Distrik',
-                dataIndex: 'distrik',
-                key: 'distrik',
-            },
-            {
-                title: 'Distributor',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Toko',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Sales',
-                dataIndex: 'nama Toko',
-                key: 'Nama Toko',
-            },
-            {
-                title: 'Tanggal',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Check-In',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Check-Out',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Durasi Visit',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Jarak Check',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Perjalanan',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-            {
-                title: 'Plan/Unplan',
-                dataIndex: 'ID Toko',
-                key: 'ID Toko',
-            },
-        ],
-        columns2: [{
-            title: 'Toko Belum Dikunjungi',
-            dataIndex: 'distrik',
-            key: 'distrik',
-        },
+import { moment } from 'moment'
 
-        ],
-        dataList: null,
-        dataSourceTable: [],
-        pagination: {},
-        isLoading: false,
-        pagination2: {},
-        isLoading2: false,
-        bodyList: {
-            offset: 0,
-            limit: 2000,
-            filter: '',
-        },
-        formData: {
-          selectedDistrik: null,
-          selectedDistributor: null,
-        },
-        itemsPerPage: [5, 10, 15, 20],
+const state = {
+  data: {
+    columns: [
+      {
+        title: '',
+        slots: { customRender: 'radio' },
+        key: 'radio',
+      },
+      {
+        title: 'Distrik',
+        slots: { customRender: 'distrik' },
+        key: 'distrik',
+      },
+      {
+        title: 'ID Toko',
+        slots: { customRender: 'id_toko' },
+        key: 'id_toko',
+      },
+      {
+        title: 'Toko',
+        slots: { customRender: 'toko' },
+        key: 'toko',
+      },
+      {
+        title: 'Sales',
+        slots: { customRender: 'sales' },
+        key: 'sales',
+      },
+      {
+        title: 'Tanggal',
+        slots: { customRender: 'tanggal' },
+        key: 'tanggal',
+      },
+      {
+        title: 'Check-In',
+        slots: { customRender: 'check_in' },
+        key: 'check_in',
+      },
+      {
+        title: 'Check-Out',
+        slots: { customRender: 'check_out' },
+        key: 'check_out',
+      },
+      {
+        title: 'Durasi Visit',
+        slots: { customRender: 'durasi_visit' },
+        key: 'durasi_visit',
+      },
+      {
+        title: 'Jarak Check',
+        slots: { customRender: 'jarak_check' },
+        key: 'jarak_check',
+      },
+      {
+        title: 'Perjalanan',
+        slots: { customRender: 'perjalanan' },
+        key: 'perjalanan',
+      },
+      {
+        title: 'Plan/Unplan',
+        slots: { customRender: 'plan' },
+        key: 'plan',
+      },
+    ],
+    columns2: [
+      {
+        title: 'Toko Belum Dikunjungi',
+        slots: { customRender: 'toko' },
+        key: 'toko',
+      },
+    ],
+    dataList: null,
+    dataSourceTable: [],
+    dataSalesman: [],
+    dataDistrik: [],
+    dataDistributor: [],
+    detailVisit: [],
+    detailMerchant: [],
+    dataMap: [],
+    pagination: {},
+    paginationToko: {},
+    isLoading: false,
+    pagination2: {},
+    isLoading2: false,
+    bodyList: {
+      offset: 0,
+      limit: 2000,
+      filter: '',
     },
+    formData: {
+      selectedDistrik: '',
+      selectedDistributor: '',
+      selectedSalesman: '',
+      selectedDate: '',
+    },
+    itemsPerPage: [5, 10, 15, 20],
+  },
 }
 const mutations = {
-    changeSalesRoute(state, payload) {
-      state.data = Object.assign({}, state.data, payload)
-    },
+  changeSalesRoute(state, payload) {
+    state.data = Object.assign({}, state.data, payload)
+  },
 }
 const actions = {
   async getDistrik({ commit, state }) {
@@ -103,7 +114,7 @@ const actions = {
     const { data } = state
 
     let body = {
-    //   id_area:data.formData.selectedArea,
+      //   id_area:data.formData.selectedArea,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -139,7 +150,7 @@ const actions = {
     const { data } = state
 
     let body = {
-      id_distrik:data.formData.selectedDistrik,
+      id_distrik: data.formData.selectedDistrik,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -167,20 +178,17 @@ const actions = {
       })
     }
   },
-  async getBrand({ commit, state }) {
+  async getSalesman({ commit, state }, payload) {
     commit('changeSalesRoute', {
       isLoading: true,
     })
 
     const { data } = state
 
-    let body = {
-      id_kategori:21,
-      offset: data.bodyList.offset,
-      limit: data.bodyList.limit,
-    }
     try {
-      const result = await apiClient.post('/filter/Brand', body)
+      const result = await apiClient.get(
+        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}`,
+      )
 
       if (result.data.status == 'error') {
         notification.error({
@@ -192,8 +200,122 @@ const actions = {
         })
       } else {
         await commit('changeSalesRoute', {
-          dataBrand: result.data.data,
+          dataSalesman: result.data.data,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDetailVisit({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          detailVisit: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getMerchantSurvey({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading2: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading2: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          detailMerchant: result.data.data,
+          isLoading2: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getMap({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading2: true,
+    })
+
+    const { data } = state
+
+    try {
+      let dateMoment = new Date(data.formData.selectedDate).toLocaleDateString('en-GB')
+      let dateFormat = dateMoment
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
+
+      const result = await apiClient.get(
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+      )
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        await commit('changeSalesRoute', {
+          isLoading2: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataMap: result.data.data,
+          isLoading2: false,
         })
       }
     } catch (error) {
@@ -205,8 +327,8 @@ const actions = {
   },
 }
 export default {
-    namespaced: true,
-    state,
-    mutations,
-    actions,
-  }
+  namespaced: true,
+  state,
+  mutations,
+  actions,
+}

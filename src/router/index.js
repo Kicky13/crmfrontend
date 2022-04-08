@@ -33,7 +33,7 @@ const routes = [
         path: '/dashboard/rbp_movement',
         meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
         component: () =>
-          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement2'),
       },
       {
         path: '/dashboard/price_monitoring',
@@ -63,6 +63,144 @@ const routes = [
         meta: { title: 'Dashboard', resource: 'UserHirarki', action: 'read' },
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/dashboard/SalesRoute'),
+      },
+      // Master Data
+      {
+        path: '/master_data/tipe',
+        meta: {
+          title: 'Tipe',
+          resource: 'Tipe',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "tipe" */ '@/views/masterdata/tipe'),
+      },
+      {
+        path: '/master_data/kemasan',
+        meta: {
+          title: 'Kemasan',
+          resource: 'Kemasan',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "kemasan" */ '@/views/masterdata/kemasan'),
+      },
+      {
+        path: '/master_data/brand',
+        meta: {
+          title: 'Brand',
+          resource: 'Brand',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "brand" */ '@/views/masterdata/brand'),
+      },
+      {
+        path: '/master_data/produk',
+        meta: {
+          title: 'Produk',
+          resource: 'Produk',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "produk" */ '@/views/masterdata/produk'),
+      },
+      {
+        path: '/master_data/distrik_ret',
+        meta: {
+          title: 'Distrik RET',
+          resource: 'DistrikRET',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "distrik_ret" */ '@/views/masterdata/distrikRet'),
+      },
+      {
+        path: '/master_data/kategori_promo',
+        meta: {
+          title: 'Kategori Promo',
+          resource: 'KategoriPromo',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "kategori_promo" */ '@/views/masterdata/kategoriPromo'),
+      },
+      {
+        path: '/master_data/weekly_config',
+        meta: {
+          title: 'Weekly Config',
+          resource: 'WeeklyConfig',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "weekly_config" */ '@/views/masterdata/weeklyConfig'),
+      },
+      // Weekly Price Monitoring
+      {
+        path: '/weekly_price/weekly_input',
+        meta: {
+          title: 'Weekly Input',
+          resource: 'WeeklyInput',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "weekly_input" */ '@/views/weeklyprice/weeklyInput'),
+      },
+      {
+        path: '/weekly_price/promotion',
+        meta: {
+          title: 'Promotion',
+          resource: 'Promotion',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "promotion" */ '@/views/weeklyprice/promotion'),
+      },
+      {
+        path: '/weekly_price/wp_approval',
+        meta: {
+          title: 'WP Approval',
+          resource: 'WPApproval',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wp_approval" */ '@/views/weeklyprice/wpApproval'),
+      },
+      {
+        path: '/weekly_price/wp_publish',
+        meta: {
+          title: 'WP Publish',
+          resource: 'WPPublish',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "weekly_publish" */ '@/views/weeklyprice/wpPublish'),
+      },
+      // Reporting
+      {
+        path: '/wpm/report',
+        meta: {
+          title: 'Weekly Price Monitoring Report',
+          resource: 'WPMReport',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_report" */ '@/views/wpm/report'),
+      },
+      {
+        path: '/wpm/promotion',
+        meta: {
+          title: 'Weekly Price Monitoring Promotion',
+          resource: 'WPMPromotion',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_promotion" */ '@/views/wpm/promotion'),
+      },
+      {
+        path: '/wpm/price_movement',
+        meta: {
+          title: 'Weekly Price Monitoring Price Movement',
+          resource: 'WPMPriceMovement',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_price_movement" */ '@/views/wpm/price_movement'),
+      },
+      {
+        path: '/wpm/gap_harga',
+        meta: {
+          title: 'Weekly Price Monitoring GAP Harga',
+          resource: 'WPMGapHarga',
+          action: 'read',
+        },
+        component: () => import(/* webpackChunkName: "wpm_gap_harga" */ '@/views/wpm/gap_harga'),
       },
       // Fauzan ============ Start ===================>>
       {

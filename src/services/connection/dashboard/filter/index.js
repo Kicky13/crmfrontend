@@ -11,51 +11,51 @@ const state = {
     listBrand: [],
     listBulan: [
       {
-        id: '01',
+        id: 1,
         nama: 'Januari',
       },
       {
-        id: '02',
+        id: 2,
         nama: 'Februari',
       },
       {
-        id: '03',
+        id: 3,
         nama: 'Maret',
       },
       {
-        id: '04',
+        id: 4,
         nama: 'April',
       },
       {
-        id: '05',
+        id: 5,
         nama: 'Mei',
       },
       {
-        id: '06',
+        id: 6,
         nama: 'Juni',
       },
       {
-        id: '07',
+        id: 7,
         nama: 'Juli',
       },
       {
-        id: '08',
+        id: 8,
         nama: 'Agustus',
       },
       {
-        id: '09',
+        id: 9,
         nama: 'September',
       },
       {
-        id: '10',
+        id: 10,
         nama: 'Oktober',
       },
       {
-        id: '11',
+        id: 11,
         nama: 'November',
       },
       {
-        id: '12',
+        id: 12,
         nama: 'Desember',
       },
     ],
@@ -64,14 +64,14 @@ const state = {
 }
 
 const mutations = {
-  changePromotion(state, payload) {
+  changeFilter(state, payload) {
     state.data = Object.assign({}, state.data, payload)
   },
 }
 
 const actions = {
   async getAllProvinsi({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -81,7 +81,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Provinsi`)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -89,13 +89,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listProvinsi: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({
@@ -105,7 +105,7 @@ const actions = {
     }
   },
   async getAllArea({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -115,7 +115,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Area`, payload)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -123,13 +123,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listArea: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({
@@ -139,7 +139,7 @@ const actions = {
     }
   },
   async getAllDistrik({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -149,7 +149,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Distrik`, payload)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -157,13 +157,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listDistrik: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({
@@ -173,7 +173,7 @@ const actions = {
     }
   },
   async getAllDistributor({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -183,7 +183,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Distributor`, payload)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -191,13 +191,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listDistributor: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({
@@ -207,7 +207,7 @@ const actions = {
     }
   },
   async getAllKategori({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -217,7 +217,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Kategori`)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -225,13 +225,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listKategori: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({
@@ -241,7 +241,7 @@ const actions = {
     }
   },
   async getAllBrand({ commit, state }, payload) {
-    commit('changePromotion', {
+    commit('changeFilter', {
       isLoading: true,
     })
 
@@ -251,7 +251,7 @@ const actions = {
       const result = await apiClient.post(`/filter/Brand`, payload)
 
       if (result.data.status == false) {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           isLoading: false,
         })
         notification.error({
@@ -259,13 +259,13 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changePromotion', {
+        await commit('changeFilter', {
           listBrand: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changePromotion', {
+      await commit('changeFilter', {
         isLoading: false,
       })
       notification.error({

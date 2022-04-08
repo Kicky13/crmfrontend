@@ -19,5 +19,91 @@
         }
       ]
     }
+  },
+
+  "chart": {
+    "status": true,
+    "message": "success",
+    "data": {
+      "brands": [
+        {
+          "nama": "Semen Gresik",
+          "persentase_data": 20
+        },
+        {
+          "nama": "Semen Tonasa",
+          "persentase_data": 20
+        },
+        {
+          "nama": "Semen Padang",
+          "persentase_data": 20
+        },
+        {
+          "nama": "Semen Tuban",
+          "persentase_data": 20
+        },
+        {
+          "nama": "Semen Mortar",
+          "persentase_data": 20
+        }
+      ],
+      "products": [
+        {
+          "nama_product": "Semen",
+          "data_products": [
+            {
+              "tanggal": "29-03-2022",
+              "produksi": 20
+            },
+            {
+              "tanggal": "30-03-2022",
+              "produksi": 20
+            }
+          ]
+        },
+        {
+          "nama_product": "Non Semen",
+          "data_products": [
+            {
+              "tanggal": "29-03-2022",
+              "produksi": 20
+            },
+            {
+              "tanggal": "30-03-2022",
+              "produksi": 20
+            }
+          ]
+        }
+      ],
+      "tanggal_products": [
+        {
+          "tanggal": "29-03-2022"
+        },
+        {
+          "tanggal": "30-03-2022"
+        }
+      ]
+    }
+  },
+
+  "scatter": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "name": "PRODUK A",
+        "data": {
+          "xAxis": 16.4,
+          "yAxis": 5.4
+        }
+      },
+      {
+        "name": "PRODUK B",
+        "data": {
+          "xAxis": 16.4,
+          "yAxis": 5.4
+        }
+      }
+    ]
   }
 }
