@@ -176,7 +176,7 @@ const state = {
     brandList: [],
     tipeList: [],
     kemasanList: [],
-    dataDistrik: [],
+    dataDistrikRET: [],
     status: '',
     isLoading: false,
   },
@@ -202,6 +202,7 @@ const actions = {
       tahun: data.params.tahun,
       bulan: data.params.bulan,
       week: data.params.week,
+      status: 0,
     }
 
     try {
@@ -398,7 +399,7 @@ const actions = {
         })
       } else {
         await commit('changeWeeklyInput', {
-          dataDistrik: result.data.data,
+          dataDistrikRET: result.data.data,
           isLoading: false,
         })
       }
@@ -561,15 +562,13 @@ const actions = {
 
     let dataTable = data.dataTable
 
-    // let formData = {
-    //   uuid: data.data_uuid,
-    // }
-
     dataTable.forEach(element => {
       data.data_uuid.push(element.uuid)
     })
+    let dataStatus = 1
     let formData = new FormData()
     formData.append('uuid', JSON.stringify(data.data_uuid))
+    formData.append('status', dataStatus)
 
     try {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)

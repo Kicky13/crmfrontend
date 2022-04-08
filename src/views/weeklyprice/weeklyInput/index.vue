@@ -448,6 +448,7 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.submitDataWeekly()
+          await this.getDataTable()
         },
         onCancel: () => {},
       })
@@ -499,11 +500,11 @@ export default {
                 notes: '',
               },
             })
-            await this.getDataTable()
           }
         } else {
           await this.insertDataWeekly()
         }
+        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({

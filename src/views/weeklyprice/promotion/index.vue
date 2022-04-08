@@ -139,13 +139,20 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
+          :disabled="editdata != true ? false : true"
           v-model:value="wpPromotion.formData.id_distrik_ret"
           placeholder="Distrik RET"
           class="w-100 mb-4"
           show-search
         >
           <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
-          <a-select-option value="distrikret1">Distrik RET 1</a-select-option>
+          <a-select-option
+            v-for="(distrik, index) in wpPromotion.dataDistrikRET"
+            :value="distrik.ID"
+            :key="index"
+          >
+            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
+          </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -169,6 +176,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
+          :disabled="editdata != true ? false : true"
           v-model:value="wpPromotion.formData.id_brand"
           placeholder="Brand"
           class="w-100 mb-4"
@@ -186,6 +194,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
+          :disabled="editdata != true ? false : true"
           v-model:value="wpPromotion.formData.id_kategori_promo"
           placeholder="Kategori"
           class="w-100 mb-4"
@@ -310,8 +319,8 @@ export default {
         this.wpPromotion.formData.start_date != '' &&
         this.wpPromotion.formData.end_date != '' &&
         this.wpPromotion.formData.id_brand != null &&
-        this.wpPromotion.formData.id_kategori_promo != null &&
         this.wpPromotion.formData.program != '' &&
+        this.wpPromotion.formData.id_kategori_promo != null &&
         this.wpPromotion.formData.nilai_zak != null &&
         this.wpPromotion.formData.mekanisme != ''
       ) {
@@ -332,11 +341,11 @@ export default {
                 mekanisme: '',
               },
             })
-            await this.getDataTable()
           }
         } else {
           await this.insertDataPromo()
         }
+        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({
