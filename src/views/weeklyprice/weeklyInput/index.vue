@@ -179,10 +179,10 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in weeklyInput.dataDistrikRET"
-            :value="distrik.ID"
+            :value="distrik.id_distrik"
             :key="index"
           >
-            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
+            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
           </a-select-option>
         </a-select>
       </a-col>
