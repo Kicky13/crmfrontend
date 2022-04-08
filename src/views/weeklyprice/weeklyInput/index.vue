@@ -178,11 +178,11 @@
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
-            v-for="(distrik, index) in weeklyInput.dataDistrik"
-            :value="distrik.id_distrik"
+            v-for="(distrik, index) in weeklyInput.dataDistrikRET"
+            :value="distrik.ID"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -247,7 +247,13 @@
           show-search
         >
           <a-select-option disabled value="">Pilih Produk</a-select-option>
-          <a-select-option value="produk1">Produk 1</a-select-option>
+          <a-select-option
+            v-for="(product, index) in weeklyInput.dataProduct"
+            :value="product.id"
+            :key="index"
+          >
+            {{ product.namaproduk }}
+          </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -354,6 +360,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { notification } from 'ant-design-vue'
 
 export default {
   data() {
@@ -512,15 +519,15 @@ export default {
         this.weeklyInput.params.week != ''
       ) {
         await this.getDataTable()
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil ditampilkan.',
-        })
+        // notification.success({
+        //   message: 'Success',
+        //   description: 'Data berhasil ditampilkan.',
+        // })
       } else {
-        notification.error({
-          message: 'Error',
-          description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        })
+        // notification.error({
+        //   message: 'Error',
+        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
+        // })
       }
     },
     async handleChangeBulan() {
@@ -530,15 +537,15 @@ export default {
         this.weeklyInput.params.week != ''
       ) {
         await this.getDataTable()
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil ditampilkan.',
-        })
+        // notification.success({
+        //   message: 'Success',
+        //   description: 'Data berhasil ditampilkan.',
+        // })
       } else {
-        notification.error({
-          message: 'Error',
-          description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        })
+        // notification.error({
+        //   message: 'Error',
+        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
+        // })
       }
     },
     async handleSubmit() {
@@ -548,15 +555,15 @@ export default {
         this.weeklyInput.params.week != ''
       ) {
         await this.getDataTable()
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil ditampilkan.',
-        })
+        // notification.success({
+        //   message: 'Success',
+        //   description: 'Data berhasil ditampilkan.',
+        // })
       } else {
-        notification.error({
-          message: 'Error',
-          description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        })
+        // notification.error({
+        //   message: 'Error',
+        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
+        // })
       }
     },
   },

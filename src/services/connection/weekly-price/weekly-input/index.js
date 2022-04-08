@@ -386,7 +386,7 @@ const actions = {
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/wpm/master-data/distrikret', body)
+      const result = await apiClient.get('/wpm/master-data/distrikret', body)
 
       if (result.data.status == 'error') {
         notification.error({
