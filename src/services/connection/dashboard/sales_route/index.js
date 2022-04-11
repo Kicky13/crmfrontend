@@ -96,6 +96,9 @@ const state = {
       selectedDistributor: '',
       selectedSalesman: '',
       selectedDate: '',
+      id_distrik: '',
+      id_distributor: '',
+      id_sales: '',
     },
     itemsPerPage: [5, 10, 15, 20],
   },
@@ -150,7 +153,7 @@ const actions = {
     const { data } = state
 
     let body = {
-      id_distrik: data.formData.selectedDistrik,
+      id_distrik: data.formData.id_distrik,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -226,12 +229,12 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
+          description: result.data.message,
         })
         await commit('changeSalesRoute', {
           isLoading: false,
@@ -264,12 +267,12 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
+          description: result.data.message,
         })
         await commit('changeSalesRoute', {
           isLoading2: false,
@@ -302,12 +305,12 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.selectedDistributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
-          description: result.data.message[0],
+          description: result.data.message,
         })
         await commit('changeSalesRoute', {
           isLoading2: false,

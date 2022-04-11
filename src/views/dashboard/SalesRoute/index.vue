@@ -19,7 +19,7 @@
                   <a-select-option
                     v-for="(distrik, index) in salesRoute.dataDistrik"
                     :key="index"
-                    :value="distrik.id_distrik"
+                    :value="distrik.nama_distrik"
                   >
                     {{ distrik.nama_distrik }}</a-select-option
                   >
@@ -41,7 +41,7 @@
                   <a-select-option
                     v-for="(distributor, index) in salesRoute.dataDistributor"
                     :key="index"
-                    :value="distributor.id_distributor"
+                    :value="distributor.nama_distributor"
                     >{{ distributor.nama_distributor }}</a-select-option
                   >
                 </a-select>
@@ -93,7 +93,7 @@
         </div>
       </div>
     </a-form>
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-md-6">
         <div class="col-md-12 col-sm-12">
           <fieldset class="border border-dark shadow px-3 pb-3">
@@ -117,8 +117,18 @@
           </fieldset>
         </div>
       </div>
-      <div class="col-md-12 bg-white rounded p-3 mt-3"></div>
-    </div> -->
+      <div class="col-md-6 bg-white rounded p-3">
+        <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
+        <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
+          <div v-if="itemRadio == null">
+            <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:180px;" />
+          </div>
+          <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+            <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+          </div>
+        </a-carousel>
+      </div>
+    </div>
     <div class="row p-3">
       <!-- <div class="col-md-12 bg-white rounded p-3 mt-3">
         <a-carousel :after-change="onChange">
@@ -127,16 +137,6 @@
           </div>
         </a-carousel>
       </div> -->
-      <div class="col-md-12 col-sm-12 bg-white rounded p-3">
-        <a-carousel :after-change="onChange" class="" style="height:auto">
-          <div v-if="itemRadio == null">
-            <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:300px;" />
-          </div>
-          <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-            <img :src="item.src" class="img-fluid w-100" style="height:300px;" />
-          </div>
-        </a-carousel>
-      </div>
     </div>
     <div class="row">
       <div class="col-md-7 col-sm-7">
@@ -418,9 +418,26 @@ export default {
       // `index` will be the visible row number (available in the v-model 'shownItems')
       log(record) // This will be the item data for the row
     },
-    handleDistributor(value) {
-      const id = value
-      this.getDistributor(id)
+    async handleDistributor() {
+      let dataSource = [...this.salesRoute.dataDistrik]
+      let filtered = dataSource.filter(
+        x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
+      )
+
+      this.salesRoute.formData.id_distrik = filtered[0].id_distrik
+
+      await this.getDistributor()
+    },
+    async handleSales() {
+      let dataSource = [...this.salesRoute.dataDistributor]
+      let filtered = dataSource.filter(
+        x => x.nama_distributor == this.salesRoute.formData.selectedDistributor,
+      )
+
+      this.salesRoute.formData.id_distributor = filtered[0].id_distributor
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.id_distributor,
+      })
     },
     getMapData(place) {
       this.place = place
@@ -447,11 +464,6 @@ export default {
         await this.getMap()
       }
     },
-    async handleSales() {
-      await this.getSalesman({
-        id_distributor: this.salesRoute.formData.selectedDistributor,
-      })
-    },
   },
 }
 </script>
@@ -459,7 +471,7 @@ export default {
 /* For demo */
 .ant-carousel >>> .slick-slide {
   text-align: center;
-  height: 300px;
+  height: 180px;
   line-height: 160px;
   background: #364d79;
   overflow: hidden;
