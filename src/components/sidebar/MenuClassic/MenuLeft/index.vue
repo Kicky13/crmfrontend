@@ -154,6 +154,10 @@ export default {
         ? getAdminMenuData
         : user.value.role.toLowerCase() === 'tso'
         ? getTsoMenuData
+        : user.value.role.toLowerCase() === 'asm'
+        ? getASMMenuData
+        : user.value.role.toLowerCase() === 'ssm'
+        ? getSSMMenuData
         : getUserMenuData,
     )
     const selectedKeys = ref([])

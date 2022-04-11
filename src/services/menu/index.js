@@ -671,3 +671,153 @@ export const getTsoMenuData = [
   //   ],
   // },
 ]
+
+export const getASMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+]
+
+export const getSSMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+]
