@@ -33,7 +33,7 @@ const routes = [
         path: '/dashboard/rbp_movement',
         meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
         component: () =>
-          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement2'),
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
       },
       {
         path: '/dashboard/price_monitoring',
@@ -56,6 +56,11 @@ const routes = [
         path: '/dashboard/sow',
         meta: { title: 'Sow', resource: 'Sow', action: 'read' },
         component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),
+      },
+      {
+        path: '/dashboard/sow-v2',
+        meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/SowV2'),
       },
       {
         path: '/dashboard/sales_route',
@@ -108,7 +113,8 @@ const routes = [
           resource: 'DistrikRET',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "distrik_ret" */ '@/views/masterdata/distrikRet'),
+        component: () =>
+          import(/* webpackChunkName: "distrik_ret" */ '@/views/masterdata/distrikRet'),
       },
       {
         path: '/master_data/kategori_promo',
@@ -117,7 +123,8 @@ const routes = [
           resource: 'KategoriPromo',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "kategori_promo" */ '@/views/masterdata/kategoriPromo'),
+        component: () =>
+          import(/* webpackChunkName: "kategori_promo" */ '@/views/masterdata/kategoriPromo'),
       },
       {
         path: '/master_data/weekly_config',
@@ -126,7 +133,8 @@ const routes = [
           resource: 'WeeklyConfig',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "weekly_config" */ '@/views/masterdata/weeklyConfig'),
+        component: () =>
+          import(/* webpackChunkName: "weekly_config" */ '@/views/masterdata/weeklyConfig'),
       },
       // Weekly Price Monitoring
       {
@@ -136,7 +144,8 @@ const routes = [
           resource: 'WeeklyInput',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "weekly_input" */ '@/views/weeklyprice/weeklyInput'),
+        component: () =>
+          import(/* webpackChunkName: "weekly_input" */ '@/views/weeklyprice/weeklyInput'),
       },
       {
         path: '/weekly_price/promotion',
@@ -145,7 +154,8 @@ const routes = [
           resource: 'Promotion',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "promotion" */ '@/views/weeklyprice/promotion'),
+        component: () =>
+          import(/* webpackChunkName: "promotion" */ '@/views/weeklyprice/promotion'),
       },
       {
         path: '/weekly_price/wp_approval',
@@ -154,7 +164,8 @@ const routes = [
           resource: 'WPApproval',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "wp_approval" */ '@/views/weeklyprice/wpApproval'),
+        component: () =>
+          import(/* webpackChunkName: "wp_approval" */ '@/views/weeklyprice/wpApproval'),
       },
       {
         path: '/weekly_price/wp_publish',
@@ -163,7 +174,8 @@ const routes = [
           resource: 'WPPublish',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "weekly_publish" */ '@/views/weeklyprice/wpPublish'),
+        component: () =>
+          import(/* webpackChunkName: "weekly_publish" */ '@/views/weeklyprice/wpPublish'),
       },
       // Reporting
       {
@@ -191,7 +203,8 @@ const routes = [
           resource: 'WPMPriceMovement',
           action: 'read',
         },
-        component: () => import(/* webpackChunkName: "wpm_price_movement" */ '@/views/wpm/price_movement'),
+        component: () =>
+          import(/* webpackChunkName: "wpm_price_movement" */ '@/views/wpm/price_movement'),
       },
       {
         path: '/wpm/gap_harga',

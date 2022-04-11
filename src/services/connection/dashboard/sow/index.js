@@ -65,6 +65,7 @@
 
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import axios from 'axios'
 const state = {
   data: {
     dataList: null,
@@ -246,7 +247,7 @@ const actions = {
   //     })
   //   }
   // },
-
+ 
   async getProvinsi({ commit, state }) {
     commit('changeSOW', {
       isLoading: true,
