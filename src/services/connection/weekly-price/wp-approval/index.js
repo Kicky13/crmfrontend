@@ -7,72 +7,72 @@ const state = {
     columns: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Tahun',
-        dataIndex: 'tahun',
+        slots: { customRender: 'tahun' },
         key: 'tahun',
       },
       {
         title: 'Bulan',
-        dataIndex: 'bulan',
+        slots: { customRender: 'bulan' },
         key: 'bulan',
       },
       {
         title: 'Week',
-        dataIndex: 'week',
+        slots: { customRender: 'week' },
         key: 'week',
       },
       {
         title: 'Status',
-        dataIndex: 'status',
+        slots: { customRender: 'status' },
         key: 'status',
       },
       {
         title: 'Produk',
-        dataIndex: 'produk',
+        slots: { customRender: 'produk' },
         key: 'produk',
       },
       {
         title: 'Brand',
-        dataIndex: 'brand',
+        slots: { customRender: 'brand' },
         key: 'brand',
       },
       {
         title: 'Type',
-        dataIndex: 'type',
+        slots: { customRender: 'type' },
         key: 'type',
       },
       {
         title: 'Kemasan',
-        dataIndex: 'kemasan',
-        key: 'kemasan',
+        slots: { customRender: 'kemasan' },
+        key: 'type',
       },
       {
         title: 'RBP Gross',
-        dataIndex: 'rbp_gross',
+        slots: { customRender: 'rbp_gross' },
         key: 'rbp_gross',
       },
       {
         title: 'Promo',
-        dataIndex: 'promo',
+        slots: { customRender: 'promo' },
         key: 'promo',
       },
       {
         title: 'RBP Net',
-        dataIndex: 'rbp_net',
+        slots: { customRender: 'rbp_net' },
         key: 'rbp_net',
       },
       {
         title: 'RSP',
-        dataIndex: 'rsp',
+        slots: { customRender: 'rsp' },
         key: 'rsp',
       },
       {
         title: 'Notes',
-        dataIndex: 'notes',
+        slots: { customRender: 'notes' },
         key: 'notes',
       },
       {
@@ -80,31 +80,101 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
-    wpApprovalList: [
+    data_bulan: [
       {
-        distrik: 'Distrik 1',
-        tahun: '2022',
-        bulan: 'Maret',
-        week: 'Week 1',
-        status: 'Approve',
-        produk: 'Produk 1',
-        brand: 'Brand 1',
-        type: 'Type 1',
-        kemasan: 'Kemasan 1',
-        rbp_gross: 'RBP Gross 1',
-        promo: 'Promo 1',
-        rbp_net: 'RBP Net 1',
-        rsp: 'RSP 1',
-        notes: 'Notes 1',
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
       },
     ],
+    dataWeekly: [
+      {
+        id: 1,
+        name: 'Week 1',
+      },
+      {
+        id: 2,
+        name: 'Week 2',
+      },
+      {
+        id: 3,
+        name: 'Week 3',
+      },
+      {
+        id: 4,
+        name: 'Week 4',
+      },
+    ],
+    wpApprovalList: [],
     params: {
       offset: 0,
       limit: 2000,
       tahun: '',
       bulan: '',
       week: '',
+      nm_tso: '',
+      id_tso: '',
     },
+    formData: {
+      id_distrik: null,
+      tahun: '',
+      bulan: '',
+      week: '',
+      id_produk: 1,
+      rbp_gross: null,
+      promo: null,
+      rbp_net: null,
+      rsp: null,
+      brand: null,
+      type: null,
+      kemasan: null,
+      notes: '',
+    },
+    data_uuid: [],
+    pagination: {},
     dataTSO: [],
     isLoading: false,
   },
@@ -139,12 +209,12 @@ const actions = {
         })
       } else {
         await commit('changeWPApproval', {
+          dataTSO: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
       await commit('changeWPApproval', {
-        dataTSO: result.data.data,
         isLoading: false,
       })
       notification.error({
@@ -168,6 +238,7 @@ const actions = {
       bulan: data.params.bulan,
       week: data.params.week,
       status: 1,
+      id_tso: data.params.id_tso,
     }
 
     try {
@@ -183,8 +254,153 @@ const actions = {
         })
       } else {
         await commit('changeWPApproval', {
-          dataTable: result.data.data || 0,
+          wpApprovalList: result.data.data || 0,
           isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message || `Data berhasil ditampilkan`,
+        })
+      }
+    } catch (error) {
+      await commit('changeWPApproval', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async submitApprove({ commit, state }, payload) {
+    commit('changeWPApproval', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let dataTable = data.wpApprovalList
+
+    dataTable.forEach(element => {
+      data.data_uuid.push(element.uuid)
+    })
+    let dataStatus = 2
+    let formData = new FormData()
+    formData.append('uuid', JSON.stringify(data.data_uuid))
+    formData.append('status', dataStatus)
+
+    try {
+      const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPApproval', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPApproval', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil di Approve',
+        })
+      }
+    } catch (error) {
+      await commit('changeWPApproval', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async submitReject({ commit, state }, payload) {
+    commit('changeWPApproval', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let dataTable = data.wpApprovalList
+
+    dataTable.forEach(element => {
+      data.data_uuid.push(element.uuid)
+    })
+    let dataStatus = 0
+    let formData = new FormData()
+    formData.append('uuid', JSON.stringify(data.data_uuid))
+    formData.append('status', dataStatus)
+
+    try {
+      const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPApproval', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPApproval', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: 'Data Berhasil di Reject',
+        })
+      }
+    } catch (error) {
+      await commit('changeWPApproval', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async updateDataWeekly({ commit, state }, payload) {
+    commit('changeWPApproval', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      rbp_gross: data.formData.rbp_gross,
+      promo: data.formData.promo,
+      rbp_net: data.formData.rbp_net,
+      rsp: data.formData.rsp,
+      notes: data.formData.notes,
+      uuid: payload.uuid,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPApproval', {
+          isLoading: false,
+          status: 'gagal',
+        })
+      } else {
+        await commit('changeWPApproval', {
+          isLoading: false,
+          status: 'sukses',
         })
         notification.success({
           message: 'Success',
@@ -194,6 +410,7 @@ const actions = {
     } catch (error) {
       await commit('changeWPApproval', {
         isLoading: false,
+        status: 'gagal',
       })
       notification.error({
         message: 'Error',
