@@ -35,6 +35,9 @@
           </button>
         </div>
       </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
+      </template>
     </a-table>
   </a-card>
   
@@ -96,6 +99,7 @@ export default {
   async mounted() {
     await this.getAllTipe()
     this.getUserId()
+    this.changeFormatdate('2022-04-08 12:41:24')
   },
   methods: {
     ...mapActions('tipe', ['getAllTipe', 'addTipe', 'deleteTipe', 'editTipe']),
@@ -163,8 +167,10 @@ export default {
         this.formState.tipe_baru = ''
       }
     },
-    changeFormatdate(date) {
-      return date.split('T')[0].split('-').reverse().join('-')
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year} ${timeFormat}`
     },
   },
 }

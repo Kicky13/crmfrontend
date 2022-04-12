@@ -6,72 +6,72 @@ const state = {
     columns: [
       {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'Tahun',
-        dataIndex: 'tahun',
+        slots: { customRender: 'tahun' },
         key: 'tahun',
       },
       {
         title: 'Bulan',
-        dataIndex: 'bulan',
+        slots: { customRender: 'bulan' },
         key: 'bulan',
       },
       {
         title: 'Week',
-        dataIndex: 'week',
+        slots: { customRender: 'week' },
         key: 'week',
       },
       {
         title: 'Status',
-        dataIndex: 'status',
+        slots: { customRender: 'status' },
         key: 'status',
       },
       {
         title: 'Produk',
-        dataIndex: 'produk',
+        slots: { customRender: 'produk' },
         key: 'produk',
       },
       {
         title: 'Brand',
-        dataIndex: 'brand',
+        slots: { customRender: 'brand' },
         key: 'brand',
       },
       {
         title: 'Type',
-        dataIndex: 'type',
+        slots: { customRender: 'type' },
         key: 'type',
       },
       {
         title: 'Kemasan',
-        dataIndex: 'kemasan',
-        key: 'kemasan',
+        slots: { customRender: 'kemasan' },
+        key: 'type',
       },
       {
         title: 'RBP Gross',
-        dataIndex: 'rbp_gross',
+        slots: { customRender: 'rbp_gross' },
         key: 'rbp_gross',
       },
       {
         title: 'Promo',
-        dataIndex: 'promo',
+        slots: { customRender: 'promo' },
         key: 'promo',
       },
       {
         title: 'RBP Net',
-        dataIndex: 'rbp_net',
+        slots: { customRender: 'rbp_net' },
         key: 'rbp_net',
       },
       {
         title: 'RSP',
-        dataIndex: 'rsp',
+        slots: { customRender: 'rsp' },
         key: 'rsp',
       },
       {
         title: 'Notes',
-        dataIndex: 'notes',
+        slots: { customRender: 'notes' },
         key: 'notes',
       },
       {
@@ -79,24 +79,102 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
-    wpPublishList: [
+    data_bulan: [
       {
-        distrik: 'Distrik 1',
-        tahun: '2022',
-        bulan: 'Maret',
-        week: 'Week 1',
-        status: 'Publish',
-        produk: 'Produk 1',
-        brand: 'Brand 1',
-        type: 'Type 1',
-        kemasan: 'Kemasan 1',
-        rbp_gross: 'RBP Gross 1',
-        promo: 'Promo 1',
-        rbp_net: 'RBP Net 1',
-        rsp: 'RSP 1',
-        notes: 'Notes 1',
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
       },
     ],
+    dataWeekly: [
+      {
+        id: 1,
+        name: 'Week 1',
+      },
+      {
+        id: 2,
+        name: 'Week 2',
+      },
+      {
+        id: 3,
+        name: 'Week 3',
+      },
+      {
+        id: 4,
+        name: 'Week 4',
+      },
+    ],
+    wpPublishList: [],
+    params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+      nm_asm: '',
+      id_asm: '',
+    },
+    formData: {
+      id_distrik: null,
+      tahun: '',
+      bulan: '',
+      week: '',
+      id_produk: 1,
+      rbp_gross: null,
+      promo: null,
+      rbp_net: null,
+      rsp: null,
+      brand: null,
+      type: null,
+      kemasan: null,
+      notes: '',
+    },
+    data_uuid: [],
+    dataASM: [],
+    pagination: {},
     isLoading: false,
   },
 }
@@ -108,15 +186,17 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getDataASM({ commit, state }, payload) {
     commit('changeWPPublish', {
       isLoading: true,
     })
 
     const { data } = state
-
+    let formData = {
+      id_atasan: payload.id_atasan,
+    }
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.post(`/getBawahan`, formData)
 
       if (result.data.status == false) {
         await commit('changeWPPublish', {
@@ -128,12 +208,208 @@ const actions = {
         })
       } else {
         await commit('changeWPPublish', {
+          dataASM: result.data.data,
           isLoading: false,
         })
       }
     } catch (err) {
       await commit('changeWPPublish', {
         isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeWPPublish', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: data.params.week,
+      status: 2,
+      id_asm: data.params.id_asm,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getData`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPPublish', {
+          wpPublishList: result.data.data || 0,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message || `Data berhasil ditampilkan`,
+        })
+      }
+    } catch (error) {
+      await commit('changeWPPublish', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async submitPublish({ commit, state }, payload) {
+    commit('changeWPPublish', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let dataTable = data.wpPublishList
+
+    dataTable.forEach(element => {
+      data.data_uuid.push(element.uuid)
+    })
+    let dataStatus = 3
+    let formData = new FormData()
+    formData.append('uuid', JSON.stringify(data.data_uuid))
+    formData.append('status', dataStatus)
+
+    try {
+      const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: 'Data berhasil di Approve',
+        })
+      }
+    } catch (error) {
+      await commit('changeWPPublish', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async submitReject({ commit, state }, payload) {
+    commit('changeWPPublish', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let dataTable = data.wpPublishList
+
+    dataTable.forEach(element => {
+      data.data_uuid.push(element.uuid)
+    })
+    let dataStatus = 1
+    let formData = new FormData()
+    formData.append('uuid', JSON.stringify(data.data_uuid))
+    formData.append('status', dataStatus)
+
+    try {
+      const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: 'Data Berhasil di Reject',
+        })
+      }
+    } catch (error) {
+      await commit('changeWPPublish', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async updateDataWeekly({ commit, state }, payload) {
+    commit('changeWPPublish', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      rbp_gross: data.formData.rbp_gross,
+      promo: data.formData.promo,
+      rbp_net: data.formData.rbp_net,
+      rsp: data.formData.rsp,
+      notes: data.formData.notes,
+      uuid: payload.uuid,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
+
+      if (result.data.state == 'false') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          isLoading: false,
+          status: 'gagal',
+        })
+      } else {
+        await commit('changeWPPublish', {
+          isLoading: false,
+          status: 'sukses',
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWPPublish', {
+        isLoading: false,
+        status: 'gagal',
       })
       notification.error({
         message: 'Error',

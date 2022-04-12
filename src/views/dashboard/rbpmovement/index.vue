@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
+
     async handleRefresh() {
       await this.getMetabaseRBPMovement()
     },

@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     ...mapActions('priceMonitoring', ['getMetabasePriceMonitoring']),
+
     async handleRefresh() {
       await this.getMetabasePriceMonitoring()
     },

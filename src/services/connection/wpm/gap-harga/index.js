@@ -7,123 +7,85 @@ const state = {
       {
         title: 'GAP HARGA',
         dataIndex: 'gap_harga',
-        key: 'gap_harga',
-      },
-      {
-        title: 'SG',
-        nama_produk: 'Semen Gresik',
-        dataIndex: 'sg',
-        key: 'sg',
-      },
-      {
-        title: 'SP',
-        nama_produk: 'Semen Padang',
-        dataIndex: 'sp',
-        key: 'sp',
-      },
-      {
-        title: 'TL',
-        nama_produk: 'Thang Long',
-        dataIndex: 'tl',
-        key: 'tl',
-      },
-      {
-        title: 'SA',
-        nama_produk: 'Semen Andalas',
-        dataIndex: 'sa',
-        key: 'sa',
-      },
-      {
-        title: 'ST',
-        nama_produk: 'Semen Tonasa',
-        dataIndex: 'st',
-        key: 'st',
-      },
-      {
-        title: 'SD',
-        nama_produk: 'Semen Dynamic',
-        dataIndex: 'sd',
-        key: 'sd',
-      },
-      {
-        title: 'TR',
-        nama_produk: 'Tiga Roda',
-        dataIndex: 'tr',
-        key: 'tr',
+        key: 0,
       },
     ],
-    row: [
+    row: [],
+    bulan: [
       {
-        gap_harga: 'SG',
-        sg: '0',
-        sp: '5000',
-        tl: '1000',
-        sa: '1000',
-        st: '1000',
-        sd: '1000',
-        tr: '1000',
+        id: 1,
+        name: 'Januari',
       },
       {
-        gap_harga: 'SP',
-        sg: '1000',
-        sp: '0',
-        tl: '1000',
-        sa: '1000',
-        st: '1000',
-        sd: '1000',
-        tr: '1000',
+        id: 2,
+        name: 'Februari',
       },
       {
-        gap_harga: 'TL',
-        sg: '1000',
-        sp: '1000',
-        tl: '0',
-        sa: '1000',
-        st: '1000',
-        sd: '1000',
-        tr: '1000',
+        id: 3,
+        name: 'Maret',
       },
       {
-        gap_harga: 'SA',
-        sg: '1000',
-        sp: '1000',
-        tl: '1000',
-        sa: '0',
-        st: '1000',
-        sd: '1000',
-        tr: '1000',
+        id: 4,
+        name: 'April',
       },
       {
-        gap_harga: 'ST',
-        sg: '5000',
-        sp: '1000',
-        tl: '1000',
-        sa: '1000',
-        st: '0',
-        sd: '1000',
-        tr: '1000',
+        id: 5,
+        name: 'Mei',
       },
       {
-        gap_harga: 'SD',
-        sg: '1000',
-        sp: '1000',
-        tl: '1000',
-        sa: '1000',
-        st: '1000',
-        sd: '0',
-        tr: '1000',
+        id: 6,
+        name: 'Juni',
       },
       {
-        gap_harga: 'TR',
-        sg: '1000',
-        sp: '1000',
-        tl: '1000',
-        sa: '1000',
-        st: '1000',
-        sd: '1000',
-        tr: '0',
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
       },
     ],
+    week: [
+      {
+        id: 1,
+        name: 'Week 1',
+      },
+      {
+        id: 2,
+        name: 'Week 2',
+      },
+      {
+        id: 3,
+        name: 'Week 3',
+      },
+      {
+        id: 4,
+        name: 'Week 4',
+      },
+      {
+        id: 5,
+        name: 'Week 5',
+      },
+    ],
+    distrikRetList: [],
+    distrikList: [],
+    gapHarga: [],
     isLoading: false,
   },
 }
@@ -135,7 +97,83 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getDistrikRET({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_provinsi: payload.id_provinsi,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikRet`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeGAPHarga', {
+          distrikRetList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeGAPHarga', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getDistrik({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_distrik_ret: payload.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+
+      if (result.data.status == false) {
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeGAPHarga', {
+          distrikList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeGAPHarga', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getAllProduct({ commit, state }, payload) {
     commit('changeGAPHarga', {
       isLoading: true,
     })
@@ -143,7 +181,26 @@ const actions = {
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.get(`/wpm/gap-product`)
+
+      result.data.data.map(item => {
+        let objColumns = {
+          title: item.key_brand,
+          nama_produk: item.nm_brand,
+          dataIndex: item.id_brand,
+          key: item.id_brand,
+        }
+        state.data.columns.push(objColumns)
+      })
+
+      result.data.data.map(item => {
+        let objRow = {
+          gap_harga: item.key_brand,
+          key_brand: item.id_brand,
+        }
+        state.data.row.push(objRow)
+        state.data.gapHarga.push(objRow.key_brand)
+      })
 
       if (result.data.status == false) {
         await commit('changeGAPHarga', {
@@ -156,6 +213,66 @@ const actions = {
       } else {
         await commit('changeGAPHarga', {
           isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeGAPHarga', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getGapHarga({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    // const formData = {
+    //   id_provinsi: payload.id_provinsi,
+    //   id_distrik_ret: payload.id_distrik_ret,
+    //   id_distrik: payload.id_distrik,
+    //   tahun: payload.tahun,
+    //   bulan: payload.bulan,
+    //   week: payload.week,
+    //   row: state.data.gapHarga.join(","),
+    //   column: state.data.gapHarga.join(","),
+    // }
+
+    const formDataTest = {
+      id_provinsi: 1,
+      id_distrik_ret: 2,
+      id_distrik: 1101,
+      tahun: 2022,
+      bulan: 3,
+      week: 1,
+      row: state.data.gapHarga.join(","),
+      column: state.data.gapHarga.join(","),
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/gap-harga`, formDataTest)
+
+      if (result.data.status == false) {
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeGAPHarga', {
+          row: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Gap harga berhasil ditampilkan',
         })
       }
     } catch (err) {

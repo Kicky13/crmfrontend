@@ -22,7 +22,7 @@
             title="Tambah Distrik"
             @click="showTambahDistrikModal(text)"
           >
-            <i class="fa fa-map-marker mx-1" />
+            <i class="fa fa-map" />
           </button>
           <button
             type="button"
@@ -43,6 +43,9 @@
             <i class="fa fa-trash" />
           </button>
         </div>
+      </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -83,18 +86,49 @@
   <a-modal
     v-model:visible="tambahDistrikModal"
     title="Tambah Distrik"
-    ok-text="Simpan"
-    cancel-text="Batal"
-    :on-ok="saveTambahDistrik"
   >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="tambahDistrikModal = false"
+      >
+        Kembali
+      </a-button>
+    </template>
     <a-select
       placeholder="Distrik"
       class="w-100 mb-3"
       show-search
     >
       <a-select-option disabled value="">Pilih Distrik</a-select-option>
-      <a-select-option value="distrik1">Distrik 1</a-select-option>
+      <a-select-option
+        v-for="(item, index) in distrikRET.distrikList"
+        :value="item.id_distrik"
+        :key="index"
+        :title="item.nama_distrik"
+        data-toggle="tooltip"
+        data-placement="top"
+      >
+        {{ item.id_distrik }} - {{ item.nama_distrik }}
+      </a-select-option>
     </a-select>
+    <a-list item-layout="horizontal" :data-source="data">
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <template #actions>
+          <a class="fa fa-window-close" />
+        </template>
+        <a-list-item-meta>
+          <template #title>
+            <span>{{ item.title }}</span>
+          </template>
+          <template #avatar>
+            <i class="fa fa-map-pin" />
+          </template>
+        </a-list-item-meta>
+      </a-list-item>
+    </template>
+  </a-list>
   </a-modal>
 </template>
 
@@ -114,6 +148,20 @@ export default {
         distrik_ret_baru: '',
       },
       modalStatus: false,
+      data: [
+        {
+          title: 'Ant Design Title 1',
+        },
+        {
+          title: 'Ant Design Title 2',
+        },
+        {
+          title: 'Ant Design Title 3',
+        },
+        {
+          title: 'Ant Design Title 4',
+        },
+      ],
     }
   },
   computed: {
@@ -126,7 +174,7 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions('distrikRET', ['getAllDistrikRET', 'addDistrikRET', 'deleteDistrikRET', 'editDistrikRET']),
+    ...mapActions('distrikRET', ['getAllDistrikRET', 'addDistrikRET', 'deleteDistrikRET', 'editDistrikRET', 'getAllDistrik']),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -164,6 +212,7 @@ export default {
     },
     showTambahDistrikModal() {
       this.tambahDistrikModal = true
+      this.getAllDistrik()
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -196,6 +245,11 @@ export default {
     },
     saveTambahDistrik(){
       this.tambahDistrikModal = false
+    },
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year} ${timeFormat}`
     },
   },
 }

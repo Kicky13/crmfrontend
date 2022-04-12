@@ -11,8 +11,8 @@ const state = {
       },
       {
         title: 'Tanggal Buat',
-        dataIndex: 'TANGGAL_DIBUAT',
         key: 'TANGGAL_DIBUAT',
+        slots: { customRender: 'tanggal_dibuat' },
       },
       {
         title: 'Dibuat Oleh',
@@ -25,6 +25,7 @@ const state = {
       },
     ],
     distrikRetList: [],
+    distrikList: [],
     isLoading: false,
   },
 }
@@ -185,6 +186,40 @@ const actions = {
         notification.success({
           message: 'Sukses',
           description: 'Distrik RET berhasil diupdate',
+        })
+      }
+    } catch (err) {
+      await commit('changeDistrikRET', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getAllDistrik({ commit, state }, payload) {
+    commit('changeDistrikRET', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.post(`/wpm/master-data/distrikret/getAllDistrik`)
+
+      if (result.data.status == false) {
+        await commit('changeDistrikRET', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeDistrikRET', {
+          distrikList: result.data.data,
+          isLoading: false,
         })
       }
     } catch (err) {

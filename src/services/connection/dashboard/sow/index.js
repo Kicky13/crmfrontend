@@ -63,48 +63,54 @@
 //   actions,
 // }
 
-
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import axios from 'axios'
 const state = {
   data: {
     dataList: null,
     dataSourceTable: [],
     columns: [
       {
+        title: 'No',
+        key: 'index',
+        render: (text, record, index) => index,
+        slots: { customRender: 'no' },
+      },
+      {
         title: 'Distrik',
-        dataIndex: 'distrik',
+        slots: { customRender: 'distrik' },
         key: 'distrik',
       },
       {
         title: 'ID Toko',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'id_toko' },
+        key: 'id_toko',
       },
       {
         title: 'Nama Toko',
-        dataIndex: 'nama Toko',
-        key: 'Nama Toko',
+        slots: { customRender: 'nama_toko' },
+        key: 'nama_toko',
       },
       {
         title: 'Produk(SKU)',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'produk' },
+        key: 'produk',
       },
       {
         title: 'Kapasitas Jual',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'kapasitas_jual' },
+        key: 'kapasitas_jual',
       },
       {
         title: 'Volume Jual',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'volume_jual' },
+        key: 'volume_jual',
       },
       {
         title: 'SOW',
-        dataIndex: 'ID Toko',
-        key: 'ID Toko',
+        slots: { customRender: 'sow' },
+        key: 'sow',
       },
     ],
     // provinsiOption: [],
@@ -117,18 +123,84 @@ const state = {
     // selectedDistrik: null,
     pagination: {},
     isLoading: false,
+    isLoadingLabel: false,
+    isLoadingChart: false,
     bodyList: {
       offset: 0,
       limit: 2000,
       filter: '',
     },
+    itemsPerPage: [3, 5],
+    data_bulan: [
+      {
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
+      },
+    ],
     formData: {
       selectedProvinsi: null,
       selectedArea: null,
       selectedDistrik: null,
       selectedDistributor: null,
       selectedBrand: null,
+      selectedMonth: null,
+      selectedYear: null,
+      id_provinsi: null,
+      id_distrik: null,
+      id_distributor: null,
+      id_brand: null,
     },
+    dataLabel: null,
+    dataTable: [],
+    dataTableSearch: [],
+    chartDashboard: [],
+    scatterChart: [],
+    statusPie: '',
+    statusScatter: '',
     itemsPerPage: [5, 10, 15, 20],
   },
 }
@@ -175,7 +247,7 @@ const actions = {
   //     })
   //   }
   // },
-
+ 
   async getProvinsi({ commit, state }) {
     commit('changeSOW', {
       isLoading: true,
@@ -211,18 +283,18 @@ const actions = {
       })
     }
   },
-  async getArea({ commit, state }) {
+  async getArea({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
 
     const { data } = state
-
     let body = {
-      id_provinsi: data.formData.selectedProvinsi,
+      id_provinsi: payload.provinsi_id,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
+
     try {
       const result = await apiClient.post('/filter/Area', body)
 
@@ -283,7 +355,7 @@ const actions = {
       })
     }
   },
-  async getDistributor({ commit, state }) {
+  async getDistributor({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
@@ -291,7 +363,7 @@ const actions = {
     const { data } = state
 
     let body = {
-      id_distrik: data.formData.selectedDistrik,
+      id_distrik: payload.distrik_id,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -346,6 +418,179 @@ const actions = {
         await commit('changeSOW', {
           dataBrand: result.data.data,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async submitLabel({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoadingLabel: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: payload.provinsi_id,
+      id_area: data.formData.selectedArea,
+      id_kota: payload.distrik_id,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/LabelDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoadingLabel: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataLabel: result.data,
+          isLoadingLabel: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: payload.provinsi_id,
+      id_area: data.formData.selectedArea,
+      id_kota: payload.distrik_id,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/TabelDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataTable: result.data.data,
+          dataTableSearch: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataChart({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoadingChart: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: payload.provinsi_id,
+      id_area: data.formData.selectedArea,
+      id_kota: payload.distrik_id,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/ChartDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoadingChart: false,
+          statusPie: 'gagal',
+        })
+      } else {
+        await commit('changeSOW', {
+          chartDashboard: result.data.brands,
+          isLoadingChart: false,
+          statusPie: 'sukses',
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataScatterChart({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoadingChart: true,
+    })
+
+    const { data } = state
+
+    let formBody = {
+      id_provinsi: payload.provinsi_id,
+      id_area: data.formData.selectedArea,
+      id_kota: payload.distrik_id,
+      id_distributor: data.formData.selectedDistributor,
+      id_brand: data.formData.selectedBrand,
+      bulan: data.formData.selectedMonth,
+      tahun: data.formData.selectedYear,
+    }
+
+    try {
+      const result = await apiClient.post('/Dashboard/ScatterDashboard', formBody)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSOW', {
+          isLoadingChart: false,
+          statusScatter: 'gagal',
+        })
+      } else {
+        await commit('changeSOW', {
+          scatterChart: result.data,
+          statusScatter: 'sukses',
+          isLoadingChart: false,
         })
       }
     } catch (error) {
