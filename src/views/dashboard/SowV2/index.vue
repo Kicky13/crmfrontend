@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-md-12">
             <iframe
-              height="800"
+              height="900"
               :src="srcDataStudio"
               frameborder="0"
               style="border:0"
