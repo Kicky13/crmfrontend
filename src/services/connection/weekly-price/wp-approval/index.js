@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { result } from 'lodash'
 
 const state = {
   data: {
@@ -97,6 +98,14 @@ const state = {
         notes: 'Notes 1',
       },
     ],
+    params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+    },
+    dataTSO: [],
     isLoading: false,
   },
 }
@@ -108,15 +117,17 @@ const mutations = {
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
+  async getDataTSO({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
     })
 
     const { data } = state
-
+    let formData = {
+      id_atasan: payload.id_atasan,
+    }
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.post(`/getBawahan`, formData)
 
       if (result.data.status == false) {
         await commit('changeWPApproval', {
@@ -132,6 +143,55 @@ const actions = {
         })
       }
     } catch (err) {
+      await commit('changeWPApproval', {
+        dataTSO: result.data.data,
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeWPApproval', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: data.params.week,
+      status: 1,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getData`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPApproval', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPApproval', {
+          dataTable: result.data.data || 0,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
       await commit('changeWPApproval', {
         isLoading: false,
       })

@@ -698,6 +698,19 @@ export const getASMMenuData = [
     ],
   },
   {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'WP Approval',
+        key: 'wein01',
+        url: '/weekly_price/wp_approval',
+      },
+    ],
+  },
+  {
     title: 'Settings & Configuration',
     key: 'dawdasw',
     url: '/settings',
@@ -769,6 +782,19 @@ export const getSSMMenuData = [
         title: 'Program',
         key: 'jkr02l',
         url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'Weekly Input',
+        key: 'wein01',
+        url: '/weekly_price/weekly_input',
       },
     ],
   },
