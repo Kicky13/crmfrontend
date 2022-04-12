@@ -792,9 +792,9 @@ export const getSSMMenuData = [
     icon: 'fa fa-tags',
     children: [
       {
-        title: 'Weekly Input',
+        title: 'WP Publish',
         key: 'wein01',
-        url: '/weekly_price/weekly_input',
+        url: '/weekly_price/wp_publish',
       },
     ],
   },
