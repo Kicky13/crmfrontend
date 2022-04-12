@@ -12,6 +12,7 @@
     <a-table
       :columns="brand.columns"
       :data-source="brand.brandList"
+      :loading="brand.isLoading"
     >
       <template #action="{ text }">
         <div>

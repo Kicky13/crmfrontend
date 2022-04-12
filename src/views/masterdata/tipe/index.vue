@@ -12,6 +12,7 @@
     <a-table
       :columns="tipe.columns"
       :data-source="tipe.tipeList"
+      :loading="tipe.isLoading"
     >
       <template #action="{ text }">
         <div>

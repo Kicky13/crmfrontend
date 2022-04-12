@@ -12,6 +12,7 @@
     <a-table
       :columns="kemasan.columns"
       :data-source="kemasan.kemasanList"
+      :loading="kemasan.isLoading"
     >
       <template #action="{ text }">
         <div>

@@ -12,6 +12,7 @@
     <a-table
       :columns="weeklyConfig.columns"
       :data-source="weeklyConfig.weeklyConfigList"
+      :loading="weeklyConfig.isLoading"
     >
       <template #action="{ text }">
         <div>

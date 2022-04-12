@@ -12,6 +12,7 @@
     <a-table
       :columns="kategoriPromo.columns"
       :data-source="kategoriPromo.kategoriList"
+      :loading="kategoriPromo.isLoading"
     >
       <template #action="{ text }">
         <div>
