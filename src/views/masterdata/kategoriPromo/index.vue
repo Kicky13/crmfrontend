@@ -12,6 +12,7 @@
     <a-table
       :columns="kategoriPromo.columns"
       :data-source="kategoriPromo.kategoriList"
+      :loading="kategoriPromo.isLoading"
     >
       <template #action="{ text }">
         <div>
@@ -34,9 +35,6 @@
             <i class="fa fa-trash" />
           </button>
         </div>
-      </template>
-      <template #TANGGAL_DIBUAT="{ text }">
-        <span>{{ changeFormatdate(text.TANGGAL_DIBUAT) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -165,9 +163,6 @@ export default {
         this.formState.id = null
         this.formState.kategori_baru = ''
       }
-    },
-    changeFormatdate(date) {
-      return date.split('T')[0].split('-').reverse().join('-')
     },
   },
 }

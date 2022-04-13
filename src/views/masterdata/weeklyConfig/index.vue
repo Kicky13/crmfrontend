@@ -12,6 +12,7 @@
     <a-table
       :columns="weeklyConfig.columns"
       :data-source="weeklyConfig.weeklyConfigList"
+      :loading="weeklyConfig.isLoading"
     >
       <template #action="{ text }">
         <div>
@@ -34,6 +35,12 @@
             <i class="fa fa-trash" />
           </button>
         </div>
+      </template>
+      <template #tanggal_mulai="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_MULAI) }}</span>
+      </template>
+      <template #tanggal_selesai="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_SELESAI) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -66,13 +73,13 @@
     <vue-datepicker
       placeholder="Tanggal Mulai"
       class="ant-calendar-picker ant-calendar-picker-input ant-input my-3"
-      input-format="yyyy-MM-dd"
+      input-format="dd-MM-yyyy"
       v-model="formState.tanggal_mulai"
     />
     <vue-datepicker
       placeholder="Tanggal Selesai"
       class="ant-calendar-picker ant-calendar-picker-input ant-input"
-      input-format="yyyy-MM-dd"
+      input-format="dd-MM-yyyy"
       v-model="formState.tanggal_selesai"
     />
   </a-modal>
@@ -127,9 +134,10 @@ export default {
       this.weeklyConfigModal = true
       this.formState.id = id
       const element = this.weeklyConfig.weeklyConfigList.find(element => element.ID == id)
+      console.log(element)
       this.formState.weekly_config_baru = element.WEEK_NAME
-      this.formState.tanggal_mulai = this.getFormatDate(element.TANGGAL_MULAI)
-      this.formState.tanggal_selesai = this.getFormatDate(element.TANGGAL_SELESAI)
+      this.formState.tanggal_mulai = this.setFormatDate(element.TANGGAL_MULAI)
+      this.formState.tanggal_selesai = this.setFormatDate(element.TANGGAL_SELESAI)
     },
     async showDeleteModal(id) {this.formState.id = id
       this.$confirm({
@@ -180,11 +188,19 @@ export default {
         this.weeklyConfigModal = true
         return
       }
+      if (new Date(this.formState.tanggal_mulai).getTime() > new Date(this.formState.tanggal_selesai).getTime()) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Tanggal mulai harus sebelum tanggal selesai',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
 
-      const startDate = new Date(this.formState.tanggal_mulai).toLocaleDateString('en-GB').toString()
-      const endDate = new Date(this.formState.tanggal_selesai).toLocaleDateString('en-GB').toString()
-      this.formState.tanggal_mulai = this.changeFormatDate('/', startDate)
-      this.formState.tanggal_selesai = this.changeFormatDate('/', endDate)
+      const startDate = this.splitDate(this.formState.tanggal_mulai)
+      const endDate = this.splitDate(this.formState.tanggal_selesai)
+      this.formState.tanggal_mulai = this.getFormatDate(startDate)
+      this.formState.tanggal_selesai = this.getFormatDate(endDate)
 
       if (this.modalStatus) {
         await this.editWeeklyConfig({
@@ -212,8 +228,20 @@ export default {
     },
     getFormatDate(date) {
       let components = date.split('-')
-      let newDate = components[1] + '-' + components[2] + '-' + components[0]
-      return new Date(newDate)
+      let newDate = components[2] + '-' + components[1] + '-' + components[0]
+      return newDate
+    },
+    setFormatDate(date) {
+      let components = date.split(' ')[0]
+      return new Date(components)
+    },
+    changeFormatDate(dates) {
+      const dateFormat = dates.split(' ')[0]
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year}`
+    },
+    splitDate(dates) {
+      return new Date(dates).toLocaleDateString('en-GB').toString().replace('/', '-').replace('/', '-')
     },
   },
 }
