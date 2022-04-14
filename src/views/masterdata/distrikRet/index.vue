@@ -12,6 +12,7 @@
     <a-table
       :columns="distrikRET.columns"
       :data-source="distrikRET.distrikRetList"
+      :loading="distrikRET.isLoading"
     >
       <template #action="{ text }">
         <div>
@@ -20,9 +21,9 @@
             class="btn btn-info mr-1"
             data-toggle="tooltip"
             title="Tambah Distrik"
-            @click="showTambahDistrikModal(text)"
+            @click="showTambahDistrikModal(text.ID)"
           >
-            <i class="fa fa-map-marker mx-1" />
+            <i class="fa fa-map" />
           </button>
           <button
             type="button"
@@ -43,6 +44,9 @@
             <i class="fa fa-trash" />
           </button>
         </div>
+      </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -83,18 +87,50 @@
   <a-modal
     v-model:visible="tambahDistrikModal"
     title="Tambah Distrik"
-    ok-text="Simpan"
-    cancel-text="Batal"
-    :on-ok="saveTambahDistrik"
   >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="tambahDistrikModal = false"
+      >
+        Kembali
+      </a-button>
+    </template>
     <a-select
       placeholder="Distrik"
       class="w-100 mb-3"
       show-search
+      @change="saveDistrik"
     >
       <a-select-option disabled value="">Pilih Distrik</a-select-option>
-      <a-select-option value="distrik1">Distrik 1</a-select-option>
+      <a-select-option
+        v-for="(item, index) in distrikRET.distrikList"
+        :value="item.id_distrik"
+        :key="index"
+        :title="item.nama_distrik"
+        data-toggle="tooltip"
+        data-placement="top"
+      >
+        {{ item.id_distrik }} - {{ item.nama_distrik }}
+      </a-select-option>
     </a-select>
+    <a-list item-layout="horizontal" :data-source="distrikRET.distrikByDistrikRetList">
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <template #actions>
+          <a class="fa fa-window-close" @click="deleteDistrik(item.id_mm_distrik_ret)" />
+        </template>
+        <a-list-item-meta>
+          <template #title>
+            <span>{{ item.nama_distrik }}</span>
+          </template>
+          <template #avatar>
+            <i class="fa fa-map-pin" />
+          </template>
+        </a-list-item-meta>
+      </a-list-item>
+    </template>
+  </a-list>
   </a-modal>
 </template>
 
@@ -114,6 +150,9 @@ export default {
         distrik_ret_baru: '',
       },
       modalStatus: false,
+      dataDistrik: {
+        id_distrik_ret: null,
+      },
     }
   },
   computed: {
@@ -126,7 +165,19 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions('distrikRET', ['getAllDistrikRET', 'addDistrikRET', 'deleteDistrikRET', 'editDistrikRET']),
+    ...mapActions(
+      'distrikRET', 
+      [
+        'getAllDistrikRET',
+        'addDistrikRET',
+        'deleteDistrikRET',
+        'editDistrikRET',
+        'getAllDistrik',
+        'getDistrikByDistrikRet',
+        'addDistrikByDistrikRet',
+        'deleteDistrikByDistrikRet',
+      ],
+    ),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -162,8 +213,12 @@ export default {
         },
       })
     },
-    showTambahDistrikModal() {
+    showTambahDistrikModal(id) {
+      this.dataDistrik = []
       this.tambahDistrikModal = true
+      this.getAllDistrik()
+      this.getDistrikByDistrikRet({ id_distrik_ret: id })
+      this.dataDistrik.id_distrik_ret = id
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -194,8 +249,26 @@ export default {
         this.formState.distrik_ret_baru = ''
       }
     },
-    saveTambahDistrik(){
-      this.tambahDistrikModal = false
+    async saveDistrik(id){
+      await this.addDistrikByDistrikRet({
+        id_distrik_ret: this.dataDistrik.id_distrik_ret,
+        id_distrik: id,
+        user_id: this.formState.id_user,
+      })
+      await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+    },
+    async deleteDistrik(id) {
+      await this.deleteDistrikByDistrikRet({
+        id_mm_distrik_ret: id,
+        user_id: this.formState.id_user,
+      })
+      await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+
+    },
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year} ${timeFormat}`
     },
   },
 }

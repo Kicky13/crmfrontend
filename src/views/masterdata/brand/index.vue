@@ -12,6 +12,7 @@
     <a-table
       :columns="brand.columns"
       :data-source="brand.brandList"
+      :loading="brand.isLoading"
     >
       <template #action="{ text }">
         <div>
@@ -34,6 +35,9 @@
             <i class="fa fa-trash" />
           </button>
         </div>
+      </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -68,12 +72,12 @@
       placeholder="Company"
       show-search
       class="w-100 my-3"
-      @change="companyHandler"
+      v-model:value="formState.id_company"
     >
       <a-select-option disabled value="">Pilih Company</a-select-option>
       <a-select-option
         v-for="(item, index) in brand.companyList"
-        :value="`${item.ID} - ${item.DESKRIPSI}`"
+        :value="item.ID"
         :key="index"
         :title="item.DESKRIPSI"
         data-toggle="tooltip"
@@ -127,6 +131,7 @@ export default {
       this.modalStatus = false
       this.brandModal = true
       this.formState.brand_baru = ''
+      this.formState.id_company = null
     },
     showEditModal(id) {
       this.modalStatus = true
@@ -201,6 +206,11 @@ export default {
     },
     companyHandler(company) {
       this.formState.id_company = company.split('-')[0].trim()
+    },
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year} ${timeFormat}`
     },
   },
 }

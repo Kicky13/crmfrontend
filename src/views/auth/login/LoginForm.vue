@@ -227,14 +227,7 @@ export default {
     login() {
       login(this.loginForm).then((response) => {
         if (response) {
-          if (response.ability.length === 0) {
-            notification.error({
-              message: 'Oppss !',
-              description: 'Akses tidak ditemukan!',
-            })
-            this.$router.push('/auth/login')
-          } else {
-            this.$router.push('/dashboard')
+          this.$router.push('/dashboard')
 
             if (response.role === `Admin`) {
               this.$ability.update(dataAbility.ability_admin)
@@ -246,7 +239,6 @@ export default {
               description: 'Anda berhasil Login!',
             })
             this.storeState.dispatch('user/LOAD_CURRENT_ACCOUNT')
-          }
           // this.$ability.update(response.ability)
           // window.location.href = '#/dashboard'
           // this.$router.push('/dashboard')
