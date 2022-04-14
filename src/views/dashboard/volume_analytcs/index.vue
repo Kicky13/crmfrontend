@@ -8,7 +8,7 @@
           <div class="col-md-3"></div>
           <div class="col-md-3">
             <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
-              <i class="fa fa-eye mr-2" />
+              <i class="fa fa-refresh mr-2" aria-hidden="true"></i>
               Refresh
             </a-button>
           </div>
