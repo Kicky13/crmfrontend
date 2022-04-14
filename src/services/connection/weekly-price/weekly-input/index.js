@@ -152,14 +152,16 @@ const state = {
       tahun: '',
       bulan: '',
       week: '',
-      id_produk: 1,
+      id_produk: null,
       rbp_gross: null,
+      nama_produk: '',
+      nama_distrik: '',
       promo: null,
       rbp_net: null,
       rsp: null,
-      brand: null,
-      type: null,
-      kemasan: null,
+      brand: '',
+      type: '',
+      kemasan: '',
       notes: '',
     },
     data_uuid: [],
@@ -245,7 +247,7 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(`/master/listSelectProduk`)
+      const result = await apiClient.get(`/wpm/master-data/produk`)
 
       if (result.data.status == `false`) {
         notification.error({
@@ -343,6 +345,38 @@ const actions = {
   },
 
   async getAllKemasan({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/wpm/master-data/kemasan`)
+
+      if (result.data.status == false) {
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          kemasanList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getAllPromo({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
     })
