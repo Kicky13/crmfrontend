@@ -71,6 +71,7 @@
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
+      v-model:value="formState.keterangan"
     />
   </a-modal>
 </template>
@@ -88,6 +89,7 @@ export default {
         id: null,
         id_user: null,
         tipe_baru: '',
+        keterangan: '',
       },
       modalStatus: false,
     }
@@ -100,7 +102,6 @@ export default {
   async mounted() {
     await this.getAllTipe()
     this.getUserId()
-    this.changeFormatdate('2022-04-08 12:41:24')
   },
   methods: {
     ...mapActions('tipe', ['getAllTipe', 'addTipe', 'deleteTipe', 'editTipe']),
@@ -111,12 +112,15 @@ export default {
       this.modalStatus = false
       this.tipeModal = true
       this.formState.tipe_baru = ''
+      this.formState.keterangan = ''
     },
     async showEditModal(id) {
       this.modalStatus = true
       this.tipeModal = true
       this.formState.id = id
-      this.formState.tipe_baru = this.tipe.tipeList.find(element => element.ID == id).NAMA_TIPE_SEMEN
+      const tipe = this.tipe.tipeList.find(element => element.ID == id)
+      this.formState.tipe_baru = tipe.NAMA_TIPE_SEMEN
+      this.formState.keterangan = tipe.KETERANGAN
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -154,11 +158,13 @@ export default {
             id_tipe: this.formState.id,
             id_user: this.formState.id_user,
             tipe_baru: this.formState.tipe_baru,
+            keterangan: this.formState.keterangan,
           })
         } else {
           await this.addTipe({
             id_user: this.formState.id_user,
             tipe_baru: this.formState.tipe_baru,
+            keterangan: this.formState.keterangan,
           })
         }
         this.modalStatus = false
@@ -166,6 +172,7 @@ export default {
         await this.getAllTipe()
         this.formState.id = null
         this.formState.tipe_baru = ''
+        this.formState.keterangan = ''
       }
     },
     changeFormatDate(dates) {

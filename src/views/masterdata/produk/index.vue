@@ -66,24 +66,6 @@
       v-model:value="formState.produk_baru"
     />
     <a-select
-      placeholder="Brand"
-      show-search
-      class="w-100 mb-3"
-      v-model:value="formState.id_brand"
-    >
-      <a-select-option disabled value="">Pilih Brand</a-select-option>
-      <a-select-option
-        v-for="(item, index) in brand.brandList"
-        :value="item.ID"
-        :key="index"
-        :title="item.NAMA_BRAND"
-        data-toggle="tooltip"
-        data-placement="top"
-      >
-        {{ item.ID }} - {{ item.NAMA_BRAND }}
-      </a-select-option>
-    </a-select>
-    <a-select
       placeholder="Tipe"
       show-search
       class="w-100 mb-3"
@@ -102,27 +84,27 @@
       </a-select-option>
     </a-select>
     <a-select
-      placeholder="Tipe Produk"
+      placeholder="Brand"
       show-search
       class="w-100 mb-3"
-      v-model:value="formState.id_type_produk"
+      v-model:value="formState.id_brand"
     >
-      <a-select-option disabled value="">Pilih Tipe Produk</a-select-option>
+      <a-select-option disabled value="">Pilih Brand</a-select-option>
       <a-select-option
-        v-for="(item, index) in produk.typeProdukList"
+        v-for="(item, index) in brand.brandList"
         :value="item.ID"
         :key="index"
-        :title="item.NAMA_TYPE_PRODUK"
+        :title="item.NAMA_BRAND"
         data-toggle="tooltip"
         data-placement="top"
       >
-        {{ item.ID }} - {{ item.NAMA_TYPE_PRODUK }}
+        {{ item.ID }} - {{ item.NAMA_BRAND }}
       </a-select-option>
     </a-select>
     <a-select
       placeholder="Kemasan"
       show-search
-      class="w-100"
+      class="w-100 mb-3"
       v-model:value="formState.id_kemasan"
     >
       <a-select-option disabled value="">Pilih Kemasan</a-select-option>
@@ -135,6 +117,24 @@
         data-placement="top"
       >
         {{ item.ID }} - {{ item.NAMA_KEMASAN }}
+      </a-select-option>
+    </a-select>
+    <a-select
+      placeholder="Tipe Produk"
+      show-search
+      class="w-100"
+      v-model:value="formState.id_type_produk"
+    >
+      <a-select-option disabled value="">Pilih Tipe Produk</a-select-option>
+      <a-select-option
+        v-for="(item, index) in produk.typeProdukList"
+        :value="item.ID"
+        :key="index"
+        :title="item.NAMA_TYPE_PRODUK"
+        data-toggle="tooltip"
+        data-placement="top"
+      >
+        {{ item.ID }} - {{ item.NAMA_TYPE_PRODUK }}
       </a-select-option>
     </a-select>
   </a-modal>
