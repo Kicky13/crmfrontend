@@ -80,6 +80,7 @@
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
+      v-model:value="formState.keterangan"
     />
   </a-modal>
 
@@ -90,30 +91,36 @@
   >
     <template #footer>
       <a-button
+        danger
         key="back"
         @click="tambahDistrikModal = false"
       >
         Kembali
       </a-button>
     </template>
-    <a-select
-      placeholder="Distrik"
-      class="w-100 mb-3"
-      show-search
-      @change="saveDistrik"
-    >
-      <a-select-option disabled value="">Pilih Distrik</a-select-option>
-      <a-select-option
-        v-for="(item, index) in distrikRET.distrikList"
-        :value="item.id_distrik"
-        :key="index"
-        :title="item.nama_distrik"
-        data-toggle="tooltip"
-        data-placement="top"
+    <div class="d-flex mb-3">
+      <a-select
+        placeholder="Distrik"
+        class="w-100 mr-2"
+        show-search
+        v-model:value="selected_distrik"
       >
-        {{ item.id_distrik }} - {{ item.nama_distrik }}
-      </a-select-option>
-    </a-select>
+        <a-select-option disabled value="">Pilih Distrik</a-select-option>
+        <a-select-option
+          v-for="(item, index) in distrikRET.distrikList"
+          :value="item.id_distrik"
+          :key="index"
+          :title="item.nama_distrik"
+          data-toggle="tooltip"
+          data-placement="top"
+        >
+          {{ item.id_distrik }} - {{ item.nama_distrik }}
+        </a-select-option>
+      </a-select>
+      <a-button danger @click="saveDistrik">
+        <i class="fa fa-plus" />
+      </a-button>
+    </div>
     <a-list item-layout="horizontal" :data-source="distrikRET.distrikByDistrikRetList">
     <template #renderItem="{ item }">
       <a-list-item>
@@ -148,11 +155,13 @@ export default {
         id: null,
         id_user: null,
         distrik_ret_baru: '',
+        keterangan: '',
       },
       modalStatus: false,
       dataDistrik: {
         id_distrik_ret: null,
       },
+      selected_distrik: null,
     }
   },
   computed: {
@@ -185,12 +194,15 @@ export default {
       this.distrikRetModal = true
       this.modalStatus = false
       this.formState.distrik_ret_baru = ''
+      this.formState.keterangan = ''
     },
     showEditModal(id) {
       this.distrikRetModal = true
       this.modalStatus = true
       this.formState.id = id
-      this.formState.distrik_ret_baru = this.distrikRET.distrikRetList.find(element => element.ID == id).NAMA_DISTRIK_RET
+      const distrikRet = this.distrikRET.distrikRetList.find(element => element.ID == id)
+      this.formState.distrik_ret_baru = distrikRet.NAMA_DISTRIK_RET
+      this.formState.keterangan = distrikRet.KETERANGAN
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -213,12 +225,12 @@ export default {
         },
       })
     },
-    showTambahDistrikModal(id) {
-      this.dataDistrik = []
-      this.tambahDistrikModal = true
-      this.getAllDistrik()
-      this.getDistrikByDistrikRet({ id_distrik_ret: id })
+    async showTambahDistrikModal(id) {
+      this.selected_distrik = null
+      await this.getAllDistrik()
+      await this.getDistrikByDistrikRet({ id_distrik_ret: id })
       this.dataDistrik.id_distrik_ret = id
+      this.tambahDistrikModal = true
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -235,11 +247,13 @@ export default {
             id_distrik_ret: this.formState.id,
             id_user: this.formState.id_user,
             distrik_ret_baru: this.formState.distrik_ret_baru,
+            keterangan: this.formState.keterangan,
           })
         } else {
           await this.addDistrikRET({
             id_user: this.formState.id_user,
             distrik_ret_baru: this.formState.distrik_ret_baru,
+            keterangan: this.formState.keterangan,
           })
         }
         this.modalStatus = false
@@ -247,12 +261,20 @@ export default {
         await this.getAllDistrikRET()
         this.formState.id = null
         this.formState.distrik_ret_baru = ''
+        this.formState.keterangan = ''
       }
     },
-    async saveDistrik(id){
+    async saveDistrik(){
+      if (this.selected_distrik == null) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Silahkan pilih salah satu distrik',
+        })
+        return
+      }
       await this.addDistrikByDistrikRet({
         id_distrik_ret: this.dataDistrik.id_distrik_ret,
-        id_distrik: id,
+        id_distrik: this.selected_distrik,
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })

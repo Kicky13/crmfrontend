@@ -1,6 +1,11 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
+      <a-input-search
+        placeholder="Cari brand"
+        style="width: 200px"
+        @search="searchData"
+      />
       <a-button
         type="primary"
         @click="showAddModal"
@@ -11,7 +16,7 @@
     </div>
     <a-table
       :columns="brand.columns"
-      :data-source="brand.brandList"
+      :data-source="dataList"
       :loading="brand.isLoading"
     >
       <template #action="{ text }">
@@ -68,7 +73,6 @@
       v-model:value="formState.brand_baru"
     />
     <a-select
-      v-if="modalStatus == false"
       placeholder="Company"
       show-search
       class="w-100 my-3"
@@ -86,10 +90,10 @@
         {{ item.ID }} - {{ item.DESKRIPSI }}
       </a-select-option>
     </a-select>
-    <div v-else class="mb-3"></div>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
+      v-model:value="formState.keterangan"
     />
   </a-modal>
 </template>
@@ -108,8 +112,10 @@ export default {
         id_user: null,
         id_company: null,
         brand_baru: '',
+        keterangan: '',
       },
       modalStatus: false,
+      dataList: null,
     }
   },
   computed: {
@@ -119,7 +125,7 @@ export default {
   },
   async mounted() {
     await this.getAllCompany()
-    await this.getAllBrand()
+    await this.setAllBrand()
     this.getUserId()
   },
   methods: {
@@ -127,17 +133,25 @@ export default {
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
+    async setAllBrand() {
+      await this.getAllBrand()
+      this.dataList = this.brand.brandList
+    },
     showAddModal() {
       this.modalStatus = false
       this.brandModal = true
       this.formState.brand_baru = ''
       this.formState.id_company = null
+      this.formState.keterangan = ''
     },
     showEditModal(id) {
       this.modalStatus = true
       this.brandModal = true
       this.formState.id = id
-      this.formState.brand_baru = this.brand.brandList.find(element => element.ID == id).NAMA_BRAND
+      const brand = this.brand.brandList.find(element => element.ID == id)
+      this.formState.brand_baru = brand.NAMA_BRAND
+      this.formState.id_company = brand.ID_COMPANY
+      this.formState.keterangan = brand.KETERANGAN
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -152,7 +166,7 @@ export default {
             id_tipe: this.formState.id,
             id_user: this.formState.id_user,
           })
-          await this.getAllBrand()
+          await this.setAllBrand()
           this.formState.id = null
         },
         onCancel: () => {
@@ -189,20 +203,24 @@ export default {
           id_brand: this.formState.id,
           id_user: this.formState.id_user,
           brand_baru: this.formState.brand_baru,
+          id_company: this.formState.id_company,
+          keterangan: this.formState.keterangan,
         })
       } else {
         await this.addBrand({
           id_user: this.formState.id_user,
           brand_baru: this.formState.brand_baru,
           id_company: this.formState.id_company,
+          keterangan: this.formState.keterangan,
         })
       }
       this.modalStatus = false
       this.brandModal = false
-      await this.getAllBrand()
+      await this.setAllBrand()
       this.formState.id = null
       this.formState.brand_baru = ''
       this.formState.id_company = null
+      this.formState.keterangan = ''
     },
     companyHandler(company) {
       this.formState.id_company = company.split('-')[0].trim()
@@ -211,6 +229,16 @@ export default {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
       return `${date}-${month}-${year} ${timeFormat}`
+    },
+    searchData(keyword) {
+      console.log(keyword)
+      if (keyword) {
+        this.dataList = this.brand.brandList.filter(brand =>
+          brand.NAMA_BRAND.toLowerCase().includes(keyword.toLowerCase()),
+        )
+      } else {
+        this.dataList = this.brand.brandList
+      }
     },
   },
 }
