@@ -169,11 +169,6 @@ export const getAdminMenuData = [
         url: '/weekly_price/weekly_input',
       },
       {
-        title: 'Promotion',
-        key: 'prom02',
-        url: '/weekly_price/promotion',
-      },
-      {
         title: 'WP Approval',
         key: 'wpap03',
         url: '/weekly_price/wp_approval',
@@ -182,6 +177,11 @@ export const getAdminMenuData = [
         title: 'WP Publish',
         key: 'wppu04',
         url: '/weekly_price/wp_publish',
+      },
+      {
+        title: 'Promotion',
+        key: 'prom02',
+        url: '/weekly_price/promotion',
       },
     ],
   },
