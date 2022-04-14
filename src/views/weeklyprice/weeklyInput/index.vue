@@ -15,7 +15,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="3">
         <a-select
           v-model:value="weeklyInput.params.bulan"
           placeholder="Bulan"
@@ -33,7 +33,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="3">
         <a-select
           v-model:value="weeklyInput.params.week"
           placeholder="Week"
@@ -51,6 +51,17 @@
           </a-select-option>
         </a-select>
       </a-col>
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+
       <a-col :xs="24" :md="12">
         <div class="d-flex justify-content-end">
           <a-button type="primary" class="mr-2" @click="showAddModal">
@@ -171,15 +182,16 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata != true ? false : true"
-          v-model:value="weeklyInput.formData.id_distrik"
+          v-model:value="weeklyInput.formData.nama_distrik"
           placeholder="Distrik"
           class="w-100 mb-4"
           show-search
+          @change="handleDistrik()"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in weeklyInput.dataDistrikRET"
-            :value="distrik.id_distrik"
+            :value="distrik.nama_distrik"
             :key="index"
           >
             {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
@@ -241,23 +253,24 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata != true ? false : true"
-          v-model:value="weeklyInput.formData.id_produk"
+          v-model:value="weeklyInput.formData.nama_produk"
           placeholder="Produk"
           class="w-100 mb-4"
           show-search
+          @change="handleProduct()"
         >
           <a-select-option disabled value="">Pilih Produk</a-select-option>
           <a-select-option
             v-for="(product, index) in weeklyInput.dataProduct"
-            :value="product.id"
+            :value="product.NAMA_PRODUK"
             :key="index"
           >
-            {{ product.namaproduk }}
+            {{ product.ID }} - {{ product.NAMA_PRODUK }}
           </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select
+        <!-- <a-select
           :disabled="true"
           v-model:value="weeklyInput.formData.brand"
           placeholder="brand"
@@ -272,10 +285,16 @@
           >
             {{ brand.NAMA_BRAND }}
           </a-select-option>
-        </a-select>
+        </a-select> -->
+        <a-input
+          :disabled="true"
+          v-model:value="weeklyInput.formData.brand"
+          placeholder="Brand"
+          class=" mb-4 w-100"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select
+        <!-- <a-select
           :disabled="true"
           v-model:value="weeklyInput.formData.type"
           placeholder="Tipe"
@@ -290,11 +309,18 @@
           >
             {{ type.NAMA_TIPE_SEMEN }}
           </a-select-option>
-        </a-select>
+        </a-select> -->
+
+        <a-input
+          :disabled="true"
+          v-model:value="weeklyInput.formData.type"
+          placeholder="Tipe"
+          class=" mb-4 w-100"
+        />
       </a-col>
 
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select
+        <!-- <a-select
           :disabled="true"
           v-model:value="weeklyInput.formData.kemasan"
           placeholder="Kemasan"
@@ -309,7 +335,14 @@
           >
             {{ kemasan.NAMA_KEMASAN }}
           </a-select-option>
-        </a-select>
+        </a-select> -->
+
+        <a-input
+          :disabled="true"
+          v-model:value="weeklyInput.formData.kemasan"
+          placeholder="Tipe"
+          class=" mb-4 w-100"
+        />
       </a-col>
     </a-row>
     <a-row :gutter="[24]">
@@ -474,7 +507,6 @@ export default {
         this.weeklyInput.formData.week != '' &&
         this.weeklyInput.formData.id_produk != null &&
         this.weeklyInput.formData.rbp_gross != null &&
-        this.weeklyInput.formData.promo != null &&
         this.weeklyInput.formData.rbp_net != null &&
         this.weeklyInput.formData.rsp != null
       ) {
@@ -489,7 +521,7 @@ export default {
                 tahun: '',
                 bulan: '',
                 week: '',
-                id_produk: 1,
+                id_produk: null,
                 rbp_gross: null,
                 promo: null,
                 rbp_net: null,
@@ -566,6 +598,27 @@ export default {
         //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
         // })
       }
+    },
+    handleProduct() {
+      let dataSource = [...this.weeklyInput.dataProduct]
+      let filtered = dataSource.filter(x => x.NAMA_PRODUK == this.weeklyInput.formData.nama_produk)
+      this.weeklyInput.formData.id_produk = filtered[0].ID
+      this.weeklyInput.formData.brand = filtered[0].NAMA_BRAND
+      this.weeklyInput.formData.type = filtered[0].NM_TYPE_PRODUK
+      this.weeklyInput.formData.kemasan = filtered[0].NAMA_KEMASAN
+    },
+
+    handleDistrik() {
+      let dataSource = [...this.weeklyInput.dataDistrikRET]
+      let filtered = dataSource.filter(
+        x => x.nama_distrik == this.weeklyInput.formData.nama_distrik,
+      )
+      this.weeklyInput.formData.id_distrik = filtered[0].id_distrik
+    },
+    refreshFilter() {
+      this.weeklyInput.params.tahun = ''
+      this.weeklyInput.params.bulan = ''
+      this.weeklyInput.params.week = ''
     },
   },
 }
