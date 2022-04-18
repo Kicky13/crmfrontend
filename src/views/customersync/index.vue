@@ -40,7 +40,7 @@
         </a-button> -->
         <Can do="update" on="SynCustomer">
           <a-button
-            v-if="isChecked"
+            v-if="isClicked"
             type="primary"
             class="mb-3"
             :loading="synCustomer.isLoading"
@@ -181,7 +181,7 @@ export default {
       listTokoDistributor: [],
       dataTemp: null,
       isDisabled: true,
-      isChecked: false,
+      isClicked: false,
     }
   },
   computed: {
@@ -284,7 +284,7 @@ export default {
       } else {
         this.fetchDataCustomerMDXL()
         this.isDisabled = false
-        this.isChecked = true
+        this.isClicked = true
       }
     },
 

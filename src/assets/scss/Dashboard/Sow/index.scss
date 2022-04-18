@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;700&display=swap');
+
+.list_download {
+  label {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Montserrat';
+    color: #c4c4c4;
+    line-height: normal;
+    margin: 0;
+  }
+  span {
+    font-weight: 700;
+    font-size: 26px;
+    color: brown;
+    font-family: 'Montserrat';
+  }
+
+  .list_download_icon {
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
