@@ -69,6 +69,7 @@
     <a-input
       placeholder="Week Name"
       v-model:value="formState.weekly_config_baru"
+      @change="weeklyNameFormatting"
     />
     <vue-datepicker
       placeholder="Tanggal Mulai"
@@ -134,7 +135,6 @@ export default {
       this.weeklyConfigModal = true
       this.formState.id = id
       const element = this.weeklyConfig.weeklyConfigList.find(element => element.ID == id)
-      console.log(element)
       this.formState.weekly_config_baru = element.WEEK_NAME
       this.formState.tanggal_mulai = this.setFormatDate(element.TANGGAL_MULAI)
       this.formState.tanggal_selesai = this.setFormatDate(element.TANGGAL_SELESAI)
@@ -160,6 +160,7 @@ export default {
       })},
     async saveWeeklyConfig() {
       const weekNameValidation = this.formState.weekly_config_baru.toString().trim()
+      const weekArr = weekNameValidation.split('-')
       const tanggalMulaiValidation = this.formState.tanggal_mulai.toString()
       const tanggalSelesaiValidation = this.formState.tanggal_selesai.toString()
 
@@ -169,6 +170,22 @@ export default {
           description: 'Kolom week name tidak boleh kosong',
         })
         this.formState.weekly_config_baru = ''
+        this.weeklyConfigModal = true
+        return
+      }
+      if (parseInt(weekArr[1]) > 12) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Format week name bulan maks 12',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
+      if (parseInt(weekArr[2]) > 5) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Format week name minggu maks 5',
+        })
         this.weeklyConfigModal = true
         return
       }
@@ -242,6 +259,16 @@ export default {
     },
     splitDate(dates) {
       return new Date(dates).toLocaleDateString('en-GB').toString().replace('/', '-').replace('/', '-')
+    },
+    weeklyNameFormatting() {
+      this.formState.weekly_config_baru = this.formState.weekly_config_baru.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
+      var size = this.formState.weekly_config_baru.length
+      if (size > 4) {
+        this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 4) + "-" + this.formState.weekly_config_baru.slice(4)
+      }
+      if (size > 6) {
+        this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 7) + "-" + this.formState.weekly_config_baru.slice(7, 9)
+      }
     },
   },
 }

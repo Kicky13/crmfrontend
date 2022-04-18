@@ -107,12 +107,13 @@
       >
         <a-select-option disabled value="">Pilih Distrik</a-select-option>
         <a-select-option
-          v-for="(item, index) in distrikRET.distrikList"
+          v-for="(item, index) in distrik"
           :value="item.id_distrik"
           :key="index"
           :title="item.nama_distrik"
           data-toggle="tooltip"
           data-placement="top"
+          :disabled="item.disabled"
         >
           {{ item.id_distrik }} - {{ item.nama_distrik }}
         </a-select-option>
@@ -162,6 +163,7 @@ export default {
         id_distrik_ret: null,
       },
       selected_distrik: null,
+      distrik:[],
     }
   },
   computed: {
@@ -231,6 +233,8 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
       this.dataDistrik.id_distrik_ret = id
       this.tambahDistrikModal = true
+      this.distrik = this.distrikRET.distrikList
+      this.disabledDistrik()
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -278,6 +282,7 @@ export default {
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      this.disabledDistrik()
     },
     async deleteDistrik(id) {
       await this.deleteDistrikByDistrikRet({
@@ -285,12 +290,23 @@ export default {
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      this.disabledDistrik()
 
     },
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
       return `${date}-${month}-${year} ${timeFormat}`
+    },
+    disabledDistrik() {
+      this.distrik.map(obj => obj.disabled = false)
+      this.distrikRET.distrikByDistrikRetList.map(item => {
+        this.distrik.find(obj => {
+          if (obj.id_distrik == item.id_distrik) {
+            obj.disabled = true
+          }
+        })
+      })
     },
   },
 }
