@@ -408,7 +408,7 @@ const actions = {
     }
   },
 
-  async getDistrik({ commit, state }) {
+  async getDistrik({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
     })
@@ -416,12 +416,12 @@ const actions = {
     const { data } = state
 
     let body = {
-      //   id_area:data.formData.selectedArea,
+      idTSO: payload.id_tso,
       offset: data.params.offset,
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/filter/Distrik', body)
+      const result = await apiClient.post('/distrik/distrikByTso', body)
 
       if (result.data.status == 'error') {
         notification.error({

@@ -190,10 +190,10 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in weeklyInput.dataDistrikRET"
-            :value="distrik.nama_distrik"
+            :value="distrik.namaWilayah"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.idReferenceWilayah }} - {{ distrik.namaWilayah }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -411,7 +411,9 @@ export default {
     await this.getAllBrand()
     await this.getAllTipe()
     await this.getAllKemasan()
-    await this.getDistrik()
+    await this.getDistrik({
+      id_tso: this.$store.state.user.idJabatan,
+    })
   },
   methods: {
     ...mapActions('weeklyInput', [
@@ -628,10 +630,8 @@ export default {
 
     handleDistrik() {
       let dataSource = [...this.weeklyInput.dataDistrikRET]
-      let filtered = dataSource.filter(
-        x => x.nama_distrik == this.weeklyInput.formData.nama_distrik,
-      )
-      this.weeklyInput.formData.id_distrik = filtered[0].id_distrik
+      let filtered = dataSource.filter(x => x.namaWilayah == this.weeklyInput.formData.nama_distrik)
+      this.weeklyInput.formData.id_distrik = filtered[0].idReferenceWilayah
     },
     refreshFilter() {
       this.weeklyInput.params.tahun = ''
