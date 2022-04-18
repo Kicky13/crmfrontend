@@ -263,10 +263,10 @@ export default {
     weeklyNameFormatting() {
       this.formState.weekly_config_baru = this.formState.weekly_config_baru.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
       var size = this.formState.weekly_config_baru.length
-      if (size > 4) {
+      if (size > 3) {
         this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 4) + "-" + this.formState.weekly_config_baru.slice(4)
       }
-      if (size > 6) {
+      if (size > 5) {
         this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 7) + "-" + this.formState.weekly_config_baru.slice(7, 9)
       }
     },
