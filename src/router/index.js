@@ -53,6 +53,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
       },
       {
+        path: '/dashboard/visit-v2',
+        meta: { title: 'Visit', resource: 'Visit', action: 'read' },
+        component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visitV2'),
+      },
+      {
         path: '/dashboard/sow',
         meta: { title: 'Sow', resource: 'Sow', action: 'read' },
         component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),

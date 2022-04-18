@@ -1,0 +1,187 @@
+{
+  "salesman": {
+    "status": true,
+    "message": "success",
+    "data": [
+      {
+        "nama_sales": "Sales 01",
+        "id_sales": 41,
+        "nama_distributor": "BJBU",
+        "id_distributor": 21
+      },
+      {
+        "nama": "Sales 42",
+        "id_sales": 42,
+        "nama_distributor": "BJBU",
+        "id_distributor": 21
+      },
+      {
+        "nama": "Sales 43",
+        "id_sales": 42,
+        "nama_distributor": "BJBU",
+        "id_distributor": 21
+      }
+    ]
+  },
+
+  "customer": {
+    "status": true,
+    "message": "success",
+    "customer": {
+      "customer_active": 4021,
+      "total_customer": 5000,
+      "mapping_customer": [
+        {
+          "nama": "Sudah termapping",
+          "persentase": 40
+        },
+        {
+          "nama": "Belum termapping",
+          "persentase": 60
+        }
+      ],
+      "jadwal_customer": [
+        {
+          "nama": "Terjadwal",
+          "persentase": 40
+        },
+        {
+          "nama": "Belum terjadwal",
+          "persentase": 60
+        }
+      ],
+      "kunjungan_customer": [
+        {
+          "nama": "Dikunjungi",
+          "persentase": 10
+        },
+        {
+          "nama": "Belum dikunjungi",
+          "persentase": 90
+        }
+      ]
+    }
+  },
+
+  "visit": {
+    "status": true,
+    "message": "success",
+    "visit": {
+      "realisasi_visit": 4021,
+      "customer_visit": 5000,
+      "planned": 5000,
+      "unplanned": 5000,
+      "visited": [
+        {
+          "nama": "Target",
+          "informasi": [
+            {
+              "tanggal": "2018-09-19T00:00:00.000Z",
+              "data": 20
+            },
+            {
+              "tanggal": "2018-09-20T00:00:00.000Z",
+              "data": 10
+            }
+          ]
+        },
+        {
+          "nama": "Realisasi",
+          "informasi": [
+            {
+              "tanggal": "2018-09-19T00:00:00.000Z",
+              "data": 20
+            },
+            {
+              "tanggal": "2018-09-20T00:00:00.000Z",
+              "data": 10
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  "informasi_table": {
+    "status": true,
+    "message": "success",
+    "toko_mapping": {
+      "total_customer": 2013,
+      "data": [
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        }
+      ]
+    },
+    "sales_mapping": {
+      "total_sales": 2013,
+      "data": [
+        {
+          "nama_sales": "balabala",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_sales": "balabala",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_sales": "balabala",
+          "distributor": "Maju Jaya, PT"
+        }
+      ]
+    },
+
+    "toko_jadwal": {
+      "total_customer": 2111,
+      "data": [
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        }
+      ]
+    },
+    "toko_kunjungan": {
+      "total_customer": 1221,
+      "data": [
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        },
+        {
+          "nama_distrik": "balabala",
+          "nama_toko": "toktok",
+          "distributor": "Maju Jaya, PT"
+        }
+      ]
+    }
+  }
+}

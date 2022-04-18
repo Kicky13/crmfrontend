@@ -16,6 +16,11 @@ export const getAdminMenuData = [
         url: '/dashboard/visit',
       },
       {
+        title: 'Visit V2',
+        key: 'dpr510',
+        url: '/dashboard/visit-v2',
+      },
+      {
         title: 'Promotion',
         key: 'dpr017',
         url: '/dashboard/promotion',

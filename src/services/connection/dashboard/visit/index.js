@@ -216,6 +216,7 @@ const state = {
     pieJadwal: [],
     pieKunjungan: [],
     status: 'gagal',
+    dataMetabase: null,
   },
 }
 
@@ -226,6 +227,40 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabase({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let params = {
+      dashboard: 226,
+    }
+
+    try {
+      const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}`)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getDataDistributor({ commit, state }, payload) {
     const { data } = state
 
