@@ -545,6 +545,11 @@ const actions = {
     const { data } = state
 
     let formData = {
+      id_distrik: data.formData.id_distrik,
+      tahun: data.formData.tahun,
+      bulan: data.formData.bulan,
+      week: data.formData.week,
+      id_produk: data.formData.id_produk,
       rbp_gross: data.formData.rbp_gross,
       promo: data.formData.promo,
       rbp_net: data.formData.rbp_net,

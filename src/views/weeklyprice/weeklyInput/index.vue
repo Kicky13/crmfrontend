@@ -181,7 +181,6 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.nama_distrik"
           placeholder="Distrik"
           class="w-100 mb-4"
@@ -200,7 +199,6 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.tahun"
           placeholder="Tahun"
           class="w-100 mb-4"
@@ -214,7 +212,6 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.bulan"
           placeholder="Bulan"
           class="w-100 mb-4"
@@ -232,7 +229,6 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.week"
           placeholder="Week"
           class="w-100 mb-4"
@@ -252,7 +248,6 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.nama_produk"
           placeholder="Produk"
           class="w-100 mb-4"
@@ -318,7 +313,6 @@
           class=" mb-4 w-100"
         />
       </a-col>
-
       <a-col :xs="24" :md="12" :lg="6">
         <!-- <a-select
           :disabled="true"
@@ -340,7 +334,7 @@
         <a-input
           :disabled="true"
           v-model:value="weeklyInput.formData.kemasan"
-          placeholder="Tipe"
+          placeholder="Kemasan"
           class=" mb-4 w-100"
         />
       </a-col>
@@ -434,24 +428,48 @@ export default {
       'duplicateDataWeekly',
     ]),
 
-    showAddModal() {
+    async showAddModal() {
       this.addModal = true
+      await this.$store.commit('weeklyInput/changeWeeklyInput', {
+        formData: {
+          id_distrik: null,
+          tahun: '',
+          bulan: '',
+          week: '',
+          id_produk: null,
+          rbp_gross: null,
+          promo: null,
+          rbp_net: null,
+          rsp: null,
+          brand: null,
+          type: null,
+          kemasan: null,
+          notes: '',
+        },
+      })
+      this.editdata = false
     },
     async showEditModal(value) {
       this.addModal = true
       this.editdata = true
       this.uuid = value.uuid
+      console.log(`---value`, value)
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: value.id_distrik,
+          nama_distrik: value.nm_wilayah,
+          nama_produk: value.nm_produk,
+          brand: value.nm_brand,
+          type: value.nm_type_produk,
+          kemasan: value.nm_satuan,
           tahun: value.tahun,
           bulan: value.bulan,
           week: value.week,
-          id_produk: value.id_distrik,
-          rbp_gross: value.id_distrik,
-          promo: value.id_distrik,
-          rbp_net: value.id_distrik,
-          rsp: value.id_distrik,
+          id_produk: value.id_produk,
+          rbp_gross: value.rbp_gross,
+          promo: value.promo,
+          rbp_net: value.rbp_net,
+          rsp: value.rsp,
           notes: value.notes,
         },
       })
@@ -619,6 +637,7 @@ export default {
       this.weeklyInput.params.tahun = ''
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
+      this.weeklyInput.dataTable = []
     },
   },
 }
