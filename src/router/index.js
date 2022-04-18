@@ -63,6 +63,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/SowV2'),
       },
       {
+        path: '/dashboard/sow-v3',
+        meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/SowV3'),
+      },
+      {
         path: '/dashboard/sales_route',
         name: 'dashbord_route',
         meta: { title: 'Dashboard', resource: 'UserHirarki', action: 'read' },
