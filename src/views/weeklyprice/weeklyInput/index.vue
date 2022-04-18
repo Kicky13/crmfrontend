@@ -637,6 +637,7 @@ export default {
       this.weeklyInput.params.tahun = ''
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
+      this.weeklyInput.dataTable = []
     },
   },
 }
