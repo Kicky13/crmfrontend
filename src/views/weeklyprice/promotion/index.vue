@@ -211,7 +211,16 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="Program" v-model:value="wpPromotion.formData.program" class="w-100" />
+        <a-select
+          v-model:value="wpPromotion.formData.program"
+          placeholder="Kategori"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option disabled value="">Pilih Program</a-select-option>
+          <a-select-option :value="`Principal`"> Principal </a-select-option>
+          <a-select-option :value="`Distributor`"> Distributor </a-select-option>
+        </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input
