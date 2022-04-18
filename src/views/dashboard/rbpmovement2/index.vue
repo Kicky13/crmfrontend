@@ -62,7 +62,7 @@
         <div class="card-body d-flex justify-content-between">
           <div>
             <h5 class="text-secondary">Outlet Surveyed</h5>
-            <h2 class="text-primary">8056</h2>
+            <h2 class="text-primary">{{ rbpMovement2.outletSurveyed }}</h2>
           </div>
           <div>
             <i class="fa fa-user text-primary" style="font-size: 5em" />
@@ -78,11 +78,11 @@
           <span>Show :</span>
         </div>
         <a-select
-          :default-value="rbpMovement.itemsPerPage[1]"
+          :default-value="rbpMovement2.itemsPerPage[1]"
           class="mx-2"
         >
           <a-select-option
-            v-for="itemPerPage in rbpMovement.itemsPerPage"
+            v-for="itemPerPage in rbpMovement2.itemsPerPage"
             :key="itemPerPage"
           >
             {{ itemPerPage }}
@@ -93,7 +93,8 @@
         </div>
       </div>
       <a-table
-        :columns="rbpMovement.columns"
+        :columns="rbpMovement2.columns"
+        :data-source="rbpMovement2.rbpTable"
       />
     </div>
   </div>
@@ -105,9 +106,14 @@ import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState({
-      rbpMovement: state => state.rbpMovement.data,
+      rbpMovement2: state => state.rbpMovement2.data,
     }),
   },
-  
+  async mounted() {
+    this.getOutletSurveyed()
+  },
+  methods: {
+    ...mapActions('rbpMovement2', ['getOutletSurveyed']),
+  },
 }
 </script>

@@ -29,7 +29,7 @@
               selectedShorthand === `GSM` ||
                 selectedShorthand === `ADMIN DIS` ||
                 selectedShorthand === `SALES DIS` ||
-                selectedShorthand === `SPC`
+                selectedShorthand === `SPC` || selectedShorthand === `MI`
             "
             type="primary"
             class="mb-3 ml-2 float-right"
