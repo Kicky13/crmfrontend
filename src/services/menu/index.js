@@ -40,6 +40,11 @@ export const getAdminMenuData = [
         key: 'pmo261',
         url: '/dashboard/sow-v2',
       },
+      {
+        title: 'SOW V3',
+        key: 'pmo265',
+        url: '/dashboard/sow-v3',
+      },
 
       {
         title: 'Sales Route  Compliance',
