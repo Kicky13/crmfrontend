@@ -68,6 +68,7 @@
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
+      v-model:value="formState.keterangan"
     />
   </a-modal>
 </template>
@@ -85,6 +86,7 @@ export default {
         id: null,
         id_user: null,
         kategori_baru: '',
+        keterangan: '',
       },
       modalStatus: false,
     }
@@ -107,12 +109,15 @@ export default {
       this.modalStatus = false
       this.kategoriModal = true
       this.formState.kategori_baru = ''
+      this.formState.keterangan = ''
     },
     showEditModal(id) {
       this.modalStatus = true
       this.kategoriModal = true
       this.formState.id = id
-      this.formState.kategori_baru = this.kategoriPromo.kategoriList.find(element => element.ID == id).NAMA_KATEGORI_PROMO
+      const kategoriPromo = this.kategoriPromo.kategoriList.find(element => element.ID == id)
+      this.formState.kategori_baru = kategoriPromo.NAMA_KATEGORI_PROMO
+      this.formState.keterangan = kategoriPromo.KETERANGAN
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -150,11 +155,13 @@ export default {
             id_kategori: this.formState.id,
             id_user: this.formState.id_user,
             kategori_baru: this.formState.kategori_baru,
+            keterangan: this.formState.keterangan,
           })
         } else {
           await this.addKategori({
             id_user: this.formState.id_user,
             kategori_baru: this.formState.kategori_baru,
+            keterangan: this.formState.keterangan,
           })
         }
         this.modalStatus = false
@@ -162,6 +169,7 @@ export default {
         await this.getAllKategori()
         this.formState.id = null
         this.formState.kategori_baru = ''
+        this.formState.keterangan = ''
       }
     },
   },
