@@ -156,7 +156,7 @@ const state = {
       rbp_gross: null,
       nama_produk: '',
       nama_distrik: '',
-      promo: null,
+      promo: 0,
       rbp_net: null,
       rsp: null,
       brand: '',
@@ -179,6 +179,7 @@ const state = {
     tipeList: [],
     kemasanList: [],
     dataDistrikRET: [],
+    promoDistrik: [],
     status: '',
     isLoading: false,
   },
@@ -416,12 +417,12 @@ const actions = {
     const { data } = state
 
     let body = {
-      idTSO: payload.id_tso,
+      id_tso: payload.id_tso,
       offset: data.params.offset,
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/distrik/distrikByTso', body)
+      const result = await apiClient.post('/getDistrikTso', body)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -435,6 +436,47 @@ const actions = {
         await commit('changeWeeklyInput', {
           dataDistrikRET: result.data.data,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getPromotion({ commit, state }, payload) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      id_distrik: data.formData.id_distrik,
+      tahun: data.formData.tahun,
+      bulan: data.formData.bulan,
+    }
+    try {
+      const result = await apiClient.post('/WPM/getPromoDistrik', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          promoDistrik: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
         })
       }
     } catch (error) {
