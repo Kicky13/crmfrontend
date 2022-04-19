@@ -349,18 +349,55 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <a-input-number
-          :min="1"
-          :max="100000"
+      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik">
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.promo"
+          placeholder="0"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
           v-model:value="weeklyInput.formData.promo"
           placeholder="Promo"
-          class=" mb-4 w-100"
-        />
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option
+            v-for="(promo, index) in weeklyInput.promoDistrik"
+            :value="promo.nilai_zak"
+            :key="index"
+          >
+            {{ promo.program }} - {{ promo.nilai_zak }}
+          </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="1">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Promo</span>
+          </template>
+          <a-button
+            :disabled="
+              weeklyInput.formData.id_distrik == null ||
+              weeklyInput.formData.tahun == `` ||
+              weeklyInput.formData.bulan == ``
+                ? true
+                : false
+            "
+            @click="handleDataPromo()"
+            type="primary"
+          >
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :disabled="true"
           :min="1"
           :max="100000"
           v-model:value="weeklyInput.formData.rbp_net"
@@ -406,6 +443,11 @@ export default {
       const year = new Date().getFullYear()
       return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
     },
+    rbpNet() {
+      const rbp_gross = this.weeklyInput.formData.rbp_gross
+      const promo = this.weeklyInput.formData.promo
+      return (rbp_gross -= promo)
+    },
   },
   async mounted() {
     await this.getMasterProduct()
@@ -429,8 +471,11 @@ export default {
       'updateDataWeekly',
       'submitDataWeekly',
       'duplicateDataWeekly',
+      'getPromotion',
     ]),
-
+    async handleDataPromo() {
+      await this.getPromotion()
+    },
     async showAddModal() {
       this.addModal = true
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
@@ -441,7 +486,7 @@ export default {
           week: '',
           id_produk: null,
           rbp_gross: null,
-          promo: null,
+          promo: 0,
           rbp_net: null,
           rsp: null,
           brand: null,
