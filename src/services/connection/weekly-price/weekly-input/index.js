@@ -416,12 +416,12 @@ const actions = {
     const { data } = state
 
     let body = {
-      idTSO: payload.id_tso,
+      id_tso: payload.id_tso,
       offset: data.params.offset,
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/distrik/distrikByTso', body)
+      const result = await apiClient.post('/getDistrikTso', body)
 
       if (result.data.status == 'error') {
         notification.error({

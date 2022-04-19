@@ -190,10 +190,10 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in weeklyInput.dataDistrikRET"
-            :value="distrik.namaWilayah"
+            :value="distrik.nm_wilayah"
             :key="index"
           >
-            {{ distrik.idReferenceWilayah }} - {{ distrik.namaWilayah }}
+            {{ distrik.id_reference_wilayah }} - {{ distrik.nm_wilayah }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -360,6 +360,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
+          :disabled="true"
           :min="1"
           :max="100000"
           v-model:value="weeklyInput.formData.rbp_net"
@@ -630,8 +631,8 @@ export default {
 
     handleDistrik() {
       let dataSource = [...this.weeklyInput.dataDistrikRET]
-      let filtered = dataSource.filter(x => x.namaWilayah == this.weeklyInput.formData.nama_distrik)
-      this.weeklyInput.formData.id_distrik = filtered[0].idReferenceWilayah
+      let filtered = dataSource.filter(x => x.nm_wilayah == this.weeklyInput.formData.nama_distrik)
+      this.weeklyInput.formData.id_distrik = filtered[0].id_reference_wilayah
     },
     refreshFilter() {
       this.weeklyInput.params.tahun = ''

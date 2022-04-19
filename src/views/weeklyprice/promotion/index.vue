@@ -223,10 +223,12 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input
+        <a-input-number
+          :min="1"
+          :max="100000"
           placeholder="Nilai ZAK"
           v-model:value="wpPromotion.formData.nilai_zak"
-          class=" mb-4"
+          class=" mb-4 w-100"
         />
       </a-col>
     </a-row>
