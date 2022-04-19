@@ -163,7 +163,7 @@ export default {
         id_distrik_ret: null,
       },
       selected_distrik: null,
-      distrik:[],
+      distrik: [],
     }
   },
   computed: {
