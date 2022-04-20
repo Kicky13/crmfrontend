@@ -161,6 +161,7 @@
           v-model:value="wpPromotion.formData.start_date"
           class="w-100"
           format="YYYY-MM-DD"
+          :disabled-date="disabledStartDate"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -169,6 +170,7 @@
           v-model:value="wpPromotion.formData.end_date"
           class="w-100"
           format="YYYY-MM-DD"
+          :disabled-date="disabledEndDate"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6" />
@@ -272,7 +274,20 @@ export default {
       'insertDataPromo',
       'deleteDataRow',
     ]),
-
+    disabledStartDate(startValue) {
+      const endValue = this.wpPromotion.formData.end_date
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.wpPromotion.formData.start_date
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
     async showAddModal() {
       this.addModal = true
       await this.$store.commit('wpPromotion/changePromotion', {

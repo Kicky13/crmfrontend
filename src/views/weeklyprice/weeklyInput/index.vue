@@ -344,6 +344,7 @@
         <a-input-number
           :min="1"
           :max="100000"
+          @change="handleGross()"
           v-model:value="weeklyInput.formData.rbp_gross"
           placeholder="RBP Gross"
           class=" mb-4 w-100"
@@ -398,6 +399,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
+          :disabled="true"
           :min="1"
           :max="100000"
           v-model:value="weeklyInput.formData.rbp_net"
@@ -443,11 +445,6 @@ export default {
       const year = new Date().getFullYear()
       return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
     },
-    rbpNet() {
-      const rbp_gross = this.weeklyInput.formData.rbp_gross
-      const promo = this.weeklyInput.formData.promo
-      return (rbp_gross -= promo)
-    },
   },
   async mounted() {
     await this.getMasterProduct()
@@ -473,6 +470,11 @@ export default {
       'duplicateDataWeekly',
       'getPromotion',
     ]),
+    handleGross() {
+      let rbpGross = this.weeklyInput.formData.rbp_gross
+      let promo = this.weeklyInput.formData.promo
+      this.weeklyInput.formData.rbp_net = rbpGross -= promo
+    },
     async handleDataPromo() {
       await this.getPromotion()
     },
@@ -602,7 +604,6 @@ export default {
         } else {
           await this.insertDataWeekly()
         }
-        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({
