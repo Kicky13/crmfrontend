@@ -107,8 +107,8 @@
       >
         <a-select-option disabled value="">Pilih Distrik</a-select-option>
         <a-select-option
-          v-for="(item, index) in distrik"
-          :value="item.id_distrik"
+          v-for="(item, index) in distrikRET.distrikList.all"
+          :value="`${item.id_distrik} - ${item.nama_distrik}`"
           :key="index"
           :title="item.nama_distrik"
           data-toggle="tooltip"
@@ -163,7 +163,6 @@ export default {
         id_distrik_ret: null,
       },
       selected_distrik: null,
-      distrik: [],
     }
   },
   computed: {
@@ -173,6 +172,7 @@ export default {
   },
   async mounted() {
     await this.getAllDistrikRET()
+    await this.getAllDistrik()
     this.getUserId()
   },
   methods: {
@@ -229,11 +229,9 @@ export default {
     },
     async showTambahDistrikModal(id) {
       this.selected_distrik = null
-      await this.getAllDistrik()
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
       this.dataDistrik.id_distrik_ret = id
       this.tambahDistrikModal = true
-      this.distrik = this.distrikRET.distrikList
       this.disabledDistrik()
     },
     async saveDistrikRet() {
@@ -278,10 +276,11 @@ export default {
       }
       await this.addDistrikByDistrikRet({
         id_distrik_ret: this.dataDistrik.id_distrik_ret,
-        id_distrik: this.selected_distrik,
+        id_distrik: this.selected_distrik.split(' - ')[0],
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      await this.getAllDistrik()
       this.disabledDistrik()
     },
     async deleteDistrik(id) {
@@ -290,6 +289,7 @@ export default {
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      await this.getAllDistrik()
       this.disabledDistrik()
 
     },
@@ -299,13 +299,11 @@ export default {
       return `${date}-${month}-${year} ${timeFormat}`
     },
     disabledDistrik() {
-      this.distrik.map(obj => obj.disabled = false)
-      this.distrikRET.distrikByDistrikRetList.map(item => {
-        this.distrik.find(obj => {
-          if (obj.id_distrik == item.id_distrik) {
-            obj.disabled = true
-          }
-        })
+      this.distrikRET.distrikList.all.map(obj => obj.disabled = false)
+      this.distrikRET.distrikList.choosen.map(objChoosen => {
+        if (this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik)) {
+          this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik).disabled = true
+        }
       })
     },
   },

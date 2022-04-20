@@ -3,6 +3,14 @@
     <div class="d-flex justify-content-end mb-3">
       <a-button
         type="primary"
+        class="mr-2"
+        @click="showPreviewModal"
+      >
+        <i class="fa fa-download mr-2" />
+        Import
+      </a-button>
+      <a-button
+        type="primary"
         @click="showAddModal"
       >
         <i class="fa fa-plus mr-2" />
@@ -84,6 +92,48 @@
       v-model="formState.tanggal_selesai"
     />
   </a-modal>
+
+  <!-- Preview Modal -->
+  <a-modal
+    v-model:visible="previewModal"
+    title="Import Data"
+  >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="previewModal = false"
+      >
+        Kembali
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="weeklyConfig.isLoading"
+      >
+        Submit
+      </a-button>
+    </template>
+    <div class="d-flex justify-content-between">
+      <a-form-item label="Upload File">
+        <input
+          ref="file"
+          type="file"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          @change="onFileChanged"
+        />
+      </a-form-item>
+      <a-button type="primary" @click="handleSubmit">
+        <i class="fa fa-eye mr-2" />
+        Preview
+      </a-button>
+    </div>
+    <a-table
+      :columns="weeklyConfig.importColumns"
+      :data-source="weeklyConfig.listData"
+      :loading="weeklyConfig.isLoading"
+    >
+    </a-table>
+  </a-modal>
 </template>
 
 <script>
@@ -99,6 +149,7 @@ export default {
   data() {
     return {
       weeklyConfigModal: false,
+      previewModal: false,
       formState: {
         id: null,
         id_user: null,
@@ -106,6 +157,7 @@ export default {
         tanggal_mulai: '',
         tanggal_selesai: '',
       },
+      bodyFile: null,
       modalStatus: false,
     }
   },
@@ -119,7 +171,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig']),
+    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig', 'getDataFromExcel']),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -269,6 +321,18 @@ export default {
       if (size > 5) {
         this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 7) + "-" + this.formState.weekly_config_baru.slice(7, 9)
       }
+    },
+    showPreviewModal() {
+      this.previewModal = true
+    },
+    onFileChanged() {
+      this.bodyFile = this.$refs.file.files[0]
+    },
+    async handleSubmit() {
+      await this.getDataFromExcel({
+        file: this.bodyFile,
+        user_id: this.formState.id_user,
+      })
     },
   },
 }

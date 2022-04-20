@@ -232,7 +232,6 @@ export default defineComponent({
     async handleSubmit() {
       this.isLoading = true
       await this.getDataFromExcel()
-      console.log(this.mappingCustomer.listData)
       this.isLoading = false
       this.isDisabled = this.mappingCustomer.listData.length ? false : true
     },

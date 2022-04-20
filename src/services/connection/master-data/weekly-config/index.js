@@ -24,7 +24,25 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+    importColumns: [
+      {
+        title: 'Week Name',
+        dataIndex: 'nm_weekly_config',
+        key: 'nm_weekly_config',
+      },
+      {
+        title: 'Tanggal Mulai',
+        dataIndex: 'start_date',
+        key: 'start_date',
+      },
+      {
+        title: 'Tanggal Selesai',
+        dataIndex: 'end_date',
+        key: 'end_date',
+      },
+    ],
     weeklyConfigList: [],
+    listData: [],
     isLoading: false,
   },
 }
@@ -198,6 +216,42 @@ const actions = {
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getDataFromExcel({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    const formData = new FormData()
+
+    formData.append('user_id', payload.user_id)
+    formData.append('fileimport', payload.file)
+
+    try {
+      const result = await apiClient.post('/wpm/master-data/weeklyConfig/importxls', formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyConfig', {
+          listData: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
