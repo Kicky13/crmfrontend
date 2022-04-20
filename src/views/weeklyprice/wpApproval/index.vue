@@ -403,7 +403,7 @@
           type="number"
           v-model:value="wpApproval.formData.rbp_net"
           placeholder="RBP Net"
-          class="mb-4 w-100"
+          class="mb-4 w-100 input_white_disable"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">

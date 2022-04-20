@@ -193,7 +193,7 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.nama_distrik"
           placeholder="Promo"
-          class=" mb-4 w-100"
+          class=" mb-4 w-100 input_white_disable"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -201,7 +201,7 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.tahun"
           placeholder="Tahun"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
@@ -215,7 +215,7 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.bulan"
           placeholder="Bulan"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
@@ -233,7 +233,7 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.week"
           placeholder="Week"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
@@ -253,7 +253,7 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.nama_produk"
           placeholder="Produk"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Produk</a-select-option>
@@ -271,7 +271,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.brand"
           placeholder="brand"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih brand</a-select-option>
@@ -289,7 +289,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.type"
           placeholder="Tipe"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Tipe</a-select-option>
@@ -308,7 +308,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.kemasan"
           placeholder="Kemasan"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Kemasan</a-select-option>
@@ -381,10 +381,11 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
+          :disabled="true"
           type="number"
           v-model:value="wpPublish.formData.rbp_net"
           placeholder="RBP Net"
-          class=" mb-4 w-100"
+          class=" mb-4 w-100 input_white_disable"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
