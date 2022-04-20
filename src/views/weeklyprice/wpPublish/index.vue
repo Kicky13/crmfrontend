@@ -189,22 +189,12 @@
     </template>
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select
+        <a-input
           :disabled="editdata != true ? false : true"
-          v-model:value="wpPublish.formData.id_distrik"
-          placeholder="Distrik"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option disabled value="">Pilih Distrik</a-select-option>
-          <a-select-option
-            v-for="(distrik, index) in wpPublish.dataDistrikRET"
-            :value="distrik.id_distrik"
-            :key="index"
-          >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
-          </a-select-option>
-        </a-select>
+          v-model:value="wpPublish.formData.nama_distrik"
+          placeholder="Promo"
+          class=" mb-4 w-100"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
@@ -261,7 +251,7 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata != true ? false : true"
-          v-model:value="wpPublish.formData.id_produk"
+          v-model:value="wpPublish.formData.nama_produk"
           placeholder="Produk"
           class="w-100 mb-4"
           show-search
@@ -269,10 +259,10 @@
           <a-select-option disabled value="">Pilih Produk</a-select-option>
           <a-select-option
             v-for="(product, index) in wpPublish.dataProduct"
-            :value="product.id"
+            :value="product.NAMA_PRODUK"
             :key="index"
           >
-            {{ product.namaproduk }}
+            {{ product.ID }} - {{ product.NAMA_PRODUK }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -335,26 +325,63 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
+          @change="handleGross()"
           v-model:value="wpPublish.formData.rbp_gross"
           placeholder="RBP Gross"
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <a-input-number
-          :min="1"
-          :max="100000"
+      <a-col :xs="24" :md="12" :lg="5" v-if="wpPublish.promoDistrik">
+        <a-select
+          :disabled="true"
+          v-model:value="wpPublish.formData.promo"
+          placeholder="0"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
           v-model:value="wpPublish.formData.promo"
           placeholder="Promo"
-          class=" mb-4 w-100"
-        />
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option
+            v-for="(promo, index) in wpPublish.promoDistrik"
+            :value="promo.nilai_zak"
+            :key="index"
+          >
+            {{ promo.program }} - {{ promo.nilai_zak }}
+          </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="1">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Promo</span>
+          </template>
+          <a-button
+            :disabled="
+              wpPublish.formData.id_distrik == null ||
+              wpPublish.formData.tahun == `` ||
+              wpPublish.formData.bulan == ``
+                ? true
+                : false
+            "
+            @click="handleDataPromo()"
+            type="primary"
+          >
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="wpPublish.formData.rbp_net"
           placeholder="RBP Net"
           class=" mb-4 w-100"
@@ -362,8 +389,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="wpPublish.formData.rsp"
           placeholder="RSP"
           class=" mb-4 w-100"
@@ -402,6 +428,7 @@ export default {
     await this.getDataASM({
       id_atasan: this.$store.state.user.idJabatan,
     })
+    await this.getMasterProduct()
   },
   methods: {
     ...mapActions('wpPublish', [
@@ -410,6 +437,9 @@ export default {
       'submitPublish',
       'getDataASM',
       'getDataTable',
+      'getDistrik',
+      'getMasterProduct',
+      'getPromotion',
     ]),
     // Edit Modal
     async showEditModal(value) {
@@ -419,14 +449,19 @@ export default {
       await this.$store.commit('wpPublish/changeWPPublish', {
         formData: {
           id_distrik: value.id_distrik,
+          nama_distrik: value.nm_wilayah,
+          nama_produk: value.nm_produk,
+          brand: value.nm_brand,
+          type: value.nm_type_produk,
+          kemasan: value.nm_satuan,
           tahun: value.tahun,
           bulan: value.bulan,
           week: value.week,
-          id_produk: value.id_distrik,
-          rbp_gross: value.id_distrik,
-          promo: value.id_distrik,
-          rbp_net: value.id_distrik,
-          rsp: value.id_distrik,
+          id_produk: value.id_produk,
+          rbp_gross: value.rbp_gross,
+          promo: value.promo,
+          rbp_net: value.rbp_net,
+          rsp: value.rsp,
           notes: value.notes,
         },
       })
@@ -518,6 +553,10 @@ export default {
       let filtered = dataSource.filter(x => x.nm_user == this.wpPublish.params.nm_tso)
       this.wpPublish.params.id_asm = filtered[0].id_m_hierarchy
 
+      //  await this.getDistrik({
+      //     id_tso: this.wpPublish.params.id_tso,
+      //   })
+
       // validasi
       if (
         this.wpPublish.params.tahun != '' &&
@@ -564,6 +603,16 @@ export default {
         await this.getDataTable()
       } else {
       }
+    },
+
+    async handleDataPromo() {
+      await this.getPromotion()
+    },
+    // handle gross
+    handleGross() {
+      let rbpGross = this.wpPublish.formData.rbp_gross
+      let promo = this.wpPublish.formData.promo
+      this.wpPublish.formData.rbp_net = rbpGross -= promo
     },
   },
 }
