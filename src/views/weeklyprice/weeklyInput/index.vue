@@ -342,8 +342,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           @change="handleGross()"
           v-model:value="weeklyInput.formData.rbp_gross"
           placeholder="RBP Gross"
@@ -400,8 +399,7 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
           :disabled="true"
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="weeklyInput.formData.rbp_net"
           placeholder="RBP Net"
           class=" mb-4 w-100"
@@ -409,8 +407,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="weeklyInput.formData.rsp"
           placeholder="RSP"
           class=" mb-4 w-100"
@@ -503,7 +500,6 @@ export default {
       this.addModal = true
       this.editdata = true
       this.uuid = value.uuid
-      console.log(`---value`, value)
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: value.id_distrik,
