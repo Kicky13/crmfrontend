@@ -477,6 +477,8 @@ export default {
     },
     async showAddModal() {
       this.addModal = true
+      this.editdata = false
+
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: null,

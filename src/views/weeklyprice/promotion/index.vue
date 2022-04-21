@@ -149,7 +149,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_distrik_ret"
           placeholder="Distrik RET"
           class="w-100 mb-4"
@@ -188,7 +188,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_brand"
           placeholder="Brand"
           class="w-100 mb-4"
@@ -206,7 +206,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_kategori_promo"
           placeholder="Kategori"
           class="w-100 mb-4"
@@ -224,6 +224,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.program"
           placeholder="Kategori"
           class="w-100 mb-4"
@@ -301,6 +302,8 @@ export default {
 
     async showAddModal() {
       this.addModal = true
+      this.editdata = false
+
       await this.$store.commit('wpPromotion/changePromotion', {
         formData: {
           id_distrik_ret: null,
