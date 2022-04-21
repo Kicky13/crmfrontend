@@ -69,7 +69,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="9">
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="7">
         <div class="d-flex justify-content-end">
           <button
             :disabled="
@@ -614,6 +624,15 @@ export default {
       let rbpGross = this.wpPublish.formData.rbp_gross
       let promo = this.wpPublish.formData.promo
       this.wpPublish.formData.rbp_net = rbpGross -= promo
+    },
+
+    refreshFilter() {
+      this.wpPublish.params.nm_tso = ''
+      this.wpPublish.params.tahun = ''
+      this.wpPublish.params.bulan = ''
+      this.wpPublish.params.week = ''
+      this.wpPublish.wpPublishList = []
+      this.wpPublish.params.id_asm = null
     },
   },
 }

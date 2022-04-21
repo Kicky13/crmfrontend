@@ -33,7 +33,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="3">
         <a-select
           v-model:value="wpApproval.params.bulan"
           placeholder="Bulan"
@@ -69,7 +69,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="9">
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="8">
         <div class="d-flex justify-content-end">
           <button
             :disabled="
@@ -632,6 +642,15 @@ export default {
       let rbpGross = this.wpApproval.formData.rbp_gross
       let promo = this.wpApproval.formData.promo
       this.wpApproval.formData.rbp_net = rbpGross -= promo
+    },
+
+    refreshFilter() {
+      this.wpApproval.params.nm_tso = ''
+      this.wpApproval.params.tahun = ''
+      this.wpApproval.params.bulan = ''
+      this.wpApproval.params.week = ''
+      this.wpApproval.wpApprovalList = []
+      this.wpApproval.params.id_tso = null
     },
   },
 }
