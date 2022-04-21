@@ -29,7 +29,8 @@
               selectedShorthand === `GSM` ||
                 selectedShorthand === `ADMIN DIS` ||
                 selectedShorthand === `SALES DIS` ||
-                selectedShorthand === `SPC` || selectedShorthand === `MI`
+                selectedShorthand === `SPC` ||
+                selectedShorthand === `MI`
             "
             type="primary"
             class="mb-3 ml-2 float-right"
@@ -728,22 +729,27 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 100),
-    searchDataTSO(keyword) {
+    async searchDataTSO(keyword) {
       this.userManagement.isLoading = true
-
+      await this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
       if (keyword) {
         if (this.searchTSOByField == `General`) {
           // let data = this.userManagement.dataTable.filter(dataSource =>
           //   dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           // )
 
+
           let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
+
 
           let filter = dataNama.filter(
             dataSource =>
               dataSource.nama.toLowerCase().includes(keyword.toLowerCase()) ||
               dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           )
+
 
           if (dataNama.length > 0) {
             setTimeout(() => {
