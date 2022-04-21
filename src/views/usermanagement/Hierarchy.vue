@@ -729,9 +729,11 @@ export default {
         id_level_hirarki: this.actiiveTabs.id_level_hirarki,
       })
     }, 100),
-    searchDataTSO(keyword) {
+    async searchDataTSO(keyword) {
       this.userManagement.isLoading = true
-
+      await this.getDataTable({
+        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      })
       if (keyword) {
         if (this.searchTSOByField == `General`) {
           // let data = this.userManagement.dataTable.filter(dataSource =>
