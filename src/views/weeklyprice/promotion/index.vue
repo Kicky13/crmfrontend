@@ -51,7 +51,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="12">
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="10">
         <div class="d-flex justify-content-end">
           <a-button type="primary" @click="showAddModal">
             <i class="fa fa-plus mr-2" />
@@ -280,6 +290,7 @@ export default {
       }
       return startValue.valueOf() > endValue.valueOf()
     },
+
     disabledEndDate(endValue) {
       const startValue = this.wpPromotion.formData.start_date
       if (!endValue || !startValue) {
@@ -287,6 +298,7 @@ export default {
       }
       return startValue.valueOf() >= endValue.valueOf()
     },
+
     async showAddModal() {
       this.addModal = true
       await this.$store.commit('wpPromotion/changePromotion', {
@@ -411,6 +423,13 @@ export default {
         await this.getDataTable()
       } else {
       }
+    },
+
+    refreshFilter() {
+      this.wpPromotion.params.id_distrik_ret = null
+      this.wpPromotion.params.tahun = ''
+      this.wpPromotion.params.bulan = ''
+      this.wpPromotion.dataTable = []
     },
   },
 }
