@@ -220,6 +220,7 @@ export default {
             id_user: this.formState.id_user,
           })
           await this.getAllDistrikRET()
+          this.disabledDistrik()
           this.formState.id = null
         },
         onCancel: () => {
@@ -232,6 +233,7 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
       this.dataDistrik.id_distrik_ret = id
       this.tambahDistrikModal = true
+      await this.getAllDistrik()
       this.disabledDistrik()
     },
     async saveDistrikRet() {
