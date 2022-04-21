@@ -1,21 +1,31 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
       <a-button
         type="primary"
-        class="mr-2"
-        @click="showPreviewModal"
+        href="https://storage.googleapis.com/crm-asset/Template/Template%20Weekly%20Config.xlsx"
+        download
       >
         <i class="fa fa-download mr-2" />
-        Import
+        Download Template Weekly Config
       </a-button>
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
-        <i class="fa fa-plus mr-2" />
-        Tambah
-      </a-button>
+      <div>
+        <a-button
+          type="primary"
+          class="mr-2"
+          @click="showPreviewModal"
+        >
+          <i class="fa fa-download mr-2" />
+          Import
+        </a-button>
+        <a-button
+          type="primary"
+          @click="showAddModal"
+        >
+          <i class="fa fa-plus mr-2" />
+          Tambah
+        </a-button>
+      </div>
     </div>
     <a-table
       :columns="weeklyConfig.columns"
@@ -109,6 +119,8 @@
         key="submit"
         type="primary"
         :loading="weeklyConfig.isLoading"
+        :disabled="weeklyConfig.submitDisabled"
+        @click="handleSubmit"
       >
         Submit
       </a-button>
@@ -122,7 +134,7 @@
           @change="onFileChanged"
         />
       </a-form-item>
-      <a-button type="primary" @click="handleSubmit">
+      <a-button type="primary" @click="handlePreview">
         <i class="fa fa-eye mr-2" />
         Preview
       </a-button>
@@ -132,6 +144,12 @@
       :data-source="weeklyConfig.listData"
       :loading="weeklyConfig.isLoading"
     >
+      <template #start_date="{ text }">
+        <span>{{ changeFormatDate(text.start_date) }}</span>
+      </template>
+      <template #end_date="{ text }">
+        <span>{{ changeFormatDate(text.end_date) }}</span>
+      </template>
     </a-table>
   </a-modal>
 </template>
@@ -171,7 +189,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig', 'getDataFromExcel']),
+    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig', 'getDataFromExcel', 'submitExcelData']),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -328,11 +346,21 @@ export default {
     onFileChanged() {
       this.bodyFile = this.$refs.file.files[0]
     },
-    async handleSubmit() {
+    async handlePreview() {
       await this.getDataFromExcel({
         file: this.bodyFile,
         user_id: this.formState.id_user,
       })
+    },
+    async handleSubmit() {
+      await this.submitExcelData({
+        data: this.weeklyConfig.listData,
+        user_id: this.formState.id_user,
+      })
+      await this.getAllWeeklyConfig()
+      this.previewModal = false
+      this.$refs.file.value = ''
+      this.bodyFile = null
     },
   },
 }
