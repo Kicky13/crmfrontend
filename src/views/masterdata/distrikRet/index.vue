@@ -281,6 +281,7 @@ export default {
         id_distrik: this.selected_distrik.split(' - ')[0],
         user_id: this.formState.id_user,
       })
+      this.selected_distrik = null
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
       await this.getAllDistrik()
       this.disabledDistrik()
