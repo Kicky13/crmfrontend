@@ -119,7 +119,7 @@
         key="submit"
         type="primary"
         :loading="weeklyConfig.isLoading"
-        :disabled="weeklyConfig.submitDisabled"
+        :disabled="submitStatus"
         @click="handleSubmit"
       >
         Submit
@@ -140,15 +140,42 @@
       </a-button>
     </div>
     <a-table
+      table-layout="auto"
       :columns="weeklyConfig.importColumns"
-      :data-source="weeklyConfig.listData"
+      :data-source="previewData"
       :loading="weeklyConfig.isLoading"
+      :scroll="{ x: 1000 }"
     >
+      <template #icon="{ text }">
+        <div v-if="text.name_error == '0' && text.name_error == '0' && text.start_date_error == '0' && text.end_date_error == '0' && text.inperiode == 0 && text.sameName == 0">
+          <a-tooltip :title="text.laporan">
+            <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
+          </a-tooltip>
+        </div>
+        <div v-else>
+          <a-tooltip :title="text.laporan">
+            <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
+          </a-tooltip>
+        </div>
+      </template>
+      <template #message="{ text }">
+        <span>{{ text.laporan }}</span>
+      </template>
       <template #start_date="{ text }">
-        <span>{{ changeFormatDate(text.start_date) }}</span>
+        <div v-if="text.start_date">
+          <span>{{ changeFormatDate(text.start_date) }}</span>
+        </div>
+        <div v-else>
+          <span>{{ text.start_date }}</span>
+        </div>
       </template>
       <template #end_date="{ text }">
-        <span>{{ changeFormatDate(text.end_date) }}</span>
+        <div v-if="text.end_date">
+          <span>{{ changeFormatDate(text.end_date) }}</span>
+        </div>
+        <div v-else>
+          <span>{{ text.end_date }}</span>
+        </div>
       </template>
     </a-table>
   </a-modal>
@@ -177,6 +204,8 @@ export default {
       },
       bodyFile: null,
       modalStatus: false,
+      previewData: [],
+      submitStatus: true,
     }
   },
   async mounted() {
@@ -344,9 +373,30 @@ export default {
       this.bodyFile = this.$refs.file.files[0]
     },
     async handlePreview() {
+      this.previewData = []
       await this.getDataFromExcel({
         file: this.bodyFile,
         user_id: this.formState.id_user,
+      })
+      this.weeklyConfig.listData.map(row => {
+        if (!(row.name_error == "1" && row.start_date_error == "1" && row.end_date_error == "1")) {
+          this.previewData.push(row)
+        }
+      })
+      this.previewData.map(data => {
+        if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0) {
+          data.laporan = data.inperiode_msg
+          this.submitStatus = false
+        } else {
+          data.laporan = data.error_msg
+          if (data.inperiode) {
+            data.laporan = `${data.laporan}${data.error_msg ? ", " : ""}${data.inperiode_msg}`
+          }
+          if (data.sameName) {
+            data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
+          }
+          this.submitStatus = true
+        }
       })
     },
     async handleSubmit() {
@@ -358,6 +408,8 @@ export default {
       this.previewModal = false
       this.$refs.file.value = ''
       this.bodyFile = null
+      this.previewData = []
+      this.submitStatus = true
     },
   },
 }
