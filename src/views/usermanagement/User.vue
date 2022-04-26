@@ -420,12 +420,7 @@ export default {
       this.userManagementCRM.pagination.pageSize = size
     },
     formValidation() {
-      if (
-        this.userManagementCRM.formState.name &&
-        this.userManagementCRM.formState.username &&
-        this.emailValidation(this.userManagementCRM.formState.email) &&
-        this.phoneValidation(this.userManagementCRM.formState.nohp)
-      ) {
+      if (this.userManagementCRM.formState.name && this.userManagementCRM.formState.username) {
         return true
       } else {
         if (!this.emailValidation(this.userManagementCRM.formState.email)) {
