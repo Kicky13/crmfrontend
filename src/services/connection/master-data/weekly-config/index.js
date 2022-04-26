@@ -26,6 +26,11 @@ const state = {
     ],
     importColumns: [
       {
+        title: '',
+        slots: { customRender: 'icon' },
+        fixed: 'left',
+      },
+      {
         title: 'Week Name',
         dataIndex: 'name',
         key: 'name',
@@ -40,10 +45,13 @@ const state = {
         key: 'end_date',
         slots: { customRender: 'end_date' },
       },
+      {
+        title: 'Laporan Cek Data',
+        slots: { customRender: 'message' },
+      },
     ],
     weeklyConfigList: [],
     listData: [],
-    submitDisabled: true,
     isLoading: false,
   },
 }
@@ -249,7 +257,6 @@ const actions = {
         })
         await commit('changeWeeklyConfig', {
           listData: result.data.data,
-          submitDisabled: false,
           isLoading: false,
         })
       }
@@ -289,7 +296,6 @@ const actions = {
         })
         await commit('changeWeeklyConfig', {
           listData: [],
-          submitDisabled: true,
           isLoading: false,
         })
       }
