@@ -1,7 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="4">
         <a-select
           placeholder="Provinsi"
           show-search
@@ -22,7 +22,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="4  ">
         <a-select
           placeholder="Distrik RET"
           show-search
@@ -43,7 +43,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="4">
         <a-select
           placeholder="Distrik"
           show-search
