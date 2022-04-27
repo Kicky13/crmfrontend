@@ -150,8 +150,8 @@
               <div class="col-md-12">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!4v1651031578505!6m8!1m7!1skXzVP0fgY_1_5I7ThQic3w!2m2!1d-7.168866872251688!2d112.6453457234876!3f0!4f0!5f0.7820865974627469"
-                  width="450"
-                  height="450"
+                  width="454"
+                  height="294"
                   style="border:0;"
                   allowfullscreen=""
                   loading="lazy"
@@ -167,18 +167,68 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
-                  <div v-if="itemRadio == null">
+                <a-carousel v-if="itemRadio == null" :after-change="onChange" arrows>
+                  <template #prevArrow>
+                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                      <left-circle-outlined />
+                    </div>
+                  </template>
+                  <template #nextArrow>
+                    <div class="custom-slick-arrow" style="right: 10px">
+                      <right-circle-outlined />
+                    </div>
+                  </template>
+                  <div>
                     <img
                       src="@/assets/images/noimage.svg"
                       class="img-fluid w-100"
-                      style="height:180px;"
+                      style="height:280px;"
                     />
+                  </div>
+                  <div>
+                    <img
+                      src="@/assets/images/noimage.svg"
+                      class="img-fluid w-100"
+                      style="height:280px;"
+                    />
+                  </div>
+                </a-carousel>
+                <a-carousel v-else :after-change="onChange" arrows>
+                  <template #prevArrow>
+                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                      <left-circle-outlined />
+                    </div>
+                  </template>
+                  <template #nextArrow>
+                    <div class="custom-slick-arrow" style="right: 10px">
+                      <right-circle-outlined />
+                    </div>
+                  </template>
+                  <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                  </div>
+                </a-carousel>
+                <!-- <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
+                  <div v-if="itemRadio == null">
+                    <div>
+                      <img
+                        src="@/assets/images/noimage.svg"
+                        class="img-fluid w-100"
+                        style="height:180px;"
+                      />
+                    </div>
+                    <div>
+                      <img
+                        src="@/assets/images/noimage.svg"
+                        class="img-fluid w-100"
+                        style="height:180px;"
+                      />
+                    </div>
                   </div>
                   <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
                     <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
                   </div>
-                </a-carousel>
+                </a-carousel> -->
               </div>
             </div>
           </div>
@@ -363,11 +413,15 @@ import VueHighcharts from 'vue3-highcharts'
 import Highcharts from 'highcharts'
 // import More from 'highcharts/highcharts-more'
 import Maps from 'highcharts/modules/map'
+import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
+
 Maps(Highcharts)
 // More(Highcharts)
 export default {
   components: {
     VueHighcharts,
+    LeftCircleOutlined,
+    RightCircleOutlined,
   },
 
   data: function() {
@@ -626,7 +680,7 @@ export default {
 /* For demo */
 .ant-carousel >>> .slick-slide {
   text-align: center;
-  height: 180px;
+  height: 300px;
   line-height: 160px;
   background: #364d79;
   overflow: hidden;
