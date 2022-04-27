@@ -24,6 +24,8 @@
               allowfullscreen
               class="w-100"
             ></iframe>
+
+            <!-- <iframe width="600" height="450" src="https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC" frameborder="0" style="border:0" allowfullscreen></iframe> -->
           </div>
         </div>
       </div>
@@ -260,8 +262,10 @@ export default {
       },
 
       isLoading: false,
+      // srcDataStudio:
+      //   'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC',
       srcDataStudio:
-        'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC',
+        'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC',
     }
   },
   computed: {
@@ -296,7 +300,8 @@ export default {
     handleRefresh() {
       this.isLoading = false
       setTimeout(() => {
-        this.srcDataStudio = `https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC`
+        this.srcDataStudio =
+          'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC'
       }, 500)
       this.isLoading = true
     },
