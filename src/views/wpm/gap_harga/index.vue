@@ -114,7 +114,7 @@
           type="primary"
           :disabled="
             formData.id_provinsi == null ||
-            formData.id_district_ret == null ||
+            formData.id_distrik_ret == null ||
             formData.id_distrik == null ||
             formData.tahun == null ||
             formData.week == null ||
@@ -231,7 +231,14 @@ export default {
       //   week: this.formData.week,
       // }
       // await this.getGapHarga(formData)
-      await this.getGapHarga()
+      await this.getGapHarga({
+        id_provinsi: this.formData.id_provinsi,
+        id_distrik_ret: this.formData.id_distrik_ret,
+        id_distrik: this.formData.id_distrik,
+        tahun: this.formData.tahun,
+        bulan: this.formData.bulan,
+        week: this.formData.week,
+      })
       const rows = []
       this.row.map(element => rows.push(element.key_brand))
       this.rowHandler(rows)
