@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row">
-            <div class="col-xs-3 col-md-3">
+            <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -74,7 +74,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div class="col-xs-2 col-md-2">
               <a-form-item>
                 <a-date-picker
                   format="YYYY-MM-DD"
@@ -86,7 +86,19 @@
           </div>
         </div>
         <div class="col-md-2">
-          <a-button type="primary" class="mb-3 w-100" @click="handleOk()">
+          <a-button
+            :disabled="
+              salesRoute.formData.selectedDistrik != `` &&
+              salesRoute.formData.selectedDistributor != `` &&
+              salesRoute.formData.selectedSalesman != `` &&
+              salesRoute.formData.selectedDate != ``
+                ? false
+                : true
+            "
+            type="primary"
+            class="mb-3 w-100"
+            @click="handleOk()"
+          >
             <i class="fa fa-eye mr-2" />
             Tampilkan
           </a-button>
@@ -142,6 +154,11 @@
       <div class="col-md-7 col-sm-7">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="" class="font-weight-bold text-black">Toko Sudah Dikunjungi</label>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-12 col-sm-12">
                 <div class="d-flex justify-content-between mb-3">
@@ -245,6 +262,11 @@
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
+              <div class="col-md-12">
+                <label for="" class="font-weight-bold text-black">Toko Belum Dikunjungi</label>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-12 col-sm-12">
                 <div class="d-flex justify-content-between mb-3">
                   <div class="d-flex mb-2">
@@ -277,6 +299,11 @@
                     :loading="salesRoute.isLoading2"
                     :pagination="salesRoute.paginationToko"
                   >
+                    <template #kode_toko="{ text }">
+                      <div>
+                        {{ text.id_toko_belum_dikunjungi }}
+                      </div>
+                    </template>
                     <template #toko="{ text }">
                       <div>
                         {{ text.toko_belum_dikunjungi }}

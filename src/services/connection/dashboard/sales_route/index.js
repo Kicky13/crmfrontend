@@ -68,7 +68,12 @@ const state = {
     ],
     columns2: [
       {
-        title: 'Toko Belum Dikunjungi',
+        title: 'Kode Toko',
+        slots: { customRender: 'kode_toko' },
+        key: 'kode_toko',
+      },
+      {
+        title: 'Nama Toko',
         slots: { customRender: 'toko' },
         key: 'toko',
       },
