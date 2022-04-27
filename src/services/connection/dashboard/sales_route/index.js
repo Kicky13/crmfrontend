@@ -106,6 +106,8 @@ const state = {
       id_sales: '',
     },
     itemsPerPage: [5, 10, 15, 20],
+
+    
   },
 }
 const mutations = {

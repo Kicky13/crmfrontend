@@ -106,31 +106,36 @@
       </div>
     </a-form>
     <div class="row">
-      <div class="col-md-6">
-        <div class="col-md-12 col-sm-12">
-          <fieldset class="border border-dark shadow px-3 pb-3">
-            <legend class="w-auto px-2">
-              <small class="font-weight-light">
-                Visit Route Map
-              </small>
-            </legend>
-            <div class="row" style="height:100%">
-              <div class="col-md-12" style="height:100%">
-                <div class="bg-white p-3" style="height:340px">
-                  <img
-                    src="@/assets/images/maps.jpg"
-                    alt="Los Angeles"
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
+      <div class="col-md-12">
+        <!-- <fieldset class="border border-dark shadow px-3 pb-3">
+          <legend class="w-auto px-2">
+            <small class="font-weight-light">
+              Visit Route Map
+            </small>
+          </legend>
+          <div class="row" style="height:100%">
+            <div class="col-md-12" style="height:100%">
+              <div class="bg-white p-3" style="height:340px">
+                <img src="@/assets/images/maps.jpg" alt="Los Angeles" width="100%" height="100%" />
               </div>
             </div>
-          </fieldset>
+          </div>
+        </fieldset> -->
+
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <vue-highcharts :highcharts="Highcharts" :options="mapIndonesia"></vue-highcharts>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-6 bg-white rounded p-3">
-        <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <!-- <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
         <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
           <div v-if="itemRadio == null">
             <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:180px;" />
@@ -138,17 +143,47 @@
           <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
             <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
           </div>
-        </a-carousel>
-      </div>
-    </div>
-    <div class="row p-3">
-      <!-- <div class="col-md-12 bg-white rounded p-3 mt-3">
-        <a-carousel :after-change="onChange">
-          <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-            <img :src="item.src" />
+        </a-carousel> -->
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!4v1651031578505!6m8!1m7!1skXzVP0fgY_1_5I7ThQic3w!2m2!1d-7.168866872251688!2d112.6453457234876!3f0!4f0!5f0.7820865974627469"
+                  width="450"
+                  height="450"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
           </div>
-        </a-carousel>
-      </div> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
+                  <div v-if="itemRadio == null">
+                    <img
+                      src="@/assets/images/noimage.svg"
+                      class="img-fluid w-100"
+                      style="height:180px;"
+                    />
+                  </div>
+                  <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                  </div>
+                </a-carousel>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-7 col-sm-7">
@@ -324,11 +359,62 @@
 import ApexCharts from 'apexcharts'
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
+import VueHighcharts from 'vue3-highcharts'
+import Highcharts from 'highcharts'
+// import More from 'highcharts/highcharts-more'
+import Maps from 'highcharts/modules/map'
+Maps(Highcharts)
+// More(Highcharts)
 export default {
+  components: {
+    VueHighcharts,
+  },
+
   data: function() {
+    const topology = fetch(
+      'https://code.highcharts.com/mapdata/countries/id/id-all.topo.json',
+    ).then(response => response.json())
+    const data = [
+      ['id-3700', 10],
+      ['id-ac', 11],
+      ['id-jt', 12],
+      ['id-be', 13],
+      ['id-bt', 14],
+      ['id-kb', 15],
+      ['id-bb', 16],
+      ['id-ba', 17],
+      ['id-ji', 18],
+      ['id-ks', 19],
+      ['id-nt', 20],
+      ['id-se', 21],
+      ['id-kr', 22],
+      ['id-ib', 23],
+      ['id-su', 24],
+      ['id-ri', 25],
+      ['id-sw', 26],
+      ['id-ku', 27],
+      ['id-la', 28],
+      ['id-sb', 29],
+      ['id-ma', 30],
+      ['id-nb', 31],
+      ['id-sg', 32],
+      ['id-st', 33],
+      ['id-pa', 34],
+      ['id-jr', 35],
+      ['id-ki', 36],
+      ['id-1024', 37],
+      ['id-jk', 38],
+      ['id-go', 39],
+      ['id-yo', 40],
+      ['id-sl', 41],
+      ['id-sr', 42],
+      ['id-ja', 43],
+      ['id-kt', 44],
+    ]
     return {
       itemRadio: null,
       selectedRowKeys: [],
+      Highcharts,
       //fungsi menampilkan google map
       ready: false,
       fallbackProcedure: 'gps', //gps | geolocation | address | manually
@@ -419,6 +505,47 @@ export default {
           },
         },
       },
+      mapIndonesia: {
+        chart: {
+          map: topology,
+        },
+
+        title: {
+          text: '',
+        },
+
+        subtitle: {
+          text:
+            'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.topo.json">Indonesia</a>',
+        },
+
+        mapNavigation: {
+          enabled: true,
+          buttonOptions: {
+            verticalAlign: 'bottom',
+          },
+        },
+
+        colorAxis: {
+          min: 0,
+        },
+
+        series: [
+          {
+            data: data,
+            name: 'Random data',
+            states: {
+              hover: {
+                color: '#BADA55',
+              },
+            },
+            dataLabels: {
+              enabled: true,
+              format: '{point.name}',
+            },
+          },
+        ],
+      },
     }
   },
   computed: {
@@ -494,6 +621,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 /* For demo */
 .ant-carousel >>> .slick-slide {
