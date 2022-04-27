@@ -181,7 +181,6 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.nama_distrik"
           placeholder="Distrik"
           class="w-100 mb-4"
@@ -191,16 +190,15 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in weeklyInput.dataDistrikRET"
-            :value="distrik.nama_distrik"
+            :value="distrik.nm_wilayah"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.id_reference_wilayah }} - {{ distrik.nm_wilayah }}
           </a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.tahun"
           placeholder="Tahun"
           class="w-100 mb-4"
@@ -214,7 +212,6 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.bulan"
           placeholder="Bulan"
           class="w-100 mb-4"
@@ -232,7 +229,6 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.week"
           placeholder="Week"
           class="w-100 mb-4"
@@ -252,7 +248,6 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
           v-model:value="weeklyInput.formData.nama_produk"
           placeholder="Produk"
           class="w-100 mb-4"
@@ -318,7 +313,6 @@
           class=" mb-4 w-100"
         />
       </a-col>
-
       <a-col :xs="24" :md="12" :lg="6">
         <!-- <a-select
           :disabled="true"
@@ -340,7 +334,7 @@
         <a-input
           :disabled="true"
           v-model:value="weeklyInput.formData.kemasan"
-          placeholder="Tipe"
+          placeholder="Kemasan"
           class=" mb-4 w-100"
         />
       </a-col>
@@ -348,26 +342,64 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
+          @change="handleGross()"
           v-model:value="weeklyInput.formData.rbp_gross"
           placeholder="RBP Gross"
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <a-input-number
-          :min="1"
-          :max="100000"
+      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik">
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.promo"
+          placeholder="0"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
           v-model:value="weeklyInput.formData.promo"
           placeholder="Promo"
-          class=" mb-4 w-100"
-        />
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option
+            v-for="(promo, index) in weeklyInput.promoDistrik"
+            :value="promo.nilai_zak"
+            :key="index"
+          >
+            {{ promo.program }} - {{ promo.nilai_zak }}
+          </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="1">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Promo</span>
+          </template>
+          <a-button
+            :disabled="
+              weeklyInput.formData.id_distrik == null ||
+              weeklyInput.formData.tahun == `` ||
+              weeklyInput.formData.bulan == ``
+                ? true
+                : false
+            "
+            @click="handleDataPromo()"
+            type="primary"
+          >
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          :disabled="true"
+          type="number"
           v-model:value="weeklyInput.formData.rbp_net"
           placeholder="RBP Net"
           class=" mb-4 w-100"
@@ -375,8 +407,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="weeklyInput.formData.rsp"
           placeholder="RSP"
           class=" mb-4 w-100"
@@ -417,7 +448,9 @@ export default {
     await this.getAllBrand()
     await this.getAllTipe()
     await this.getAllKemasan()
-    await this.getDistrik()
+    await this.getDistrik({
+      id_tso: this.$store.state.user.idJabatan,
+    })
   },
   methods: {
     ...mapActions('weeklyInput', [
@@ -432,10 +465,38 @@ export default {
       'updateDataWeekly',
       'submitDataWeekly',
       'duplicateDataWeekly',
+      'getPromotion',
     ]),
-
-    showAddModal() {
+    handleGross() {
+      let rbpGross = this.weeklyInput.formData.rbp_gross
+      let promo = this.weeklyInput.formData.promo
+      this.weeklyInput.formData.rbp_net = rbpGross -= promo
+    },
+    async handleDataPromo() {
+      await this.getPromotion()
+    },
+    async showAddModal() {
       this.addModal = true
+      this.editdata = false
+
+      await this.$store.commit('weeklyInput/changeWeeklyInput', {
+        formData: {
+          id_distrik: null,
+          tahun: '',
+          bulan: '',
+          week: '',
+          id_produk: null,
+          rbp_gross: null,
+          promo: 0,
+          rbp_net: null,
+          rsp: null,
+          brand: null,
+          type: null,
+          kemasan: null,
+          notes: '',
+        },
+      })
+      this.editdata = false
     },
     async showEditModal(value) {
       this.addModal = true
@@ -444,14 +505,19 @@ export default {
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: value.id_distrik,
+          nama_distrik: value.nm_wilayah,
+          nama_produk: value.nm_produk,
+          brand: value.nm_brand,
+          type: value.nm_type_produk,
+          kemasan: value.nm_satuan,
           tahun: value.tahun,
           bulan: value.bulan,
           week: value.week,
-          id_produk: value.id_distrik,
-          rbp_gross: value.id_distrik,
-          promo: value.id_distrik,
-          rbp_net: value.id_distrik,
-          rsp: value.id_distrik,
+          id_produk: value.id_produk,
+          rbp_gross: value.rbp_gross,
+          promo: value.promo,
+          rbp_net: value.rbp_net,
+          rsp: value.rsp,
           notes: value.notes,
         },
       })
@@ -536,7 +602,6 @@ export default {
         } else {
           await this.insertDataWeekly()
         }
-        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({
@@ -610,15 +675,14 @@ export default {
 
     handleDistrik() {
       let dataSource = [...this.weeklyInput.dataDistrikRET]
-      let filtered = dataSource.filter(
-        x => x.nama_distrik == this.weeklyInput.formData.nama_distrik,
-      )
-      this.weeklyInput.formData.id_distrik = filtered[0].id_distrik
+      let filtered = dataSource.filter(x => x.nm_wilayah == this.weeklyInput.formData.nama_distrik)
+      this.weeklyInput.formData.id_distrik = filtered[0].id_reference_wilayah
     },
     refreshFilter() {
       this.weeklyInput.params.tahun = ''
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
+      this.weeklyInput.dataTable = []
     },
   },
 }
