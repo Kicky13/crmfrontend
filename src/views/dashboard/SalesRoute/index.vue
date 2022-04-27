@@ -126,7 +126,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <vue-highcharts :highcharts="Highcharts" :options="mapIndonesia"></vue-highcharts>
+                <div id="mapContainer"></div>
               </div>
             </div>
           </div>
@@ -409,197 +409,18 @@
 import ApexCharts from 'apexcharts'
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
-import VueHighcharts from 'vue3-highcharts'
-import Highcharts from 'highcharts'
-// import More from 'highcharts/highcharts-more'
-import Maps from 'highcharts/modules/map'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
 
-Maps(Highcharts)
-// More(Highcharts)
 export default {
   components: {
-    VueHighcharts,
     LeftCircleOutlined,
     RightCircleOutlined,
   },
-
-  data: function() {
-    const topology = fetch(
-      'https://code.highcharts.com/mapdata/countries/id/id-all.topo.json',
-    ).then(response => response.json())
-    const data = [
-      ['id-3700', 10],
-      ['id-ac', 11],
-      ['id-jt', 12],
-      ['id-be', 13],
-      ['id-bt', 14],
-      ['id-kb', 15],
-      ['id-bb', 16],
-      ['id-ba', 17],
-      ['id-ji', 18],
-      ['id-ks', 19],
-      ['id-nt', 20],
-      ['id-se', 21],
-      ['id-kr', 22],
-      ['id-ib', 23],
-      ['id-su', 24],
-      ['id-ri', 25],
-      ['id-sw', 26],
-      ['id-ku', 27],
-      ['id-la', 28],
-      ['id-sb', 29],
-      ['id-ma', 30],
-      ['id-nb', 31],
-      ['id-sg', 32],
-      ['id-st', 33],
-      ['id-pa', 34],
-      ['id-jr', 35],
-      ['id-ki', 36],
-      ['id-1024', 37],
-      ['id-jk', 38],
-      ['id-go', 39],
-      ['id-yo', 40],
-      ['id-sl', 41],
-      ['id-sr', 42],
-      ['id-ja', 43],
-      ['id-kt', 44],
-    ]
+  data() {
     return {
-      itemRadio: null,
-      selectedRowKeys: [],
-      Highcharts,
-      //fungsi menampilkan google map
-      ready: false,
-      fallbackProcedure: 'gps', //gps | geolocation | address | manually
-      zoom: 17, //Default Zoom
-      geolocation: {
-        // If GPS and Find by address fails then, map will be positioned by a default geolocation
-        lat: 31.73858,
-        lng: -35.98628,
-        zoom: 2,
-      },
-      address: {
-        query: 'Albania, Tirane', //If GPS fails, Find by address is triggered
-        zoom: 10,
-      },
-      manually: {
-        address_description: '21 Dhjetori, Tirana, Albania',
-        city: 'Tirana',
-        country: 'Albania',
-        lat: 41.3267905,
-        lng: 19.8060475,
-        state: 'Tirana County',
-        zip_code: '',
-        zoom: 17,
-      },
-      place: {},
-
-      //fungsi menampilkan chart
-      chartOptions: {
-        chart: {
-          width: '400',
-          type: 'pie',
-        },
-        labels: ['Semen Gresik', 'Semen Rembang', 'Semen Tuban', 'Semen Padang', 'Semen Mortar'],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: 'bottom',
-              },
-            },
-          },
-        ],
-      },
-      series: [25, 15, 44, 55, 41],
-
-      series_area: [
-        {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41],
-        },
-      ],
-      chartOptions_area: {
-        chart: {
-          type: 'area',
-          zoom: {
-            enabled: false,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'date',
-          categories: [
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy',
-          },
-        },
-      },
-      mapIndonesia: {
-        chart: {
-          map: topology,
-        },
-
-        title: {
-          text: '',
-        },
-
-        subtitle: {
-          text:
-            'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.topo.json">Indonesia</a>',
-        },
-
-        mapNavigation: {
-          enabled: true,
-          buttonOptions: {
-            verticalAlign: 'bottom',
-          },
-        },
-
-        colorAxis: {
-          min: 0,
-        },
-
-        series: [
-          {
-            data: data,
-            name: 'Random data',
-            states: {
-              hover: {
-                color: '#BADA55',
-              },
-            },
-            dataLabels: {
-              enabled: true,
-              format: '{point.name}',
-            },
-          },
-        ],
-      },
+      map: null,
     }
   },
   computed: {
@@ -611,6 +432,45 @@ export default {
     await this.getDistrik()
     this.handlePagination(5)
     this.handlePaginationToko(5)
+
+    // Map
+    this.map = L.map('mapContainer').setView([5, 120], 5)
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map)
+    //use a mix of renderers
+    var customPane = this.map.createPane('customPane')
+    var canvasRenderer = L.canvas({ pane: 'customPane' })
+    customPane.style.zIndex = 399 // put just behind the standard overlay pane which is at 400
+    // L.marker([50, 14]).addTo(this.map)
+
+    // L.marker([53, 20]).addTo(this.map)
+    // L.marker([49.5, 19.5]).addTo(this.map)
+    // L.marker([49, 25]).addTo(this.map)
+    // L.marker([-10, 25]).addTo(this.map)
+    // L.marker([10, -25]).addTo(this.map)
+    // L.marker([0, 0]).addTo(this.map)
+
+    // var pathOne = L.curve(['M', [50, 14], 'Q', [53, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [52, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [51, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [50, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [47, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+  },
+  onBeforeUnmount() {
+    if (this.map) {
+      this.map.remove()
+    }
   },
   methods: {
     ...mapActions('salesRoute', [
@@ -688,5 +548,11 @@ export default {
 
 .ant-carousel >>> .slick-slide h3 {
   color: #fff;
+}
+
+#mapContainer {
+  width: 100%;
+  height: 60vh;
+  z-index: 0 !important;
 }
 </style>
