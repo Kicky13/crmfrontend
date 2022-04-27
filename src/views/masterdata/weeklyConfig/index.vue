@@ -383,10 +383,11 @@ export default {
           this.previewData.push(row)
         }
       })
+      console.log(this.previewData)
+      let status = []
       this.previewData.map(data => {
         if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0) {
           data.laporan = data.inperiode_msg
-          this.submitStatus = false
         } else {
           data.laporan = data.error_msg
           if (data.inperiode) {
@@ -395,13 +396,14 @@ export default {
           if (data.sameName) {
             data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
           }
-          this.submitStatus = true
+          status.push(true)
         }
       })
+      this.submitStatus = status.length > 0 ? true : false
     },
     async handleSubmit() {
       await this.submitExcelData({
-        data: this.weeklyConfig.listData,
+        data: this.previewData,
         user_id: this.formState.id_user,
       })
       await this.getAllWeeklyConfig()
