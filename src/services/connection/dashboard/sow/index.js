@@ -68,6 +68,7 @@ import { notification } from 'ant-design-vue'
 import axios from 'axios'
 const state = {
   data: {
+    dataMetabase: null,
     dataList: null,
     dataSourceTable: [],
     columns: [
@@ -247,7 +248,40 @@ const actions = {
   //     })
   //   }
   // },
- 
+  async getMetabase({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    let params = {
+      dashboard: 218,
+    }
+
+    try {
+      const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}`)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getProvinsi({ commit, state }) {
     commit('changeSOW', {
       isLoading: true,

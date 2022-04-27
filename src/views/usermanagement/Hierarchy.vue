@@ -740,16 +740,13 @@ export default {
           //   dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           // )
 
-
           let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
-
 
           let filter = dataNama.filter(
             dataSource =>
               dataSource.nama.toLowerCase().includes(keyword.toLowerCase()) ||
               dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           )
-
 
           if (dataNama.length > 0) {
             setTimeout(() => {

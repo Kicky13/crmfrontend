@@ -47,21 +47,31 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "volumeAnalytcs" */ '@/views/dashboard/volume_analytcs'),
       },
+      // {
+      //   path: '/dashboard/visit',
+      //   meta: { title: 'Visit', resource: 'Visit', action: 'read' },
+      //   component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
+      // },
       {
         path: '/dashboard/visit',
         meta: { title: 'Visit', resource: 'Visit', action: 'read' },
-        component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visit'),
+        component: () => import(/* webpackChunkName: "Visit" */ '@/views/dashboard/visitV2'),
       },
+      // {
+      //   path: '/dashboard/sow',
+      //   meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+      //   component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),
+      // },
       {
         path: '/dashboard/sow',
         meta: { title: 'Sow', resource: 'Sow', action: 'read' },
-        component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/Sow'),
-      },
-      {
-        path: '/dashboard/sow-v2',
-        meta: { title: 'Sow', resource: 'Sow', action: 'read' },
         component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/SowV2'),
       },
+      // {
+      //   path: '/dashboard/sow-v3',
+      //   meta: { title: 'Sow', resource: 'Sow', action: 'read' },
+      //   component: () => import(/* webpackChunkName: "Sow" */ '@/views/dashboard/SowV3'),
+      // },
       {
         path: '/dashboard/sales_route',
         name: 'dashbord_route',

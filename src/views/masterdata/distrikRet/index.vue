@@ -107,12 +107,13 @@
       >
         <a-select-option disabled value="">Pilih Distrik</a-select-option>
         <a-select-option
-          v-for="(item, index) in distrikRET.distrikList"
-          :value="item.id_distrik"
+          v-for="(item, index) in distrikRET.distrikList.all"
+          :value="`${item.id_distrik} - ${item.nama_distrik}`"
           :key="index"
           :title="item.nama_distrik"
           data-toggle="tooltip"
           data-placement="top"
+          :disabled="item.disabled"
         >
           {{ item.id_distrik }} - {{ item.nama_distrik }}
         </a-select-option>
@@ -171,6 +172,7 @@ export default {
   },
   async mounted() {
     await this.getAllDistrikRET()
+    await this.getAllDistrik()
     this.getUserId()
   },
   methods: {
@@ -218,6 +220,7 @@ export default {
             id_user: this.formState.id_user,
           })
           await this.getAllDistrikRET()
+          this.disabledDistrik()
           this.formState.id = null
         },
         onCancel: () => {
@@ -227,10 +230,11 @@ export default {
     },
     async showTambahDistrikModal(id) {
       this.selected_distrik = null
-      await this.getAllDistrik()
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
       this.dataDistrik.id_distrik_ret = id
       this.tambahDistrikModal = true
+      await this.getAllDistrik()
+      this.disabledDistrik()
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -274,10 +278,13 @@ export default {
       }
       await this.addDistrikByDistrikRet({
         id_distrik_ret: this.dataDistrik.id_distrik_ret,
-        id_distrik: this.selected_distrik,
+        id_distrik: this.selected_distrik.split(' - ')[0],
         user_id: this.formState.id_user,
       })
+      this.selected_distrik = null
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      await this.getAllDistrik()
+      this.disabledDistrik()
     },
     async deleteDistrik(id) {
       await this.deleteDistrikByDistrikRet({
@@ -285,12 +292,22 @@ export default {
         user_id: this.formState.id_user,
       })
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
+      await this.getAllDistrik()
+      this.disabledDistrik()
 
     },
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
       return `${date}-${month}-${year} ${timeFormat}`
+    },
+    disabledDistrik() {
+      this.distrikRET.distrikList.all.map(obj => obj.disabled = false)
+      this.distrikRET.distrikList.choosen.map(objChoosen => {
+        if (this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik)) {
+          this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik).disabled = true
+        }
+      })
     },
   },
 }

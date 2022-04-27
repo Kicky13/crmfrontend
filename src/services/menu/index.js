@@ -5,11 +5,11 @@ export const getAdminMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
       // {
       //   title: 'Visit',
       //   key: 'dpr512',
@@ -35,10 +35,15 @@ export const getAdminMenuData = [
       //   key: 'pmo231',
       //   url: '/dashboard/sow',
       // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
       // {
-      //   title: 'SOW V2',
-      //   key: 'pmo261',
-      //   url: '/dashboard/sow-v2',
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
       // },
 
       // {
