@@ -301,7 +301,7 @@ export default {
       this.isLoading = false
       setTimeout(() => {
         this.srcDataStudio =
-          'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC'
+          'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC'
       }, 500)
       this.isLoading = true
     },
