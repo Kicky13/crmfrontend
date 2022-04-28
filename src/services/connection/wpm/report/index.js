@@ -75,6 +75,14 @@ const state = {
         key: 'notes',
       },
     ],
+    params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+      id_distrik_ret: null,
+    },
     reportList: [
       {
         distrik: 'Distrik 1',
@@ -93,6 +101,26 @@ const state = {
         notes: 'Notes 1',
       },
     ],
+    dataWeekly: [
+      {
+        id: 1,
+        name: 'Week 1',
+      },
+      {
+        id: 2,
+        name: 'Week 2',
+      },
+      {
+        id: 3,
+        name: 'Week 3',
+      },
+      {
+        id: 4,
+        name: 'Week 4',
+      },
+    ],
+    dataDistrikRET: [],
+    dataTable: [],
     isLoading: false,
   },
 }
@@ -128,6 +156,91 @@ const actions = {
         })
       }
     } catch (err) {
+      await commit('changeReport', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getDistrikRET({ commit, state }) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      //   id_area:data.formData.selectedArea,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.get('/wpm/master-data/distrikret', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          dataDistrikRET: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTable({ commit, state }, payload) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: data.params.week,
+      distrik: data.params.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/report`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          dataTable: result.data.data || 0,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
       await commit('changeReport', {
         isLoading: false,
       })
