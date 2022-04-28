@@ -126,7 +126,38 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <div id="mapContainer"></div>
+                <div class="mapouter">
+                  <div class="gmap_canvas">
+                    <iframe
+                      class="w-100"
+                      height="500"
+                      id="gmap_canvas"
+                      src="https://maps.google.com/maps?q=PT.%20Sisi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    ></iframe>
+                  </div>
+                </div>
+                <!-- <div class="mapouter">
+                  <div class="gmap_canvas">
+                    <iframe
+                      width="250"
+                      height="300"
+                      id="gmap_canvas"
+                      :src="link"
+                      frameborder="0"
+                      scrolling="no"
+                      marginheight="0"
+                      marginwidth="0"
+                    >
+                    </iframe>
+                    <a href="https://fmovies-online.net" />
+                    <a href="https://www.embedgooglemap.net"></a>
+                  </div>
+                </div> -->
+                <!-- <div id="mapContainer"></div> -->
               </div>
             </div>
           </div>
@@ -421,6 +452,7 @@ export default {
   data() {
     return {
       map: null,
+      link: '',
     }
   },
   computed: {
@@ -429,6 +461,8 @@ export default {
     }),
   },
   async mounted() {
+    this.urlMap()
+
     await this.getDistrik()
     this.handlePagination(5)
     this.handlePaginationToko(5)
@@ -481,6 +515,20 @@ export default {
       'getDistributor',
       'getMap',
     ]),
+
+    urlMap() {
+      let lat = 5
+      let long = 120
+      let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
+      this.link =
+        `https://www.google.com/maps/embed/v1/view?key=` +
+        keyApi +
+        `&center=` +
+        lat +
+        `,` +
+        long +
+        `&zoom=18&maptype=satellite`
+    },
     myRowClickHandler(record, index) {
       // 'record' will be the row data from items
       // `index` will be the visible row number (available in the v-model 'shownItems')
