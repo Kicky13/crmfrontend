@@ -10,9 +10,14 @@ export const getAdminMenuData = [
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
+      // {
+      //   title: 'Visit',
+      //   key: 'dpr512',
+      //   url: '/dashboard/visit',
+      // },
       {
         title: 'Visit',
-        key: 'dpr512',
+        key: 'dpr510',
         url: '/dashboard/visit',
       },
       {
@@ -30,10 +35,26 @@ export const getAdminMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
       {
-        title: 'SOW',
-        key: 'pmo231',
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
         url: '/dashboard/sow',
+      },
+      // {
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
+      // },
+
+      {
+        title: 'Sales Route  Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
       },
     ],
   },
@@ -100,6 +121,105 @@ export const getAdminMenuData = [
             statusId: true,
           },
         ],
+      },
+    ],
+  },
+  {
+    title: 'Master Data',
+    key: 'mrda01',
+    url: '/master_data',
+    icon: 'fa fa-database',
+    children: [
+      {
+        title: 'Tipe',
+        key: 'tipe01',
+        url: '/master_data/tipe',
+      },
+      {
+        title: 'Brand',
+        key: 'brnd02',
+        url: '/master_data/brand',
+      },
+      {
+        title: 'Kemasan',
+        key: 'kmsn03',
+        url: '/master_data/kemasan',
+      },
+      {
+        title: 'Produk',
+        key: 'prdk04',
+        url: '/master_data/produk',
+      },
+      {
+        title: 'Distrik RET',
+        key: 'dire05',
+        url: '/master_data/distrik_ret',
+      },
+      {
+        title: 'Kategori Promo',
+        key: 'kapr06',
+        url: '/master_data/kategori_promo',
+      },
+      {
+        title: 'Weekly Config',
+        key: 'weco07',
+        url: '/master_data/weekly_config',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'Weekly Input',
+        key: 'wein01',
+        url: '/weekly_price/weekly_input',
+      },
+      {
+        title: 'WP Approval',
+        key: 'wpap03',
+        url: '/weekly_price/wp_approval',
+      },
+      {
+        title: 'WP Publish',
+        key: 'wppu04',
+        url: '/weekly_price/wp_publish',
+      },
+      {
+        title: 'Promotion',
+        key: 'prom02',
+        url: '/weekly_price/promotion',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price Monitoring',
+    key: 'wpmo03',
+    url: '/wpm',
+    icon: 'fa fa-file',
+    children: [
+      {
+        title: 'Report',
+        key: 'rprt01',
+        url: '/wpm/report',
+      },
+      {
+        title: 'Promotion',
+        key: 'prmt02',
+        url: '/wpm/promotion',
+      },
+      {
+        title: 'Price Movement',
+        key: 'prnt03',
+        url: '/wpm/price_movement',
+      },
+      {
+        title: 'GAP Harga',
+        key: 'gaph04',
+        url: '/wpm/gap_harga',
       },
     ],
   },
@@ -421,6 +541,19 @@ export const getTsoMenuData = [
     ],
   },
   {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'Weekly Input',
+        key: 'wein01',
+        url: '/weekly_price/weekly_input',
+      },
+    ],
+  },
+  {
     title: 'Settings & Configuration',
     key: 'St01Cf',
     url: '/settings',
@@ -547,4 +680,180 @@ export const getTsoMenuData = [
   //     },
   //   ],
   // },
+]
+
+export const getASMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'WP Approval',
+        key: 'wein01',
+        url: '/weekly_price/wp_approval',
+      },
+    ],
+  },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
+]
+
+export const getSSMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'WP Publish',
+        key: 'wein01',
+        url: '/weekly_price/wp_publish',
+      },
+    ],
+  },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Report Admin',
+    key: '1231sa',
+  },
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Data Sales SBI',
+        key: 'asa123',
+        // url: '/datasales',
+        url: '/auth/underconstruct',
+      },
+      {
+        title: 'Customer Mapping',
+        key: 'xca132',
+        // url: '/report/customer_mapping',
+        url: '/auth/underconstruct',
+      },
+    ],
+  },
+  {
+    category: true,
+    title: 'Roles & Permissions',
+    key: '2h83od',
+  },
 ]

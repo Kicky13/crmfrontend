@@ -5,10 +5,8 @@ import { _ } from 'vue-underscore'
 const state = {
   data: {
     itemsPerPage: [3, 5],
-
     isLoading: false,
     dataMetabase: null,
-
     status: 'gagal',
   },
 }
