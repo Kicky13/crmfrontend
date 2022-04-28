@@ -242,6 +242,15 @@ const actions = {
     //   row: state.data.gapHarga.join(","),
     //   column: state.data.gapHarga.join(","),
     // }
+    let rows = []
+    payload.row.forEach(element => {
+      rows.push(element.key_brand)
+    })
+
+    let columns = []
+    payload.column.forEach(element => {
+      columns.push(element.key)
+    })
 
     const formDataTest = {
       id_provinsi: payload.id_provinsi,
@@ -250,10 +259,11 @@ const actions = {
       tahun: payload.tahun,
       bulan: payload.bulan,
       week: payload.week,
-      row: '1,13,5,17,21,24,26,27',
-      column: '1,13,5,17,21,24,26,27',
+      row: rows.toString(),
+      column: columns.toString(),
     }
-
+    //  row: '1,13,5,17,21,24,26,27',
+    //       column: '1,13,5,17,21,24,26,27',
     try {
       const result = await apiClient.post(`/wpm/gap-harga`, formDataTest)
 
