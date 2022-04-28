@@ -10,11 +10,11 @@ export const getAdminMenuData = [
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -46,11 +46,11 @@ export const getAdminMenuData = [
       //   url: '/dashboard/sow-v3',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route  Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
