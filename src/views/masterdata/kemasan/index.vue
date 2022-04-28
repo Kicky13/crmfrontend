@@ -94,6 +94,7 @@
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
+      v-model:value="formState.keterangan"
     />
   </a-modal>
 </template>
@@ -113,6 +114,7 @@ export default {
         id_satuan: null,
         kemasan_baru: '',
         nilai: null,
+        keterangan: '',
       },
       modalStatus: false,
     }
@@ -138,6 +140,7 @@ export default {
       this.formState.kemasan_baru = ''
       this.formState.id_satuan = null
       this.formState.nilai = null
+      this.formState.keterangan = ''
     },
     showEditModal(id) {
       this.modalStatus = true
@@ -147,6 +150,7 @@ export default {
       this.formState.kemasan_baru = kemasanById.NAMA_KEMASAN
       this.formState.id_satuan = kemasanById.ID_GROUP_SATUAN
       this.formState.nilai = kemasanById.NILAI
+      this.formState.keterangan = kemasanById.KETERANGAN
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -205,11 +209,12 @@ export default {
 
       if (this.modalStatus) {
         await this.editKemasan({
-          id_user: this.formState.id_user,
           id_kemasan: this.formState.id,
+          id_user: this.formState.id_user,
           id_group_satuan: this.formState.id_satuan,
           kemasan_baru: this.formState.kemasan_baru,
           nilai: this.formState.nilai,
+          keterangan: this.formState.keterangan,
         })
       } else {
         await this.addKemasan({
@@ -217,6 +222,7 @@ export default {
           id_group_satuan: this.formState.id_satuan,
           kemasan_baru: this.formState.kemasan_baru,
           nilai: this.formState.nilai,
+          keterangan: this.formState.keterangan,
         })
       }
       this.modalStatus = false
@@ -226,6 +232,7 @@ export default {
       this.formState.kemasan_baru = ''
       this.formState.id_satuan = null
       this.formState.nilai = null
+      this.formState.keterangan = ''
     },
     satuanHandler(satuan) {
       this.formState.id_satuan = satuan.split('-')[0].trim()

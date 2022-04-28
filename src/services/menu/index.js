@@ -10,15 +10,15 @@ export const getAdminMenuData = [
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
+      // {
+      //   title: 'Visit',
+      //   key: 'dpr512',
+      //   url: '/dashboard/visit',
+      // },
       {
         title: 'Visit',
-        key: 'dpr512',
-        url: '/dashboard/visit',
-      },
-      {
-        title: 'Visit V2',
         key: 'dpr510',
-        url: '/dashboard/visit-v2',
+        url: '/dashboard/visit',
       },
       {
         title: 'Promotion',
@@ -35,21 +35,21 @@ export const getAdminMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
       {
-        title: 'SOW',
-        key: 'pmo231',
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
         url: '/dashboard/sow',
       },
-      {
-        title: 'SOW V2',
-        key: 'pmo261',
-        url: '/dashboard/sow-v2',
-      },
-      {
-        title: 'SOW V3',
-        key: 'pmo265',
-        url: '/dashboard/sow-v3',
-      },
+      // {
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
+      // },
 
       {
         title: 'Sales Route  Compliance',

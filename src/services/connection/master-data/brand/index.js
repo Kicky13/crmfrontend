@@ -116,6 +116,7 @@ const actions = {
       user_id: payload.id_user,
       id_company: payload.id_company,
       nm_brand: payload.brand_baru,
+      keterangan: payload.keterangan,
     }
 
     try {
@@ -200,7 +201,9 @@ const actions = {
     const formData = {
       id: payload.id_brand,
       user_id: payload.id_user,
+      id_company: payload.id_company,
       nm_brand: payload.brand_baru,
+      keterangan: payload.keterangan,
     }
 
     try {

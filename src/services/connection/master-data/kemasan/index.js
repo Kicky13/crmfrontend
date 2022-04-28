@@ -118,6 +118,7 @@ const actions = {
       id_group_satuan: payload.id_group_satuan,
       nama: payload.kemasan_baru,
       nilai: payload.nilai,
+      keterangan: payload.keterangan,
     }
 
     try {
@@ -205,6 +206,7 @@ const actions = {
       id_group_satuan: payload.id_group_satuan,
       nama: payload.kemasan_baru,
       nilai: payload.nilai,
+      keterangan: payload.keterangan,
     }
 
     try {
