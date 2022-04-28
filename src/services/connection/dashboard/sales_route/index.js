@@ -68,7 +68,12 @@ const state = {
     ],
     columns2: [
       {
-        title: 'Toko Belum Dikunjungi',
+        title: 'Kode Toko',
+        slots: { customRender: 'kode_toko' },
+        key: 'kode_toko',
+      },
+      {
+        title: 'Nama Toko',
         slots: { customRender: 'toko' },
         key: 'toko',
       },
@@ -101,6 +106,8 @@ const state = {
       id_sales: '',
     },
     itemsPerPage: [5, 10, 15, 20],
+
+    
   },
 }
 const mutations = {
