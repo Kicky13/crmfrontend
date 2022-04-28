@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row">
-            <div class="col-xs-3 col-md-3">
+            <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -74,7 +74,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div class="col-xs-2 col-md-2">
               <a-form-item>
                 <a-date-picker
                   format="YYYY-MM-DD"
@@ -86,7 +86,19 @@
           </div>
         </div>
         <div class="col-md-2">
-          <a-button type="primary" class="mb-3 w-100" @click="handleOk()">
+          <a-button
+            :disabled="
+              salesRoute.formData.selectedDistrik != `` &&
+              salesRoute.formData.selectedDistributor != `` &&
+              salesRoute.formData.selectedSalesman != `` &&
+              salesRoute.formData.selectedDate != ``
+                ? false
+                : true
+            "
+            type="primary"
+            class="mb-3 w-100"
+            @click="handleOk()"
+          >
             <i class="fa fa-eye mr-2" />
             Tampilkan
           </a-button>
@@ -94,31 +106,36 @@
       </div>
     </a-form>
     <div class="row">
-      <div class="col-md-6">
-        <div class="col-md-12 col-sm-12">
-          <fieldset class="border border-dark shadow px-3 pb-3">
-            <legend class="w-auto px-2">
-              <small class="font-weight-light">
-                Visit Route Map
-              </small>
-            </legend>
-            <div class="row" style="height:100%">
-              <div class="col-md-12" style="height:100%">
-                <div class="bg-white p-3" style="height:340px">
-                  <img
-                    src="@/assets/images/maps.jpg"
-                    alt="Los Angeles"
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
+      <div class="col-md-12">
+        <!-- <fieldset class="border border-dark shadow px-3 pb-3">
+          <legend class="w-auto px-2">
+            <small class="font-weight-light">
+              Visit Route Map
+            </small>
+          </legend>
+          <div class="row" style="height:100%">
+            <div class="col-md-12" style="height:100%">
+              <div class="bg-white p-3" style="height:340px">
+                <img src="@/assets/images/maps.jpg" alt="Los Angeles" width="100%" height="100%" />
               </div>
             </div>
-          </fieldset>
+          </div>
+        </fieldset> -->
+
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div id="mapContainer"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-6 bg-white rounded p-3">
-        <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <!-- <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
         <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
           <div v-if="itemRadio == null">
             <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:180px;" />
@@ -126,22 +143,107 @@
           <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
             <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
           </div>
-        </a-carousel>
-      </div>
-    </div>
-    <div class="row p-3">
-      <!-- <div class="col-md-12 bg-white rounded p-3 mt-3">
-        <a-carousel :after-change="onChange">
-          <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-            <img :src="item.src" />
+        </a-carousel> -->
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!4v1651031578505!6m8!1m7!1skXzVP0fgY_1_5I7ThQic3w!2m2!1d-7.168866872251688!2d112.6453457234876!3f0!4f0!5f0.7820865974627469"
+                  width="454"
+                  height="294"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
           </div>
-        </a-carousel>
-      </div> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-top card-top-primary mt-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <a-carousel v-if="itemRadio == null" :after-change="onChange" arrows>
+                  <template #prevArrow>
+                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                      <left-circle-outlined />
+                    </div>
+                  </template>
+                  <template #nextArrow>
+                    <div class="custom-slick-arrow" style="right: 10px">
+                      <right-circle-outlined />
+                    </div>
+                  </template>
+                  <div>
+                    <img
+                      src="@/assets/images/noimage.svg"
+                      class="img-fluid w-100"
+                      style="height:280px;"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      src="@/assets/images/noimage.svg"
+                      class="img-fluid w-100"
+                      style="height:280px;"
+                    />
+                  </div>
+                </a-carousel>
+                <a-carousel v-else :after-change="onChange" arrows>
+                  <template #prevArrow>
+                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                      <left-circle-outlined />
+                    </div>
+                  </template>
+                  <template #nextArrow>
+                    <div class="custom-slick-arrow" style="right: 10px">
+                      <right-circle-outlined />
+                    </div>
+                  </template>
+                  <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                  </div>
+                </a-carousel>
+                <!-- <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
+                  <div v-if="itemRadio == null">
+                    <div>
+                      <img
+                        src="@/assets/images/noimage.svg"
+                        class="img-fluid w-100"
+                        style="height:180px;"
+                      />
+                    </div>
+                    <div>
+                      <img
+                        src="@/assets/images/noimage.svg"
+                        class="img-fluid w-100"
+                        style="height:180px;"
+                      />
+                    </div>
+                  </div>
+                  <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                  </div>
+                </a-carousel> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-7 col-sm-7">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="" class="font-weight-bold text-black">Toko Sudah Dikunjungi</label>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-12 col-sm-12">
                 <div class="d-flex justify-content-between mb-3">
@@ -245,6 +347,11 @@
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
+              <div class="col-md-12">
+                <label for="" class="font-weight-bold text-black">Toko Belum Dikunjungi</label>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-12 col-sm-12">
                 <div class="d-flex justify-content-between mb-3">
                   <div class="d-flex mb-2">
@@ -277,6 +384,11 @@
                     :loading="salesRoute.isLoading2"
                     :pagination="salesRoute.paginationToko"
                   >
+                    <template #kode_toko="{ text }">
+                      <div>
+                        {{ text.id_toko_belum_dikunjungi }}
+                      </div>
+                    </template>
                     <template #toko="{ text }">
                       <div>
                         {{ text.toko_belum_dikunjungi }}
@@ -297,101 +409,18 @@
 import ApexCharts from 'apexcharts'
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
+import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
+
 export default {
-  data: function() {
+  components: {
+    LeftCircleOutlined,
+    RightCircleOutlined,
+  },
+  data() {
     return {
-      itemRadio: null,
-      selectedRowKeys: [],
-      //fungsi menampilkan google map
-      ready: false,
-      fallbackProcedure: 'gps', //gps | geolocation | address | manually
-      zoom: 17, //Default Zoom
-      geolocation: {
-        // If GPS and Find by address fails then, map will be positioned by a default geolocation
-        lat: 31.73858,
-        lng: -35.98628,
-        zoom: 2,
-      },
-      address: {
-        query: 'Albania, Tirane', //If GPS fails, Find by address is triggered
-        zoom: 10,
-      },
-      manually: {
-        address_description: '21 Dhjetori, Tirana, Albania',
-        city: 'Tirana',
-        country: 'Albania',
-        lat: 41.3267905,
-        lng: 19.8060475,
-        state: 'Tirana County',
-        zip_code: '',
-        zoom: 17,
-      },
-      place: {},
-
-      //fungsi menampilkan chart
-      chartOptions: {
-        chart: {
-          width: '400',
-          type: 'pie',
-        },
-        labels: ['Semen Gresik', 'Semen Rembang', 'Semen Tuban', 'Semen Padang', 'Semen Mortar'],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: 'bottom',
-              },
-            },
-          },
-        ],
-      },
-      series: [25, 15, 44, 55, 41],
-
-      series_area: [
-        {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41],
-        },
-      ],
-      chartOptions_area: {
-        chart: {
-          type: 'area',
-          zoom: {
-            enabled: false,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'date',
-          categories: [
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-            '2018-09-19',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy',
-          },
-        },
-      },
+      map: null,
     }
   },
   computed: {
@@ -403,6 +432,45 @@ export default {
     await this.getDistrik()
     this.handlePagination(5)
     this.handlePaginationToko(5)
+
+    // Map
+    this.map = L.map('mapContainer').setView([5, 120], 5)
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map)
+    //use a mix of renderers
+    var customPane = this.map.createPane('customPane')
+    var canvasRenderer = L.canvas({ pane: 'customPane' })
+    customPane.style.zIndex = 399 // put just behind the standard overlay pane which is at 400
+    // L.marker([50, 14]).addTo(this.map)
+
+    // L.marker([53, 20]).addTo(this.map)
+    // L.marker([49.5, 19.5]).addTo(this.map)
+    // L.marker([49, 25]).addTo(this.map)
+    // L.marker([-10, 25]).addTo(this.map)
+    // L.marker([10, -25]).addTo(this.map)
+    // L.marker([0, 0]).addTo(this.map)
+
+    // var pathOne = L.curve(['M', [50, 14], 'Q', [53, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [52, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [51, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [50, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+    // L.curve(['M', [50, 14], 'Q', [47, 20], [49, 25]], {
+    //   renderer: canvasRenderer,
+    // }).addTo(this.map)
+  },
+  onBeforeUnmount() {
+    if (this.map) {
+      this.map.remove()
+    }
   },
   methods: {
     ...mapActions('salesRoute', [
@@ -467,11 +535,12 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 /* For demo */
 .ant-carousel >>> .slick-slide {
   text-align: center;
-  height: 180px;
+  height: 300px;
   line-height: 160px;
   background: #364d79;
   overflow: hidden;
@@ -479,5 +548,11 @@ export default {
 
 .ant-carousel >>> .slick-slide h3 {
   color: #fff;
+}
+
+#mapContainer {
+  width: 100%;
+  height: 60vh;
+  z-index: 0 !important;
 }
 </style>
