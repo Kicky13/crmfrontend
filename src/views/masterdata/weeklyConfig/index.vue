@@ -206,6 +206,7 @@ export default {
       modalStatus: false,
       previewData: [],
       submitStatus: true,
+      timeCheck: [],
     }
   },
   async mounted() {
@@ -262,6 +263,27 @@ export default {
       const weekArr = weekNameValidation.split('-')
       const tanggalMulaiValidation = this.formState.tanggal_mulai.toString()
       const tanggalSelesaiValidation = this.formState.tanggal_selesai.toString()
+      const isWeekNameExist = this.weeklyConfig.weeklyConfigList.find(row => row.WEEK_NAME == weekNameValidation)
+      // const isDateExist = this.weeklyConfig.weeklyConfigList.find(row => {
+      //   let timeStart = new Date(row.TANGGAL_MULAI).getTime()
+      //   let timeEnd = new Date(row.TANGGAL_SELESAI).getTime()
+      //   if (new Date(this.formState.tanggal_mulai) >= timeStart && new Date(this.formState.tanggal_mulai) <= timeEnd) {
+      //     return
+      //   }
+      //   if (new Date(this.formState.tanggal_selesai) >= timeStart && new Date(this.formState.tanggal_selesai) <= timeEnd) {
+      //     return
+      //   }
+      //   return
+      // })
+      this.weeklyConfig.weeklyConfigList.map(row => {
+        const time = {
+          start: new Date(row.TANGGAL_MULAI.split(' ')[0]).getTime(),
+          end: new Date(row.TANGGAL_SELESAI.split(' ')[0]).getTime(),
+        }
+        this.timeCheck.push(time)
+      })
+      const isStartDateExist = this.timeCheck.find(time => new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai))).getTime() >= time.start && new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai))).getTime() <= time.end)
+      const isEndDateExist = this.timeCheck.find(time => new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai))).getTime() >= time.start && new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai))).getTime() <= time.end)
 
       if (weekNameValidation.length < 1) {
         notification.error({
@@ -308,6 +330,30 @@ export default {
         notification.error({
           message: 'Gagal',
           description: 'Tanggal mulai harus sebelum tanggal selesai',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
+      if (isWeekNameExist && !this.modalStatus) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Week name sudah ada di database',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
+      if (isStartDateExist != undefined && !this.modalStatus) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Tanggal week sudah ada di database',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
+      if (isEndDateExist != undefined && !this.modalStatus) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Tanggal week sudah ada di database',
         })
         this.weeklyConfigModal = true
         return
@@ -383,7 +429,6 @@ export default {
           this.previewData.push(row)
         }
       })
-      console.log(this.previewData)
       let status = []
       this.previewData.map(data => {
         if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0) {
