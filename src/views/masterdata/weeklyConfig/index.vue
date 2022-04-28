@@ -147,7 +147,14 @@
       :scroll="{ x: 1000 }"
     >
       <template #icon="{ text }">
-        <div v-if="text.name_error == '0' && text.name_error == '0' && text.start_date_error == '0' && text.end_date_error == '0' && text.inperiode == 0 && text.sameName == 0">
+        <div
+          v-if="text.name_error == '0' &&
+          text.name_error == '0' &&
+          text.start_date_error == '0' &&
+          text.end_date_error == '0' &&
+          text.inperiode == 0 &&
+          text.sameName == 0"
+        >
           <a-tooltip :title="text.laporan">
             <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
           </a-tooltip>
@@ -207,6 +214,7 @@ export default {
       previewData: [],
       submitStatus: true,
       timeCheck: [],
+      elementEdit: null,
     }
   },
   async mounted() {
@@ -219,7 +227,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig', 'getDataFromExcel', 'submitExcelData']),
+    ...mapActions('weeklyConfig', [
+      'getAllWeeklyConfig',
+      'addWeeklyConfig',
+      'deleteWeeklyConfig',
+      'editWeeklyConfig',
+      'getDataFromExcel',
+      'submitExcelData',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -234,12 +249,17 @@ export default {
       this.modalStatus = true
       this.weeklyConfigModal = true
       this.formState.id = id
+      this.weeklyConfig.weeklyConfigList.map(row => {
+        row.edited = row.ID == id ? true : false
+      })
       const element = this.weeklyConfig.weeklyConfigList.find(element => element.ID == id)
+      this.elementEdit = element
       this.formState.weekly_config_baru = element.WEEK_NAME
       this.formState.tanggal_mulai = this.setFormatDate(element.TANGGAL_MULAI)
       this.formState.tanggal_selesai = this.setFormatDate(element.TANGGAL_SELESAI)
     },
-    async showDeleteModal(id) {this.formState.id = id
+    async showDeleteModal(id) {
+      this.formState.id = id
       this.$confirm({
         title: 'Hapus Weekly Config',
         content: 'Apakah anda yakin?',
@@ -264,31 +284,22 @@ export default {
       const tanggalMulaiValidation = this.formState.tanggal_mulai.toString()
       const tanggalSelesaiValidation = this.formState.tanggal_selesai.toString()
       const isWeekNameExist = this.weeklyConfig.weeklyConfigList.find(row => row.WEEK_NAME == weekNameValidation)
-      // const isDateExist = this.weeklyConfig.weeklyConfigList.find(row => {
-      //   let timeStart = new Date(row.TANGGAL_MULAI).getTime()
-      //   let timeEnd = new Date(row.TANGGAL_SELESAI).getTime()
-      //   if (new Date(this.formState.tanggal_mulai) >= timeStart && new Date(this.formState.tanggal_mulai) <= timeEnd) {
-      //     return
-      //   }
-      //   if (new Date(this.formState.tanggal_selesai) >= timeStart && new Date(this.formState.tanggal_selesai) <= timeEnd) {
-      //     return
-      //   }
-      //   return
-      // })
+
+      this.timeCheck = []
       this.weeklyConfig.weeklyConfigList.map(row => {
         const time = {
-          start: new Date(row.TANGGAL_MULAI.split(' ')[0]).getTime(),
-          end: new Date(row.TANGGAL_SELESAI.split(' ')[0]).getTime(),
+          start: this.newDateGetTime(row.TANGGAL_MULAI.split(' ')[0]),
+          end: this.newDateGetTime(row.TANGGAL_SELESAI.split(' ')[0]),
         }
         this.timeCheck.push(time)
       })
-      const isStartDateExist = this.timeCheck.find(time => new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai))).getTime() >= time.start && new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai))).getTime() <= time.end)
-      const isEndDateExist = this.timeCheck.find(time => new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai))).getTime() >= time.start && new Date(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai))).getTime() <= time.end)
+      const startDateCheck = this.newDateGetTime(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai)))
+      const endDateCheck = this.newDateGetTime(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai)))
 
       if (weekNameValidation.length < 1) {
         notification.error({
           message: 'Gagal',
-          description: 'Kolom week name tidak boleh kosong',
+          description: 'Kolom nama week tidak boleh kosong',
         })
         this.formState.weekly_config_baru = ''
         this.weeklyConfigModal = true
@@ -326,7 +337,7 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (new Date(this.formState.tanggal_mulai).getTime() > new Date(this.formState.tanggal_selesai).getTime()) {
+      if (this.newDateGetTime(this.formState.tanggal_mulai) > this.newDateGetTime(this.formState.tanggal_selesai)) {
         notification.error({
           message: 'Gagal',
           description: 'Tanggal mulai harus sebelum tanggal selesai',
@@ -334,29 +345,56 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (isWeekNameExist && !this.modalStatus) {
-        notification.error({
-          message: 'Gagal',
-          description: 'Week name sudah ada di database',
-        })
-        this.weeklyConfigModal = true
-        return
+      if (this.modalStatus) {
+        if (isWeekNameExist && isWeekNameExist != undefined ? !isWeekNameExist.edited : false) {
+          notification.error({
+            message: 'Gagal',
+            description: 'Nama week sudah ada di database',
+          })
+          this.weeklyConfigModal = true
+          return
+        }
+      } else {
+        if (isWeekNameExist) {
+          notification.error({
+            message: 'Gagal',
+            description: 'Nama week sudah ada di database',
+          })
+          this.weeklyConfigModal = true
+          return
+        }
       }
-      if (isStartDateExist != undefined && !this.modalStatus) {
-        notification.error({
-          message: 'Gagal',
-          description: 'Tanggal week sudah ada di database',
-        })
-        this.weeklyConfigModal = true
-        return
-      }
-      if (isEndDateExist != undefined && !this.modalStatus) {
-        notification.error({
-          message: 'Gagal',
-          description: 'Tanggal week sudah ada di database',
-        })
-        this.weeklyConfigModal = true
-        return
+      if (this.modalStatus) {
+        // if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
+        //   notification.error({
+        //     message: 'Gagal',
+        //     description: 'Periode week sudah ada di database',
+        //   })
+        //   this.weeklyConfigModal = true
+        //   return
+        // }
+        this.elementEdit.TANGGAL_MULAI = this.elementEdit.TANGGAL_MULAI.split(" ")[0]
+        this.elementEdit.TANGGAL_SELESAI = this.elementEdit.TANGGAL_SELESAI.split(" ")[0]
+        
+        if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
+          if (!(this.newDateGetTime(this.elementEdit.TANGGAL_MULAI) == startDateCheck && this.newDateGetTime(this.elementEdit.TANGGAL_SELESAI) == endDateCheck)) {
+            notification.error({
+              message: 'Gagal',
+              description: 'Periode week sudah ada di database',
+            })
+            this.weeklyConfigModal = true
+            return
+          }
+        }
+      } else {
+        if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
+          notification.error({
+            message: 'Gagal',
+            description: 'Periode week sudah ada di database',
+          })
+          this.weeklyConfigModal = true
+          return
+        }
       }
 
       const startDate = this.splitDate(this.formState.tanggal_mulai)
@@ -457,6 +495,18 @@ export default {
       this.bodyFile = null
       this.previewData = []
       this.submitStatus = true
+    },
+    newDateGetTime(time) {
+      return new Date(time).getTime()
+    },
+    dateRangeCheck(savedDate, startDate, endDate) {
+      if (savedDate.find(row => startDate >= row.start && endDate <= row.end)) {
+        return true
+      }
+      if (savedDate.find(row => (startDate >= row.start && startDate <= row.end) || (row.start >= startDate && row.start <= endDate))) {
+        return true
+      }
+      return false
     },
   },
 }
