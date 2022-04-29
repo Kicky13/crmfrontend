@@ -82,6 +82,7 @@ const state = {
       bulan: '',
       week: '',
       id_distrik_ret: null,
+      nm_distrik:'',
     },
     reportList: [
       {
@@ -179,7 +180,7 @@ const actions = {
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.get('/wpm/master-data/distrikret', body)
+      const result = await apiClient.post('/filter/Distrik', body)
 
       if (result.data.status == 'error') {
         notification.error({

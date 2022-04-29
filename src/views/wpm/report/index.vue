@@ -1,9 +1,9 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="6">
         <a-select
-          v-model:value="report.params.id_distrik_ret"
+          v-model:value="report.params.nm_distrik"
           placeholder="Distrik"
           show-search
           class="w-100"
@@ -12,10 +12,10 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in report.dataDistrikRET"
-            :value="distrik.ID"
+            :value="distrik.nama_distrik"
             :key="index"
           >
-            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
+            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -69,7 +69,7 @@
           </a-button>
         </a-tooltip>
       </a-col>
-      <a-col :xs="24" :md="7">
+      <a-col :xs="24" :md="5">
         <div class="d-flex justify-content-end">
           <a-button
             :disabled="
@@ -129,6 +129,12 @@ export default {
 
     async showReport() {
       await this.getDataTable()
+    },
+
+    handleChangeDistrik() {
+      let dataSource = [...this.report.dataDistrikRET]
+      let filtered = dataSource.filter(x => x.nama_distrik == this.report.params.nm_distrik)
+      this.report.params.id_distrik_ret = filtered[0].id_distrik
     },
   },
 }
