@@ -118,7 +118,9 @@
             formData.id_distrik == null ||
             formData.tahun == null ||
             formData.week == null ||
-            formData.bulan == null
+            formData.bulan == null ||
+            columns.length == 0 ||
+            row.length == 0
               ? true
               : false
           "
@@ -134,13 +136,7 @@
         <span>Kolom :</span>
       </a-col>
       <a-col :span="22">
-        <a-select
-          mode="tags"
-          placeholder="Pilih Kolom"
-          :default-value="[1, 3]"
-          class="w-100"
-          @change="columnHandler"
-        >
+        <a-select mode="tags" placeholder="Pilih Kolom" class="w-100" @change="columnHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
             <a-select-option v-if="item.nama_produk" :value="item.key">
               {{ item.nama_produk }}
@@ -157,13 +153,7 @@
         <span>Baris :</span>
       </a-col>
       <a-col :span="22">
-        <a-select
-          mode="tags"
-          placeholder="Pilih Baris"
-          :default-value="[5, 6]"
-          class="w-100"
-          @change="rowHandler"
-        >
+        <a-select mode="tags" placeholder="Pilih Baris" class="w-100" @change="rowHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
             <a-select-option v-if="item.nama_produk" :value="item.key">
               {{ item.nama_produk }}
@@ -215,8 +205,8 @@ export default {
   async mounted() {
     await this.getAllProduct()
     await this.getAllProvinsi()
-    this.columnHandler([1, 3])
-    this.rowHandler([5, 6])
+    this.columnHandler()
+    this.rowHandler()
   },
   methods: {
     ...mapActions('filter', ['getAllProvinsi']),
@@ -238,21 +228,27 @@ export default {
         tahun: this.formData.tahun,
         bulan: this.formData.bulan,
         week: this.formData.week,
+        row: this.row,
+        column: this.columns,
       })
-      const rows = []
-      this.row.map(element => rows.push(element.key_brand))
-      this.rowHandler(rows)
+      // const rows = []
+      // this.row.map(element => rows.push(element.key_brand))
+      // this.rowHandler(rows)
     },
     columnHandler(values) {
       let temp = []
       temp.push(this.gapHarga.columns[0])
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
+
+      console.log(`----this.columns`, this.columns)
     },
     rowHandler(values) {
       let temp = []
       values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
       this.row = temp
+
+      console.log(`----this.row`, this.row)
     },
     provinsiHandler() {
       let dataSource = [...this.filter.listProvinsi]
