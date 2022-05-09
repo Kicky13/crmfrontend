@@ -128,7 +128,7 @@
                         :clickable="true"
                       />
 
-                      <GMapPolygon :paths="paths" />
+                      <GMapPolyline :path="path" :editable="true" ref="polyline" />
                     </GMapMap>
                     <!-- <iframe
                       class="w-100"
@@ -453,24 +453,8 @@ export default {
       latMap: -7.1688477,
       lngMap: 112.6451559,
       zoomMap: 5,
-      markers: [
-        // {
-        //   position: {
-        //     lat: -6.2,
-        //     lng: 106.816666,
-        //   },
-        // },
-        // {
-        //   position: {
-        //     lat: -5.2,
-        //     lng: 106.816666,
-        //   },
-        // },
-      ],
-      paths: [
-        // { lat: -6.8145803, lng: 107.2264134 },
-        // { lat: -6.7136721, lng: 107.2167302 },
-      ],
+      markers: [],
+      path: null,
     }
   },
   computed: {
@@ -616,6 +600,24 @@ export default {
 
     markerMap() {
       let LatLng = this.salesRoute.dataMap
+
+      this.path = []
+
+      let users = _.uniq(LatLng, function(x) {
+        return x.lattitude
+      })
+
+      let userFilter = _.filter(users, function(x) {
+        return x.lattitude != null
+      })
+
+      userFilter.forEach(element => {
+        this.path.push({
+          lat: parseFloat(element.lattitude),
+          lng: parseFloat(element.longitude),
+        })
+      })
+
       LatLng.forEach(element => {
         this.markers.push({
           position: {
@@ -625,22 +627,12 @@ export default {
         })
       })
 
-      LatLng.forEach(element => {
-        this.paths.push({
-          lat: parseFloat(element.lattitude),
-          lng: parseFloat(element.longitude),
-        })
-      })
-
-      // this.paths.push()
-
       this.latMap = parseFloat(LatLng[0].lattitude)
       this.lngMap = parseFloat(LatLng[0].longitude)
       this.zoomMap = 12
       // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
 
-      console.log(`-----LatLng[0]`, LatLng[0])
-      console.log(`-----path1`, this.paths)
+      console.log(`-----this.userFilter`, userFilter)
     },
 
     onChange(value) {
