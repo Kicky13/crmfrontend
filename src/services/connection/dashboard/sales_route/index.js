@@ -106,8 +106,6 @@ const state = {
       id_sales: '',
     },
     itemsPerPage: [5, 10, 15, 20],
-
-    
   },
 }
 const mutations = {
@@ -312,7 +310,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
