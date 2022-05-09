@@ -113,7 +113,24 @@
               <div class="col-md-12">
                 <div class="mapouter">
                   <div class="gmap_canvas">
-                    <iframe
+                    <GMapMap
+                      ref="myMarker"
+                      :center="{ lat: latMap, lng: lngMap }"
+                      :zoom="zoomMap"
+                      map-type-id="terrain"
+                      style="width: 100%; height: 500px"
+                    >
+                      <GMapMarker
+                        :key="index"
+                        v-for="(m, index) in markers"
+                        :position="m.position"
+                        @click="openInfoWindow(marker.id)"
+                        :clickable="true"
+                      />
+
+                      <GMapPolygon :paths="paths" />
+                    </GMapMap>
+                    <!-- <iframe
                       class="w-100"
                       height="500"
                       id="gmap_canvas"
@@ -125,7 +142,7 @@
                     >
                     </iframe>
                     <a href="https://fmovies-online.net" />
-                    <a href="https://www.embedgooglemap.net"></a>
+                    <a href="https://www.embedgooglemap.net"></a> -->
                   </div>
                 </div>
               </div>
@@ -431,6 +448,29 @@ export default {
       link: '',
       linkStreetView: '',
       itemRadio: '',
+      latStreetView: -7.1688477,
+      lngStreetView: 112.6451559,
+      latMap: -7.1688477,
+      lngMap: 112.6451559,
+      zoomMap: 5,
+      markers: [
+        // {
+        //   position: {
+        //     lat: -6.2,
+        //     lng: 106.816666,
+        //   },
+        // },
+        // {
+        //   position: {
+        //     lat: -5.2,
+        //     lng: 106.816666,
+        //   },
+        // },
+      ],
+      paths: [
+        // { lat: -6.8145803, lng: 107.2264134 },
+        // { lat: -6.7136721, lng: 107.2167302 },
+      ],
     }
   },
   computed: {
@@ -439,7 +479,7 @@ export default {
     }),
   },
   async mounted() {
-    this.urlMap()
+    // this.urlMap()
     this.urlStreetView()
 
     await this.getDistrik()
@@ -495,29 +535,29 @@ export default {
       'getMap',
     ]),
 
-    urlMap() {
-      // https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly
-      let lat = -0.789275
-      let long = 113.921327
-      let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
-      this.link =
-        `https://www.google.com/maps/embed/v1/view?key=` +
-        keyApi +
-        `&center=` +
-        lat +
-        `,` +
-        long +
-        `&zoom=5&maptype=satellite`
-    },
+    // urlMap() {
+    //   // https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly
+    //   let lat = -0.789275
+    //   let long = 113.921327
+    //   let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
+    //   this.link =
+    //     `https://www.google.com/maps/embed/v1/view?key=` +
+    //     keyApi +
+    //     `&center=` +
+    //     lat +
+    //     `,` +
+    //     long +
+    //     `&zoom=5&maptype=satellite`
+    // },
     urlStreetView() {
-      let lat = -7.1688477
-      let long = 112.6451559
+      // let lat = -7.1688477
+      // let long = 112.6451559
       let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
       this.linkStreetView =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
-        lat +
+        this.latStreetView +
         `,` +
-        long +
+        this.lngStreetView +
         `&fov=80&heading=70&pitch=0&key=` +
         keyApi
     },
@@ -570,12 +610,43 @@ export default {
         await this.getDetailVisit()
         await this.getMerchantSurvey()
         await this.getMap()
+        await this.markerMap()
       }
     },
 
+    markerMap() {
+      let LatLng = this.salesRoute.dataMap
+      LatLng.forEach(element => {
+        this.markers.push({
+          position: {
+            lat: parseFloat(element.lattitude),
+            lng: parseFloat(element.longitude),
+          },
+        })
+      })
+
+      LatLng.forEach(element => {
+        this.paths.push({
+          lat: parseFloat(element.lattitude),
+          lng: parseFloat(element.longitude),
+        })
+      })
+
+      // this.paths.push()
+
+      this.latMap = parseFloat(LatLng[0].lattitude)
+      this.lngMap = parseFloat(LatLng[0].longitude)
+      this.zoomMap = 12
+      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
+
+      console.log(`-----LatLng[0]`, LatLng[0])
+      console.log(`-----path1`, this.paths)
+    },
+
     onChange(value) {
-      console.log(`----test`, value.target)
-      console.log(`----itemRadio`, this.itemRadio)
+      this.latStreetView = parseFloat(this.itemRadio.latitude)
+      this.lngStreetView = parseFloat(this.itemRadio.longitude)
+      this.urlStreetView()
     },
   },
 }

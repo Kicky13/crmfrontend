@@ -16,6 +16,7 @@ import VueApexCharts from 'vue3-apexcharts'
 import VueGeolocation from 'vue3-geolocation'
 import GMaps from 'vuejs3-google-maps'
 import './assets/scss/Global/index.scss'
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 createApp(App)
   .use(store)
@@ -24,10 +25,9 @@ createApp(App)
   .use(Antd)
   .use(PerfectScrollbar)
   .use(VueApexCharts)
-  .use(GMaps, {
+  .use(VueGoogleMaps, {
     load: {
-      apiKey: 'your-api-key',
-      libraries: ['places'],
+      key: 'AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c',
     },
   })
   .use(VueApexCharts)
