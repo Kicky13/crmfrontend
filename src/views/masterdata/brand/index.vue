@@ -4,7 +4,7 @@
       <a-input-search
         placeholder="Cari brand"
         style="width: 200px"
-        @search="searchData"
+        @change="searchData"
       />
       <a-button
         type="primary"
@@ -115,7 +115,7 @@ export default {
         keterangan: '',
       },
       modalStatus: false,
-      dataList: null,
+      dataList: [],
     }
   },
   computed: {
@@ -135,7 +135,7 @@ export default {
     },
     async setAllBrand() {
       await this.getAllBrand()
-      this.dataList = this.brand.brandList
+      this.brand.brandList.map(list => this.dataList.push(list))
     },
     showAddModal() {
       this.modalStatus = false
@@ -231,10 +231,9 @@ export default {
       return `${date}-${month}-${year} ${timeFormat}`
     },
     searchData(keyword) {
-      console.log(keyword)
       if (keyword) {
         this.dataList = this.brand.brandList.filter(brand =>
-          brand.NAMA_BRAND.toLowerCase().includes(keyword.toLowerCase()),
+          brand.NAMA_BRAND.toLowerCase().includes(keyword.target.value.toLowerCase()),
         )
       } else {
         this.dataList = this.brand.brandList

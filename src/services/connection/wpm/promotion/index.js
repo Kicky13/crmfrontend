@@ -74,7 +74,7 @@ const state = {
       nilai_zak: null,
       mekanisme: '',
     },
-    dataDistrikRET: [],
+      dataDistrikRET: [],
     brandList: [],
     promoList: [],
     dataTable: [],
