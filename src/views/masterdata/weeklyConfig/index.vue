@@ -213,7 +213,6 @@ export default {
       modalStatus: false,
       previewData: [],
       submitStatus: true,
-      timeCheck: [],
       elementEdit: null,
     }
   },
@@ -280,21 +279,10 @@ export default {
       })},
     async saveWeeklyConfig() {
       const weekNameValidation = this.formState.weekly_config_baru.toString().trim()
-      const weekArr = weekNameValidation.split('-')
+      const bulan = weekNameValidation.substring(4, 6)
+      const week = weekNameValidation.substring(6, 8)
       const tanggalMulaiValidation = this.formState.tanggal_mulai.toString()
       const tanggalSelesaiValidation = this.formState.tanggal_selesai.toString()
-      const isWeekNameExist = this.weeklyConfig.weeklyConfigList.find(row => row.WEEK_NAME == weekNameValidation)
-
-      this.timeCheck = []
-      this.weeklyConfig.weeklyConfigList.map(row => {
-        const time = {
-          start: this.newDateGetTime(row.TANGGAL_MULAI.split(' ')[0]),
-          end: this.newDateGetTime(row.TANGGAL_SELESAI.split(' ')[0]),
-        }
-        this.timeCheck.push(time)
-      })
-      const startDateCheck = this.newDateGetTime(this.getFormatDate(this.splitDate(this.formState.tanggal_mulai)))
-      const endDateCheck = this.newDateGetTime(this.getFormatDate(this.splitDate(this.formState.tanggal_selesai)))
 
       if (weekNameValidation.length < 1) {
         notification.error({
@@ -305,7 +293,7 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (parseInt(weekArr[1]) > 12) {
+      if (parseInt(bulan) > 12) {
         notification.error({
           message: 'Gagal',
           description: 'Format week name bulan maks 12',
@@ -313,7 +301,7 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (parseInt(weekArr[2]) > 5) {
+      if (parseInt(week) > 5) {
         notification.error({
           message: 'Gagal',
           description: 'Format week name minggu maks 5',
@@ -345,57 +333,6 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (this.modalStatus) {
-        if (isWeekNameExist && isWeekNameExist != undefined ? !isWeekNameExist.edited : false) {
-          notification.error({
-            message: 'Gagal',
-            description: 'Nama week sudah ada di database',
-          })
-          this.weeklyConfigModal = true
-          return
-        }
-      } else {
-        if (isWeekNameExist) {
-          notification.error({
-            message: 'Gagal',
-            description: 'Nama week sudah ada di database',
-          })
-          this.weeklyConfigModal = true
-          return
-        }
-      }
-      if (this.modalStatus) {
-        // if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
-        //   notification.error({
-        //     message: 'Gagal',
-        //     description: 'Periode week sudah ada di database',
-        //   })
-        //   this.weeklyConfigModal = true
-        //   return
-        // }
-        this.elementEdit.TANGGAL_MULAI = this.elementEdit.TANGGAL_MULAI.split(" ")[0]
-        this.elementEdit.TANGGAL_SELESAI = this.elementEdit.TANGGAL_SELESAI.split(" ")[0]
-        
-        if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
-          if (!(this.newDateGetTime(this.elementEdit.TANGGAL_MULAI) == startDateCheck && this.newDateGetTime(this.elementEdit.TANGGAL_SELESAI) == endDateCheck)) {
-            notification.error({
-              message: 'Gagal',
-              description: 'Periode week sudah ada di database',
-            })
-            this.weeklyConfigModal = true
-            return
-          }
-        }
-      } else {
-        if (this.dateRangeCheck(this.timeCheck, startDateCheck, endDateCheck)) {
-          notification.error({
-            message: 'Gagal',
-            description: 'Periode week sudah ada di database',
-          })
-          this.weeklyConfigModal = true
-          return
-        }
-      }
 
       const startDate = this.splitDate(this.formState.tanggal_mulai)
       const endDate = this.splitDate(this.formState.tanggal_selesai)
@@ -422,9 +359,6 @@ export default {
       this.weeklyConfigModal = false
       await this.getAllWeeklyConfig()
       this.formState.id = null
-      this.formState.weekly_config_baru = ''
-      this.formState.tanggal_mulai = ''
-      this.formState.tanggal_selesai = ''
     },
     getFormatDate(date) {
       let components = date.split('-')
