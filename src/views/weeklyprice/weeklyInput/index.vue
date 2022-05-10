@@ -349,21 +349,10 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik">
+      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik.length > 0">
         <a-select
-          :disabled="true"
           v-model:value="weeklyInput.formData.promo"
           placeholder="0"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option :value="0">0</a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-else>
-        <a-select
-          v-model:value="weeklyInput.formData.promo"
-          placeholder="Promo"
           class="w-100 mb-4"
           show-search
         >
@@ -374,6 +363,17 @@
           >
             {{ promo.program }} - {{ promo.nilai_zak }}
           </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.promo"
+          placeholder="Promo"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="1">
@@ -494,6 +494,7 @@ export default {
           type: null,
           kemasan: null,
           notes: '',
+          promoDistrik: [],
         },
       })
       this.editdata = false
