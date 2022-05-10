@@ -21,7 +21,7 @@
                     :key="index"
                     :value="distrik.nama_distrik"
                   >
-                    {{ distrik.nama_distrik }}</a-select-option
+                    {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}</a-select-option
                   >
                 </a-select>
               </a-form-item>
@@ -107,44 +107,32 @@
     </a-form>
     <div class="row">
       <div class="col-md-12">
-        <!-- <fieldset class="border border-dark shadow px-3 pb-3">
-          <legend class="w-auto px-2">
-            <small class="font-weight-light">
-              Visit Route Map
-            </small>
-          </legend>
-          <div class="row" style="height:100%">
-            <div class="col-md-12" style="height:100%">
-              <div class="bg-white p-3" style="height:340px">
-                <img src="@/assets/images/maps.jpg" alt="Los Angeles" width="100%" height="100%" />
-              </div>
-            </div>
-          </div>
-        </fieldset> -->
-
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <div class="mapouter">
                   <div class="gmap_canvas">
-                    <iframe
+                    <GMapMap
+                      ref="myMarker"
+                      :center="{ lat: latMap, lng: lngMap }"
+                      :zoom="zoomMap"
+                      map-type-id="terrain"
+                      style="width: 100%; height: 500px"
+                    >
+                      <GMapMarker
+                        :key="index"
+                        v-for="(m, index) in markers"
+                        :position="m.position"
+                        @click="openInfoWindow(marker.id)"
+                        :clickable="true"
+                      />
+
+                      <GMapPolyline :path="path" :editable="true" ref="polyline" />
+                    </GMapMap>
+                    <!-- <iframe
                       class="w-100"
                       height="500"
-                      id="gmap_canvas"
-                      src="https://maps.google.com/maps?q=PT.%20Sisi&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                      frameborder="0"
-                      scrolling="no"
-                      marginheight="0"
-                      marginwidth="0"
-                    ></iframe>
-                  </div>
-                </div>
-                <!-- <div class="mapouter">
-                  <div class="gmap_canvas">
-                    <iframe
-                      width="250"
-                      height="300"
                       id="gmap_canvas"
                       :src="link"
                       frameborder="0"
@@ -154,10 +142,9 @@
                     >
                     </iframe>
                     <a href="https://fmovies-online.net" />
-                    <a href="https://www.embedgooglemap.net"></a>
+                    <a href="https://www.embedgooglemap.net"></a> -->
                   </div>
-                </div> -->
-                <!-- <div id="mapContainer"></div> -->
+                </div>
               </div>
             </div>
           </div>
@@ -166,21 +153,12 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <!-- <img src="@/assets/images/maps.jpg" class="img-fluid w-100" style="height:160px;" />
-        <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
-          <div v-if="itemRadio == null">
-            <img src="@/assets/images/noimage.svg" class="img-fluid w-100" style="height:180px;" />
-          </div>
-          <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-            <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
-          </div>
-        </a-carousel> -->
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!4v1651031578505!6m8!1m7!1skXzVP0fgY_1_5I7ThQic3w!2m2!1d-7.168866872251688!2d112.6453457234876!3f0!4f0!5f0.7820865974627469"
+                  :src="linkStreetView"
                   width="454"
                   height="294"
                   style="border:0;"
@@ -198,68 +176,83 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <a-carousel v-if="itemRadio == null" :after-change="onChange" arrows>
-                  <template #prevArrow>
-                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
-                      <left-circle-outlined />
-                    </div>
-                  </template>
-                  <template #nextArrow>
-                    <div class="custom-slick-arrow" style="right: 10px">
-                      <right-circle-outlined />
-                    </div>
-                  </template>
-                  <div>
-                    <img
-                      src="@/assets/images/noimage.svg"
-                      class="img-fluid w-100"
-                      style="height:280px;"
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="@/assets/images/noimage.svg"
-                      class="img-fluid w-100"
-                      style="height:280px;"
-                    />
-                  </div>
-                </a-carousel>
-                <a-carousel v-else :after-change="onChange" arrows>
-                  <template #prevArrow>
-                    <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
-                      <left-circle-outlined />
-                    </div>
-                  </template>
-                  <template #nextArrow>
-                    <div class="custom-slick-arrow" style="right: 10px">
-                      <right-circle-outlined />
-                    </div>
-                  </template>
-                  <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
-                  </div>
-                </a-carousel>
-                <!-- <a-carousel :after-change="onChange" class="mt-3" style="height:auto">
-                  <div v-if="itemRadio == null">
+                <div v-if="itemRadio == ''">
+                  <a-carousel :after-change="onChange" arrows>
+                    <template #prevArrow>
+                      <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                        <left-circle-outlined />
+                      </div>
+                    </template>
+                    <template #nextArrow>
+                      <div class="custom-slick-arrow" style="right: 10px">
+                        <right-circle-outlined />
+                      </div>
+                    </template>
                     <div>
                       <img
                         src="@/assets/images/noimage.svg"
                         class="img-fluid w-100"
-                        style="height:180px;"
+                        style="height:280px;"
                       />
                     </div>
                     <div>
                       <img
                         src="@/assets/images/noimage.svg"
                         class="img-fluid w-100"
-                        style="height:180px;"
+                        style="height:280px;"
                       />
                     </div>
+                  </a-carousel>
+                </div>
+
+                <div v-else>
+                  <div v-if="itemRadio.image.length == 0">
+                    <a-carousel :after-change="onChange" arrows>
+                      <template #prevArrow>
+                        <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                          <left-circle-outlined />
+                        </div>
+                      </template>
+                      <template #nextArrow>
+                        <div class="custom-slick-arrow" style="right: 10px">
+                          <right-circle-outlined />
+                        </div>
+                      </template>
+                      <div>
+                        <img
+                          src="@/assets/images/noimage.svg"
+                          class="img-fluid w-100"
+                          style="height:280px;"
+                        />
+                      </div>
+                      <div>
+                        <img
+                          src="@/assets/images/noimage.svg"
+                          class="img-fluid w-100"
+                          style="height:280px;"
+                        />
+                      </div>
+                    </a-carousel>
                   </div>
-                  <div v-else v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-                    <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                  <div v-else>
+                    <a-carousel :after-change="onChange" arrows>
+                      <template #prevArrow>
+                        <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                          <left-circle-outlined />
+                        </div>
+                      </template>
+                      <template #nextArrow>
+                        <div class="custom-slick-arrow" style="right: 10px">
+                          <right-circle-outlined />
+                        </div>
+                      </template>
+
+                      <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
+                        <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                      </div>
+                    </a-carousel>
                   </div>
-                </a-carousel> -->
+                </div>
               </div>
             </div>
           </div>
@@ -453,6 +446,15 @@ export default {
     return {
       map: null,
       link: '',
+      linkStreetView: '',
+      itemRadio: '',
+      latStreetView: -7.1688477,
+      lngStreetView: 112.6451559,
+      latMap: -7.1688477,
+      lngMap: 112.6451559,
+      zoomMap: 5,
+      markers: [],
+      path: null,
     }
   },
   computed: {
@@ -461,7 +463,8 @@ export default {
     }),
   },
   async mounted() {
-    this.urlMap()
+    // this.urlMap()
+    this.urlStreetView()
 
     await this.getDistrik()
     this.handlePagination(5)
@@ -516,18 +519,31 @@ export default {
       'getMap',
     ]),
 
-    urlMap() {
-      let lat = 5
-      let long = 120
+    // urlMap() {
+    //   // https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly
+    //   let lat = -0.789275
+    //   let long = 113.921327
+    //   let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
+    //   this.link =
+    //     `https://www.google.com/maps/embed/v1/view?key=` +
+    //     keyApi +
+    //     `&center=` +
+    //     lat +
+    //     `,` +
+    //     long +
+    //     `&zoom=5&maptype=satellite`
+    // },
+    urlStreetView() {
+      // let lat = -7.1688477
+      // let long = 112.6451559
       let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
-      this.link =
-        `https://www.google.com/maps/embed/v1/view?key=` +
-        keyApi +
-        `&center=` +
-        lat +
+      this.linkStreetView =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        this.latStreetView +
         `,` +
-        long +
-        `&zoom=18&maptype=satellite`
+        this.lngStreetView +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
     },
     myRowClickHandler(record, index) {
       // 'record' will be the row data from items
@@ -578,7 +594,51 @@ export default {
         await this.getDetailVisit()
         await this.getMerchantSurvey()
         await this.getMap()
+        await this.markerMap()
       }
+    },
+
+    markerMap() {
+      let LatLng = this.salesRoute.dataMap
+
+      this.path = []
+
+      let users = _.uniq(LatLng, function(x) {
+        return x.lattitude
+      })
+
+      let userFilter = _.filter(users, function(x) {
+        return x.lattitude != null
+      })
+
+      userFilter.forEach(element => {
+        this.path.push({
+          lat: parseFloat(element.lattitude),
+          lng: parseFloat(element.longitude),
+        })
+      })
+
+      LatLng.forEach(element => {
+        this.markers.push({
+          position: {
+            lat: parseFloat(element.lattitude),
+            lng: parseFloat(element.longitude),
+          },
+        })
+      })
+
+      this.latMap = parseFloat(LatLng[0].lattitude)
+      this.lngMap = parseFloat(LatLng[0].longitude)
+      this.zoomMap = 12
+      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
+
+      console.log(`-----this.userFilter`, userFilter)
+    },
+
+    onChange(value) {
+      this.latStreetView = parseFloat(this.itemRadio.latitude)
+      this.lngStreetView = parseFloat(this.itemRadio.longitude)
+      this.urlStreetView()
     },
   },
 }
