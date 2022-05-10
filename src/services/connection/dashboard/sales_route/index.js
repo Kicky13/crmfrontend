@@ -234,7 +234,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
@@ -310,7 +310,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
