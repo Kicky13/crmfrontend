@@ -152,6 +152,7 @@ const state = {
     actiiveTabs: {},
     users: [],
     dataTable: [],
+    dataTableTemp: [],
     selectedTabId: 1,
     totalAll: null,
     totalAllSales: null,
@@ -321,6 +322,7 @@ const actions = {
         await commit('changeUserManagement', {
           users: result.data.data,
           dataTable: result.data.data,
+          dataTableTemp: result.data.data,
           isLoading: false,
           totalAll: result.data.totalAll,
         })
