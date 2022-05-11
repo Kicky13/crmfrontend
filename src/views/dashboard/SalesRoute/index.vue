@@ -117,10 +117,11 @@
                       ref="myMarker"
                       :center="{ lat: latMap, lng: lngMap }"
                       :zoom="zoomMap"
-                      map-type-id="terrain"
+                      map-type-id="roadmap"
                       style="width: 100%; height: 500px"
                     >
                       <template>
+                        <!-- toko sudah dikunjungi -->
                         <GMapMarker
                           :key="index"
                           v-for="(m, index) in markers"
@@ -132,8 +133,21 @@
                             labelOrigin: { x: 16, y: -10 },
                           }"
                           :clickable="true"
-                          :draggable="true"
-                        />
+                          :draggable="false"
+                          @click="openMarker(index)"
+                        >
+                          <GMapInfoWindow
+                            :closeclick="true"
+                            @closeclick="openMarker(null)"
+                            :opened="openedMarkerID === index"
+                          >
+                            <div>{{ m.position.nama_toko.toUpperCase() }}</div>
+                            <div>{{ m.position.sales_name.toUpperCase() }}</div>
+                            <div>{{ m.position.distrik_name.toUpperCase() }}</div>
+                            <div>{{ m.position.status.toUpperCase() }}</div>
+                          </GMapInfoWindow>
+                        </GMapMarker>
+                        <!-- sales -->
                         <GMapMarker
                           :key="index"
                           v-for="(m, index) in markersPeople"
@@ -144,8 +158,46 @@
                             labelOrigin: { x: 16, y: -10 },
                           }"
                           :clickable="true"
-                          :draggable="true"
+                          :draggable="false"
                         />
+                        <!-- toko belum dikunjungi -->
+                        <GMapMarker
+                          :key="index"
+                          v-for="(m, index) in markersNotVisited"
+                          :position="m.position"
+                          :icon="{
+                            url:
+                              'https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-store-user-interface-wanicon-lineal-color-wanicon.png',
+                            scaledSize: { width: 30, height: 30 },
+                            labelOrigin: { x: 16, y: -10 },
+                          }"
+                          :clickable="true"
+                          :draggable="false"
+                          @click="openMarker(m.id)"
+                        >
+                          <GMapInfoWindow
+                            :closeclick="true"
+                            @closeclick="openMarker(null)"
+                            :opened="openedMarkerID === m.id"
+                          >
+                            <div>{{ m.position.nama_toko.toUpperCase() }}</div>
+                            <div>{{ m.position.sales_name.toUpperCase() }}</div>
+                            <div>{{ m.position.distrik_name.toUpperCase() }}</div>
+                            <div>{{ m.position.status.toUpperCase() }}</div>
+                          </GMapInfoWindow>
+                        </GMapMarker>
+
+                        <!-- <gmap-info-window
+                          :options="{
+                            maxWidth: 300,
+                            pixelOffset: { width: 0, height: -35 },
+                          }"
+                          :position="infoWindow.position"
+                          :opened="infoWindow.open"
+                          @closeclick="infoWindow.open = false"
+                        >
+                          <div v-html="infoWindow.template"></div>
+                        </gmap-info-window> -->
                       </template>
 
                       <GMapPolyline :path="path" ref="polyline" />
@@ -475,7 +527,14 @@ export default {
       zoomMap: 5,
       markers: [],
       markersPeople: [],
+      markersNotVisited: [],
       path: null,
+      openedMarkerID: null,
+      infoWindow: {
+        position: { lat: 0, lng: 0 },
+        open: false,
+        template: '',
+      },
     }
   },
   computed: {
@@ -624,29 +683,59 @@ export default {
 
       this.path = []
 
+      // Toko sudah dikunjungi namun tidak ada latitude longitudenya
       let users = _.uniq(LatLng, function(x) {
         return x.lattitude
       })
-
       let userFilter = _.filter(users, function(x) {
         return x.lattitude != null
       })
-
-      userFilter.forEach(element => {
+      let tokoSudahDikunjungi = _.filter(userFilter, function(x) {
+        return x.checkout_time != null
+      })
+      tokoSudahDikunjungi.forEach(element => {
         this.path.push({
           lat: parseFloat(element.lattitude),
           lng: parseFloat(element.longitude),
         })
       })
-
-      LatLng.forEach(element => {
+      tokoSudahDikunjungi.forEach(element => {
         this.markers.push({
           position: {
+            id: element.id_toko,
+            nama_toko: element.nama_toko,
+            sales_name: element.sales_name,
+            distrik_name: element.distrik_name,
             lat: parseFloat(element.lattitude),
             lng: parseFloat(element.longitude),
+            status: 'Sudah Dikunjungi',
           },
         })
       })
+
+      // Toko belum dikunjungi
+      let tokoBelumDikunjungi = _.filter(LatLng, function(x) {
+        return x.checkout_time == null
+      })
+      let tokoFilterLatLng = _.filter(tokoBelumDikunjungi, function(x) {
+        return x.lattitude != null || x.longitude != null
+      })
+      tokoFilterLatLng.forEach(element => {
+        this.markersNotVisited.push({
+          position: {
+            id: element.id_toko,
+            nama_toko: element.nama_toko,
+            sales_name: element.sales_name,
+            distrik_name: element.distrik_name,
+            lat: parseFloat(element.lattitude),
+            lng: parseFloat(element.longitude),
+            status: 'Belum Dikunjungi',
+          },
+        })
+      })
+
+      console.log(`---markersNotVisited`, this.markersNotVisited)
+      console.log(`---markers`, this.markers)
 
       this.latMap = parseFloat(LatLng[0].lattitude)
       this.lngMap = parseFloat(LatLng[0].longitude)
@@ -663,8 +752,13 @@ export default {
       this.markersPeople = []
       this.markers.push({
         position: {
+          id: dataItem.id_toko,
+          nama_toko: dataItem.nama_toko,
+          sales_name: dataItem.sales_name,
+          distrik_name: dataItem.distrik_name,
           lat: parseFloat(dataItem.latitude),
           lng: parseFloat(dataItem.longitude),
+          status: 'Sudah Dikunjungi',
         },
       })
 
@@ -691,11 +785,7 @@ export default {
       this.lngMap = parseFloat(this.itemRadio.longitude)
       this.zoomMap = 10
 
-      console.log(`markers`, this.markers)
-      console.log(`path`, this.path)
-      console.log(`latMap`, this.latMap)
-      console.log(`lngMap`, this.lngMap)
-      console.log(`itemRadio`, this.itemRadio)
+     
     },
 
     onChange(value) {
@@ -703,6 +793,10 @@ export default {
       this.lngStreetView = parseFloat(this.itemRadio.longitude)
       this.urlStreetView()
       this.markerMapByTable()
+    },
+
+    openMarker(id) {
+      this.openedMarkerID = id
     },
   },
 }
