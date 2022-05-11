@@ -630,15 +630,58 @@ export default {
       this.latMap = parseFloat(LatLng[0].lattitude)
       this.lngMap = parseFloat(LatLng[0].longitude)
       this.zoomMap = 12
-      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
 
-      console.log(`-----this.userFilter`, userFilter)
+      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
+    },
+
+    markerMapByTable() {
+      let dataItem = this.itemRadio
+      this.markers = []
+      this.path = null
+      this.path = []
+      this.markers.push(
+        {
+          position: {
+            lat: parseFloat(dataItem.latitude),
+            lng: parseFloat(dataItem.longitude),
+          },
+        },
+        {
+          position: {
+            lat: parseFloat(dataItem.checkin_latitude),
+            lng: parseFloat(dataItem.checkin_longitude),
+          },
+        },
+      )
+
+      this.path.push(
+        {
+          lat: parseFloat(dataItem.latitude),
+          lng: parseFloat(dataItem.longitude),
+        },
+
+        {
+          lat: parseFloat(dataItem.checkin_latitude),
+          lng: parseFloat(dataItem.checkin_longitude),
+        },
+      )
+
+      this.latMap = parseFloat(this.itemRadio.latitude)
+      this.lngMap = parseFloat(this.itemRadio.longitude)
+      this.zoomMap = 10
+
+      console.log(`markers`, this.markers)
+      console.log(`path`, this.path)
+      console.log(`latMap`, this.latMap)
+      console.log(`lngMap`, this.lngMap)
+      console.log(`itemRadio`, this.itemRadio)
     },
 
     onChange(value) {
       this.latStreetView = parseFloat(this.itemRadio.latitude)
       this.lngStreetView = parseFloat(this.itemRadio.longitude)
       this.urlStreetView()
+      this.markerMapByTable()
     },
   },
 }
