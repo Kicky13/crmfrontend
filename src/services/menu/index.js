@@ -46,11 +46,11 @@ export const getAdminMenuData = [
       //   url: '/dashboard/sow-v3',
       // },
 
-      // {
-      //   title: 'Sales Route Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
