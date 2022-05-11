@@ -120,15 +120,35 @@
                       map-type-id="terrain"
                       style="width: 100%; height: 500px"
                     >
-                      <GMapMarker
-                        :key="index"
-                        v-for="(m, index) in markers"
-                        :position="m.position"
-                        @click="openInfoWindow(marker.id)"
-                        :clickable="true"
-                      />
+                      <template>
+                        <GMapMarker
+                          :key="index"
+                          v-for="(m, index) in markers"
+                          :position="m.position"
+                          :icon="{
+                            url:
+                              'https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png',
+                            scaledSize: { width: 40, height: 40 },
+                            labelOrigin: { x: 16, y: -10 },
+                          }"
+                          :clickable="true"
+                          :draggable="true"
+                        />
+                        <GMapMarker
+                          :key="index"
+                          v-for="(m, index) in markersPeople"
+                          :position="m.position"
+                          :icon="{
+                            url: 'https://img.icons8.com/doodle/2x/standing-man.png',
+                            scaledSize: { width: 40, height: 40 },
+                            labelOrigin: { x: 16, y: -10 },
+                          }"
+                          :clickable="true"
+                          :draggable="true"
+                        />
+                      </template>
 
-                      <GMapPolyline :path="path" :editable="true" ref="polyline" />
+                      <GMapPolyline :path="path" ref="polyline" />
                     </GMapMap>
                     <!-- <iframe
                       class="w-100"
@@ -159,7 +179,7 @@
               <div class="col-md-12">
                 <iframe
                   :src="linkStreetView"
-                  width="454"
+                  class="w-100"
                   height="294"
                   style="border:0;"
                   allowfullscreen=""
@@ -454,6 +474,7 @@ export default {
       lngMap: 112.6451559,
       zoomMap: 5,
       markers: [],
+      markersPeople: [],
       path: null,
     }
   },
@@ -630,15 +651,58 @@ export default {
       this.latMap = parseFloat(LatLng[0].lattitude)
       this.lngMap = parseFloat(LatLng[0].longitude)
       this.zoomMap = 12
-      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
 
-      console.log(`-----this.userFilter`, userFilter)
+      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
+    },
+
+    markerMapByTable() {
+      let dataItem = this.itemRadio
+      this.markers = []
+      this.path = null
+      this.path = []
+      this.markersPeople = []
+      this.markers.push({
+        position: {
+          lat: parseFloat(dataItem.latitude),
+          lng: parseFloat(dataItem.longitude),
+        },
+      })
+
+      this.markersPeople.push({
+        position: {
+          lat: parseFloat(dataItem.checkin_latitude),
+          lng: parseFloat(dataItem.checkin_longitude),
+        },
+      })
+
+      this.path.push(
+        {
+          lat: parseFloat(dataItem.latitude),
+          lng: parseFloat(dataItem.longitude),
+        },
+
+        {
+          lat: parseFloat(dataItem.checkin_latitude),
+          lng: parseFloat(dataItem.checkin_longitude),
+        },
+      )
+
+      this.latMap = parseFloat(this.itemRadio.latitude)
+      this.lngMap = parseFloat(this.itemRadio.longitude)
+      this.zoomMap = 10
+
+      console.log(`markers`, this.markers)
+      console.log(`path`, this.path)
+      console.log(`latMap`, this.latMap)
+      console.log(`lngMap`, this.lngMap)
+      console.log(`itemRadio`, this.itemRadio)
     },
 
     onChange(value) {
       this.latStreetView = parseFloat(this.itemRadio.latitude)
       this.lngStreetView = parseFloat(this.itemRadio.longitude)
       this.urlStreetView()
+      this.markerMapByTable()
     },
   },
 }
