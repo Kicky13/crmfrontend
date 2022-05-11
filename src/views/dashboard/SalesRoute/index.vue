@@ -120,15 +120,35 @@
                       map-type-id="terrain"
                       style="width: 100%; height: 500px"
                     >
-                      <GMapMarker
-                        :key="index"
-                        v-for="(m, index) in markers"
-                        :position="m.position"
-                        @click="openInfoWindow(marker.id)"
-                        :clickable="true"
-                      />
+                      <template>
+                        <GMapMarker
+                          :key="index"
+                          v-for="(m, index) in markers"
+                          :position="m.position"
+                          :icon="{
+                            url:
+                              'https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png',
+                            scaledSize: { width: 40, height: 40 },
+                            labelOrigin: { x: 16, y: -10 },
+                          }"
+                          :clickable="true"
+                          :draggable="true"
+                        />
+                        <GMapMarker
+                          :key="index"
+                          v-for="(m, index) in markersPeople"
+                          :position="m.position"
+                          :icon="{
+                            url: 'https://img.icons8.com/doodle/2x/standing-man.png',
+                            scaledSize: { width: 40, height: 40 },
+                            labelOrigin: { x: 16, y: -10 },
+                          }"
+                          :clickable="true"
+                          :draggable="true"
+                        />
+                      </template>
 
-                      <GMapPolyline :path="path" :editable="true" ref="polyline" />
+                      <GMapPolyline :path="path" ref="polyline" />
                     </GMapMap>
                     <!-- <iframe
                       class="w-100"
@@ -159,7 +179,7 @@
               <div class="col-md-12">
                 <iframe
                   :src="linkStreetView"
-                  width="454"
+                  class="w-100"
                   height="294"
                   style="border:0;"
                   allowfullscreen=""
@@ -454,6 +474,7 @@ export default {
       lngMap: 112.6451559,
       zoomMap: 5,
       markers: [],
+      markersPeople: [],
       path: null,
     }
   },
@@ -639,20 +660,20 @@ export default {
       this.markers = []
       this.path = null
       this.path = []
-      this.markers.push(
-        {
-          position: {
-            lat: parseFloat(dataItem.latitude),
-            lng: parseFloat(dataItem.longitude),
-          },
+      this.markersPeople = []
+      this.markers.push({
+        position: {
+          lat: parseFloat(dataItem.latitude),
+          lng: parseFloat(dataItem.longitude),
         },
-        {
-          position: {
-            lat: parseFloat(dataItem.checkin_latitude),
-            lng: parseFloat(dataItem.checkin_longitude),
-          },
+      })
+
+      this.markersPeople.push({
+        position: {
+          lat: parseFloat(dataItem.checkin_latitude),
+          lng: parseFloat(dataItem.checkin_longitude),
         },
-      )
+      })
 
       this.path.push(
         {
