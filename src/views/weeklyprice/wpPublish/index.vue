@@ -528,9 +528,9 @@ export default {
     // Approve button
     approveModal() {
       this.$confirm({
-        title: 'Weekly Price Approval',
-        content: 'Apakah anda yakin akan melakukan approve pada data ini?',
-        okText: 'Approve',
+        title: 'Weekly Price Publish',
+        content: 'Apakah anda yakin akan melakukan publish pada data ini?',
+        okText: 'Publish',
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
