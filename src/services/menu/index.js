@@ -46,11 +46,11 @@ export const getAdminMenuData = [
       //   url: '/dashboard/sow-v3',
       // },
 
-      {
-        title: 'Sales Route  Compliance',
-        key: 'jkr01l23',
-        url: '/dashboard/sales_route',
-      },
+      // {
+      //   title: 'Sales Route Compliance',
+      //   key: 'jkr01l23',
+      //   url: '/dashboard/sales_route',
+      // },
     ],
   },
   {
@@ -591,11 +591,11 @@ export const getTsoMenuData = [
       },
     ],
   },
-  {
-    category: true,
-    title: 'Report Admin',
-    key: '1231sa',
-  },
+  // {
+  //   category: true,
+  //   title: 'Report Admin',
+  //   key: '1231sa',
+  // },
   {
     title: 'Report Admin',
     key: '1131sa',
@@ -605,14 +605,12 @@ export const getTsoMenuData = [
       {
         title: 'Data Sales SBI',
         key: 'asa123',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
+        url: '/reporting/sales-distributor',
       },
       {
         title: 'Customer Mapping',
         key: 'xca132',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
+        url: '/reporting/customer-mapping',
       },
     ],
   },
