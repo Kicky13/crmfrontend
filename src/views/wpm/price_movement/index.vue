@@ -100,6 +100,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { notification } from 'ant-design-vue'
 
 export default {
   data() {
@@ -137,6 +138,34 @@ export default {
       this.formData.week = this.gapHarga.week.find(row => row.name == value).id
     },
     async showPriceMovement() {
+      if (!this.formData.distrik) {
+        notification.error({
+          message: 'Error',
+          description: 'Pilih distrik terlebih dahulu',
+        })
+        return
+      }
+      if (!this.formData.tahun) {
+        notification.error({
+          message: 'Error',
+          description: 'Pilih tahun terlebih dahulu',
+        })
+        return
+      }
+      if (!this.formData.bulan) {
+        notification.error({
+          message: 'Error',
+          description: 'Pilih bulan terlebih dahulu',
+        })
+        return
+      }
+      if (!this.formData.week) {
+        notification.error({
+          message: 'Error',
+          description: 'Pilih week terlebih dahulu',
+        })
+        return
+      }
       await this.getPriceMovementList({
         distrik: this.formData.distrik,
         tahun: this.formData.tahun,
