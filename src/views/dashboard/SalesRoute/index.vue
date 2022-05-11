@@ -219,6 +219,48 @@
                 </div>
               </div>
             </div>
+            <div class="row mt-2">
+              <div class="col-md-3 text-center">
+                <img
+                  class="w-25 img-fluid"
+                  src="https://img.icons8.com/doodle/2x/standing-man.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <br />
+                <label for=""> Lokasi Check-In(Sales) </label>
+              </div>
+              <div class="col-md-3 text-center">
+                <img
+                  class="w-25 img-fluid"
+                  src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <br />
+                <label for="">Lokasi Toko Sudah Dikunjungi</label>
+              </div>
+              <div class="col-md-3 text-center">
+                <img
+                  class="w-25 img-fluid"
+                  src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-store-user-interface-wanicon-lineal-color-wanicon.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <br />
+                <label for="">Lokasi Toko Belum Dikunjungi</label>
+              </div>
+              <div class="col-md-3 text-center">
+                <img
+                  class="w-25 img-fluid"
+                  src="https://img.icons8.com/ios-filled/344/horizontal-line.png"
+                  alt=""
+                  loading="lazy"
+                />
+                <br />
+                <label for=""> Rute Toko ke Toko Lain</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -332,7 +374,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-7 col-sm-7">
+      <div class="col-md-12 col-sm-12">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
@@ -439,7 +481,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5 col-sm-5">
+      <div class="col-md-8 col-sm-8">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
@@ -783,9 +825,7 @@ export default {
 
       this.latMap = parseFloat(this.itemRadio.latitude)
       this.lngMap = parseFloat(this.itemRadio.longitude)
-      this.zoomMap = 10
-
-     
+      this.zoomMap = 12
     },
 
     onChange(value) {
