@@ -51,8 +51,8 @@ const state = {
       },
       {
         title: 'RBP Gross',
-        dataIndex: 'rbp_gross',
-        key: 'rbp_gross',
+        dataIndex: 'rbpgross',
+        key: 'rbpgross',
       },
       {
         title: 'Promo',
@@ -61,8 +61,8 @@ const state = {
       },
       {
         title: 'RBP Net',
-        dataIndex: 'rbp_net',
-        key: 'rbp_net',
+        dataIndex: 'rbpnett',
+        key: 'rbpnett',
       },
       {
         title: 'RSP',
@@ -82,7 +82,7 @@ const state = {
       bulan: '',
       week: '',
       id_distrik_ret: null,
-      nm_distrik:'',
+      nm_distrik: '',
     },
     reportList: [
       {
