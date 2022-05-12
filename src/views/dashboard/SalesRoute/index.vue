@@ -120,78 +120,75 @@
                       map-type-id="roadmap"
                       style="width: 100%; height: 500px"
                     >
-                      <template>
-                        <!-- toko sudah dikunjungi -->
-                        <GMapMarker
-                          :key="index"
-                          v-for="(m, index) in markers"
-                          :position="m.position"
-                          :icon="{
-                            url:
-                              'https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png',
-                            scaledSize: { width: 40, height: 40 },
-                            labelOrigin: { x: 16, y: -10 },
-                          }"
-                          :clickable="true"
-                          :draggable="false"
-                          @click="openMarker(index)"
+                      <!-- toko sudah dikunjungi -->
+                      <GMapMarker
+                        :key="index"
+                        v-for="(m, index) in markers"
+                        :position="m.position"
+                        :icon="{
+                          url:
+                            'https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png',
+                          scaledSize: { width: 40, height: 40 },
+                          labelOrigin: { x: 16, y: -10 },
+                        }"
+                        :clickable="true"
+                        :draggable="false"
+                        @click="openMarker(index)"
+                      >
+                        <GMapInfoWindow
+                          :closeclick="true"
+                          @closeclick="openMarker(null)"
+                          :opened="openedMarkerID === index"
                         >
-                          <GMapInfoWindow
-                            :closeclick="true"
-                            @closeclick="openMarker(null)"
-                            :opened="openedMarkerID === index"
-                          >
-                            <div class="text-black font-weight-bold">
-                              KUNJUNGAN TOKO KE {{ index + 1 }}
-                            </div>
-                            <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                            <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                            <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                            <div>{{ m.position.status.toUpperCase() }}</div>
-                          </GMapInfoWindow>
-                        </GMapMarker>
-                        <!-- sales -->
-                        <GMapMarker
-                          :key="index"
-                          v-for="(m, index) in markersPeople"
-                          :position="m.position"
-                          :icon="{
-                            url: 'https://img.icons8.com/doodle/2x/standing-man.png',
-                            scaledSize: { width: 40, height: 40 },
-                            labelOrigin: { x: 16, y: -10 },
-                          }"
-                          :clickable="true"
-                          :draggable="false"
-                        />
-                        <!-- toko belum dikunjungi -->
-                        <GMapMarker
-                          :key="index"
-                          v-for="(m, index) in markersNotVisited"
-                          :position="m.position"
-                          :icon="{
-                            url:
-                              'https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-store-user-interface-wanicon-lineal-color-wanicon.png',
-                            scaledSize: { width: 30, height: 30 },
-                            labelOrigin: { x: 16, y: -10 },
-                          }"
-                          :clickable="true"
-                          :draggable="false"
-                          @click="openMarker(m.id)"
+                          <div class="text-black font-weight-bold">
+                            KUNJUNGAN TOKO KE {{ index + 1 }}
+                          </div>
+                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>{{ m.position.status.toUpperCase() }}</div>
+                        </GMapInfoWindow>
+                      </GMapMarker>
+                      <!-- sales -->
+                      <GMapMarker
+                        :key="index"
+                        v-for="(m, index) in markersPeople"
+                        :position="m.position"
+                        :icon="{
+                          url: 'https://img.icons8.com/doodle/2x/standing-man.png',
+                          scaledSize: { width: 40, height: 40 },
+                          labelOrigin: { x: 16, y: -10 },
+                        }"
+                        :clickable="true"
+                        :draggable="false"
+                      />
+                      <!-- toko belum dikunjungi -->
+                      <GMapMarker
+                        :key="index"
+                        v-for="(m, index) in markersNotVisited"
+                        :position="m.position"
+                        :icon="{
+                          url:
+                            'https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-store-user-interface-wanicon-lineal-color-wanicon.png',
+                          scaledSize: { width: 30, height: 30 },
+                          labelOrigin: { x: 16, y: -10 },
+                        }"
+                        :clickable="true"
+                        :draggable="false"
+                        @click="openMarker(m.id)"
+                      >
+                        <GMapInfoWindow
+                          :closeclick="true"
+                          @closeclick="openMarker(null)"
+                          :opened="openedMarkerID === m.id"
                         >
-                          <GMapInfoWindow
-                            :closeclick="true"
-                            @closeclick="openMarker(null)"
-                            :opened="openedMarkerID === m.id"
-                          >
-                            <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                            <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                            <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                            <div>{{ m.position.status.toUpperCase() }}</div>
-                          </GMapInfoWindow>
-                        </GMapMarker>
-                      </template>
-
-                      <GMapPolyline  :path="path" ref="polyline" />
+                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>{{ m.position.status.toUpperCase() }}</div>
+                        </GMapInfoWindow>
+                      </GMapMarker>
+                      <GMapPolyline :path="path" ref="polyline" />
                     </GMapMap>
                   </div>
                 </div>
