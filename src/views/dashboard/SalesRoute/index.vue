@@ -107,8 +107,8 @@
     </a-form>
     <div class="row">
       <div class="col-md-12">
-        <div class="card card-top card-top-primary mt-3">
-          <div class="card-body">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
                 <div class="mapouter">
@@ -141,6 +141,9 @@
                             @closeclick="openMarker(null)"
                             :opened="openedMarkerID === index"
                           >
+                            <div class="text-black font-weight-bold">
+                              KUNJUNGAN TOKO KE {{ index + 1 }}
+                            </div>
                             <div>{{ m.position.nama_toko.toUpperCase() }}</div>
                             <div>{{ m.position.sales_name.toUpperCase() }}</div>
                             <div>{{ m.position.distrik_name.toUpperCase() }}</div>
@@ -186,35 +189,10 @@
                             <div>{{ m.position.status.toUpperCase() }}</div>
                           </GMapInfoWindow>
                         </GMapMarker>
-
-                        <!-- <gmap-info-window
-                          :options="{
-                            maxWidth: 300,
-                            pixelOffset: { width: 0, height: -35 },
-                          }"
-                          :position="infoWindow.position"
-                          :opened="infoWindow.open"
-                          @closeclick="infoWindow.open = false"
-                        >
-                          <div v-html="infoWindow.template"></div>
-                        </gmap-info-window> -->
                       </template>
 
-                      <GMapPolyline :path="path" ref="polyline" />
+                      <GMapPolyline  :path="path" ref="polyline" />
                     </GMapMap>
-                    <!-- <iframe
-                      class="w-100"
-                      height="500"
-                      id="gmap_canvas"
-                      :src="link"
-                      frameborder="0"
-                      scrolling="no"
-                      marginheight="0"
-                      marginwidth="0"
-                    >
-                    </iframe>
-                    <a href="https://fmovies-online.net" />
-                    <a href="https://www.embedgooglemap.net"></a> -->
                   </div>
                 </div>
               </div>
@@ -262,13 +240,13 @@
               </div>
             </div>
           </div>
-        </div>
+        </a-card>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <div class="card card-top card-top-primary mt-3">
-          <div class="card-body">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
                 <iframe
@@ -283,7 +261,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </a-card>
       </div>
       <div class="col-md-6">
         <div class="card card-top card-top-primary mt-3">
@@ -560,6 +538,7 @@ export default {
     return {
       map: null,
       link: '',
+      loading: false,
       linkStreetView: '',
       itemRadio: '',
       latStreetView: -7.1688477,
@@ -591,40 +570,6 @@ export default {
     await this.getDistrik()
     this.handlePagination(5)
     this.handlePaginationToko(5)
-
-    // Map
-    this.map = L.map('mapContainer').setView([5, 120], 5)
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map)
-    //use a mix of renderers
-    var customPane = this.map.createPane('customPane')
-    var canvasRenderer = L.canvas({ pane: 'customPane' })
-    customPane.style.zIndex = 399 // put just behind the standard overlay pane which is at 400
-    // L.marker([50, 14]).addTo(this.map)
-
-    // L.marker([53, 20]).addTo(this.map)
-    // L.marker([49.5, 19.5]).addTo(this.map)
-    // L.marker([49, 25]).addTo(this.map)
-    // L.marker([-10, 25]).addTo(this.map)
-    // L.marker([10, -25]).addTo(this.map)
-    // L.marker([0, 0]).addTo(this.map)
-
-    // var pathOne = L.curve(['M', [50, 14], 'Q', [53, 20], [49, 25]], {
-    //   renderer: canvasRenderer,
-    // }).addTo(this.map)
-    // L.curve(['M', [50, 14], 'Q', [52, 20], [49, 25]], {
-    //   renderer: canvasRenderer,
-    // }).addTo(this.map)
-    // L.curve(['M', [50, 14], 'Q', [51, 20], [49, 25]], {
-    //   renderer: canvasRenderer,
-    // }).addTo(this.map)
-    // L.curve(['M', [50, 14], 'Q', [50, 20], [49, 25]], {
-    //   renderer: canvasRenderer,
-    // }).addTo(this.map)
-    // L.curve(['M', [50, 14], 'Q', [47, 20], [49, 25]], {
-    //   renderer: canvasRenderer,
-    // }).addTo(this.map)
   },
   onBeforeUnmount() {
     if (this.map) {
@@ -641,20 +586,6 @@ export default {
       'getMap',
     ]),
 
-    // urlMap() {
-    //   // https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly
-    //   let lat = -0.789275
-    //   let long = 113.921327
-    //   let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
-    //   this.link =
-    //     `https://www.google.com/maps/embed/v1/view?key=` +
-    //     keyApi +
-    //     `&center=` +
-    //     lat +
-    //     `,` +
-    //     long +
-    //     `&zoom=5&maptype=satellite`
-    // },
     urlStreetView() {
       // let lat = -7.1688477
       // let long = 112.6451559
@@ -721,9 +652,14 @@ export default {
     },
 
     markerMap() {
-      let LatLng = this.salesRoute.dataMap
+      this.loading = true
 
+      let LatLng = this.salesRoute.dataMap
+      this.markers = []
+      this.path = null
       this.path = []
+      this.markersPeople = []
+      this.markersNotVisited = []
 
       // Toko sudah dikunjungi namun tidak ada latitude longitudenya
       let users = _.uniq(LatLng, function(x) {
@@ -741,6 +677,7 @@ export default {
           lng: parseFloat(element.longitude),
         })
       })
+
       tokoSudahDikunjungi.forEach(element => {
         this.markers.push({
           position: {
@@ -776,22 +713,21 @@ export default {
         })
       })
 
-      console.log(`---markersNotVisited`, this.markersNotVisited)
-      console.log(`---markers`, this.markers)
-
       this.latMap = parseFloat(LatLng[0].lattitude)
       this.lngMap = parseFloat(LatLng[0].longitude)
       this.zoomMap = 12
-
+      this.loading = false
       // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
     },
 
     markerMapByTable() {
+      this.loading = true
       let dataItem = this.itemRadio
       this.markers = []
       this.path = null
       this.path = []
       this.markersPeople = []
+      this.markersNotVisited = []
       this.markers.push({
         position: {
           id: dataItem.id_toko,
@@ -826,6 +762,7 @@ export default {
       this.latMap = parseFloat(this.itemRadio.latitude)
       this.lngMap = parseFloat(this.itemRadio.longitude)
       this.zoomMap = 12
+      this.loading = false
     },
 
     onChange(value) {
