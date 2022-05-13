@@ -49,21 +49,25 @@ const state = {
         title: 'Durasi Visit',
         slots: { customRender: 'durasi_visit' },
         key: 'durasi_visit',
+        class: 'text-center',
       },
       {
         title: 'Jarak Check',
         slots: { customRender: 'jarak_check' },
         key: 'jarak_check',
+        class: 'text-center',
       },
       {
         title: 'Perjalanan',
         slots: { customRender: 'perjalanan' },
         key: 'perjalanan',
+        class: 'text-center',
       },
       {
         title: 'Plan/Unplan',
         slots: { customRender: 'plan' },
         key: 'plan',
+        class: 'text-center',
       },
     ],
     columns2: [
@@ -76,6 +80,11 @@ const state = {
         title: 'Nama Toko',
         slots: { customRender: 'toko' },
         key: 'toko',
+      },
+      {
+        title: 'Keterangan',
+        slots: { customRender: 'keterangan' },
+        key: 'keterangan',
       },
     ],
     dataList: null,
