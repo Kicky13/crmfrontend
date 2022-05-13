@@ -197,7 +197,9 @@
             <div class="row mt-2">
               <div class="col-md-3 text-center">
                 <img
-                  class="w-25 img-fluid"
+                  class="img-fluid"
+                  width="45"
+                  height="45"
                   src="https://img.icons8.com/doodle/2x/standing-man.png"
                   alt=""
                   loading="lazy"
@@ -207,7 +209,9 @@
               </div>
               <div class="col-md-3 text-center">
                 <img
-                  class="w-25 img-fluid"
+                  class="img-fluid"
+                  width="45"
+                  height="45"
                   src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/344/external-store-supermarket-flatart-icons-lineal-color-flatarticons.png"
                   alt=""
                   loading="lazy"
@@ -217,7 +221,9 @@
               </div>
               <div class="col-md-3 text-center">
                 <img
-                  class="w-25 img-fluid"
+                  class="img-fluid"
+                  width="45"
+                  height="45"
                   src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/344/external-store-user-interface-wanicon-lineal-color-wanicon.png"
                   alt=""
                   loading="lazy"
@@ -225,9 +231,11 @@
                 <br />
                 <label for="">Lokasi Toko Belum Dikunjungi</label>
               </div>
-              <div class="col-md-3 text-center">
+              <div class="col-md-3 text-center ">
                 <img
-                  class="w-25 img-fluid"
+                  class="img-fluid"
+                  width="45"
+                  height="45"
                   src="https://img.icons8.com/ios-filled/344/horizontal-line.png"
                   alt=""
                   loading="lazy"
@@ -436,7 +444,7 @@
                     </template>
                     <template #jarak_check="{ text }">
                       <div>
-                        {{ text.jarak_check }}
+                        {{ text.jarak_check + ` Meter` }}
                       </div>
                     </template>
                     <template #perjalanan="{ text }">
@@ -505,6 +513,11 @@
                     <template #toko="{ text }">
                       <div>
                         {{ text.toko_belum_dikunjungi }}
+                      </div>
+                    </template>
+                    <template #keterangan="{ text }">
+                      <div>
+                        {{ text.alasan == '' ? 'Tidak ada keterangan' : text.alasan }}
                       </div>
                     </template>
                   </a-table>
