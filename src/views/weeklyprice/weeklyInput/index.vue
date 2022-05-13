@@ -349,12 +349,18 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik.length > 0">
+      <a-col
+        :xs="24"
+        :md="12"
+        :lg="5"
+        v-if="weeklyInput.promoDistrik && weeklyInput.promoDistrik.length > 0"
+      >
         <a-select
           v-model:value="weeklyInput.formData.promo"
           placeholder="0"
           class="w-100 mb-4"
           show-search
+          @change="handleGross()"
         >
           <a-select-option
             v-for="(promo, index) in weeklyInput.promoDistrik"
@@ -373,7 +379,7 @@
           class="w-100 mb-4"
           show-search
         >
-          <a-select-option :value="0">0</a-select-option>
+          <a-select-option :value="0">Tidak Ada Promo</a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="1">
@@ -562,6 +568,7 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.duplicateDataWeekly()
+          await this.getDataTable()
         },
         onCancel: () => {},
       })
@@ -600,8 +607,10 @@ export default {
               },
             })
           }
+          await this.getDataTable()
         } else {
           await this.insertDataWeekly()
+          await this.getDataTable()
         }
         this.addModal = false
       } else {
