@@ -367,7 +367,8 @@
             :value="promo.nilai_zak"
             :key="index"
           >
-            {{ promo.program }} - {{ promo.nilai_zak }}
+            {{ promo.program.toUpperCase() }} -
+            {{ promo.nilai_zak }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -391,7 +392,8 @@
             :disabled="
               weeklyInput.formData.id_distrik == null ||
               weeklyInput.formData.tahun == `` ||
-              weeklyInput.formData.bulan == ``
+              weeklyInput.formData.bulan == `` ||
+              weeklyInput.formData.id_brand == null
                 ? true
                 : false
             "
@@ -681,6 +683,7 @@ export default {
       this.weeklyInput.formData.brand = filtered[0].NAMA_BRAND
       this.weeklyInput.formData.type = filtered[0].NM_TYPE_PRODUK
       this.weeklyInput.formData.kemasan = filtered[0].NAMA_KEMASAN
+      this.weeklyInput.formData.id_brand = filtered[0].ID_BRAND
     },
 
     handleDistrik() {
