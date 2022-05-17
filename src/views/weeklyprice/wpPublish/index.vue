@@ -342,21 +342,15 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-if="wpPublish.promoDistrik">
+      <a-col
+        :xs="24"
+        :md="12"
+        :lg="5"
+        v-if="wpPublish.promoDistrik && wpPublish.promoDistrik.length > 0"
+      >
         <a-select
-          :disabled="true"
           v-model:value="wpPublish.formData.promo"
           placeholder="0"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option :value="0">0</a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-else>
-        <a-select
-          v-model:value="wpPublish.formData.promo"
-          placeholder="Promo"
           class="w-100 mb-4"
           show-search
         >
@@ -365,8 +359,19 @@
             :value="promo.nilai_zak"
             :key="index"
           >
-            {{ promo.program }} - {{ promo.nilai_zak }}
+            {{ promo.program.toUpperCase() }} - {{ promo.nilai_zak }}
           </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
+          :disabled="true"
+          v-model:value="wpPublish.formData.promo"
+          placeholder="Promo"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="1">
@@ -378,7 +383,8 @@
             :disabled="
               wpPublish.formData.id_distrik == null ||
               wpPublish.formData.tahun == `` ||
-              wpPublish.formData.bulan == ``
+              wpPublish.formData.bulan == `` ||
+              wpPublish.formData.id_brand == null
                 ? true
                 : false
             "
@@ -474,6 +480,7 @@ export default {
           rbp_net: value.rbp_net,
           rsp: value.rsp,
           notes: value.notes,
+          id_brand: value.id_brand,
         },
       })
     },
