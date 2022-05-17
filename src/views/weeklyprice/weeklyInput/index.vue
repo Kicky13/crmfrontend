@@ -349,31 +349,38 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-if="weeklyInput.promoDistrik">
+      <a-col
+        :xs="24"
+        :md="12"
+        :lg="5"
+        v-if="weeklyInput.promoDistrik && weeklyInput.promoDistrik.length > 0"
+      >
         <a-select
-          :disabled="true"
           v-model:value="weeklyInput.formData.promo"
           placeholder="0"
           class="w-100 mb-4"
           show-search
-        >
-          <a-select-option :value="0">0</a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="24" :md="12" :lg="5" v-else>
-        <a-select
-          v-model:value="weeklyInput.formData.promo"
-          placeholder="Promo"
-          class="w-100 mb-4"
-          show-search
+          @change="handleGross()"
         >
           <a-select-option
             v-for="(promo, index) in weeklyInput.promoDistrik"
             :value="promo.nilai_zak"
             :key="index"
           >
-            {{ promo.program }} - {{ promo.nilai_zak }}
+            {{ promo.program.toUpperCase() }} -
+            {{ promo.nilai_zak }}
           </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
+          :disabled="true"
+          v-model:value="weeklyInput.formData.promo"
+          placeholder="Promo"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">Tidak Ada Promo</a-select-option>
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="1">
@@ -385,7 +392,8 @@
             :disabled="
               weeklyInput.formData.id_distrik == null ||
               weeklyInput.formData.tahun == `` ||
-              weeklyInput.formData.bulan == ``
+              weeklyInput.formData.bulan == `` ||
+              weeklyInput.formData.id_brand == null
                 ? true
                 : false
             "
@@ -494,6 +502,7 @@ export default {
           type: null,
           kemasan: null,
           notes: '',
+          promoDistrik: [],
         },
       })
       this.editdata = false
@@ -561,6 +570,7 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.duplicateDataWeekly()
+          await this.getDataTable()
         },
         onCancel: () => {},
       })
@@ -599,8 +609,10 @@ export default {
               },
             })
           }
+          await this.getDataTable()
         } else {
           await this.insertDataWeekly()
+          await this.getDataTable()
         }
         this.addModal = false
       } else {
@@ -671,6 +683,7 @@ export default {
       this.weeklyInput.formData.brand = filtered[0].NAMA_BRAND
       this.weeklyInput.formData.type = filtered[0].NM_TYPE_PRODUK
       this.weeklyInput.formData.kemasan = filtered[0].NAMA_KEMASAN
+      this.weeklyInput.formData.id_brand = filtered[0].ID_BRAND
     },
 
     handleDistrik() {

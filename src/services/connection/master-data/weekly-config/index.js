@@ -52,6 +52,7 @@ const state = {
     ],
     weeklyConfigList: [],
     listData: [],
+    statusCheck: false,
     isLoading: false,
   },
 }
@@ -114,9 +115,10 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/master-data/weeklyConfig/addnew`, formData)
 
-      if (result.data.status == false) {
+      if (result.data.status == 500) {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: true,
         })
         notification.error({
           message: 'Gagal',
@@ -125,6 +127,7 @@ const actions = {
       } else {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: false,
         })
         notification.success({
           message: 'Sukses',
@@ -134,6 +137,7 @@ const actions = {
     } catch (err) {
       await commit('changeWeeklyConfig', {
         isLoading: false,
+        statusCheck: false,
       })
       notification.error({
         message: 'Error',
@@ -201,9 +205,10 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/master-data/weeklyConfig/edit`, formData)
 
-      if (result.data.status == false) {
+      if (result.data.status == 500) {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: true,
         })
         notification.error({
           message: 'Gagal',
@@ -212,6 +217,7 @@ const actions = {
       } else {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: false,
         })
         notification.success({
           message: 'Sukses',
@@ -221,6 +227,7 @@ const actions = {
     } catch (err) {
       await commit('changeWeeklyConfig', {
         isLoading: false,
+        statusCheck: false,
       })
       notification.error({
         message: 'Error',

@@ -15,11 +15,19 @@
         </div>
         <iframe
           class="w-100"
+          height="800"
+          src="https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC"
+          frameborder="0"
+          style="border:0"
+          allowfullscreen
+        ></iframe>
+        <!-- <iframe
+          class="w-100"
           :src="sowDashboard.dataMetabase"
           frameborder="0"
           height="800"
           allowtransparency
-        ></iframe>
+        ></iframe> -->
         <!-- <iframe
           src="https://mtb.aksestoko.com/public/dashboard/47812e1e-1dc4-4c26-a2ee-e4b32541e8ab"
           frameborder="0"

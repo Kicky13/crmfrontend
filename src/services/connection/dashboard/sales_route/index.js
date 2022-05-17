@@ -49,28 +49,42 @@ const state = {
         title: 'Durasi Visit',
         slots: { customRender: 'durasi_visit' },
         key: 'durasi_visit',
+        class: 'text-center',
       },
       {
         title: 'Jarak Check',
         slots: { customRender: 'jarak_check' },
         key: 'jarak_check',
+        class: 'text-center',
       },
       {
         title: 'Perjalanan',
         slots: { customRender: 'perjalanan' },
         key: 'perjalanan',
+        class: 'text-center',
       },
       {
         title: 'Plan/Unplan',
         slots: { customRender: 'plan' },
         key: 'plan',
+        class: 'text-center',
       },
     ],
     columns2: [
       {
-        title: 'Toko Belum Dikunjungi',
+        title: 'Kode Toko',
+        slots: { customRender: 'kode_toko' },
+        key: 'kode_toko',
+      },
+      {
+        title: 'Nama Toko',
         slots: { customRender: 'toko' },
         key: 'toko',
+      },
+      {
+        title: 'Keterangan',
+        slots: { customRender: 'keterangan' },
+        key: 'keterangan',
       },
     ],
     dataList: null,
@@ -229,7 +243,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
@@ -305,7 +319,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.selectedDistrik}&tanggal=${dateFormat}`,
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
