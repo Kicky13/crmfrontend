@@ -454,7 +454,7 @@
                     </template>
                     <template #plan="{ text }">
                       <div>
-                        {{ text.plan }}
+                        {{ text.plan == 0 ? 'Unplan Visit' : 'Plan Visi' }}
                       </div>
                     </template>
                   </a-table>
