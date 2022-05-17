@@ -671,63 +671,69 @@ export default {
       this.markersPeople = []
       this.markersNotVisited = []
 
-      // Toko sudah dikunjungi namun tidak ada latitude longitudenya
-      let users = _.uniq(LatLng, function(x) {
-        return x.lattitude
-      })
-      let userFilter = _.filter(users, function(x) {
-        return x.lattitude != null
-      })
-      let tokoSudahDikunjungi = _.filter(userFilter, function(x) {
-        return x.checkout_time != null
-      })
-      tokoSudahDikunjungi.forEach(element => {
-        this.path.push({
-          lat: parseFloat(element.lattitude),
-          lng: parseFloat(element.longitude),
-        })
-      })
+      console.log(`this.salesRoute.dataMap`, this.salesRoute.dataMap.length > 0)
 
-      tokoSudahDikunjungi.forEach(element => {
-        this.markers.push({
-          position: {
-            id: element.id_toko,
-            nama_toko: element.nama_toko,
-            sales_name: element.sales_name,
-            distrik_name: element.distrik_name,
+      if (this.salesRoute.dataMap.length > 0) {
+        // Toko sudah dikunjungi namun tidak ada latitude longitudenya
+        let users = _.uniq(LatLng, function(x) {
+          return x.lattitude
+        })
+        let userFilter = _.filter(users, function(x) {
+          return x.lattitude != null
+        })
+        let tokoSudahDikunjungi = _.filter(userFilter, function(x) {
+          return x.checkout_time != null
+        })
+        tokoSudahDikunjungi.forEach(element => {
+          this.path.push({
             lat: parseFloat(element.lattitude),
             lng: parseFloat(element.longitude),
-            status: 'Sudah Dikunjungi',
-          },
+          })
         })
-      })
-
-      // Toko belum dikunjungi
-      let tokoBelumDikunjungi = _.filter(LatLng, function(x) {
-        return x.checkout_time == null
-      })
-      let tokoFilterLatLng = _.filter(tokoBelumDikunjungi, function(x) {
-        return x.lattitude != null || x.longitude != null
-      })
-      tokoFilterLatLng.forEach(element => {
-        this.markersNotVisited.push({
-          position: {
-            id: element.id_toko,
-            nama_toko: element.nama_toko,
-            sales_name: element.sales_name,
-            distrik_name: element.distrik_name,
-            lat: parseFloat(element.lattitude),
-            lng: parseFloat(element.longitude),
-            status: 'Belum Dikunjungi',
-          },
+        tokoSudahDikunjungi.forEach(element => {
+          this.markers.push({
+            position: {
+              id: element.id_toko,
+              nama_toko: element.nama_toko,
+              sales_name: element.sales_name,
+              distrik_name: element.distrik_name,
+              lat: parseFloat(element.lattitude),
+              lng: parseFloat(element.longitude),
+              status: 'Sudah Dikunjungi',
+            },
+          })
         })
-      })
 
-      this.latMap = parseFloat(LatLng[0].lattitude)
-      this.lngMap = parseFloat(LatLng[0].longitude)
-      this.zoomMap = 12
-      this.loading = false
-      // this.paths.push({ lat: -6.2, lng: 106.816666 }, { lat: -5.2, lng: 106.816666 })
+        // Toko belum dikunjungi
+        let tokoBelumDikunjungi = _.filter(LatLng, function(x) {
+          return x.checkout_time == null
+        })
+        let tokoFilterLatLng = _.filter(tokoBelumDikunjungi, function(x) {
+          return x.lattitude != null || x.longitude != null
+        })
+        tokoFilterLatLng.forEach(element => {
+          this.markersNotVisited.push({
+            position: {
+              id: element.id_toko,
+              nama_toko: element.nama_toko,
+              sales_name: element.sales_name,
+              distrik_name: element.distrik_name,
+              lat: parseFloat(element.lattitude),
+              lng: parseFloat(element.longitude),
+              status: 'Belum Dikunjungi',
+            },
+          })
+        })
+        this.latMap = parseFloat(LatLng[0].lattitude)
+        this.lngMap = parseFloat(LatLng[0].longitude)
+        this.zoomMap = 12
+        this.loading = false
+      } else {
+        this.latMap = parseFloat(-7.1688477)
+        this.lngMap = parseFloat(112.6451559)
+        this.zoomMap = 12
+        this.loading = false
+      }
     },
 
     markerMapByTable() {
