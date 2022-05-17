@@ -146,6 +146,10 @@ const state = {
         id: 4,
         name: 'Week 4',
       },
+      {
+        id: 5,
+        name: 'Week 5',
+      },
     ],
     formData: {
       id_distrik: null,
@@ -163,6 +167,7 @@ const state = {
       type: '',
       kemasan: '',
       notes: '',
+      id_brand: null,
     },
     data_uuid: [],
     pagination: {},
@@ -457,6 +462,7 @@ const actions = {
       id_distrik: data.formData.id_distrik,
       tahun: data.formData.tahun,
       bulan: data.formData.bulan,
+      id_brand: data.formData.id_brand,
     }
     try {
       const result = await apiClient.post('/WPM/getPromoDistrik', body)
