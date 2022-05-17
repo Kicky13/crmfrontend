@@ -146,6 +146,10 @@ const state = {
         id: 4,
         name: 'Week 4',
       },
+      {
+        id: 5,
+        name: 'Week 5',
+      },
     ],
     formData: {
       id_distrik: null,
