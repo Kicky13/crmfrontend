@@ -241,17 +241,20 @@ export default {
       if (this.row.length > 0) {
         // console.log(`this.gapHarga.row`, this.gapHarga.row)
         // let dataRows = this.row.forEach(val => {
-        //   console.log(`val.key_brand`, val.key_brand.toString())
-        //   _.find(this.gapHarga.row, function(item) {
-        //     console.log(`---item`, item.key_brand)
-        //     return item.key_brand == val.key_brand
+        //   _.filter(this.gapHarga.row, function(item) {
+        //     return parseInt(item.key_brand) == val.key_brand
         //   })
         // })
 
+        // console.log(`---dataRows`, dataRows)
         console.log(
-          `---data`,
-          _.find(this.gapHarga.row, function(item) {
-            return item.key_brand == `1`
+          `---datagass`,
+          this.row.forEach(val => {
+            console.log(`val.key_brand`, val.key_brand)
+            _.filter(this.gapHarga.row, function(item) {
+              console.log(`parseInt(item.key_brand)`, parseInt(item.key_brand))
+              return parseInt(item.key_brand) == val.key_brand
+            })
           }),
         )
 
@@ -261,13 +264,11 @@ export default {
         //   }),
         // )
 
-        let dataRow = _.find(this.gapHarga.row, function(item) {
-          return item.key_brand == `1`
-        })
+        // let dataRow = _.find(this.gapHarga.row, function(item) {
+        //   return item.key_brand == `1`
+        // })
 
-        this.row.push({
-          
-        })
+        // this.row.push({})
       }
     },
     columnHandler(values) {
