@@ -589,6 +589,29 @@ export const getTsoMenuData = [
         key: 'Adaws5',
         url: '/validasiharga',
       },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
+    ],
+  },
+  {
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
     ],
   },
   // {
