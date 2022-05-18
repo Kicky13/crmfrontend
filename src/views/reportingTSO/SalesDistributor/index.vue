@@ -89,10 +89,11 @@ export default {
     }),
   },
   async mounted() {
+    await this.initReportDistributorTSO()
     await this.getListTokoDistributorTSO()
   },
   methods: {
-    ...mapActions('reportingSalesDistributor', ['getReportDistributorTSO', 'getListTokoDistributorTSO']),
+    ...mapActions('reportingSalesDistributor', ['initReportDistributorTSO', 'getReportDistributorTSO', 'getListTokoDistributorTSO']),
     async handleView() {
       if (this.reportingSalesDistributor.filter.distributor_name.length > 0) {
         await this.getReportDistributorTSO({
