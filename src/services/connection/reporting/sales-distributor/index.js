@@ -91,6 +91,17 @@ const mutations = {
 }
 
 const actions = {
+  async initReportDistributorTSO({ commit, state }) {
+    await commit('changeReportingSalesDistributor', {
+      list_report: [],
+      filter: {
+        id_distrik: null,
+        distrik_name: '',
+        id_distributor: null,
+        distributor_name: '',
+      },
+    })
+  },
   async getReportDistributorTSO({ commit, state }, payload) {
     commit('changeReportingSalesDistributor', {
       isLoading: true,

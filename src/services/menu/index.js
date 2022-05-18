@@ -589,6 +589,29 @@ export const getTsoMenuData = [
         key: 'Adaws5',
         url: '/validasiharga',
       },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
+    ],
+  },
+  {
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
     ],
   },
   // {
@@ -603,14 +626,14 @@ export const getTsoMenuData = [
     icon: 'fa fa-list-ul',
     children: [
       {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        url: '/reporting/sales-distributor',
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
       },
       {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        url: '/reporting/customer-mapping',
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
       },
     ],
   },
