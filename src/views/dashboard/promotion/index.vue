@@ -139,7 +139,6 @@ export default {
   components: {
     Multiselect,
   },
-
   data() {
     return {
       region: [],

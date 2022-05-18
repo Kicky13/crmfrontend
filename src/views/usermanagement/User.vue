@@ -376,6 +376,7 @@ export default {
           userid: '',
           id_level_hirarki: null,
           id_jenis_user: null,
+          mobileAccess: null,
         },
       })
       this.getListJenisUser()
@@ -419,16 +420,9 @@ export default {
       this.userManagementCRM.pagination.pageSize = size
     },
     formValidation() {
-      if (
-        this.userManagementCRM.formState.name &&
-        this.userManagementCRM.formState.username &&
-        this.emailValidation(this.userManagementCRM.formState.email) &&
-        this.phoneValidation(this.userManagementCRM.formState.nohp)
-      ) {
+      if (this.userManagementCRM.formState.name && this.userManagementCRM.formState.username) {
         return true
       } else {
-        console.log(this.emailValidation(this.userManagementCRM.formState.email))
-        console.log(this.phoneValidation(this.userManagementCRM.formState.nohp))
         if (!this.emailValidation(this.userManagementCRM.formState.email)) {
           notification.error({
             message: 'Gagal Menyimpan',
@@ -481,6 +475,7 @@ export default {
           userid: row.userid,
           id_level_hirarki: row.idLevelJabatan,
           id_jenis_user: row.idJenisUser,
+          mobileAccess: row.idJenisUser == 5 || row.idJenisUser == 8 ? 1 : 0,
         },
       })
       this.userManagementCRM.modalVisible = true

@@ -731,48 +731,50 @@ export default {
     }, 100),
     async searchDataTSO(keyword) {
       this.userManagement.isLoading = true
-      await this.getDataTable({
-        id_level_hirarki: this.actiiveTabs.id_level_hirarki,
-      })
+      // await this.getDataTable({
+      //   id_level_hirarki: this.actiiveTabs.id_level_hirarki,
+      // })
       if (keyword) {
         if (this.searchTSOByField == `General`) {
           // let data = this.userManagement.dataTable.filter(dataSource =>
           //   dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
           // )
 
-          let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
+          // let dataNama = this.userManagement.dataTable.filter(dataSource => dataSource.nama != null)
 
-          let filter = dataNama.filter(
+          let filter = this.userManagement.dataTableTemp.filter(
             dataSource =>
-              dataSource.nama.toLowerCase().includes(keyword.toLowerCase()) ||
-              dataSource.titleJabatan.toLowerCase().includes(keyword.toLowerCase()),
+              dataSource.nama?.toLowerCase().includes(keyword.toLowerCase()) ||
+              dataSource.titleJabatan?.toLowerCase().includes(keyword.toLowerCase()),
           )
 
-          if (dataNama.length > 0) {
+          // if (dataNama.length > 0) {
             setTimeout(() => {
               this.userManagement.dataTable = filter
               this.userManagement.isLoading = false
             }, 500)
             return false
-          }
+          // }
         } else {
-          let data = this.userManagement.dataTable.filter(dataSource =>
+          let data = this.userManagement.dataTableTemp.filter(dataSource =>
             dataSource.distrik.toLowerCase().includes(keyword.toLowerCase()),
           )
 
-          if (data.length > 0) {
+          // console.log(data)
+
+          // if (data.length > 0) {
             setTimeout(() => {
               this.userManagement.dataTable = data
               this.userManagement.isLoading = false
             }, 500)
             return false
-          }
+          // }
         }
-        setTimeout(() => {
-          this.userManagement.dataTable = this.userManagement.users
-          this.userManagement.isLoading = false
-        }, 500)
-        return false
+        // setTimeout(() => {
+        //   this.userManagement.dataTable = this.userManagement.users
+        //   this.userManagement.isLoading = false
+        // }, 500)
+        // return false
       } else {
         setTimeout(() => {
           this.userManagement.dataTable = this.userManagement.users
