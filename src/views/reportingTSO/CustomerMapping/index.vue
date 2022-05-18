@@ -178,9 +178,11 @@ export default {
     await this.getListDistrik({
       id_tso: this.$store.state.user.userid,
     })
-    // await this.getListCustomerMapping({
-    //   id_tso: this.$store.state.user.userid,
-    // })
+    await this.getListCustomerMapping({
+      id_tso: this.$store.state.user.userid,
+      id_distrik: null,
+      id_distributor: null,
+    })
   },
   methods: {
     ...mapActions('reportingCustomerMapping', [

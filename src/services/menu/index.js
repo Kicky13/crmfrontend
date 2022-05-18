@@ -603,14 +603,14 @@ export const getTsoMenuData = [
     icon: 'fa fa-list-ul',
     children: [
       {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        url: '/reporting/sales-distributor',
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
       },
       {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        url: '/reporting/customer-mapping',
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
       },
     ],
   },
