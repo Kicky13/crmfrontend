@@ -160,67 +160,8 @@
             <template #action="{ text }">
               <div class="d-flex align-items-center">
                 <router-link
-                  :to="`/users/profile/SPC/${text.idJabatan}`"
-                  v-if="selectedShorthand === `SPC`"
-                  :class="
-                    text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled btn btn-light'
-                      : 'btn btn-success'
-                  "
-                  type="button"
-                  class="mr-2"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Hirarki"
-                >
-                  <i class="fa fa-sitemap mr-1"></i>
-                </router-link>
-                <router-link
-                  :to="`/users/profile/TSO/${text.idJabatan}`"
-                  v-else-if="selectedShorthand === `TSO`"
-                  type="button"
-                  class="btn btn-success mr-2"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Hirarki"
-                >
-                  <i class="fa fa-sitemap mr-1"></i>
-                </router-link>
-                <router-link
-                  v-else-if="selectedShorthand === `SALES DIS`"
-                  :to="`/users/profile/sales-distributor/${text.idJabatan}`"
-                  :class="
-                    text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled btn btn-light'
-                      : 'btn btn-success'
-                  "
-                  type="button"
-                  class="mr-2"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Hirarki"
-                >
-                  <i class="fa fa-sitemap mr-1"></i>
-                </router-link>
-                <router-link
-                  v-else-if="selectedShorthand === `ADMIN DIS`"
-                  :to="`/users/profile/admin-distributor/${text.idJabatan}`"
-                  :class="
-                    text.idUser == `Kosong` || text.idUser == null || text.idUser == ''
-                      ? 'disabled btn btn-light'
-                      : 'btn btn-success'
-                  "
-                  type="button"
-                  class="mr-2"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Hirarki"
-                >
-                  <i class="fa fa-sitemap mr-1"></i>
-                </router-link>
-                <router-link
-                  v-else
-                  :to="`/users/profile/jabatan/${text.idJabatan}`"
+                  :to="`/users/profile/${columnRef}/${text.idJabatan}`"
+                  v-if="flagHierarki === 1"
                   type="button"
                   class="mr-2 btn btn-success"
                   data-toggle="tooltip"
@@ -570,6 +511,8 @@ export default {
       modalDeleteView: false,
       modalDetailDistrik: false,
       flagBawahan: null,
+      flagHierarki: null,
+      columnRef: '',
       formState: {
         name: '',
         username: '',
@@ -883,6 +826,8 @@ export default {
       const filtered = dataRes.filter(x => x.id_level_hirarki == key)
       this.actiiveTabs = filtered[0]
       this.flagBawahan = filtered[0].flag_bawahan
+      this.flagHierarki = filtered[0].flag_hierarki
+      this.columnRef = filtered[0].column_reference
 
       this.selectedTitle = this.actiiveTabs.nama_panjang
       this.selectedShorthand = this.actiiveTabs.nama_singkat
