@@ -1,6 +1,11 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
+      <a-input-search
+        placeholder="Cari produk"
+        style="width: 200px"
+        @change="searchData"
+      />
       <a-button
         type="primary"
         @click="showAddModal"
@@ -11,7 +16,7 @@
     </div>
     <a-table
       :columns="produk.columns"
-      :data-source="produk.produkList"
+      :data-source="dataList"
       :loading="produk.isLoading"
     >
       <template #action="{ text }">
@@ -160,6 +165,7 @@ export default {
         produk_baru: '',
       },
       modalStatus: false,
+      dataList: [],
     }
   },
   computed: {
@@ -171,7 +177,7 @@ export default {
     }),
   },
   async mounted() {
-    await this.getAllProduk()
+    await this.setAllProduk()
     this.getUserId()
   },
   methods: {
@@ -181,6 +187,11 @@ export default {
     ...mapActions('kemasan', ['getAllKemasan']),
     getUserId() {
       this.formState.id_user = store.state.user.userid
+    },
+    async setAllProduk() {
+      await this.getAllProduk()
+      this.produk.produkList.map(list => this.dataList.push(list))
+      console.log(this.dataList)
     },
     async showAddModal() {
       await this.getAllBrand()
@@ -309,6 +320,15 @@ export default {
       this.formState.id_type_produk = null
       this.formState.id_kemasan = null
       this.formState.id_tipe = null
+    },
+    searchData(keyword) {
+      if (keyword) {
+        this.dataList = this.produk.produkList.filter(produk =>
+          produk.NAMA_PRODUK.toLowerCase().includes(keyword.target.value.toLowerCase()),
+        )
+      } else {
+        this.dataList = this.produk.produkList
+      }
     },
   },
 }
