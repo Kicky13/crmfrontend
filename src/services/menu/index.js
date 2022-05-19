@@ -567,6 +567,19 @@ export const getTsoMenuData = [
     ],
   },
   {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'Weekly Input',
+        key: 'wein01',
+        url: '/weekly_price/weekly_input',
+      },
+    ],
+  },
+  {
     title: 'Settings & Configuration',
     key: 'dawdasw',
     url: '/settings',

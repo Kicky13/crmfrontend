@@ -676,7 +676,7 @@ export default {
         // })
       }
     },
-    handleProduct() {
+    async handleProduct() {
       let dataSource = [...this.weeklyInput.dataProduct]
       let filtered = dataSource.filter(x => x.NAMA_PRODUK == this.weeklyInput.formData.nama_produk)
       this.weeklyInput.formData.id_produk = filtered[0].ID
@@ -684,6 +684,8 @@ export default {
       this.weeklyInput.formData.type = filtered[0].NM_TYPE_PRODUK
       this.weeklyInput.formData.kemasan = filtered[0].NAMA_KEMASAN
       this.weeklyInput.formData.id_brand = filtered[0].ID_BRAND
+      this.weeklyInput.promoDistrik = []
+      await this.getPromotion()
     },
 
     handleDistrik() {
