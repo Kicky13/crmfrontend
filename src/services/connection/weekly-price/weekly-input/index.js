@@ -543,7 +543,7 @@ const actions = {
       tahun: data.formData.tahun,
       bulan: data.formData.bulan,
       id_brand: data.formData.id_brand,
-      id_week: data.formData.week,
+      week: parseInt(data.formData.week),
     }
     try {
       const result = await apiClient.post('/WPM/getPromoDistrik', body)
@@ -560,10 +560,6 @@ const actions = {
         await commit('changeWeeklyInput', {
           promoDistrik: result.data.data,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
         })
       }
     } catch (error) {
