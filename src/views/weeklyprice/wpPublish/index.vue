@@ -57,15 +57,16 @@
           placeholder="Week"
           show-search
           class="w-100"
+          :disabled="wpPublish.params.nm_tso != `` && wpPublish.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpPublish.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpPublish.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -457,6 +458,7 @@ export default {
       'getDistrik',
       'getMasterProduct',
       'getPromotion',
+      'getDataWeekParams',
     ]),
     // Edit Modal
     async showEditModal(value) {
@@ -595,7 +597,13 @@ export default {
         this.wpPublish.params.id_asm != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == '' &&
+        this.wpPublish.params.id_asm != ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleBulan() {
@@ -607,7 +615,13 @@ export default {
         this.wpPublish.params.id_asm != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == '' &&
+        this.wpPublish.params.id_asm != ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleWeek() {
@@ -619,7 +633,12 @@ export default {
         this.wpPublish.params.id_asm != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == '' &&
+        this.wpPublish.params.id_asm != ''
+      ) {
       }
     },
 

@@ -264,8 +264,7 @@ export default {
       isLoading: false,
       // srcDataStudio:
       //   'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC',
-      srcDataStudio:
-        'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC',
+      srcDataStudio: '',
     }
   },
   computed: {
@@ -278,6 +277,7 @@ export default {
     },
   },
   async mounted() {
+    this.handleRefresh()
     await this.getProvinsi()
     this.urlMap()
     this.handlePagination(5)
@@ -298,12 +298,16 @@ export default {
       'getDataChart',
     ]),
     handleRefresh() {
-      this.isLoading = false
-      setTimeout(() => {
-        this.srcDataStudio =
-          'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC'
-      }, 500)
-      this.isLoading = true
+      var params = {
+        'ds4.regional': ['Regional 4', 'Regional 3'],
+      }
+      var paramsAsString = JSON.stringify(params)
+      var encodedParams = encodeURIComponent(paramsAsString)
+      this.srcDataStudio =
+        'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC?params=' +
+        encodedParams
+
+      console.log(`---srcDataStudio`, this.srcDataStudio)
     },
     tableRowClassName(text) {
       if (text.sow > '100%') {
