@@ -299,7 +299,7 @@ export default {
     ]),
     handleRefresh() {
       var params = {
-        'ds4.region': ['Regional 4', 'Regional 3'],
+        'ds4.regional': ['Regional 4', 'Regional 3'],
       }
       var paramsAsString = JSON.stringify(params)
       var encodedParams = encodeURIComponent(paramsAsString)

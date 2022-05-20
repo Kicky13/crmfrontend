@@ -67,7 +67,13 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { default as localStore } from 'store'
 import find from 'lodash/find'
-import { getAdminMenuData, getUserMenuData, getTsoMenuData, getASMMenuData } from '@/services/menu'
+import {
+  getAdminMenuData,
+  getUserMenuData,
+  getTsoMenuData,
+  getASMMenuData,
+  getSSMMenuData,
+} from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
 
@@ -85,6 +91,8 @@ export default {
         ? getTsoMenuData
         : user.value.role.toLowerCase() === 'asm'
         ? getASMMenuData
+        : user.value.role.toLowerCase() === 'ssm'
+        ? getSSMMenuData
         : getUserMenuData,
     )
     const selectedKeys = ref([])
