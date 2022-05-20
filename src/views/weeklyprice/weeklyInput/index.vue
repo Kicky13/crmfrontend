@@ -39,15 +39,18 @@
           placeholder="Week"
           show-search
           class="w-100"
+          :disabled="
+            weeklyInput.params.bulan != `` && weeklyInput.params.tahun != `` ? false : true
+          "
           @change="handleSubmit"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in weeklyInput.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in weeklyInput.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -203,6 +206,7 @@
           placeholder="Tahun"
           class="w-100 mb-4"
           show-search
+          @change="handleChangeTahunForm()"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
@@ -216,6 +220,7 @@
           placeholder="Bulan"
           class="w-100 mb-4"
           show-search
+          @change="handleChangeBulanForm()"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -233,14 +238,15 @@
           placeholder="Week"
           class="w-100 mb-4"
           show-search
+          @change="handleChangeWeekForm()"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in weeklyInput.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in weeklyInput.dataWeekForm"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }} ({{ weekly.nm_weekly_config }})
           </a-select-option>
         </a-select>
       </a-col>
@@ -474,6 +480,8 @@ export default {
       'submitDataWeekly',
       'duplicateDataWeekly',
       'getPromotion',
+      'getDataWeekParams',
+      'getDataWeekForm',
     ]),
     handleGross() {
       let rbpGross = this.weeklyInput.formData.rbp_gross
@@ -610,9 +618,15 @@ export default {
             })
           }
           await this.getDataTable()
+          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
+          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
+          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
         } else {
           await this.insertDataWeekly()
           await this.getDataTable()
+          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
+          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
+          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
         }
         this.addModal = false
       } else {
@@ -629,15 +643,12 @@ export default {
         this.weeklyInput.params.week != ''
       ) {
         await this.getDataTable()
-        // notification.success({
-        //   message: 'Success',
-        //   description: 'Data berhasil ditampilkan.',
-        // })
-      } else {
-        // notification.error({
-        //   message: 'Error',
-        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        // })
+      } else if (
+        this.weeklyInput.params.tahun != '' &&
+        this.weeklyInput.params.bulan != '' &&
+        this.weeklyInput.params.week == ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleChangeBulan() {
@@ -647,15 +658,50 @@ export default {
         this.weeklyInput.params.week != ''
       ) {
         await this.getDataTable()
-        // notification.success({
-        //   message: 'Success',
-        //   description: 'Data berhasil ditampilkan.',
-        // })
-      } else {
-        // notification.error({
-        //   message: 'Error',
-        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        // })
+      } else if (
+        this.weeklyInput.params.tahun != '' &&
+        this.weeklyInput.params.bulan != '' &&
+        this.weeklyInput.params.week == ''
+      ) {
+        await this.getDataWeekParams()
+      }
+    },
+    async handleChangeTahunForm() {
+      if (
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week != ''
+      ) {
+      } else if (
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
+    async handleChangeBulanForm() {
+      if (
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week != ''
+      ) {
+      } else if (
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
+    async handleChangeWeekForm() {
+      if (
+        this.weeklyInput.formData.tahun != '' &&
+        this.weeklyInput.formData.bulan != '' &&
+        this.weeklyInput.formData.week != '' &&
+        this.weeklyInput.formData.nama_produk != ''
+      ) {
+        await this.getPromotion()
       }
     },
     async handleSubmit() {
