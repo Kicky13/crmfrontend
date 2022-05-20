@@ -153,7 +153,8 @@
           text.start_date_error == '0' &&
           text.end_date_error == '0' &&
           text.inperiode == 0 &&
-          text.sameName == 0"
+          text.sameName == 0 &&
+          text.range == 0"
         >
           <a-tooltip :title="text.laporan">
             <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
@@ -403,7 +404,7 @@ export default {
       })
       let status = []
       this.previewData.map(data => {
-        if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0) {
+        if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0 && data.range == 0) {
           data.laporan = data.inperiode_msg
         } else {
           data.laporan = data.error_msg
@@ -412,6 +413,9 @@ export default {
           }
           if (data.sameName) {
             data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
+          }
+          if (data.range) {
+            data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.range_msg}`
           }
           status.push(true)
         }

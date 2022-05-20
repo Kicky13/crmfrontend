@@ -295,13 +295,13 @@ export default {
       this.params.distrik = this.selectedDistrik == 0 ? null : this.getSelectedItemName(this.selectedDistrik)
       this.params.distributor = this.selectedDistributor == 0 ? null : this.getSelectedItemName(this.selectedDistributor)
 
-      // await this.getMetabasePromotion({
-      //   region: this.params.region,
-      //   provinsi: this.params.provinsi,
-      //   area: this.params.area,
-      //   distrik: this.params.distrik,
-      //   distributor: this.params.distributor,
-      // })
+      await this.getMetabasePromotion({
+        region: this.params.region,
+        provinsi: this.params.provinsi,
+        area: this.params.area,
+        distrik: this.params.distrik,
+        distributor: this.params.distributor,
+      })
     },
 
     getSelectedItemName(item) {
