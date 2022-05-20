@@ -278,11 +278,16 @@ const actions = {
     })
 
     const { data } = state
-
+    let StartDateFormat = new Date(data.formData.start_date + 3600 * 1000 * 24)
+      .toISOString()
+      .slice(0, 10)
+    let EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
+      .toISOString()
+      .slice(0, 10)
     let formData = {
       uuid: payload.uuid,
-      start_date: data.formData.start_date,
-      end_date: data.formData.end_date,
+      start_date: StartDateFormat,
+      end_date: EndDateFormat,
       nilai_zak: data.formData.nilai_zak,
       mekanisme: data.formData.mekanisme,
     }

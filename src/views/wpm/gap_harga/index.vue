@@ -165,12 +165,18 @@
         </a-select>
       </a-col>
     </a-row>
-    <a-table :columns="columns" :data-source="row" />
+    {{ gapHarga.row }}
+    <a-table :columns="columns" :data-source="row">
+      <template #gap_harga="{ text }">
+        <span>{{ text.gap_harga }}</span>
+      </template>
+    </a-table>
   </a-card>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { _ } from 'vue-underscore'
 
 export default {
   data() {
@@ -231,9 +237,39 @@ export default {
         row: this.row,
         column: this.columns,
       })
-      // const rows = []
-      // this.row.map(element => rows.push(element.key_brand))
-      // this.rowHandler(rows)
+
+      if (this.row.length > 0) {
+        // console.log(`this.gapHarga.row`, this.gapHarga.row)
+        // let dataRows = this.row.forEach(val => {
+        //   _.filter(this.gapHarga.row, function(item) {
+        //     return parseInt(item.key_brand) == val.key_brand
+        //   })
+        // })
+
+        // console.log(`---dataRows`, dataRows)
+        console.log(
+          `---datagass`,
+          this.row.forEach(val => {
+            console.log(`val.key_brand`, val.key_brand)
+            _.filter(this.gapHarga.row, function(item) {
+              console.log(`parseInt(item.key_brand)`, parseInt(item.key_brand))
+              return parseInt(item.key_brand) == val.key_brand
+            })
+          }),
+        )
+
+        // this.row.push(
+        //   _.find(this.gapHarga.row, function(item) {
+        //     return item.key_brand == `1`
+        //   }),
+        // )
+
+        // let dataRow = _.find(this.gapHarga.row, function(item) {
+        //   return item.key_brand == `1`
+        // })
+
+        // this.row.push({})
+      }
     },
     columnHandler(values) {
       let temp = []

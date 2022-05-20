@@ -6,8 +6,8 @@ const state = {
     columns: [
       {
         title: 'GAP HARGA',
-        dataIndex: 'gap_harga',
-        key: 0,
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
       },
     ],
     row: [],

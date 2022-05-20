@@ -178,6 +178,8 @@ const state = {
       bulan: '',
       week: '',
     },
+    dataWeekParams: [],
+    dataWeekForm: [],
     dataTable: [],
     dataProduct: [],
     brandList: [],
@@ -197,6 +199,84 @@ const mutations = {
 }
 
 const actions = {
+  async getDataWeekParams({ commit, state }) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          dataWeekParams: result.data.data || 0,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getDataWeekForm({ commit, state }) {
+    commit('changeWeeklyInput', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: data.formData.tahun,
+      bulan: data.formData.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWeeklyInput', {
+          dataWeekForm: result.data.data || 0,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Success',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      await commit('changeWeeklyInput', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
   async getDataTable({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -463,6 +543,7 @@ const actions = {
       tahun: data.formData.tahun,
       bulan: data.formData.bulan,
       id_brand: data.formData.id_brand,
+      week: parseInt(data.formData.week),
     }
     try {
       const result = await apiClient.post('/WPM/getPromoDistrik', body)
@@ -479,10 +560,6 @@ const actions = {
         await commit('changeWeeklyInput', {
           promoDistrik: result.data.data,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
         })
       }
     } catch (error) {
