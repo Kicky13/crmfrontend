@@ -57,15 +57,16 @@
           placeholder="Week"
           show-search
           class="w-100"
+          :disabled="wpApproval.params.nm_tso != `` && wpApproval.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpApproval.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpApproval.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -258,11 +259,11 @@
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpApproval.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpApproval.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -478,6 +479,7 @@ export default {
       'getDistrik',
       'getMasterProduct',
       'getPromotion',
+      'getDataWeekParams',
     ]),
     // Edit Modal
     async showEditModal(value) {
@@ -616,7 +618,13 @@ export default {
         this.wpApproval.params.id_tso != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpApproval.params.tahun != '' &&
+        this.wpApproval.params.bulan != '' &&
+        this.wpApproval.params.week == '' &&
+        this.wpApproval.params.id_tso != ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleBulan() {
@@ -628,7 +636,13 @@ export default {
         this.wpApproval.params.id_tso != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpApproval.params.tahun != '' &&
+        this.wpApproval.params.bulan != '' &&
+        this.wpApproval.params.week == '' &&
+        this.wpApproval.params.id_tso != ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleWeek() {
@@ -640,7 +654,12 @@ export default {
         this.wpApproval.params.id_tso != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpApproval.params.tahun != '' &&
+        this.wpApproval.params.bulan != '' &&
+        this.wpApproval.params.week == '' &&
+        this.wpApproval.params.id_tso != ''
+      ) {
       }
     },
     async handleDataPromo() {
