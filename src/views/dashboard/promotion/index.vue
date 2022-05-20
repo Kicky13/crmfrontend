@@ -192,7 +192,7 @@ export default {
       await this.getRegionList()
       this.promotionDashboard.regionList.map(row => {
         const obj = {
-          value: row.id_region,
+          value: `${row.id_region}-${row.nama_region}`,
           label: row.nama_region,
         }
         this.region.push(obj)
@@ -205,7 +205,7 @@ export default {
       })
       this.promotionDashboard.provinsiList.map(row => {
         const obj = {
-          value: row.id_provinsi,
+          value: `${row.id_provinsi}-${row.nama_provinsi}`,
           label: row.nama_provinsi,
         }
         this.provinsi.push(obj)
@@ -218,7 +218,7 @@ export default {
       })
       this.promotionDashboard.areaList.map(row => {
         const obj = {
-          value: row.id_area,
+          value: `${row.id_area}-${row.nama_area}`,
           label: row.nama_area,
         }
         this.area.push(obj)
@@ -231,7 +231,7 @@ export default {
       })
       this.promotionDashboard.distrikList.map(row => {
         const obj = {
-          value: row.id_distrik,
+          value: `${row.id_distrik}-${row.nama_distrik}`,
           label: row.nama_distrik,
         }
         this.distrik.push(obj)
@@ -244,7 +244,7 @@ export default {
       })
       this.promotionDashboard.distributorList.map(row => {
         const obj = {
-          value: row.id_distributor,
+          value: `${row.id_distributor}-${row.nama_distributor}`,
           label: row.nama_distributor,
         }
         this.distributor.push(obj)
@@ -254,32 +254,33 @@ export default {
     async regionHandle(value) {
       this.provinsi = []
       this.selectedRegion = value
-      this.selectedRegion.map(id => {
-        this.fetchProvinsiList(id)
+      this.selectedRegion.map(item => {
+        this.fetchProvinsiList(parseInt(item.split('-')[0]))
       })
     },
 
     async provinsiHandle(value) {
       this.area = []
       this.selectedProvinsi = value
-      this.selectedProvinsi.map(id => {
-        this.fetchAreaList(id)
+      this.selectedProvinsi.map(item => {
+        this.fetchAreaList(parseInt(item.split('-')[0]))
       })
     },
 
     async areaHandle(value) {
       this.distrik = []
       this.selectedArea = value
-      this.selectedArea.map(id => {
-        this.fetchDistrikList(id)
+      this.selectedArea.map(item => {
+        this.fetchDistrikList(parseInt(item.split('-')[0]))
       })
     },
 
     async distrikHandle(value) {
       this.distributor = []
       this.selectedDistrik = value
-      this.selectedDistrik.map(id => {
-        this.fetchDistributorList(id)
+      console.log(this.selectedDistrik)
+      this.selectedDistrik.map(item => {
+        this.fetchDistributorList(item.split('-')[0])
       })
     },
 
@@ -288,19 +289,28 @@ export default {
     },
 
     async showMetabaseResult() {
-      this.params.region = this.selectedRegion.length == 0 ? null : this.selectedRegion
-      this.params.provinsi = this.selectedProvinsi == 0 ? null : this.selectedProvinsi
-      this.params.area = this.selectedArea == 0 ? null : this.selectedArea
-      this.params.distrik = this.selectedDistrik == 0 ? null : this.selectedDistrik
-      this.params.distributor = this.selectedDistributor == 0 ? null : this.selectedDistributor
+      this.params.region = this.selectedRegion.length == 0 ? null : this.getSelectedItemName(this.selectedRegion)
+      this.params.provinsi = this.selectedProvinsi == 0 ? null : this.getSelectedItemName(this.selectedProvinsi)
+      this.params.area = this.selectedArea == 0 ? null : this.getSelectedItemName(this.selectedArea)
+      this.params.distrik = this.selectedDistrik == 0 ? null : this.getSelectedItemName(this.selectedDistrik)
+      this.params.distributor = this.selectedDistributor == 0 ? null : this.getSelectedItemName(this.selectedDistributor)
 
-      await this.getMetabasePromotion({
-        region: this.params.region,
-        provinsi: this.params.provinsi,
-        area: this.params.area,
-        distrik: this.params.distrik,
-        distributor: this.params.distributor,
+      // await this.getMetabasePromotion({
+      //   region: this.params.region,
+      //   provinsi: this.params.provinsi,
+      //   area: this.params.area,
+      //   distrik: this.params.distrik,
+      //   distributor: this.params.distributor,
+      // })
+    },
+
+    getSelectedItemName(item) {
+      const temp = []
+      item.map((row, index) => {
+        temp.push(row.split('-')[1])
       })
+
+      return temp
     },
   },
 }
