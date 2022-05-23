@@ -18,7 +18,7 @@
           <div class="col-md-12">
             <iframe
               height="900"
-              :src="srcDataStudio"
+              :src="sowDashboard.dataMetabase"
               frameborder="0"
               style="border:0"
               allowfullscreen
@@ -277,10 +277,11 @@ export default {
     },
   },
   async mounted() {
-    this.handleRefresh()
+    // this.handleRefresh()
     await this.getProvinsi()
     this.urlMap()
     this.handlePagination(5)
+    await this.getMetabaseSOW()
     // await this.submitLabel()
     // await this.getDataTable()
   },
@@ -296,18 +297,20 @@ export default {
       'getDataTable',
       'getDataScatterChart',
       'getDataChart',
+      'getMetabaseSOW',
     ]),
-    handleRefresh() {
-      var params = {
-        'ds4.regional': ['Regional 4', 'Regional 3'],
-      }
-      var paramsAsString = JSON.stringify(params)
-      var encodedParams = encodeURIComponent(paramsAsString)
-      this.srcDataStudio =
-        'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC?params=' +
-        encodedParams
+    async handleRefresh() {
+      await this.getMetabaseSOW()
+      // var params = {
+      //   'ds4.regional': ['Regional 4', 'Regional 3'],
+      // }
+      // var paramsAsString = JSON.stringify(params)
+      // var encodedParams = encodeURIComponent(paramsAsString)
+      // this.srcDataStudio =
+      //   'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC?params=' +
+      //   encodedParams
 
-      console.log(`---srcDataStudio`, this.srcDataStudio)
+      // console.log(`---srcDataStudio`, this.srcDataStudio)
     },
     tableRowClassName(text) {
       if (text.sow > '100%') {
