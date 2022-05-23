@@ -159,6 +159,7 @@ const state = {
       id_tso: '',
     },
     dataWeekParams: [],
+    dataWeekForm: [],
     formData: {
       id_distrik: null,
       tahun: '',
@@ -269,6 +270,44 @@ const actions = {
     }
   },
 
+  async getDataWeekForm({ commit, state }) {
+    commit('changeWPPublish', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: data.formData.tahun,
+      bulan: data.formData.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPPublish', {
+          dataWeekForm: result.data.data || 0,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeWPPublish', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
   async getDataTable({ commit, state }, payload) {
     commit('changeWPPublish', {
       isLoading: true,
@@ -281,9 +320,9 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      week: data.params.week,
+      week: parseInt(data.params.week),
       status: 2,
-      id_asm: data.params.id_asm,
+      // id_asm: data.params.id_asm,
     }
 
     try {
