@@ -320,7 +320,7 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      week: data.params.week,
+      week: parseInt(data.params.week),
       status: 2,
       // id_asm: data.params.id_asm,
     }
