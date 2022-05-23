@@ -248,7 +248,7 @@ const actions = {
   //     })
   //   }
   // },
-  async getMetabase({ commit, state }, payload) {
+  async getMetabaseSOW({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
