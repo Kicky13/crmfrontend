@@ -595,16 +595,16 @@ export const getTsoMenuData = [
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
-      {
-        title: 'Log Sync Customer',
-        key: '1121sw',
-        url: '/log-sync-customer',
-      },
-      {
-        title: 'Validasi Harga Survey',
-        key: 'Adaws5',
-        url: '/validasiharga',
-      },
+      // {
+      //   title: 'Log Sync Customer',
+      //   key: '1121sw',
+      //   url: '/log-sync-customer',
+      // },
+      // {
+      //   title: 'Validasi Harga Survey',
+      //   key: 'Adaws5',
+      //   url: '/validasiharga',
+      // },
       {
         title: 'Mapping Customer',
         key: 'St12Cf',
