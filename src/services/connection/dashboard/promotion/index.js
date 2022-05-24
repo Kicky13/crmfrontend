@@ -45,7 +45,7 @@ const actions = {
 
     try {
       // const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}&parameter=${encodeURIComponent(JSON.stringify(parameter))}`)
-      const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}&data=${base64Convert}`)
+      const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}&data=${base64Convert}`)
 
       if (result.data.status == false) {
         notification.error({
