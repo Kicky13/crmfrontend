@@ -2,17 +2,6 @@
   <div>
     <div class="card card-top card-top-primary">
       <div class="card-body p-2">
-        <!-- <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-3"></div>
-          <div class="col-md-3"></div>
-          <div class="col-md-3">
-            <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
-              <i class="fa fa-refresh mr-2" aria-hidden="true"></i>
-              Refresh
-            </a-button>
-          </div>
-        </div> -->
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="3">
             <Multiselect
@@ -21,7 +10,6 @@
               :close-on-select="false"
               :hide-selected="false"
               :options="region"
-              ref="region"
               @change="regionHandle"
             >
               <template #multiplelabel="{ values }">
@@ -39,7 +27,6 @@
               :hide-selected="false"
               :options="provinsi"
               no-options-text="List masih kosong"
-              ref="provinsi"
               @change="provinsiHandle"
             >
               <template #multiplelabel="{ values }">
@@ -57,7 +44,6 @@
               :hide-selected="false"
               :options="area"
               no-options-text="List masih kosong"
-              ref="area"
               @change="areaHandle"
             >
               <template #multiplelabel="{ values }">
@@ -75,7 +61,6 @@
               :hide-selected="false"
               :options="distrik"
               no-options-text="List masih kosong"
-              ref="distrik"
               @change="distrikHandle"
             >
               <template #multiplelabel="{ values }">
@@ -93,7 +78,6 @@
               :hide-selected="false"
               :options="distributor"
               no-options-text="List masih kosong"
-              ref="distributor"
               @change="distributorHandle"
             >
               <template #multiplelabel="{ values }">
@@ -156,11 +140,11 @@ export default {
       distributor: [],
       selectedDistributor: [],
       params: {
-        region: null,
-        provinsi: null,
-        area: null,
-        distrik: null,
-        distributor: null,
+        region: [],
+        provinsi: [],
+        area: [],
+        distrik: [],
+        distributor: [],
       },
     }
   },
@@ -171,60 +155,57 @@ export default {
   },
   async mounted() {
     await this.fetchAll()
-    // this.$refs.region.selectAll()
-    // this.$refs.provinsi.selectAll()
-    // this.$refs.area.selectAll()
-    // this.$refs.distrik.selectAll()
-    // this.$refs.distributor.selectAll()
     await this.getMetabasePromotion({
-      region: this.selectedRegion,
-      provinsi: this.selectedProvinsi,
-      area: this.selectedArea,
-      distrik: this.selectedDistrik,
-      distributor: this.selectedDistributor,
+      region: [],
+      provinsi: [],
+      area: [],
+      distrik: [],
+      distributor: [],
     })
   },
   methods: {
-    ...mapActions('promotionDashboard', ['getMetabasePromotion', 'getRegionList', 'getProvinsiList', 'getAreaList', 'getDistrikList', 'getDistributorList']),
+    ...mapActions(
+      'promotionDashboard',
+      [
+        'getMetabasePromotion',
+        'getRegionList',
+        'getProvinsiList',
+        'getAreaList',
+        'getDistrikList',
+        'getDistributorList',
+      ],
+    ),
 
     async handleRefresh() {
       await this.getMetabasePromotion({
-        region: null,
-        provinsi: null,
-        area: null,
-        distrik: null,
-        distributor: null,
+        region: [],
+        provinsi: [],
+        area: [],
+        distrik: [],
+        distributor: [],
       })
     },
 
     async fetchAll() {
       await this.getRegionList()
-      await this.getProvinsiList()
-      await this.getAreaList()
-      await this.getDistrikList()
-      await this.getDistributorList()
+      await this.getProvinsiList({
+        id_region: undefined,
+      })
+      await this.getAreaList({
+        id_provinsi: undefined,
+      })
+      await this.getDistrikList({
+        id_area: undefined,
+      })
+      await this.getDistributorList({
+        id_distrik: undefined,
+      })
 
       this.regionMapping()
       this.provinsiMapping()
       this.areaMapping()
       this.distrikMapping()
       this.distributorMapping()
-
-      this.region.map(item => {
-        this.selectedRegion.push(item.label)
-      })
-      this.provinsi.map(item => {
-        this.selectedProvinsi.push(item.label)
-      })
-      this.area.map(item => {
-        this.selectedArea.push(item.label)
-      })
-      this.distrik.map(item => {
-        this.selectedDistrik.push(item.label)
-      })
-      this.distributor.map(item => {
-        this.selectedDistributor.push(item.label)
-      })
     },
 
     async fetchRegionList() {
@@ -313,59 +294,81 @@ export default {
     async regionHandle(value) {
       this.provinsi = []
       this.selectedRegion = []
-      value.map(item => {
-        this.fetchProvinsiList(item)
-        this.selectedRegion.push(this.region.find(row => row.value == item).label)
-      })
+      if (value.length == 0) {
+        await this.getProvinsiList({
+          id_region: undefined,
+        })
+        this.provinsiMapping()
+      } else {
+        await this.fetchProvinsiList(value)
+        value.map(item => {
+          this.selectedRegion.push(this.region.find(region => region.value == item).label)
+        })
+      }
     },
 
     async provinsiHandle(value) {
       this.area = []
       this.selectedProvinsi = []
-      value.map(item => {
-        this.fetchAreaList(item)
-        this.selectedProvinsi.push(this.provinsi.find(row => row.value == item).label)
-      })
+      if (value.length == 0) {
+        await this.getAreaList({
+          id_provinsi: undefined,
+        })
+        this.areaMapping()
+      } else {
+        await this.fetchAreaList(value)
+        value.map(item => {
+          this.selectedProvinsi.push(this.provinsi.find(provinsi => provinsi.value == item).label)
+        })
+      }
     },
 
     async areaHandle(value) {
       this.distrik = []
       this.selectedArea = []
-      value.map(item => {
-        this.fetchDistrikList(item)
-        this.selectedArea.push(this.area.find(row => row.value == item).label)
-      })
+      if (value.length == 0) {
+        await this.getDistrikList({
+          id_area: undefined,
+        })
+        this.distrikMapping()
+      } else {
+        await this.fetchDistrikList(value)
+        value.map(item => {
+          this.selectedArea.push(this.area.find(area => area.value == item).label)
+        })
+      }
     },
 
     async distrikHandle(value) {
       this.distributor = []
       this.selectedDistrik = []
-      value.map(item => {
-        this.fetchDistributorList(item)
-        this.selectedDistrik.push(this.distrik.find(row => row.value == item).label)
-      })
+      if (value.length == 0) {
+        await this.getDistributorList({
+          id_distrik: undefined,
+        })
+        this.distributorMapping()
+      } else {
+        await this.fetchDistributorList(value)
+        value.map(item => {
+          this.selectedDistrik.push(this.distrik.find(distrik => distrik.value == item).label)
+        })
+      }
     },
 
     async distributorHandle(value) {
       this.selectedDistributor = []
       value.map(item => {
-        this.selectedDistributor.push(this.distributor.find(row => row.value == item).label)
+        this.selectedDistributor.push(this.distributor.find(distributor => distributor.value == item).label)
       })
     },
 
     async showMetabaseResult() {
-      this.params.region = this.selectedRegion.length == 0 ? null : this.selectedRegion
-      this.params.provinsi = this.selectedProvinsi == 0 ? null : this.selectedProvinsi
-      this.params.area = this.selectedArea == 0 ? null : this.selectedArea
-      this.params.distrik = this.selectedDistrik == 0 ? null : this.selectedDistrik
-      this.params.distributor = this.selectedDistributor == 0 ? null : this.selectedDistributor
-
       await this.getMetabasePromotion({
-        region: this.params.region,
-        provinsi: this.params.provinsi,
-        area: this.params.area,
-        distrik: this.params.distrik,
-        distributor: this.params.distributor,
+        region: this.selectedRegion,
+        provinsi: this.selectedProvinsi,
+        area: this.selectedArea,
+        distrik: this.selectedDistrik,
+        distributor: this.selectedDistributor,
       })
     },
   },
