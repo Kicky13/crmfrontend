@@ -29,17 +29,31 @@ const routes = [
         meta: { title: 'Promotion', resource: 'Promotion', action: 'read' },
         component: () => import(/* webpackChunkName: "promotion" */ '@/views/dashboard/promotion'),
       },
-      // {
-      //   path: '/dashboard/rbp_movement',
-      //   meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
-      //   component: () =>
-      //     import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
-      // },
+      {
+        path: '/dashboard/rbp_movement',
+        meta: { title: 'RBP Movement', resource: 'RBPMovement', action: 'read' },
+        component: () =>
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovement'),
+      },
       {
         path: '/dashboard/rbp_movement_distributor',
-        meta: { title: 'RBP Movement Distributor', resource: 'RBPMovementDistributor', action: 'read' },
+        meta: {
+          title: 'RBP Movement Distributor',
+          resource: 'RBPMovementDistributor',
+          action: 'read',
+        },
         component: () =>
           import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovementdistributor'),
+      },
+      {
+        path: '/dashboard/rbp_movement_tso',
+        meta: {
+          title: 'RBP Movement Distributor',
+          resource: 'RBPMovementDistributor',
+          action: 'read',
+        },
+        component: () =>
+          import(/* webpackChunkName: "rbpmovement" */ '@/views/dashboard/rbpmovementTSO'),
       },
       {
         path: '/dashboard/price_monitoring',
