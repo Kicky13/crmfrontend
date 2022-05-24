@@ -813,8 +813,8 @@ export const getTsoMenuData = [
       },
       {
         title: 'RBP Movement',
-        key: 'rbp126',
-        url: '/dashboard/rbp_movement',
+        key: 'rbp199',
+        url: '/dashboard/rbp_movement_tso',
       },
       {
         title: 'Price Monitoring',
