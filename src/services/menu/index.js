@@ -20,10 +20,15 @@ export const getAdminMenuData = [
         key: 'dpr017',
         url: '/dashboard/promotion',
       },
+      // {
+      //   title: 'RBP Movement',
+      //   key: 'rbp126',
+      //   url: '/dashboard/rbp_movement',
+      // },
       {
         title: 'RBP Movement',
         key: 'rbp126',
-        url: '/dashboard/rbp_movement',
+        url: '/dashboard/rbp_movement_distributor',
       },
       {
         title: 'Price Monitoring',
