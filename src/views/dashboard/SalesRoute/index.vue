@@ -18,7 +18,11 @@
                     disabled
                     value=""
                     v-if="salesRoute.dataDistrik && salesRoute.dataDistrik.length == 0"
-                    >Distrik tidak tersedia</a-select-option
+                    >{{
+                      salesRoute.dataDistrik && salesRoute.dataDistrik.length == 0
+                        ? `Data distrik tidak tersedia`
+                        : 'Pilih distrik'
+                    }}</a-select-option
                   >
 
                   <a-select-option
