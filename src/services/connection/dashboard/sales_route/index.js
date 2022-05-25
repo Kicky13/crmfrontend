@@ -135,7 +135,7 @@ const actions = {
       limit: data.bodyList.limit,
     }
 
-    let bodyTSO = {
+    let bodyTSODIST = {
       levelHirarki: payload.idLevelHirarki,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
@@ -144,7 +144,9 @@ const actions = {
     try {
       let result = ''
       payload.levelHirarki.toLowerCase() == `tso`
-        ? (result = await apiClient.post('/filter/Distrik', bodyTSO))
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
+        : payload.levelHirarki.toLowerCase() == `admin dis`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
         : (result = await apiClient.post('/filter/Distrik', body))
 
       // const result = await apiClient.post('/filter/Distrik', body)
