@@ -139,7 +139,7 @@ export default {
     await this.getMetabaseRBPMovement()
   },
   methods: {
-    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
+    ...mapActions('rbpMovement', ['getMetabaseRBPMovement', 'getRegionList', 'getProvinsiList', 'getAreaList', 'getDistrikList', 'getDistributorList']),
 
     async handleRefresh() {
       await this.getMetabaseRBPMovement()
