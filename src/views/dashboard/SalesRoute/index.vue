@@ -14,9 +14,15 @@
                   show-search
                   @change="handleDistributor"
                 >
-                  <a-select-option disabled value="">Pilih Distrik</a-select-option>
+                  <a-select-option
+                    disabled
+                    value=""
+                    v-if="salesRoute.dataDistrik && salesRoute.dataDistrik.length == 0"
+                    >Distrik tidak tersedia</a-select-option
+                  >
 
                   <a-select-option
+                    v-else
                     v-for="(distrik, index) in salesRoute.dataDistrik"
                     :key="index"
                     :value="distrik.nama_distrik"
