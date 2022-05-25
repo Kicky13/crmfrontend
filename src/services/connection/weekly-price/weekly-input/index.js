@@ -289,7 +289,7 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      week: data.params.week,
+      week: parseInt(data.params.week),
       status: 0,
     }
 
@@ -324,7 +324,6 @@ const actions = {
       })
     }
   },
-
   async getMasterProduct({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
