@@ -42,6 +42,7 @@ export default {
     email: '',
     avatar: '',
     ability: [],
+    levelHirarki: '',
     authorized: false,
     loading: false,
     accountFetchIsTouched: false,
@@ -120,6 +121,7 @@ export default {
             ability,
             userid,
             idJabatan,
+            levelHirarki,
             idLevelHirarki,
           } = response
           commit('SET_STATE', {
@@ -131,6 +133,7 @@ export default {
             ability,
             userid,
             idJabatan,
+            levelHirarki,
             idLevelHirarki,
             authorized: true,
           })
@@ -149,6 +152,7 @@ export default {
           role: '',
           email: '',
           avatar: '',
+          levelHirarki: '',
           ability: [],
           authorized: false,
           loading: false,

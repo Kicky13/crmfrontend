@@ -67,9 +67,10 @@
                     data-placement="top"
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
-                    :title="item.nama_sales"
+                    :title="item.id_sales + item.nama_sales + item.username"
                     :value="item.id_sales"
-                    >{{ item.id_sales }} - {{ item.nama_sales }}</a-select-option
+                    >{{ item.id_sales }} - {{ item.nama_sales }} -
+                    {{ item.username }}</a-select-option
                   >
                 </a-select>
               </a-form-item>
@@ -574,10 +575,16 @@ export default {
     }),
   },
   async mounted() {
-    // this.urlMap()
     this.urlStreetView()
-    console.log(`-----`, this.$store.state.user);
-    await this.getDistrik()
+
+    // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
+    this.$store.state.user.levelHirarki.toLowerCase() == `tso`
+      ? await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki,
+          levelHirarki: this.$store.state.user.levelHirarki,
+        })
+      : await this.getDistrik()
+
     this.handlePagination(5)
     this.handlePaginationToko(5)
   },

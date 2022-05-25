@@ -123,7 +123,7 @@ const mutations = {
   },
 }
 const actions = {
-  async getDistrik({ commit, state }) {
+  async getDistrik({ commit, state }, payload) {
     commit('changeSalesRoute', {
       isLoading: true,
     })
@@ -131,12 +131,23 @@ const actions = {
     const { data } = state
 
     let body = {
-      //   id_area:data.formData.selectedArea,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
+
+    let bodyTSO = {
+      levelHirarki: payload.idLevelHirarki,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
     try {
-      const result = await apiClient.post('/filter/Distrik', body)
+      let result = ''
+      payload.levelHirarki.toLowerCase() == `tso`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSO))
+        : (result = await apiClient.post('/filter/Distrik', body))
+
+      // const result = await apiClient.post('/filter/Distrik', body)
 
       if (result.data.status == 'error') {
         notification.error({
