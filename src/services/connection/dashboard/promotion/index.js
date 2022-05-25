@@ -29,8 +29,11 @@ const actions = {
     })
     const { data } = state
 
-    let params = {
-      dashboard: 238,
+    // let params = {
+    //   dashboard: 238,
+    // }
+
+    let parameter = {
       region: payload.region,
       provinsi: payload.provinsi,
       area: payload.area,
@@ -38,18 +41,15 @@ const actions = {
       distributor: payload.distributor,
     }
 
-    let parameter = [
-      {
-        region: payload.region,
-        provinsi: payload.provinsi,
-        area: payload.area,
-        distrik: payload.distrik,
-        distributor: payload.distributor,
-      },
-    ]
+    const base64Convert = btoa(JSON.stringify(parameter))
+
+    const formData = {
+      dashboard: 238,
+      data: base64Convert,
+    }
 
     try {
-      const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}&parameter=${JSON.stringify(parameter)}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -113,7 +113,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      id_region: payload.id_region,
+      id_region: JSON.stringify(payload.id_region),
     }
 
     try {
@@ -149,7 +149,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      id_provinsi: payload.id_provinsi,
+      id_provinsi: JSON.stringify(payload.id_provinsi),
     }
 
     try {
@@ -185,7 +185,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      id_area: payload.id_area,
+      id_area: JSON.stringify(payload.id_area),
     }
 
     try {
@@ -221,7 +221,7 @@ const actions = {
     const { data } = state
 
     const formData = {
-      id_distrik: payload.id_distrik,
+      id_distrik: JSON.stringify(payload.id_distrik),
     }
 
     try {

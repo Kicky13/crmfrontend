@@ -71,6 +71,9 @@ import {
   getAdminMenuData,
   getUserMenuData,
   getTsoMenuData,
+  getASMMenuData,
+  getSSMMenuData,
+  getMarketIntelligenceMenuData,
 } from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
@@ -87,6 +90,12 @@ export default {
         ? getAdminMenuData
         : user.value.role.toLowerCase() === 'tso'
         ? getTsoMenuData
+        : user.value.role.toLowerCase() === 'asm'
+        ? getASMMenuData
+        : user.value.role.toLowerCase() === 'ssm'
+        ? getSSMMenuData
+        : user.value.role.toLowerCase() === 'market intelligence'
+        ? getMarketIntelligenceMenuData
         : getUserMenuData,
     )
     const selectedKeys = ref([])

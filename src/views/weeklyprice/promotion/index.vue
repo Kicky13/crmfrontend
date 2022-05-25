@@ -332,6 +332,7 @@ export default {
           program: value.program,
           nilai_zak: value.nilai_zak,
           mekanisme: value.mekanisme,
+          edit_zak: value.nilai_zak,
         },
       })
     },

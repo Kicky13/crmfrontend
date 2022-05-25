@@ -148,25 +148,20 @@
     >
       <template #icon="{ text }">
         <div
-          v-if="text.name_error == '0' &&
-          text.name_error == '0' &&
-          text.start_date_error == '0' &&
-          text.end_date_error == '0' &&
-          text.inperiode == 0 &&
-          text.sameName == 0"
+          v-if="text.msg_error == 0"
         >
-          <a-tooltip :title="text.laporan">
+          <a-tooltip :title="text.msg">
             <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
           </a-tooltip>
         </div>
         <div v-else>
-          <a-tooltip :title="text.laporan">
+          <a-tooltip :title="text.msg">
             <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
           </a-tooltip>
         </div>
       </template>
       <template #message="{ text }">
-        <span>{{ text.laporan }}</span>
+        <span>{{ text.msg }}</span>
       </template>
       <template #start_date="{ text }">
         <div v-if="text.start_date">
@@ -301,10 +296,10 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (parseInt(week) > 5) {
+      if (parseInt(week) > 6) {
         notification.error({
           message: 'Gagal',
-          description: 'Format week name minggu maks 5',
+          description: 'Format week name minggu maks 6',
         })
         this.weeklyConfigModal = true
         return
@@ -396,6 +391,7 @@ export default {
         file: this.bodyFile,
         user_id: this.formState.id_user,
       })
+      console.log(this.weeklyConfig.listData)
       this.weeklyConfig.listData.map(row => {
         if (!(row.name_error == "1" && row.start_date_error == "1" && row.end_date_error == "1")) {
           this.previewData.push(row)
@@ -403,19 +399,27 @@ export default {
       })
       let status = []
       this.previewData.map(data => {
-        if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0) {
-          data.laporan = data.inperiode_msg
-        } else {
-          data.laporan = data.error_msg
-          if (data.inperiode) {
-            data.laporan = `${data.laporan}${data.error_msg ? ", " : ""}${data.inperiode_msg}`
-          }
-          if (data.sameName) {
-            data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
-          }
-          status.push(true)
+        if (data.msg_error != 0) {
+          status.push(1)
         }
       })
+      // this.previewData.map(data => {
+      //   if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0 && data.range == 0) {
+      //     data.laporan = data.inperiode_msg
+      //   } else {
+      //     data.laporan = data.error_msg
+      //     if (data.inperiode) {
+      //       data.laporan = `${data.laporan}${data.error_msg ? ", " : ""}${data.inperiode_msg}`
+      //     }
+      //     if (data.sameName) {
+      //       data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
+      //     }
+      //     if (data.range) {
+      //       data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.range_msg}`
+      //     }
+      //     status.push(true)
+      //   }
+      // })
       this.submitStatus = status.length > 0 ? true : false
     },
     async handleSubmit() {

@@ -1,7 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="5">
+      <!-- <a-col :xs="24" :md="5">
         <a-select
           v-model:value="wpPublish.params.nm_tso"
           placeholder="ASM"
@@ -18,7 +18,7 @@
             {{ asm.id_m_hierarchy }} - {{ asm.nm_user }}
           </a-select-option>
         </a-select>
-      </a-col>
+      </a-col> -->
       <a-col :xs="24" :md="3">
         <a-select
           v-model:value="wpPublish.params.tahun"
@@ -51,21 +51,22 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="4">
         <a-select
           v-model:value="wpPublish.params.week"
           placeholder="Week"
           show-search
           class="w-100"
+          :disabled="wpPublish.params.nm_tso != `` && wpPublish.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpPublish.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpPublish.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -79,7 +80,7 @@
           </a-button>
         </a-tooltip>
       </a-col>
-      <a-col :xs="24" :md="7">
+      <a-col :xs="24" :md="11">
         <div class="d-flex justify-content-end">
           <button
             :disabled="
@@ -213,6 +214,7 @@
           placeholder="Tahun"
           class="w-100 mb-4 input_white_disable"
           show-search
+          @change="handleTahunForm()"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
@@ -227,6 +229,7 @@
           placeholder="Bulan"
           class="w-100 mb-4 input_white_disable"
           show-search
+          @change="handleBulansForm()"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -248,11 +251,11 @@
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpPublish.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpPublish.dataWeekForm"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -442,9 +445,9 @@ export default {
     },
   },
   async mounted() {
-    await this.getDataASM({
-      id_atasan: this.$store.state.user.idJabatan,
-    })
+    // await this.getDataASM({
+    //   id_atasan: this.$store.state.user.idJabatan,
+    // })
     await this.getMasterProduct()
   },
   methods: {
@@ -457,6 +460,8 @@ export default {
       'getDistrik',
       'getMasterProduct',
       'getPromotion',
+      'getDataWeekParams',
+      'getDataWeekForm',
     ]),
     // Edit Modal
     async showEditModal(value) {
@@ -591,11 +596,15 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleBulan() {
@@ -603,11 +612,15 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleWeek() {
@@ -615,14 +628,46 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
       }
     },
-
+    async handleTahunForm() {
+      // validasi
+      if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week != ''
+      ) {
+      } else if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
+    async handleBulanForm() {
+      // validasi
+      if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week != ''
+      ) {
+      } else if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
     async handleDataPromo() {
       await this.getPromotion()
     },
