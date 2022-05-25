@@ -13,6 +13,8 @@ const state = {
     areaList: [],
     distrikList: [],
     distributorList: [],
+    getDataTsoResult: [],
+    getDataDistributorResult: [],
   },
 }
 
@@ -46,22 +48,12 @@ const actions = {
 
     const formData = {
       dashboard: 208,
-      params: JSON.stringify({
-        pdistrik: [
-          3509,
-          3511,
-        ],
-        pdistributor: [
-          "106",
-          "142",
-          "147",
-          "238",
-          "254",
-          "8153432",
-          "8167136",
-          "8102067",
-        ],
-      }),
+      data: btoa(JSON.stringify(
+        {
+          pdistrik: payload.pdistrik,
+          pdistributor: payload.pdistributor,
+        },
+      )),
     }
 
     try {
@@ -79,6 +71,71 @@ const actions = {
         await commit('changePromotionDashboard', {
           dataMetabase: result.data.url,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTso({ commit, state }, payload) {
+    commit('changePromotionDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePromotionDashboard', {
+          getDataTsoResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotionDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  // ganti api dari mas irhas
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changePromotionDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePromotionDashboard', {
+          getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotionDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
         })
       }
     } catch (error) {

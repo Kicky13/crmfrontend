@@ -121,40 +121,40 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Multiselect from '@vueform/multiselect'
+// import Multiselect from '@vueform/multiselect'
 
 export default {
-  components: {
-    // Multiselect,
-  },
-  data() {
-    return {
-      region: [],
-      selectedRegion: [],
-      provinsi: [],
-      selectedProvinsi: [],
-      area: [],
-      selectedArea: [],
-      distrik: [],
-      selectedDistrik: [],
-      distributor: [],
-      selectedDistributor: [],
-      params: {
-        region: [],
-        provinsi: [],
-        area: [],
-        distrik: [],
-        distributor: [],
-      },
-    }
-  },
+  // components: {
+  //   Multiselect,
+  // },
+  // data() {
+  //   return {
+  //     region: [],
+  //     selectedRegion: [],
+  //     provinsi: [],
+  //     selectedProvinsi: [],
+  //     area: [],
+  //     selectedArea: [],
+  //     distrik: [],
+  //     selectedDistrik: [],
+  //     distributor: [],
+  //     selectedDistributor: [],
+  //     params: {
+  //       region: [],
+  //       provinsi: [],
+  //       area: [],
+  //       distrik: [],
+  //       distributor: [],
+  //     },
+  //   }
+  // },
   computed: {
     ...mapState({
       promotionDashboard: state => state.promotionDashboard.data,
     }),
   },
   async mounted() {
-    await this.fetchAll()
+    // await this.fetchAll()
     // await this.getMetabasePromotion({
     //   region: [],
     //   provinsi: [],
@@ -162,216 +162,258 @@ export default {
     //   distrik: [],
     //   distributor: [],
     // })
-    await this.getMetabasePromotion()
+    await this.getData()
   },
   methods: {
     ...mapActions(
       'promotionDashboard',
       [
+        // 'getRegionList',
+        // 'getProvinsiList',
+        // 'getAreaList',
+        // 'getDistrikList',
+        // 'getDistributorList',
         'getMetabasePromotion',
-        'getRegionList',
-        'getProvinsiList',
-        'getAreaList',
-        'getDistrikList',
-        'getDistributorList',
+        'getDataTso',
+        'getDataDistributor',
       ],
     ),
 
     async handleRefresh() {
-      await this.getMetabasePromotion({
-        region: [],
-        provinsi: [],
-        area: [],
-        distrik: [],
-        distributor: [],
-      })
+      // await this.getMetabasePromotion({
+      //   region: [],
+      //   provinsi: [],
+      //   area: [],
+      //   distrik: [],
+      //   distributor: [],
+      // })
+      await this.getData()
     },
 
-    async fetchAll() {
-      await this.getRegionList()
-      await this.getProvinsiList({
-        id_region: undefined,
-      })
-      await this.getAreaList({
-        id_provinsi: undefined,
-      })
-      await this.getDistrikList({
-        id_area: undefined,
-      })
-      await this.getDistributorList({
-        id_distrik: undefined,
-      })
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
 
-      this.regionMapping()
-      this.provinsiMapping()
-      this.areaMapping()
-      this.distrikMapping()
-      this.distributorMapping()
-    },
+          await this.getMetabasePromotion({
+            pdistrik: this.promotionDashboard.getDataTsoResult.pdistrik,
+            pdistributor: this.promotionDashboard.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataDistributor({
+            id: userData.userid,
+          })
 
-    async fetchRegionList() {
-      await this.getRegionList()
-      this.regionMapping()
-    },
-
-    regionMapping() {
-      this.promotionDashboard.regionList.map(row => {
-        const obj = {
-          value: row.id_region,
-          label: row.nama_region,
-        }
-        this.region.push(obj)
-      })
-    },
-
-    async fetchProvinsiList(id) {
-      await this.getProvinsiList({
-        id_region: id,
-      })
-      this.provinsiMapping()
-    },
-
-    provinsiMapping() {
-      this.promotionDashboard.provinsiList.map(row => {
-        const obj = {
-          value: row.id_provinsi,
-          label: row.nama_provinsi,
-        }
-        this.provinsi.push(obj)
-      })
-    },
-
-    async fetchAreaList(id) {
-      await this.getAreaList({
-        id_provinsi: id,
-      })
-      this.areaMapping()
-    },
-
-    areaMapping() {
-      this.promotionDashboard.areaList.map(row => {
-        const obj = {
-          value: row.id_area,
-          label: row.nama_area,
-        }
-        this.area.push(obj)
-      })
-    },
-
-    async fetchDistrikList(id) {
-      await this.getDistrikList({
-        id_area: id,
-      })
-      this.distrikMapping()
-    },
-
-    distrikMapping() {
-      this.promotionDashboard.distrikList.map(row => {
-        const obj = {
-          value: row.id_distrik,
-          label: row.nama_distrik,
-        }
-        this.distrik.push(obj)
-      })
-    },
-
-    async fetchDistributorList(id) {
-      await this.getDistributorList({
-        id_distrik: id,
-      })
-      this.distributorMapping()
-    },
-
-    distributorMapping() {
-      this.promotionDashboard.distributorList.map(row => {
-        const obj = {
-          value: row.id_distributor,
-          label: row.nama_distributor,
-        }
-        this.distributor.push(obj)
-      })
-    },
-
-    async regionHandle(value) {
-      this.provinsi = []
-      this.selectedRegion = []
-      if (value.length == 0) {
-        await this.getProvinsiList({
-          id_region: undefined,
-        })
-        this.provinsiMapping()
-      } else {
-        await this.fetchProvinsiList(value)
-        value.map(item => {
-          this.selectedRegion.push(this.region.find(region => region.value == item).label)
-        })
+          await this.getMetabasePromotion({
+            pdistrik: this.promotionDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.promotionDashboard.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabasePromotion({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          await this.getMetabasePromotion({
+            pdistrik: [],
+            pdistributor: [],
+          })
       }
     },
 
-    async provinsiHandle(value) {
-      this.area = []
-      this.selectedProvinsi = []
-      if (value.length == 0) {
-        await this.getAreaList({
-          id_provinsi: undefined,
-        })
-        this.areaMapping()
-      } else {
-        await this.fetchAreaList(value)
-        value.map(item => {
-          this.selectedProvinsi.push(this.provinsi.find(provinsi => provinsi.value == item).label)
-        })
-      }
-    },
+    // async fetchAll() {
+    //   await this.getRegionList()
+    //   await this.getProvinsiList({
+    //     id_region: undefined,
+    //   })
+    //   await this.getAreaList({
+    //     id_provinsi: undefined,
+    //   })
+    //   await this.getDistrikList({
+    //     id_area: undefined,
+    //   })
+    //   await this.getDistributorList({
+    //     id_distrik: undefined,
+    //   })
 
-    async areaHandle(value) {
-      this.distrik = []
-      this.selectedArea = []
-      if (value.length == 0) {
-        await this.getDistrikList({
-          id_area: undefined,
-        })
-        this.distrikMapping()
-      } else {
-        await this.fetchDistrikList(value)
-        value.map(item => {
-          this.selectedArea.push(this.area.find(area => area.value == item).label)
-        })
-      }
-    },
+    //   this.regionMapping()
+    //   this.provinsiMapping()
+    //   this.areaMapping()
+    //   this.distrikMapping()
+    //   this.distributorMapping()
+    // },
 
-    async distrikHandle(value) {
-      this.distributor = []
-      this.selectedDistrik = []
-      if (value.length == 0) {
-        await this.getDistributorList({
-          id_distrik: undefined,
-        })
-        this.distributorMapping()
-      } else {
-        await this.fetchDistributorList(value)
-        value.map(item => {
-          this.selectedDistrik.push(this.distrik.find(distrik => distrik.value == item).label)
-        })
-      }
-    },
+    // async fetchRegionList() {
+    //   await this.getRegionList()
+    //   this.regionMapping()
+    // },
 
-    async distributorHandle(value) {
-      this.selectedDistributor = []
-      value.map(item => {
-        this.selectedDistributor.push(this.distributor.find(distributor => distributor.value == item).label)
-      })
-    },
+    // regionMapping() {
+    //   this.promotionDashboard.regionList.map(row => {
+    //     const obj = {
+    //       value: row.id_region,
+    //       label: row.nama_region,
+    //     }
+    //     this.region.push(obj)
+    //   })
+    // },
 
-    async showMetabaseResult() {
-      await this.getMetabasePromotion({
-        region: this.selectedRegion,
-        provinsi: this.selectedProvinsi,
-        area: this.selectedArea,
-        distrik: this.selectedDistrik,
-        distributor: this.selectedDistributor,
-      })
-    },
+    // async fetchProvinsiList(id) {
+    //   await this.getProvinsiList({
+    //     id_region: id,
+    //   })
+    //   this.provinsiMapping()
+    // },
+
+    // provinsiMapping() {
+    //   this.promotionDashboard.provinsiList.map(row => {
+    //     const obj = {
+    //       value: row.id_provinsi,
+    //       label: row.nama_provinsi,
+    //     }
+    //     this.provinsi.push(obj)
+    //   })
+    // },
+
+    // async fetchAreaList(id) {
+    //   await this.getAreaList({
+    //     id_provinsi: id,
+    //   })
+    //   this.areaMapping()
+    // },
+
+    // areaMapping() {
+    //   this.promotionDashboard.areaList.map(row => {
+    //     const obj = {
+    //       value: row.id_area,
+    //       label: row.nama_area,
+    //     }
+    //     this.area.push(obj)
+    //   })
+    // },
+
+    // async fetchDistrikList(id) {
+    //   await this.getDistrikList({
+    //     id_area: id,
+    //   })
+    //   this.distrikMapping()
+    // },
+
+    // distrikMapping() {
+    //   this.promotionDashboard.distrikList.map(row => {
+    //     const obj = {
+    //       value: row.id_distrik,
+    //       label: row.nama_distrik,
+    //     }
+    //     this.distrik.push(obj)
+    //   })
+    // },
+
+    // async fetchDistributorList(id) {
+    //   await this.getDistributorList({
+    //     id_distrik: id,
+    //   })
+    //   this.distributorMapping()
+    // },
+
+    // distributorMapping() {
+    //   this.promotionDashboard.distributorList.map(row => {
+    //     const obj = {
+    //       value: row.id_distributor,
+    //       label: row.nama_distributor,
+    //     }
+    //     this.distributor.push(obj)
+    //   })
+    // },
+
+    // async regionHandle(value) {
+    //   this.provinsi = []
+    //   this.selectedRegion = []
+    //   if (value.length == 0) {
+    //     await this.getProvinsiList({
+    //       id_region: undefined,
+    //     })
+    //     this.provinsiMapping()
+    //   } else {
+    //     await this.fetchProvinsiList(value)
+    //     value.map(item => {
+    //       this.selectedRegion.push(this.region.find(region => region.value == item).label)
+    //     })
+    //   }
+    // },
+
+    // async provinsiHandle(value) {
+    //   this.area = []
+    //   this.selectedProvinsi = []
+    //   if (value.length == 0) {
+    //     await this.getAreaList({
+    //       id_provinsi: undefined,
+    //     })
+    //     this.areaMapping()
+    //   } else {
+    //     await this.fetchAreaList(value)
+    //     value.map(item => {
+    //       this.selectedProvinsi.push(this.provinsi.find(provinsi => provinsi.value == item).label)
+    //     })
+    //   }
+    // },
+
+    // async areaHandle(value) {
+    //   this.distrik = []
+    //   this.selectedArea = []
+    //   if (value.length == 0) {
+    //     await this.getDistrikList({
+    //       id_area: undefined,
+    //     })
+    //     this.distrikMapping()
+    //   } else {
+    //     await this.fetchDistrikList(value)
+    //     value.map(item => {
+    //       this.selectedArea.push(this.area.find(area => area.value == item).label)
+    //     })
+    //   }
+    // },
+
+    // async distrikHandle(value) {
+    //   this.distributor = []
+    //   this.selectedDistrik = []
+    //   if (value.length == 0) {
+    //     await this.getDistributorList({
+    //       id_distrik: undefined,
+    //     })
+    //     this.distributorMapping()
+    //   } else {
+    //     await this.fetchDistributorList(value)
+    //     value.map(item => {
+    //       this.selectedDistrik.push(this.distrik.find(distrik => distrik.value == item).label)
+    //     })
+    //   }
+    // },
+
+    // async distributorHandle(value) {
+    //   this.selectedDistributor = []
+    //   value.map(item => {
+    //     this.selectedDistributor.push(this.distributor.find(distributor => distributor.value == item).label)
+    //   })
+    // },
+
+    // async showMetabaseResult() {
+    //   await this.getMetabasePromotion({
+    //     region: this.selectedRegion,
+    //     provinsi: this.selectedProvinsi,
+    //     area: this.selectedArea,
+    //     distrik: this.selectedDistrik,
+    //     distributor: this.selectedDistributor,
+    //   })
+    // },
   },
 }
 </script>

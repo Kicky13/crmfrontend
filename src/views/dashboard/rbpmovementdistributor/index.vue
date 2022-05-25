@@ -16,6 +16,7 @@
                   options: region,
                 }
               ]"
+              no-options-text="List kosong"
               @change="regionHandle"
             >
               <template #multiplelabel="{}">

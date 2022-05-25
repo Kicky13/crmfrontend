@@ -43,7 +43,6 @@ export default {
   },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
       priceMonitoring: state => state.priceMonitoring.data,
     }),
     years() {
@@ -52,13 +51,61 @@ export default {
     },
   },
   async mounted() {
-    await this.getMetabasePriceMonitoring()
+    // await this.getMetabasePriceMonitoring()
+    await this.getData()
   },
   methods: {
-    ...mapActions('priceMonitoring', ['getMetabasePriceMonitoring']),
+    ...mapActions(
+      'priceMonitoring',
+      [
+        'getMetabasePriceMonitoring',
+        'getDataTso',
+        'getDataDistributor',
+      ],
+    ),
 
     async handleRefresh() {
-      await this.getMetabasePriceMonitoring()
+      // await this.getMetabasePriceMonitoring()
+      await this.getData()
+    },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePriceMonitoring({
+            pdistrik: this.priceMonitoring.getDataTsoResult.pdistrik,
+            pdistributor: this.priceMonitoring.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataDistributor({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePriceMonitoring({
+            pdistrik: this.priceMonitoring.getDataDistributorResult.pdistrik,
+            pdistributor: this.priceMonitoring.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabasePriceMonitoring({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          await this.getMetabasePriceMonitoring({
+            pdistrik: [],
+            pdistributor: [],
+          })
+      }
     },
   },
 }
