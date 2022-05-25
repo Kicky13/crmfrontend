@@ -636,12 +636,12 @@ export default {
 
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
 
-      await this.getDistributor()
-
       if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
         await this.getSalesman({
           id_distributor: this.$store.state.user.idJabatan,
         })
+      } else {
+        await this.getDistributor()
       }
     },
     async handleSales() {
