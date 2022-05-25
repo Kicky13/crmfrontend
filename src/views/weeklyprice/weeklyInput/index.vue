@@ -538,6 +538,8 @@ export default {
           notes: value.notes,
         },
       })
+
+      this.handleChangeBulanForm()
     },
     showDeleteModal(value) {
       this.$confirm({
@@ -686,6 +688,7 @@ export default {
         this.weeklyInput.formData.bulan != '' &&
         this.weeklyInput.formData.week != ''
       ) {
+        await this.getDataWeekForm()
       } else if (
         this.weeklyInput.formData.tahun != '' &&
         this.weeklyInput.formData.bulan != '' &&
