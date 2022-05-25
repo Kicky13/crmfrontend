@@ -2,17 +2,6 @@
   <div>
     <div class="card card-top card-top-primary">
       <div class="card-body p-2">
-        <!-- <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-3"></div>
-          <div class="col-md-3"></div>
-          <div class="col-md-3">
-            <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
-              <i class="fa fa-refresh mr-2" aria-hidden="true"></i>
-              Refresh
-            </a-button>
-          </div>
-        </div> -->
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="3">
             <Multiselect
@@ -21,12 +10,11 @@
               :close-on-select="false"
               :hide-selected="false"
               :options="region"
-              class="multiselect-blue"
               @change="regionHandle"
             >
               <template #multiplelabel="{ values }">
-                <div class="multiselect-multiple-label">
-                  {{ values.length }} opsi terpilih
+                <div class="multiselect-multiple-label overflow-hidden">
+                  {{ values.length }} selected
                 </div>
               </template>
             </Multiselect>
@@ -43,7 +31,7 @@
             >
               <template #multiplelabel="{ values }">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} opsi terpilih
+                  {{ values.length }} selected
                 </div>
               </template>
             </Multiselect>  
@@ -60,7 +48,7 @@
             >
               <template #multiplelabel="{ values }">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} opsi terpilih
+                  {{ values.length }} selected
                 </div>
               </template>
             </Multiselect>
@@ -77,7 +65,7 @@
             >
               <template #multiplelabel="{ values }">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} opsi terpilih
+                  {{ values.length }} selected
                 </div>
               </template>
             </Multiselect>
@@ -94,7 +82,7 @@
             >
               <template #multiplelabel="{ values }">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} opsi terpilih
+                  {{ values.length }} selected
                 </div>
               </template>
             </Multiselect>
@@ -152,11 +140,11 @@ export default {
       distributor: [],
       selectedDistributor: [],
       params: {
-        region: null,
-        provinsi: null,
-        area: null,
-        distrik: null,
-        distributor: null,
+        region: [],
+        provinsi: [],
+        area: [],
+        distrik: [],
+        distributor: [],
       },
     }
   },
@@ -166,33 +154,69 @@ export default {
     }),
   },
   async mounted() {
+    await this.fetchAll()
     await this.getMetabasePromotion({
-      region: null,
-      provinsi: null,
-      area: null,
-      distrik: null,
-      distributor: null,
+      region: [],
+      provinsi: [],
+      area: [],
+      distrik: [],
+      distributor: [],
     })
-    await this.fetchRegionList()
   },
   methods: {
-    ...mapActions('promotionDashboard', ['getMetabasePromotion', 'getRegionList', 'getProvinsiList', 'getAreaList', 'getDistrikList', 'getDistributorList']),
+    ...mapActions(
+      'promotionDashboard',
+      [
+        'getMetabasePromotion',
+        'getRegionList',
+        'getProvinsiList',
+        'getAreaList',
+        'getDistrikList',
+        'getDistributorList',
+      ],
+    ),
 
     async handleRefresh() {
       await this.getMetabasePromotion({
-        region: null,
-        provinsi: null,
-        area: null,
-        distrik: null,
-        distributor: null,
+        region: [],
+        provinsi: [],
+        area: [],
+        distrik: [],
+        distributor: [],
       })
+    },
+
+    async fetchAll() {
+      await this.getRegionList()
+      await this.getProvinsiList({
+        id_region: undefined,
+      })
+      await this.getAreaList({
+        id_provinsi: undefined,
+      })
+      await this.getDistrikList({
+        id_area: undefined,
+      })
+      await this.getDistributorList({
+        id_distrik: undefined,
+      })
+
+      this.regionMapping()
+      this.provinsiMapping()
+      this.areaMapping()
+      this.distrikMapping()
+      this.distributorMapping()
     },
 
     async fetchRegionList() {
       await this.getRegionList()
+      this.regionMapping()
+    },
+
+    regionMapping() {
       this.promotionDashboard.regionList.map(row => {
         const obj = {
-          value: `${row.id_region}-${row.nama_region}`,
+          value: row.id_region,
           label: row.nama_region,
         }
         this.region.push(obj)
@@ -203,9 +227,13 @@ export default {
       await this.getProvinsiList({
         id_region: id,
       })
+      this.provinsiMapping()
+    },
+
+    provinsiMapping() {
       this.promotionDashboard.provinsiList.map(row => {
         const obj = {
-          value: `${row.id_provinsi}-${row.nama_provinsi}`,
+          value: row.id_provinsi,
           label: row.nama_provinsi,
         }
         this.provinsi.push(obj)
@@ -216,9 +244,13 @@ export default {
       await this.getAreaList({
         id_provinsi: id,
       })
+      this.areaMapping()
+    },
+
+    areaMapping() {
       this.promotionDashboard.areaList.map(row => {
         const obj = {
-          value: `${row.id_area}-${row.nama_area}`,
+          value: row.id_area,
           label: row.nama_area,
         }
         this.area.push(obj)
@@ -229,9 +261,13 @@ export default {
       await this.getDistrikList({
         id_area: id,
       })
+      this.distrikMapping()
+    },
+
+    distrikMapping() {
       this.promotionDashboard.distrikList.map(row => {
         const obj = {
-          value: `${row.id_distrik}-${row.nama_distrik}`,
+          value: row.id_distrik,
           label: row.nama_distrik,
         }
         this.distrik.push(obj)
@@ -242,9 +278,13 @@ export default {
       await this.getDistributorList({
         id_distrik: id,
       })
+      this.distributorMapping()
+    },
+
+    distributorMapping() {
       this.promotionDashboard.distributorList.map(row => {
         const obj = {
-          value: `${row.id_distributor}-${row.nama_distributor}`,
+          value: row.id_distributor,
           label: row.nama_distributor,
         }
         this.distributor.push(obj)
@@ -253,64 +293,83 @@ export default {
 
     async regionHandle(value) {
       this.provinsi = []
-      this.selectedRegion = value
-      this.selectedRegion.map(item => {
-        this.fetchProvinsiList(parseInt(item.split('-')[0]))
-      })
+      this.selectedRegion = []
+      if (value.length == 0) {
+        await this.getProvinsiList({
+          id_region: undefined,
+        })
+        this.provinsiMapping()
+      } else {
+        await this.fetchProvinsiList(value)
+        value.map(item => {
+          this.selectedRegion.push(this.region.find(region => region.value == item).label)
+        })
+      }
     },
 
     async provinsiHandle(value) {
       this.area = []
-      this.selectedProvinsi = value
-      this.selectedProvinsi.map(item => {
-        this.fetchAreaList(parseInt(item.split('-')[0]))
-      })
+      this.selectedProvinsi = []
+      if (value.length == 0) {
+        await this.getAreaList({
+          id_provinsi: undefined,
+        })
+        this.areaMapping()
+      } else {
+        await this.fetchAreaList(value)
+        value.map(item => {
+          this.selectedProvinsi.push(this.provinsi.find(provinsi => provinsi.value == item).label)
+        })
+      }
     },
 
     async areaHandle(value) {
       this.distrik = []
-      this.selectedArea = value
-      this.selectedArea.map(item => {
-        this.fetchDistrikList(parseInt(item.split('-')[0]))
-      })
+      this.selectedArea = []
+      if (value.length == 0) {
+        await this.getDistrikList({
+          id_area: undefined,
+        })
+        this.distrikMapping()
+      } else {
+        await this.fetchDistrikList(value)
+        value.map(item => {
+          this.selectedArea.push(this.area.find(area => area.value == item).label)
+        })
+      }
     },
 
     async distrikHandle(value) {
       this.distributor = []
-      this.selectedDistrik = value
-      console.log(this.selectedDistrik)
-      this.selectedDistrik.map(item => {
-        this.fetchDistributorList(item.split('-')[0])
-      })
+      this.selectedDistrik = []
+      if (value.length == 0) {
+        await this.getDistributorList({
+          id_distrik: undefined,
+        })
+        this.distributorMapping()
+      } else {
+        await this.fetchDistributorList(value)
+        value.map(item => {
+          this.selectedDistrik.push(this.distrik.find(distrik => distrik.value == item).label)
+        })
+      }
     },
 
     async distributorHandle(value) {
-      this.selectedDistributor = value
+      this.selectedDistributor = []
+      value.map(item => {
+        this.selectedDistributor.push(this.distributor.find(distributor => distributor.value == item).label)
+      })
     },
 
     async showMetabaseResult() {
-      this.params.region = this.selectedRegion.length == 0 ? null : this.getSelectedItemName(this.selectedRegion)
-      this.params.provinsi = this.selectedProvinsi == 0 ? null : this.getSelectedItemName(this.selectedProvinsi)
-      this.params.area = this.selectedArea == 0 ? null : this.getSelectedItemName(this.selectedArea)
-      this.params.distrik = this.selectedDistrik == 0 ? null : this.getSelectedItemName(this.selectedDistrik)
-      this.params.distributor = this.selectedDistributor == 0 ? null : this.getSelectedItemName(this.selectedDistributor)
-
-      // await this.getMetabasePromotion({
-      //   region: this.params.region,
-      //   provinsi: this.params.provinsi,
-      //   area: this.params.area,
-      //   distrik: this.params.distrik,
-      //   distributor: this.params.distributor,
-      // })
-    },
-
-    getSelectedItemName(item) {
-      const temp = []
-      item.map((row, index) => {
-        temp.push(row.split('-')[1])
+      await this.getMetabasePromotion({
+        region: this.selectedRegion,
+        provinsi: this.selectedProvinsi,
+        area: this.selectedArea,
+        distrik: this.selectedDistrik,
+        distributor: this.selectedDistributor,
       })
-
-      return temp
     },
   },
 }
@@ -324,5 +383,8 @@ export default {
 }
 .multiselect-option.is-selected.is-pointed {
   background: rgb(255, 28, 92);
+}
+.overflow-hidden {
+  text-overflow: ellipsis;
 }
 </style>

@@ -248,7 +248,7 @@ const actions = {
   //     })
   //   }
   // },
-  async getMetabase({ commit, state }, payload) {
+  async getMetabaseSOW({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
     })
@@ -259,7 +259,7 @@ const actions = {
     }
 
     try {
-      const result = await apiClient.get(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
 
       if (result.data.status == false) {
         notification.error({
