@@ -142,6 +142,7 @@ import {
   getAdminMenuData,
   getUserMenuData,
   getTsoMenuData,
+  getDistributorMenuData,
   getASMMenuData,
   getSSMMenuData,
   getMarketIntelligenceMenuData,
@@ -161,6 +162,8 @@ export default {
         ? getAdminMenuData
         : user.value.role.toLowerCase() === 'tso'
         ? getTsoMenuData
+        : user.value.role.toLowerCase() === 'admin dist'
+        ? getDistributorMenuData
         : user.value.role.toLowerCase() === 'asm'
         ? getASMMenuData
         : user.value.role.toLowerCase() === 'ssm'

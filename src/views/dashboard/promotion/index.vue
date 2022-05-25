@@ -4,7 +4,7 @@
       <div class="card-body p-2">
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Region"
               mode="multiple"
               :close-on-select="false"
@@ -12,15 +12,15 @@
               :options="region"
               @change="regionHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label overflow-hidden">
-                  {{ values.length }} selected
+                  Region
                 </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Provinsi"
               mode="multiple"
               :close-on-select="false"
@@ -29,15 +29,15 @@
               no-options-text="List masih kosong"
               @change="provinsiHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} selected
+                  Provinsi
                 </div>
               </template>
-            </Multiselect>  
+            </Multiselect>   -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Area"
               mode="multiple"
               :close-on-select="false"
@@ -46,15 +46,15 @@
               no-options-text="List masih kosong"
               @change="areaHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} selected
+                  Area
                 </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Distrik"
               mode="multiple"
               :close-on-select="false"
@@ -63,15 +63,15 @@
               no-options-text="List masih kosong"
               @change="distrikHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} selected
+                  Distrik
                 </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Distributor"
               mode="multiple"
               :close-on-select="false"
@@ -80,18 +80,18 @@
               no-options-text="List masih kosong"
               @change="distributorHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label">
-                  {{ values.length }} selected
+                  Distributor
                 </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="5">
-            <a-button type="primary" @click="showMetabaseResult" class="mb-3">
+            <!-- <a-button type="primary" @click="showMetabaseResult" class="mb-3">
               <i class="fa fa-refresh mr-2" aria-hidden="true"></i>
               Tampilkan
-            </a-button>
+            </a-button> -->
           </a-col>
           <a-col :xs="24" :md="4">
             <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
@@ -125,7 +125,7 @@ import Multiselect from '@vueform/multiselect'
 
 export default {
   components: {
-    Multiselect,
+    // Multiselect,
   },
   data() {
     return {
@@ -155,13 +155,14 @@ export default {
   },
   async mounted() {
     await this.fetchAll()
-    await this.getMetabasePromotion({
-      region: [],
-      provinsi: [],
-      area: [],
-      distrik: [],
-      distributor: [],
-    })
+    // await this.getMetabasePromotion({
+    //   region: [],
+    //   provinsi: [],
+    //   area: [],
+    //   distrik: [],
+    //   distributor: [],
+    // })
+    await this.getMetabasePromotion()
   },
   methods: {
     ...mapActions(
