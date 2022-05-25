@@ -29,23 +29,39 @@ const actions = {
     })
     const { data } = state
 
-    // let params = {
-    //   dashboard: 238,
+    // let parameter = {
+    //   region: payload.region,
+    //   provinsi: payload.provinsi,
+    //   area: payload.area,
+    //   distrik: payload.distrik,
+    //   distributor: payload.distributor,
     // }
 
-    let parameter = {
-      region: payload.region,
-      provinsi: payload.provinsi,
-      area: payload.area,
-      distrik: payload.distrik,
-      distributor: payload.distributor,
-    }
+    // const base64Convert = btoa(JSON.stringify(parameter))
 
-    const base64Convert = btoa(JSON.stringify(parameter))
+    // const formData = {
+    //   dashboard: 238,
+    //   data: base64Convert,
+    // }
 
     const formData = {
-      dashboard: 238,
-      data: base64Convert,
+      dashboard: 208,
+      params: JSON.stringify({
+        pdistrik: [
+          3509,
+          3511,
+        ],
+        pdistributor: [
+          "106",
+          "142",
+          "147",
+          "238",
+          "254",
+          "8153432",
+          "8167136",
+          "8102067",
+        ],
+      }),
     }
 
     try {
