@@ -77,7 +77,7 @@
                     data-placement="top"
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
-                    :title="item.id_sales + item.nama_sales + item.username"
+                    :title="item.id_sales + ` - ` + item.nama_sales + ` - ` + item.username"
                     :value="item.id_sales"
                     >{{ item.id_sales }} - {{ item.nama_sales }} -
                     {{ item.username }}</a-select-option
@@ -585,7 +585,7 @@ export default {
   },
   async mounted() {
     this.urlStreetView()
-
+    this.refreshData()
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
     this.$store.state.user.levelHirarki.toLowerCase() == `tso`
       ? await this.getDistrik({
@@ -815,6 +815,19 @@ export default {
 
     openMarker(id) {
       this.openedMarkerID = id
+    },
+
+    refreshData() {
+      this.salesRoute.dataDistrik = []
+      this.salesRoute.dataDistributor = []
+      this.salesRoute.dataSalesman = []
+      this.salesRoute.formData.selectedDistrik = ''
+      this.salesRoute.formData.selectedDistributor = ''
+      this.salesRoute.formData.selectedSalesman = ''
+      this.salesRoute.formData.selectedDate = ''
+      this.salesRoute.formData.id_distrik = ''
+      this.salesRoute.formData.id_distributor = ''
+      this.salesRoute.formData.id_sales = ''
     },
   },
 }
