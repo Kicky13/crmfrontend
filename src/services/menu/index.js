@@ -1093,6 +1093,11 @@ export const getDistributorMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {

@@ -26,7 +26,13 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div
+              class="col-xs-3 col-md-3"
+              v-if="
+                $store.state.user.levelHirarki.toLowerCase() == `tso` ||
+                  $store.state.user.levelHirarki.toLowerCase() == ``
+              "
+            >
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -90,7 +96,6 @@
           <a-button
             :disabled="
               salesRoute.formData.selectedDistrik != `` &&
-              salesRoute.formData.selectedDistributor != `` &&
               salesRoute.formData.selectedSalesman != `` &&
               salesRoute.formData.selectedDate != ``
                 ? false
@@ -583,7 +588,10 @@ export default {
           idLevelHirarki: this.$store.state.user.idLevelHirarki,
           levelHirarki: this.$store.state.user.levelHirarki,
         })
-      : await this.getDistrik()
+      : await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki || '',
+          levelHirarki: this.$store.state.user.levelHirarki || '',
+        })
 
     this.handlePagination(5)
     this.handlePaginationToko(5)
@@ -629,6 +637,12 @@ export default {
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
 
       await this.getDistributor()
+
+      if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+        await this.getSalesman({
+          id_distributor: this.$store.state.user.idJabatan,
+        })
+      }
     },
     async handleSales() {
       let dataSource = [...this.salesRoute.dataDistributor]
