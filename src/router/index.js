@@ -99,6 +99,7 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "user-management" */ '@/views/dashboard/SalesRoute'),
       },
+
       // Master Data
       {
         path: '/master_data/tipe',

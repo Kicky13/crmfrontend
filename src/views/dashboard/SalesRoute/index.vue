@@ -576,7 +576,7 @@ export default {
   async mounted() {
     // this.urlMap()
     this.urlStreetView()
-
+    console.log(`-----`, this.$store.state.user);
     await this.getDistrik()
     this.handlePagination(5)
     this.handlePaginationToko(5)

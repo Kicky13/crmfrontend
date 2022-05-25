@@ -47,6 +47,7 @@ export default {
     accountFetchIsTouched: false,
     userid: null,
     idJabatan: null,
+    idLevelHirarki: null,
     ...DEV, // remove it, used for demo build
   },
   mutations: {
@@ -110,7 +111,17 @@ export default {
       currentAccount().then(response => {
         if (response) {
           localStorage.setItem('userData', JSON.stringify(response))
-          const { id, email, name, avatar, role, ability, userid, idJabatan } = response
+          const {
+            id,
+            email,
+            name,
+            avatar,
+            role,
+            ability,
+            userid,
+            idJabatan,
+            idLevelHirarki,
+          } = response
           commit('SET_STATE', {
             id,
             name,
@@ -120,6 +131,7 @@ export default {
             ability,
             userid,
             idJabatan,
+            idLevelHirarki,
             authorized: true,
           })
         }
@@ -142,6 +154,7 @@ export default {
           loading: false,
           userid: null,
           idJabatan: null,
+          idLevelHirarki: null,
         })
         localStorage.removeItem('userData')
         router.push('/auth/login')

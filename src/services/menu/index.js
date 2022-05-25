@@ -788,7 +788,6 @@ export const getSSMMenuData = [
     ],
   },
 ]
-
 export const getTsoMenuData = [
   {
     title: 'Dashboards',
@@ -821,6 +820,13 @@ export const getTsoMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+
       // {
       //   title: 'SOW',
       //   key: 'pmo231',
