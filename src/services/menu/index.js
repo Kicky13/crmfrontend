@@ -6,7 +6,7 @@ export const getAdminMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
+        title: 'CA & Volume Analytics',
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },

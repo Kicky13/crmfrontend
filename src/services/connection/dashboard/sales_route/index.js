@@ -365,11 +365,7 @@ const actions = {
 
     const { data } = state
 
-    let distrik_id = []
-    distrik_id.push(data.formData.id_distrik)
-
     let body = {
-      id_distrik: JSON.stringify(distrik_id),
       id_jabatan: payload.id_jabatan,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,

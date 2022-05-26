@@ -4,7 +4,10 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row">
-            <div class="col-xs-4 col-md-4">
+            <div
+              class="col-xs-4 col-md-4"
+              v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
+            >
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -99,8 +102,8 @@
         <div class="col-md-2">
           <a-button
             :disabled="
-              salesRoute.formData.selectedDistrik != `` &&
-              salesRoute.formData.selectedSalesman != `` &&
+              salesRoute.formData.selectedDistrik != `` ||
+              salesRoute.formData.selectedSalesman != `` ||
               salesRoute.formData.selectedDate != ``
                 ? false
                 : true
@@ -596,7 +599,15 @@ export default {
           idLevelHirarki: this.$store.state.user.idLevelHirarki || '',
           levelHirarki: this.$store.state.user.levelHirarki || '',
         })
+    if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+      await this.getFilterDistributor({
+        id_jabatan: this.$store.state.user.idJabatan,
+      })
 
+      await this.getSalesman({
+        id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+      })
+    }
     this.handlePagination(5)
     this.handlePaginationToko(5)
   },
