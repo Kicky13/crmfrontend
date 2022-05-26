@@ -6,7 +6,7 @@ export const getAdminMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
+        title: 'CA & Volume Analytics',
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
@@ -783,7 +783,6 @@ export const getSSMMenuData = [
     ],
   },
 ]
-
 export const getTsoMenuData = [
   {
     title: 'Dashboards',
@@ -792,7 +791,7 @@ export const getTsoMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
+        title: 'CA & Volume Analytics',
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
@@ -816,10 +815,16 @@ export const getTsoMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
+
       {
         title: 'Share Of  Wallet',
         key: 'pmo261',
         url: '/dashboard/sow',
+      },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
       },
       // {
       //   title: 'SOW',
@@ -940,7 +945,7 @@ export const getMarketIntelligenceMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
+        title: 'CA & Volume Analytics',
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
@@ -1078,7 +1083,7 @@ export const getDistributorMenuData = [
     icon: 'fe fe-home',
     children: [
       {
-        title: 'CA & Volume Analytcs',
+        title: 'CA & Volume Analytics',
         key: 'dpr214',
         url: '/dashboard/volume_analytcs',
       },
@@ -1106,6 +1111,11 @@ export const getDistributorMenuData = [
         title: 'Share Of  Wallet',
         key: 'pmo261',
         url: '/dashboard/sow',
+      },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
       },
     ],
   },

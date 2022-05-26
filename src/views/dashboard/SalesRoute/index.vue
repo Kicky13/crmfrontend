@@ -4,7 +4,10 @@
       <div class="row">
         <div class="col-md-10">
           <div class="row">
-            <div class="col-xs-4 col-md-4">
+            <div
+              class="col-xs-4 col-md-4"
+              v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
+            >
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -14,7 +17,11 @@
                   show-search
                   @change="handleDistributor"
                 >
-                  <a-select-option disabled value="">Pilih Distrik</a-select-option>
+                  <a-select-option disabled value="">{{
+                    salesRoute.dataDistrik && salesRoute.dataDistrik.length > 0
+                      ? `Pilih distrik`
+                      : 'Data distrik tidak tersedia'
+                  }}</a-select-option>
 
                   <a-select-option
                     v-for="(distrik, index) in salesRoute.dataDistrik"
@@ -26,7 +33,13 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div
+              class="col-xs-3 col-md-3"
+              v-if="
+                $store.state.user.levelHirarki.toLowerCase() == `tso` ||
+                  $store.state.user.levelHirarki.toLowerCase() == ``
+              "
+            >
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -67,9 +80,10 @@
                     data-placement="top"
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
-                    :title="item.nama_sales"
+                    :title="item.id_sales + ` - ` + item.nama_sales + ` - ` + item.username"
                     :value="item.id_sales"
-                    >{{ item.id_sales }} - {{ item.nama_sales }}</a-select-option
+                    >{{ item.id_sales }} - {{ item.nama_sales }} -
+                    {{ item.username }}</a-select-option
                   >
                 </a-select>
               </a-form-item>
@@ -88,9 +102,8 @@
         <div class="col-md-2">
           <a-button
             :disabled="
-              salesRoute.formData.selectedDistrik != `` &&
-              salesRoute.formData.selectedDistributor != `` &&
-              salesRoute.formData.selectedSalesman != `` &&
+              salesRoute.formData.selectedDistrik != `` ||
+              salesRoute.formData.selectedSalesman != `` ||
               salesRoute.formData.selectedDate != ``
                 ? false
                 : true
@@ -574,10 +587,27 @@ export default {
     }),
   },
   async mounted() {
-    // this.urlMap()
     this.urlStreetView()
+    this.refreshData()
+    // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
+    this.$store.state.user.levelHirarki.toLowerCase() == `tso`
+      ? await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki,
+          levelHirarki: this.$store.state.user.levelHirarki,
+        })
+      : await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki || '',
+          levelHirarki: this.$store.state.user.levelHirarki || '',
+        })
+    if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+      await this.getFilterDistributor({
+        id_jabatan: this.$store.state.user.idJabatan,
+      })
 
-    await this.getDistrik()
+      await this.getSalesman({
+        id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+      })
+    }
     this.handlePagination(5)
     this.handlePaginationToko(5)
   },
@@ -594,6 +624,7 @@ export default {
       'getDistrik',
       'getDistributor',
       'getMap',
+      'getFilterDistributor',
     ]),
 
     urlStreetView() {
@@ -621,7 +652,17 @@ export default {
 
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
 
-      await this.getDistributor()
+      if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+        await this.getFilterDistributor({
+          id_jabatan: this.$store.state.user.idJabatan,
+        })
+
+        await this.getSalesman({
+          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+        })
+      } else {
+        await this.getDistributor()
+      }
     },
     async handleSales() {
       let dataSource = [...this.salesRoute.dataDistributor]
@@ -790,6 +831,19 @@ export default {
 
     openMarker(id) {
       this.openedMarkerID = id
+    },
+
+    refreshData() {
+      this.salesRoute.dataDistrik = []
+      this.salesRoute.dataDistributor = []
+      this.salesRoute.dataSalesman = []
+      this.salesRoute.formData.selectedDistrik = ''
+      this.salesRoute.formData.selectedDistributor = ''
+      this.salesRoute.formData.selectedSalesman = ''
+      this.salesRoute.formData.selectedDate = ''
+      this.salesRoute.formData.id_distrik = ''
+      this.salesRoute.formData.id_distributor = ''
+      this.salesRoute.formData.id_sales = ''
     },
   },
 }

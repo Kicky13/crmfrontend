@@ -123,7 +123,7 @@ const mutations = {
   },
 }
 const actions = {
-  async getDistrik({ commit, state }) {
+  async getDistrik({ commit, state }, payload) {
     commit('changeSalesRoute', {
       isLoading: true,
     })
@@ -131,12 +131,25 @@ const actions = {
     const { data } = state
 
     let body = {
-      //   id_area:data.formData.selectedArea,
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
+
+    let bodyTSODIST = {
+      levelHirarki: payload.idLevelHirarki,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
     try {
-      const result = await apiClient.post('/filter/Distrik', body)
+      let result = ''
+      payload.levelHirarki.toLowerCase() == `tso`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
+        : payload.levelHirarki.toLowerCase() == `admin dis`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
+        : (result = await apiClient.post('/filter/Distrik', body))
+
+      // const result = await apiClient.post('/filter/Distrik', body)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -166,8 +179,11 @@ const actions = {
 
     const { data } = state
 
+    let distrik_id = []
+    distrik_id.push(data.formData.id_distrik)
+
     let body = {
-      id_distrik: data.formData.id_distrik,
+      id_distrik: JSON.stringify(distrik_id),
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -243,7 +259,12 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/detilVisitRouteMaps?idSales=${
+          data.formData.selectedSalesman
+        }&idDistributor=${data.formData.id_distributor ||
+          data.dataDistributor[0].id_distributor}&idDistrik=${
+          data.formData.id_distrik
+        }&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
@@ -281,7 +302,12 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/tokoBelumDikunjungi?idSales=${
+          data.formData.selectedSalesman
+        }&idDistributor=${data.formData.id_distributor ||
+          data.dataDistributor[0].id_distributor}&idDistrik=${
+          data.formData.id_distrik
+        }&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
@@ -319,7 +345,10 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data.formData.id_distributor}&idDistrik=${data.formData.id_distrik}&tanggal=${dateFormat}`,
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data
+          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+          data.formData.id_distrik
+        }&tanggal=${dateFormat}`,
       )
       if (result.data.status == false) {
         notification.error({
@@ -333,6 +362,42 @@ const actions = {
         await commit('changeSalesRoute', {
           dataMap: result.data.data,
           isLoading2: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getFilterDistributor({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      id_jabatan: payload.id_jabatan,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Distributor', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataDistributor: result.data.data,
+          isLoading: false,
         })
       }
     } catch (error) {
