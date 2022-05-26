@@ -281,9 +281,10 @@ export default {
     await this.getProvinsi()
     this.urlMap()
     this.handlePagination(5)
-    await this.getMetabaseSOW()
+    // await this.getMetabaseSOW()
     // await this.submitLabel()
     // await this.getDataTable()
+    await this.getData()
   },
   methods: {
     ...mapActions('sowDashboard', [
@@ -298,9 +299,13 @@ export default {
       'getDataScatterChart',
       'getDataChart',
       'getMetabaseSOW',
+      'getDataTso',
+      'getDataAdminDistributor',
+      'getDataDistributor',
     ]),
     async handleRefresh() {
-      await this.getMetabaseSOW()
+      // await this.getMetabaseSOW()
+      await this.getData()
       // var params = {
       //   'ds4.regional': ['Regional 4', 'Regional 3'],
       // }
@@ -312,6 +317,50 @@ export default {
 
       // console.log(`---srcDataStudio`, this.srcDataStudio)
     },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataTsoResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabaseSOW({
+            // pdistrik: [],
+            // pdistributor: [],
+          })
+        break
+        default:
+          // await this.getMetabaseSOW({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+      }
+    },
+
     tableRowClassName(text) {
       if (text.sow > '100%') {
         return 'non-active'
