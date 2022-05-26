@@ -101,8 +101,8 @@ export default {
         break
         case 'Admin':
           await this.getMetabasePriceMonitoring({
-            pdistrik: [],
-            pdistributor: [],
+            // pdistrik: [],
+            // pdistributor: [],
           })
         break
         default:
