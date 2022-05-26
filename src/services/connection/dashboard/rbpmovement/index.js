@@ -16,6 +16,7 @@ const state = {
     distrikList: [],
     distributorList: [],
     getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
     getDataDistributorResult: [],
   },
 }
@@ -83,8 +84,6 @@ const actions = {
     try {
       const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
 
-      console.log(result)
-
       if (result.data.message = 'success') {
         await commit('changeRBPMovement', {
           getDataTsoResult: result.data,
@@ -107,7 +106,38 @@ const actions = {
     }
   },
 
-  // ganti api dari mas irhas
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changeRBPMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeRBPMovement', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRBPMovement', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getDataDistributor({ commit, state }, payload) {
     commit('changeRBPMovement', {
       isLoading: true,

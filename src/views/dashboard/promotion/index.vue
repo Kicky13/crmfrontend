@@ -175,6 +175,7 @@ export default {
         // 'getDistributorList',
         'getMetabasePromotion',
         'getDataTso',
+        'getDataAdminDistributor',
         'getDataDistributor',
       ],
     ),
@@ -206,8 +207,12 @@ export default {
           })
         break
         case 'Admin Dist':
-          await this.getDataDistributor({
+          await this.getDataAdminDistributor({
             id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.promotionDashboard.getDataAdminDistributorResult.id_distributor,
           })
 
           await this.getMetabasePromotion({
@@ -222,10 +227,10 @@ export default {
           })
         break
         default:
-          await this.getMetabasePromotion({
-            pdistrik: [],
-            pdistributor: [],
-          })
+          // await this.getMetabasePromotion({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
       }
     },
 
@@ -418,9 +423,9 @@ export default {
 }
 </script>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
+<!-- <style src="@vueform/multiselect/themes/default.css"></style> -->
 
-<style>
+<!-- <style>
 .multiselect-option.is-selected {
   background: #b20838;
 }
@@ -430,4 +435,4 @@ export default {
 .overflow-hidden {
   text-overflow: ellipsis;
 }
-</style>
+</style> -->

@@ -94,6 +94,7 @@ const state = {
 
     status: 'gagal',
     getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
     getDataDistributorResult: [],
   },
 }
@@ -183,7 +184,38 @@ const actions = {
     }
   },
 
-  // ganti api dari mas irhas
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePriceMonitoring', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getDataDistributor({ commit, state }, payload) {
     commit('changePriceMonitoring', {
       isLoading: true,
