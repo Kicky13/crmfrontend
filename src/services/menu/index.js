@@ -790,16 +790,16 @@ export const getTsoMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -807,8 +807,8 @@ export const getTsoMenuData = [
       },
       {
         title: 'RBP Movement',
-        key: 'rbp199',
-        url: '/dashboard/rbp_movement_tso',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
       },
       {
         title: 'Price Monitoring',
@@ -816,12 +816,18 @@ export const getTsoMenuData = [
         url: '/dashboard/price_monitoring',
       },
 
+     
+
       {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+       {
         title: 'Sales Route Compliance',
         key: 'jkr01l23',
         url: '/dashboard/sales_route',
       },
-
       // {
       //   title: 'SOW',
       //   key: 'pmo231',
@@ -1079,14 +1085,24 @@ export const getDistributorMenuData = [
     icon: 'fe fe-home',
     children: [
       {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
         title: 'Promotion',
         key: 'dpr017',
         url: '/dashboard/promotion',
       },
       {
         title: 'RBP Movement',
-        key: 'pbr621',
-        url: '/dashboard/rbp_movement_distributor',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
       },
       {
         title: 'Price Monitoring',
@@ -1094,6 +1110,11 @@ export const getDistributorMenuData = [
         url: '/dashboard/price_monitoring',
       },
       {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+    {
         title: 'Sales Route Compliance',
         key: 'jkr01l23',
         url: '/dashboard/sales_route',

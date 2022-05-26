@@ -15,91 +15,120 @@
         </div> -->
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="4">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Region"
               mode="multiple"
               :close-on-select="false"
               :hide-selected="false"
-              :options="region"
-              ref="region"
+              :options="[
+                {
+                  label: '-- Select All --',
+                  options: region,
+                }
+              ]"
+              no-options-text="List kosong"
               @change="regionHandle"
             >
-              <template #multiplelabel="{ values }">
+              <template #multiplelabel="{}">
                 <div class="multiselect-multiple-label overflow-hidden">
-                  {{ values.length }} selected
+                  Region
                 </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="4">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Provinsi"
               mode="multiple"
               :close-on-select="false"
               :hide-selected="false"
-              :options="provinsi"
-              no-options-text="List masih kosong"
-              ref="provinsi"
+              :options="[
+                {
+                  label: '-- Select All --',
+                  options: provinsi,
+                }
+              ]"
+              no-options-text="List kosong"
               @change="provinsiHandle"
             >
-              <template #multiplelabel="{ values }">
-                <div class="multiselect-multiple-label">{{ values.length }} selected</div>
+              <template #multiplelabel="{}">
+                <div class="multiselect-multiple-label">
+                  Provinsi
+                </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="4">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Area"
               mode="multiple"
               :close-on-select="false"
               :hide-selected="false"
-              :options="area"
-              no-options-text="List masih kosong"
-              ref="area"
+              :options="[
+                {
+                  label: '-- Select All --',
+                  options: area,
+                }
+              ]"
+              no-options-text="List kosong"
               @change="areaHandle"
             >
-              <template #multiplelabel="{ values }">
-                <div class="multiselect-multiple-label">{{ values.length }} selected</div>
+              <template #multiplelabel="{}">
+                <div class="multiselect-multiple-label">
+                  Area
+                </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Distrik"
               mode="multiple"
               :close-on-select="false"
               :hide-selected="false"
-              :options="distrik"
-              no-options-text="List masih kosong"
-              ref="distrik"
+              :options="[
+                {
+                  label: '-- Select All --',
+                  options: distrik,
+                }
+              ]"
+              no-options-text="List kosong"
               @change="distrikHandle"
             >
-              <template #multiplelabel="{ values }">
-                <div class="multiselect-multiple-label">{{ values.length }} selected</div>
+              <template #multiplelabel="{}">
+                <div class="multiselect-multiple-label">
+                  Distrik
+                </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="3">
-            <Multiselect
+            <!-- <Multiselect
               placeholder="Distributor"
               mode="multiple"
               :close-on-select="false"
               :hide-selected="false"
-              :options="distrik"
-              no-options-text="List masih kosong"
-              ref="distributor"
-              @change="distrikHandle"
+              :options="[
+                {
+                  label: '-- Select All --',
+                  options: distributor,
+                }
+              ]"
+              no-options-text="List kosong"
+              @change="distributorHandle"
             >
-              <template #multiplelabel="{ values }">
-                <div class="multiselect-multiple-label">{{ values.length }} selected</div>
+              <template #multiplelabel="{}">
+                <div class="multiselect-multiple-label">
+                  Distributor
+                </div>
               </template>
-            </Multiselect>
+            </Multiselect> -->
           </a-col>
           <a-col :xs="24" :md="4">
-            <a-button type="primary" @click="showMetabaseResult" class="mb-3">
+            <!-- <a-button type="primary" @click="showMetabaseResult" class="mb-3">
               <i class="fa fa-refresh mr-2" aria-hidden="true"></i>
               Tampilkan
-            </a-button>
+            </a-button> -->
           </a-col>
           <a-col :xs="24" :md="2">
             <a-button type="primary" @click="handleRefresh()" class="mb-3 float-right">
@@ -129,15 +158,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Multiselect from '@vueform/multiselect'
+// import Multiselect from '@vueform/multiselect'
 
 export default {
-  components: {
-    Multiselect,
-  },
+  // components: {
+  //   Multiselect,
+  // },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
       rbpMovement: state => state.rbpMovement.data,
     }),
     years() {
@@ -146,13 +174,61 @@ export default {
     },
   },
   async mounted() {
-    await this.getMetabaseRBPMovement()
+    // await this.getMetabaseRBPMovement()
+    await this.getData()
   },
   methods: {
-    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
+    ...mapActions(
+      'rbpMovement',
+      [
+        'getMetabaseRBPMovement',
+        'getDataTso',
+        'getDataDistributor',
+      ],
+    ),
 
     async handleRefresh() {
-      await this.getMetabaseRBPMovement()
+      // await this.getMetabaseRBPMovement()
+      await this.getData()
+    },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovement({
+            pdistrik: this.rbpMovement.getDataTsoResult.pdistrik,
+            pdistributor: this.rbpMovement.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataDistributor({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovement({
+            pdistrik: this.rbpMovement.getDataDistributorResult.pdistrik,
+            pdistributor: this.rbpMovement.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabaseRBPMovement({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          await this.getMetabaseRBPMovement({
+            pdistrik: [],
+            pdistributor: [],
+          })
+      }
     },
   },
 }

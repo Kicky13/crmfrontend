@@ -93,6 +93,9 @@ const state = {
     dataMetabase: null,
 
     status: 'gagal',
+    getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
+    getDataDistributorResult: [],
   },
 }
 
@@ -109,12 +112,23 @@ const actions = {
     })
     const { data } = state
 
-    let params = {
+    // let params = {
+    //   dashboard: 214,
+    // }
+
+    const formData = {
       dashboard: 214,
+      data: btoa(JSON.stringify(
+        {
+          pdistrik: payload.pdistrik,
+          pdistributor: payload.pdistributor,
+        },
+      )),
     }
 
     try {
-      const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -128,6 +142,102 @@ const actions = {
         await commit('changePriceMonitoring', {
           dataMetabase: result.data.url,
           isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTso({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePriceMonitoring', {
+          getDataTsoResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePriceMonitoring', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePriceMonitoring', {
+          getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
         })
       }
     } catch (error) {

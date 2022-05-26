@@ -15,6 +15,9 @@ const state = {
     areaList: [],
     distrikList: [],
     distributorList: [],
+    getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
+    getDataDistributorResult: [],
   },
 }
 
@@ -31,12 +34,23 @@ const actions = {
     })
     const { data } = state
 
-    let params = {
+    // let params = {
+    //   dashboard: 212,
+    // }
+
+    const formData = {
       dashboard: 212,
+      data: btoa(JSON.stringify(
+        {
+          pdistrik: payload.pdistrik,
+          pdistributor: payload.pdistributor,
+        },
+      )),
     }
 
     try {
-      const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${formData.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -60,7 +74,7 @@ const actions = {
     }
   },
 
-  async getRegionList({ commit, state }, payload) {
+  async getDataTso({ commit, state }, payload) {
     commit('changeRBPMovement', {
       isLoading: true,
     })
@@ -68,7 +82,107 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.post(`/filter/Region`)
+      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeRBPMovement', {
+          getDataTsoResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRBPMovement', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changeRBPMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeRBPMovement', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRBPMovement', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changeRBPMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeRBPMovement', {
+          getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRBPMovement', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getRegionList({ commit, state }, payload) {
+    commit('changeRBPMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      levelHirarki: JSON.parse(localStorage.getItem('userData')).idLevelHirarki,
+    }
+
+    try {
+      const result = await apiClient.post(`/filter/Region`, formData)
 
       if (result.data.message = 'success') {
         await commit('changeRBPMovement', {
