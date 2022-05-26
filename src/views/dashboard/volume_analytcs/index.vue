@@ -52,13 +52,66 @@ export default {
     },
   },
   async mounted() {
-    await this.getMetabaseVolumeAnalytcs()
+    // await this.getMetabaseVolumeAnalytcs()
+    await this.getData()
   },
   methods: {
-    ...mapActions('volumeAnalytcs', ['getMetabaseVolumeAnalytcs']),
+    ...mapActions(
+      'volumeAnalytcs',
+      [
+        'getMetabaseVolumeAnalytcs',
+        'getDataTso',
+        'getDataAdminDistributor',
+        'getDataDistributor',
+      ],
+    ),
 
     async handleRefresh() {
-      await this.getMetabaseVolumeAnalytcs()
+      // await this.getMetabaseVolumeAnalytcs()
+    await this.getData()
+    },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseVolumeAnalytcs({
+            pdistrik: this.volumeAnalytcs.getDataTsoResult.pdistrik,
+            pdistributor: this.volumeAnalytcs.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.volumeAnalytcs.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseVolumeAnalytcs({
+            pdistrik: this.volumeAnalytcs.getDataDistributorResult.pdistrik,
+            pdistributor: this.volumeAnalytcs.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabaseVolumeAnalytcs({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          // await this.getMetabaseVolumeAnalytcs({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+      }
     },
   },
 }

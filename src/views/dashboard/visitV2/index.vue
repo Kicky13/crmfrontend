@@ -43,7 +43,6 @@ export default {
   },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
       visitDashboard: state => state.visitDashboard.data,
     }),
     years() {
@@ -52,13 +51,67 @@ export default {
     },
   },
   async mounted() {
-    await this.getMetabase()
+    // await this.getMetabase()
+    await this.getData()
   },
   methods: {
-    ...mapActions('visitDashboard', ['getMetabase']),
+    ...mapActions(
+      'visitDashboard',
+      [
+        'getMetabase',
+        'getDataTso',
+        'getDataAdminDistributor',
+        'getDataDistributor',
+      ],
+    ),
 
     async handleRefresh() {
-      await this.getMetabase()
+      // await this.getMetabase()
+      await this.getData()
+    },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabase({
+            pdistrik: this.visitDashboard.getDataTsoResult.pdistrik,
+            pdistributor: this.visitDashboard.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.visitDashboard.getDataAdminDistributorResult.id_distributor,
+          })
+          console.log(this.visitDashboard)
+
+          await this.getMetabase({
+            pdistrik: this.visitDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.visitDashboard.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabase({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          // await this.getMetabase({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+      }
     },
   },
 }
