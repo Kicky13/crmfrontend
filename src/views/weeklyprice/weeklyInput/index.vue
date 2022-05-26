@@ -482,6 +482,7 @@ export default {
       'getPromotion',
       'getDataWeekParams',
       'getDataWeekForm',
+      
     ]),
     handleGross() {
       let rbpGross = this.weeklyInput.formData.rbp_gross

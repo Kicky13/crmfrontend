@@ -358,6 +358,46 @@ const actions = {
       })
     }
   },
+  async getFilterDistributor({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let distrik_id = []
+    distrik_id.push(data.formData.id_distrik)
+
+    let body = {
+      id_distrik: JSON.stringify(distrik_id),
+      id_jabatan: payload.id_jabatan,
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Distributor', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
 }
 export default {
   namespaced: true,

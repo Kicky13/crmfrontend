@@ -613,6 +613,7 @@ export default {
       'getDistrik',
       'getDistributor',
       'getMap',
+      'getFilterDistributor',
     ]),
 
     urlStreetView() {
@@ -641,8 +642,12 @@ export default {
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
 
       if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+        await this.getFilterDistributor({
+          id_jabatan: this.$store.state.user.idJabatan,
+        })
+
         await this.getSalesman({
-          id_distributor: this.$store.state.user.idJabatan,
+          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
         })
       } else {
         await this.getDistributor()
