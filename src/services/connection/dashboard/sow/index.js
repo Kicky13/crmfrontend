@@ -203,6 +203,9 @@ const state = {
     statusPie: '',
     statusScatter: '',
     itemsPerPage: [5, 10, 15, 20],
+    getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
+    getDataDistributorResult: [],
   },
 }
 const mutations = {
@@ -254,12 +257,23 @@ const actions = {
     })
     const { data } = state
 
-    let params = {
+    // let params = {
+    //   dashboard: 218,
+    // }
+
+    const formData = {
       dashboard: 218,
+      data: btoa(JSON.stringify(
+        {
+          pdistrik: payload.pdistrik,
+          pdistributor: payload.pdistributor,
+        },
+      )),
     }
 
     try {
-      const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
 
       if (result.data.status == false) {
         notification.error({
@@ -282,6 +296,103 @@ const actions = {
       })
     }
   },
+
+  async getDataTso({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeSOW', {
+          getDataTsoResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeSOW', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeSOW', {
+          getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getProvinsi({ commit, state }) {
     commit('changeSOW', {
       isLoading: true,

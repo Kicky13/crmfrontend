@@ -20,15 +20,10 @@ export const getAdminMenuData = [
         key: 'dpr017',
         url: '/dashboard/promotion',
       },
-      // {
-      //   title: 'RBP Movement',
-      //   key: 'rbp126',
-      //   url: '/dashboard/rbp_movement',
-      // },
       {
         title: 'RBP Movement',
         key: 'rbp126',
-        url: '/dashboard/rbp_movement_distributor',
+        url: '/dashboard/rbp_movement',
       },
       {
         title: 'Price Monitoring',
@@ -796,16 +791,16 @@ export const getTsoMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -813,13 +808,18 @@ export const getTsoMenuData = [
       },
       {
         title: 'RBP Movement',
-        key: 'rbp199',
-        url: '/dashboard/rbp_movement_tso',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
       },
       {
         title: 'Price Monitoring',
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
+      },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
       },
       // {
       //   title: 'SOW',
@@ -1065,6 +1065,65 @@ export const getMarketIntelligenceMenuData = [
         title: 'Sales Distributor',
         key: '125a92',
         url: '/reporting-tso/sales-distributor',
+      },
+    ],
+  },
+]
+
+export const getDistributorMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+    ],
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
       },
     ],
   },
