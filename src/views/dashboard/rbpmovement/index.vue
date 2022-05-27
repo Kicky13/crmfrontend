@@ -98,8 +98,8 @@ export default {
         break
         case 'Admin':
           await this.getMetabaseRBPMovement({
-            pdistrik: [],
-            pdistributor: [],
+            // pdistrik: [],
+            // pdistributor: [],
           })
         break
         default:

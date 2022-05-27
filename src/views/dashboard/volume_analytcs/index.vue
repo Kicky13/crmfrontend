@@ -102,8 +102,8 @@ export default {
         break
         case 'Admin':
           await this.getMetabaseVolumeAnalytcs({
-            pdistrik: [],
-            pdistributor: [],
+            // pdistrik: [],
+            // pdistributor: [],
           })
         break
         default:
