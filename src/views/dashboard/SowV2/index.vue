@@ -349,8 +349,8 @@ export default {
         break
         case 'Admin':
           await this.getMetabaseSOW({
-            // pdistrik: [],
-            // pdistributor: [],
+            pdistrik: [],
+            pdistributor: [],
           })
         break
         default:

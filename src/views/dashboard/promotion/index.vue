@@ -222,8 +222,8 @@ export default {
         break
         case 'Admin':
           await this.getMetabasePromotion({
-            // pdistrik: [],
-            // pdistributor: [],
+            pdistrik: [],
+            pdistributor: [],
           })
         break
         default:
