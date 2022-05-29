@@ -56,6 +56,7 @@ export default {
       'rbpMovement',
       [
         'getMetabaseRBPMovement',
+        'getMetabaseRBPMovementAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -97,7 +98,7 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabaseRBPMovement({
+          await this.getMetabaseRBPMovementAdmin({
             pdistrik: [],
             pdistributor: [],
           })

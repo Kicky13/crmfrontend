@@ -59,6 +59,7 @@ export default {
       'priceMonitoring',
       [
         'getMetabasePriceMonitoring',
+        'getMetabasePriceMonitoringAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -100,7 +101,7 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabasePriceMonitoring({
+          await this.getMetabasePriceMonitoringAdmin({
             pdistrik: [],
             pdistributor: [],
           })

@@ -28,6 +28,45 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabaseRBPMovementAdmin({ commit, state }, payload) {
+    commit('changeRBPMovement', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 212,
+    // }
+
+    const formData = {
+      dashboard: 249,
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${formData.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeRBPMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeRBPMovement', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getMetabaseRBPMovement({ commit, state }, payload) {
     commit('changeRBPMovement', {
       isLoading: true,
