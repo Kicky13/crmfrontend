@@ -299,6 +299,7 @@ export default {
       'getDataScatterChart',
       'getDataChart',
       'getMetabaseSOW',
+      'getMetabaseSOWAdmin',
       'getDataTso',
       'getDataAdminDistributor',
       'getDataDistributor',
@@ -348,7 +349,7 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabaseSOW({
+          await this.getMetabaseSOWAdmin({
             pdistrik: [],
             pdistributor: [],
           })

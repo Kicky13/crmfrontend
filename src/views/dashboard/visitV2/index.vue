@@ -59,6 +59,7 @@ export default {
       'visitDashboard',
       [
         'getMetabase',
+        'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -101,7 +102,7 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabase({
+          await this.getMetabaseAdmin({
             pdistrik: [],
             pdistributor: [],
           })

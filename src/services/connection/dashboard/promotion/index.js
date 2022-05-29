@@ -26,6 +26,55 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabasePromotionAdmin({ commit, state }, payload) {
+    commit('changePromotionDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let parameter = {
+    //   region: payload.region,
+    //   provinsi: payload.provinsi,
+    //   area: payload.area,
+    //   distrik: payload.distrik,
+    //   distributor: payload.distributor,
+    // }
+
+    // const base64Convert = btoa(JSON.stringify(parameter))
+
+    // const formData = {
+    //   dashboard: 238,
+    //   data: base64Convert,
+    // }
+
+    const formData = {
+      dashboard: 248,
+    }
+
+    try {
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changePromotionDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotionDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getMetabasePromotion({ commit, state }, payload) {
     commit('changePromotionDashboard', {
       isLoading: true,

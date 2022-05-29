@@ -230,6 +230,45 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabaseAdmin({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 226,
+    // }
+
+    const formData = {
+      dashboard: 251,
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getMetabase({ commit, state }, payload) {
     commit('changeVisitDashboard', {
       isLoading: true,
