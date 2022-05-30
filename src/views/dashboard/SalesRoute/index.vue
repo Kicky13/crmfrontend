@@ -54,13 +54,16 @@
                   <a-select-option
                     v-for="(distributor, index) in salesRoute.dataDistributor"
                     :key="index"
+                    :title="distributor.nama_distributor"
+                    data-toggle="tooltip"
+                    data-placement="top"
                     :value="distributor.nama_distributor"
                     >{{ distributor.nama_distributor }}</a-select-option
                   >
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div class="col-xs-5 col-md-5">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -80,18 +83,18 @@
                     data-placement="top"
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
-                    :title="item.id_sales + ` - ` + item.nama_sales + ` - ` + item.username"
+                    :title="item.id_sales + ` - ` + item.username + ` - ` + item.nama_sales"
                     :value="item.id_sales"
-                    >{{ item.id_sales }} - {{ item.nama_sales }} -
-                    {{ item.username }}</a-select-option
-                  >
+                    >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
+                  </a-select-option>
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-2 col-md-2">
+            <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-date-picker
                   format="YYYY-MM-DD"
+                  placeholder="Pilih Tanggal"
                   v-model:value="salesRoute.formData.selectedDate"
                   class="w-100"
                 />
