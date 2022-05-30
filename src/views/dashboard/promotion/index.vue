@@ -177,6 +177,7 @@ export default {
         'getMetabasePromotionAdmin',
         'getMetabasePromotionTSO',
         'getDataTso',
+        'getDataRegionTSO',
         'getDataAdminDistributor',
         'getDataDistributor',
       ],
@@ -199,7 +200,7 @@ export default {
       
       switch (roleUser) {
         case 'TSO':
-          await this.getDataTso({
+          await this.getDataRegionTSO({
             id: userData.userid,
           })
 

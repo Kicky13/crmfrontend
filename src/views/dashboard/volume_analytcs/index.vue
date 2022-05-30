@@ -60,6 +60,7 @@ export default {
       'volumeAnalytcs',
       [
         'getMetabaseVolumeAnalytcs',
+        'getMetabaseVolumeAnalytcsTSO',
         'getMetabaseVolumeAnalytcsAdmin',
         'getDataTso',
         'getDataAdminDistributor',
@@ -82,9 +83,8 @@ export default {
             id: userData.userid,
           })
 
-          await this.getMetabaseVolumeAnalytcs({
-            pdistrik: this.volumeAnalytcs.getDataTsoResult.pdistrik,
-            pdistributor: this.volumeAnalytcs.getDataTsoResult.pdistributor,
+          await this.getMetabaseVolumeAnalytcsTSO({
+            pregion: this.volumeAnalytcs.getDataTsoResult.pregion,
           })
         break
         case 'Admin Dist':
