@@ -465,6 +465,7 @@ export default {
     await this.getDistrik({
       id_tso: this.$store.state.user.idJabatan,
     })
+    await this.refreshFilter()
   },
   methods: {
     ...mapActions('weeklyInput', [
@@ -567,6 +568,8 @@ export default {
         onOk: async () => {
           await this.submitDataWeekly()
           await this.getDataTable()
+          this.weeklyInput.dataTable = []
+          this.weeklyInput.data_uuid = []
         },
         onCancel: () => {},
       })
@@ -749,6 +752,7 @@ export default {
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
       this.weeklyInput.dataTable = []
+      this.weeklyInput.data_uuid = []
     },
   },
 }

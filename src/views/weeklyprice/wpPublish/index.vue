@@ -449,6 +449,7 @@ export default {
     //   id_atasan: this.$store.state.user.idJabatan,
     // })
     await this.getMasterProduct()
+    await this.refreshFilter()
   },
   methods: {
     ...mapActions('wpPublish', [
@@ -548,6 +549,8 @@ export default {
         onOk: async () => {
           await this.submitPublish()
           await this.getDataTable()
+          this.wpPublish.data_uuid = []
+          this.wpPublish.wpPublishList = []
         },
         onCancel: () => {},
       })
@@ -564,6 +567,8 @@ export default {
         onOk: async () => {
           await this.submitReject()
           await this.getDataTable()
+          this.wpPublish.data_uuid = []
+          this.wpPublish.wpPublishList = []
         },
         onCancel: () => {},
       })
@@ -685,6 +690,7 @@ export default {
       this.wpPublish.params.week = ''
       this.wpPublish.wpPublishList = []
       this.wpPublish.params.id_asm = null
+      this.wpPublish.data_uuid = []
     },
   },
 }

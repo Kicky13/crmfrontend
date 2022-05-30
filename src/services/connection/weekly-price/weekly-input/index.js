@@ -723,9 +723,7 @@ const actions = {
 
     const { data } = state
 
-    let dataTable = data.dataTable
-
-    dataTable.forEach(element => {
+    data.dataTable.forEach(element => {
       data.data_uuid.push(element.uuid)
     })
     let dataStatus = 1
