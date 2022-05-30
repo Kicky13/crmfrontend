@@ -43,7 +43,7 @@
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
-            v-for="(bulan, index) in weeklyInput.data_bulan"
+            v-for="(bulan, index) in report.data_bulan"
             :value="bulan.id"
             :key="index"
           >
@@ -52,10 +52,20 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="3">
-        <a-select v-model:value="report.params.week" placeholder="Week" show-search class="w-100">
+        <a-select
+          v-model:value="report.params.week"
+          placeholder="Week"
+          show-search
+          class="w-100"
+          :disabled="report.params.bulan != `` && report.params.tahun != `` ? false : true"
+        >
           <a-select-option disabled value="">Pilih Week</a-select-option>
-          <a-select-option v-for="(week, index) in report.dataWeekly" :value="week.id" :key="index">
-            {{ week.name }}
+          <a-select-option
+            v-for="(weekly, index) in report.dataWeekParams"
+            :value="weekly.week"
+            :key="index"
+          >
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -116,7 +126,7 @@ export default {
   computed: {
     ...mapState({
       report: state => state.report.data,
-      weeklyInput: state => state.weeklyInput.data,
+      report: state => state.report.data,
     }),
     years() {
       const year = new Date().getFullYear()
@@ -127,7 +137,7 @@ export default {
     await this.getDistrikRET()
   },
   methods: {
-    ...mapActions('report', ['getDistrikRET', 'getDataTable']),
+    ...mapActions('report', ['getDistrikRET', 'getDataTable', 'getDataWeekParams']),
     refreshFilter() {
       this.report.params.id_distrik_ret = null
       this.report.params.tahun = ''
@@ -204,6 +214,34 @@ export default {
           }
         }),
       )
+    },
+    async handleChangeTahun() {
+      if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week != ''
+      ) {
+      } else if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week == ''
+      ) {
+        await this.getDataWeekParams()
+      }
+    },
+    async handleChangeBulan() {
+      if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week != ''
+      ) {
+      } else if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week == ''
+      ) {
+        await this.getDataWeekParams()
+      }
     },
   },
 }
