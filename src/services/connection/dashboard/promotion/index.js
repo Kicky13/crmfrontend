@@ -26,6 +26,55 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabasePromotionAdmin({ commit, state }, payload) {
+    commit('changePromotionDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let parameter = {
+    //   region: payload.region,
+    //   provinsi: payload.provinsi,
+    //   area: payload.area,
+    //   distrik: payload.distrik,
+    //   distributor: payload.distributor,
+    // }
+
+    // const base64Convert = btoa(JSON.stringify(parameter))
+
+    // const formData = {
+    //   dashboard: 238,
+    //   data: base64Convert,
+    // }
+
+    const formData = {
+      dashboard: 248,
+    }
+
+    try {
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changePromotionDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePromotionDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getMetabasePromotion({ commit, state }, payload) {
     commit('changePromotionDashboard', {
       isLoading: true,
@@ -49,12 +98,12 @@ const actions = {
 
     const formData = {
       dashboard: 208,
-      data: btoa(JSON.stringify(
-        {
+      data: btoa(
+        JSON.stringify({
           pdistrik: payload.pdistrik,
           pdistributor: payload.pdistributor,
-        },
-      )),
+        }),
+      ),
     }
 
     try {
@@ -92,7 +141,7 @@ const actions = {
     try {
       const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           getDataTsoResult: result.data,
           isLoading: false,
@@ -124,7 +173,7 @@ const actions = {
     try {
       const result = await apiClient.get(`/getdist?id=${payload.id}`)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           getDataAdminDistributorResult: result.data.data,
           isLoading: false,
@@ -156,7 +205,7 @@ const actions = {
     try {
       const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           getDataDistributorResult: result.data,
           isLoading: false,
@@ -188,7 +237,7 @@ const actions = {
     try {
       const result = await apiClient.post(`/filter/Region`)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           regionList: result.data.data,
           isLoading: false,
@@ -224,7 +273,7 @@ const actions = {
     try {
       const result = await apiClient.post(`/filter/Provinsi`, formData)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           provinsiList: result.data.data,
           isLoading: false,
@@ -260,7 +309,7 @@ const actions = {
     try {
       const result = await apiClient.post(`/filter/Area`, formData)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           areaList: result.data.data,
           isLoading: false,
@@ -296,7 +345,7 @@ const actions = {
     try {
       const result = await apiClient.post(`/filter/Distrik`, formData)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           distrikList: result.data.data,
           isLoading: false,
@@ -332,7 +381,7 @@ const actions = {
     try {
       const result = await apiClient.post(`/filter/Distributor`, formData)
 
-      if (result.data.message = 'success') {
+      if ((result.data.message = 'success')) {
         await commit('changePromotionDashboard', {
           distributorList: result.data.data,
           isLoading: false,

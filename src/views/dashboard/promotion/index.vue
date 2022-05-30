@@ -174,6 +174,7 @@ export default {
         // 'getDistrikList',
         // 'getDistributorList',
         'getMetabasePromotion',
+        'getMetabasePromotionAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -221,9 +222,9 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabasePromotion({
-            // pdistrik: [],
-            // pdistributor: [],
+          await this.getMetabasePromotionAdmin({
+            pdistrik: [],
+            pdistributor: [],
           })
         break
         default:

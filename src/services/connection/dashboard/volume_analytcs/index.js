@@ -87,6 +87,46 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabaseVolumeAnalytcsAdmin({ commit, state }, payload) {
+    commit('changeVolumeAnalytcs', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 220,
+    // }
+
+    const formData = {
+      dashboard: 252,
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVolumeAnalytcs', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVolumeAnalytcs', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getMetabaseVolumeAnalytcs({ commit, state }, payload) {
     commit('changeVolumeAnalytcs', {
       isLoading: true,

@@ -60,6 +60,7 @@ export default {
       'volumeAnalytcs',
       [
         'getMetabaseVolumeAnalytcs',
+        'getMetabaseVolumeAnalytcsAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -101,9 +102,9 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabaseVolumeAnalytcs({
-            // pdistrik: [],
-            // pdistributor: [],
+          await this.getMetabaseVolumeAnalytcsAdmin({
+            pdistrik: [],
+            pdistributor: [],
           })
         break
         default:
