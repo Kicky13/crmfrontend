@@ -482,7 +482,6 @@ export default {
       'getPromotion',
       'getDataWeekParams',
       'getDataWeekForm',
-      
     ]),
     handleGross() {
       let rbpGross = this.weeklyInput.formData.rbp_gross
@@ -620,16 +619,18 @@ export default {
               },
             })
           }
-          await this.getDataTable()
           this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
           this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
           this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+          await this.getDataTable()
+          await this.getDataWeekForm()
         } else {
           await this.insertDataWeekly()
-          await this.getDataTable()
           this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
           this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
           this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+          await this.getDataTable()
+          await this.getDataWeekForm()
         }
         this.addModal = false
       } else {
