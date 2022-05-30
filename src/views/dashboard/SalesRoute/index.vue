@@ -10,8 +10,7 @@
             >
               <a-form-item>
                 <a-select
-                  class="col-lg-12 col-md-12 pr-2"
-                  style="width: 100% !important"
+                  class="w-100"
                   placeholder="Distrik"
                   v-model:value="salesRoute.formData.selectedDistrik"
                   show-search
@@ -34,7 +33,7 @@
               </a-form-item>
             </div>
             <div
-              class="col-xs-3 col-md-3"
+              class="col-xs-4 col-md-4"
               v-if="
                 $store.state.user.levelHirarki.toLowerCase() == `tso` ||
                   $store.state.user.levelHirarki.toLowerCase() == ``
@@ -123,7 +122,7 @@
     </a-form>
     <div class="row">
       <div class="col-md-12">
-        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+        <a-card class="card card-top card-top-primary mt-3">
           <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
@@ -270,9 +269,11 @@
           <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Toko</span>
+
                 <iframe
                   :src="linkStreetView"
-                  class="w-100"
+                  class="w-100 mt-2"
                   height="294"
                   style="border:0;"
                   allowfullscreen=""
@@ -285,6 +286,28 @@
         </a-card>
       </div>
       <div class="col-md-6">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Check-in Sales</span>
+                <iframe
+                  :src="linkStreetViewSales"
+                  class="w-100 mt-2"
+                  height="294"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </a-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
@@ -566,9 +589,12 @@ export default {
       link: '',
       loading: false,
       linkStreetView: '',
+      linkStreetViewSales: '',
       itemRadio: '',
       latStreetView: -7.1688477,
       lngStreetView: 112.6451559,
+      latStreetViewSales: -7.1688477,
+      lngStreetViewSales: 112.6451559,
       latMap: -7.1688477,
       lngMap: 112.6451559,
       zoomMap: 5,
@@ -591,6 +617,7 @@ export default {
   },
   async mounted() {
     this.urlStreetView()
+    this.urlStreetViewSales()
     this.refreshData()
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
     this.$store.state.user.levelHirarki.toLowerCase() == `tso`
@@ -639,6 +666,19 @@ export default {
         this.latStreetView +
         `,` +
         this.lngStreetView +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
+    },
+
+    urlStreetViewSales() {
+      // let lat = -7.1688477
+      // let long = 112.6451559
+      let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
+      this.linkStreetViewSales =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        this.latStreetViewSales +
+        `,` +
+        this.lngStreetViewSales +
         `&fov=80&heading=70&pitch=0&key=` +
         keyApi
     },
@@ -707,15 +747,12 @@ export default {
 
     markerMap() {
       this.loading = true
-
       let LatLng = this.salesRoute.dataMap
       this.markers = []
       this.path = null
       this.path = []
       this.markersPeople = []
       this.markersNotVisited = []
-
-      console.log(`this.salesRoute.dataMap`, this.salesRoute.dataMap.length > 0)
 
       if (this.salesRoute.dataMap.length > 0) {
         // Toko sudah dikunjungi namun tidak ada latitude longitudenya
@@ -826,9 +863,16 @@ export default {
     },
 
     onChange(value) {
+      // LatLng Toko
       this.latStreetView = parseFloat(this.itemRadio.latitude)
       this.lngStreetView = parseFloat(this.itemRadio.longitude)
+
+      // LatLng Checkin Sales
+      this.latStreetViewSales = parseFloat(this.itemRadio.checkin_latitude)
+      this.lngStreetViewSales = parseFloat(this.itemRadio.checkin_longitude)
+
       this.urlStreetView()
+      this.urlStreetViewSales()
       this.markerMapByTable()
     },
 
