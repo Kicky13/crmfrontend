@@ -121,6 +121,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+// import numeral from 'numeral'
 
 export default {
   computed: {
@@ -190,8 +191,27 @@ export default {
         'rsp',
         'notes',
       ]
-      this.exportToExcel(header, filterVal, this.report.dataTable, 'data-report')
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.report.dataTable,
+        'Data Report ' +
+          this.report.params.nm_distrik +
+          ` - ` +
+          this.report.params.tahun +
+          `/` +
+          `0` +
+          this.report.params.bulan +
+          `/` +
+          `Week` +
+          this.report.params.week,
+      )
     },
+
+    // formatNumberDecimal(value) {
+    //   let formatted = numeral(value).format('0,0.[00]')
+    //   return formatted
+    // },
     exportToExcel(header, filterVal, list, filename) {
       import('@/vendor/Export2Excel').then(excel => {
         const data = this.formatJson(filterVal, list)
