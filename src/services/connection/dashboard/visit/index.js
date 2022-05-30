@@ -230,6 +230,50 @@ const mutations = {
 }
 
 const actions = {
+  async getMetabaseTSO({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 226,
+    // }
+
+    const formData = {
+      dashboard: 258,
+      data: btoa(JSON.stringify(
+        {
+          pregion: payload.pregion,
+        },
+      )),
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getMetabaseAdmin({ commit, state }, payload) {
     commit('changeVisitDashboard', {
       isLoading: true,
@@ -323,7 +367,7 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+      const result = await apiClient.get(`/getdataregion/tso?id=${payload.id}`)
 
       if (result.data.message = 'success') {
         await commit('changeVisitDashboard', {
