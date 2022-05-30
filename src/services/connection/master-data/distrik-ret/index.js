@@ -82,6 +82,7 @@ const actions = {
     const formData = {
       user_id: payload.id_user,
       nm_distrik: payload.distrik_ret_baru,
+      keterangan: payload.keterangan,
     }
 
     try {
@@ -167,6 +168,7 @@ const actions = {
       id: payload.id_distrik_ret,
       user_id: payload.id_user,
       nm_distrik: payload.distrik_ret_baru,
+      keterangan: payload.keterangan,
     }
 
     try {

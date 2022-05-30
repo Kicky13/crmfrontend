@@ -18,12 +18,14 @@
           <div class="col-md-12">
             <iframe
               height="900"
-              :src="srcDataStudio"
+              :src="sowDashboard.dataMetabase"
               frameborder="0"
               style="border:0"
               allowfullscreen
               class="w-100"
             ></iframe>
+
+            <!-- <iframe width="600" height="450" src="https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC" frameborder="0" style="border:0" allowfullscreen></iframe> -->
           </div>
         </div>
       </div>
@@ -260,8 +262,9 @@ export default {
       },
 
       isLoading: false,
-      srcDataStudio:
-        'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC',
+      // srcDataStudio:
+      //   'https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC',
+      srcDataStudio: '',
     }
   },
   computed: {
@@ -274,11 +277,14 @@ export default {
     },
   },
   async mounted() {
+    // this.handleRefresh()
     await this.getProvinsi()
     this.urlMap()
     this.handlePagination(5)
+    // await this.getMetabaseSOW()
     // await this.submitLabel()
     // await this.getDataTable()
+    await this.getData()
   },
   methods: {
     ...mapActions('sowDashboard', [
@@ -292,14 +298,70 @@ export default {
       'getDataTable',
       'getDataScatterChart',
       'getDataChart',
+      'getMetabaseSOW',
+      'getMetabaseSOWAdmin',
+      'getDataTso',
+      'getDataAdminDistributor',
+      'getDataDistributor',
     ]),
-    handleRefresh() {
-      this.isLoading = false
-      setTimeout(() => {
-        this.srcDataStudio = `https://datastudio.google.com/embed/reporting/d23218ab-bb90-430e-884b-0f764f5959ec/page/oFpoC`
-      }, 500)
-      this.isLoading = true
+    async handleRefresh() {
+      // await this.getMetabaseSOW()
+      await this.getData()
+      // var params = {
+      //   'ds4.regional': ['Regional 4', 'Regional 3'],
+      // }
+      // var paramsAsString = JSON.stringify(params)
+      // var encodedParams = encodeURIComponent(paramsAsString)
+      // this.srcDataStudio =
+      //   'https://datastudio.google.com/embed/reporting/a1720189-80a3-472b-b86d-cab660b975c9/page/oFpoC?params=' +
+      //   encodedParams
+
+      // console.log(`---srcDataStudio`, this.srcDataStudio)
     },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataTsoResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabaseSOWAdmin({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          // await this.getMetabaseSOW({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+      }
+    },
+
     tableRowClassName(text) {
       if (text.sow > '100%') {
         return 'non-active'

@@ -5,16 +5,16 @@ export const getAdminMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytics',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -35,17 +35,22 @@ export const getAdminMenuData = [
       //   key: 'pmo231',
       //   url: '/dashboard/sow',
       // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
       // {
-      //   title: 'SOW V2',
-      //   key: 'pmo261',
-      //   url: '/dashboard/sow-v2',
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
@@ -278,11 +283,11 @@ export const getAdminMenuData = [
         key: 'e38wke',
         url: '/user/level_user',
       },
-      {
-        title: 'Sales Distributor',
-        key: 's4d10r',
-        url: '/reporting-tso/sales-distributor',
-      },
+      // {
+      //   title: 'Sales Distributor',
+      //   key: 's4d10r',
+      //   url: '/reporting-tso/sales-distributor',
+      // },
     ],
   },
   {
@@ -379,13 +384,6 @@ export const getAdminMenuData = [
       },
     ],
   },
-  // {
-  //   title: 'Reporting',
-  //   key: '123saz',
-  //   url: '/reporting',
-  //   icon: 'fa fa-newspaper-o',
-  // },
-
   {
     title: 'Reporting',
     key: 'Rs123s',
@@ -436,6 +434,129 @@ export const getUserMenuData = [
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+      // {
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
+      // },
+
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+    ],
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+]
+
+export const getASMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+      // {
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
+      // },
+
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+    ],
   },
   {
     title: 'Marketing',
@@ -456,6 +577,19 @@ export const getUserMenuData = [
     ],
   },
   {
+    title: 'Weekly Price',
+    key: 'wepr02',
+    url: '/weekly_price',
+    icon: 'fa fa-tags',
+    children: [
+      {
+        title: 'WP Approval',
+        key: 'wpap03',
+        url: '/weekly_price/wp_approval',
+      },
+    ],
+  },
+  {
     title: 'Settings & Configuration',
     key: 'dawdasw',
     url: '/settings',
@@ -471,13 +605,32 @@ export const getUserMenuData = [
         key: 'Adaws5',
         url: '/validasiharga',
       },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
     ],
   },
   {
-    category: true,
-    title: 'Report Admin',
-    key: '1231sa',
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
+    ],
   },
+
   {
     title: 'Report Admin',
     key: '1131sa',
@@ -485,37 +638,226 @@ export const getUserMenuData = [
     icon: 'fa fa-list-ul',
     children: [
       {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
       },
       {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
+      },
+    ],
+  },
+]
+
+export const getSSMMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+    children: [
+      // {
+      //   title: 'CA & Volume Analytcs',
+      //   key: 'dpr214',
+      //   url: '/dashboard/volume_analytcs',
+      // },
+      // {
+      //   title: 'Visit',
+      //   key: 'dpr512',
+      //   url: '/dashboard/visit',
+      // },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
+      // {
+      //   title: 'SOW V2',
+      //   key: 'pmo261',
+      //   url: '/dashboard/sow-v2',
+      // },
+
+      // {
+      //   title: 'Sales Route  Compliance',
+      //   key: 'jkr01l23',
+      //   url: '/dashboard/sales_route',
+      // },
+    ],
+  },
+  {
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
+  },
+  // {
+  //   title: 'Weekly Price',
+  //   key: 'wepr02',
+  //   url: '/weekly_price',
+  //   icon: 'fa fa-tags',
+  //   children: [
+  //     {
+  //       title: 'WP Publish',
+  //       key: 'wppu04',
+  //       url: '/weekly_price/wp_publish',
+  //     },
+  //   ],
+  // },
+  {
+    title: 'Settings & Configuration',
+    key: 'dawdasw',
+    url: '/settings',
+    icon: 'fa fa-gear',
+    children: [
+      {
+        title: 'Log Sync Customer',
+        key: '1121sw',
+        url: '/log-sync-customer',
+      },
+      {
+        title: 'Validasi Harga Survey',
+        key: 'Adaws5',
+        url: '/validasiharga',
+      },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
       },
     ],
   },
   {
-    category: true,
-    title: 'Roles & Permissions',
-    key: '2h83od',
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
+    ],
+  },
+
+  {
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
+    children: [
+      {
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
+      },
+      {
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
+      },
+    ],
   },
 ]
-
 export const getTsoMenuData = [
   {
     title: 'Dashboards',
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytics',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+      // {
+      //   title: 'SOW',
+      //   key: 'pmo231',
+      //   url: '/dashboard/sow',
+      // },
+      // {
+      //   title: 'SOW V2',
+      //   key: 'pmo261',
+      //   url: '/dashboard/sow-v2',
+      // },
+
+      // {
+      //   title: 'Sales Route  Compliance',
+      //   key: 'jkr01l23',
+      //   url: '/dashboard/sales_route',
+      // },
+    ],
   },
   {
     title: 'Marketing',
     key: 'aw57eky',
-    url: '/marketing',
+    url: '/berita',
     icon: 'fa fa-newspaper-o',
     children: [
       {
@@ -545,15 +887,20 @@ export const getTsoMenuData = [
   },
   {
     title: 'Settings & Configuration',
-    key: 'St01Cf',
+    key: 'dawdasw',
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
-      {
-        title: 'Radius Wilayah',
-        key: 'St11Cf',
-        url: '/radiusdistrik',
-      },
+      // {
+      //   title: 'Log Sync Customer',
+      //   key: '1121sw',
+      //   url: '/log-sync-customer',
+      // },
+      // {
+      //   title: 'Validasi Harga Survey',
+      //   key: 'Adaws5',
+      //   url: '/validasiharga',
+      // },
       {
         title: 'Mapping Customer',
         key: 'St12Cf',
@@ -572,18 +919,19 @@ export const getTsoMenuData = [
         key: 'Vs11Pl',
         url: '/uploadvisitplan',
       },
-      {
-        title: 'Otomatisasi Visit Plan',
-        key: 'Vs12Pl',
-        url: '/otomatisasivisit',
-      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
     ],
   },
+
   {
-    title: 'Reporting',
-    key: 'Rs123s',
-    url: '/reporting-tso',
-    icon: 'fa fa-newspaper-o',
+    title: 'Report Admin',
+    key: '1131sa',
+    url: '/roles-permissions',
+    icon: 'fa fa-list-ul',
     children: [
       {
         title: 'Customer Mapping',
@@ -597,175 +945,52 @@ export const getTsoMenuData = [
       },
     ],
   },
-
-  // {
-  //   title: 'Peta Kunjungan',
-  //   key: 'iw82km',
-  //   url: '/mappedVisit',
-  //   icon: 'fa fa-street-view',
-  //   children: [
-  //     {
-  //       title: 'Route Complient',
-  //       key: 'acs293',
-  //       // url: '/mappedVisit/route',
-  //       url: '/auth/underconstruct',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Report Admin',
-  //   key: '82hskb',
-  //   url: '/report-admin',
-  //   icon: 'fa fa-list-ul',
-  //   children: [
-  //     {
-  //       title: 'Data Sales SBI',
-  //       key: 'a32jab',
-  //       // url: '/datasales',
-  //       url: '/auth/underconstruct',
-  //     },
-  //     {
-  //       title: 'Customer Mapping',
-  //       key: '12sa2s',
-  //       // url: '/report/customer_mapping',
-  //       url: '/auth/underconstruct',
-  //     },
-  //     {
-  //       title: 'Laporan Toko Dikunjungi',
-  //       key: '872ksj',
-  //       // url: '/report/toko_dikunjungi',
-  //       url: '/auth/underconstruct',
-  //     },
-  //     {
-  //       title: 'Laporan Visit Plan - Actual',
-  //       key: '888sja',
-  //       // url: '/report/visit_actual',
-  //       url: '/auth/underconstruct',
-  //     },
-  //     {
-  //       title: 'Laporan Kapasitas Toko',
-  //       key: 'jsdj22',
-  //       // url: '/report/kapasitasToko',
-  //       url: '/auth/underconstruct',
-  //     },
-  //     {
-  //       title: 'Hasil Survey',
-  //       key: '98ksds',
-  //       // url: '/report/hasilSurvey',
-  //       url: '/auth/underconstruct',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Supervisory Visit',
-  //   key: '78ehnf',
-  //   url: '/sales',
-  //   icon: 'fa fa-book',
-  //   children: [
-  //     {
-  //       title: 'Report Supervisory Visit',
-  //       key: '23jsu2',
-  //       // url: '/sales/report_supervisory',
-  //       url: '/auth/underconstruct',
-  //     },
-  //   ],
-  // },
 ]
 
-export const getASMMenuData = [
+export const getMarketIntelligenceMenuData = [
   {
     title: 'Dashboards',
     key: '__dashboard',
     url: '/dashboard',
     icon: 'fe fe-home',
-  },
-  {
-    title: 'Marketing',
-    key: 'aw57eky',
-    url: '/berita',
-    icon: 'fa fa-newspaper-o',
     children: [
       {
-        title: 'News',
-        key: 'jkr01l',
-        url: '/marketing/berita',
+        title: 'CA & Volume Analytics',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
       },
       {
-        title: 'Program',
-        key: 'jkr02l',
-        url: '/marketing/program',
-      },
-    ],
-  },
-  {
-    title: 'Weekly Price',
-    key: 'wepr02',
-    url: '/weekly_price',
-    icon: 'fa fa-tags',
-    children: [
-      {
-        title: 'WP Approval',
-        key: 'wein01',
-        url: '/weekly_price/wp_approval',
-      },
-    ],
-  },
-  {
-    title: 'Settings & Configuration',
-    key: 'dawdasw',
-    url: '/settings',
-    icon: 'fa fa-gear',
-    children: [
-      {
-        title: 'Log Sync Customer',
-        key: '1121sw',
-        url: '/log-sync-customer',
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
       },
       {
-        title: 'Validasi Harga Survey',
-        key: 'Adaws5',
-        url: '/validasiharga',
-      },
-    ],
-  },
-  {
-    category: true,
-    title: 'Report Admin',
-    key: '1231sa',
-  },
-  {
-    title: 'Report Admin',
-    key: '1131sa',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
       },
       {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
       },
-    ],
-  },
-  {
-    category: true,
-    title: 'Roles & Permissions',
-    key: '2h83od',
-  },
-]
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
 
-export const getSSMMenuData = [
-  {
-    title: 'Dashboards',
-    key: '__dashboard',
-    url: '/dashboard',
-    icon: 'fe fe-home',
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
+    ],
   },
   {
     title: 'Marketing',
@@ -793,7 +1018,7 @@ export const getSSMMenuData = [
     children: [
       {
         title: 'WP Publish',
-        key: 'wein01',
+        key: 'wppu04',
         url: '/weekly_price/wp_publish',
       },
     ],
@@ -814,13 +1039,32 @@ export const getSSMMenuData = [
         key: 'Adaws5',
         url: '/validasiharga',
       },
+      {
+        title: 'Mapping Customer',
+        key: 'St12Cf',
+        url: '/mappingcustomer',
+      },
     ],
   },
   {
-    category: true,
-    title: 'Report Admin',
-    key: '1231sa',
+    title: 'Visit Plan',
+    key: 'Vs01Pl',
+    url: '/visit',
+    icon: 'fa fa-street-view',
+    children: [
+      {
+        title: 'Upload Visit Plan',
+        key: 'Vs11Pl',
+        url: '/uploadvisitplan',
+      },
+      // {
+      //   title: 'Otomatisasi Visit Plan',
+      //   key: 'Vs12Pl',
+      //   url: '/otomatisasivisit',
+      // },
+    ],
   },
+
   {
     title: 'Report Admin',
     key: '1131sa',
@@ -828,22 +1072,79 @@ export const getSSMMenuData = [
     icon: 'fa fa-list-ul',
     children: [
       {
-        title: 'Data Sales SBI',
-        key: 'asa123',
-        // url: '/datasales',
-        url: '/auth/underconstruct',
+        title: 'Customer Mapping',
+        key: 'Rp1nsx',
+        url: '/reporting-tso/customer-mapping',
       },
       {
-        title: 'Customer Mapping',
-        key: 'xca132',
-        // url: '/report/customer_mapping',
-        url: '/auth/underconstruct',
+        title: 'Sales Distributor',
+        key: '125a92',
+        url: '/reporting-tso/sales-distributor',
+      },
+    ],
+  },
+]
+
+export const getDistributorMenuData = [
+  {
+    title: 'Dashboards',
+    key: '__dashboard',
+    url: '/dashboard',
+    icon: 'fe fe-home',
+    children: [
+      {
+        title: 'CA & Volume Analytics',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
+      {
+        title: 'Promotion',
+        key: 'dpr017',
+        url: '/dashboard/promotion',
+      },
+      {
+        title: 'RBP Movement',
+        key: 'rbp126',
+        url: '/dashboard/rbp_movement',
+      },
+      {
+        title: 'Price Monitoring',
+        key: 'pmo235',
+        url: '/dashboard/price_monitoring',
+      },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
       },
     ],
   },
   {
-    category: true,
-    title: 'Roles & Permissions',
-    key: '2h83od',
+    title: 'Marketing',
+    key: 'aw57eky',
+    url: '/berita',
+    icon: 'fa fa-newspaper-o',
+    children: [
+      {
+        title: 'News',
+        key: 'jkr01l',
+        url: '/marketing/berita',
+      },
+      {
+        title: 'Program',
+        key: 'jkr02l',
+        url: '/marketing/program',
+      },
+    ],
   },
 ]

@@ -1,7 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="5">
+      <!-- <a-col :xs="24" :md="5">
         <a-select
           v-model:value="wpPublish.params.nm_tso"
           placeholder="ASM"
@@ -18,7 +18,7 @@
             {{ asm.id_m_hierarchy }} - {{ asm.nm_user }}
           </a-select-option>
         </a-select>
-      </a-col>
+      </a-col> -->
       <a-col :xs="24" :md="3">
         <a-select
           v-model:value="wpPublish.params.tahun"
@@ -51,25 +51,36 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="4">
         <a-select
           v-model:value="wpPublish.params.week"
           placeholder="Week"
           show-search
           class="w-100"
+          :disabled="wpPublish.params.nm_tso != `` && wpPublish.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpPublish.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpPublish.dataWeekParams"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="9">
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="11">
         <div class="d-flex justify-content-end">
           <button
             :disabled="
@@ -189,30 +200,21 @@
     </template>
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
-        <a-select
+        <a-input
           :disabled="editdata != true ? false : true"
-          v-model:value="wpPublish.formData.id_distrik"
-          placeholder="Distrik"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option disabled value="">Pilih Distrik</a-select-option>
-          <a-select-option
-            v-for="(distrik, index) in wpPublish.dataDistrikRET"
-            :value="distrik.id_distrik"
-            :key="index"
-          >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
-          </a-select-option>
-        </a-select>
+          v-model:value="wpPublish.formData.nama_distrik"
+          placeholder="Promo"
+          class=" mb-4 w-100 input_white_disable"
+        />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.tahun"
           placeholder="Tahun"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
+          @change="handleTahunForm()"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
@@ -225,8 +227,9 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.bulan"
           placeholder="Bulan"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
+          @change="handleBulansForm()"
         >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
@@ -243,16 +246,16 @@
           :disabled="editdata != true ? false : true"
           v-model:value="wpPublish.formData.week"
           placeholder="Week"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(week, index) in wpPublish.dataWeekly"
-            :value="week.id"
+            v-for="(weekly, index) in wpPublish.dataWeekForm"
+            :value="weekly.week"
             :key="index"
           >
-            {{ week.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -261,18 +264,18 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata != true ? false : true"
-          v-model:value="wpPublish.formData.id_produk"
+          v-model:value="wpPublish.formData.nama_produk"
           placeholder="Produk"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Produk</a-select-option>
           <a-select-option
             v-for="(product, index) in wpPublish.dataProduct"
-            :value="product.id"
+            :value="product.NAMA_PRODUK"
             :key="index"
           >
-            {{ product.namaproduk }}
+            {{ product.ID }} - {{ product.NAMA_PRODUK }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -281,7 +284,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.brand"
           placeholder="brand"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih brand</a-select-option>
@@ -299,7 +302,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.type"
           placeholder="Tipe"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Tipe</a-select-option>
@@ -318,7 +321,7 @@
           :disabled="true"
           v-model:value="wpPublish.formData.kemasan"
           placeholder="Kemasan"
-          class="w-100 mb-4"
+          class="w-100 mb-4 input_white_disable"
           show-search
         >
           <a-select-option disabled value="">Pilih Kemasan</a-select-option>
@@ -335,35 +338,78 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
+          @change="handleGross()"
           v-model:value="wpPublish.formData.rbp_gross"
           placeholder="RBP Gross"
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <a-input-number
-          :min="1"
-          :max="100000"
+      <a-col
+        :xs="24"
+        :md="12"
+        :lg="5"
+        v-if="wpPublish.promoDistrik && wpPublish.promoDistrik.length > 0"
+      >
+        <a-select
+          v-model:value="wpPublish.formData.promo"
+          placeholder="0"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option
+            v-for="(promo, index) in wpPublish.promoDistrik"
+            :value="promo.nilai_zak"
+            :key="index"
+          >
+            {{ promo.program.toUpperCase() }} - {{ promo.nilai_zak }}
+          </a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="5" v-else>
+        <a-select
+          :disabled="true"
           v-model:value="wpPublish.formData.promo"
           placeholder="Promo"
-          class=" mb-4 w-100"
-        />
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option :value="0">0</a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="1">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Promo</span>
+          </template>
+          <a-button
+            :disabled="
+              wpPublish.formData.id_distrik == null ||
+              wpPublish.formData.tahun == `` ||
+              wpPublish.formData.bulan == `` ||
+              wpPublish.formData.id_brand == null
+                ? true
+                : false
+            "
+            @click="handleDataPromo()"
+            type="primary"
+          >
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          :disabled="true"
+          type="number"
           v-model:value="wpPublish.formData.rbp_net"
           placeholder="RBP Net"
-          class=" mb-4 w-100"
+          class=" mb-4 w-100 input_white_disable"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-input-number
-          :min="1"
-          :max="100000"
+          type="number"
           v-model:value="wpPublish.formData.rsp"
           placeholder="RSP"
           class=" mb-4 w-100"
@@ -399,9 +445,10 @@ export default {
     },
   },
   async mounted() {
-    await this.getDataASM({
-      id_atasan: this.$store.state.user.idJabatan,
-    })
+    // await this.getDataASM({
+    //   id_atasan: this.$store.state.user.idJabatan,
+    // })
+    await this.getMasterProduct()
   },
   methods: {
     ...mapActions('wpPublish', [
@@ -410,6 +457,11 @@ export default {
       'submitPublish',
       'getDataASM',
       'getDataTable',
+      'getDistrik',
+      'getMasterProduct',
+      'getPromotion',
+      'getDataWeekParams',
+      'getDataWeekForm',
     ]),
     // Edit Modal
     async showEditModal(value) {
@@ -419,15 +471,21 @@ export default {
       await this.$store.commit('wpPublish/changeWPPublish', {
         formData: {
           id_distrik: value.id_distrik,
+          nama_distrik: value.nm_wilayah,
+          nama_produk: value.nm_produk,
+          brand: value.nm_brand,
+          type: value.nm_type_produk,
+          kemasan: value.nm_satuan,
           tahun: value.tahun,
           bulan: value.bulan,
           week: value.week,
-          id_produk: value.id_distrik,
-          rbp_gross: value.id_distrik,
-          promo: value.id_distrik,
-          rbp_net: value.id_distrik,
-          rsp: value.id_distrik,
+          id_produk: value.id_produk,
+          rbp_gross: value.rbp_gross,
+          promo: value.promo,
+          rbp_net: value.rbp_net,
+          rsp: value.rsp,
           notes: value.notes,
+          id_brand: value.id_brand,
         },
       })
     },
@@ -482,9 +540,9 @@ export default {
     // Approve button
     approveModal() {
       this.$confirm({
-        title: 'Weekly Price Approval',
-        content: 'Apakah anda yakin akan melakukan approve pada data ini?',
-        okText: 'Approve',
+        title: 'Weekly Price Publish',
+        content: 'Apakah anda yakin akan melakukan publish pada data ini?',
+        okText: 'Publish',
         okType: 'primary',
         cancelText: 'Batal',
         onOk: async () => {
@@ -518,6 +576,10 @@ export default {
       let filtered = dataSource.filter(x => x.nm_user == this.wpPublish.params.nm_tso)
       this.wpPublish.params.id_asm = filtered[0].id_m_hierarchy
 
+      //  await this.getDistrik({
+      //     id_tso: this.wpPublish.params.id_tso,
+      //   })
+
       // validasi
       if (
         this.wpPublish.params.tahun != '' &&
@@ -534,11 +596,15 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleBulan() {
@@ -546,11 +612,15 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
+        await this.getDataWeekParams()
       }
     },
     async handleWeek() {
@@ -558,12 +628,63 @@ export default {
       if (
         this.wpPublish.params.tahun != '' &&
         this.wpPublish.params.bulan != '' &&
-        this.wpPublish.params.week != '' &&
-        this.wpPublish.params.id_asm != ''
+        this.wpPublish.params.week != ''
       ) {
         await this.getDataTable()
-      } else {
+      } else if (
+        this.wpPublish.params.tahun != '' &&
+        this.wpPublish.params.bulan != '' &&
+        this.wpPublish.params.week == ''
+      ) {
       }
+    },
+    async handleTahunForm() {
+      // validasi
+      if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week != ''
+      ) {
+      } else if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
+    async handleBulanForm() {
+      // validasi
+      if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week != ''
+      ) {
+      } else if (
+        this.wpPublish.formData.tahun != '' &&
+        this.wpPublish.formData.bulan != '' &&
+        this.wpPublish.formData.week == ''
+      ) {
+        await this.getDataWeekForm()
+      }
+    },
+    async handleDataPromo() {
+      await this.getPromotion()
+    },
+    // handle gross
+    handleGross() {
+      let rbpGross = this.wpPublish.formData.rbp_gross
+      let promo = this.wpPublish.formData.promo
+      this.wpPublish.formData.rbp_net = rbpGross -= promo
+    },
+
+    refreshFilter() {
+      this.wpPublish.params.nm_tso = ''
+      this.wpPublish.params.tahun = ''
+      this.wpPublish.params.bulan = ''
+      this.wpPublish.params.week = ''
+      this.wpPublish.wpPublishList = []
+      this.wpPublish.params.id_asm = null
     },
   },
 }

@@ -216,6 +216,10 @@ const state = {
     pieJadwal: [],
     pieKunjungan: [],
     status: 'gagal',
+    dataMetabase: null,
+    getDataTsoResult: [],
+    getDataAdminDistributorResult: [],
+    getDataDistributorResult: [],
   },
 }
 
@@ -226,20 +230,36 @@ const mutations = {
 }
 
 const actions = {
-  async getDataDistributor({ commit, state }, payload) {
+  async getMetabaseAdmin({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
     const { data } = state
 
+    // let params = {
+    //   dashboard: 226,
+    // }
+
+    const formData = {
+      dashboard: 251,
+    }
+
     try {
-      const result = await apiClient.post(`/distributor/all`)
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
 
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
           description: result.data.message[0],
         })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
       } else {
         await commit('changeVisitDashboard', {
-          listDistributor: result.data.data,
+          dataMetabase: result.data.url,
+          isLoading: false,
         })
       }
     } catch (error) {
@@ -249,6 +269,171 @@ const actions = {
       })
     }
   },
+  async getMetabase({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 226,
+    // }
+
+    const formData = {
+      dashboard: 226,
+      data: btoa(JSON.stringify(
+        {
+          pdistrik: payload.pdistrik,
+          pdistributor: payload.pdistributor,
+        },
+      )),
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataTso({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeVisitDashboard', {
+          getDataTsoResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataAdminDistributor({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeVisitDashboard', {
+          getDataAdminDistributorResult: result.data.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataDistributor({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdata/dist?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeVisitDashboard', {
+          getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  // async getDataDistributor({ commit, state }, payload) {
+  //   const { data } = state
+
+  //   try {
+  //     const result = await apiClient.post(`/distributor/all`)
+
+  //     if (result.data.status == false) {
+  //       notification.error({
+  //         message: 'Error',
+  //         description: result.data.message[0],
+  //       })
+  //     } else {
+  //       await commit('changeVisitDashboard', {
+  //         listDistributor: result.data.data,
+  //       })
+  //     }
+  //   } catch (error) {
+  //     notification.error({
+  //       message: 'Error',
+  //       description: 'Maaf, terjadi kesalahan',
+  //     })
+  //   }
+  // },
 
   async getDataSalesman({ commit, state }, payload) {
     try {

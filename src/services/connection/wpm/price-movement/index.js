@@ -40,40 +40,31 @@ const state = {
         key: 'current_price',
       },
     ],
-    priceMovementList: [
-      {
-        distrik: 'Distrik 1',
-        produk: 'Produk 1',
-        brand: 'Brand 1',
-        type: 'Type 1',
-        kemasan: 'Kemasan 1',
-        price_last_week: '1000000',
-        current_price: '1500000',
-      },
-    ],
+    distrikList: [],
+    priceMovementList: [],
     isLoading: false,
   },
 }
 
 const mutations = {
-  changeReport(state, payload) {
+  changePriceMovement(state, payload) {
     state.data = Object.assign({}, state.data, payload)
   },
 }
 
 const actions = {
-  async getAllTipe({ commit, state }, payload) {
-    commit('changeReport', {
+  async getAllDistrik({ commit, state }, payload) {
+    commit('changePriceMovement', {
       isLoading: true,
     })
 
     const { data } = state
 
     try {
-      // const result = await apiClient.post(``)
+      const result = await apiClient.post(`/wpm/master-data/distrikret/getAllDistrik`)
 
       if (result.data.status == false) {
-        await commit('changeReport', {
+        await commit('changePriceMovement', {
           isLoading: false,
         })
         notification.error({
@@ -81,12 +72,58 @@ const actions = {
           description: result.data.message,
         })
       } else {
-        await commit('changeReport', {
+        await commit('changePriceMovement', {
+          distrikList: result.data.data.all,
           isLoading: false,
         })
       }
     } catch (err) {
-      await commit('changeReport', {
+      await commit('changePriceMovement', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getPriceMovementList({ commit, state }, payload) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      distrik: payload.distrik,
+      tahun: payload.tahun,
+      bulan: payload.bulan,
+      week: payload.week,
+    }
+
+    try {
+      const result = await apiClient.post(`/wpm/price-movemnt`, formData)
+
+      if (result.data.status == false) {
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Gagal',
+          description: result.data.message,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          priceMovementList: result.data.data,
+          isLoading: false,
+        })
+        notification.success({
+          message: 'Sukses',
+          description: 'Data berhasil ditampilkan',
+        })
+      }
+    } catch (err) {
+      await commit('changePriceMovement', {
         isLoading: false,
       })
       notification.error({

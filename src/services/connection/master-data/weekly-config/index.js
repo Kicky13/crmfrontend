@@ -24,7 +24,35 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+    importColumns: [
+      {
+        title: '',
+        slots: { customRender: 'icon' },
+        fixed: 'left',
+      },
+      {
+        title: 'Week Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Tanggal Mulai',
+        key: 'start_date',
+        slots: { customRender: 'start_date' },
+      },
+      {
+        title: 'Tanggal Selesai',
+        key: 'end_date',
+        slots: { customRender: 'end_date' },
+      },
+      {
+        title: 'Laporan Cek Data',
+        slots: { customRender: 'message' },
+      },
+    ],
     weeklyConfigList: [],
+    listData: [],
+    statusCheck: false,
     isLoading: false,
   },
 }
@@ -87,9 +115,10 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/master-data/weeklyConfig/addnew`, formData)
 
-      if (result.data.status == false) {
+      if (result.data.status == 500) {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: true,
         })
         notification.error({
           message: 'Gagal',
@@ -98,6 +127,7 @@ const actions = {
       } else {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: false,
         })
         notification.success({
           message: 'Sukses',
@@ -107,6 +137,7 @@ const actions = {
     } catch (err) {
       await commit('changeWeeklyConfig', {
         isLoading: false,
+        statusCheck: false,
       })
       notification.error({
         message: 'Error',
@@ -174,9 +205,10 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/master-data/weeklyConfig/edit`, formData)
 
-      if (result.data.status == false) {
+      if (result.data.status == 500) {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: true,
         })
         notification.error({
           message: 'Gagal',
@@ -185,6 +217,7 @@ const actions = {
       } else {
         await commit('changeWeeklyConfig', {
           isLoading: false,
+          statusCheck: false,
         })
         notification.success({
           message: 'Sukses',
@@ -194,10 +227,89 @@ const actions = {
     } catch (err) {
       await commit('changeWeeklyConfig', {
         isLoading: false,
+        statusCheck: false,
       })
       notification.error({
         message: 'Error',
         description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+  async getDataFromExcel({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    const formData = new FormData()
+
+    formData.append('user_id', payload.user_id)
+    formData.append('fileimport', payload.file)
+
+    try {
+      const result = await apiClient.post('/wpm/master-data/weeklyConfig/importxls', formData)
+
+      if (result.data.status == 500) {
+        notification.error({
+          message: 'Error',
+          description: 'Upload file excel terlebih dahulu',
+        })
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: 'Import weekly config berhasil',
+        })
+        await commit('changeWeeklyConfig', {
+          listData: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async submitExcelData({ commit, state }, payload) {
+    commit('changeWeeklyConfig', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    const formData = {
+      data: JSON.stringify(payload.data),
+      user_id: payload.user_id,
+    }
+
+    try {
+      const result = await apiClient.post('/wpm/master-data/weeklyConfig/commit', formData)
+
+      if (result.data.status == 500) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWeeklyConfig', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: 'Weekly config berhasil ditambahkan',
+        })
+        await commit('changeWeeklyConfig', {
+          listData: [],
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },

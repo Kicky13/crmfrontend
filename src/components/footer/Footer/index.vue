@@ -17,7 +17,7 @@
               width="150"
             />
             <div class="my-3">
-              <a href="https://wa.me/6281132001306" target="_blank">
+              <!-- <a href="https://wa.me/6281132001306" target="_blank">
                 <i class="fa fa-whatsapp fa-lg" />
               </a>
               <a class="mx-4" href="https://www.facebook.com/aksestokoid" target="_blank">
@@ -25,7 +25,7 @@
               </a>
               <a href="https://www.instagram.com/aksestokoid" target="_blank">
                 <i class="fa fa-instagram fa-lg" />
-              </a>
+              </a> -->
             </div>
             <a
               class="text-lowercase badge rounded-pill bg-light text-dark p-2"
@@ -33,7 +33,7 @@
               target="_blank"
             >
               <i class="fa fa-envelope-o" />
-              <span> cs@crm.aksestoko.id</span>
+              <span> Msc.digital@sig.id</span>
             </a>
           </a-col>
           <a-col :lg="4" :md="6" :sm="24" :xs="24">

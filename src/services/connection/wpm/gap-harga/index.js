@@ -6,8 +6,8 @@ const state = {
     columns: [
       {
         title: 'GAP HARGA',
-        dataIndex: 'gap_harga',
-        key: 0,
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
       },
     ],
     row: [],
@@ -242,18 +242,28 @@ const actions = {
     //   row: state.data.gapHarga.join(","),
     //   column: state.data.gapHarga.join(","),
     // }
+    let rows = []
+    payload.row.forEach(element => {
+      rows.push(element.key_brand)
+    })
+
+    let columns = []
+    payload.column.forEach(element => {
+      columns.push(element.key)
+    })
 
     const formDataTest = {
-      id_provinsi: 1,
-      id_distrik_ret: 2,
-      id_distrik: 1101,
-      tahun: 2022,
-      bulan: 3,
-      week: 1,
-      row: state.data.gapHarga.join(","),
-      column: state.data.gapHarga.join(","),
+      id_provinsi: payload.id_provinsi,
+      id_distrik_ret: payload.id_distrik_ret,
+      id_distrik: payload.id_distrik,
+      tahun: payload.tahun,
+      bulan: payload.bulan,
+      week: payload.week,
+      row: rows.toString(),
+      column: columns.toString(),
     }
-
+    //  row: '1,13,5,17,21,24,26,27',
+    //       column: '1,13,5,17,21,24,26,27',
     try {
       const result = await apiClient.post(`/wpm/gap-harga`, formDataTest)
 

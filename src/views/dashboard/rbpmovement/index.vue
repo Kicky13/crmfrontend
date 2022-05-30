@@ -39,7 +39,6 @@ export default {
   components: {},
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
       rbpMovement: state => state.rbpMovement.data,
     }),
     years() {
@@ -48,13 +47,68 @@ export default {
     },
   },
   async mounted() {
-    await this.getMetabaseRBPMovement()
+    // await this.getMetabaseRBPMovement()
+    await this.getData()
+
   },
   methods: {
-    ...mapActions('rbpMovement', ['getMetabaseRBPMovement']),
+    ...mapActions(
+      'rbpMovement',
+      [
+        'getMetabaseRBPMovement',
+        'getMetabaseRBPMovementAdmin',
+        'getDataTso',
+        'getDataAdminDistributor',
+        'getDataDistributor',
+      ],
+    ),
 
     async handleRefresh() {
-      await this.getMetabaseRBPMovement()
+      // await this.getMetabaseRBPMovement()
+      await this.getData()
+    },
+
+    async getData() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      const roleUser = userData.role
+      
+      switch (roleUser) {
+        case 'TSO':
+          await this.getDataTso({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovement({
+            pdistrik: this.rbpMovement.getDataTsoResult.pdistrik,
+            pdistributor: this.rbpMovement.getDataTsoResult.pdistributor,
+          })
+        break
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.rbpMovement.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseRBPMovement({
+            pdistrik: this.rbpMovement.getDataDistributorResult.pdistrik,
+            pdistributor: this.rbpMovement.getDataDistributorResult.pdistributor,
+          })
+        break
+        case 'Admin':
+          await this.getMetabaseRBPMovementAdmin({
+            pdistrik: [],
+            pdistributor: [],
+          })
+        break
+        default:
+          // await this.getMetabaseRBPMovement({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+      }
     },
   },
 }

@@ -77,6 +77,7 @@ const state = {
       program: '',
       nilai_zak: null,
       mekanisme: '',
+      edit_zak: null,
     },
     dataDistrikRET: [],
     brandList: [],
@@ -279,46 +280,143 @@ const actions = {
 
     const { data } = state
 
-    let formData = {
-      uuid: payload.uuid,
-      start_date: data.formData.start_date,
-      end_date: data.formData.end_date,
-      nilai_zak: data.formData.nilai_zak,
-      mekanisme: data.formData.mekanisme,
-    }
+    if (data.formData.start_date.length == 10) {
+      if (data.formData.edit_zak != data.formData.nilai_zak) {
+        let StartDateFormat = new Date(data.formData.start_date)
+        let EndDateFormat = new Date(data.formData.end_date)
 
-    try {
-      const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
+        let formData = {
+          uuid: payload.uuid,
+          start_date: StartDateFormat,
+          end_date: EndDateFormat,
+          nilai_zak: data.formData.nilai_zak,
+          mekanisme: data.formData.mekanisme,
+        }
 
-      if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
+        try {
+          const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
+
+          if (result.data.state == 'false') {
+            notification.error({
+              message: 'Error',
+              description: result.data.message,
+            })
+            await commit('changePromotion', {
+              isLoading: false,
+              status: 'gagal',
+            })
+          } else {
+            await commit('changePromotion', {
+              isLoading: false,
+              status: 'sukses',
+            })
+            notification.success({
+              message: 'Success',
+              description: result.data.message,
+            })
+          }
+        } catch (error) {
+          await commit('changePromotion', {
+            isLoading: false,
+            status: 'gagal',
+          })
+          notification.error({
+            message: 'Error',
+            description: 'Maaf, terjadi kesalahan!',
+          })
+        }
+      } else {
+
+        let StartDateFormat = new Date(data.formData.start_date)
+        let EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
+
+        let formData = {
+          uuid: payload.uuid,
+          start_date: StartDateFormat,
+          end_date: EndDateFormat,
+          nilai_zak: data.formData.nilai_zak,
+          mekanisme: data.formData.mekanisme,
+        }
+
+        try {
+          const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
+
+          if (result.data.state == 'false') {
+            notification.error({
+              message: 'Error',
+              description: result.data.message,
+            })
+            await commit('changePromotion', {
+              isLoading: false,
+              status: 'gagal',
+            })
+          } else {
+            await commit('changePromotion', {
+              isLoading: false,
+              status: 'sukses',
+            })
+            notification.success({
+              message: 'Success',
+              description: result.data.message,
+            })
+          }
+        } catch (error) {
+          await commit('changePromotion', {
+            isLoading: false,
+            status: 'gagal',
+          })
+          notification.error({
+            message: 'Error',
+            description: 'Maaf, terjadi kesalahan!',
+          })
+        }
+      }
+    } else if (data.formData.end_date.length == 10) {
+      let StartDateFormat = new Date(data.formData.start_date + 3600 * 1000 * 24)
+      let EndDateFormat = new Date(data.formData.end_date)
+      let formData = {
+        uuid: payload.uuid,
+        start_date: StartDateFormat,
+        end_date: EndDateFormat,
+        nilai_zak: data.formData.nilai_zak,
+        mekanisme: data.formData.mekanisme,
+      }
+
+      try {
+        const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
+
+        if (result.data.state == 'false') {
+          notification.error({
+            message: 'Error',
+            description: result.data.message,
+          })
+          await commit('changePromotion', {
+            isLoading: false,
+            status: 'gagal',
+          })
+        } else {
+          await commit('changePromotion', {
+            isLoading: false,
+            status: 'sukses',
+          })
+          notification.success({
+            message: 'Success',
+            description: result.data.message,
+          })
+        }
+      } catch (error) {
         await commit('changePromotion', {
           isLoading: false,
           status: 'gagal',
         })
-      } else {
-        await commit('changePromotion', {
-          isLoading: false,
-          status: 'sukses',
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        notification.error({
+          message: 'Error',
+          description: 'Maaf, terjadi kesalahan!',
         })
       }
-    } catch (error) {
-      await commit('changePromotion', {
-        isLoading: false,
-        status: 'gagal',
-      })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
-      })
     }
+    // let StartDateFormat = new Date(data.formData.start_date + 3600 * 1000 * 24)
+    // let EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
   },
 
   async getAllBrand({ commit, state }, payload) {

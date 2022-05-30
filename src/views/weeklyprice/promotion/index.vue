@@ -51,7 +51,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="12">
+      <a-col :xs="24" :md="2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="10">
         <div class="d-flex justify-content-end">
           <a-button type="primary" @click="showAddModal">
             <i class="fa fa-plus mr-2" />
@@ -139,7 +149,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_distrik_ret"
           placeholder="Distrik RET"
           class="w-100 mb-4"
@@ -161,6 +171,7 @@
           v-model:value="wpPromotion.formData.start_date"
           class="w-100"
           format="YYYY-MM-DD"
+          :disabled-date="disabledStartDate"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
@@ -169,6 +180,7 @@
           v-model:value="wpPromotion.formData.end_date"
           class="w-100"
           format="YYYY-MM-DD"
+          :disabled-date="disabledEndDate"
         />
       </a-col>
       <a-col :xs="24" :md="12" :lg="6" />
@@ -176,7 +188,7 @@
     <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_brand"
           placeholder="Brand"
           class="w-100 mb-4"
@@ -194,7 +206,7 @@
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
-          :disabled="editdata != true ? false : true"
+          :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_kategori_promo"
           placeholder="Kategori"
           class="w-100 mb-4"
@@ -211,13 +223,24 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input placeholder="Program" v-model:value="wpPromotion.formData.program" class="w-100" />
+        <a-select
+          :disabled="editdata == true ? true : false"
+          v-model:value="wpPromotion.formData.program"
+          placeholder="Kategori"
+          class="w-100 mb-4"
+          show-search
+        >
+          <a-select-option disabled value="">Pilih Program</a-select-option>
+          <a-select-option :value="`Principal`"> Principal </a-select-option>
+          <a-select-option :value="`Distributor`"> Distributor </a-select-option>
+        </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <a-input
+        <a-input-number
+          type="number"
           placeholder="Nilai ZAK"
           v-model:value="wpPromotion.formData.nilai_zak"
-          class=" mb-4"
+          class=" mb-4 w-100"
         />
       </a-col>
     </a-row>
@@ -261,9 +284,26 @@ export default {
       'insertDataPromo',
       'deleteDataRow',
     ]),
+    disabledStartDate(startValue) {
+      const endValue = this.wpPromotion.formData.end_date
+      if (!startValue || !endValue) {
+        return false
+      }
+      return startValue.valueOf() > endValue.valueOf()
+    },
+
+    disabledEndDate(endValue) {
+      const startValue = this.wpPromotion.formData.start_date
+      if (!endValue || !startValue) {
+        return false
+      }
+      return startValue.valueOf() >= endValue.valueOf()
+    },
 
     async showAddModal() {
       this.addModal = true
+      this.editdata = false
+
       await this.$store.commit('wpPromotion/changePromotion', {
         formData: {
           id_distrik_ret: null,
@@ -292,6 +332,7 @@ export default {
           program: value.program,
           nilai_zak: value.nilai_zak,
           mekanisme: value.mekanisme,
+          edit_zak: value.nilai_zak,
         },
       })
     },
@@ -386,6 +427,13 @@ export default {
         await this.getDataTable()
       } else {
       }
+    },
+
+    refreshFilter() {
+      this.wpPromotion.params.id_distrik_ret = null
+      this.wpPromotion.params.tahun = ''
+      this.wpPromotion.params.bulan = ''
+      this.wpPromotion.dataTable = []
     },
   },
 }

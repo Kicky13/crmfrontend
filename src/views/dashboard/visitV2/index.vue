@@ -15,7 +15,7 @@
         </div>
         <iframe
           class="w-100"
-          :src="volumeAnalytcs.dataMetabase"
+          :src="visitDashboard.dataMetabase"
           frameborder="0"
           height="800"
           allowtransparency
@@ -43,8 +43,7 @@ export default {
   },
   computed: {
     ...mapState({
-      filter: state => state.filter.data,
-      volumeAnalytcs: state => state.volumeAnalytcs.data,
+      visitDashboard: state => state.visitDashboard.data,
     }),
     years() {
       const year = new Date().getFullYear()
@@ -52,15 +51,15 @@ export default {
     },
   },
   async mounted() {
-    // await this.getMetabaseVolumeAnalytcs()
+    // await this.getMetabase()
     await this.getData()
   },
   methods: {
     ...mapActions(
-      'volumeAnalytcs',
+      'visitDashboard',
       [
-        'getMetabaseVolumeAnalytcs',
-        'getMetabaseVolumeAnalytcsAdmin',
+        'getMetabase',
+        'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -68,8 +67,8 @@ export default {
     ),
 
     async handleRefresh() {
-      // await this.getMetabaseVolumeAnalytcs()
-    await this.getData()
+      // await this.getMetabase()
+      await this.getData()
     },
 
     async getData() {
@@ -82,9 +81,9 @@ export default {
             id: userData.userid,
           })
 
-          await this.getMetabaseVolumeAnalytcs({
-            pdistrik: this.volumeAnalytcs.getDataTsoResult.pdistrik,
-            pdistributor: this.volumeAnalytcs.getDataTsoResult.pdistributor,
+          await this.getMetabase({
+            pdistrik: this.visitDashboard.getDataTsoResult.pdistrik,
+            pdistributor: this.visitDashboard.getDataTsoResult.pdistributor,
           })
         break
         case 'Admin Dist':
@@ -93,22 +92,23 @@ export default {
           })
 
           await this.getDataDistributor({
-            id: this.volumeAnalytcs.getDataAdminDistributorResult.id_distributor,
+            id: this.visitDashboard.getDataAdminDistributorResult.id_distributor,
           })
+          console.log(this.visitDashboard)
 
-          await this.getMetabaseVolumeAnalytcs({
-            pdistrik: this.volumeAnalytcs.getDataDistributorResult.pdistrik,
-            pdistributor: this.volumeAnalytcs.getDataDistributorResult.pdistributor,
+          await this.getMetabase({
+            pdistrik: this.visitDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.visitDashboard.getDataDistributorResult.pdistributor,
           })
         break
         case 'Admin':
-          await this.getMetabaseVolumeAnalytcsAdmin({
+          await this.getMetabaseAdmin({
             pdistrik: [],
             pdistributor: [],
           })
         break
         default:
-          // await this.getMetabaseVolumeAnalytcs({
+          // await this.getMetabase({
           //   pdistrik: [],
           //   pdistributor: [],
           // })

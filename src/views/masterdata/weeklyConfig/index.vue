@@ -1,13 +1,31 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
       <a-button
         type="primary"
-        @click="showAddModal"
+        href="https://storage.googleapis.com/crm-asset/Template/Template%20Weekly%20Config.xlsx"
+        download
       >
-        <i class="fa fa-plus mr-2" />
-        Tambah
+        <i class="fa fa-download mr-2" />
+        Download Template Weekly Config
       </a-button>
+      <div>
+        <a-button
+          type="primary"
+          class="mr-2"
+          @click="showPreviewModal"
+        >
+          <i class="fa fa-download mr-2" />
+          Import
+        </a-button>
+        <a-button
+          type="primary"
+          @click="showAddModal"
+        >
+          <i class="fa fa-plus mr-2" />
+          Tambah
+        </a-button>
+      </div>
     </div>
     <a-table
       :columns="weeklyConfig.columns"
@@ -69,6 +87,7 @@
     <a-input
       placeholder="Week Name"
       v-model:value="formState.weekly_config_baru"
+      @change="weeklyNameFormatting"
     />
     <vue-datepicker
       placeholder="Tanggal Mulai"
@@ -82,6 +101,85 @@
       input-format="dd-MM-yyyy"
       v-model="formState.tanggal_selesai"
     />
+  </a-modal>
+
+  <!-- Preview Modal -->
+  <a-modal
+    v-model:visible="previewModal"
+    title="Import Data"
+  >
+    <template #footer>
+      <a-button
+        key="back"
+        @click="previewModal = false"
+      >
+        Kembali
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="weeklyConfig.isLoading"
+        :disabled="submitStatus"
+        @click="handleSubmit"
+      >
+        Submit
+      </a-button>
+    </template>
+    <div class="d-flex justify-content-between">
+      <a-form-item label="Upload File">
+        <input
+          ref="file"
+          type="file"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          @change="onFileChanged"
+        />
+      </a-form-item>
+      <a-button type="primary" @click="handlePreview">
+        <i class="fa fa-eye mr-2" />
+        Preview
+      </a-button>
+    </div>
+    <a-table
+      table-layout="auto"
+      :columns="weeklyConfig.importColumns"
+      :data-source="previewData"
+      :loading="weeklyConfig.isLoading"
+      :scroll="{ x: 1000 }"
+    >
+      <template #icon="{ text }">
+        <div
+          v-if="text.msg_error == 0"
+        >
+          <a-tooltip :title="text.msg">
+            <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
+          </a-tooltip>
+        </div>
+        <div v-else>
+          <a-tooltip :title="text.msg">
+            <img lazy="loading" v-once src="@/assets/images/wrong.svg" alt="Salah" />
+          </a-tooltip>
+        </div>
+      </template>
+      <template #message="{ text }">
+        <span>{{ text.msg }}</span>
+      </template>
+      <template #start_date="{ text }">
+        <div v-if="text.start_date">
+          <span>{{ changeFormatDate(text.start_date) }}</span>
+        </div>
+        <div v-else>
+          <span>{{ text.start_date }}</span>
+        </div>
+      </template>
+      <template #end_date="{ text }">
+        <div v-if="text.end_date">
+          <span>{{ changeFormatDate(text.end_date) }}</span>
+        </div>
+        <div v-else>
+          <span>{{ text.end_date }}</span>
+        </div>
+      </template>
+    </a-table>
   </a-modal>
 </template>
 
@@ -98,6 +196,7 @@ export default {
   data() {
     return {
       weeklyConfigModal: false,
+      previewModal: false,
       formState: {
         id: null,
         id_user: null,
@@ -105,7 +204,11 @@ export default {
         tanggal_mulai: '',
         tanggal_selesai: '',
       },
+      bodyFile: null,
       modalStatus: false,
+      previewData: [],
+      submitStatus: true,
+      elementEdit: null,
     }
   },
   async mounted() {
@@ -118,7 +221,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('weeklyConfig', ['getAllWeeklyConfig', 'addWeeklyConfig', 'deleteWeeklyConfig', 'editWeeklyConfig']),
+    ...mapActions('weeklyConfig', [
+      'getAllWeeklyConfig',
+      'addWeeklyConfig',
+      'deleteWeeklyConfig',
+      'editWeeklyConfig',
+      'getDataFromExcel',
+      'submitExcelData',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -133,13 +243,17 @@ export default {
       this.modalStatus = true
       this.weeklyConfigModal = true
       this.formState.id = id
+      this.weeklyConfig.weeklyConfigList.map(row => {
+        row.edited = row.ID == id ? true : false
+      })
       const element = this.weeklyConfig.weeklyConfigList.find(element => element.ID == id)
-      console.log(element)
+      this.elementEdit = element
       this.formState.weekly_config_baru = element.WEEK_NAME
       this.formState.tanggal_mulai = this.setFormatDate(element.TANGGAL_MULAI)
       this.formState.tanggal_selesai = this.setFormatDate(element.TANGGAL_SELESAI)
     },
-    async showDeleteModal(id) {this.formState.id = id
+    async showDeleteModal(id) {
+      this.formState.id = id
       this.$confirm({
         title: 'Hapus Weekly Config',
         content: 'Apakah anda yakin?',
@@ -160,15 +274,33 @@ export default {
       })},
     async saveWeeklyConfig() {
       const weekNameValidation = this.formState.weekly_config_baru.toString().trim()
+      const bulan = weekNameValidation.substring(4, 6)
+      const week = weekNameValidation.substring(6, 8)
       const tanggalMulaiValidation = this.formState.tanggal_mulai.toString()
       const tanggalSelesaiValidation = this.formState.tanggal_selesai.toString()
 
       if (weekNameValidation.length < 1) {
         notification.error({
           message: 'Gagal',
-          description: 'Kolom week name tidak boleh kosong',
+          description: 'Kolom nama week tidak boleh kosong',
         })
         this.formState.weekly_config_baru = ''
+        this.weeklyConfigModal = true
+        return
+      }
+      if (parseInt(bulan) > 12) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Format week name bulan maks 12',
+        })
+        this.weeklyConfigModal = true
+        return
+      }
+      if (parseInt(week) > 6) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Format week name minggu maks 6',
+        })
         this.weeklyConfigModal = true
         return
       }
@@ -188,7 +320,7 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (new Date(this.formState.tanggal_mulai).getTime() > new Date(this.formState.tanggal_selesai).getTime()) {
+      if (this.newDateGetTime(this.formState.tanggal_mulai) > this.newDateGetTime(this.formState.tanggal_selesai)) {
         notification.error({
           message: 'Gagal',
           description: 'Tanggal mulai harus sebelum tanggal selesai',
@@ -222,9 +354,6 @@ export default {
       this.weeklyConfigModal = false
       await this.getAllWeeklyConfig()
       this.formState.id = null
-      this.formState.weekly_config_baru = ''
-      this.formState.tanggal_mulai = ''
-      this.formState.tanggal_selesai = ''
     },
     getFormatDate(date) {
       let components = date.split('-')
@@ -242,6 +371,80 @@ export default {
     },
     splitDate(dates) {
       return new Date(dates).toLocaleDateString('en-GB').toString().replace('/', '-').replace('/', '-')
+    },
+    weeklyNameFormatting() {
+      this.formState.weekly_config_baru = this.formState.weekly_config_baru.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
+      var size = this.formState.weekly_config_baru.length
+      if (size > 8) {
+        this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 8)
+      }
+    },
+    showPreviewModal() {
+      this.previewModal = true
+    },
+    onFileChanged() {
+      this.bodyFile = this.$refs.file.files[0]
+    },
+    async handlePreview() {
+      this.previewData = []
+      await this.getDataFromExcel({
+        file: this.bodyFile,
+        user_id: this.formState.id_user,
+      })
+      console.log(this.weeklyConfig.listData)
+      this.weeklyConfig.listData.map(row => {
+        if (!(row.name_error == "1" && row.start_date_error == "1" && row.end_date_error == "1")) {
+          this.previewData.push(row)
+        }
+      })
+      let status = []
+      this.previewData.map(data => {
+        if (data.msg_error != 0) {
+          status.push(1)
+        }
+      })
+      // this.previewData.map(data => {
+      //   if (data.name_error == '0' && data.start_date_error == '0' && data.end_date_error == '0' && data.inperiode == 0 && data.sameName == 0 && data.range == 0) {
+      //     data.laporan = data.inperiode_msg
+      //   } else {
+      //     data.laporan = data.error_msg
+      //     if (data.inperiode) {
+      //       data.laporan = `${data.laporan}${data.error_msg ? ", " : ""}${data.inperiode_msg}`
+      //     }
+      //     if (data.sameName) {
+      //       data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.sameName_msg}`
+      //     }
+      //     if (data.range) {
+      //       data.laporan = `${data.laporan}${data.laporan ? ", " : ""}${data.range_msg}`
+      //     }
+      //     status.push(true)
+      //   }
+      // })
+      this.submitStatus = status.length > 0 ? true : false
+    },
+    async handleSubmit() {
+      await this.submitExcelData({
+        data: this.previewData,
+        user_id: this.formState.id_user,
+      })
+      await this.getAllWeeklyConfig()
+      this.previewModal = false
+      this.$refs.file.value = ''
+      this.bodyFile = null
+      this.previewData = []
+      this.submitStatus = true
+    },
+    newDateGetTime(time) {
+      return new Date(time).getTime()
+    },
+    dateRangeCheck(savedDate, startDate, endDate) {
+      if (savedDate.find(row => startDate >= row.start && endDate <= row.end)) {
+        return true
+      }
+      if (savedDate.find(row => (startDate >= row.start && startDate <= row.end) || (row.start >= startDate && row.start <= endDate))) {
+        return true
+      }
+      return false
     },
   },
 }
