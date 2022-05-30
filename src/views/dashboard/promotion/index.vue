@@ -175,6 +175,7 @@ export default {
         // 'getDistributorList',
         'getMetabasePromotion',
         'getMetabasePromotionAdmin',
+        'getMetabasePromotionTSO',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -202,9 +203,8 @@ export default {
             id: userData.userid,
           })
 
-          await this.getMetabasePromotion({
-            pdistrik: this.promotionDashboard.getDataTsoResult.pdistrik,
-            pdistributor: this.promotionDashboard.getDataTsoResult.pdistributor,
+          await this.getMetabasePromotionTSO({
+            pregion: this.promotionDashboard.getDataTsoResult.pregion,
           })
         break
         case 'Admin Dist':
