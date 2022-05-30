@@ -62,7 +62,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-4 col-md-4">
+            <div class="col-xs-5 col-md-5">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
