@@ -84,6 +84,7 @@ const state = {
       id_distrik_ret: null,
       nm_distrik: '',
     },
+    dataWeekParams: [],
     reportList: [
       {
         distrik: 'Distrik 1',
@@ -120,6 +121,56 @@ const state = {
         name: 'Week 4',
       },
     ],
+    data_bulan: [
+      {
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
+      },
+    ],
     dataDistrikRET: [],
     dataTable: [],
     isLoading: false,
@@ -133,6 +184,43 @@ const mutations = {
 }
 
 const actions = {
+  async getDataWeekParams({ commit, state }) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          dataWeekParams: result.data.data || 0,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeReport', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
   async getAllTipe({ commit, state }, payload) {
     commit('changeReport', {
       isLoading: true,
@@ -216,7 +304,7 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      week: data.params.week,
+      week: parseInt(data.params.week),
       distrik: data.params.id_distrik_ret,
     }
 
