@@ -14,7 +14,7 @@
                   placeholder="Distrik"
                   v-model:value="salesRoute.formData.selectedDistrik"
                   show-search
-                  @change="handleDistributor"
+                  @change="handleDistrik"
                 >
                   <a-select-option disabled value="">{{
                     salesRoute.dataDistrik && salesRoute.dataDistrik.length > 0
@@ -46,7 +46,7 @@
                   placeholder="Distributor"
                   v-model:value="salesRoute.formData.selectedDistributor"
                   show-search
-                  @change="handleSales"
+                  @change="handleDistributor"
                 >
                   <a-select-option disabled value="">Pilih Distributor</a-select-option>
 
@@ -62,7 +62,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-5 col-md-5">
+            <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -70,6 +70,7 @@
                   placeholder="Sales"
                   v-model:value="salesRoute.formData.selectedSalesman"
                   show-search
+                  @change="handleSales()"
                 >
                   <a-select-option disabled value="">Pilih Salesman</a-select-option>
                   <a-select-option disabled v-if="salesRoute.dataSalesman.length == 0"
@@ -83,12 +84,14 @@
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
                     :title="item.id_sales + ` - ` + item.username + ` - ` + item.nama_sales"
-                    :value="item.id_sales"
+                    :value="item.nama_sales"
                     >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
                   </a-select-option>
                 </a-select>
               </a-form-item>
             </div>
+          </div>
+          <div class="row">
             <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-date-picker
@@ -264,7 +267,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <a-card :loading="loading" class="card card-top card-top-primary mt-3">
           <div class="card-body p-0">
             <div class="row">
@@ -285,7 +288,7 @@
           </div>
         </a-card>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <a-card :loading="loading" class="card card-top card-top-primary mt-3">
           <div class="card-body p-0">
             <div class="row">
@@ -305,14 +308,13 @@
           </div>
         </a-card>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-4">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <div v-if="itemRadio == ''">
+                <span class="font-weight-bold">Foto Survey</span>
+                <div v-if="itemRadio == ''" class="mt-2">
                   <a-carousel :after-change="onChange" arrows>
                     <template #prevArrow>
                       <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
@@ -341,7 +343,7 @@
                   </a-carousel>
                 </div>
 
-                <div v-else>
+                <div v-else class="mt-2">
                   <div v-if="itemRadio.image.length == 0">
                     <a-carousel :after-change="onChange" arrows>
                       <template #prevArrow>
@@ -687,7 +689,7 @@ export default {
       // `index` will be the visible row number (available in the v-model 'shownItems')
       log(record) // This will be the item data for the row
     },
-    async handleDistributor() {
+    async handleDistrik() {
       let dataSource = [...this.salesRoute.dataDistrik]
       let filtered = dataSource.filter(
         x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
@@ -707,7 +709,7 @@ export default {
         await this.getDistributor()
       }
     },
-    async handleSales() {
+    async handleDistributor() {
       let dataSource = [...this.salesRoute.dataDistributor]
       let filtered = dataSource.filter(
         x => x.nama_distributor == this.salesRoute.formData.selectedDistributor,
@@ -717,6 +719,15 @@ export default {
       await this.getSalesman({
         id_distributor: this.salesRoute.formData.id_distributor,
       })
+    },
+
+    async handleSales() {
+      let dataSource = [...this.salesRoute.dataSalesman]
+      let filtered = dataSource.filter(
+        x => x.nama_sales == this.salesRoute.formData.selectedSalesman,
+      )
+
+      this.salesRoute.formData.id_sales = filtered[0].id_sales
     },
     getMapData(place) {
       this.place = place
