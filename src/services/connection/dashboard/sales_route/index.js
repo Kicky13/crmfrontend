@@ -260,7 +260,7 @@ const actions = {
 
       const result = await apiClient.get(
         `/salesRoute/detilVisitRouteMaps?idSales=${
-          data.formData.selectedSalesman
+          data.formData.id_sales
         }&idDistributor=${data.formData.id_distributor ||
           data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
@@ -303,7 +303,7 @@ const actions = {
 
       const result = await apiClient.get(
         `/salesRoute/tokoBelumDikunjungi?idSales=${
-          data.formData.selectedSalesman
+          data.formData.id_sales
         }&idDistributor=${data.formData.id_distributor ||
           data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
@@ -345,7 +345,7 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.selectedSalesman}&idDistributor=${data
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data
           .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
