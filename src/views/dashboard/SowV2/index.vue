@@ -299,6 +299,7 @@ export default {
       'getDataScatterChart',
       'getDataChart',
       'getMetabaseSOW',
+      'getMetabaseSOWTSO',
       'getMetabaseSOWAdmin',
       'getDataTso',
       'getDataAdminDistributor',
@@ -329,9 +330,8 @@ export default {
             id: userData.userid,
           })
 
-          await this.getMetabaseSOW({
-            pdistrik: this.sowDashboard.getDataTsoResult.pdistrik,
-            pdistributor: this.sowDashboard.getDataTsoResult.pdistributor,
+          await this.getMetabaseSOWTSO({
+            pregion: this.sowDashboard.getDataTsoResult.pregion,
           })
         break
         case 'Admin Dist':
