@@ -633,7 +633,7 @@ export default {
     urlStreetView() {
       // let lat = -7.1688477
       // let long = 112.6451559
-      let keyApi = `AIzaSyDTKJswQQoh-7vtUlz8FQUixHXUQncOV8c`
+      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
       this.linkStreetView =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
         this.latStreetView +
