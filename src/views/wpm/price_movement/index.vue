@@ -3,6 +3,7 @@
     <a-row :gutter="[16, 16]" class="mb-3">
       <a-col :xs="24" :md="4">
         <a-select
+          v-model:value="formData.distrik"
           placeholder="Distrik"
           class="w-100 mr-2"
           show-search
@@ -11,7 +12,7 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(item, index) in priceMovement.distrikList"
-            :value="`${item.id_distrik} - ${item.nama_distrik}`"
+            :value="item.id_distrik"
             :key="index"
             :title="item.nama_distrik"
             data-toggle="tooltip"
@@ -23,10 +24,11 @@
       </a-col>
       <a-col :xs="24" :md="3">
         <a-select
+          v-model:value="formData.tahun"
           placeholder="Tahun"
           class="w-100"
           show-search
-          v-model:value="formData.tahun"
+          @change="tahunHandle"
         >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option
@@ -43,6 +45,7 @@
       </a-col>
       <a-col :xs="24" :md="3">
         <a-select
+          v-model:value="formData.bulan"
           placeholder="Bulan"
           show-search
           class="w-100"
@@ -51,7 +54,7 @@
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
             v-for="(item, index) in gapHarga.bulan"
-            :value="item.name"
+            :value="item.id"
             :key="index"
             :title="item.name"
             data-toggle="tooltip"
@@ -63,21 +66,22 @@
       </a-col>
       <a-col :xs="24" :md="3">
         <a-select
+          v-model:value="formData.week"
           placeholder="Week"
           show-search
           class="w-100"
-          @change="weekHandle"
+          :disabled="formData.bulan != `` && formData.tahun != `` ? false : true"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
-            v-for="(item, index) in gapHarga.week"
-            :value="item.name"
+            v-for="(weekly, index) in priceMovement.dataWeekParams"
+            :value="weekly.week"
             :key="index"
-            :title="item.name"
+            :title="weekly.name"
             data-toggle="tooltip"
             data-placement="top"
           >
-            {{ item.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -92,6 +96,7 @@
       </a-col>
     </a-row>
     <a-table
+      :loading="priceMovement.isLoading"
       :columns="priceMovement.columns"
       :data-source="priceMovement.priceMovementList"
     />
@@ -106,10 +111,10 @@ export default {
   data() {
     return {
       formData: {
-        distrik: null,
-        tahun: null,
-        bulan: null,
-        week: null,
+        distrik: '',
+        tahun: '',
+        bulan: '',
+        week: '',
       },
     }
   },
@@ -127,15 +132,50 @@ export default {
     await this.getAllDistrik()
   },
   methods: {
-    ...mapActions('priceMovement', ['getAllDistrik', 'getPriceMovementList']),
-    distrikHandle(value) {
-      this.formData.distrik = parseInt(value.split('-')[0].trim())
+    ...mapActions('priceMovement', ['getAllDistrik', 'getPriceMovementList', 'getDataWeekParams']),
+    async tahunHandle() {
+      if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week != ''
+      ) {
+        this.formData.week = ''
+        await this.getDataWeekParams({
+          bulan: this.formData.bulan,
+          tahun: this.formData.tahun,
+        })
+      } else if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week == ''
+      ) {
+        await this.getDataWeekParams({
+          bulan: this.formData.bulan,
+          tahun: this.formData.tahun,
+        })
+      }
     },
-    bulanHandle(value) {
-      this.formData.bulan = this.gapHarga.bulan.find(row => row.name == value).id
-    },
-    weekHandle(value) {
-      this.formData.week = this.gapHarga.week.find(row => row.name == value).id
+    async bulanHandle() {
+      if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week != ''
+      ) {
+        this.formData.week = ''
+        await this.getDataWeekParams({
+          bulan: this.formData.bulan,
+          tahun: this.formData.tahun,
+        })
+      } else if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week == ''
+      ) {
+        await this.getDataWeekParams({
+          bulan: this.formData.bulan,
+          tahun: this.formData.tahun,
+        })
+      }
     },
     async showPriceMovement() {
       if (!this.formData.distrik) {
@@ -170,7 +210,7 @@ export default {
         distrik: this.formData.distrik,
         tahun: this.formData.tahun,
         bulan: this.formData.bulan,
-        week: this.formData.week,
+        week: parseInt(this.formData.week),
       })
     },
   },
