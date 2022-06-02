@@ -620,11 +620,14 @@ export default {
                 kemasan: null,
                 notes: '',
               },
+              params: {
+                tahun: this.weeklyInput.formData.tahun,
+                bulan: this.weeklyInput.formData.bulan,
+                week: parseInt(this.weeklyInput.formData.week),
+              },
             })
           }
-          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
-          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
-          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+
           await this.getDataTable()
           await this.getDataWeekForm()
         } else {
