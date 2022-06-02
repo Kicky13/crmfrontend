@@ -82,6 +82,10 @@ const state = {
         id: 5,
         name: 'Week 5',
       },
+      {
+        id: 6,
+        name: 'Week 6',
+      },
     ],
     distrikRetList: [],
     distrikList: [],
