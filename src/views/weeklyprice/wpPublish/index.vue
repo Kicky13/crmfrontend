@@ -57,7 +57,7 @@
           placeholder="Week"
           show-search
           class="w-100"
-          :disabled="wpPublish.params.nm_tso != `` && wpPublish.params.tahun != `` ? false : true"
+          :disabled="wpPublish.params.bulan != `` && wpPublish.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
