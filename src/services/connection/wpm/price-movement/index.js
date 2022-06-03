@@ -42,6 +42,7 @@ const state = {
     ],
     distrikList: [],
     priceMovementList: [],
+    dataWeekParams: [],
     isLoading: false,
   },
 }
@@ -123,6 +124,44 @@ const actions = {
         })
       }
     } catch (err) {
+      await commit('changePriceMovement', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
+
+  async getDataWeekParams({ commit, state }, payload) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: payload.tahun,
+      bulan: payload.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.status == `false`) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          dataWeekParams: result.data.data || 0,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
       await commit('changePriceMovement', {
         isLoading: false,
       })
