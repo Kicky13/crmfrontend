@@ -217,7 +217,6 @@ const actions = {
           dataWeekParams: result.data.data || 0,
           isLoading: false,
         })
-        console.log(`result.data.data`, result)
       } else {
         notification.error({
           message: 'Opps',

@@ -65,7 +65,12 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="3">
-        <a-select placeholder="Tahun" show-search class="w-100" v-model:value="formData.tahun">
+        <a-select
+          placeholder="Tahun"
+          class="w-100"
+          v-model:value="formData.tahun"
+          @change="handleChangeTahun"
+        >
           <a-select-option disabled value="">Pilih Tahun</a-select-option>
           <a-select-option
             v-for="(item, index) in years"
@@ -80,7 +85,12 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="3">
-        <a-select placeholder="Bulan" show-search class="w-100" v-model:value="formData.bulan">
+        <a-select
+          placeholder="Bulan"
+          class="w-100"
+          v-model:value="formData.bulan"
+          @change="handleChangeBulan"
+        >
           <a-select-option disabled value="">Pilih Bulan</a-select-option>
           <a-select-option
             v-for="(item, index) in gapHarga.bulan"
@@ -97,15 +107,16 @@
       <a-col :xs="24" :md="3">
         <a-select placeholder="Week" show-search class="w-100" v-model:value="formData.week">
           <a-select-option disabled value="">Pilih Week</a-select-option>
+
           <a-select-option
-            v-for="(item, index) in gapHarga.week"
-            :value="item.id"
+            v-for="(weekly, index) in gapHarga.dataWeekParams"
+            :value="weekly.week"
             :key="index"
-            :title="item.name"
             data-toggle="tooltip"
             data-placement="top"
+            :title="`Week` + weekly.week"
           >
-            {{ item.name }}
+            Week {{ weekly.week }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -116,9 +127,9 @@
             formData.id_provinsi == null ||
             formData.id_distrik_ret == null ||
             formData.id_distrik == null ||
-            formData.tahun == null ||
-            formData.week == null ||
-            formData.bulan == null ||
+            formData.tahun == '' ||
+            formData.week == '' ||
+            formData.bulan == '' ||
             columns.length == 0 ||
             row.length == 0
               ? true
@@ -165,7 +176,6 @@
         </a-select>
       </a-col>
     </a-row>
-    {{ gapHarga.row }}
     <a-table :columns="columns" :data-source="row">
       <template #gap_harga="{ text }">
         <span>{{ text.gap_harga }}</span>
@@ -190,9 +200,9 @@ export default {
         nm_distrik_ret: '',
         id_distrik: null,
         nm_distrik: '',
-        tahun: null,
-        bulan: null,
-        week: null,
+        tahun: '',
+        bulan: '',
+        week: '',
         row: [],
         column: [],
       },
@@ -216,7 +226,13 @@ export default {
   },
   methods: {
     ...mapActions('filter', ['getAllProvinsi']),
-    ...mapActions('gapHarga', ['getDistrikRET', 'getDistrik', 'getAllProduct', 'getGapHarga']),
+    ...mapActions('gapHarga', [
+      'getDataWeekParams',
+      'getDistrikRET',
+      'getDistrik',
+      'getAllProduct',
+      'getGapHarga',
+    ]),
     async showGapHarga() {
       // const formData = {
       //   id_provinsi: this.formData.id_provinsi,
@@ -258,11 +274,11 @@ export default {
           }),
         )
 
-        // this.row.push(
-        //   _.find(this.gapHarga.row, function(item) {
-        //     return item.key_brand == `1`
-        //   }),
-        // )
+        this.row.push(
+          _.find(this.gapHarga.row, function(item) {
+            return item.key_brand == `1`
+          }),
+        )
 
         // let dataRow = _.find(this.gapHarga.row, function(item) {
         //   return item.key_brand == `1`
@@ -298,11 +314,37 @@ export default {
       let idDistrikRet = (this.formData.id_distrik_ret = filtered[0].id_district_ret)
       this.getDistrik({ id_distrik_ret: idDistrikRet })
     },
-
     distrikHandler() {
       let dataSource = [...this.gapHarga.distrikList]
       let filtered = dataSource.filter(x => x.nama_distrik == this.formData.nm_distrik)
       this.formData.id_distrik = filtered[0].id_distrik
+    },
+    async handleChangeTahun() {
+      if (this.formData.tahun != '' && this.formData.bulan != '' && this.formData.week != '') {
+      } else if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week == ''
+      ) {
+        await this.getDataWeekParams({
+          tahun: this.formData.tahun,
+          bulan: this.formData.bulan,
+        })
+      }
+    },
+    async handleChangeBulan() {
+      console.log()
+      if (this.formData.tahun != '' && this.formData.bulan != '' && this.formData.week != '') {
+      } else if (
+        this.formData.tahun != '' &&
+        this.formData.bulan != '' &&
+        this.formData.week == ''
+      ) {
+        await this.getDataWeekParams({
+          tahun: this.formData.tahun,
+          bulan: this.formData.bulan,
+        })
+      }
     },
   },
 }

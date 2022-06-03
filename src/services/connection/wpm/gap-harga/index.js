@@ -87,6 +87,7 @@ const state = {
         name: 'Week 6',
       },
     ],
+    dataWeekParams: [],
     distrikRetList: [],
     distrikList: [],
     gapHarga: [],
@@ -101,6 +102,43 @@ const mutations = {
 }
 
 const actions = {
+  async getDataWeekParams({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: payload.tahun,
+      bulan: payload.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.data != undefined) {
+        await commit('changeGAPHarga', {
+          dataWeekParams: result.data.data || 0,
+          isLoading: false,
+        })
+      } else {
+        notification.error({
+          message: 'Opps',
+          description: result.data.message,
+        })
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeGAPHarga', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
   async getDistrikRET({ commit, state }, payload) {
     commit('changeGAPHarga', {
       isLoading: true,
