@@ -127,9 +127,9 @@
             formData.id_provinsi == null ||
             formData.id_distrik_ret == null ||
             formData.id_distrik == null ||
-            formData.tahun == null ||
-            formData.week == null ||
-            formData.bulan == null ||
+            formData.tahun == '' ||
+            formData.week == '' ||
+            formData.bulan == '' ||
             columns.length == 0 ||
             row.length == 0
               ? true
@@ -274,11 +274,11 @@ export default {
           }),
         )
 
-        // this.row.push(
-        //   _.find(this.gapHarga.row, function(item) {
-        //     return item.key_brand == `1`
-        //   }),
-        // )
+        this.row.push(
+          _.find(this.gapHarga.row, function(item) {
+            return item.key_brand == `1`
+          }),
+        )
 
         // let dataRow = _.find(this.gapHarga.row, function(item) {
         //   return item.key_brand == `1`
