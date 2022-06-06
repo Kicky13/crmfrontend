@@ -200,7 +200,7 @@ export default {
       
       switch (roleUser) {
         case 'TSO':
-          await this.getDataRegionTSO({
+          await this.getDataTso({
             id: userData.userid,
           })
 
