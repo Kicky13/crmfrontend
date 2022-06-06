@@ -254,37 +254,15 @@ export default {
         column: this.columns,
       })
 
-      if (this.row.length > 0) {
-        // console.log(`this.gapHarga.row`, this.gapHarga.row)
-        // let dataRows = this.row.forEach(val => {
-        //   _.filter(this.gapHarga.row, function(item) {
-        //     return parseInt(item.key_brand) == val.key_brand
-        //   })
-        // })
+      if (this.row.length > 0) {        
 
-        // console.log(`---dataRows`, dataRows)
-        console.log(
-          `---datagass`,
-          this.row.forEach(val => {
-            console.log(`val.key_brand`, val.key_brand)
-            _.filter(this.gapHarga.row, function(item) {
-              console.log(`parseInt(item.key_brand)`, parseInt(item.key_brand))
-              return parseInt(item.key_brand) == val.key_brand
-            })
-          }),
+        let dataRow = this.row.map(value =>
+          this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
+        this.row = []
+        this.row = dataRow         
 
-        this.row.push(
-          _.find(this.gapHarga.row, function(item) {
-            return item.key_brand == `1`
-          }),
-        )
-
-        // let dataRow = _.find(this.gapHarga.row, function(item) {
-        //   return item.key_brand == `1`
-        // })
-
-        // this.row.push({})
+       
       }
     },
     columnHandler(values) {
