@@ -81,7 +81,7 @@
       <a-select-option disabled value="">Pilih Company</a-select-option>
       <a-select-option
         v-for="(item, index) in brand.companyList"
-        :value="item.ID"
+        :value="`${item.ID} - ${item.DESKRIPSI}`"
         :key="index"
         :title="item.DESKRIPSI"
         data-toggle="tooltip"
@@ -134,7 +134,9 @@ export default {
       this.formState.id_user = store.state.user.userid
     },
     async setAllBrand() {
+      this.dataList = []
       await this.getAllBrand()
+      console.log(this.brand)
       this.brand.brandList.map(list => this.dataList.push(list))
     },
     showAddModal() {
@@ -150,7 +152,7 @@ export default {
       this.formState.id = id
       const brand = this.brand.brandList.find(element => element.ID == id)
       this.formState.brand_baru = brand.NAMA_BRAND
-      this.formState.id_company = brand.ID_COMPANY
+      this.formState.id_company = `${brand.ID_COMPANY} - ${this.brand.companyList.find(element => element.ID == brand.ID_COMPANY).DESKRIPSI}` 
       this.formState.keterangan = brand.KETERANGAN
     },
     showDeleteModal(id) {
@@ -203,14 +205,14 @@ export default {
           id_brand: this.formState.id,
           id_user: this.formState.id_user,
           brand_baru: this.formState.brand_baru,
-          id_company: this.formState.id_company,
+          id_company: this.companyHandler(this.formState.id_company),
           keterangan: this.formState.keterangan,
         })
       } else {
         await this.addBrand({
           id_user: this.formState.id_user,
           brand_baru: this.formState.brand_baru,
-          id_company: this.formState.id_company,
+          id_company: this.companyHandler(this.formState.id_company),
           keterangan: this.formState.keterangan,
         })
       }
@@ -223,12 +225,13 @@ export default {
       this.formState.keterangan = ''
     },
     companyHandler(company) {
-      this.formState.id_company = company.split('-')[0].trim()
+      console.log(company)
+      return company.split('-')[0].trim()
     },
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
-      return `${date}-${month}-${year} ${timeFormat}`
+      return `${date}-${month}-${year}`
     },
     searchData(keyword) {
       if (keyword) {
