@@ -129,9 +129,7 @@
             formData.id_distrik == null ||
             formData.tahun == '' ||
             formData.week == '' ||
-            formData.bulan == '' ||
-            columns.length == 0 ||
-            row.length == 0
+            formData.bulan == ''     
               ? true
               : false
           "
@@ -271,14 +269,12 @@ export default {
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
 
-      console.log(`----this.columns`, this.columns)
     },
     rowHandler(values) {
       let temp = []
       values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
       this.row = temp
 
-      console.log(`----this.row`, this.row)
     },
     provinsiHandler() {
       let dataSource = [...this.filter.listProvinsi]
