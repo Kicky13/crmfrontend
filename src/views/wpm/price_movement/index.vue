@@ -3,16 +3,15 @@
     <a-row :gutter="[16, 16]" class="mb-3">
       <a-col :xs="24" :md="4">
         <a-select
-          v-model:value="formData.distrik"
           placeholder="Distrik"
           class="w-100 mr-2"
           show-search
-          @change="distrikHandle"
+          v-model:value="formData.distrik"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(item, index) in priceMovement.distrikList"
-            :value="item.id_distrik"
+            :value="`${item.id_distrik} - ${item.nama_distrik}`"
             :key="index"
             :title="item.nama_distrik"
             data-toggle="tooltip"
@@ -207,11 +206,14 @@ export default {
         return
       }
       await this.getPriceMovementList({
-        distrik: this.formData.distrik,
+        distrik: this.distrikHandler(this.formData.distrik),
         tahun: this.formData.tahun,
         bulan: this.formData.bulan,
         week: parseInt(this.formData.week),
       })
+    },
+    distrikHandler(distrik) {
+      return distrik.split('-')[0].trim()
     },
   },
 }
