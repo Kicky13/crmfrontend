@@ -652,7 +652,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
       } else if (
         this.weeklyInput.params.tahun != '' &&
         this.weeklyInput.params.bulan != '' &&
@@ -667,7 +669,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
       } else if (
         this.weeklyInput.params.tahun != '' &&
         this.weeklyInput.params.bulan != '' &&
@@ -721,7 +725,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
         // notification.success({
         //   message: 'Success',
         //   description: 'Data berhasil ditampilkan.',
