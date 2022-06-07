@@ -12,7 +12,7 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in wpmPromotion.dataDistrikRET"
-            :value="distrik.ID"
+            :value="`${distrik.ID} - ${distrik.NAMA_DISTRIK_RET}`"
             :key="index"
           >
             {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
