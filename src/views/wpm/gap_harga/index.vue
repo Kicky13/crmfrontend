@@ -129,7 +129,7 @@
             formData.id_distrik == null ||
             formData.tahun == '' ||
             formData.week == '' ||
-            formData.bulan == ''     
+            formData.bulan == ''
               ? true
               : false
           "
@@ -232,15 +232,9 @@ export default {
       'getGapHarga',
     ]),
     async showGapHarga() {
-      // const formData = {
-      //   id_provinsi: this.formData.id_provinsi,
-      //   id_distrik_ret: this.formData.id_distrik_ret,
-      //   id_distrik: this.formData.id_distrik,
-      //   tahun: this.formData.tahun,
-      //   bulan: this.formData.bulan,
-      //   week: this.formData.week,
-      // }
-      // await this.getGapHarga(formData)
+      await this.$store.commit('gapHarga/changeGAPHarga', {
+        row: [],
+      })
       await this.getGapHarga({
         id_provinsi: this.formData.id_provinsi,
         id_distrik_ret: this.formData.id_distrik_ret,
@@ -252,29 +246,25 @@ export default {
         column: this.columns,
       })
 
-      if (this.row.length > 0) {        
-
+      if (this.row.length > 0) {
         let dataRow = this.row.map(value =>
           this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
         this.row = []
-        this.row = dataRow         
-
-       
+        this.row = dataRow
       }
     },
     columnHandler(values) {
       let temp = []
+
       temp.push(this.gapHarga.columns[0])
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
-
     },
     rowHandler(values) {
       let temp = []
       values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
       this.row = temp
-
     },
     provinsiHandler() {
       let dataSource = [...this.filter.listProvinsi]

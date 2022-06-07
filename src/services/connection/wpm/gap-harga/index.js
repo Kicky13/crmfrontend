@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { _ } from 'vue-underscore'
 
 const state = {
   data: {
@@ -286,7 +287,9 @@ const actions = {
     // }
     let rows = []
     payload.row.forEach(element => {
-      rows.push(element.key_brand)
+      if (element != undefined) {
+        rows.push(element.key_brand)
+      }
     })
 
     let columns = []
