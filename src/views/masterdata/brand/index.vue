@@ -225,7 +225,6 @@ export default {
       this.formState.keterangan = ''
     },
     companyHandler(company) {
-      console.log(company)
       return company.split('-')[0].trim()
     },
     changeFormatDate(dates) {
