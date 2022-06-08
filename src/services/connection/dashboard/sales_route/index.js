@@ -278,10 +278,25 @@ const actions = {
           isLoading: false,
         })
       } else {
-        await commit('changeSalesRoute', {
-          detailVisit: result.data.data,
-          isLoading: false,
-        })
+        if (result.data.data.length > 0) {
+          notification.success({
+            message: 'Success',
+            description: '"Toko sudah dikunjungi" memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailVisit: result.data.data,
+            isLoading: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailVisit: result.data.data,
+            isLoading: false,
+          })
+        }
       }
     } catch (error) {
       notification.error({
@@ -319,10 +334,25 @@ const actions = {
           isLoading2: false,
         })
       } else {
-        await commit('changeSalesRoute', {
-          detailMerchant: result.data.data,
-          isLoading2: false,
-        })
+        if (result.data.data.length > 0) {
+          notification.success({
+            message: 'Success',
+            description: '"Toko belum dikunjungi" memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailMerchant: result.data.data,
+            isLoading2: false,
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailMerchant: result.data.data,
+            isLoading2: false,
+          })
+        }
       }
     } catch (error) {
       notification.error({
