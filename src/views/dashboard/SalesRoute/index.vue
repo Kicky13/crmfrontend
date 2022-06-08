@@ -386,15 +386,12 @@
                       </template>
 
                       <template>
-                       <div
-                        v-for="(item, index) in imageVisit.image"
-                        :key="`index_${index}`"
-                      >
-                        <div
-                          :style="'background-image: url(' + item.SRC"
-                          style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
-                        ></div>
-                      </div>
+                        <div v-for="(item, index) in imageVisit.image" :key="`index_${index}`">
+                          <div
+                            :style="'background-image: url(' + item.SRC"
+                            style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
+                          ></div>
+                        </div>
                       </template>
                     </a-carousel>
                   </div>
@@ -513,6 +510,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-md-8 col-sm-8">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
@@ -554,6 +553,14 @@
                     :loading="salesRoute.isLoading2"
                     :pagination="salesRoute.paginationToko"
                   >
+                    <template #radio="{ text }">
+                      <a-radio-group
+                        v-model:value="itemRadioNotVisited"
+                        @change="onChangeNotVisited"
+                      >
+                        <a-radio :style="radioStyle" :value="text"> </a-radio>
+                      </a-radio-group>
+                    </template>
                     <template #kode_toko="{ text }">
                       <div>
                         {{ text.id_toko_belum_dikunjungi }}
@@ -575,6 +582,27 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Toko Belum di Kunjungi</span>
+
+                <iframe
+                  :src="linkStreetViewNotVisited"
+                  class="w-100 mt-2"
+                  height="294"
+                  style="border:0; border-radius: 4px;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </a-card>
       </div>
     </div>
   </div>
@@ -600,11 +628,15 @@ export default {
       loading: false,
       linkStreetView: '',
       linkStreetViewSales: '',
+      linkStreetViewNotVisited: '',
       itemRadio: '',
+      itemRadioNotVisited: '',
       latStreetView: -7.1688477,
       lngStreetView: 112.6451559,
       latStreetViewSales: -7.1688477,
       lngStreetViewSales: 112.6451559,
+      latStreetViewNotVisited: -7.1688477,
+      lngStreetViewNotVisited: 112.6451559,
       latMap: -7.1688477,
       lngMap: 112.6451559,
       zoomMap: 5,
@@ -629,6 +661,7 @@ export default {
   async mounted() {
     this.urlStreetView()
     this.urlStreetViewSales()
+    this.urlStreetViewNotVisited()
     this.refreshData()
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
     this.$store.state.user.levelHirarki.toLowerCase() == `tso`
@@ -669,8 +702,6 @@ export default {
     ]),
 
     urlStreetView() {
-      // let lat = -7.1688477
-      // let long = 112.6451559
       let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
       this.linkStreetView =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
@@ -682,8 +713,6 @@ export default {
     },
 
     urlStreetViewSales() {
-      // let lat = -7.1688477
-      // let long = 112.6451559
       let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
       this.linkStreetViewSales =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
@@ -693,6 +722,18 @@ export default {
         `&fov=80&heading=70&pitch=0&key=` +
         keyApi
     },
+
+    urlStreetViewNotVisited() {
+      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      this.linkStreetViewNotVisited =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        this.latStreetViewNotVisited +
+        `,` +
+        this.lngStreetViewNotVisited +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
+    },
+
     myRowClickHandler(record, index) {
       // 'record' will be the row data from items
       // `index` will be the visible row number (available in the v-model 'shownItems')
@@ -899,6 +940,14 @@ export default {
       this.urlStreetViewSales()
       this.markerMapByTable()
       this.visitImage(value.target.value)
+    },
+
+    onChangeNotVisited(value) {
+      // LatLng Toko belum dikunjungi
+      this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.latitude)
+      this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.longitude)
+
+      this.urlStreetViewNotVisited()
     },
 
     openMarker(id) {

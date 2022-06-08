@@ -72,6 +72,11 @@ const state = {
     ],
     columns2: [
       {
+        title: '',
+        slots: { customRender: 'radio' },
+        key: 'radio',
+      },
+      {
         title: 'Kode Toko',
         slots: { customRender: 'kode_toko' },
         key: 'kode_toko',
@@ -259,10 +264,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${
-          data.formData.id_sales
-        }&idDistributor=${data.formData.id_distributor ||
-          data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data
+          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
@@ -302,10 +305,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/tokoBelumDikunjungi?idSales=${
-          data.formData.id_sales
-        }&idDistributor=${data.formData.id_distributor ||
-          data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
+          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
@@ -345,8 +346,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data
-          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData
+          .id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
