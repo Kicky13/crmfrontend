@@ -385,12 +385,17 @@
                         </div>
                       </template>
 
-                      <div v-for="(item, index) in imageVisit.image" :key="`index_${index}`">
+                      <template>
+                       <div
+                        v-for="(item, index) in imageVisit.image"
+                        :key="`index_${index}`"
+                      >
                         <div
                           :style="'background-image: url(' + item.SRC"
                           style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
                         ></div>
                       </div>
+                      </template>
                     </a-carousel>
                   </div>
                 </div>
