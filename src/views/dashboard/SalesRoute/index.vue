@@ -5,12 +5,102 @@
         <div class="col-md-10">
           <div class="row">
             <div
+              class="col-md-4"
+              v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
+            >
+              <a-form-item>
+                <a-select
+                  class="col-lg-12 col-md-12 pr-2"
+                  style="width: 100% !important"
+                  placeholder="Distributor"
+                  v-model:value="salesRoute.formData.selectedDistributor"
+                  show-search
+                  @change="handleDistributor"
+                >
+                  <a-select-option disabled value="">Pilih Distributor</a-select-option>
+
+                  <a-select-option
+                    v-for="(distributor, index) in salesRoute.dataDistributor"
+                    :key="index"
+                    :title="distributor.nama_distributor"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    :value="distributor.nama_distributor"
+                    >{{ distributor.nama_distributor }}</a-select-option
+                  >
+                </a-select>
+              </a-form-item>
+            </div>
+            <div
+              class="col-md-4"
+              v-if="
+                $store.state.user.levelHirarki.toLowerCase() == `tso` ||
+                  $store.state.user.levelHirarki.toLowerCase() == ``
+              "
+            >
+              <a-form-item>
+                <a-select
+                  class="w-100"
+                  placeholder="Distrik"
+                  v-model:value="salesRoute.formData.selectedDistrik"
+                  show-search
+                  @change="handleDistrik"
+                >
+                  <a-select-option disabled value="">Pilih Distrik</a-select-option>
+                  <a-select-option disabled v-if="salesRoute.dataDistrikByDistributor.length == 0"
+                    >Distrik Tidak Tersedia</a-select-option
+                  >
+                  <a-select-option
+                    v-else
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    v-for="(distrik, index) in salesRoute.dataDistrikByDistributor"
+                    :key="index"
+                    :value="distrik.nama_distrik"
+                    :title="distrik.id_distrik + ` - ` + distrik.nama_distrik"
+                  >
+                    {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}</a-select-option
+                  >
+                </a-select>
+              </a-form-item>
+            </div>
+            <div class="col-md-4">
+              <a-form-item>
+                <a-select
+                  class="col-lg-12 col-md-12 pr-2"
+                  style="width: 100% !important"
+                  placeholder="Sales"
+                  v-model:value="salesRoute.formData.selectedSalesman"
+                  show-search
+                  @change="handleSales()"
+                >
+                  <a-select-option disabled value="">Pilih Salesman</a-select-option>
+                  <a-select-option disabled v-if="salesRoute.dataSalesman.length == 0"
+                    >Sales Tidak Tersedia</a-select-option
+                  >
+
+                  <a-select-option
+                    v-else
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    v-for="(item, index) in salesRoute.dataSalesman"
+                    :key="`index_${index}`"
+                    :title="item.id_sales + ` - ` + item.username + ` - ` + item.nama_sales"
+                    :value="item.nama_sales"
+                    >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div
               class="col-xs-4 col-md-4"
               v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
             >
               <a-form-item>
                 <a-select
-                  class="w-100"
+                  class="w-100" 
                   placeholder="Distrik"
                   v-model:value="salesRoute.formData.selectedDistrik"
                   show-search
@@ -90,7 +180,8 @@
                 </a-select>
               </a-form-item>
             </div>
-          </div>
+          </div> -->
+
           <div class="row">
             <div class="col-xs-4 col-md-4">
               <a-form-item>
@@ -161,8 +252,8 @@
                           <div class="text-black font-weight-bold">
                             KUNJUNGAN TOKO KE {{ index + 1 }}
                           </div>
-                          <div>Toko   : {{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>Sales  : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Toko : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales : {{ m.position.sales_name.toUpperCase() }}</div>
                           <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
                           <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
@@ -200,8 +291,8 @@
                           @closeclick="openMarker(null)"
                           :opened="openedMarkerID === m.id"
                         >
-                          <div>Toko   : {{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>Sales  : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Toko : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales : {{ m.position.sales_name.toUpperCase() }}</div>
                           <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
                           <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
@@ -659,6 +750,7 @@ export default {
     }),
   },
   async mounted() {
+    this.getDistributor()
     this.urlStreetView()
     this.urlStreetViewSales()
     this.urlStreetViewNotVisited()
@@ -680,6 +772,7 @@ export default {
 
       await this.getSalesman({
         id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+        id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
       })
     }
     this.handlePagination(5)
@@ -699,6 +792,7 @@ export default {
       'getDistributor',
       'getMap',
       'getFilterDistributor',
+      'getDistrikByDistributor',
     ]),
 
     urlStreetView() {
@@ -735,29 +829,7 @@ export default {
     },
 
     myRowClickHandler(record, index) {
-      // 'record' will be the row data from items
-      // `index` will be the visible row number (available in the v-model 'shownItems')
-      log(record) // This will be the item data for the row
-    },
-    async handleDistrik() {
-      let dataSource = [...this.salesRoute.dataDistrik]
-      let filtered = dataSource.filter(
-        x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
-      )
-
-      this.salesRoute.formData.id_distrik = filtered[0].id_distrik
-
-      if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
-        await this.getFilterDistributor({
-          id_jabatan: this.$store.state.user.idJabatan,
-        })
-
-        await this.getSalesman({
-          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
-        })
-      } else {
-        await this.getDistributor()
-      }
+      log(record)
     },
     async handleDistributor() {
       let dataSource = [...this.salesRoute.dataDistributor]
@@ -766,9 +838,51 @@ export default {
       )
 
       this.salesRoute.formData.id_distributor = filtered[0].id_distributor
-      await this.getSalesman({
+      if (
+        this.$store.state.user.levelHirarki.toLowerCase() == `admin dis` ||
+        this.$store.state.user.levelHirarki.toLowerCase() == `asm`
+      ) {
+        // await this.getFilterDistributor({
+        //   id_jabatan: this.$store.state.user.idJabatan,
+        // })
+
+        await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki,
+          levelHirarki: this.$store.state.user.levelHirarki,
+        })
+        await this.getSalesman({
+          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+          id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+        })
+        // this.$store.state.user.idJabatan
+      } else {
+        await this.getDistrikByDistributor({
+          id_distributor: this.salesRoute.formData.id_distributor,
+        })
+      }
+    },
+    async handleDistrik() {
+      let dataSource = [...this.salesRoute.dataDistrik]
+      let filtered = dataSource.filter(
+        x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
+      )
+
+      this.salesRoute.formData.id_distrik = filtered[0].id_distrik
+      this.getSalesman({
         id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
       })
+      // if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+      //   await this.getFilterDistributor({
+      //     id_jabatan: this.$store.state.user.idJabatan,
+      //   })
+
+      //   await this.getSalesman({
+      //     id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+      //   })
+      // } else {
+      //   await this.getDistributor()
+      // }
     },
 
     async handleSales() {
@@ -944,8 +1058,8 @@ export default {
 
     onChangeNotVisited(value) {
       // LatLng Toko belum dikunjungi
-      this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.latitude)
-      this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.longitude)
+      this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_latitude)
+      this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_longitude)
 
       this.urlStreetViewNotVisited()
     },

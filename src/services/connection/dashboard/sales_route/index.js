@@ -99,6 +99,7 @@ const state = {
     dataDistributor: [],
     detailVisit: [],
     detailMerchant: [],
+    dataDistrikByDistributor: [],
     dataMap: [],
     pagination: {},
     paginationToko: {},
@@ -152,6 +153,8 @@ const actions = {
         ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
         : payload.levelHirarki.toLowerCase() == `admin dis`
         ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
+        : payload.levelHirarki.toLowerCase() == `asm`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
         : (result = await apiClient.post('/filter/Distrik', body))
 
       // const result = await apiClient.post('/filter/Distrik', body)
@@ -184,11 +187,11 @@ const actions = {
 
     const { data } = state
 
-    let distrik_id = []
-    distrik_id.push(data.formData.id_distrik)
+    // let distrik_id = []
+    // distrik_id.push(data.formData.id_distrik)
 
     let body = {
-      id_distrik: JSON.stringify(distrik_id),
+      // id_distrik: JSON.stringify(distrik_id),
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -225,7 +228,7 @@ const actions = {
 
     try {
       const result = await apiClient.get(
-        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}`,
+        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}&idDistrik=${payload.id_distrik}`,
       )
 
       if (result.data.status == 'error') {
@@ -288,8 +291,8 @@ const actions = {
             isLoading: false,
           })
         } else {
-          notification.success({
-            message: 'Success',
+          notification.error({
+            message: 'Opps',
             description: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan',
           })
           await commit('changeSalesRoute', {
@@ -344,8 +347,8 @@ const actions = {
             isLoading2: false,
           })
         } else {
-          notification.success({
-            message: 'Success',
+          notification.error({
+            message: 'Opps',
             description: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan',
           })
           await commit('changeSalesRoute', {
@@ -428,6 +431,49 @@ const actions = {
       } else {
         await commit('changeSalesRoute', {
           dataDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDistrikByDistributor({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let distributor_id = []
+    distributor_id.push(payload.id_distributor)
+
+    let body = {
+      id_distributor: JSON.stringify(distributor_id),
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    try {
+      const result = await apiClient.post('/filter/DistrikDistributor', body)
+
+      // const result = await apiClient.post('/filter/Distrik', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataDistrikByDistributor: result.data.data,
           isLoading: false,
         })
       }
