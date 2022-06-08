@@ -161,10 +161,10 @@
                           <div class="text-black font-weight-bold">
                             KUNJUNGAN TOKO KE {{ index + 1 }}
                           </div>
-                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                          <div>{{ m.position.status.toUpperCase() }}</div>
+                          <div>Toko   : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales  : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
                       </GMapMarker>
                       <!-- sales -->
@@ -200,10 +200,10 @@
                           @closeclick="openMarker(null)"
                           :opened="openedMarkerID === m.id"
                         >
-                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                          <div>{{ m.position.status.toUpperCase() }}</div>
+                          <div>Toko   : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales  : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
                       </GMapMarker>
                       <GMapPolyline :path="path" ref="polyline" />
