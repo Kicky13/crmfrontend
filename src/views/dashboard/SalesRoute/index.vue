@@ -136,7 +136,7 @@
                       :center="{ lat: latMap, lng: lngMap }"
                       :zoom="zoomMap"
                       map-type-id="roadmap"
-                      style="width: 100%; height: 500px"
+                      style="width: 100%; height: 500px; border-radius: 4px;"
                     >
                       <!-- toko sudah dikunjungi -->
                       <GMapMarker
@@ -278,7 +278,7 @@
                   :src="linkStreetView"
                   class="w-100 mt-2"
                   height="294"
-                  style="border:0;"
+                  style="border:0; border-radius: 4px;"
                   allowfullscreen=""
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
@@ -298,7 +298,7 @@
                   :src="linkStreetViewSales"
                   class="w-100 mt-2"
                   height="294"
-                  style="border:0;"
+                  style="border:0; border-radius: 4px;"
                   allowfullscreen=""
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
@@ -314,7 +314,7 @@
             <div class="row">
               <div class="col-md-12">
                 <span class="font-weight-bold">Foto Survey</span>
-                <div v-if="itemRadio == ''" class="mt-2">
+                <div v-if="itemRadio == ''" class="mt-3">
                   <a-carousel :after-change="onChange" arrows>
                     <template #prevArrow>
                       <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
@@ -343,9 +343,9 @@
                   </a-carousel>
                 </div>
 
-                <div v-else class="mt-2">
+                <div v-else class="mt-3">
                   <div v-if="itemRadio.image.length == 0">
-                    <a-carousel :after-change="onChange" arrows>
+                    <a-carousel arrows>
                       <template #prevArrow>
                         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
                           <left-circle-outlined />
@@ -373,7 +373,7 @@
                     </a-carousel>
                   </div>
                   <div v-else>
-                    <a-carousel :after-change="onChange" arrows>
+                    <a-carousel arrows>
                       <template #prevArrow>
                         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
                           <left-circle-outlined />
@@ -385,8 +385,11 @@
                         </div>
                       </template>
 
-                      <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-                        <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
+                      <div v-for="(item, index) in imageVisit.image" :key="`index_${index}`">
+                        <div
+                          :style="'background-image: url(' + item.SRC"
+                          style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
+                        ></div>
                       </div>
                     </a-carousel>
                   </div>
@@ -600,6 +603,7 @@ export default {
       latMap: -7.1688477,
       lngMap: 112.6451559,
       zoomMap: 5,
+      imageVisit: [],
       markers: [],
       markersPeople: [],
       markersNotVisited: [],
@@ -873,6 +877,10 @@ export default {
       this.loading = false
     },
 
+    visitImage(props) {
+      this.imageVisit = props
+    },
+
     onChange(value) {
       // LatLng Toko
       this.latStreetView = parseFloat(this.itemRadio.latitude)
@@ -885,6 +893,7 @@ export default {
       this.urlStreetView()
       this.urlStreetViewSales()
       this.markerMapByTable()
+      this.visitImage(value.target.value)
     },
 
     openMarker(id) {
@@ -909,15 +918,43 @@ export default {
 
 <style scoped>
 /* For demo */
-.ant-carousel >>> .slick-slide {
+/* .ant-carousel >>> .slick-slide {
   text-align: center;
   height: 300px;
   line-height: 160px;
-  background: #364d79;
+  background: #fff;
   overflow: hidden;
 }
 
 .ant-carousel >>> .slick-slide h3 {
+  color: #fff;
+} */
+
+.ant-carousel :deep(.slick-slide) {
+  text-align: center;
+  height: 300px;
+  line-height: 160px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ant-carousel :deep(.slick-arrow.custom-slick-arrow) {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: black;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+  z-index: 1;
+}
+.ant-carousel :deep(.custom-slick-arrow:before) {
+  display: none;
+}
+.ant-carousel :deep(.custom-slick-arrow:hover) {
+  opacity: 0.5;
+}
+
+.ant-carousel :deep(.slick-slide h3) {
   color: #fff;
 }
 
