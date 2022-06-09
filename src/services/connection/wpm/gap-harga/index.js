@@ -11,7 +11,13 @@ const state = {
         key: 'gap_harga',
       },
     ],
-    row: [],
+    row: [
+      {
+        title: 'GAP HARGA',
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
+      },
+    ],
     bulan: [
       {
         id: 1,

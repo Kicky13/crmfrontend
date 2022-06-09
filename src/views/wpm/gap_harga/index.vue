@@ -247,6 +247,7 @@ export default {
       })
 
       if (this.row.length > 0) {
+        console.log(`---this.row`, this.row)
         let dataRow = this.row.map(value =>
           this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
@@ -259,11 +260,10 @@ export default {
       temp.push(this.gapHarga.columns[0])
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
-
-      console.log(`---temp`, this.columns)
     },
     rowHandler(values) {
       let temp = []
+      console.log(`---this.values`, values)
       values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
       this.row = temp
     },
