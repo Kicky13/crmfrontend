@@ -479,7 +479,7 @@
                       <template>
                         <div v-for="(item, index) in imageVisit.image" :key="`index_${index}`">
                           <div
-                            :style="'background-image: url(' + item.SRC"
+                            :style="'background-image: url(' + item.src"
                             style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
                           ></div>
                         </div>
@@ -1058,8 +1058,15 @@ export default {
 
     onChangeNotVisited(value) {
       // LatLng Toko belum dikunjungi
-      this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_latitude)
-      this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_longitude)
+
+      if (
+        this.itemRadioNotVisited.customer_latitude == null &&
+        this.itemRadioNotVisited.customer_longitude == null
+      ) {
+      } else {
+        this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_latitude)
+        this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_longitude)
+      }
 
       this.urlStreetViewNotVisited()
     },
