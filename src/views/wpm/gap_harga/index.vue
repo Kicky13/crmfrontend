@@ -174,7 +174,7 @@
         </a-select>
       </a-col>
     </a-row>
-    <a-table :columns="columns" :data-source="row">
+    <a-table style="text-align:center !important" :columns="columns" :data-source="row">
       <template #gap_harga="{ text }">
         <span>{{ text.gap_harga }}</span>
       </template>
@@ -256,10 +256,11 @@ export default {
     },
     columnHandler(values) {
       let temp = []
-
       temp.push(this.gapHarga.columns[0])
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
+
+      console.log(`---temp`, temp)
     },
     rowHandler(values) {
       let temp = []
@@ -313,3 +314,12 @@ export default {
   },
 }
 </script>
+<style>
+.ant-table-thead tr th {
+  text-align: center !important;
+}
+
+.ant-table-tbody {
+  text-align: center !important;
+}
+</style>
