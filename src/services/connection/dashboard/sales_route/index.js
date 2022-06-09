@@ -72,6 +72,11 @@ const state = {
     ],
     columns2: [
       {
+        title: '',
+        slots: { customRender: 'radio' },
+        key: 'radio',
+      },
+      {
         title: 'Kode Toko',
         slots: { customRender: 'kode_toko' },
         key: 'kode_toko',
@@ -94,6 +99,7 @@ const state = {
     dataDistributor: [],
     detailVisit: [],
     detailMerchant: [],
+    dataDistrikByDistributor: [],
     dataMap: [],
     pagination: {},
     paginationToko: {},
@@ -147,6 +153,8 @@ const actions = {
         ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
         : payload.levelHirarki.toLowerCase() == `admin dis`
         ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
+        : payload.levelHirarki.toLowerCase() == `asm`
+        ? (result = await apiClient.post('/filter/Distrik', bodyTSODIST))
         : (result = await apiClient.post('/filter/Distrik', body))
 
       // const result = await apiClient.post('/filter/Distrik', body)
@@ -179,11 +187,11 @@ const actions = {
 
     const { data } = state
 
-    let distrik_id = []
-    distrik_id.push(data.formData.id_distrik)
+    // let distrik_id = []
+    // distrik_id.push(data.formData.id_distrik)
 
     let body = {
-      id_distrik: JSON.stringify(distrik_id),
+      // id_distrik: JSON.stringify(distrik_id),
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
@@ -220,7 +228,7 @@ const actions = {
 
     try {
       const result = await apiClient.get(
-        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}`,
+        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}&idDistrik=${payload.id_distrik}`,
       )
 
       if (result.data.status == 'error') {
@@ -259,10 +267,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${
-          data.formData.id_sales
-        }&idDistributor=${data.formData.id_distributor ||
-          data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data
+          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
@@ -275,10 +281,25 @@ const actions = {
           isLoading: false,
         })
       } else {
-        await commit('changeSalesRoute', {
-          detailVisit: result.data.data,
-          isLoading: false,
-        })
+        if (result.data.data.length > 0) {
+          notification.success({
+            message: 'Success',
+            description: '"Toko sudah dikunjungi" memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailVisit: result.data.data,
+            isLoading: false,
+          })
+        } else {
+          notification.error({
+            message: 'Opps',
+            description: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailVisit: result.data.data,
+            isLoading: false,
+          })
+        }
       }
     } catch (error) {
       notification.error({
@@ -302,10 +323,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/tokoBelumDikunjungi?idSales=${
-          data.formData.id_sales
-        }&idDistributor=${data.formData.id_distributor ||
-          data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
+          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
@@ -318,10 +337,25 @@ const actions = {
           isLoading2: false,
         })
       } else {
-        await commit('changeSalesRoute', {
-          detailMerchant: result.data.data,
-          isLoading2: false,
-        })
+        if (result.data.data.length > 0) {
+          notification.success({
+            message: 'Success',
+            description: '"Toko belum dikunjungi" memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailMerchant: result.data.data,
+            isLoading2: false,
+          })
+        } else {
+          notification.error({
+            message: 'Opps',
+            description: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan',
+          })
+          await commit('changeSalesRoute', {
+            detailMerchant: result.data.data,
+            isLoading2: false,
+          })
+        }
       }
     } catch (error) {
       notification.error({
@@ -345,8 +379,8 @@ const actions = {
         .replace('/', '-')
 
       const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data
-          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData
+          .id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
           data.formData.id_distrik
         }&tanggal=${dateFormat}`,
       )
@@ -397,6 +431,49 @@ const actions = {
       } else {
         await commit('changeSalesRoute', {
           dataDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDistrikByDistributor({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let distributor_id = []
+    distributor_id.push(payload.id_distributor)
+
+    let body = {
+      id_distributor: JSON.stringify(distributor_id),
+      offset: data.bodyList.offset,
+      limit: data.bodyList.limit,
+    }
+
+    try {
+      const result = await apiClient.post('/filter/DistrikDistributor', body)
+
+      // const result = await apiClient.post('/filter/Distrik', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataDistrikByDistributor: result.data.data,
           isLoading: false,
         })
       }
