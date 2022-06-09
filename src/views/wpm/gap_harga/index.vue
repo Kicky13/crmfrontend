@@ -260,7 +260,7 @@ export default {
       values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
       this.columns = temp
 
-      console.log(`---temp`, temp)
+      console.log(`---temp`, this.columns)
     },
     rowHandler(values) {
       let temp = []

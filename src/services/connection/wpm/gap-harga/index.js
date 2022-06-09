@@ -228,7 +228,7 @@ const actions = {
 
       result.data.data.map(item => {
         let objColumns = {
-          title: item.key_brand,
+          title: item.nm_brand,
           nama_produk: item.nm_brand,
           dataIndex: item.id_brand,
           key: item.id_brand,
@@ -238,7 +238,7 @@ const actions = {
 
       result.data.data.map(item => {
         let objRow = {
-          gap_harga: item.key_brand,
+          gap_harga: item.nm_brand,
           key_brand: item.id_brand,
         }
         state.data.row.push(objRow)
