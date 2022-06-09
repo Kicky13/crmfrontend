@@ -87,7 +87,7 @@
             :data-source="customers"
             :row-key="(customers) => customers.id_customer"
             :pagination="pagination"
-            :scroll="{ x: 1500 }"
+            :scroll="{ x: 2000 }"
             :loading="tableLoading"
           >
             <template #action="text">
@@ -96,6 +96,9 @@
                   <i class="fa fa-eye"></i>
                 </button>
               </div>
+            </template>
+            <template #kordinat="{ text }">
+              <span>Lng: {{text.longitude}} | Ltd: {{ text.latitude }}</span>
             </template>
           </a-table>
         </div>
@@ -122,8 +125,9 @@ const columns = [
   {
     title: 'Nama Toko',
     dataIndex: 'nm_customer',
-    width: 200,
+    width: 250,
     fixed: 'left',
+    ellipsis: true,
   },
   {
     title: 'Alamat',
@@ -133,17 +137,21 @@ const columns = [
   {
     title: 'Provinsi',
     dataIndex: 'provinsi',
+    width: 250,
   },
   {
     title: 'Kabupaten',
     dataIndex: 'kabupaten',
+    width: 250,
   },
   {
     title: 'Koordinat',
-    dataIndex: 'kordinat',
+    slots: { customRender: 'kordinat' },
   },
   {
     title: 'Status Lock',
+    width: 100,
+    align: 'center',
     dataIndex: 'status_lock',
   },
   {
@@ -152,6 +160,7 @@ const columns = [
     slots: { customRender: 'action' },
     width: 100,
     fixed: 'right',
+    align: 'center',
   },
 ]
 
