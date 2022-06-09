@@ -706,6 +706,7 @@ import { _ } from 'vue-underscore'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
+import { notification } from 'ant-design-vue'
 
 export default {
   components: {
@@ -1060,9 +1061,17 @@ export default {
       // LatLng Toko belum dikunjungi
 
       if (
-        this.itemRadioNotVisited.customer_latitude == null &&
-        this.itemRadioNotVisited.customer_longitude == null
+        (this.itemRadioNotVisited.customer_latitude == null &&
+          this.itemRadioNotVisited.customer_longitude == null) ||
+        (this.itemRadioNotVisited.customer_latitude == `0` &&
+          this.itemRadioNotVisited.customer_longitude == `0`)
       ) {
+        notification.error({
+          message: 'Error',
+          description: 'Toko tersebut belum melakukan setting titik koordinat',
+        })
+        this.latStreetViewNotVisited = -7.1688477
+        this.lngStreetViewNotVisited = 112.6451559
       } else {
         this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_latitude)
         this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_longitude)
