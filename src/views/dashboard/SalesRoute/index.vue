@@ -690,6 +690,14 @@
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
+                <div v-if="informasiErrorStreetview == true">
+                  <span class="text-danger">*Informasi* </span>
+                  <br />
+                  <span class="text-danger"
+                    >Toko "{{ itemRadioNotVisited.toko_belum_dikunjungi }}" belum melakukan setting
+                    titik koordinat</span
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -715,6 +723,7 @@ export default {
   },
   data() {
     return {
+      informasiErrorStreetview: false,
       map: null,
       link: '',
       loading: false,
@@ -1067,9 +1076,10 @@ export default {
           this.itemRadioNotVisited.customer_longitude == `0`)
       ) {
         notification.error({
-          message: 'Error',
+          message: 'Opps',
           description: 'Toko tersebut belum melakukan setting titik koordinat',
         })
+        this.informasiErrorStreetview = true
         this.latStreetViewNotVisited = -7.1688477
         this.lngStreetViewNotVisited = 112.6451559
       } else {
