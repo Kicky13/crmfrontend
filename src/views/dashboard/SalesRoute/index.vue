@@ -2,7 +2,7 @@
   <div>
     <a-form :model="salesRoute.formData" label-align="left" layout="vertical">
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
           <div class="row">
             <div
               class="col-md-4"
@@ -194,6 +194,16 @@
               </a-form-item>
             </div>
           </div>
+        </div>
+        <div class="col-md-1">
+          <a-tooltip placement="topLeft">
+            <template #title>
+              <span>Refresh Filter</span>
+            </template>
+            <a-button @click="refreshFilter()" type="primary">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            </a-button>
+          </a-tooltip>
         </div>
         <div class="col-md-2">
           <a-button
@@ -690,14 +700,6 @@
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
-                <div v-if="informasiErrorStreetview == true">
-                  <span class="text-danger">*Informasi* </span>
-                  <br />
-                  <span class="text-danger"
-                    >Toko "{{ itemRadioNotVisited.toko_belum_dikunjungi }}" belum melakukan setting
-                    titik koordinat</span
-                  >
-                </div>
               </div>
             </div>
           </div>
@@ -723,7 +725,6 @@ export default {
   },
   data() {
     return {
-      informasiErrorStreetview: false,
       map: null,
       link: '',
       loading: false,
@@ -783,6 +784,18 @@ export default {
       await this.getSalesman({
         id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
         id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+      })
+    }
+    // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
+
+    // kondisi ketika menampilkan semua filter
+    if (this.salesRoute.formData.id_distributor == '') {
+      await this.getDistrikByDistributor({
+        id_distributor: this.salesRoute.formData.id_distributor,
+      })
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
       })
     }
     this.handlePagination(5)
@@ -1076,10 +1089,9 @@ export default {
           this.itemRadioNotVisited.customer_longitude == `0`)
       ) {
         notification.error({
-          message: 'Opps',
+          message: 'Error',
           description: 'Toko tersebut belum melakukan setting titik koordinat',
         })
-        this.informasiErrorStreetview = true
         this.latStreetViewNotVisited = -7.1688477
         this.lngStreetViewNotVisited = 112.6451559
       } else {
@@ -1105,6 +1117,28 @@ export default {
       this.salesRoute.formData.id_distrik = ''
       this.salesRoute.formData.id_distributor = ''
       this.salesRoute.formData.id_sales = ''
+    },
+
+    async refreshFilter() {
+      this.salesRoute.dataDistrik = []
+      this.salesRoute.dataDistributor = []
+      this.salesRoute.dataSalesman = []
+      this.salesRoute.formData.selectedDistrik = ''
+      this.salesRoute.formData.selectedDistributor = ''
+      this.salesRoute.formData.selectedSalesman = ''
+      this.salesRoute.formData.selectedDate = ''
+      this.salesRoute.formData.id_distrik = ''
+      this.salesRoute.formData.id_distributor = ''
+      this.salesRoute.formData.id_sales = ''
+      await this.getDistributor()
+
+      await this.getDistrikByDistributor({
+        id_distributor: this.salesRoute.formData.id_distributor,
+      })
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
+      })
     },
   },
 }
