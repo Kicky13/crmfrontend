@@ -147,7 +147,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Kolom" class="w-100" @change="columnHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -258,7 +258,9 @@ export default {
     columnHandler(values) {
       let temp = []
       temp.push(this.gapHarga.columns[0])
-      values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
+      values.map(value =>
+        temp.push(this.gapHarga.columns.find(column => column.nama_produk == value)),
+      )
       this.columns = temp
     },
     rowHandler(values) {
