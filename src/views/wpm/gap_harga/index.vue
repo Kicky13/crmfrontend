@@ -43,7 +43,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="3">
         <a-select
           placeholder="Distrik"
           show-search
@@ -120,7 +120,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="1" class="p-0 mr-2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="2">
         <a-button
           type="primary"
           :disabled="
@@ -135,7 +145,7 @@
           "
           @click="showGapHarga"
         >
-          <i class="fa fa-eye mr-2" />
+          <!-- <i class="fa fa-eye mr-2" /> -->
           Tampilkan
         </a-button>
       </a-col>
@@ -313,6 +323,25 @@ export default {
           bulan: this.formData.bulan,
         })
       }
+    },
+
+    refreshFilter(){
+        this.formData.id_provinsi = null,
+        this.formData.nm_provinsi = '',
+        this.formData.id_distrik_ret = null,
+        this.formData.nm_distrik_ret = '',
+        this.formData.id_distrik = null,
+        this.formData.nm_distrik = '',
+        this.formData.tahun = '',
+        this.formData.bulan = '',
+        this.formData.week = '',
+        this.gapHarga.distrikRetList = [],
+        this.gapHarga.distrikList = [],
+        this.gapHarga.dataWeekParams = [],
+        this.filter.listProvinsi = [],
+        this.getAllProvinsi()
+
+
     },
   },
 }

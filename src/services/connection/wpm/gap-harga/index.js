@@ -228,7 +228,15 @@ const actions = {
     })
 
     const { data } = state
+    data.columns = [
+      {
+        title: 'GAP HARGA',
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
+      },
+    ]
 
+    data.row = []
     try {
       const result = await apiClient.get(`/wpm/gap-product`)
 
@@ -292,7 +300,6 @@ const actions = {
     //   column: state.data.gapHarga.join(","),
     // }
 
-    
     let rows = []
 
     payload.row.forEach(element => {
