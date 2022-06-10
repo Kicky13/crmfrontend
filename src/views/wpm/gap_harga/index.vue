@@ -164,7 +164,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Baris" class="w-100" @change="rowHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -219,8 +219,8 @@ export default {
   async mounted() {
     await this.getAllProduct()
     await this.getAllProvinsi()
-    this.columnHandler()
-    this.rowHandler()
+    // this.columnHandler()
+    // this.rowHandler()
   },
   methods: {
     ...mapActions('filter', ['getAllProvinsi']),
@@ -247,13 +247,14 @@ export default {
       })
 
       if (this.row.length > 0) {
-        console.log(`---this.row`, this.row)
         let dataRow = this.row.map(value =>
           this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
         this.row = []
         this.row = dataRow
       }
+
+      this.getAllProduct()
     },
     columnHandler(values) {
       let temp = []
@@ -265,8 +266,8 @@ export default {
     },
     rowHandler(values) {
       let temp = []
-      console.log(`---this.values`, values)
-      values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
+
+      values.map(value => temp.push(this.gapHarga.row.find(row => row.gap_harga == value)))
       this.row = temp
     },
     provinsiHandler() {

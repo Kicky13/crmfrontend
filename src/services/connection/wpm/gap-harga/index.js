@@ -291,7 +291,10 @@ const actions = {
     //   row: state.data.gapHarga.join(","),
     //   column: state.data.gapHarga.join(","),
     // }
+
+    
     let rows = []
+
     payload.row.forEach(element => {
       if (element != undefined) {
         rows.push(element.key_brand)
@@ -299,6 +302,7 @@ const actions = {
     })
 
     let columns = []
+
     payload.column.forEach(element => {
       columns.push(element.key)
     })
