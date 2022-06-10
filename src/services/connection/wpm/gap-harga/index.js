@@ -11,7 +11,13 @@ const state = {
         key: 'gap_harga',
       },
     ],
-    row: [],
+    row: [
+      {
+        title: 'GAP HARGA',
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
+      },
+    ],
     bulan: [
       {
         id: 1,
@@ -228,7 +234,7 @@ const actions = {
 
       result.data.data.map(item => {
         let objColumns = {
-          title: item.key_brand,
+          title: item.nm_brand,
           nama_produk: item.nm_brand,
           dataIndex: item.id_brand,
           key: item.id_brand,
@@ -238,7 +244,7 @@ const actions = {
 
       result.data.data.map(item => {
         let objRow = {
-          gap_harga: item.key_brand,
+          gap_harga: item.nm_brand,
           key_brand: item.id_brand,
         }
         state.data.row.push(objRow)
@@ -285,7 +291,10 @@ const actions = {
     //   row: state.data.gapHarga.join(","),
     //   column: state.data.gapHarga.join(","),
     // }
+
+    
     let rows = []
+
     payload.row.forEach(element => {
       if (element != undefined) {
         rows.push(element.key_brand)
@@ -293,6 +302,7 @@ const actions = {
     })
 
     let columns = []
+
     payload.column.forEach(element => {
       columns.push(element.key)
     })

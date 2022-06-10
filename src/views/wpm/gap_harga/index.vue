@@ -147,7 +147,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Kolom" class="w-100" @change="columnHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -164,7 +164,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Baris" class="w-100" @change="rowHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -174,7 +174,7 @@
         </a-select>
       </a-col>
     </a-row>
-    <a-table :columns="columns" :data-source="row">
+    <a-table style="text-align:center !important" :columns="columns" :data-source="row">
       <template #gap_harga="{ text }">
         <span>{{ text.gap_harga }}</span>
       </template>
@@ -219,8 +219,8 @@ export default {
   async mounted() {
     await this.getAllProduct()
     await this.getAllProvinsi()
-    this.columnHandler()
-    this.rowHandler()
+    // this.columnHandler()
+    // this.rowHandler()
   },
   methods: {
     ...mapActions('filter', ['getAllProvinsi']),
@@ -253,17 +253,21 @@ export default {
         this.row = []
         this.row = dataRow
       }
+
+      this.getAllProduct()
     },
     columnHandler(values) {
       let temp = []
-
       temp.push(this.gapHarga.columns[0])
-      values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
+      values.map(value =>
+        temp.push(this.gapHarga.columns.find(column => column.nama_produk == value)),
+      )
       this.columns = temp
     },
     rowHandler(values) {
       let temp = []
-      values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
+
+      values.map(value => temp.push(this.gapHarga.row.find(row => row.gap_harga == value)))
       this.row = temp
     },
     provinsiHandler() {
@@ -313,3 +317,12 @@ export default {
   },
 }
 </script>
+<style>
+.ant-table-thead tr th {
+  text-align: center !important;
+}
+
+.ant-table-tbody {
+  text-align: center !important;
+}
+</style>
