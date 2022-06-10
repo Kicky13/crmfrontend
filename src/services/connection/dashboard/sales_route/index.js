@@ -228,7 +228,9 @@ const actions = {
 
     try {
       const result = await apiClient.get(
-        `/dashboard/getSalesman?idDistributor=${payload.id_distributor}&idDistrik=${payload.id_distrik}`,
+        `/dashboard/getSalesman?idDistributor=${
+          payload.id_distributor ? payload.id_distributor : ''
+        }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
       )
 
       if (result.data.status == 'error') {
@@ -441,7 +443,6 @@ const actions = {
       })
     }
   },
-
   async getDistrikByDistributor({ commit, state }, payload) {
     commit('changeSalesRoute', {
       isLoading: true,
@@ -449,11 +450,16 @@ const actions = {
 
     const { data } = state
 
+    let payload_distributor = ''
+    payload_distributor = payload.id_distributor
     let distributor_id = []
-    distributor_id.push(payload.id_distributor)
+
+    if (payload_distributor != ``) {
+      distributor_id.push(payload.id_distributor)
+    }
 
     let body = {
-      id_distributor: JSON.stringify(distributor_id),
+      id_distributor: payload_distributor != '' ? JSON.stringify(distributor_id) : '',
       offset: data.bodyList.offset,
       limit: data.bodyList.limit,
     }
