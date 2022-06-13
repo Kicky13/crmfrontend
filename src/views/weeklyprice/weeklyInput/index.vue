@@ -627,9 +627,9 @@ export default {
                 notes: '',
               },
               params: {
-                tahun: this.weeklyInput.formData.tahun,
-                bulan: this.weeklyInput.formData.bulan,
-                week: parseInt(this.weeklyInput.formData.week),
+                tahun: '',
+                bulan: '',
+                week: '',
               },
             })
           }
@@ -639,9 +639,13 @@ export default {
           await this.getDataWeekForm()
         } else {
           await this.insertDataWeekly()
-          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
-          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
-          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+          await this.$store.commit('weeklyInput/changeWeeklyInput', {
+            params: {
+              tahun: '',
+              bulan: '',
+              week: '',
+            },
+          })
           await this.getDataTable({
             id_tso: this.$store.state.user.idJabatan,
           })
