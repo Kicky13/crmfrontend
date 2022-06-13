@@ -553,7 +553,9 @@ export default {
           await this.deleteDataRow({
             uuid: value.uuid,
           })
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
         },
         onCancel: () => {},
       })
@@ -567,7 +569,9 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.submitDataWeekly()
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
           this.weeklyInput.dataTable = []
           this.weeklyInput.data_uuid = []
         },
@@ -583,7 +587,9 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.duplicateDataWeekly()
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
         },
         onCancel: () => {},
       })
@@ -627,15 +633,18 @@ export default {
               },
             })
           }
-
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
           await this.getDataWeekForm()
         } else {
           await this.insertDataWeekly()
           this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
           this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
           this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
           await this.getDataWeekForm()
         }
         this.addModal = false
