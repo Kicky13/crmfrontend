@@ -43,7 +43,7 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="4">
+      <a-col :xs="24" :md="3">
         <a-select
           placeholder="Distrik"
           show-search
@@ -120,7 +120,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="24" :md="1" class="p-0 mr-2">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="24" :md="2">
         <a-button
           type="primary"
           :disabled="
@@ -129,15 +139,13 @@
             formData.id_distrik == null ||
             formData.tahun == '' ||
             formData.week == '' ||
-            formData.bulan == '' ||
-            columns.length == 0 ||
-            row.length == 0
+            formData.bulan == ''
               ? true
               : false
           "
           @click="showGapHarga"
         >
-          <i class="fa fa-eye mr-2" />
+          <!-- <i class="fa fa-eye mr-2" /> -->
           Tampilkan
         </a-button>
       </a-col>
@@ -149,7 +157,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Kolom" class="w-100" @change="columnHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -166,7 +174,7 @@
       <a-col :span="22">
         <a-select mode="tags" placeholder="Pilih Baris" class="w-100" @change="rowHandler">
           <template v-for="item in gapHarga.columns" :key="item.dataIndex">
-            <a-select-option v-if="item.nama_produk" :value="item.key">
+            <a-select-option v-if="item.nama_produk" :value="item.nama_produk">
               {{ item.nama_produk }}
             </a-select-option>
             <a-select-option v-else disabled>
@@ -176,7 +184,7 @@
         </a-select>
       </a-col>
     </a-row>
-    <a-table :columns="columns" :data-source="row">
+    <a-table style="text-align:center !important" :columns="columns" :data-source="row">
       <template #gap_harga="{ text }">
         <span>{{ text.gap_harga }}</span>
       </template>
@@ -221,8 +229,8 @@ export default {
   async mounted() {
     await this.getAllProduct()
     await this.getAllProvinsi()
-    this.columnHandler()
-    this.rowHandler()
+    // this.columnHandler()
+    // this.rowHandler()
   },
   methods: {
     ...mapActions('filter', ['getAllProvinsi']),
@@ -234,15 +242,9 @@ export default {
       'getGapHarga',
     ]),
     async showGapHarga() {
-      // const formData = {
-      //   id_provinsi: this.formData.id_provinsi,
-      //   id_distrik_ret: this.formData.id_distrik_ret,
-      //   id_distrik: this.formData.id_distrik,
-      //   tahun: this.formData.tahun,
-      //   bulan: this.formData.bulan,
-      //   week: this.formData.week,
-      // }
-      // await this.getGapHarga(formData)
+      await this.$store.commit('gapHarga/changeGAPHarga', {
+        row: [],
+      })
       await this.getGapHarga({
         id_provinsi: this.formData.id_provinsi,
         id_distrik_ret: this.formData.id_distrik_ret,
@@ -255,52 +257,28 @@ export default {
       })
 
       if (this.row.length > 0) {
-        // console.log(`this.gapHarga.row`, this.gapHarga.row)
-        // let dataRows = this.row.forEach(val => {
-        //   _.filter(this.gapHarga.row, function(item) {
-        //     return parseInt(item.key_brand) == val.key_brand
-        //   })
-        // })
-
-        // console.log(`---dataRows`, dataRows)
-        console.log(
-          `---datagass`,
-          this.row.forEach(val => {
-            console.log(`val.key_brand`, val.key_brand)
-            _.filter(this.gapHarga.row, function(item) {
-              console.log(`parseInt(item.key_brand)`, parseInt(item.key_brand))
-              return parseInt(item.key_brand) == val.key_brand
-            })
-          }),
+        let dataRow = this.row.map(value =>
+          this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
-
-        this.row.push(
-          _.find(this.gapHarga.row, function(item) {
-            return item.key_brand == `1`
-          }),
-        )
-
-        // let dataRow = _.find(this.gapHarga.row, function(item) {
-        //   return item.key_brand == `1`
-        // })
-
-        // this.row.push({})
+        this.row = []
+        this.row = dataRow
       }
+
+      this.getAllProduct()
     },
     columnHandler(values) {
       let temp = []
       temp.push(this.gapHarga.columns[0])
-      values.map(value => temp.push(this.gapHarga.columns.find(column => column.key == value)))
+      values.map(value =>
+        temp.push(this.gapHarga.columns.find(column => column.nama_produk == value)),
+      )
       this.columns = temp
-
-      console.log(`----this.columns`, this.columns)
     },
     rowHandler(values) {
       let temp = []
-      values.map(value => temp.push(this.gapHarga.row.find(row => row.key_brand == value)))
-      this.row = temp
 
-      console.log(`----this.row`, this.row)
+      values.map(value => temp.push(this.gapHarga.row.find(row => row.gap_harga == value)))
+      this.row = temp
     },
     provinsiHandler() {
       let dataSource = [...this.filter.listProvinsi]
@@ -346,6 +324,34 @@ export default {
         })
       }
     },
+
+    refreshFilter(){
+        this.formData.id_provinsi = null,
+        this.formData.nm_provinsi = '',
+        this.formData.id_distrik_ret = null,
+        this.formData.nm_distrik_ret = '',
+        this.formData.id_distrik = null,
+        this.formData.nm_distrik = '',
+        this.formData.tahun = '',
+        this.formData.bulan = '',
+        this.formData.week = '',
+        this.gapHarga.distrikRetList = [],
+        this.gapHarga.distrikList = [],
+        this.gapHarga.dataWeekParams = [],
+        this.filter.listProvinsi = [],
+        this.getAllProvinsi()
+
+
+    },
   },
 }
 </script>
+<style>
+.ant-table-thead tr th {
+  text-align: center !important;
+}
+
+.ant-table-tbody {
+  text-align: center !important;
+}
+</style>

@@ -281,6 +281,7 @@ const actions = {
     const { data } = state
 
     let formData = {
+      id_tso: payload.id_tso,
       offset: data.params.offset,
       limit: data.params.limit,
       tahun: data.params.tahun,
