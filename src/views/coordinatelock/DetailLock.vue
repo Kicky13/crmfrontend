@@ -217,41 +217,41 @@
             <strong class="align-self-center">Koordinat Lokasi</strong>
           </div>
           <div class="card-body p-0">
-            <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="mb-3 mt-1">
-                <!-- <img
-                  lazy="loading"
-                  v-once
-                  :src="require('@/assets/images/logo/underconstruct.jpg')"
-                  class="img-fluid"
-                  alt="Mary Stanform"
-                /> -->
-                <div class="mapouter">
-                  <div class="gmap_canvas">
-                    <iframe
-                      width="250"
-                      height="300"
-                      id="gmap_canvas"
-                      :src="link"
-                      frameborder="0"
-                      scrolling="no"
-                      marginheight="0"
-                      marginwidth="0"
-                    >
-                    </iframe>
-                    <a href="https://fmovies-online.net" />
-                    <a href="https://www.embedgooglemap.net"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20"></div>
-                <div class="font-size-16">
-                  Lng: {{ koordinatLock.dataDetailCustomer.longitude ?? '-' }} | Ltd:
-                  {{ koordinatLock.dataDetailCustomer.latitude ?? '-' }}
-                </div>
+            <!-- <div class="d-flex flex-wrap flex-column align-items-center"> -->
+            <!-- <div class="mb-3 mt-1"> -->
+              <!-- <img
+                lazy="loading"
+                v-once
+                :src="require('@/assets/images/logo/underconstruct.jpg')"
+                class="img-fluid"
+                alt="Mary Stanform"
+              /> -->
+              <!-- <div class="mapouter">
+                <div class="gmap_canvas"> -->
+            <iframe
+              class="w-100 p-2"
+              height="300"
+              id="gmap_canvas"
+              :src="link"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+            >
+            </iframe>
+            <a href="https://fmovies-online.net"></a>
+            <a href="https://www.embedgooglemap.net"></a>
+                <!-- </div>
+              </div> -->
+            <!-- </div> -->
+            <div class="text-center">
+              <div class="text-dark font-weight-bold font-size-20"></div>
+              <div class="font-size-16">
+                Lng: {{ koordinatLock.dataDetailCustomer.longitude ?? '-' }} | Ltd:
+                {{ koordinatLock.dataDetailCustomer.latitude ?? '-' }}
               </div>
             </div>
+            <!-- </div> -->
           </div>
           <div class="card-header text-center align-self-center">
             <Can do="update" on="CoordLock">
@@ -269,23 +269,23 @@
       </div>
       <div class="col-md-6 col-xs-6">
         <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
-          <div class="card-header d-flex mb-1">
+          <div class="card-header d-flex">
             <strong class="align-self-center">Street View</strong>
           </div>
           <div class="card-body p-0">
-            <div class="row">
-              <div class="col-md-12">
-                <iframe
-                  :src="linkStreetView"
-                  class="w-100"
-                  height="294"
-                  style="border:0;"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-            </div>
+            <!-- <div class="row">
+              <div class="col-md-12"> -->
+            <iframe
+              :src="linkStreetView"
+              class="w-100 p-2"
+              height="300"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+              <!-- </div>
+            </div> -->
           </div>
         </a-card>
       </div>
