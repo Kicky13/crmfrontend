@@ -5,7 +5,7 @@
         <div class="col-md-9">
           <div class="row">
             <div
-              class="col-md-4"
+              class="col-md-3"
               v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
             >
               <a-form-item>
@@ -32,7 +32,7 @@
               </a-form-item>
             </div>
             <div
-              class="col-md-4"
+              class="col-md-3"
               v-if="
                 $store.state.user.levelHirarki.toLowerCase() == `tso` ||
                   $store.state.user.levelHirarki.toLowerCase() == ``
@@ -64,7 +64,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -90,6 +90,16 @@
                     >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
                   </a-select-option>
                 </a-select>
+              </a-form-item>
+            </div>
+            <div class="col-xs-3 col-md-3">
+              <a-form-item>
+                <a-date-picker
+                  format="YYYY-MM-DD"
+                  placeholder="Pilih Tanggal"
+                  v-model:value="salesRoute.formData.selectedDate"
+                  class="w-100"
+                />
               </a-form-item>
             </div>
           </div>
@@ -181,19 +191,6 @@
               </a-form-item>
             </div>
           </div> -->
-
-          <div class="row">
-            <div class="col-xs-4 col-md-4">
-              <a-form-item>
-                <a-date-picker
-                  format="YYYY-MM-DD"
-                  placeholder="Pilih Tanggal"
-                  v-model:value="salesRoute.formData.selectedDate"
-                  class="w-100"
-                />
-              </a-form-item>
-            </div>
-          </div>
         </div>
         <div class="col-md-1">
           <a-tooltip placement="topLeft">
