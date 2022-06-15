@@ -84,7 +84,17 @@
           </a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="24" :md="3">
+      <a-col :xs="4" :md="1">
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button type="primary" @click="refreshFilter">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
+      </a-col>
+      <a-col :xs="20" :md="4">
         <a-button
           type="primary"
           @click="showPriceMovement"
@@ -214,6 +224,15 @@ export default {
     },
     distrikHandler(distrik) {
       return distrik.split('-')[0].trim()
+    },
+    
+    refreshFilter() {
+      this.formData = {
+        distrik: '',
+        tahun: '',
+        bulan: '',
+        week: '',
+      }
     },
   },
 }
