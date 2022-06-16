@@ -197,6 +197,14 @@ export default {
           subject: 'VisitPlan',
         },
         {
+          action: 'create',
+          subject: 'VisitPlan',
+        },
+        {
+          action: 'update',
+          subject: 'VisitPlan',
+        },
+        {
           action: 'read',
           subject: 'MappingCustomer',
         },

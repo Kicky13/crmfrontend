@@ -159,17 +159,17 @@
             </template>
             <template #action="{ text }">
               <div class="d-flex align-items-center">
-                <router-link
-                  :to="`/users/profile/${columnRef}/${text.idJabatan}`"
+                <button
                   v-if="flagHierarki === 1"
                   type="button"
                   class="mr-2 btn btn-success"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Hirarki"
+                  @click="handleHirarki(columnRef, text.idJabatan)"
                 >
                   <i class="fa fa-sitemap mr-1"></i>
-                </router-link>
+                </button>
                 <div>
                   <Can do="read" on="UserHirarki">
                     <button
@@ -571,6 +571,10 @@ export default {
     ]),
     ...mapActions('importExelHirarki', ['getDataFromExcel']),
     ...mapActions('userManagementCRM', ['getListUserCRM']),
+
+    handleHirarki(column, id) {
+      this.$router.push(`/users/profile/${column}/${id}`)
+    },
 
     searchTSOChoose() {
       if (this.searchTSOBy == 'General') {

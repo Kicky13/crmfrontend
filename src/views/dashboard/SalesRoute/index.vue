@@ -2,20 +2,119 @@
   <div>
     <a-form :model="salesRoute.formData" label-align="left" layout="vertical">
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
           <div class="row">
             <div
-              class="col-xs-4 col-md-4"
+              class="col-md-3"
               v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
             >
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
                   style="width: 100% !important"
+                  placeholder="Distributor"
+                  v-model:value="salesRoute.formData.selectedDistributor"
+                  show-search
+                  @change="handleDistributor"
+                >
+                  <a-select-option disabled value="">Pilih Distributor</a-select-option>
+
+                  <a-select-option
+                    v-for="(distributor, index) in salesRoute.dataDistributor"
+                    :key="index"
+                    :title="distributor.nama_distributor"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    :value="distributor.nama_distributor"
+                    >{{ distributor.nama_distributor }}</a-select-option
+                  >
+                </a-select>
+              </a-form-item>
+            </div>
+            <div
+              class="col-md-3"
+              v-if="
+                $store.state.user.levelHirarki.toLowerCase() == `tso` ||
+                  $store.state.user.levelHirarki.toLowerCase() == ``
+              "
+            >
+              <a-form-item>
+                <a-select
+                  class="w-100"
                   placeholder="Distrik"
                   v-model:value="salesRoute.formData.selectedDistrik"
                   show-search
-                  @change="handleDistributor"
+                  @change="handleDistrik"
+                >
+                  <a-select-option disabled value="">Pilih Distrik</a-select-option>
+                  <a-select-option disabled v-if="salesRoute.dataDistrikByDistributor.length == 0"
+                    >Distrik Tidak Tersedia</a-select-option
+                  >
+                  <a-select-option
+                    v-else
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    v-for="(distrik, index) in salesRoute.dataDistrikByDistributor"
+                    :key="index"
+                    :value="distrik.nama_distrik"
+                    :title="distrik.id_distrik + ` - ` + distrik.nama_distrik"
+                  >
+                    {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}</a-select-option
+                  >
+                </a-select>
+              </a-form-item>
+            </div>
+            <div class="col-md-3">
+              <a-form-item>
+                <a-select
+                  class="col-lg-12 col-md-12 pr-2"
+                  style="width: 100% !important"
+                  placeholder="Sales"
+                  v-model:value="salesRoute.formData.selectedSalesman"
+                  show-search
+                  @change="handleSales()"
+                >
+                  <a-select-option disabled value="">Pilih Salesman</a-select-option>
+                  <a-select-option disabled v-if="salesRoute.dataSalesman.length == 0"
+                    >Sales Tidak Tersedia</a-select-option
+                  >
+
+                  <a-select-option
+                    v-else
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    v-for="(item, index) in salesRoute.dataSalesman"
+                    :key="`index_${index}`"
+                    :title="item.id_sales + ` - ` + item.username + ` - ` + item.nama_sales"
+                    :value="item.nama_sales"
+                    >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </div>
+            <div class="col-xs-3 col-md-3">
+              <a-form-item>
+                <a-date-picker
+                  format="YYYY-MM-DD"
+                  placeholder="Pilih Tanggal"
+                  v-model:value="salesRoute.formData.selectedDate"
+                  class="w-100"
+                />
+              </a-form-item>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div
+              class="col-xs-4 col-md-4"
+              v-if="$store.state.user.levelHirarki.toLowerCase() != `admin dis`"
+            >
+              <a-form-item>
+                <a-select
+                  class="w-100" 
+                  placeholder="Distrik"
+                  v-model:value="salesRoute.formData.selectedDistrik"
+                  show-search
+                  @change="handleDistrik"
                 >
                   <a-select-option disabled value="">{{
                     salesRoute.dataDistrik && salesRoute.dataDistrik.length > 0
@@ -34,7 +133,7 @@
               </a-form-item>
             </div>
             <div
-              class="col-xs-3 col-md-3"
+              class="col-xs-4 col-md-4"
               v-if="
                 $store.state.user.levelHirarki.toLowerCase() == `tso` ||
                   $store.state.user.levelHirarki.toLowerCase() == ``
@@ -47,7 +146,7 @@
                   placeholder="Distributor"
                   v-model:value="salesRoute.formData.selectedDistributor"
                   show-search
-                  @change="handleSales"
+                  @change="handleDistributor"
                 >
                   <a-select-option disabled value="">Pilih Distributor</a-select-option>
 
@@ -63,7 +162,7 @@
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-5 col-md-5">
+            <div class="col-xs-4 col-md-4">
               <a-form-item>
                 <a-select
                   class="col-lg-12 col-md-12 pr-2"
@@ -71,6 +170,7 @@
                   placeholder="Sales"
                   v-model:value="salesRoute.formData.selectedSalesman"
                   show-search
+                  @change="handleSales()"
                 >
                   <a-select-option disabled value="">Pilih Salesman</a-select-option>
                   <a-select-option disabled v-if="salesRoute.dataSalesman.length == 0"
@@ -84,23 +184,23 @@
                     v-for="(item, index) in salesRoute.dataSalesman"
                     :key="`index_${index}`"
                     :title="item.id_sales + ` - ` + item.username + ` - ` + item.nama_sales"
-                    :value="item.id_sales"
+                    :value="item.nama_sales"
                     >{{ item.id_sales }} - {{ item.username }} - {{ item.nama_sales }}
                   </a-select-option>
                 </a-select>
               </a-form-item>
             </div>
-            <div class="col-xs-4 col-md-4">
-              <a-form-item>
-                <a-date-picker
-                  format="YYYY-MM-DD"
-                  placeholder="Pilih Tanggal"
-                  v-model:value="salesRoute.formData.selectedDate"
-                  class="w-100"
-                />
-              </a-form-item>
-            </div>
-          </div>
+          </div> -->
+        </div>
+        <div class="col-md-1">
+          <a-tooltip placement="topLeft">
+            <template #title>
+              <span>Refresh Filter</span>
+            </template>
+            <a-button @click="refreshFilter()" type="primary">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            </a-button>
+          </a-tooltip>
         </div>
         <div class="col-md-2">
           <a-button
@@ -123,7 +223,7 @@
     </a-form>
     <div class="row">
       <div class="col-md-12">
-        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+        <a-card class="card card-top card-top-primary mt-3">
           <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
@@ -134,7 +234,7 @@
                       :center="{ lat: latMap, lng: lngMap }"
                       :zoom="zoomMap"
                       map-type-id="roadmap"
-                      style="width: 100%; height: 500px"
+                      style="width: 100%; height: 500px; border-radius: 4px;"
                     >
                       <!-- toko sudah dikunjungi -->
                       <GMapMarker
@@ -159,10 +259,10 @@
                           <div class="text-black font-weight-bold">
                             KUNJUNGAN TOKO KE {{ index + 1 }}
                           </div>
-                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                          <div>{{ m.position.status.toUpperCase() }}</div>
+                          <div>Toko : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
                       </GMapMarker>
                       <!-- sales -->
@@ -198,10 +298,10 @@
                           @closeclick="openMarker(null)"
                           :opened="openedMarkerID === m.id"
                         >
-                          <div>{{ m.position.nama_toko.toUpperCase() }}</div>
-                          <div>{{ m.position.sales_name.toUpperCase() }}</div>
-                          <div>{{ m.position.distrik_name.toUpperCase() }}</div>
-                          <div>{{ m.position.status.toUpperCase() }}</div>
+                          <div>Toko : {{ m.position.nama_toko.toUpperCase() }}</div>
+                          <div>Sales : {{ m.position.sales_name.toUpperCase() }}</div>
+                          <div>Distrik: {{ m.position.distrik_name.toUpperCase() }}</div>
+                          <div>Status : {{ m.position.status.toUpperCase() }}</div>
                         </GMapInfoWindow>
                       </GMapMarker>
                       <GMapPolyline :path="path" ref="polyline" />
@@ -265,16 +365,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <a-card :loading="loading" class="card card-top card-top-primary mt-3">
           <div class="card-body p-0">
             <div class="row">
               <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Toko</span>
+
                 <iframe
                   :src="linkStreetView"
-                  class="w-100"
+                  class="w-100 mt-2"
                   height="294"
-                  style="border:0;"
+                  style="border:0; border-radius: 4px;"
                   allowfullscreen=""
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
@@ -284,12 +386,33 @@
           </div>
         </a-card>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Check-in Sales</span>
+                <iframe
+                  :src="linkStreetViewSales"
+                  class="w-100 mt-2"
+                  height="294"
+                  style="border:0; border-radius: 4px;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </a-card>
+      </div>
+      <div class="col-md-4">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <div v-if="itemRadio == ''">
+                <span class="font-weight-bold">Foto Survey</span>
+                <div v-if="itemRadio == ''" class="mt-3">
                   <a-carousel :after-change="onChange" arrows>
                     <template #prevArrow>
                       <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
@@ -318,9 +441,9 @@
                   </a-carousel>
                 </div>
 
-                <div v-else>
+                <div v-else class="mt-3">
                   <div v-if="itemRadio.image.length == 0">
-                    <a-carousel :after-change="onChange" arrows>
+                    <a-carousel arrows>
                       <template #prevArrow>
                         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
                           <left-circle-outlined />
@@ -348,7 +471,7 @@
                     </a-carousel>
                   </div>
                   <div v-else>
-                    <a-carousel :after-change="onChange" arrows>
+                    <a-carousel arrows>
                       <template #prevArrow>
                         <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
                           <left-circle-outlined />
@@ -360,9 +483,14 @@
                         </div>
                       </template>
 
-                      <div v-for="(item, index) in itemRadio.image" :key="`index_${index}`">
-                        <img :src="item.src" class="img-fluid w-100" style="height:180px;" />
-                      </div>
+                      <template>
+                        <div v-for="(item, index) in imageVisit.image" :key="`index_${index}`">
+                          <div
+                            :style="'background-image: url(' + item.src"
+                            style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
+                          ></div>
+                        </div>
+                      </template>
                     </a-carousel>
                   </div>
                 </div>
@@ -480,6 +608,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-md-8 col-sm-8">
         <div class="card card-top card-top-primary mt-3">
           <div class="card-body">
@@ -521,6 +651,14 @@
                     :loading="salesRoute.isLoading2"
                     :pagination="salesRoute.paginationToko"
                   >
+                    <template #radio="{ text }">
+                      <a-radio-group
+                        v-model:value="itemRadioNotVisited"
+                        @change="onChangeNotVisited"
+                      >
+                        <a-radio :style="radioStyle" :value="text"> </a-radio>
+                      </a-radio-group>
+                    </template>
                     <template #kode_toko="{ text }">
                       <div>
                         {{ text.id_toko_belum_dikunjungi }}
@@ -543,6 +681,27 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4">
+        <a-card :loading="loading" class="card card-top card-top-primary mt-3">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="font-weight-bold">Lokasi Toko Belum di Kunjungi</span>
+
+                <iframe
+                  :src="linkStreetViewNotVisited"
+                  class="w-100 mt-2"
+                  height="294"
+                  style="border:0; border-radius: 4px;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </a-card>
+      </div>
     </div>
   </div>
 </template>
@@ -554,6 +713,7 @@ import { _ } from 'vue-underscore'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
+import { notification } from 'ant-design-vue'
 
 export default {
   components: {
@@ -566,12 +726,20 @@ export default {
       link: '',
       loading: false,
       linkStreetView: '',
+      linkStreetViewSales: '',
+      linkStreetViewNotVisited: '',
       itemRadio: '',
+      itemRadioNotVisited: '',
       latStreetView: -7.1688477,
       lngStreetView: 112.6451559,
+      latStreetViewSales: -7.1688477,
+      lngStreetViewSales: 112.6451559,
+      latStreetViewNotVisited: -7.1688477,
+      lngStreetViewNotVisited: 112.6451559,
       latMap: -7.1688477,
       lngMap: 112.6451559,
       zoomMap: 5,
+      imageVisit: [],
       markers: [],
       markersPeople: [],
       markersNotVisited: [],
@@ -590,7 +758,10 @@ export default {
     }),
   },
   async mounted() {
+    this.getDistributor()
     this.urlStreetView()
+    this.urlStreetViewSales()
+    this.urlStreetViewNotVisited()
     this.refreshData()
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
     this.$store.state.user.levelHirarki.toLowerCase() == `tso`
@@ -609,6 +780,19 @@ export default {
 
       await this.getSalesman({
         id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+        id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+      })
+    }
+    // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
+
+    // kondisi ketika menampilkan semua filter
+    if (this.salesRoute.formData.id_distributor == '') {
+      await this.getDistrikByDistributor({
+        id_distributor: this.salesRoute.formData.id_distributor,
+      })
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
       })
     }
     this.handlePagination(5)
@@ -628,6 +812,7 @@ export default {
       'getDistributor',
       'getMap',
       'getFilterDistributor',
+      'getDistrikByDistributor',
     ]),
 
     urlStreetView() {
@@ -642,41 +827,93 @@ export default {
         `&fov=80&heading=70&pitch=0&key=` +
         keyApi
     },
+
+    urlStreetViewSales() {
+      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      this.linkStreetViewSales =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        this.latStreetViewSales +
+        `,` +
+        this.lngStreetViewSales +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
+    },
+
+    urlStreetViewNotVisited() {
+      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      this.linkStreetViewNotVisited =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        this.latStreetViewNotVisited +
+        `,` +
+        this.lngStreetViewNotVisited +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
+    },
+
     myRowClickHandler(record, index) {
-      // 'record' will be the row data from items
-      // `index` will be the visible row number (available in the v-model 'shownItems')
-      log(record) // This will be the item data for the row
+      log(record)
     },
     async handleDistributor() {
-      let dataSource = [...this.salesRoute.dataDistrik]
-      let filtered = dataSource.filter(
-        x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
-      )
-
-      this.salesRoute.formData.id_distrik = filtered[0].id_distrik
-
-      if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
-        await this.getFilterDistributor({
-          id_jabatan: this.$store.state.user.idJabatan,
-        })
-
-        await this.getSalesman({
-          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
-        })
-      } else {
-        await this.getDistributor()
-      }
-    },
-    async handleSales() {
       let dataSource = [...this.salesRoute.dataDistributor]
       let filtered = dataSource.filter(
         x => x.nama_distributor == this.salesRoute.formData.selectedDistributor,
       )
 
       this.salesRoute.formData.id_distributor = filtered[0].id_distributor
-      await this.getSalesman({
+      if (
+        this.$store.state.user.levelHirarki.toLowerCase() == `admin dis` ||
+        this.$store.state.user.levelHirarki.toLowerCase() == `asm`
+      ) {
+        // await this.getFilterDistributor({
+        //   id_jabatan: this.$store.state.user.idJabatan,
+        // })
+
+        await this.getDistrik({
+          idLevelHirarki: this.$store.state.user.idLevelHirarki,
+          levelHirarki: this.$store.state.user.levelHirarki,
+        })
+        await this.getSalesman({
+          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+          id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+        })
+        // this.$store.state.user.idJabatan
+      } else {
+        await this.getDistrikByDistributor({
+          id_distributor: this.salesRoute.formData.id_distributor,
+        })
+      }
+    },
+    async handleDistrik() {
+      let dataSource = [...this.salesRoute.dataDistrik]
+      let filtered = dataSource.filter(
+        x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
+      )
+
+      this.salesRoute.formData.id_distrik = filtered[0].id_distrik
+      this.getSalesman({
         id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
       })
+      // if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
+      //   await this.getFilterDistributor({
+      //     id_jabatan: this.$store.state.user.idJabatan,
+      //   })
+
+      //   await this.getSalesman({
+      //     id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+      //   })
+      // } else {
+      //   await this.getDistributor()
+      // }
+    },
+
+    async handleSales() {
+      let dataSource = [...this.salesRoute.dataSalesman]
+      let filtered = dataSource.filter(
+        x => x.nama_sales == this.salesRoute.formData.selectedSalesman,
+      )
+
+      this.salesRoute.formData.id_sales = filtered[0].id_sales
     },
     getMapData(place) {
       this.place = place
@@ -707,15 +944,12 @@ export default {
 
     markerMap() {
       this.loading = true
-
       let LatLng = this.salesRoute.dataMap
       this.markers = []
       this.path = null
       this.path = []
       this.markersPeople = []
       this.markersNotVisited = []
-
-      console.log(`this.salesRoute.dataMap`, this.salesRoute.dataMap.length > 0)
 
       if (this.salesRoute.dataMap.length > 0) {
         // Toko sudah dikunjungi namun tidak ada latitude longitudenya
@@ -825,11 +1059,46 @@ export default {
       this.loading = false
     },
 
+    visitImage(props) {
+      this.imageVisit = props
+    },
+
     onChange(value) {
+      // LatLng Toko
       this.latStreetView = parseFloat(this.itemRadio.latitude)
       this.lngStreetView = parseFloat(this.itemRadio.longitude)
+
+      // LatLng Checkin Sales
+      this.latStreetViewSales = parseFloat(this.itemRadio.checkin_latitude)
+      this.lngStreetViewSales = parseFloat(this.itemRadio.checkin_longitude)
+
       this.urlStreetView()
+      this.urlStreetViewSales()
       this.markerMapByTable()
+      this.visitImage(value.target.value)
+    },
+
+    onChangeNotVisited(value) {
+      // LatLng Toko belum dikunjungi
+
+      if (
+        (this.itemRadioNotVisited.customer_latitude == null &&
+          this.itemRadioNotVisited.customer_longitude == null) ||
+        (this.itemRadioNotVisited.customer_latitude == `0` &&
+          this.itemRadioNotVisited.customer_longitude == `0`)
+      ) {
+        notification.error({
+          message: 'Error',
+          description: 'Toko tersebut belum melakukan setting titik koordinat',
+        })
+        this.latStreetViewNotVisited = -7.1688477
+        this.lngStreetViewNotVisited = 112.6451559
+      } else {
+        this.latStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_latitude)
+        this.lngStreetViewNotVisited = parseFloat(this.itemRadioNotVisited.customer_longitude)
+      }
+
+      this.urlStreetViewNotVisited()
     },
 
     openMarker(id) {
@@ -848,21 +1117,71 @@ export default {
       this.salesRoute.formData.id_distributor = ''
       this.salesRoute.formData.id_sales = ''
     },
+
+    async refreshFilter() {
+      this.salesRoute.dataDistrik = []
+      this.salesRoute.dataDistributor = []
+      this.salesRoute.dataSalesman = []
+      this.salesRoute.formData.selectedDistrik = ''
+      this.salesRoute.formData.selectedDistributor = ''
+      this.salesRoute.formData.selectedSalesman = ''
+      this.salesRoute.formData.selectedDate = ''
+      this.salesRoute.formData.id_distrik = ''
+      this.salesRoute.formData.id_distributor = ''
+      this.salesRoute.formData.id_sales = ''
+      await this.getDistributor()
+
+      await this.getDistrikByDistributor({
+        id_distributor: this.salesRoute.formData.id_distributor,
+      })
+      await this.getSalesman({
+        id_distributor: this.salesRoute.formData.id_distributor,
+        id_distrik: this.salesRoute.formData.id_distrik,
+      })
+    },
   },
 }
 </script>
 
 <style scoped>
 /* For demo */
-.ant-carousel >>> .slick-slide {
+/* .ant-carousel >>> .slick-slide {
   text-align: center;
   height: 300px;
   line-height: 160px;
-  background: #364d79;
+  background: #fff;
   overflow: hidden;
 }
 
 .ant-carousel >>> .slick-slide h3 {
+  color: #fff;
+} */
+
+.ant-carousel :deep(.slick-slide) {
+  text-align: center;
+  height: 300px;
+  line-height: 160px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ant-carousel :deep(.slick-arrow.custom-slick-arrow) {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: black;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+  z-index: 1;
+}
+.ant-carousel :deep(.custom-slick-arrow:before) {
+  display: none;
+}
+.ant-carousel :deep(.custom-slick-arrow:hover) {
+  opacity: 0.5;
+}
+
+.ant-carousel :deep(.slick-slide h3) {
   color: #fff;
 }
 

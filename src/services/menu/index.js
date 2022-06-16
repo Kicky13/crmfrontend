@@ -283,11 +283,11 @@ export const getAdminMenuData = [
         key: 'e38wke',
         url: '/user/level_user',
       },
-      {
-        title: 'Sales Distributor',
-        key: 's4d10r',
-        url: '/reporting-tso/sales-distributor',
-      },
+      // {
+      //   title: 'Sales Distributor',
+      //   key: 's4d10r',
+      //   url: '/reporting-tso/sales-distributor',
+      // },
     ],
   },
   {
@@ -435,16 +435,16 @@ export const getUserMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -465,17 +465,22 @@ export const getUserMenuData = [
       //   key: 'pmo231',
       //   url: '/dashboard/sow',
       // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
       // {
-      //   title: 'SOW V2',
-      //   key: 'pmo261',
-      //   url: '/dashboard/sow-v2',
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
@@ -505,16 +510,16 @@ export const getASMMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -535,17 +540,22 @@ export const getASMMenuData = [
       //   key: 'pmo231',
       //   url: '/dashboard/sow',
       // },
+      {
+        title: 'Share Of  Wallet',
+        key: 'pmo261',
+        url: '/dashboard/sow',
+      },
       // {
-      //   title: 'SOW V2',
-      //   key: 'pmo261',
-      //   url: '/dashboard/sow-v2',
+      //   title: 'SOW V3',
+      //   key: 'pmo265',
+      //   url: '/dashboard/sow-v3',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
@@ -881,16 +891,16 @@ export const getTsoMenuData = [
     url: '/settings',
     icon: 'fa fa-gear',
     children: [
-      {
-        title: 'Log Sync Customer',
-        key: '1121sw',
-        url: '/log-sync-customer',
-      },
-      {
-        title: 'Validasi Harga Survey',
-        key: 'Adaws5',
-        url: '/validasiharga',
-      },
+      // {
+      //   title: 'Log Sync Customer',
+      //   key: '1121sw',
+      //   url: '/log-sync-customer',
+      // },
+      // {
+      //   title: 'Validasi Harga Survey',
+      //   key: 'Adaws5',
+      //   url: '/validasiharga',
+      // },
       {
         title: 'Mapping Customer',
         key: 'St12Cf',
