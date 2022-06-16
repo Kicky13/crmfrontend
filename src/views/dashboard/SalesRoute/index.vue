@@ -818,7 +818,7 @@ export default {
     urlStreetView() {
       // let lat = -7.1688477
       // let long = 112.6451559
-      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.linkStreetView =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
         this.latStreetView +
@@ -829,7 +829,7 @@ export default {
     },
 
     urlStreetViewSales() {
-      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.linkStreetViewSales =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
         this.latStreetViewSales +
@@ -840,7 +840,7 @@ export default {
     },
 
     urlStreetViewNotVisited() {
-      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.linkStreetViewNotVisited =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
         this.latStreetViewNotVisited +

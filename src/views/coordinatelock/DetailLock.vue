@@ -409,7 +409,7 @@ export default {
     urlStreetView() {
       let lat = this.koordinatLock.dataDetailCustomer.latitude ?? 0
       let long = this.koordinatLock.dataDetailCustomer.longitude ?? 0
-      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.linkStreetView =
         `https://www.google.com/maps/embed/v1/streetview?location=` +
         lat+
@@ -452,7 +452,7 @@ export default {
     urlMap() {
       let lat = this.koordinatLock.dataDetailCustomer.latitude ?? 0
       let long = this.koordinatLock.dataDetailCustomer.longitude ?? 0
-      let keyApi = `AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.link =
         `https://www.google.com/maps/embed/v1/view?key=` +
         keyApi +
