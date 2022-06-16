@@ -212,17 +212,17 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getWeek`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
+      if (result.data.data != undefined) {
         await commit('changeWeeklyInput', {
+          dataWeekParams: result.data.data || 0,
           isLoading: false,
         })
       } else {
+        notification.error({
+          message: 'Opps',
+          description: result.data.message,
+        })
         await commit('changeWeeklyInput', {
-          dataWeekParams: result.data.data || 0,
           isLoading: false,
         })
       }
@@ -249,22 +249,18 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getWeek`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeWeeklyInput', {
-          isLoading: false,
-        })
-      } else {
+      if (result.data.data != undefined) {
         await commit('changeWeeklyInput', {
           dataWeekForm: result.data.data || 0,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
+      } else {
+        notification.error({
+          message: 'Opps',
           description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          isLoading: false,
         })
       }
     } catch (error) {
@@ -285,6 +281,7 @@ const actions = {
     const { data } = state
 
     let formData = {
+      id_tso: payload.id_tso,
       offset: data.params.offset,
       limit: data.params.limit,
       tahun: data.params.tahun,
@@ -296,22 +293,20 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getData`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeWeeklyInput', {
-          isLoading: false,
-        })
-      } else {
+      if (result.data.data != undefined) {
         await commit('changeWeeklyInput', {
           dataTable: result.data.data || 0,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
+        console.log(`result.data.data`, result)
+      } else {
+        notification.error({
+          message: 'Opps',
           description: result.data.message,
+        })
+        await commit('changeWeeklyInput', {
+          dataTable: 0,
+          isLoading: false,
         })
       }
     } catch (error) {
@@ -358,7 +353,6 @@ const actions = {
       })
     }
   },
-
   async getAllBrand({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -596,6 +590,7 @@ const actions = {
           description: `Data berhasil dihapus`,
         })
         await commit('changeWeeklyInput', {
+          dataTable: 0,
           isLoading: false,
         })
       }
@@ -723,9 +718,7 @@ const actions = {
 
     const { data } = state
 
-    let dataTable = data.dataTable
-
-    dataTable.forEach(element => {
+    data.dataTable.forEach(element => {
       data.data_uuid.push(element.uuid)
     })
     let dataStatus = 1

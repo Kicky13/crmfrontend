@@ -140,7 +140,7 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      id_distrik_ret: data.params.id_distrik_ret,
+      id_distrik_ret: data.params.id_distrik_ret.split('-')[0].trim(),
     }
 
     try {
