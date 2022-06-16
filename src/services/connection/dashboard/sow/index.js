@@ -251,6 +251,90 @@ const actions = {
   //     })
   //   }
   // },
+  async getMetabaseSOWTSO({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 218,
+    // }
+
+    const formData = {
+      dashboard: 257,
+      data: btoa(JSON.stringify(
+        {
+          pregion: payload.pregion,
+        },
+      )),
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getMetabaseSOWAdmin({ commit, state }, payload) {
+    commit('changeSOW', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    // let params = {
+    //   dashboard: 218,
+    // }
+
+    const formData = {
+      dashboard: 253,
+    }
+
+    try {
+      // const result = await apiClient.post(`/metabase/dashboard?dashboard=${params.dashboard}`)
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeSOW', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSOW', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getMetabaseSOW({ commit, state }, payload) {
     commit('changeSOW', {
       isLoading: true,
@@ -305,7 +389,7 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(`/getdata/tso?id=${payload.id}`)
+      const result = await apiClient.get(`/getdataregion/tso?id=${payload.id}`)
 
       if (result.data.message = 'success') {
         await commit('changeSOW', {

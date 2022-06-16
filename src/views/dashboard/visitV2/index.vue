@@ -59,6 +59,8 @@ export default {
       'visitDashboard',
       [
         'getMetabase',
+        'getMetabaseTSO',
+        'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
@@ -80,9 +82,8 @@ export default {
             id: userData.userid,
           })
 
-          await this.getMetabase({
-            pdistrik: this.visitDashboard.getDataTsoResult.pdistrik,
-            pdistributor: this.visitDashboard.getDataTsoResult.pdistributor,
+          await this.getMetabaseTSO({
+            pregion: this.visitDashboard.getDataTsoResult.pregion,
           })
         break
         case 'Admin Dist':
@@ -101,9 +102,9 @@ export default {
           })
         break
         case 'Admin':
-          await this.getMetabase({
-            // pdistrik: [],
-            // pdistributor: [],
+          await this.getMetabaseAdmin({
+            pdistrik: [],
+            pdistributor: [],
           })
         break
         default:
