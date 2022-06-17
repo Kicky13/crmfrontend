@@ -21,16 +21,20 @@
                 <button class="btn btn-role btn-sm">{{ $store.state.user.role }}</button>
               </div>
             </div>
-
+            {{ $store.state.user.role }}
             <div class="row mt-5">
               <div class="col-md-8 dashboard_menu">
                 <div class="row">
                   <div class="col-md-4">
-                    <div class="unlock">
+                    <div :class="$store.state.user.role == `SSM` ? `lock` : `unlock`">
                       <img
                         lazy="loading"
                         v-once
-                        :src="require('@/assets/images/icon/unlock.svg')"
+                        :src="
+                          $store.state.user.role == `SSM`
+                            ? require('@/assets/images/icon/lock.svg')
+                            : require('@/assets/images/icon/unlock.svg')
+                        "
                         alt="shop"
                       />
                     </div>
@@ -60,11 +64,15 @@
                     >
                   </div>
                   <div class="col-md-4">
-                    <div class="unlock">
+                    <div :class="$store.state.user.role == `SSM` ? `lock` : `unlock`">
                       <img
                         lazy="loading"
                         v-once
-                        :src="require('@/assets/images/icon/unlock.svg')"
+                        :src="
+                          $store.state.user.role == `SSM`
+                            ? require('@/assets/images/icon/lock.svg')
+                            : require('@/assets/images/icon/unlock.svg')
+                        "
                         alt="shop"
                       />
                     </div>
@@ -196,11 +204,15 @@
                     >
                   </div>
                   <div class="col-md-4">
-                    <div class="unlock">
+                    <div :class="$store.state.user.role == `SSM` ? `lock` : `unlock`">
                       <img
                         lazy="loading"
                         v-once
-                        :src="require('@/assets/images/icon/unlock.svg')"
+                        :src="
+                          $store.state.user.role == `SSM`
+                            ? require('@/assets/images/icon/lock.svg')
+                            : require('@/assets/images/icon/unlock.svg')
+                        "
                         alt="shop"
                       />
                     </div>
@@ -232,11 +244,15 @@
                 </div>
                 <div class="row mt-5">
                   <div class="col-md-4">
-                    <div class="unlock">
+                    <div :class="$store.state.user.role == `SSM` ? `lock` : `unlock`">
                       <img
                         lazy="loading"
                         v-once
-                        :src="require('@/assets/images/icon/unlock.svg')"
+                        :src="
+                          $store.state.user.role == `SSM`
+                            ? require('@/assets/images/icon/lock.svg')
+                            : require('@/assets/images/icon/unlock.svg')
+                        "
                         alt="shop"
                       />
                     </div>
