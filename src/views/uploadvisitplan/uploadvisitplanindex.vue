@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <a
-          href="https://storage.googleapis.com/crm-assets/Template/Template%20Upload%20Visit%20Plan.xlsx"
+          href="https://storage.googleapis.com/crm-asset/Template/Template%20Upload%20Visit%20Plan.xlsx"
           download
           class="mb-3 btn btn-primary"
         >

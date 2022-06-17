@@ -344,7 +344,7 @@
                 </div>
                 <div class="col-lg-4 col-xs-12 mb-2">
                   <a
-                    href="https://storage.googleapis.com/crm-assets/Template/TEMPLATE_UPLOAD_USER_HIRARKI.xlsx"
+                    href="https://storage.googleapis.com/crm-asset/Template/TEMPLATE_UPLOAD_USER_HIRARKI.xlsx"
                     download
                     class="btn-block btn-download-file"
                   >
@@ -696,11 +696,11 @@ export default {
           )
 
           // if (dataNama.length > 0) {
-            setTimeout(() => {
-              this.userManagement.dataTable = filter
-              this.userManagement.isLoading = false
-            }, 500)
-            return false
+          setTimeout(() => {
+            this.userManagement.dataTable = filter
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
           // }
         } else {
           let data = this.userManagement.dataTableTemp.filter(dataSource =>
@@ -710,11 +710,11 @@ export default {
           // console.log(data)
 
           // if (data.length > 0) {
-            setTimeout(() => {
-              this.userManagement.dataTable = data
-              this.userManagement.isLoading = false
-            }, 500)
-            return false
+          setTimeout(() => {
+            this.userManagement.dataTable = data
+            this.userManagement.isLoading = false
+          }, 500)
+          return false
           // }
         }
         // setTimeout(() => {
