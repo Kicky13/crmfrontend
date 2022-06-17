@@ -60,10 +60,12 @@ export default {
       [
         'getMetabasePriceMonitoring',
         'getMetabasePriceMonitoringTSO',
+        'getMetabasePriceMonitoringSPC',
         'getMetabasePriceMonitoringAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
+        'getDataSpc',
       ],
     ),
 
@@ -84,6 +86,15 @@ export default {
 
           await this.getMetabasePriceMonitoringTSO({
             pregion: this.priceMonitoring.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePriceMonitoringSPC({
+            pregion: this.priceMonitoring.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':
