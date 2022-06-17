@@ -21,7 +21,6 @@
                 <button class="btn btn-role btn-sm">{{ $store.state.user.role }}</button>
               </div>
             </div>
-            {{ $store.state.user.role }}
             <div class="row mt-5">
               <div class="col-md-8 dashboard_menu">
                 <div class="row">
@@ -59,8 +58,12 @@
                         <span>Analytics</span>
                       </div>
                     </div>
-                    <router-link :to="`/dashboard/volume_analytcs`" class="btn btn-visit w-100"
-                      >Kunjungi</router-link
+
+                    <router-link
+                      :to="$store.state.user.role == `SSM` ? `#` : `/dashboard/volume_analytcs`"
+                      class="btn  w-100"
+                      :class="$store.state.user.role == `SSM` ? `btn-visit-lock` : `btn-visit`"
+                      >{{ $store.state.user.role == `SSM` ? `Terkunci` : `Kunjungi` }}</router-link
                     >
                   </div>
                   <div class="col-md-4">
@@ -96,8 +99,11 @@
                         <br />
                       </div>
                     </div>
-                    <router-link :to="`/dashboard/visit`" class="btn btn-visit w-100"
-                      >Kunjungi</router-link
+                    <router-link
+                      :to="$store.state.user.role == `SSM` ? `#` : `/dashboard/visit`"
+                      class="btn  w-100"
+                      :class="$store.state.user.role == `SSM` ? `btn-visit-lock` : `btn-visit`"
+                      >{{ $store.state.user.role == `SSM` ? `Terkunci` : `Kunjungi` }}</router-link
                     >
                   </div>
                   <div class="col-md-4">
@@ -237,8 +243,12 @@
                         <span>Wallet</span>
                       </div>
                     </div>
-                    <router-link :to="`/dashboard/sow`" class="btn btn-visit w-100"
-                      >Kunjungi</router-link
+
+                    <router-link
+                      :to="$store.state.user.role == `SSM` ? `#` : `/dashboard/sow`"
+                      class="btn  w-100"
+                      :class="$store.state.user.role == `SSM` ? `btn-visit-lock` : `btn-visit`"
+                      >{{ $store.state.user.role == `SSM` ? `Terkunci` : `Kunjungi` }}</router-link
                     >
                   </div>
                 </div>
@@ -277,8 +287,12 @@
                         <span>Compliance</span>
                       </div>
                     </div>
-                    <router-link :to="`/dashboard/sales_route`" class="btn btn-visit w-100"
-                      >Kunjungi</router-link
+
+                    <router-link
+                      :to="$store.state.user.role == `SSM` ? `#` : `/dashboard/sales_route`"
+                      class="btn  w-100"
+                      :class="$store.state.user.role == `SSM` ? `btn-visit-lock` : `btn-visit`"
+                      >{{ $store.state.user.role == `SSM` ? `Terkunci` : `Kunjungi` }}</router-link
                     >
                   </div>
                 </div>
@@ -290,7 +304,17 @@
                   <span class="access-menu_subtitle">Menu yang dapat diakses</span>
 
                   <div class="access-menu_list mt-2">
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role == `GSM` ||
+                          $store.state.user.role == `SSM` ||
+                          $store.state.user.role == `ASM` ||
+                          $store.state.user.role == `TSO` ||
+                          $store.state.user.role == `SPC` ||
+                          $store.state.user.role == `Market Intelligence` ||
+                          $store.state.user.role == `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Dashboard</div>
@@ -298,7 +322,17 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role == `GSM` ||
+                          $store.state.user.role == `SSM` ||
+                          $store.state.user.role == `ASM` ||
+                          $store.state.user.role == `TSO` ||
+                          $store.state.user.role == `SPC` ||
+                          $store.state.user.role == `Market Intelligence` ||
+                          $store.state.user.role == `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Marketing</div>
@@ -306,15 +340,34 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `ASM` &&
+                          $store.state.user.role != `TSO` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Market Intelligence` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
-                        <div class="ml-2 item_menu">Master Data</div>
+                        <div class="ml-2 item_menu">
+                          Master Data
+                        </div>
                       </div>
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Weekly Price</div>
@@ -322,7 +375,17 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `ASM` &&
+                          $store.state.user.role != `TSO` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Market Intelligence` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Weekly Price Monitoring</div>
@@ -330,7 +393,17 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `ASM` &&
+                          $store.state.user.role != `TSO` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Market Intelligence` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">User Management</div>
@@ -338,7 +411,17 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `ASM` &&
+                          $store.state.user.role != `TSO` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Market Intelligence` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Manajemen Menu</div>
@@ -346,7 +429,13 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Setting & Configuration</div>
@@ -354,7 +443,13 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Visit Plan</div>
@@ -362,7 +457,17 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SSM` &&
+                          $store.state.user.role != `ASM` &&
+                          $store.state.user.role != `TSO` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Market Intelligence` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Supervisory Visit</div>
@@ -370,7 +475,13 @@
                       <hr />
                     </div>
 
-                    <div>
+                    <div
+                      v-if="
+                        $store.state.user.role != `GSM` &&
+                          $store.state.user.role != `SPC` &&
+                          $store.state.user.role != `Admin Dist`
+                      "
+                    >
                       <div class="access-menu_list_item d-flex align-items-center">
                         <div class="item_box"></div>
                         <div class="ml-2 item_menu">Reporting</div>

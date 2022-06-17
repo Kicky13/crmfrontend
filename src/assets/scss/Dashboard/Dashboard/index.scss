@@ -60,12 +60,34 @@
       border: none;
       color: #b20938;
       height: 40px;
+      font-weight: bold;
       box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
       -webkit-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
       -moz-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
       &:hover {
         border: 1px solid #b20938;
         background-color: #b20938;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+
+    .btn-visit-lock {
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 14px !important;
+      border-bottom-left-radius: 14px !important;
+      border: none;
+      color: #fff;
+      height: 40px;
+      font-weight: bold;
+      background-color: #d3d3d3;
+      box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -webkit-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -moz-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      &:hover {
+        border: 1px solid #d3d3d3;
+        background-color: #d3d3d3;
         color: #fff;
         font-weight: bold;
       }
