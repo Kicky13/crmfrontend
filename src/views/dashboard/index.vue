@@ -26,8 +26,24 @@
               <div class="col-md-8 dashboard_menu">
                 <div class="row">
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
+
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/volume_analytics.svg')"
+                          alt="shop"
+                        />
+                      </div>
                       <span class="dashboard_menu_box_role ">
                         Dashboard Menu
                       </span>
@@ -44,8 +60,23 @@
                     >
                   </div>
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/visit.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu
@@ -62,8 +93,23 @@
                     >
                   </div>
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/promo.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu
@@ -82,8 +128,23 @@
                 </div>
                 <div class="row mt-5">
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/movement.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu
@@ -101,8 +162,23 @@
                     >
                   </div>
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/monitoring.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu
@@ -120,8 +196,23 @@
                     >
                   </div>
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/share.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu
@@ -141,8 +232,23 @@
                 </div>
                 <div class="row mt-5">
                   <div class="col-md-4">
+                    <div class="unlock">
+                      <img
+                        lazy="loading"
+                        v-once
+                        :src="require('@/assets/images/icon/unlock.svg')"
+                        alt="shop"
+                      />
+                    </div>
                     <div class="dashboard_menu_box text-center">
-                      <div class="avatar-icon mb-4"></div>
+                      <div class="avatar-icon mb-4">
+                        <img
+                          lazy="loading"
+                          v-once
+                          :src="require('@/assets/images/icon/sales_route.svg')"
+                          alt="shop"
+                        />
+                      </div>
 
                       <span class="dashboard_menu_box_role">
                         Dashboard Menu

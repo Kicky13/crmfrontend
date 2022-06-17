@@ -58,11 +58,11 @@
       border-bottom-right-radius: 14px !important;
       border-bottom-left-radius: 14px !important;
       border: none;
-      color: #d3d3d3;
+      color: #b20938;
       height: 40px;
-      box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
-      -webkit-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
-      -moz-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
+      box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -webkit-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -moz-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
       &:hover {
         border: 1px solid #b20938;
         background-color: #b20938;
@@ -70,25 +70,64 @@
         font-weight: bold;
       }
     }
+    .lock {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #f1f0f0;
+      background-color: #f1f0f0;
+      margin-left: auto;
+      margin-right: 20px;
+      margin-bottom: -40px;
+      z-index: 1;
+      border-radius: 6px;
+
+      img {
+        margin: 2px 0px 0px 2px;
+      }
+    }
+
+    .unlock {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #fff;
+      background-color: #fff;
+      margin-left: auto;
+      margin-right: 20px;
+      margin-bottom: -40px;
+      z-index: 1;
+      border-radius: 6px;
+
+      img {
+        margin: 2px 0px 0px 2px;
+      }
+    }
+
     &_box {
-      box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
-      -webkit-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
-      -moz-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
+      box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -webkit-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
+      -moz-box-shadow: 1px 15px 34px -10px rgba(158, 152, 152, 0.57);
       max-width: 100%;
-      height: 150px;
+      height: 160px;
       border-top-left-radius: 14px;
       border-top-right-radius: 14px;
       padding: 10px;
       background-repeat: no-repeat;
+
       .avatar-icon {
         box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
         -webkit-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
         -moz-box-shadow: 2px 3px 26px -5px rgba(237, 230, 230, 0.75);
         width: 60px;
         height: 60px;
-        background: #d3d3d3;
+        background: #fff;
+        // border: 1px solid #f0efef;
         border-radius: 100%;
-        margin: -3rem 4rem 0rem 4rem;
+        margin: 0 auto;
+        margin-top: -30px;
+        img {
+          width: 40px;
+          margin: 0.6rem 0rem 0rem 0rem;
+        }
       }
 
       &_role {
