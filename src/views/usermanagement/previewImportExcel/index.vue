@@ -21,7 +21,7 @@
             :scroll="{ x: 3000 }"
             :loading="importExelHirarki.isLoading"
             :row-class-name="tableRowClassName"
-            :row-key="(data) => data.idJabatan"
+            :row-key="data => data.idJabatan"
           >
             <template #username_atasan="{ text }">
               <div v-if="text.usernameJabatanAtasan == null">
@@ -124,20 +124,26 @@ export default {
       isDisabled: true,
     }
   },
+
   computed: {
     ...mapState({
-      importExelHirarki: (state) => state.importExelHirarki.data,
+      importExelHirarki: state => state.importExelHirarki.data,
     }),
+  },
+  mounted() {
+    this.checkButtonCommit()
   },
   methods: {
     ...mapActions('importExelHirarki', ['submitData']),
     tableRowClassName(text) {
       if (text.cekData === false) {
-        this.isDisabled = true
         return 'non-active'
-      } else {
-        this.isDisabled = false
-        return ''
+      }
+    },
+    checkButtonCommit() {
+      let cekDataFalse = _.where(this.importExelHirarki.listData, { cekData: false })
+      if (cekDataFalse.length > 0) {
+        this.isDisabled = true
       }
     },
     onSubmitData() {

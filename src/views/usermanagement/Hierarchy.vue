@@ -637,7 +637,7 @@ export default {
       this.userManagement.form_assign_bawahan.id_user = value
     },
     onFileChanged(event) {
-      console.log(this.$refs.file.files[0])
+      console.log(`-----DATA`,this.$refs.file.files[0])
       this.importExelHirarki.body.file = this.$refs.file.files[0]
       this.importExelHirarki.body.filename = event.target.files[0].name
     },
