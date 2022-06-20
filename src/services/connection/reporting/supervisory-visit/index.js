@@ -49,9 +49,10 @@ const state = {
         slots: { customRender: 'action' },
       },
     ],
+    itemsPerPage: [5, 10, 15, 20],
     dataTable: [
       {
-        id:1,
+        id: 1,
         title: '',
         tanggal: '',
         sales: '',
