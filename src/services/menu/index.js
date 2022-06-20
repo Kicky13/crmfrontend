@@ -403,7 +403,12 @@ export const getAdminMenuData = [
       {
         title: 'Download Data',
         key: '12sa92',
-        url: '/reporting',
+        url: '/reporting/download-data',
+      },
+      {
+        title: 'Supervisory Visit',
+        key: '12sa91',
+        url: '/reporting/supervisory-visit',
       },
     ],
   },
