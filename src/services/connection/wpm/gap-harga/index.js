@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import { _ } from 'vue-underscore'
 
 const state = {
   data: {
@@ -10,7 +11,13 @@ const state = {
         key: 'gap_harga',
       },
     ],
-    row: [],
+    row: [
+      {
+        title: 'GAP HARGA',
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
+      },
+    ],
     bulan: [
       {
         id: 1,
@@ -82,7 +89,12 @@ const state = {
         id: 5,
         name: 'Week 5',
       },
+      {
+        id: 6,
+        name: 'Week 6',
+      },
     ],
+    dataWeekParams: [],
     distrikRetList: [],
     distrikList: [],
     gapHarga: [],
@@ -97,6 +109,43 @@ const mutations = {
 }
 
 const actions = {
+  async getDataWeekParams({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+    const { data } = state
+    let formData = {
+      tahun: payload.tahun,
+      bulan: payload.bulan,
+    }
+
+    try {
+      const result = await apiClient.post(`/WPM/getWeek`, formData)
+
+      if (result.data.data != undefined) {
+        await commit('changeGAPHarga', {
+          dataWeekParams: result.data.data || 0,
+          isLoading: false,
+        })
+      } else {
+        notification.error({
+          message: 'Opps',
+          description: result.data.message,
+        })
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      await commit('changeGAPHarga', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan!',
+      })
+    }
+  },
   async getDistrikRET({ commit, state }, payload) {
     commit('changeGAPHarga', {
       isLoading: true,
@@ -179,13 +228,21 @@ const actions = {
     })
 
     const { data } = state
+    data.columns = [
+      {
+        title: 'GAP HARGA',
+        slots: { customRender: 'gap_harga' },
+        key: 'gap_harga',
+      },
+    ]
 
+    data.row = []
     try {
       const result = await apiClient.get(`/wpm/gap-product`)
 
       result.data.data.map(item => {
         let objColumns = {
-          title: item.key_brand,
+          title: item.nm_brand,
           nama_produk: item.nm_brand,
           dataIndex: item.id_brand,
           key: item.id_brand,
@@ -195,7 +252,7 @@ const actions = {
 
       result.data.data.map(item => {
         let objRow = {
-          gap_harga: item.key_brand,
+          gap_harga: item.nm_brand,
           key_brand: item.id_brand,
         }
         state.data.row.push(objRow)
@@ -242,12 +299,17 @@ const actions = {
     //   row: state.data.gapHarga.join(","),
     //   column: state.data.gapHarga.join(","),
     // }
+
     let rows = []
+
     payload.row.forEach(element => {
-      rows.push(element.key_brand)
+      if (element != undefined) {
+        rows.push(element.key_brand)
+      }
     })
 
     let columns = []
+
     payload.column.forEach(element => {
       columns.push(element.key)
     })

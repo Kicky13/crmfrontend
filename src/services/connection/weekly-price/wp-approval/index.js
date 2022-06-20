@@ -287,22 +287,19 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getData`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeWPApproval', {
-          isLoading: false,
-        })
-      } else {
+      if (result.data.data != undefined) {
         await commit('changeWPApproval', {
           wpApprovalList: result.data.data || 0,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message || `Data berhasil ditampilkan`,
+      } else {
+        notification.error({
+          message: 'Opps',
+          description: result.data.message,
+        })
+        await commit('changeWPApproval', {
+          wpApprovalList: 0,
+          isLoading: false,
         })
       }
     } catch (error) {
@@ -335,7 +332,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
-
+      
       if (result.data.state == 'false') {
         notification.error({
           message: 'Error',

@@ -57,7 +57,7 @@
           placeholder="Week"
           show-search
           class="w-100"
-          :disabled="wpPublish.params.nm_tso != `` && wpPublish.params.tahun != `` ? false : true"
+          :disabled="wpPublish.params.bulan != `` && wpPublish.params.tahun != `` ? false : true"
           @change="handleWeek"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
@@ -449,6 +449,7 @@ export default {
     //   id_atasan: this.$store.state.user.idJabatan,
     // })
     await this.getMasterProduct()
+    await this.refreshFilter()
   },
   methods: {
     ...mapActions('wpPublish', [
@@ -548,6 +549,8 @@ export default {
         onOk: async () => {
           await this.submitPublish()
           await this.getDataTable()
+          this.wpPublish.data_uuid = []
+          this.wpPublish.wpPublishList = []
         },
         onCancel: () => {},
       })
@@ -564,6 +567,8 @@ export default {
         onOk: async () => {
           await this.submitReject()
           await this.getDataTable()
+          this.wpPublish.data_uuid = []
+          this.wpPublish.wpPublishList = []
         },
         onCancel: () => {},
       })
@@ -685,6 +690,7 @@ export default {
       this.wpPublish.params.week = ''
       this.wpPublish.wpPublishList = []
       this.wpPublish.params.id_asm = null
+      this.wpPublish.data_uuid = []
     },
   },
 }

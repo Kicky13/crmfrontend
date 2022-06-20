@@ -27,7 +27,7 @@ createApp(App)
   .use(VueApexCharts)
   .use(VueGoogleMaps, {
     load: {
-      key: 'AIzaSyB3r3BF6YjrInuaPa_JORxErCoV_db0oiY',
+      key: 'AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4',
     },
   })
   .use(VueApexCharts)

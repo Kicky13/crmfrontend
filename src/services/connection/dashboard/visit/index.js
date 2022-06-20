@@ -220,6 +220,7 @@ const state = {
     getDataTsoResult: [],
     getDataAdminDistributorResult: [],
     getDataDistributorResult: [],
+    getDataSpcResult: [],
   },
 }
 
@@ -313,6 +314,47 @@ const actions = {
       })
     }
   },
+
+  async getMetabaseSPC({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    const formData = {
+      dashboard: 258,
+      data: btoa(JSON.stringify(
+        {
+          pregion: payload.pregion,
+        },
+      )),
+    }
+
+    try {
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getMetabase({ commit, state }, payload) {
     commit('changeVisitDashboard', {
       isLoading: true,
@@ -436,6 +478,38 @@ const actions = {
       if (result.data.message = 'success') {
         await commit('changeVisitDashboard', {
           getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVisitDashboard', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataSpc({ commit, state }, payload) {
+    commit('changeVisitDashboard', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdataregion/spc?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeVisitDashboard', {
+          getDataSpcResult: result.data,
           isLoading: false,
         })
       } else {
