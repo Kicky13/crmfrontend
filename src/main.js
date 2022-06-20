@@ -17,6 +17,8 @@ import VueGeolocation from 'vue3-geolocation'
 import GMaps from 'vuejs3-google-maps'
 import './assets/scss/Global/index.scss'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 createApp(App)
   .use(store)
@@ -24,6 +26,7 @@ createApp(App)
   .use(i18n)
   .use(Antd)
   .use(PerfectScrollbar)
+  .use(VueSweetalert2)
   .use(VueApexCharts)
   .use(VueGoogleMaps, {
     load: {

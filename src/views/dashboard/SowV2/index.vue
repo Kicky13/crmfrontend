@@ -301,12 +301,22 @@ export default {
       'getMetabaseSOW',
       'getMetabaseSOWTSO',
       'getMetabaseSOWSPC',
+      'getMetabaseSOWASM',
       'getMetabaseSOWAdmin',
       'getDataTso',
       'getDataAdminDistributor',
       'getDataDistributor',
       'getDataSpc',
+      'getDataAsm',
     ]),
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
+
     async handleRefresh() {
       // await this.getMetabaseSOW()
       await this.getData()
@@ -335,7 +345,11 @@ export default {
           await this.getMetabaseSOWTSO({
             pregion: this.sowDashboard.getDataTsoResult.pregion,
           })
-          break
+
+          if (!this.sowDashboard.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
+        break
         case 'SPC':
           await this.getDataSpc({
             id: userData.userid,
@@ -344,26 +358,48 @@ export default {
           await this.getMetabaseSOWSPC({
             pregion: this.sowDashboard.getDataSpcResult.pregion,
           })
-          break
-        case 'Admin Dist':
-          // await this.getDataAdminDistributor({
-          //   id: userData.userid,
-          // })
 
-          // await this.getDataDistributor({
-          //   id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
-          // })
-
-          // await this.getMetabaseSOW({
-          //   pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
-          //   pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
-          // })
-
-          await this.getMetabaseSOWAdmin({
-            pdistrik: [],
-            pdistributor: [],
+          if (!this.sowDashboard.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
           })
-          break
+
+          await this.getMetabaseSOWASM({
+            pregion: this.sowDashboard.getDataAsmResult.pregion,
+          })
+
+          if (!this.sowDashboard.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
+        break
+
+        case 'Admin Dist':
+          await this.getDataAdminDistributor({
+            id: userData.userid,
+          })
+
+          await this.getDataDistributor({
+            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          })
+
+          // await this.getMetabaseSOWAdmin({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+
+          if (!this.sowDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
+        break
         case 'Admin':
           await this.getMetabaseSOWAdmin({
             pdistrik: [],

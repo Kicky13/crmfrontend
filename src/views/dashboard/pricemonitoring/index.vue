@@ -61,13 +61,23 @@ export default {
         'getMetabasePriceMonitoring',
         'getMetabasePriceMonitoringTSO',
         'getMetabasePriceMonitoringSPC',
+        'getMetabasePriceMonitoringASM',
         'getMetabasePriceMonitoringAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabasePriceMonitoring()
@@ -87,6 +97,10 @@ export default {
           await this.getMetabasePriceMonitoringTSO({
             pregion: this.priceMonitoring.getDataTsoResult.pregion,
           })
+
+          if (!this.priceMonitoring.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -96,6 +110,23 @@ export default {
           await this.getMetabasePriceMonitoringSPC({
             pregion: this.priceMonitoring.getDataSpcResult.pregion,
           })
+
+          if (!this.priceMonitoring.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePriceMonitoringASM({
+            pregion: this.priceMonitoring.getDataAsmResult.pregion,
+          })
+
+          if (!this.priceMonitoring.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -110,6 +141,10 @@ export default {
             pdistrik: this.priceMonitoring.getDataDistributorResult.pdistrik,
             pdistributor: this.priceMonitoring.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.priceMonitoring.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
         break
         case 'Admin':
           await this.getMetabasePriceMonitoringAdmin({

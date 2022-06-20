@@ -41,12 +41,12 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="box-part text-center">
-                    <i class="fa fa-times fa-3x" aria-hidden="true"></i>
+                    <i class="fa fa-hourglass-half fa-3x" aria-hidden="true"></i>
                     <div class="title">
                       <h4>Durasi</h4>
                     </div>
                     <div class="text">
-                      <span>{{ koordinatLock.dataDetailHistory.durasi ?? 0 }} Menit</span>
+                      <span>{{ koordinatLock.dataDetailHistory.durasi ?? 0 }}</span>
                     </div>
                   </div>
                 </div>
