@@ -189,9 +189,9 @@ export default {
       this.formState.id_user = store.state.user.userid
     },
     async setAllProduk() {
+      this.dataList = []
       await this.getAllProduk()
       this.produk.produkList.map(list => this.dataList.push(list))
-      console.log(this.dataList)
     },
     async showAddModal() {
       await this.getAllBrand()
@@ -234,7 +234,7 @@ export default {
             id_produk: this.formState.id,
             id_user: this.formState.id_user,
           })
-          await this.getAllProduk()
+          await this.setAllProduk()
           this.formState.id = null
         },
         onCancel: () => {
@@ -312,7 +312,7 @@ export default {
       }
       this.modalStatus = false
       this.produkModal = false
-      await this.getAllProduk()
+      await this.setAllProduk()
       this.formState.id = null
       this.formState.produk_baru = ''
       this.formState.id_satuan = null

@@ -96,6 +96,7 @@ const state = {
     getDataTsoResult: [],
     getDataAdminDistributorResult: [],
     getDataDistributorResult: [],
+    getDataSpcResult: [],
   },
 }
 
@@ -189,6 +190,47 @@ const actions = {
       })
     }
   },
+
+  async getMetabasePriceMonitoringSPC({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    const formData = {
+      dashboard: 256,
+      data: btoa(JSON.stringify(
+        {
+          pregion: payload.pregion,
+        },
+      )),
+    }
+
+    try {
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
   async getMetabasePriceMonitoring({ commit, state }, payload) {
     commit('changePriceMonitoring', {
       isLoading: true,
@@ -312,6 +354,38 @@ const actions = {
       if (result.data.message = 'success') {
         await commit('changePriceMonitoring', {
           getDataDistributorResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMonitoring', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataSpc({ commit, state }, payload) {
+    commit('changePriceMonitoring', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdataregion/spc?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changePriceMonitoring', {
+          getDataSpcResult: result.data,
           isLoading: false,
         })
       } else {

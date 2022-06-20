@@ -465,6 +465,7 @@ export default {
     await this.getDistrik({
       id_tso: this.$store.state.user.idJabatan,
     })
+    await this.refreshFilter()
   },
   methods: {
     ...mapActions('weeklyInput', [
@@ -482,7 +483,6 @@ export default {
       'getPromotion',
       'getDataWeekParams',
       'getDataWeekForm',
-      
     ]),
     handleGross() {
       let rbpGross = this.weeklyInput.formData.rbp_gross
@@ -553,7 +553,9 @@ export default {
           await this.deleteDataRow({
             uuid: value.uuid,
           })
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
         },
         onCancel: () => {},
       })
@@ -567,7 +569,11 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.submitDataWeekly()
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
+          this.weeklyInput.dataTable = []
+          this.weeklyInput.data_uuid = []
         },
         onCancel: () => {},
       })
@@ -581,7 +587,9 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.duplicateDataWeekly()
-          await this.getDataTable()
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
         },
         onCancel: () => {},
       })
@@ -618,18 +626,30 @@ export default {
                 kemasan: null,
                 notes: '',
               },
+              params: {
+                tahun: '',
+                bulan: '',
+                week: '',
+              },
             })
           }
-          await this.getDataTable()
-          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
-          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
-          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
+          await this.getDataWeekForm()
         } else {
           await this.insertDataWeekly()
-          await this.getDataTable()
-          this.weeklyInput.params.tahun = this.weeklyInput.formData.tahun
-          this.weeklyInput.params.bulan = this.weeklyInput.formData.bulan
-          this.weeklyInput.params.week = parseInt(this.weeklyInput.formData.week)
+          await this.$store.commit('weeklyInput/changeWeeklyInput', {
+            params: {
+              tahun: '',
+              bulan: '',
+              week: '',
+            },
+          })
+          await this.getDataTable({
+            id_tso: this.$store.state.user.idJabatan,
+          })
+          await this.getDataWeekForm()
         }
         this.addModal = false
       } else {
@@ -645,7 +665,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
       } else if (
         this.weeklyInput.params.tahun != '' &&
         this.weeklyInput.params.bulan != '' &&
@@ -660,7 +682,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
       } else if (
         this.weeklyInput.params.tahun != '' &&
         this.weeklyInput.params.bulan != '' &&
@@ -714,7 +738,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week != ''
       ) {
-        await this.getDataTable()
+        await this.getDataTable({
+          id_tso: this.$store.state.user.idJabatan,
+        })
         // notification.success({
         //   message: 'Success',
         //   description: 'Data berhasil ditampilkan.',
@@ -748,6 +774,7 @@ export default {
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
       this.weeklyInput.dataTable = []
+      this.weeklyInput.data_uuid = []
     },
   },
 }

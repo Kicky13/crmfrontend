@@ -70,14 +70,14 @@
                 <strong>MASUK</strong>
               </a-button>
             </a-form>
-            <div class="text-center mb-auto">
+            <!-- <div class="text-center mb-auto">
               <router-link
                 to="/auth/forgot-password"
                 class="vb__utils__link text-main font-weight-bold"
               >
                 Lupa Password?
               </router-link>
-            </div>
+            </div> -->
             <div class="text-center mt-3 mb-auto">
               <router-link to="/" class="vb__utils__link back_beranda">
                 <span class="mr-2">Kembali ke Beranda</span>

@@ -8,8 +8,8 @@
         </a>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-8 col-xs-8">
+    <div class="row mb-4">
+      <div class="col-md-12 col-xs-12">
         <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
           <div class="card-header d-flex">
             <strong class="align-self-center">Detail Customer</strong>
@@ -209,47 +209,49 @@
           </div>
         </a-card>
       </div>
-      <div class="col-md-4 col-xs-4">
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-xs-6">
         <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary p-0">
           <div class="card-header d-flex">
             <strong class="align-self-center">Koordinat Lokasi</strong>
           </div>
           <div class="card-body p-0">
-            <div class="d-flex flex-wrap flex-column align-items-center">
-              <div class="mb-3 mt-1">
-                <!-- <img
-                  lazy="loading"
-                  v-once
-                  :src="require('@/assets/images/logo/underconstruct.jpg')"
-                  class="img-fluid"
-                  alt="Mary Stanform"
-                /> -->
-                <div class="mapouter">
-                  <div class="gmap_canvas">
-                    <iframe
-                      width="250"
-                      height="300"
-                      id="gmap_canvas"
-                      :src="link"
-                      frameborder="0"
-                      scrolling="no"
-                      marginheight="0"
-                      marginwidth="0"
-                    >
-                    </iframe>
-                    <a href="https://fmovies-online.net" />
-                    <a href="https://www.embedgooglemap.net"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <div class="text-dark font-weight-bold font-size-20"></div>
-                <div class="font-size-16">
-                  Lng: {{ koordinatLock.dataDetailCustomer.longitude ?? '-' }} | Ltd:
-                  {{ koordinatLock.dataDetailCustomer.latitude ?? '-' }}
-                </div>
+            <!-- <div class="d-flex flex-wrap flex-column align-items-center"> -->
+            <!-- <div class="mb-3 mt-1"> -->
+              <!-- <img
+                lazy="loading"
+                v-once
+                :src="require('@/assets/images/logo/underconstruct.jpg')"
+                class="img-fluid"
+                alt="Mary Stanform"
+              /> -->
+              <!-- <div class="mapouter">
+                <div class="gmap_canvas"> -->
+            <iframe
+              class="w-100 p-2"
+              height="300"
+              id="gmap_canvas"
+              :src="link"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+            >
+            </iframe>
+            <a href="https://fmovies-online.net"></a>
+            <a href="https://www.embedgooglemap.net"></a>
+                <!-- </div>
+              </div> -->
+            <!-- </div> -->
+            <div class="text-center">
+              <div class="text-dark font-weight-bold font-size-20"></div>
+              <div class="font-size-16">
+                Lng: {{ koordinatLock.dataDetailCustomer.longitude ?? '-' }} | Ltd:
+                {{ koordinatLock.dataDetailCustomer.latitude ?? '-' }}
               </div>
             </div>
+            <!-- </div> -->
           </div>
           <div class="card-header text-center align-self-center">
             <Can do="update" on="CoordLock">
@@ -262,6 +264,28 @@
                 }}
               </a-button>
             </Can>
+          </div>
+        </a-card>
+      </div>
+      <div class="col-md-6 col-xs-6">
+        <a-card :loading="koordinatLock.isLoading" class="card card-top card-top-primary">
+          <div class="card-header d-flex">
+            <strong class="align-self-center">Street View</strong>
+          </div>
+          <div class="card-body p-0">
+            <!-- <div class="row">
+              <div class="col-md-12"> -->
+            <iframe
+              :src="linkStreetView"
+              class="w-100 p-2"
+              height="300"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+              <!-- </div>
+            </div> -->
           </div>
         </a-card>
       </div>
@@ -345,6 +369,9 @@ export default {
       historyVisit: [],
       activeKey: '',
       link: '',
+      linkStreetView: '',
+      latStreetView: -7.1688477,
+      lngStreetView: 112.6451559,
     }
   },
   computed: {
@@ -357,7 +384,7 @@ export default {
       idToko: this.$route.params.id_toko,
     })
     // await this.getDataCustomer({
-    //   id_distrik: parseInt(this.$route.params.id_distrik),
+      //   id_distrik: parseInt(this.$route.params.id_distrik),
     //   search: '',
     // })
 
@@ -367,6 +394,7 @@ export default {
 
     // this.dataDetailCustomer()
 
+    this.urlStreetView()
     this.urlMap()
     // await this.fetchGetHistoryVisit()
   },
@@ -377,6 +405,19 @@ export default {
       'getDataCustomer',
       'getDataDetailCustomerList',
     ]),
+
+    urlStreetView() {
+      let lat = this.koordinatLock.dataDetailCustomer.latitude ?? 0
+      let long = this.koordinatLock.dataDetailCustomer.longitude ?? 0
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
+      this.linkStreetView =
+        `https://www.google.com/maps/embed/v1/streetview?location=` +
+        lat+
+        `,` +
+        long +
+        `&fov=80&heading=70&pitch=0&key=` +
+        keyApi
+    },
 
     changeActiveKey(key) {
       this.activeKey = key
@@ -411,7 +452,7 @@ export default {
     urlMap() {
       let lat = this.koordinatLock.dataDetailCustomer.latitude ?? 0
       let long = this.koordinatLock.dataDetailCustomer.longitude ?? 0
-      let keyApi = `AIzaSyD89e9RP1mKfBHWE16auSGPJOUoJ1oxMSI`
+      let keyApi = `AIzaSyB6nAIjc2L6heIF0ljqcdS48Qbfb9g2BM4`
       this.link =
         `https://www.google.com/maps/embed/v1/view?key=` +
         keyApi +

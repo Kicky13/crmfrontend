@@ -328,22 +328,19 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getData`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
-        await commit('changeWPPublish', {
-          isLoading: false,
-        })
-      } else {
+      if (result.data.data != undefined) {
         await commit('changeWPPublish', {
           wpPublishList: result.data.data || 0,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message || `Data berhasil ditampilkan`,
+      } else {
+        notification.error({
+          message: 'Opps',
+          description: result.data.message,
+        })
+        await commit('changeWPPublish', {
+          wpPublishList: 0,
+          isLoading: false,
         })
       }
     } catch (error) {

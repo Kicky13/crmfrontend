@@ -61,10 +61,12 @@ export default {
       [
         'getMetabaseVolumeAnalytcs',
         'getMetabaseVolumeAnalytcsTSO',
+        'getMetabaseVolumeAnalytcsSPC',
         'getMetabaseVolumeAnalytcsAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
+        'getDataSpc',
       ],
     ),
 
@@ -85,6 +87,15 @@ export default {
 
           await this.getMetabaseVolumeAnalytcsTSO({
             pregion: this.volumeAnalytcs.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseVolumeAnalytcsSPC({
+            pregion: this.volumeAnalytcs.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':

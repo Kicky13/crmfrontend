@@ -468,6 +468,7 @@ export default {
       id_atasan: this.$store.state.user.idJabatan,
     })
     await this.getMasterProduct()
+    await this.refreshFilter()
   },
   methods: {
     ...mapActions('wpApproval', [
@@ -566,6 +567,8 @@ export default {
         onOk: async () => {
           await this.submitApprove()
           await this.getDataTable()
+          this.wpApproval.wpApprovalList = []
+          this.wpApproval.data_uuid = []
         },
         onCancel: () => {},
       })
@@ -582,6 +585,8 @@ export default {
         onOk: async () => {
           await this.submitReject()
           await this.getDataTable()
+          this.wpApproval.wpApprovalList = []
+          this.wpApproval.data_uuid = []
         },
         onCancel: () => {},
       })
@@ -679,6 +684,7 @@ export default {
       this.wpApproval.params.week = ''
       this.wpApproval.wpApprovalList = []
       this.wpApproval.params.id_tso = null
+      this.wpApproval.data_uuid = []
     },
   },
 }
