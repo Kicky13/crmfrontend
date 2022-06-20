@@ -335,7 +335,7 @@ export default {
     async getData() {
       const userData = JSON.parse(localStorage.getItem('userData'))
       const roleUser = userData.role
-      
+
       switch (roleUser) {
         case 'TSO':
           await this.getDataTso({
@@ -376,6 +376,7 @@ export default {
             this.errorMessageUser('ASM belum dimapping ke TSO')
           }
         break
+
         case 'Admin Dist':
           await this.getDataAdminDistributor({
             id: userData.userid,
@@ -390,6 +391,11 @@ export default {
             pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
           })
 
+          // await this.getMetabaseSOWAdmin({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+
           if (!this.sowDashboard.getDataDistributorResult.status) {
             this.errorMessageUser('Distributor belum dimapping ke toko')
           }
@@ -399,12 +405,12 @@ export default {
             pdistrik: [],
             pdistributor: [],
           })
-        break
+          break
         default:
-          // await this.getMetabaseSOW({
-          //   pdistrik: [],
-          //   pdistributor: [],
-          // })
+        // await this.getMetabaseSOW({
+        //   pdistrik: [],
+        //   pdistributor: [],
+        // })
       }
     },
 
