@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <div class="row">
           <div class="col-md-3"></div>
@@ -37,6 +38,11 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {},
+  data() {
+    return {
+      isHidden: false,
+    }
+  },
   computed: {
     ...mapState({
       rbpMovement: state => state.rbpMovement.data,
@@ -97,6 +103,7 @@ export default {
 
           if (!this.rbpMovement.getDataTsoResult.status) {
             this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
           }
         break
         case 'SPC':
@@ -110,6 +117,7 @@ export default {
 
           if (!this.rbpMovement.getDataSpcResult.status) {
             this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
           }
         break
         case 'ASM':
@@ -123,6 +131,7 @@ export default {
 
           if (!this.rbpMovement.getDataAsmResult.status) {
             this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
           }
         break
         case 'Admin Dist':
@@ -141,6 +150,7 @@ export default {
 
           if (!this.rbpMovement.getDataDistributorResult.status) {
             this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
           }
         break
         case 'Admin':
