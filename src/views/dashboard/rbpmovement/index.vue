@@ -58,13 +58,23 @@ export default {
         'getMetabaseRBPMovement',
         'getMetabaseRBPMovementTSO',
         'getMetabaseRBPMovementSPC',
+        'getMetabaseRBPMovementASM',
         'getMetabaseRBPMovementAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabaseRBPMovement()
@@ -84,6 +94,10 @@ export default {
           await this.getMetabaseRBPMovementTSO({
             pregion: this.rbpMovement.getDataTsoResult.pregion,
           })
+
+          if (!this.rbpMovement.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -93,6 +107,23 @@ export default {
           await this.getMetabaseRBPMovementSPC({
             pregion: this.rbpMovement.getDataSpcResult.pregion,
           })
+
+          if (!this.rbpMovement.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovementASM({
+            pregion: this.rbpMovement.getDataAsmResult.pregion,
+          })
+
+          if (!this.rbpMovement.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -107,6 +138,10 @@ export default {
             pdistrik: this.rbpMovement.getDataDistributorResult.pdistrik,
             pdistributor: this.rbpMovement.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.rbpMovement.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
         break
         case 'Admin':
           await this.getMetabaseRBPMovementAdmin({

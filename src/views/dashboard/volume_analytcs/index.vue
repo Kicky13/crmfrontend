@@ -62,13 +62,23 @@ export default {
         'getMetabaseVolumeAnalytcs',
         'getMetabaseVolumeAnalytcsTSO',
         'getMetabaseVolumeAnalytcsSPC',
+        'getMetabaseVolumeAnalytcsASM',
         'getMetabaseVolumeAnalytcsAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabaseVolumeAnalytcs()
@@ -88,6 +98,10 @@ export default {
           await this.getMetabaseVolumeAnalytcsTSO({
             pregion: this.volumeAnalytcs.getDataTsoResult.pregion,
           })
+
+          if (!this.volumeAnalytcs.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -97,6 +111,23 @@ export default {
           await this.getMetabaseVolumeAnalytcsSPC({
             pregion: this.volumeAnalytcs.getDataSpcResult.pregion,
           })
+
+          if (!this.volumeAnalytcs.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseVolumeAnalytcsASM({
+            pregion: this.volumeAnalytcs.getDataAsmResult.pregion,
+          })
+
+          if (!this.volumeAnalytcs.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -111,6 +142,10 @@ export default {
             pdistrik: this.volumeAnalytcs.getDataDistributorResult.pdistrik,
             pdistributor: this.volumeAnalytcs.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.volumeAnalytcs.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
         break
         case 'Admin':
           await this.getMetabaseVolumeAnalytcsAdmin({
