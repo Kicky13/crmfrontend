@@ -300,10 +300,12 @@ export default {
       'getDataChart',
       'getMetabaseSOW',
       'getMetabaseSOWTSO',
+      'getMetabaseSOWSPC',
       'getMetabaseSOWAdmin',
       'getDataTso',
       'getDataAdminDistributor',
       'getDataDistributor',
+      'getDataSpc',
     ]),
     async handleRefresh() {
       // await this.getMetabaseSOW()
@@ -332,6 +334,15 @@ export default {
 
           await this.getMetabaseSOWTSO({
             pregion: this.sowDashboard.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseSOWSPC({
+            pregion: this.sowDashboard.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':

@@ -176,10 +176,12 @@ export default {
         'getMetabasePromotion',
         'getMetabasePromotionAdmin',
         'getMetabasePromotionTSO',
+        'getMetabasePromotionSPC',
         'getDataTso',
         'getDataRegionTSO',
         'getDataAdminDistributor',
         'getDataDistributor',
+        'getDataSpc',
       ],
     ),
 
@@ -206,6 +208,15 @@ export default {
 
           await this.getMetabasePromotionTSO({
             pregion: this.promotionDashboard.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePromotionSPC({
+            pregion: this.promotionDashboard.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':

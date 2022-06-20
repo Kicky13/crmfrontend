@@ -234,7 +234,7 @@ export default {
             id_produk: this.formState.id,
             id_user: this.formState.id_user,
           })
-          await this.getAllProduk()
+          await this.setAllProduk()
           this.formState.id = null
         },
         onCancel: () => {

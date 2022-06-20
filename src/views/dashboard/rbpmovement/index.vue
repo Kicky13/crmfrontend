@@ -57,10 +57,12 @@ export default {
       [
         'getMetabaseRBPMovement',
         'getMetabaseRBPMovementTSO',
+        'getMetabaseRBPMovementSPC',
         'getMetabaseRBPMovementAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
+        'getDataSpc',
       ],
     ),
 
@@ -81,6 +83,15 @@ export default {
 
           await this.getMetabaseRBPMovementTSO({
             pregion: this.rbpMovement.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovementSPC({
+            pregion: this.rbpMovement.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':

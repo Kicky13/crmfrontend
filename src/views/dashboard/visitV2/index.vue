@@ -60,10 +60,12 @@ export default {
       [
         'getMetabase',
         'getMetabaseTSO',
+        'getMetabaseSPC',
         'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
+        'getDataSpc',
       ],
     ),
 
@@ -84,6 +86,15 @@ export default {
 
           await this.getMetabaseTSO({
             pregion: this.visitDashboard.getDataTsoResult.pregion,
+          })
+        break
+        case 'SPC':
+          await this.getDataSpc({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseSPC({
+            pregion: this.visitDashboard.getDataSpcResult.pregion,
           })
         break
         case 'Admin Dist':
