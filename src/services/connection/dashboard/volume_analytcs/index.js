@@ -78,6 +78,7 @@ const state = {
     getDataAdminDistributorResult: [],
     getDataDistributorResult: [],
     getDataSpcResult: [],
+    getDataAsmResult: [],
   },
 }
 
@@ -173,6 +174,46 @@ const actions = {
   },
 
   async getMetabaseVolumeAnalytcsSPC({ commit, state }, payload) {
+    commit('changeVolumeAnalytcs', {
+      isLoading: true,
+    })
+    const { data } = state
+
+    const formData = {
+      dashboard: 259,
+      data: btoa(JSON.stringify(
+        {
+          pregion: payload.pregion,
+        },
+      )),
+    }
+
+    try {
+      const result = await apiClient.post(`/metabase/dashboard`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message[0],
+        })
+        commit('changeVolumeAnalytcs', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVolumeAnalytcs', {
+          dataMetabase: result.data.url,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getMetabaseVolumeAnalytcsASM({ commit, state }, payload) {
     commit('changeVolumeAnalytcs', {
       isLoading: true,
     })
@@ -367,6 +408,38 @@ const actions = {
       if (result.data.message = 'success') {
         await commit('changeVolumeAnalytcs', {
           getDataSpcResult: result.data,
+          isLoading: false,
+        })
+      } else {
+        await commit('changeVolumeAnalytcs', {
+          isLoading: false,
+        })
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDataAsm({ commit, state }, payload) {
+    commit('changeVolumeAnalytcs', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    try {
+      const result = await apiClient.get(`/getdataregion/asm?id=${payload.id}`)
+
+      if (result.data.message = 'success') {
+        await commit('changeVolumeAnalytcs', {
+          getDataAsmResult: result.data,
           isLoading: false,
         })
       } else {

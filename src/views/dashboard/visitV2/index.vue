@@ -61,13 +61,23 @@ export default {
         'getMetabase',
         'getMetabaseTSO',
         'getMetabaseSPC',
+        'getMetabaseASM',
         'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabase()
@@ -87,6 +97,10 @@ export default {
           await this.getMetabaseTSO({
             pregion: this.visitDashboard.getDataTsoResult.pregion,
           })
+
+          if (!this.visitDashboard.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -96,6 +110,23 @@ export default {
           await this.getMetabaseSPC({
             pregion: this.visitDashboard.getDataSpcResult.pregion,
           })
+
+          if (!this.visitDashboard.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseASM({
+            pregion: this.visitDashboard.getDataAsmResult.pregion,
+          })
+
+          if (!this.visitDashboard.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -105,12 +136,15 @@ export default {
           await this.getDataDistributor({
             id: this.visitDashboard.getDataAdminDistributorResult.id_distributor,
           })
-          console.log(this.visitDashboard)
 
           await this.getMetabase({
             pdistrik: this.visitDashboard.getDataDistributorResult.pdistrik,
             pdistributor: this.visitDashboard.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.visitDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
         break
         case 'Admin':
           await this.getMetabaseAdmin({
