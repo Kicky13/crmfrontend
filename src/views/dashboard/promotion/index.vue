@@ -177,13 +177,23 @@ export default {
         'getMetabasePromotionAdmin',
         'getMetabasePromotionTSO',
         'getMetabasePromotionSPC',
+        'getMetabasePromotionASM',
         'getDataTso',
         'getDataRegionTSO',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabasePromotion({
@@ -209,6 +219,10 @@ export default {
           await this.getMetabasePromotionTSO({
             pregion: this.promotionDashboard.getDataTsoResult.pregion,
           })
+
+          if (!this.promotionDashboard.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -218,6 +232,23 @@ export default {
           await this.getMetabasePromotionSPC({
             pregion: this.promotionDashboard.getDataSpcResult.pregion,
           })
+
+          if (!this.promotionDashboard.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePromotionASM({
+            pregion: this.promotionDashboard.getDataAsmResult.pregion,
+          })
+
+          if (!this.promotionDashboard.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -232,6 +263,10 @@ export default {
             pdistrik: this.promotionDashboard.getDataDistributorResult.pdistrik,
             pdistributor: this.promotionDashboard.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.promotionDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+          }
         break
         case 'Admin':
           await this.getMetabasePromotionAdmin({
