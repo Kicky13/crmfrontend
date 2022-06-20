@@ -8,7 +8,7 @@
       <div class="card-body">
         <a-button type="primary">
           <a
-            href="https://storage.googleapis.com/crm-assets/Template/Template%20Upload%20Mapping%20Toko%20Sales.xlsx"
+            href="https://storage.googleapis.com/crm-asset/Template/Template%20Upload%20Mapping%20Toko%20Sales.xlsx"
             download
           >
             <i class="fa fa-download mr-2" />
