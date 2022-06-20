@@ -325,7 +325,7 @@ export default {
     async getData() {
       const userData = JSON.parse(localStorage.getItem('userData'))
       const roleUser = userData.role
-      
+
       switch (roleUser) {
         case 'TSO':
           await this.getDataTso({
@@ -335,7 +335,7 @@ export default {
           await this.getMetabaseSOWTSO({
             pregion: this.sowDashboard.getDataTsoResult.pregion,
           })
-        break
+          break
         case 'SPC':
           await this.getDataSpc({
             id: userData.userid,
@@ -344,32 +344,37 @@ export default {
           await this.getMetabaseSOWSPC({
             pregion: this.sowDashboard.getDataSpcResult.pregion,
           })
-        break
+          break
         case 'Admin Dist':
-          await this.getDataAdminDistributor({
-            id: userData.userid,
-          })
+          // await this.getDataAdminDistributor({
+          //   id: userData.userid,
+          // })
 
-          await this.getDataDistributor({
-            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
-          })
+          // await this.getDataDistributor({
+          //   id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          // })
 
-          await this.getMetabaseSOW({
-            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
-            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          // await this.getMetabaseSOW({
+          //   pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+          //   pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          // })
+
+          await this.getMetabaseSOWAdmin({
+            pdistrik: [],
+            pdistributor: [],
           })
-        break
+          break
         case 'Admin':
           await this.getMetabaseSOWAdmin({
             pdistrik: [],
             pdistributor: [],
           })
-        break
+          break
         default:
-          // await this.getMetabaseSOW({
-          //   pdistrik: [],
-          //   pdistributor: [],
-          // })
+        // await this.getMetabaseSOW({
+        //   pdistrik: [],
+        //   pdistributor: [],
+        // })
       }
     },
 
