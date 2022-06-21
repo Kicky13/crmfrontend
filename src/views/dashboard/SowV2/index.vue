@@ -316,7 +316,7 @@ export default {
         icon: 'error',
         title: 'Oops...',
         text,
-      });
+      })
     },
 
     async handleRefresh() {
@@ -352,7 +352,7 @@ export default {
             this.errorMessageUser('TSO belum dimapping ke Distrik')
             this.isHidden = true
           }
-        break
+          break
         case 'SPC':
           await this.getDataSpc({
             id: userData.userid,
@@ -366,7 +366,7 @@ export default {
             this.errorMessageUser('SPC belum dimapping ke Region')
             this.isHidden = true
           }
-        break
+          break
         case 'ASM':
           await this.getDataAsm({
             id: userData.userid,
@@ -380,32 +380,32 @@ export default {
             this.errorMessageUser('ASM belum dimapping ke TSO')
             this.isHidden = true
           }
-        break
+          break
 
         case 'Admin Dist':
-          await this.getDataAdminDistributor({
-            id: userData.userid,
-          })
-
-          await this.getDataDistributor({
-            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
-          })
-
-          await this.getMetabaseSOW({
-            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
-            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
-          })
-
-          // await this.getMetabaseSOWAdmin({
-          //   pdistrik: [],
-          //   pdistributor: [],
+          // await this.getDataAdminDistributor({
+          //   id: userData.userid,
           // })
+
+          // await this.getDataDistributor({
+          //   id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          // })
+
+          // await this.getMetabaseSOW({
+          //   pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+          //   pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          // })
+
+          await this.getMetabaseSOWAdmin({
+            pdistrik: [],
+            pdistributor: [],
+          })
 
           if (!this.sowDashboard.getDataDistributorResult.status) {
             this.errorMessageUser('Distributor belum dimapping ke toko')
             this.isHidden = true
           }
-        break
+          break
         case 'Admin':
           await this.getMetabaseSOWAdmin({
             pdistrik: [],
