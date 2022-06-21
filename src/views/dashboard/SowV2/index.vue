@@ -383,28 +383,28 @@ export default {
           break
 
         case 'Admin Dist':
-          // await this.getDataAdminDistributor({
-          //   id: userData.userid,
-          // })
-
-          // await this.getDataDistributor({
-          //   id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
-          // })
-
-          // await this.getMetabaseSOW({
-          //   pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
-          //   pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
-          // })
-
-          await this.getMetabaseSOWAdmin({
-            pdistrik: [],
-            pdistributor: [],
+          await this.getDataAdminDistributor({
+            id: userData.userid,
           })
 
-          // if (!this.sowDashboard.getDataDistributorResult.status) {
-          //   this.errorMessageUser('Distributor belum dimapping ke toko')
-          //   this.isHidden = true
-          // }
+          await this.getDataDistributor({
+            id: this.sowDashboard.getDataAdminDistributorResult.id_distributor,
+          })
+
+          await this.getMetabaseSOW({
+            pdistrik: this.sowDashboard.getDataDistributorResult.pdistrik,
+            pdistributor: this.sowDashboard.getDataDistributorResult.pdistributor,
+          })
+
+          // await this.getMetabaseSOWAdmin({
+          //   pdistrik: [],
+          //   pdistributor: [],
+          // })
+
+          if (!this.sowDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
+          }
           break
         case 'Admin':
           await this.getMetabaseSOWAdmin({
