@@ -763,30 +763,28 @@ export default {
     this.urlStreetViewSales()
     this.urlStreetViewNotVisited()
     this.refreshData()
+
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
-    this.$store.state.user.levelHirarki.toLowerCase() == `tso`
-      ? await this.getDistrik({
-          idLevelHirarki: this.$store.state.user.idLevelHirarki,
-          levelHirarki: this.$store.state.user.levelHirarki,
-        })
-      : await this.getDistrik({
-          idLevelHirarki: this.$store.state.user.idLevelHirarki || '',
-          levelHirarki: this.$store.state.user.levelHirarki || '',
-        })
+    if (this.$store.state.user.levelHirarki.toLowerCase() == `tso`) {
+      await this.getDistrik({
+        idLevelHirarki: this.$store.state.user.idLevelHirarki,
+        levelHirarki: this.$store.state.user.levelHirarki,
+      })
+    }
     if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
-      await this.getFilterDistributor({
+      await this.getDistributorAdmDistributor({
         id_jabatan: this.$store.state.user.idJabatan,
       })
-
+      await this.getDistrikByDistributor({
+        id_distributor: this.salesRoute.dataDistributorAdmDistributor[0].id_reference_distributor,
+      })
       await this.getSalesman({
-        id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
-        id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+        id_distributor: this.salesRoute.dataDistributorAdmDistributor[0].id_reference_distributor,
       })
     }
     // validisi perbedaan role untuk tampilan TSO, ADMIN DAN DISTRIBUTOR
-
     // kondisi ketika menampilkan semua filter
-    if (this.salesRoute.formData.id_distributor == '') {
+    if (this.$store.state.user.levelHirarki.toLowerCase() == ``) {
       await this.getDistrikByDistributor({
         id_distributor: this.salesRoute.formData.id_distributor,
       })
@@ -813,6 +811,7 @@ export default {
       'getMap',
       'getFilterDistributor',
       'getDistrikByDistributor',
+      'getDistributorAdmDistributor',
     ]),
 
     urlStreetView() {
@@ -864,10 +863,6 @@ export default {
         this.$store.state.user.levelHirarki.toLowerCase() == `admin dis` ||
         this.$store.state.user.levelHirarki.toLowerCase() == `asm`
       ) {
-        // await this.getFilterDistributor({
-        //   id_jabatan: this.$store.state.user.idJabatan,
-        // })
-
         await this.getDistrik({
           idLevelHirarki: this.$store.state.user.idLevelHirarki,
           levelHirarki: this.$store.state.user.levelHirarki,
@@ -884,27 +879,18 @@ export default {
       }
     },
     async handleDistrik() {
-      let dataSource = [...this.salesRoute.dataDistrik]
+      let dataSource = [...this.salesRoute.dataDistrikByDistributor]
       let filtered = dataSource.filter(
         x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
       )
-
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
+
       this.getSalesman({
-        id_distributor: this.salesRoute.formData.id_distributor,
+        id_distributor:
+          this.salesRoute.formData.id_distributor ||
+          this.salesRoute.dataDistributor[0].id_distributor,
         id_distrik: this.salesRoute.formData.id_distrik,
       })
-      // if (this.$store.state.user.levelHirarki.toLowerCase() == `admin dis`) {
-      //   await this.getFilterDistributor({
-      //     id_jabatan: this.$store.state.user.idJabatan,
-      //   })
-
-      //   await this.getSalesman({
-      //     id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
-      //   })
-      // } else {
-      //   await this.getDistributor()
-      // }
     },
 
     async handleSales() {
