@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <div class="row">
           <div class="col-md-3"></div>
@@ -39,7 +40,9 @@ export default {
   components: {},
 
   data() {
-    return {}
+    return {
+      isHidden: false,
+    }
   },
   computed: {
     ...mapState({
@@ -61,13 +64,23 @@ export default {
         'getMetabase',
         'getMetabaseTSO',
         'getMetabaseSPC',
+        'getMetabaseASM',
         'getMetabaseAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabase()
@@ -87,6 +100,11 @@ export default {
           await this.getMetabaseTSO({
             pregion: this.visitDashboard.getDataTsoResult.pregion,
           })
+
+          if (!this.visitDashboard.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -96,6 +114,25 @@ export default {
           await this.getMetabaseSPC({
             pregion: this.visitDashboard.getDataSpcResult.pregion,
           })
+
+          if (!this.visitDashboard.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseASM({
+            pregion: this.visitDashboard.getDataAsmResult.pregion,
+          })
+
+          if (!this.visitDashboard.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -105,12 +142,16 @@ export default {
           await this.getDataDistributor({
             id: this.visitDashboard.getDataAdminDistributorResult.id_distributor,
           })
-          console.log(this.visitDashboard)
 
           await this.getMetabase({
             pdistrik: this.visitDashboard.getDataDistributorResult.pdistrik,
             pdistributor: this.visitDashboard.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.visitDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
+          }
         break
         case 'Admin':
           await this.getMetabaseAdmin({

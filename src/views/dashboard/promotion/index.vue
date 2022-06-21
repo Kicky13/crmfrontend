@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="3">
@@ -127,8 +128,8 @@ export default {
   // components: {
   //   Multiselect,
   // },
-  // data() {
-  //   return {
+  data() {
+    return {
   //     region: [],
   //     selectedRegion: [],
   //     provinsi: [],
@@ -146,8 +147,9 @@ export default {
   //       distrik: [],
   //       distributor: [],
   //     },
-  //   }
-  // },
+      isHidden: false,
+    }
+  },
   computed: {
     ...mapState({
       promotionDashboard: state => state.promotionDashboard.data,
@@ -177,13 +179,23 @@ export default {
         'getMetabasePromotionAdmin',
         'getMetabasePromotionTSO',
         'getMetabasePromotionSPC',
+        'getMetabasePromotionASM',
         'getDataTso',
         'getDataRegionTSO',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabasePromotion({
@@ -209,6 +221,11 @@ export default {
           await this.getMetabasePromotionTSO({
             pregion: this.promotionDashboard.getDataTsoResult.pregion,
           })
+
+          if (!this.promotionDashboard.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -218,6 +235,25 @@ export default {
           await this.getMetabasePromotionSPC({
             pregion: this.promotionDashboard.getDataSpcResult.pregion,
           })
+
+          if (!this.promotionDashboard.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePromotionASM({
+            pregion: this.promotionDashboard.getDataAsmResult.pregion,
+          })
+
+          if (!this.promotionDashboard.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -232,6 +268,11 @@ export default {
             pdistrik: this.promotionDashboard.getDataDistributorResult.pdistrik,
             pdistributor: this.promotionDashboard.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.promotionDashboard.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
+          }
         break
         case 'Admin':
           await this.getMetabasePromotionAdmin({

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <div class="row">
           <div class="col-md-3"></div>
@@ -39,7 +40,9 @@ export default {
   components: {},
 
   data() {
-    return {}
+    return {
+      isHidden: false,
+    }
   },
   computed: {
     ...mapState({
@@ -61,13 +64,23 @@ export default {
         'getMetabasePriceMonitoring',
         'getMetabasePriceMonitoringTSO',
         'getMetabasePriceMonitoringSPC',
+        'getMetabasePriceMonitoringASM',
         'getMetabasePriceMonitoringAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabasePriceMonitoring()
@@ -87,6 +100,11 @@ export default {
           await this.getMetabasePriceMonitoringTSO({
             pregion: this.priceMonitoring.getDataTsoResult.pregion,
           })
+
+          if (!this.priceMonitoring.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -96,6 +114,25 @@ export default {
           await this.getMetabasePriceMonitoringSPC({
             pregion: this.priceMonitoring.getDataSpcResult.pregion,
           })
+
+          if (!this.priceMonitoring.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabasePriceMonitoringASM({
+            pregion: this.priceMonitoring.getDataAsmResult.pregion,
+          })
+
+          if (!this.priceMonitoring.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -110,6 +147,11 @@ export default {
             pdistrik: this.priceMonitoring.getDataDistributorResult.pdistrik,
             pdistributor: this.priceMonitoring.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.priceMonitoring.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
+          }
         break
         case 'Admin':
           await this.getMetabasePriceMonitoringAdmin({

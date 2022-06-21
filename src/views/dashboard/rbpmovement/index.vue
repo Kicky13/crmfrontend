@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <div class="row">
           <div class="col-md-3"></div>
@@ -37,6 +38,11 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {},
+  data() {
+    return {
+      isHidden: false,
+    }
+  },
   computed: {
     ...mapState({
       rbpMovement: state => state.rbpMovement.data,
@@ -58,13 +64,23 @@ export default {
         'getMetabaseRBPMovement',
         'getMetabaseRBPMovementTSO',
         'getMetabaseRBPMovementSPC',
+        'getMetabaseRBPMovementASM',
         'getMetabaseRBPMovementAdmin',
         'getDataTso',
         'getDataAdminDistributor',
         'getDataDistributor',
         'getDataSpc',
+        'getDataAsm',
       ],
     ),
+
+    errorMessageUser(text) {
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text,
+      });
+    },
 
     async handleRefresh() {
       // await this.getMetabaseRBPMovement()
@@ -84,6 +100,11 @@ export default {
           await this.getMetabaseRBPMovementTSO({
             pregion: this.rbpMovement.getDataTsoResult.pregion,
           })
+
+          if (!this.rbpMovement.getDataTsoResult.status) {
+            this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
+          }
         break
         case 'SPC':
           await this.getDataSpc({
@@ -93,6 +114,25 @@ export default {
           await this.getMetabaseRBPMovementSPC({
             pregion: this.rbpMovement.getDataSpcResult.pregion,
           })
+
+          if (!this.rbpMovement.getDataSpcResult.status) {
+            this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
+          }
+        break
+        case 'ASM':
+          await this.getDataAsm({
+            id: userData.userid,
+          })
+
+          await this.getMetabaseRBPMovementASM({
+            pregion: this.rbpMovement.getDataAsmResult.pregion,
+          })
+
+          if (!this.rbpMovement.getDataAsmResult.status) {
+            this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
+          }
         break
         case 'Admin Dist':
           await this.getDataAdminDistributor({
@@ -107,6 +147,11 @@ export default {
             pdistrik: this.rbpMovement.getDataDistributorResult.pdistrik,
             pdistributor: this.rbpMovement.getDataDistributorResult.pdistributor,
           })
+
+          if (!this.rbpMovement.getDataDistributorResult.status) {
+            this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
+          }
         break
         case 'Admin':
           await this.getMetabaseRBPMovementAdmin({
