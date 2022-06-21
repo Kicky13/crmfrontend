@@ -120,6 +120,7 @@ const state = {
       id_distributor: '',
       id_sales: '',
     },
+    dataDistributorAdmDistributor: [],
     itemsPerPage: [5, 10, 15, 20],
   },
 }
@@ -268,12 +269,21 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-')
 
-      const result = await apiClient.get(
-        `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data
-          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
-          data.formData.id_distrik
-        }&tanggal=${dateFormat}`,
-      )
+      let result = ''
+      if (data.formData.id_distrik) {
+        result = await apiClient.get(
+          `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+            data.formData.id_distrik
+          }&tanggal=${dateFormat}`,
+        )
+      } else {
+        result = await apiClient.get(
+          `/salesRoute/detilVisitRouteMaps?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor ||
+            data.dataDistributor[0].id_distributor}&tanggal=${dateFormat}`,
+        )
+      }
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -324,12 +334,27 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-')
 
-      const result = await apiClient.get(
-        `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
-          .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
-          data.formData.id_distrik
-        }&tanggal=${dateFormat}`,
-      )
+      let result = ''
+      if (data.formData.id_distrik) {
+        result = await apiClient.get(
+          `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+            data.formData.id_distrik
+          }&tanggal=${dateFormat}`,
+        )
+      } else {
+        result = await apiClient.get(
+          `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor ||
+            data.dataDistributor[0].id_distributor}&tanggal=${dateFormat}`,
+        )
+      }
+      // const result = await apiClient.get(
+      //   `/salesRoute/tokoBelumDikunjungi?idSales=${data.formData.id_sales}&idDistributor=${data
+      //     .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+      //     data.formData.id_distrik
+      //   }&tanggal=${dateFormat}`,
+      // )
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -380,12 +405,21 @@ const actions = {
         .replace('/', '-')
         .replace('/', '-')
 
-      const result = await apiClient.get(
-        `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data.formData
-          .id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
-          data.formData.id_distrik
-        }&tanggal=${dateFormat}`,
-      )
+      let result = ''
+      if (data.formData.id_distrik) {
+        result = await apiClient.get(
+          `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor || data.dataDistributor[0].id_distributor}&idDistrik=${
+            data.formData.id_distrik
+          }&tanggal=${dateFormat}`,
+        )
+      } else {
+        result = await apiClient.get(
+          `/salesRoute/mapSalesRouting?idSales=${data.formData.id_sales}&idDistributor=${data
+            .formData.id_distributor ||
+            data.dataDistributor[0].id_distributor}&tanggal=${dateFormat}`,
+        )
+      }
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -480,6 +514,40 @@ const actions = {
       } else {
         await commit('changeSalesRoute', {
           dataDistrikByDistributor: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+
+  async getDistributorAdmDistributor({ commit, state }, payload) {
+    commit('changeSalesRoute', {
+      isLoading: true,
+    })
+
+    let body = {
+      id_jabatan: payload.id_jabatan,
+    }
+
+    try {
+      const result = await apiClient.post('/filter/DistributorAdmDistributor', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeSalesRoute', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeSalesRoute', {
+          dataDistributorAdmDistributor: result.data.data,
           isLoading: false,
         })
       }
