@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <div class="row">
           <div class="col-md-3"></div>
@@ -55,6 +56,7 @@ export default {
   },
   data: function() {
     return {
+      isHidden: false,
       link: '',
       Highcharts,
       //fungsi menampilkan google map
@@ -348,6 +350,7 @@ export default {
 
           if (!this.sowDashboard.getDataTsoResult.status) {
             this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
           }
         break
         case 'SPC':
@@ -361,6 +364,7 @@ export default {
 
           if (!this.sowDashboard.getDataSpcResult.status) {
             this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
           }
         break
         case 'ASM':
@@ -374,6 +378,7 @@ export default {
 
           if (!this.sowDashboard.getDataAsmResult.status) {
             this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
           }
         break
 
@@ -398,6 +403,7 @@ export default {
 
           if (!this.sowDashboard.getDataDistributorResult.status) {
             this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
           }
         break
         case 'Admin':
