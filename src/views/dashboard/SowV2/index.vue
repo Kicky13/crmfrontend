@@ -401,10 +401,10 @@ export default {
             pdistributor: [],
           })
 
-          if (!this.sowDashboard.getDataDistributorResult.status) {
-            this.errorMessageUser('Distributor belum dimapping ke toko')
-            this.isHidden = true
-          }
+          // if (!this.sowDashboard.getDataDistributorResult.status) {
+          //   this.errorMessageUser('Distributor belum dimapping ke toko')
+          //   this.isHidden = true
+          // }
           break
         case 'Admin':
           await this.getMetabaseSOWAdmin({
