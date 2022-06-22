@@ -15,12 +15,12 @@
                     Tambah Sesi
                   </a-menu-item>
                 </Can>
-                <Can do="update" on="SurveySales">
+                <Can v-if="list.length != 0" do="update" on="SurveySales">
                   <a-menu-item @click="updateSesiHandle">
                     Update Sesi Penilaian
                   </a-menu-item>
                 </Can>
-                <Can do="delete" on="SurveySales">
+                <Can v-if="list.length != 0" do="delete" on="SurveySales">
                   <a-menu-item
                     @click="deleteConfirm(
                       'Hapus Sesi Penilaian',
