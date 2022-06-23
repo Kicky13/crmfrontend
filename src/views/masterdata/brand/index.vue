@@ -71,12 +71,14 @@
     <a-input
       placeholder="Brand"
       v-model:value="formState.brand_baru"
+      @keyup.enter="saveBrand"
     />
     <a-select
       placeholder="Company"
       show-search
       class="w-100 my-3"
       v-model:value="formState.id_company"
+      @keyup.enter="saveBrand"
     >
       <a-select-option disabled value="">Pilih Company</a-select-option>
       <a-select-option
@@ -94,6 +96,7 @@
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveBrand"
     />
   </a-modal>
 </template>
