@@ -1,0 +1,143 @@
+.supervisory {
+  &_card_header {
+    background-color: #b20838;
+    height: 80px;
+  }
+
+  &_avatar {
+    height: 80px;
+    width: 80px;
+    background-color: #fff;
+    border: 1px solid #b20838;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: -50px;
+    img {
+      width: 70px;
+      overflow: hidden;
+    }
+  }
+
+  &_number_position {
+    margin: 1.2rem 0rem 0rem 0rem;
+    h5 {
+      font-weight: bold;
+      color: #7e7e78;
+    }
+  }
+
+  &_company {
+    font-weight: 400;
+
+    span {
+      color: #7e7e78;
+      font-size: 12px;
+    }
+  }
+
+  &_position {
+    span {
+      color: #7e7e78;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  &_name {
+    span {
+      color: #b20838;
+      font-size: 12px;
+    }
+  }
+
+  &_points {
+    .points {
+      border-bottom: 1px solid #e5e5e5;
+      .title {
+        color: #7e7e78;
+        font-size: 12px;
+      }
+      .point {
+        color: #7e7e78;
+        font-size: 12px;
+      }
+    }
+    .points_counts {
+      .title {
+        color: #7e7e78;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .point {
+        color: #7e7e78;
+        font-size: 12px;
+      }
+    }
+  }
+
+  &_survey {
+    .title {
+      color: #7e7e78;
+    }
+
+    .photo_survey {
+      border: 1px solid #7e7e78;
+      width: 100%;
+      height: 250px;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+
+  &_questions {
+    .title_survey {
+      font-weight: bold;
+      border-bottom: 2px solid #b20838;
+      color: #7e7e78;
+    }
+
+    .table_questions {
+      thead {
+        tr {
+          th {
+            font-weight: 100;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            .btn-tabs {
+              border: 1px solid #e5e5e5;
+              border-radius: 0;
+              background-color: #e5e5e5;
+              text-align: left;
+              color: #b20838;
+              font-weight: bold;
+              &:hover {
+                border: 1px solid #b20838;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &_detail {
+    .data_detail {
+      .title_detail {
+        span {
+          font-weight: bold;
+          color: #7e7e78;
+          font-size: 14px;
+        }
+      }
+      .body_detail {
+        font-size: 12px;
+        font-weight: 100;
+        color: #7e7e78;
+      }
+    }
+  }
+}

@@ -494,6 +494,26 @@ const routes = [
           ),
       },
       {
+        path: '/reporting/supervisory-visit',
+        meta: { title: 'Supervisory Visit', resource: 'SupervisoryVisit', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reporting-supervisory-visit" */ '@/views/reporting/SupervisoryVisit'
+          ),
+      },
+      {
+        path: '/reporting/supervisory-visit/:id_supervisory',
+        meta: {
+          title: 'Detail Supervisory Visit',
+          resource: 'DetailSupervisoryVisit',
+          action: 'read',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "reporting-detail-supervisory-visit" */ '@/views/reporting/SupervisoryVisit/DetailSupervisory'
+          ),
+      },
+      {
         path: '/report/customer_mapping',
         meta: { title: 'Customer Mapping', resource: 'MappingCustomer', action: 'read' },
         component: () =>
@@ -544,7 +564,7 @@ const routes = [
           import(/* webpackChunkName: "profile-sales-tso" */ '@/views/profileUser/profileTSO'),
       },
       {
-        path: '/reporting',
+        path: '/reporting/download-data',
         name: 'reporting',
         meta: { title: 'Reporting', resource: 'Reporting', action: 'read' },
         component: () => import(/* webpackChunkName: "reporting" */ '@/views/reporting'),
