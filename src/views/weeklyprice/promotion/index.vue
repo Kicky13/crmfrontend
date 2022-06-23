@@ -189,15 +189,16 @@
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata == true ? true : false"
-          v-model:value="wpPromotion.formData.id_brand"
+          v-model:value="wpPromotion.formData.nama_brand"
           placeholder="Brand"
           class="w-100 mb-4"
           show-search
+          @change="handleBrand()"
         >
           <a-select-option disabled value="">Pilih Brand</a-select-option>
           <a-select-option
             v-for="(brand, index) in wpPromotion.brandList"
-            :value="brand.ID"
+            :value="brand.NAMA_BRAND"
             :key="index"
           >
             {{ brand.ID }} - {{ brand.NAMA_BRAND }}
@@ -427,6 +428,14 @@ export default {
         await this.getDataTable()
       } else {
       }
+    },
+
+    async handleBrand() {
+      let dataSourceBrand = [...this.wpPromotion.brandList]
+      let filtered = dataSourceBrand.filter(
+        brand => brand.NAMA_BRAND == this.wpPromotion.formData.nama_brand,
+      )
+      this.wpPromotion.formData.id_brand = filtered[0].ID
     },
 
     refreshFilter() {
