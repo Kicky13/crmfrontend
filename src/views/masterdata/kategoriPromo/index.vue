@@ -64,11 +64,13 @@
       placeholder="Kategori"
       class="mb-3"
       v-model:value="formState.kategori_baru"
+      @keyup.enter="saveKategori"
     />
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveKategori"
     />
   </a-modal>
 </template>
