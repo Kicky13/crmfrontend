@@ -43,3 +43,47 @@ export async function deleteSurvey(data) {
     return false
   })
 }
+
+export async function sesiList() {
+  return apiClient
+  .post('/sesiPenilaian/getData')
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
+export async function addSesi(data) {
+  return apiClient
+  .post('/sesiPenilaian/Insert', data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
+export async function deleteSesi(data) {
+  return apiClient
+  .post('/sesiPenilaian/Delete', data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}
+
+export async function updateSesi(data) {
+  return apiClient
+  .post('/sesiPenilaian/Update', data)
+  .then(response => {
+      if (response) {
+          return response.data
+      }
+      return false
+  })
+}

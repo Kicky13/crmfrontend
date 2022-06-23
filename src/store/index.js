@@ -22,6 +22,7 @@ import Reporting from '../services/connection/reporting'
 import PenarikanData from '../services/connection/penarikan-data'
 import ReportingCustomerMapping from '../services/connection/reporting/customer-mapping'
 import ReportingSalesDistributor from '../services/connection/reporting/sales-distributor'
+import ReportingSupervisory from '../services/connection/reporting/supervisory-visit'
 import Filter from '../services/connection/dashboard/filter'
 import Promotion from '../services/connection/dashboard/promotion'
 import RbpMovement from '../services/connection/dashboard/rbpmovement'
@@ -96,6 +97,7 @@ export default createStore({
     wpmPromotion: WPMPromotion,
     priceMovement: PriceMovement,
     gapHarga: GAPHarga,
+    reportingSupervisory: ReportingSupervisory,
   },
   state: {},
   mutations: {},
