@@ -853,16 +853,14 @@ export default {
       log(record)
     },
     async handleDistributor() {
+      let role = this.$store.state.user.levelHirarki.toLowerCase()
       let dataSource = [...this.salesRoute.dataDistributor]
       let filtered = dataSource.filter(
         x => x.nama_distributor == this.salesRoute.formData.selectedDistributor,
       )
 
       this.salesRoute.formData.id_distributor = filtered[0].id_distributor
-      if (
-        this.$store.state.user.levelHirarki.toLowerCase() == `admin dis` ||
-        this.$store.state.user.levelHirarki.toLowerCase() == `asm`
-      ) {
+      if (role == `admin dis` || role == `asm` || role == `` || role == `tso`) {
         await this.getDistrik({
           idLevelHirarki: this.$store.state.user.idLevelHirarki,
           levelHirarki: this.$store.state.user.levelHirarki,
@@ -875,6 +873,10 @@ export default {
       } else {
         await this.getDistrikByDistributor({
           id_distributor: this.salesRoute.formData.id_distributor,
+        })
+        await this.getSalesman({
+          role: role,
+          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
         })
       }
     },
