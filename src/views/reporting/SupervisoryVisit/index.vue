@@ -84,19 +84,40 @@
               <template #title>
                 <span>Refresh Filter</span>
               </template>
-              <a-button @click="getRefreshFilter()" type="primary">
+              <a-button @click="handleRefreshFilter()" type="primary">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
               </a-button>
             </a-tooltip>
           </a-col>
           <a-col :xs="24" :md="3">
-            <a-button type="primary" class="w-100" @click="showReport">
+            <a-button
+              :disabled="
+                reportingSupervisory.params.id_tso != `` &&
+                reportingSupervisory.params.id_sales != `` &&
+                reportingSupervisory.params.id_distributor != `` &&
+                reportingSupervisory.params.tahun != ``
+                  ? false
+                  : true
+              "
+              @click="handleSubmitData()"
+              type="primary"
+              class="w-100"
+            >
               <i class="fa fa-eye mr-1" />
               Tampilkan
             </a-button>
           </a-col>
           <a-col :xs="24" :md="3">
-            <a-button type="primary" class="w-100" @click="showReport">
+            <a-button
+              :disabled="
+                reportingSupervisory.listReport.length > 0
+                  ? false
+                  : true
+              "
+              type="primary"
+              class="w-100"
+              @click="handleSubmitExport()"
+            >
               <i class="fa fa-download mr-2" />
               Export
             </a-button>
@@ -137,10 +158,10 @@
             :scroll="{ x: 2000 }"
           >
             <template #no_survei="{ text }">
-              <span>{{ text.no_survei }}</span>
+              <span>{{ text.id_visit }}</span>
             </template>
             <template #tanggal="{ text }">
-              <span>{{ text.tanggal }}</span>
+              <span>{{ text.tgl_visit }}</span>
             </template>
             <template #sales="{ text }">
               <span>{{ text.sales }}</span>
@@ -200,6 +221,7 @@ export default {
       'getListTSO',
       'getDistributorByTSO',
       'getSalesByDistributor',
+      'getDataTable',
     ]),
     async getValidasiRole() {
       let role = this.$store.state.user.role
@@ -249,7 +271,20 @@ export default {
 
       this.reportingSupervisory.params.id_sales = filtered[0].id_sales
     },
-    async getRefreshFilter() {
+    async handleSubmitData() {
+      let idTSO = this.reportingSupervisory.params.id_tso
+      let idSales = this.reportingSupervisory.params.id_sales
+      let idDistributor = this.reportingSupervisory.params.id_distributor
+      let dataTahun = this.reportingSupervisory.params.tahun
+      if (idTSO != `` && idSales != `` && idDistributor != `` && dataTahun != ``) {
+        await this.getDataTable({
+          id_tso: idTSO,
+          id_sales: idSales,
+          id_distributor: idDistributor,
+        })
+      }
+    },
+    async handleRefreshFilter() {
       await this.getRefreshSupervisoryVisit()
     },
     collapseClose() {

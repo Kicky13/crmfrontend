@@ -52,17 +52,17 @@ const state = {
     ],
     itemsPerPage: [5, 10, 15, 20],
     dataTable: [
-      {
-        id: 1,
-        title: '',
-        tanggal: '',
-        sales: '',
-        so: '',
-        distributor: '',
-        customer: '',
-        nilai: '',
-        alamat: '',
-      },
+      // {
+      //   id: 1,
+      //   title: '',
+      //   tanggal: '',
+      //   sales: '',
+      //   so: '',
+      //   distributor: '',
+      //   customer: '',
+      //   nilai: '',
+      //   alamat: '',
+      // },
     ],
     listTSO: [],
     listDistributor: [],
@@ -213,6 +213,53 @@ const actions = {
 
         await commit('changeReportingSupervisory', {
           listSales: salesUniq,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeReportingSupervisory', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDataTable({ commit, state }, payload) {
+    commit('changeReportingSupervisory', {
+      isLoading: false,
+    })
+
+    const { data } = state
+
+    let formData = {
+      id_tso: payload.id_tso,
+      id_distributor: parseInt(payload.id_distributor),
+      id_sales: payload.id_sales,
+      tahun: data.params.tahun,
+      limit: data.params.limit,
+      offset: data.params.offset,
+    }
+
+    try {
+      const result = await apiClient.post(`/supervisory/report`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReportingSupervisory', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditampilkan`,
+        })
+        await commit('changeReportingSupervisory', {
+          listReport: result.data.data,
           isLoading: false,
         })
       }
