@@ -176,7 +176,7 @@
             </template>
             <template #action="{ text }">
               <router-link
-                :to="`/reporting/supervisory-visit/${text.id}`"
+                :to="`/reporting/supervisory-visit/${text.id_visit}`"
                 class="btn btn-success mr-1"
                 data-toggle="tooltip"
                 title="Data Detail"

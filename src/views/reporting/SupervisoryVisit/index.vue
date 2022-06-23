@@ -109,11 +109,7 @@
           </a-col>
           <a-col :xs="24" :md="3">
             <a-button
-              :disabled="
-                reportingSupervisory.listReport.length > 0
-                  ? false
-                  : true
-              "
+              :disabled="reportingSupervisory.listReport.length > 0 ? false : true"
               type="primary"
               class="w-100"
               @click="handleSubmitExport()"
@@ -183,7 +179,7 @@
             </template>
             <template #action="{ text }">
               <router-link
-                :to="`/reporting/supervisory-visit/${text.id}`"
+                :to="`/reporting/supervisory-visit/${text.id_visit}`"
                 class="btn btn-success mr-1"
                 data-toggle="tooltip"
                 title="Data Detail"
