@@ -3,28 +3,7 @@
     <a-card class="card card-top card-top-primary">
       <div class="card-header px-0">
         <a-row :gutter="[16, 16]" class="mb-3">
-          <a-col :xs="24" :md="4">
-            <a-select
-              v-model:value="reportingSupervisory.params.selectedTSO"
-              placeholder="Filter TSO"
-              show-search
-              class="w-100"
-              @change="handleChangeTSO()"
-            >
-              <a-select-option disabled value="">Pilih TSO</a-select-option>
-              <a-select-option
-                v-for="(item, index) in reportingSupervisory.listTSO"
-                :value="item.nama"
-                :key="`tso_${index}`"
-                data-toggle="tooltip"
-                data-placement="top"
-                :title="item.nama"
-              >
-                {{ item.idUser }} - {{ item.nama }}
-              </a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :xs="24" :md="4">
+          <a-col :xs="24" :md="6">
             <a-select
               v-model:value="reportingSupervisory.params.selectedDistributor"
               placeholder="Filter Distributor"
@@ -33,6 +12,16 @@
               @change="handleChangeDistributor()"
             >
               <a-select-option disabled value="">Pilih Distributor</a-select-option>
+              <a-select-option
+                v-if="reportingSupervisory.listDistributor.length == 0"
+                disabled
+                value="``"
+                >{{
+                  reportingSupervisory.listDistributor.length > 0
+                    ? `Pilih Distributor`
+                    : `Distributor tidak tersedia`
+                }}</a-select-option
+              >
               <a-select-option
                 v-for="(item, index) in reportingSupervisory.listDistributor"
                 :value="`${item.nm_distributor}`"
@@ -45,7 +34,7 @@
               </a-select-option>
             </a-select>
           </a-col>
-          <a-col :xs="24" :md="4">
+          <a-col :xs="24" :md="6">
             <a-select
               @change="handleChangeSales()"
               placeholder="Filter Sales"
@@ -53,7 +42,15 @@
               class="w-100"
               v-model:value="reportingSupervisory.params.selectedSales"
             >
-              <a-select-option disabled value="">Pilih</a-select-option>
+              <a-select-option disabled value="">Pilih Sales</a-select-option>
+              <a-select-option
+                v-if="reportingSupervisory.listSales.length == 0"
+                disabled
+                value="``"
+                >{{
+                  reportingSupervisory.listSales.length > 0 ? `` : `Sales tidak tersedia`
+                }}</a-select-option
+              >
               <a-select-option
                 v-for="(item, index) in reportingSupervisory.listSales"
                 :value="`${item.nama}`"
@@ -109,11 +106,7 @@
           </a-col>
           <a-col :xs="24" :md="3">
             <a-button
-              :disabled="
-                reportingSupervisory.listReport.length > 0
-                  ? false
-                  : true
-              "
+              :disabled="reportingSupervisory.listReport.length > 0 ? false : true"
               type="primary"
               class="w-100"
               @click="handleSubmitExport()"
@@ -233,10 +226,10 @@ export default {
       // validasi ketika role TSO
       // maka yang akan dijalakan API get Distributor
       // berdasarkan TSOnya
-      if (role == 'Tso') {
-        let idLevelHirarki = this.$store.state.user.idLevelHirarki
+      if (role == 'TSO') {
+        let idJabatan = this.$store.state.user.idJabatan
         await this.getDistributorByTSO({
-          id_tso: idLevelHirarki,
+          id_tso: idJabatan,
         })
       }
     },
