@@ -12,13 +12,34 @@
         :lg="9"
         :md="24"
       >
-        <vb-jenis-penilaian
-          :list="surveyList"
-          :get-active-menu="activeMenu"
-          @active-key="setActiveKey"
-          @add-jenis-penilaian="addNewSurvey"
-          @selected-jenis-penilaian="fetchQuestionList"
-        />
+        <a-row>
+          <a-col
+            :lg="24"
+            :md="24"
+          >
+            <vb-jenis-penilaian
+              :list="surveyList"
+              :get-active-menu="activeMenu"
+              @active-key="setActiveKey"
+              @add-jenis-penilaian="addNewSurvey"
+              @selected-jenis-penilaian="fetchQuestionList"
+            />
+          </a-col>
+          <a-col
+            :lg="24"
+            :md="24"
+          >
+            <vb-sesi-penilaian
+              :list="sesiList"
+              :get-active-menu="sesiActiveMenu"
+              @active-key="setSesiActiveKey"
+              @add-sesi-penilaian="addNewSesi"
+              @update-sesi-penilaian="updateSesiByUuid"
+              @delete-sesi-penilaian="deleteSesiByUuid"
+              @selected-sesi-penilaian="fetchSesiList"
+            />
+          </a-col>
+        </a-row>
       </a-col>
       <a-col
         :lg="15"
@@ -41,25 +62,39 @@
 </template>
 
 <script>
-import { surveyList, addSurvey, updateSurvey, deleteSurvey } from '@/services/connection/survey-sales/api'
+import {
+  surveyList,
+  addSurvey,
+  updateSurvey,
+  deleteSurvey,
+  sesiList,
+  addSesi,
+  updateSesi,
+  deleteSesi,
+} from '@/services/connection/survey-sales/api'
 import VbJenisPenilaian from './jenispenilaian/JenisPenilaian'
+import VbSesiPenilaian from './sesipenilaian/SesiPenilaian'
 import VbDaftarPertanyaan from './daftarpertanyaan/DaftarPertanyaan'
 
 export default {
   components: {
     VbJenisPenilaian,
+    VbSesiPenilaian,
     VbDaftarPertanyaan,
   },
   data() {
     return {
       surveyList: [],
+      sesiList: [],
       questionList: {},
       activeMenu: 1,
+      sesiActiveMenu: 1,
       isLoading: false,
     }
   },
   mounted() {
     this.fetchSurveyList()
+    this.fetchSesiList()
   },
   methods: {
     fetchSurveyList() {
@@ -84,10 +119,13 @@ export default {
       .then(response => {
         if (response) {
           this.fetchSurveyList()
+          this.isLoading = false
         }
       })
       .catch(err => {
-        if (err) {}
+        if (err) {
+          this.isLoading = false
+        }
       })
     },
     updateSurveyById(data) {
@@ -118,6 +156,66 @@ export default {
     },
     setActiveKey(key) {
       this.activeMenu = key
+    },
+    setSesiActiveKey(key) {
+      this.sesiActiveMenu = key
+    },
+    fetchSesiList() {
+      this.isLoading = true
+      sesiList()
+      .then(response => {
+        if (response.status) {
+          this.sesiList = response.data
+        } else {
+          this.sesiList = []
+        }
+        this.sesiActiveMenu = 1
+        this.isLoading = false
+      })
+      .catch(err => {
+        if (err) {
+          this.isLoading = false
+        }
+      })
+    },
+    addNewSesi(data) {
+      addSesi(data)
+      .then(response => {
+        if (response) {
+          this.fetchSesiList()
+        }
+      })
+      .catch(err => {
+        if (err) {
+          this.isLoading = false
+        }
+      })
+    },
+    deleteSesiByUuid(data) {
+      deleteSesi(data)
+      .then(response => {
+        if (response) {
+          this.fetchSesiList()
+        }
+      })
+      .catch(err => {
+        if (err) {
+          this.isLoading = false
+        }
+      })
+    },
+    updateSesiByUuid(data) {
+      updateSesi(data)
+      .then(response => {
+        if (response) {
+          this.fetchSesiList()
+        }
+      })
+      .catch(err => {
+        if (err) {
+          this.isLoading = false
+        }
+      })
     },
   },
 }
