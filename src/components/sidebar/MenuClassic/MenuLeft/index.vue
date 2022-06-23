@@ -180,6 +180,8 @@ export default {
 
     const onCollapse = (collapsed, type) => {
       const value = !settings.value.isMenuCollapsed
+      console.log(`value`, value)
+
       store.commit('CHANGE_SETTING', { setting: 'isMenuCollapsed', value })
     }
 
