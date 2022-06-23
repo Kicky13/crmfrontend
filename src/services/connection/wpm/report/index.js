@@ -254,7 +254,6 @@ const actions = {
       })
     }
   },
-
   async getDistrikRET({ commit, state }) {
     commit('changeReport', {
       isLoading: true,
@@ -291,7 +290,6 @@ const actions = {
       })
     }
   },
-
   async getDataTable({ commit, state }, payload) {
     commit('changeReport', {
       isLoading: true,

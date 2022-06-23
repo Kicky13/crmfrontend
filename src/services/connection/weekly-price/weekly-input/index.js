@@ -387,7 +387,6 @@ const actions = {
       })
     }
   },
-
   async getAllTipe({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -422,7 +421,6 @@ const actions = {
       })
     }
   },
-
   async getAllKemasan({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -454,7 +452,6 @@ const actions = {
       })
     }
   },
-
   async getAllPromo({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -486,7 +483,6 @@ const actions = {
       })
     }
   },
-
   async getDistrik({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -523,7 +519,6 @@ const actions = {
       })
     }
   },
-
   async getPromotion({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -562,7 +557,6 @@ const actions = {
       })
     }
   },
-
   async deleteDataRow({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -601,7 +595,6 @@ const actions = {
       })
     }
   },
-
   async insertDataWeekly({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -655,7 +648,6 @@ const actions = {
       })
     }
   },
-
   async updateDataWeekly({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -710,7 +702,6 @@ const actions = {
       })
     }
   },
-
   async submitDataWeekly({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
@@ -756,7 +747,6 @@ const actions = {
       })
     }
   },
-
   async duplicateDataWeekly({ commit, state }, payload) {
     commit('changeWeeklyInput', {
       isLoading: true,
