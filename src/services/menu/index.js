@@ -1028,66 +1028,66 @@ export const getMarketIntelligenceMenuData = [
       },
     ],
   },
-  {
-    title: 'Settings & Configuration',
-    key: 'dawdasw',
-    url: '/settings',
-    icon: 'fa fa-gear',
-    children: [
-      {
-        title: 'Log Sync Customer',
-        key: '1121sw',
-        url: '/log-sync-customer',
-      },
-      {
-        title: 'Validasi Harga Survey',
-        key: 'Adaws5',
-        url: '/validasiharga',
-      },
-      {
-        title: 'Mapping Customer',
-        key: 'St12Cf',
-        url: '/mappingcustomer',
-      },
-    ],
-  },
-  {
-    title: 'Visit Plan',
-    key: 'Vs01Pl',
-    url: '/visit',
-    icon: 'fa fa-street-view',
-    children: [
-      {
-        title: 'Upload Visit Plan',
-        key: 'Vs11Pl',
-        url: '/uploadvisitplan',
-      },
-      // {
-      //   title: 'Otomatisasi Visit Plan',
-      //   key: 'Vs12Pl',
-      //   url: '/otomatisasivisit',
-      // },
-    ],
-  },
+  // {
+  //   title: 'Settings & Configuration',
+  //   key: 'dawdasw',
+  //   url: '/settings',
+  //   icon: 'fa fa-gear',
+  //   children: [
+  //     {
+  //       title: 'Log Sync Customer',
+  //       key: '1121sw',
+  //       url: '/log-sync-customer',
+  //     },
+  //     {
+  //       title: 'Validasi Harga Survey',
+  //       key: 'Adaws5',
+  //       url: '/validasiharga',
+  //     },
+  //     {
+  //       title: 'Mapping Customer',
+  //       key: 'St12Cf',
+  //       url: '/mappingcustomer',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Visit Plan',
+  //   key: 'Vs01Pl',
+  //   url: '/visit',
+  //   icon: 'fa fa-street-view',
+  //   children: [
+  //     {
+  //       title: 'Upload Visit Plan',
+  //       key: 'Vs11Pl',
+  //       url: '/uploadvisitplan',
+  //     },
+  //     // {
+  //     //   title: 'Otomatisasi Visit Plan',
+  //     //   key: 'Vs12Pl',
+  //     //   url: '/otomatisasivisit',
+  //     // },
+  //   ],
+  // },
 
-  {
-    title: 'Report Admin',
-    key: '1131sa',
-    url: '/roles-permissions',
-    icon: 'fa fa-list-ul',
-    children: [
-      {
-        title: 'Customer Mapping',
-        key: 'Rp1nsx',
-        url: '/reporting-tso/customer-mapping',
-      },
-      {
-        title: 'Sales Distributor',
-        key: '125a92',
-        url: '/reporting-tso/sales-distributor',
-      },
-    ],
-  },
+  // {
+  //   title: 'Report Admin',
+  //   key: '1131sa',
+  //   url: '/roles-permissions',
+  //   icon: 'fa fa-list-ul',
+  //   children: [
+  //     {
+  //       title: 'Customer Mapping',
+  //       key: 'Rp1nsx',
+  //       url: '/reporting-tso/customer-mapping',
+  //     },
+  //     {
+  //       title: 'Sales Distributor',
+  //       key: '125a92',
+  //       url: '/reporting-tso/sales-distributor',
+  //     },
+  //   ],
+  // },
 ]
 
 export const getDistributorMenuData = [
