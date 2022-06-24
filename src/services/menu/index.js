@@ -663,16 +663,16 @@ export const getSSMMenuData = [
     url: '/dashboard',
     icon: 'fe fe-home',
     children: [
-      // {
-      //   title: 'CA & Volume Analytcs',
-      //   key: 'dpr214',
-      //   url: '/dashboard/volume_analytcs',
-      // },
-      // {
-      //   title: 'Visit',
-      //   key: 'dpr512',
-      //   url: '/dashboard/visit',
-      // },
+      {
+        title: 'CA & Volume Analytcs',
+        key: 'dpr214',
+        url: '/dashboard/volume_analytcs',
+      },
+      {
+        title: 'Visit',
+        key: 'dpr512',
+        url: '/dashboard/visit',
+      },
       {
         title: 'Promotion',
         key: 'dpr017',
@@ -688,22 +688,22 @@ export const getSSMMenuData = [
         key: 'pmo235',
         url: '/dashboard/price_monitoring',
       },
-      // {
-      //   title: 'SOW',
-      //   key: 'pmo231',
-      //   url: '/dashboard/sow',
-      // },
+      {
+        title: 'SOW',
+        key: 'pmo231',
+        url: '/dashboard/sow',
+      },
       // {
       //   title: 'SOW V2',
       //   key: 'pmo261',
       //   url: '/dashboard/sow-v2',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route  Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
@@ -841,22 +841,22 @@ export const getTsoMenuData = [
         key: 'jkr01l23',
         url: '/dashboard/sales_route',
       },
-      // {
-      //   title: 'SOW',
-      //   key: 'pmo231',
-      //   url: '/dashboard/sow',
-      // },
+      {
+        title: 'SOW',
+        key: 'pmo231',
+        url: '/dashboard/sow',
+      },
       // {
       //   title: 'SOW V2',
       //   key: 'pmo261',
       //   url: '/dashboard/sow-v2',
       // },
 
-      // {
-      //   title: 'Sales Route  Compliance',
-      //   key: 'jkr01l23',
-      //   url: '/dashboard/sales_route',
-      // },
+      {
+        title: 'Sales Route  Compliance',
+        key: 'jkr01l23',
+        url: '/dashboard/sales_route',
+      },
     ],
   },
   {
