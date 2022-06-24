@@ -67,11 +67,13 @@
       placeholder="Tipe"
       class="mb-3"
       v-model:value="formState.tipe_baru"
+      @keyup.enter="saveTipe"
     />
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveTipe"
     />
   </a-modal>
 </template>

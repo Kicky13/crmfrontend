@@ -76,11 +76,13 @@
       placeholder="Distrik RET"
       class="mb-3"
       v-model:value="formState.distrik_ret_baru"
+      @keyup.enter="saveDistrikRet"
     />
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveDistrikRet"
     />
   </a-modal>
 
