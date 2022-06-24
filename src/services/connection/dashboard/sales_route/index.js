@@ -230,7 +230,11 @@ const actions = {
 
     try {
       let result = ''
-      payload.role == `spc` || payload.role == `asm`
+      payload.role == `spc` ||
+      payload.role == `asm` ||
+      payload.role == `gsm` ||
+      payload.role == `mi` ||
+      payload.role == `admin dis`
         ? (result = await await apiClient.get(
             `/dashboard/getSalesman?idDistributor=${
               payload.id_distributor ? payload.id_distributor : ''
