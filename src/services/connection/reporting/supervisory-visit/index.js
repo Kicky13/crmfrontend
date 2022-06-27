@@ -80,6 +80,7 @@ const state = {
       offset: 0,
       is_export: 1,
     },
+    detailVisit: {},
   },
 }
 
@@ -260,6 +261,48 @@ const actions = {
         })
         await commit('changeReportingSupervisory', {
           listReport: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (err) {
+      await commit('changeReportingSupervisory', {
+        isLoading: false,
+      })
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDataDetailSupervisoryVisit({ commit, state }, payload) {
+    commit('changeReportingSupervisory', {
+      isLoading: false,
+    })
+
+    const { data } = state
+
+    let formData = {
+      id_visit: payload.id_visited,
+    }
+
+    try {
+      const result = await apiClient.post(`/supervisory/detail`, formData)
+
+      if (result.data.status == false) {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReportingSupervisory', {
+          isLoading: false,
+        })
+      } else {
+        notification.success({
+          message: 'Success',
+          description: `Data berhasil ditampilkan`,
+        })
+        await commit('changeReportingSupervisory', {
+          detailVisit: result.data.data,
           isLoading: false,
         })
       }

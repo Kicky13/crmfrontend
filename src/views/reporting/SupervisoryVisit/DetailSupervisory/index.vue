@@ -250,13 +250,19 @@ export default {
       return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
     },
   },
-  mounted() {
+  async mounted() {
+    await this.getDataDetail()
     this.collapseClose()
   },
   methods: {
-    ...mapActions('reportingSupervisory', ['']),
+    ...mapActions('reportingSupervisory', ['getDataDetailSupervisoryVisit']),
     collapseClose() {
       this.$store.getters.settings.isMenuCollapsed = true
+    },
+    async getDataDetail() {
+      await this.getDataDetailSupervisoryVisit({
+        id_visited: this.$route.params.id,
+      })
     },
   },
 }
