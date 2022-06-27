@@ -312,7 +312,6 @@ const actions = {
       })
     }
   },
-
   async submitApprove({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
@@ -360,7 +359,6 @@ const actions = {
       })
     }
   },
-
   async submitReject({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
@@ -408,7 +406,6 @@ const actions = {
       })
     }
   },
-
   async updateDataWeekly({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
@@ -458,7 +455,6 @@ const actions = {
       })
     }
   },
-
   async getDistrik({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
@@ -495,7 +491,6 @@ const actions = {
       })
     }
   },
-
   async getMasterProduct({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,
@@ -530,7 +525,6 @@ const actions = {
       })
     }
   },
-
   async getPromotion({ commit, state }, payload) {
     commit('changeWPApproval', {
       isLoading: true,

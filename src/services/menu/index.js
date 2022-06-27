@@ -948,6 +948,11 @@ export const getTsoMenuData = [
         key: '125a92',
         url: '/reporting-tso/sales-distributor',
       },
+      {
+        title: 'Supervisory Visit',
+        key: '125x92',
+        url: '/reporting/supervisory-visit-tso',
+      },
     ],
   },
 ]
