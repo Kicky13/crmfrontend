@@ -98,10 +98,69 @@
 
         <div class="card card-top supervisory_survey p-3">
           <span class="font-weight-bold title">Foto Survey</span>
-          <div
+          <!-- <div
             class="photo_survey"
             :style="'background-image: url(' + require('@/assets/LandingPage/images/FooterBG.webp')"
-          ></div>
+          ></div> -->
+
+          <div
+            v-if="
+              reportingSupervisory.detailVisit &&
+                reportingSupervisory.detailVisit.foto_info &&
+                reportingSupervisory.detailVisit.foto_info.length > 0
+            "
+          >
+            <a-carousel arrows>
+              <template #prevArrow>
+                <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                  <left-circle-outlined />
+                </div>
+              </template>
+              <template #nextArrow>
+                <div class="custom-slick-arrow" style="right: 10px">
+                  <right-circle-outlined />
+                </div>
+              </template>
+
+              <div
+                v-for="(item, index) in reportingSupervisory.detailVisit.foto_info"
+                :key="`index_${index}`"
+              >
+                <div
+                  :style="'background-image: url(' + item.path_foto_visit"
+                  style="border-radius: 4px; background-repeat: no-repeat; width: 100%;height: 300px;background-position: 50% 50%; background-size: cover;"
+                ></div>
+              </div>
+            </a-carousel>
+          </div>
+          <div v-else>
+            <a-carousel arrows>
+              <template #prevArrow>
+                <div class="custom-slick-arrow" style="left: 10px; z-index: 1">
+                  <left-circle-outlined />
+                </div>
+              </template>
+              <template #nextArrow>
+                <div class="custom-slick-arrow" style="right: 10px">
+                  <right-circle-outlined />
+                </div>
+              </template>
+              <div>
+                <img
+                  src="@/assets/images/noimage.svg"
+                  class="img-fluid w-100"
+                  style="height:280px;"
+                />
+              </div>
+              <div>
+                <img
+                  src="@/assets/images/noimage.svg"
+                  class="img-fluid w-100"
+                  style="height:280px;"
+                />
+              </div>
+            </a-carousel>
+          </div>
         </div>
       </div>
       <div class="col-md-6 col-xs-6 ">
@@ -157,8 +216,12 @@
             <div class="body_detail mt-2">
               {{
                 reportingSupervisory.detailVisit &&
-                  reportingSupervisory.detailVisit.additional_info &&
-                  reportingSupervisory.detailVisit.additional_info.objektif
+                reportingSupervisory.detailVisit.additional_info &&
+                reportingSupervisory.detailVisit.additional_info.objektif == ''
+                  ? 'Tidak tersedia'
+                  : reportingSupervisory.detailVisit &&
+                    reportingSupervisory.detailVisit.additional_info &&
+                    reportingSupervisory.detailVisit.additional_info.objektif
               }}
             </div>
             <hr />
@@ -354,4 +417,53 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/scss/Reporting/SupervisoryVisit/index.scss';
+</style>
+
+<style scoped>
+/* For demo */
+/* .ant-carousel >>> .slick-slide {
+  text-align: center;
+  height: 300px;
+  line-height: 160px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ant-carousel >>> .slick-slide h3 {
+  color: #fff;
+} */
+
+.ant-carousel :deep(.slick-slide) {
+  text-align: center;
+  height: 300px;
+  line-height: 160px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ant-carousel :deep(.slick-arrow.custom-slick-arrow) {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: black;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+  z-index: 1;
+}
+.ant-carousel :deep(.custom-slick-arrow:before) {
+  display: none;
+}
+.ant-carousel :deep(.custom-slick-arrow:hover) {
+  opacity: 0.5;
+}
+
+.ant-carousel :deep(.slick-slide h3) {
+  color: #fff;
+}
+
+#mapContainer {
+  width: 100%;
+  height: 60vh;
+  z-index: 0 !important;
+}
 </style>
