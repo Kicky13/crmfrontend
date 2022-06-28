@@ -95,10 +95,7 @@
         </a-tooltip>
       </a-col>
       <a-col :xs="20" :md="4">
-        <a-button
-          type="primary"
-          @click="showPriceMovement"
-        >
+        <a-button type="primary" @click="showPriceMovement">
           <i class="fa fa-eye mr-2" />
           Tampilkan
         </a-button>
@@ -143,11 +140,7 @@ export default {
   methods: {
     ...mapActions('priceMovement', ['getAllDistrik', 'getPriceMovementList', 'getDataWeekParams']),
     async tahunHandle() {
-      if (
-        this.formData.tahun != '' &&
-        this.formData.bulan != '' &&
-        this.formData.week != ''
-      ) {
+      if (this.formData.tahun != '' && this.formData.bulan != '' && this.formData.week != '') {
         this.formData.week = ''
         await this.getDataWeekParams({
           bulan: this.formData.bulan,
@@ -165,11 +158,7 @@ export default {
       }
     },
     async bulanHandle() {
-      if (
-        this.formData.tahun != '' &&
-        this.formData.bulan != '' &&
-        this.formData.week != ''
-      ) {
+      if (this.formData.tahun != '' && this.formData.bulan != '' && this.formData.week != '') {
         this.formData.week = ''
         await this.getDataWeekParams({
           bulan: this.formData.bulan,
@@ -225,8 +214,10 @@ export default {
     distrikHandler(distrik) {
       return distrik.split('-')[0].trim()
     },
-    
+
     refreshFilter() {
+      this.priceMovement.priceMovementList = []
+
       this.formData = {
         distrik: '',
         tahun: '',

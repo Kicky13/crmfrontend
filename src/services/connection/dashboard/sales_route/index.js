@@ -229,11 +229,28 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(
-        `/dashboard/getSalesman?idDistributor=${
-          payload.id_distributor ? payload.id_distributor : ''
-        }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
-      )
+      let result = ''
+      payload.role == `spc` ||
+      payload.role == `asm` ||
+      payload.role == `gsm` ||
+      payload.role == `mi` ||
+      payload.role == `admin dis`
+        ? (result = await await apiClient.get(
+            `/dashboard/getSalesman?idDistributor=${
+              payload.id_distributor ? payload.id_distributor : ''
+            }`,
+          ))
+        : (result = await await apiClient.get(
+            `/dashboard/getSalesman?idDistributor=${
+              payload.id_distributor ? payload.id_distributor : ''
+            }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
+          ))
+
+      // const result = await apiClient.get(
+      //   `/dashboard/getSalesman?idDistributor=${
+      //     payload.id_distributor ? payload.id_distributor : ''
+      //   }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
+      // )
 
       if (result.data.status == 'error') {
         notification.error({
@@ -300,7 +317,7 @@ const actions = {
             title: 'Success...',
             text: '"Toko sudah dikunjungi" memiliki data yang ditampilkan!',
             showConfirmButton: false,
-            timer: 4000,
+            timer: 5000,
           })
 
           await commit('changeSalesRoute', {
@@ -313,7 +330,7 @@ const actions = {
             title: 'Oops...',
             text: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan!',
             showConfirmButton: false,
-            timer: 4000,
+            timer: 5000,
           })
 
           await commit('changeSalesRoute', {

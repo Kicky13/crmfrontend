@@ -775,10 +775,11 @@ export default {
       await this.getDistributorAdmDistributor({
         id_jabatan: this.$store.state.user.idJabatan,
       })
-      await this.getDistrikByDistributor({
-        id_distributor: this.salesRoute.dataDistributorAdmDistributor[0].id_reference_distributor,
-      })
+      // await this.getDistrikByDistributor({
+      //   id_distributor: this.salesRoute.dataDistributorAdmDistributor[0].id_reference_distributor,
+      // })
       await this.getSalesman({
+        role: this.$store.state.user.levelHirarki.toLowerCase(),
         id_distributor: this.salesRoute.dataDistributorAdmDistributor[0].id_reference_distributor,
       })
     }
@@ -853,27 +854,28 @@ export default {
       log(record)
     },
     async handleDistributor() {
+      let role = this.$store.state.user.levelHirarki.toLowerCase()
       let dataSource = [...this.salesRoute.dataDistributor]
       let filtered = dataSource.filter(
         x => x.nama_distributor == this.salesRoute.formData.selectedDistributor,
       )
 
       this.salesRoute.formData.id_distributor = filtered[0].id_distributor
-      if (
-        this.$store.state.user.levelHirarki.toLowerCase() == `admin dis` ||
-        this.$store.state.user.levelHirarki.toLowerCase() == `asm`
-      ) {
-        await this.getDistrik({
-          idLevelHirarki: this.$store.state.user.idLevelHirarki,
-          levelHirarki: this.$store.state.user.levelHirarki,
-        })
-        await this.getSalesman({
-          id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
-          id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
-        })
-        // this.$store.state.user.idJabatan
-      } else {
+      if (role == `admin dis` || role == `` || role == `tso`) {
+        // await this.getDistrik({
+        //   idLevelHirarki: this.$store.state.user.idLevelHirarki,
+        //   levelHirarki: this.$store.state.user.levelHirarki,
+        // })
         await this.getDistrikByDistributor({
+          id_distributor: this.salesRoute.formData.id_distributor,
+        })
+        // await this.getSalesman({
+        //   id_distributor: this.salesRoute.dataDistributor[0].id_distributor,
+        //   id_distrik: this.salesRoute.dataDistrik ? this.salesRoute.dataDistrik[0].id_distrik : 0,
+        // })
+      } else if (role == `asm` || role == `spc` || role == `gsm` || role == `mi`) {
+        await this.getSalesman({
+          role: role,
           id_distributor: this.salesRoute.formData.id_distributor,
         })
       }
@@ -883,9 +885,11 @@ export default {
       let filtered = dataSource.filter(
         x => x.nama_distrik == this.salesRoute.formData.selectedDistrik,
       )
+
+      console.log(`-----filtered[0]`, filtered[0])
       this.salesRoute.formData.id_distrik = filtered[0].id_distrik
 
-      this.getSalesman({
+      await this.getSalesman({
         id_distributor:
           this.salesRoute.formData.id_distributor ||
           this.salesRoute.dataDistributor[0].id_distributor,
