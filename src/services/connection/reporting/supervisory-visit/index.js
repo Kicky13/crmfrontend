@@ -9,45 +9,54 @@ const state = {
         title: 'No Survei',
         slots: { customRender: 'no_survei' },
         key: 'no_survei',
+        width: 60,
       },
       {
         title: 'Tanggal',
         slots: { customRender: 'tanggal' },
         key: 'tanggal',
+        width: 60,
       },
       {
         title: 'Sales',
         slots: { customRender: 'sales' },
         key: 'sales',
+        width: 100,
       },
       {
         title: 'SO',
         slots: { customRender: 'so' },
         key: 'so',
+        width: 100,
       },
       {
         title: 'Distributor',
         slots: { customRender: 'distributor' },
         key: 'distributor',
+        width: 100,
       },
       {
         title: 'Customer',
         slots: { customRender: 'customer' },
         key: 'customer',
+        width: 100,
       },
       {
         title: 'Nilai',
         slots: { customRender: 'nilai' },
         key: 'nilai',
+        width: 40,
       },
       {
         title: 'Alamat',
         slots: { customRender: 'alamat' },
         key: 'alamat',
+        width: 180,
       },
       {
         title: 'Action',
         slots: { customRender: 'action' },
+        width: 60,
       },
     ],
     itemsPerPage: [5, 10, 15, 20],
@@ -281,12 +290,8 @@ const actions = {
 
     const { data } = state
 
-    let formData = {
-      id_visit: payload.id_visited,
-    }
-
     try {
-      const result = await apiClient.post(`/supervisory/detail`, formData)
+      const result = await apiClient.get(`/supervisory/detail?id_visit=${payload.id_visited}`)
 
       if (result.data.status == false) {
         notification.error({
