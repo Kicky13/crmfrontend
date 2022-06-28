@@ -88,18 +88,21 @@
       placeholder="Week Name"
       v-model:value="formState.weekly_config_baru"
       @change="weeklyNameFormatting"
+      @keyup.enter="saveWeeklyConfig"
     />
     <vue-datepicker
       placeholder="Tanggal Mulai"
       class="ant-calendar-picker ant-calendar-picker-input ant-input my-3"
       input-format="dd-MM-yyyy"
       v-model="formState.tanggal_mulai"
+      @keyup.enter="saveWeeklyConfig"
     />
     <vue-datepicker
       placeholder="Tanggal Selesai"
       class="ant-calendar-picker ant-calendar-picker-input ant-input"
       input-format="dd-MM-yyyy"
       v-model="formState.tanggal_selesai"
+      @keyup.enter="saveWeeklyConfig"
     />
   </a-modal>
 
