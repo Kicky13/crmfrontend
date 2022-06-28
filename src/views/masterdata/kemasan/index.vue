@@ -91,7 +91,6 @@
       placeholder="Nilai"
       v-model:value="formState.nilai"
       class="mb-3"
-      type="number"
       @keyup.enter="saveKemasan"
     />
     <a-textarea
@@ -244,7 +243,7 @@ export default {
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
-      return `${date}-${month}-${year} ${timeFormat}`
+      return `${date}-${month}-${year}`
     },
   },
 }

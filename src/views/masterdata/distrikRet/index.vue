@@ -301,7 +301,7 @@ export default {
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
-      return `${date}-${month}-${year} ${timeFormat}`
+      return `${date}-${month}-${year}`
     },
     disabledDistrik() {
       this.distrikRET.distrikList.all.map(obj => obj.disabled = false)

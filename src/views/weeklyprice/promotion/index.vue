@@ -437,6 +437,14 @@ export default {
       this.wpPromotion.formData.id_brand = filtered[0].ID
     },
 
+    // async handleBrand() {
+    //   let dataSourceBrand = [...this.wpPromotion.brandList]
+    //   let filtered = dataSourceBrand.filter(
+    //     brand => brand.NAMA_BRAND == this.wpPromotion.formData.nama_brand,
+    //   )
+    //   this.wpPromotion.formData.id_brand = filtered[0].ID
+    // },
+
     refreshFilter() {
       this.wpPromotion.params.id_distrik_ret = null
       this.wpPromotion.params.tahun = ''
