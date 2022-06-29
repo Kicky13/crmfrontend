@@ -172,11 +172,11 @@
               <span>{{ text.nilai }}</span>
             </template>
             <template #alamat="{ text }">
-              <span>{{ text.alamat }}</span>
+              <span>{{ text.alamat.slice(0, 100) + `...` }} </span>
             </template>
             <template #action="{ text }">
               <router-link
-                :to="`/reporting/supervisory-visit/${text.id_visit}`"
+                :to="`/reporting/supervisory-visit-tso/${text.id_visit}`"
                 class="btn btn-success mr-1"
                 data-toggle="tooltip"
                 title="Data Detail"
