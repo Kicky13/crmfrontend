@@ -1,14 +1,26 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-between mb-3">
-      <a-button
-        type="primary"
-        href="https://storage.googleapis.com/crm-asset/Template/Template%20Weekly%20Config.xlsx"
-        download
-      >
-        <i class="fa fa-download mr-2" />
-        Download Template Weekly Config
-      </a-button>
+      <div>
+        <a-button
+          type="primary"
+          href="https://storage.googleapis.com/crm-asset/Template/Template%20Weekly%20Config.xlsx"
+          download
+          class="mr-2"
+        >
+          <i class="fa fa-download mr-2" />
+          Download Template Weekly Config
+        </a-button>
+        <a-tooltip title="Hapus">
+          <a-button
+            type="primary"
+            :disabled="!hasSelected"
+            @click="deleteSelectedRow"
+          >
+            <i class="fa fa-trash" />
+          </a-button>
+        </a-tooltip>
+      </div>
       <div>
         <a-button
           type="primary"
@@ -16,7 +28,7 @@
           @click="showPreviewModal"
         >
           <i class="fa fa-download mr-2" />
-          Import
+          Upload
         </a-button>
         <a-button
           type="primary"
@@ -28,6 +40,7 @@
       </div>
     </div>
     <a-table
+      :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
       :columns="weeklyConfig.columns"
       :data-source="weeklyConfig.weeklyConfigList"
       :loading="weeklyConfig.isLoading"
@@ -211,16 +224,20 @@ export default {
       previewData: [],
       submitStatus: true,
       elementEdit: null,
+      selectedRowKeys: [],
     }
   },
   async mounted() {
-    await this.getAllWeeklyConfig()
+    await this.fetchWeeklyConfig()
     this.getUserId()
   },
   computed: {
     ...mapState({
       weeklyConfig: state => state.weeklyConfig.data,
     }),
+    hasSelected() {
+      return this.selectedRowKeys.length > 0
+    },
   },
   methods: {
     ...mapActions('weeklyConfig', [
@@ -231,6 +248,10 @@ export default {
       'getDataFromExcel',
       'submitExcelData',
     ]),
+    async fetchWeeklyConfig() {
+      await this.getAllWeeklyConfig()
+      this.weeklyConfig.weeklyConfigList.map(row => row.key = row.ID)
+    },
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -264,16 +285,17 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.deleteWeeklyConfig({
-            id_weekly_config: this.formState.id,
+            id_weekly_config: [this.formState.id],
             id_user: this.formState.id_user,
           })
-          await this.getAllWeeklyConfig()
+          await this.fetchWeeklyConfig()
           this.formState.id = null
         },
         onCancel: () => {
           this.formState.id = null
         },
-      })},
+      })
+    },
     async saveWeeklyConfig() {
       const weekNameValidation = this.formState.weekly_config_baru.toString().trim()
       const bulan = weekNameValidation.substring(4, 6)
@@ -354,7 +376,7 @@ export default {
       }
       this.modalStatus = false
       this.weeklyConfigModal = false
-      await this.getAllWeeklyConfig()
+      await this.fetchWeeklyConfig()
       this.formState.id = null
     },
     getFormatDate(date) {
@@ -393,7 +415,6 @@ export default {
         file: this.bodyFile,
         user_id: this.formState.id_user,
       })
-      console.log(this.weeklyConfig.listData)
       this.weeklyConfig.listData.map(row => {
         if (!(row.name_error == "1" && row.start_date_error == "1" && row.end_date_error == "1")) {
           this.previewData.push(row)
@@ -429,7 +450,7 @@ export default {
         data: this.previewData,
         user_id: this.formState.id_user,
       })
-      await this.getAllWeeklyConfig()
+      await this.fetchWeeklyConfig()
       this.previewModal = false
       this.$refs.file.value = ''
       this.bodyFile = null
@@ -447,6 +468,27 @@ export default {
         return true
       }
       return false
+    },
+    onSelectChange(value) {
+      this.selectedRowKeys = value
+    },
+    deleteSelectedRow() {
+      this.$confirm({
+        title: 'Hapus Weekly Config',
+        content: 'Apakah anda yakin?',
+        okText: 'Hapus',
+        okType: 'primary',
+        cancelText: 'Batal',
+        onOk: async () => {
+          await this.deleteWeeklyConfig({
+            id_weekly_config: this.selectedRowKeys,
+            id_user: this.formState.id_user,
+          })
+          await this.fetchWeeklyConfig()
+          this.selectedRowKeys = []
+        },
+        onCancel: () => {},
+      })
     },
   },
 }
