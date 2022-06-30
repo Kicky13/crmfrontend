@@ -198,7 +198,7 @@ const actions = {
           isLoading: false,
         })
       } else {
-        let dataTSO = result.data.data.filter(x => x.idUser != null)
+        let dataTSO = result.data.data.filter(x => x.idUser != null) 
 
         await commit('changeReportingCustomerMapping', {
           list_tso: dataTSO,

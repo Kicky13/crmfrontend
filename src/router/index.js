@@ -478,6 +478,14 @@ const routes = [
           ),
       },
       {
+        path: '/reporting/supervisory-visit-tso',
+        meta: { title: 'Supervisory Visit TSO', resource: 'SupervisoryVisitTSO', action: 'read' },
+        component: () =>
+          import(
+            /* webpackChunkName: "reporting-supervisory-visit-tso" */ '@/views/reportingTSO/SupervisoryVisit'
+          ),
+      },
+      {
         path: '/reporting/customer-mapping',
         meta: { title: 'Customer Mapping', resource: 'CustomerMapping', action: 'read' },
         component: () =>

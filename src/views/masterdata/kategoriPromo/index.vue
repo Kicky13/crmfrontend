@@ -36,6 +36,9 @@
           </button>
         </div>
       </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
+      </template>
     </a-table>
   </a-card>
   
@@ -173,6 +176,11 @@ export default {
         this.formState.kategori_baru = ''
         this.formState.keterangan = ''
       }
+    },
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year}`
     },
   },
 }
