@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -296,31 +297,51 @@ const actions = {
     try {
       const result = await apiClient.post(`/WPM/getPromo`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+      if (result.data.status === false) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changePromotion', {
           isLoading: false,
         })
       } else {
+        if (result.data.data.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data promo berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Tidak terdapat data promo yang tersedia!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
+
         await commit('changePromotion', {
           dataTable: result.data.data || 0,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
         })
       }
     } catch (error) {
       await commit('changePromotion', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 2000,
       })
     }
   },
