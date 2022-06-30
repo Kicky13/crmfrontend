@@ -895,7 +895,7 @@ export default {
 
     async handleSales() {
       let dataSource = [...this.salesRoute.dataSalesman]
-      let filtered = dataSource.filter(x => x.username == this.salesRoute.formData.selectedSalesman)
+      let filtered = dataSource.filter(x => x.username == this.salesRoute.formData.selectedSalesma)
 
       this.salesRoute.formData.id_sales = filtered[0].id_sales
     },
