@@ -4,6 +4,8 @@ import Swal from 'sweetalert2'
 
 const state = {
   data: {
+    itemsPerPage: [5, 10, 15, 20],
+    pagination: {},
     columns: [
       {
         title: 'Distrik',

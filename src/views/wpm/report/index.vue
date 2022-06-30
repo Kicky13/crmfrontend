@@ -156,14 +156,36 @@
       </div>
     </div>
 
-    <a-table
-      ref="table"
-      :columns="report.columns"
-      :data-source="report.dataTable"
-      :loading="report.isLoading"
-      :row-key="data => data"
-      :scroll="{ x: 2000 }"
-    />
+    <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex">
+        <div class="align-self-center">
+          <span>Show :</span>
+        </div>
+        <a-select
+          :default-value="report.itemsPerPage[1]"
+          class="mx-2"
+          @change="handlePaginationSize"
+        >
+          <a-select-option v-for="itemPerPage in report.itemsPerPage" :key="itemPerPage">
+            {{ itemPerPage }}
+          </a-select-option>
+        </a-select>
+        <div class="align-self-center">
+          <span>entries</span>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <a-table
+        ref="table"
+        :columns="report.columns"
+        :data-source="report.dataTable"
+        :loading="report.isLoading"
+        :row-key="data => data"
+        :pagination="report.pagination"
+        :scroll="{ x: 2000 }"
+      />
+    </div>
   </a-card>
 </template>
 
@@ -282,6 +304,9 @@ export default {
           }
         }),
       )
+    },
+    handlePaginationSize(size) {
+      this.report.pagination.pageSize = size
     },
     async handleChangeTahun() {
       if (

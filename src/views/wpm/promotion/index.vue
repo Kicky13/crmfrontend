@@ -127,40 +127,61 @@
         </div>
       </div>
     </div>
-    <a-table
-      ref="table"
-      :columns="wpmPromotion.columns"
-      :data-source="wpmPromotion.dataTable"
-      :loading="wpmPromotion.isLoading"
-      :pagination="wpmPromotion.pagination"
-      :row-key="data => data"
-      :scroll="{ x: 2000 }"
-    >
-      <template #distrik="{ text }">
-        <span>{{ text.nm_distrik }}</span>
-      </template>
-      <template #tanggal_mulai="{ text }">
-        <span>{{ text.start_date }}</span>
-      </template>
-      <template #tanggal_selesai="{ text }">
-        <span>{{ text.end_date }}</span>
-      </template>
-      <template #brand="{ text }">
-        <span>{{ text.nm_brand }}</span>
-      </template>
-      <template #kategori="{ text }">
-        <span>{{ text.nm_kategori_promo }}</span>
-      </template>
-      <template #asal_program="{ text }">
-        <span>{{ text.program }}</span>
-      </template>
-      <template #nilai="{ text }">
-        <span>{{ text.nilai_zak }}</span>
-      </template>
-      <template #mekanisme="{ text }">
-        <span>{{ text.mekanisme }}</span>
-      </template>
-    </a-table>
+    <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex">
+        <div class="align-self-center">
+          <span>Show :</span>
+        </div>
+        <a-select
+          :default-value="wpmPromotion.itemsPerPage[1]"
+          class="mx-2"
+          @change="handlePaginationSize"
+        >
+          <a-select-option v-for="itemPerPage in wpmPromotion.itemsPerPage" :key="itemPerPage">
+            {{ itemPerPage }}
+          </a-select-option>
+        </a-select>
+        <div class="align-self-center">
+          <span>entries</span>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <a-table
+        ref="table"
+        :columns="wpmPromotion.columns"
+        :data-source="wpmPromotion.dataTable"
+        :loading="wpmPromotion.isLoading"
+        :pagination="wpmPromotion.pagination"
+        :row-key="data => data"
+        :scroll="{ x: 2000 }"
+      >
+        <template #distrik="{ text }">
+          <span>{{ text.nm_distrik }}</span>
+        </template>
+        <template #tanggal_mulai="{ text }">
+          <span>{{ text.start_date }}</span>
+        </template>
+        <template #tanggal_selesai="{ text }">
+          <span>{{ text.end_date }}</span>
+        </template>
+        <template #brand="{ text }">
+          <span>{{ text.nm_brand }}</span>
+        </template>
+        <template #kategori="{ text }">
+          <span>{{ text.nm_kategori_promo }}</span>
+        </template>
+        <template #asal_program="{ text }">
+          <span>{{ text.program }}</span>
+        </template>
+        <template #nilai="{ text }">
+          <span>{{ text.nilai_zak }}</span>
+        </template>
+        <template #mekanisme="{ text }">
+          <span>{{ text.mekanisme }}</span>
+        </template>
+      </a-table>
+    </div>
   </a-card>
 
   <!-- Add Modal -->
@@ -348,7 +369,9 @@ export default {
         },
       })
     },
-
+    handlePaginationSize(size) {
+      this.wpmPromotion.pagination.pageSize = size
+    },
     showDeleteModal(value) {
       this.$confirm({
         title: 'Weekly Price Confirmation',
@@ -454,14 +477,7 @@ export default {
       this.$store.commit('wpmPromotion/changeWPMPromotion', {
         dataTable: [],
       })
-      if (
-        this.wpmPromotion.params.id_region != '' &&
-        this.wpmPromotion.params.id_provinsi != '' &&
-        this.wpmPromotion.params.id_distrik != '' &&
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
@@ -471,14 +487,7 @@ export default {
       this.$store.commit('wpmPromotion/changeWPMPromotion', {
         dataTable: [],
       })
-      if (
-        this.wpmPromotion.params.id_region != '' &&
-        this.wpmPromotion.params.id_provinsi != '' &&
-        this.wpmPromotion.params.id_distrik != '' &&
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }

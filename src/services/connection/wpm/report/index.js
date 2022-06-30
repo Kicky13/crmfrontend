@@ -1,8 +1,12 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
+    itemsPerPage: [5, 10, 15, 20],
+    pagination: {},
+
     columns: [
       {
         title: 'Distrik',
@@ -450,31 +454,51 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/report`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+      if (result.data.status === false) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 1000,
         })
         await commit('changeReport', {
           isLoading: false,
         })
       } else {
+        if (result.data.data.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data report berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Tidak terdapat data report yang tersedia!',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        }
+
         await commit('changeReport', {
           dataTable: result.data.data || 0,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
         })
       }
     } catch (error) {
       await commit('changeReport', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 1000,
       })
     }
   },
