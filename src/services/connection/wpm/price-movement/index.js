@@ -3,6 +3,9 @@ import { notification } from 'ant-design-vue'
 
 const state = {
   data: {
+    itemsPerPage: [5, 10, 15, 20],
+    pagination: {},
+
     columns: [
       {
         title: 'Distrik',
@@ -41,16 +44,19 @@ const state = {
       },
     ],
     params: {
+      offset: 0,
+      limit: 2000,
+      tahun: '',
+      bulan: '',
+      week: '',
+      id_distrik_ret: null,
+      nm_distrik: '',
       region_name: '',
       province_name: '',
       distrik_name: '',
       id_region: '',
       id_provinsi: '',
       id_distrik: '',
-      limit: 2000,
-      tahun: '',
-      bulan: '',
-      id_distrik_ret: null,
     },
     dataDistrikRET: [],
     regionList: [],
@@ -59,6 +65,56 @@ const state = {
     priceMovementList: [],
     dataWeekParams: [],
     isLoading: false,
+    dataBulan: [
+      {
+        id: 1,
+        name: 'Januari',
+      },
+      {
+        id: 2,
+        name: 'Februari',
+      },
+      {
+        id: 3,
+        name: 'Maret',
+      },
+      {
+        id: 4,
+        name: 'April',
+      },
+      {
+        id: 5,
+        name: 'Mei',
+      },
+      {
+        id: 6,
+        name: 'Juni',
+      },
+      {
+        id: 7,
+        name: 'Juli',
+      },
+      {
+        id: 8,
+        name: 'Agustus',
+      },
+      {
+        id: 9,
+        name: 'September',
+      },
+      {
+        id: 10,
+        name: 'Oktober',
+      },
+      {
+        id: 11,
+        name: 'November',
+      },
+      {
+        id: 12,
+        name: 'Desember',
+      },
+    ],
   },
 }
 
@@ -69,6 +125,26 @@ const mutations = {
 }
 
 const actions = {
+  async refreshFilterData({ commit }) {
+    await commit('changePriceMovement', {
+      params: {
+        offset: 0,
+        limit: 2000,
+        tahun: '',
+        bulan: '',
+        week: '',
+        id_distrik_ret: null,
+        nm_distrik: '',
+        region_name: '',
+        province_name: '',
+        distrik_name: '',
+        id_region: '',
+        id_provinsi: '',
+        id_distrik: '',
+      },
+      priceMovementList: [],
+    })
+  },
   async getAllDistrik({ commit, state }, payload) {
     commit('changePriceMovement', {
       isLoading: true,
@@ -110,11 +186,16 @@ const actions = {
 
     const { data } = state
 
-    const formData = {
-      distrik: payload.distrik,
-      tahun: payload.tahun,
-      bulan: payload.bulan,
-      week: payload.week,
+    let formData = {
+      offset: data.params.offset,
+      limit: data.params.limit,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
+      week: parseInt(data.params.week),
+      distrikRet: data.params.id_distrik_ret,
+      distrik: data.params.id_distrik,
+      provinsi: data.params.id_provinsi,
+      region: data.params.id_region,
     }
 
     try {
@@ -148,15 +229,159 @@ const actions = {
       })
     }
   },
+  async getRegion({ commit, state }) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
 
-  async getDataWeekParams({ commit, state }, payload) {
+    const { data } = state
+
+    let body = {
+      //   id_area:data.formData.selectedArea,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Region', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          regionList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getProvinsi({ commit, state }) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let region_id = []
+    if (data.params.id_region != ``) {
+      region_id.push(data.params.id_region)
+    }
+    const formData = {
+      id_region: JSON.stringify(region_id),
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Provinsi', formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          provinceList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDistrikRET({ commit, state }) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_provinsi: data.params.id_provinsi,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikRet`, formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          dataDistrikRET: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDistrik({ commit, state }) {
+    commit('changePriceMovement', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_distrik_ret: data.params.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changePriceMovement', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changePriceMovement', {
+          distrikList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDataWeekParams({ commit, state }) {
     commit('changePriceMovement', {
       isLoading: true,
     })
     const { data } = state
     let formData = {
-      tahun: payload.tahun,
-      bulan: payload.bulan,
+      tahun: data.params.tahun,
+      bulan: data.params.bulan,
     }
 
     try {
