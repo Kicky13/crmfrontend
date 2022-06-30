@@ -510,14 +510,7 @@ export default {
       this.$store.commit('wpPromotion/changePromotion', {
         dataTable: [],
       })
-      if (
-        this.wpPromotion.params.id_region != '' &&
-        this.wpPromotion.params.id_provinsi != '' &&
-        this.wpPromotion.params.id_distrik != '' &&
-        this.wpPromotion.params.id_distrik_ret != null &&
-        this.wpPromotion.params.tahun != '' &&
-        this.wpPromotion.params.bulan != ''
-      ) {
+      if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
@@ -527,14 +520,7 @@ export default {
       this.$store.commit('wpPromotion/changePromotion', {
         dataTable: [],
       })
-      if (
-        this.wpPromotion.params.id_region != '' &&
-        this.wpPromotion.params.id_provinsi != '' &&
-        this.wpPromotion.params.id_distrik != '' &&
-        this.wpPromotion.params.id_distrik_ret != null &&
-        this.wpPromotion.params.tahun != '' &&
-        this.wpPromotion.params.bulan != ''
-      ) {
+      if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
@@ -548,7 +534,7 @@ export default {
       this.wpPromotion.formData.id_brand = filtered[0].ID
     },
 
-   async refreshFilter() {
+    async refreshFilter() {
       await this.refreshFilterData()
     },
   },

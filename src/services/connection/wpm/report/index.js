@@ -83,6 +83,12 @@ const state = {
       week: '',
       id_distrik_ret: null,
       nm_distrik: '',
+      region_name: '',
+      province_name: '',
+      distrik_name: '',
+      id_region: '',
+      id_provinsi: '',
+      id_distrik: '',
     },
     dataWeekParams: [],
     reportList: [
@@ -171,6 +177,9 @@ const state = {
         name: 'Desember',
       },
     ],
+    regionList: [],
+    provinceList: [],
+    distrikList: [],
     dataDistrikRET: [],
     dataTable: [],
     isLoading: false,
@@ -184,6 +193,26 @@ const mutations = {
 }
 
 const actions = {
+  async refreshFilterData({ commit }) {
+    await commit('changeReport', {
+      params: {
+        offset: 0,
+        limit: 2000,
+        tahun: '',
+        bulan: '',
+        week: '',
+        id_distrik_ret: null,
+        nm_distrik: '',
+        region_name: '',
+        province_name: '',
+        distrik_name: '',
+        id_region: '',
+        id_provinsi: '',
+        id_distrik: '',
+      },
+      dataTable: [],
+    })
+  },
   async getDataWeekParams({ commit, state }) {
     commit('changeReport', {
       isLoading: true,
@@ -254,7 +283,7 @@ const actions = {
       })
     }
   },
-  async getDistrikRET({ commit, state }) {
+  async getRegion({ commit, state }) {
     commit('changeReport', {
       isLoading: true,
     })
@@ -267,7 +296,81 @@ const actions = {
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.post('/filter/Distrik', body)
+      const result = await apiClient.post('/filter/Region', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          regionList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getProvinsi({ commit, state }) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let region_id = []
+    if (data.params.id_region != ``) {
+      region_id.push(data.params.id_region)
+    }
+    const formData = {
+      id_region: JSON.stringify(region_id),
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Provinsi', formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          provinceList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDistrikRET({ commit, state }) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_provinsi: data.params.id_provinsi,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -280,6 +383,41 @@ const actions = {
       } else {
         await commit('changeReport', {
           dataDistrikRET: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDistrik({ commit, state }) {
+    commit('changeReport', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_distrik_ret: data.params.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeReport', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeReport', {
+          distrikList: result.data.data,
           isLoading: false,
         })
       }
@@ -303,7 +441,10 @@ const actions = {
       tahun: data.params.tahun,
       bulan: data.params.bulan,
       week: parseInt(data.params.week),
-      distrik: data.params.id_distrik_ret,
+      distrikRet: data.params.id_distrik_ret,
+      distrik: data.params.id_distrik,
+      provinsi: data.params.id_provinsi,
+      region: data.params.id_region,
     }
 
     try {
