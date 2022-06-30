@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -294,19 +295,27 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          notification.success({
-            message: 'Success',
-            description: '"Toko sudah dikunjungi" memiliki data yang ditampilkan',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: '"Toko sudah dikunjungi" memiliki data yang ditampilkan!',
+            showConfirmButton: false,
+            timer: 4000,
           })
+
           await commit('changeSalesRoute', {
             detailVisit: result.data.data,
             isLoading: false,
           })
         } else {
-          notification.error({
-            message: 'Opps',
-            description: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan',
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan!',
+            showConfirmButton: false,
+            timer: 4000,
           })
+
           await commit('changeSalesRoute', {
             detailVisit: result.data.data,
             isLoading: false,
@@ -365,19 +374,27 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          notification.success({
-            message: 'Success',
-            description: '"Toko belum dikunjungi" memiliki data yang ditampilkan',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: '"Toko belum dikunjungi" memiliki data yang ditampilkan!',
+            showConfirmButton: false,
+            timer: 3000,
           })
+
           await commit('changeSalesRoute', {
             detailMerchant: result.data.data,
             isLoading2: false,
           })
         } else {
-          notification.error({
-            message: 'Opps',
-            description: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan',
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan!',
+            showConfirmButton: false,
+            timer: 3000,
           })
+
           await commit('changeSalesRoute', {
             detailMerchant: result.data.data,
             isLoading2: false,

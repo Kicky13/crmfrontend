@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="card card-top card-top-primary">
+    <div v-if="isHidden" class="card card-top card-top-primary" style="height: 50vh"></div>
+    <div v-else class="card card-top card-top-primary">
       <div class="card-body p-2">
         <a-row :gutter="[8, 8]" class="mb-3">
           <a-col :xs="24" :md="3">
@@ -127,8 +128,8 @@ export default {
   // components: {
   //   Multiselect,
   // },
-  // data() {
-  //   return {
+  data() {
+    return {
   //     region: [],
   //     selectedRegion: [],
   //     provinsi: [],
@@ -146,8 +147,9 @@ export default {
   //       distrik: [],
   //       distributor: [],
   //     },
-  //   }
-  // },
+      isHidden: false,
+    }
+  },
   computed: {
     ...mapState({
       promotionDashboard: state => state.promotionDashboard.data,
@@ -222,6 +224,7 @@ export default {
 
           if (!this.promotionDashboard.getDataTsoResult.status) {
             this.errorMessageUser('TSO belum dimapping ke Distrik')
+            this.isHidden = true
           }
         break
         case 'SPC':
@@ -235,6 +238,7 @@ export default {
 
           if (!this.promotionDashboard.getDataSpcResult.status) {
             this.errorMessageUser('SPC belum dimapping ke Region')
+            this.isHidden = true
           }
         break
         case 'ASM':
@@ -248,6 +252,7 @@ export default {
 
           if (!this.promotionDashboard.getDataAsmResult.status) {
             this.errorMessageUser('ASM belum dimapping ke TSO')
+            this.isHidden = true
           }
         break
         case 'Admin Dist':
@@ -266,6 +271,7 @@ export default {
 
           if (!this.promotionDashboard.getDataDistributorResult.status) {
             this.errorMessageUser('Distributor belum dimapping ke toko')
+            this.isHidden = true
           }
         break
         case 'Admin':

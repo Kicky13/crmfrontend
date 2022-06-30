@@ -66,12 +66,14 @@
     <a-input
       placeholder="Kemasan"
       v-model:value="formState.kemasan_baru"
+      @keyup.enter="saveKemasan"
     />
     <a-select
       placeholder="Satuan"
       show-search
       class="w-100 my-3"
       v-model:value="formState.id_satuan"
+      @keyup.enter="saveKemasan"
     >
       <a-select-option disabled value="">Pilih Satuan</a-select-option>
       <a-select-option
@@ -90,11 +92,13 @@
       v-model:value="formState.nilai"
       class="mb-3"
       type="number"
+      @keyup.enter="saveKemasan"
     />
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveKemasan"
     />
   </a-modal>
 </template>
@@ -240,7 +244,7 @@ export default {
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
       const [year, month, date] = dateFormat.split('-')
-      return `${date}-${month}-${year} ${timeFormat}`
+      return `${date}-${month}-${year}`
     },
   },
 }

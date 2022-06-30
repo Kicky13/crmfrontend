@@ -16,6 +16,21 @@
         />
       </a-form-item>
     </a-form>
+    <a-form
+      :label-col="{ span: 5 }"
+      :wrapper-col="{ span: 19 }"
+    >
+      <a-form-item label="Jenis Isian">
+        <a-select
+          placeholder="Pilih jenis isian"
+          show-search
+        >
+          <a-select-option value="0">Pilih salah satu</a-select-option>
+          <a-select-option value="1">Pilih beberapa</a-select-option>
+          <a-select-option value="2">Isian</a-select-option>
+        </a-select>
+      </a-form-item>
+    </a-form>
   </a-modal>
 </template>
 
