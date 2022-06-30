@@ -110,6 +110,8 @@
   <a-modal
     v-model:visible="previewModal"
     title="Import Data"
+    width=""
+    :style="{ padding: '0 75px' }"
   >
     <template #footer>
       <a-button

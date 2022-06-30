@@ -216,6 +216,7 @@ export default {
       idPertanyaan: '',
       idJawaban: '',
       jenisPenilaianObj: null,
+      status: false,
     }
   },
   methods: {
@@ -225,7 +226,6 @@ export default {
       this.jenisPenilaian = this.list.jenis_penilaian
     },
     showTambahPertanyaanModal() {
-      this.pertanyaan = ''
       this.jenisPenilaian = this.list.jenis_penilaian
       this.pertanyaanModalStatus = true
       this.pertanyaanModalVisible = true
@@ -237,8 +237,6 @@ export default {
       this.pertanyaanModalVisible = true
     },
     showTambahOpsionalJawabanModal({ id }, pertanyaan) {
-      this.jawaban = ''
-      this.poin = ''
       this.idJenisPenilaian = id
       this.idPertanyaan = pertanyaan.key
       this.judulPertanyaan = pertanyaan.judul
@@ -255,82 +253,40 @@ export default {
     },
     // ========== End of Show Modal ==========
     // ========== Start of Handle Ok ==========
-    pertanyaanModalHandleOk(status, newPertanyaan) {
-      let message = ''
-      let description = ''
-      if (status) {
-        let check = newPertanyaan.trim()
-        if (check) {
-          this.tambahPertanyaanModalHandleOk(check)
-          message = 'Tambah Pertanyaan'
-          description = 'Pertanyaan berhasil ditambah'
-        } else {
-          notification.error({
-            message: 'Tambah Pertanyaan',
-            description: 'Kolom tambah pertanyaan masih kosong',
-          })
-
-          return false
-        }
-      } else {
-        this.editPertanyaanModalHandleOk(newPertanyaan)
-        message = 'Edit Pertanyaan'
-        description = 'Pertanyaan berhasil diupdate'
-      }
-      notification.success({
-        message,
-        description,
-      })
-      this.pertanyaan = ''
-      this.indexPertanyaan = null
-      this.pertanyaanModalVisible = false
+    pertanyaanModalHandleOk(status, data) {
+      status ? this.tambahPertanyaanModalHandleOk(data) : this.editPertanyaanModalHandleOk(data)
     },
-    opsionalJawabanModalHandleOk(status, newJawaban) {
-      let message = ''
-      let description = ''
-      if (status) {
-        let check = {
-          jawaban: newJawaban.jawaban.trim(),
-          poin: newJawaban.poin.trim(),
-        }
-        if (check.jawaban && check.poin) {
-          this.tambahOpsionalJawabanModalHandleOk(check)
-          message = 'Tambah Opsional Jawaban'
-          description = 'Opsional jawaban berhasil ditambah'
-        } else {
-          notification.error({
-            message: 'Tambah Opsional Jawaban',
-            description: 'Kolom tambah jawaban atau poin masih kosong',
-          })
-
-          return false
-        }
-      } else {
-        this.editOpsionalJawabanModalHandleOk(newJawaban)
-        message = 'Edit Opsional Jawaban'
-        description = 'Opsional jawaban berhasil diupdate'
-      }
-      notification.success({
-        message,
-        description,
-      })
-      this.pertanyaan = ''
-      this.indexPertanyaan = null
-      this.pertanyaanModalVisible = false
+    opsionalJawabanModalHandleOk(status, data) {
+      status ? this.tambahOpsionalJawabanModalHandleOk(data) : this.editOpsionalJawabanModalHandleOk(data)
     },
-    tambahPertanyaanModalHandleOk(newPertanyaan) {
+    tambahPertanyaanModalHandleOk(data) {
       const dataForm = {}
       dataForm.mode = 2
       dataForm.id_penilaian = this.list.id
-      dataForm.nm_pertanyaan = newPertanyaan
+      dataForm.nm_pertanyaan = data.pertanyaan
+      dataForm.jenis_isian = data.isian
+
       this.$emit('addPertanyaan', dataForm)
+
+      this.pertanyaanModalVisible = false
+
+      notification.success({
+        message: 'Tambah Pertanyaan',
+        description: 'Pertanyaan berhasil ditambah',
+      })
     },
-    editPertanyaanModalHandleOk(newPertanyaan) {
+    editPertanyaanModalHandleOk(data) {
       const dataForm = {}
       dataForm.mode = 2
       dataForm.id = this.idPertanyaan
-      dataForm.judul = newPertanyaan
+      dataForm.judul = data.pertanyaan
+
       this.$emit('updatePertanyaan', dataForm)
+
+      notification.success({
+        message: 'Tambah Pertanyaan',
+        description: 'Pertanyaan berhasil diupdate',
+      })
     },
     editJenisPenilaianModalHandleOk(newJenisPenilaian) {
       const dataForm = {}
@@ -344,17 +300,23 @@ export default {
       })
       this.editJenisPenilaianModalVisible = false
     },
-    tambahOpsionalJawabanModalHandleOk(newJawaban) {
+    tambahOpsionalJawabanModalHandleOk(data) {
       const dataForm = {}
       dataForm.mode = 3
       dataForm.id_penilaian = this.idJenisPenilaian
       dataForm.id_pertanyaan = this.idPertanyaan
-      dataForm.nm_jawaban = newJawaban.jawaban
-      dataForm.poin = newJawaban.poin
+      dataForm.nm_jawaban = data.jawaban
+      dataForm.poin = data.poin
+      dataForm.isian = data.isian
+
       this.$emit('addJawaban', dataForm)
-      this.indexJawaban = null
-      this.judulPertanyaan = ''
-      this.tambahOpsionalJawabanVisible = false
+
+      this.opsionalJawabanModalVisible = false
+
+      notification.success({
+        message: 'Tambah Opsional Jawaban',
+        description: 'Opsional jawaban berhasil ditambah',
+      })
     },
     editOpsionalJawabanModalHandleOk(newJawaban) {
       const dataForm = {}
