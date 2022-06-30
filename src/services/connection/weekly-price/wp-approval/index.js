@@ -204,7 +204,7 @@ const actions = {
       id_atasan: payload.id_atasan,
     }
     try {
-      const result = await apiClient.post(`/getTsoByAdmin`, formData)
+      const result = await apiClient.post(`/getBawahan`, formData)
 
       if (result.data.status == false) {
         await commit('changeWPApproval', {
@@ -331,7 +331,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
-      
+
       if (result.data.state == 'false') {
         notification.error({
           message: 'Error',
