@@ -548,8 +548,8 @@ export default {
       this.wpPromotion.formData.id_brand = filtered[0].ID
     },
 
-    refreshFilter() {
-      this.refreshFilterData()
+   async refreshFilter() {
+      await this.refreshFilterData()
     },
   },
 }
