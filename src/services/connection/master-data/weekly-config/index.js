@@ -258,7 +258,12 @@ const actions = {
           isLoading: false,
         })
       } else {
-        if (!result.data.data.find(row => row.msg_error != 0)) {
+        if (result.data.data.length == 0) {
+          notification.error({
+            message: 'Error',
+            description: 'Import weekly config kosong',
+          })
+        } else if (!result.data.data.find(row => row.msg_error != 0)) {
           notification.success({
             message: 'Success',
             description: 'Import weekly config berhasil',

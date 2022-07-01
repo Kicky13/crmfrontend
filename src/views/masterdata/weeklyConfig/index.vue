@@ -122,7 +122,7 @@
   <!-- Preview Modal -->
   <a-modal
     v-model:visible="previewModal"
-    title="Import Data"
+    title="Upload Data"
     width=""
     :style="{ padding: '0 75px' }"
   >

@@ -322,10 +322,17 @@ const actions = {
           dataTable: result.data.data || 0,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
-        })
+        if (result.data.data.length == 0) {
+          notification.error({
+            message: 'Error',
+            description: 'Data report kosong',
+          })
+        } else {
+          notification.success({
+            message: 'Success',
+            description: 'Data report berhasil ditampilkan',
+          })
+        }
       }
     } catch (error) {
       await commit('changeReport', {
