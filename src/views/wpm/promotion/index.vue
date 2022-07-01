@@ -1,101 +1,193 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="4">
+    <div class="row mb-4">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.region_name"
+              placeholder="Region"
+              show-search
+              class="w-100"
+              @change="handleChangeRegion"
+            >
+              <a-select-option disabled value="">Pilih Region</a-select-option>
+              <a-select-option
+                v-for="(region, index) in wpmPromotion.regionList"
+                :value="region.nama_region"
+                :key="index"
+              >
+                {{ region.id_region }} - {{ region.nama_region }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.province_name"
+              placeholder="Provinsi"
+              show-search
+              class="w-100"
+              @change="handleChangeProvince"
+            >
+              <a-select-option disabled value="">Pilih Provinsi</a-select-option>
+              <a-select-option
+                v-for="(provinsi, index) in wpmPromotion.provinceList"
+                :value="provinsi.nama_provinsi"
+                :key="index"
+              >
+                {{ provinsi.id_provinsi }} - {{ provinsi.nama_provinsi }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.id_distrik_ret"
+              placeholder="Distrik RET"
+              show-search
+              class="w-100"
+              @change="handleChangeDistrikRET"
+            >
+              <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
+              <a-select-option
+                v-if="wpmPromotion.dataDistrikRET && wpmPromotion.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+              <a-select-option
+                v-for="(distrik, index) in wpmPromotion.dataDistrikRET"
+                :value="distrik.id_distrik_ret"
+                :key="index"
+              >
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.distrik_name"
+              placeholder="Distrik"
+              show-search
+              class="w-100"
+              @change="handleChangeDistrik"
+            >
+              <a-select-option disabled value="">Pilih Distrik</a-select-option>
+              <a-select-option
+                v-for="(distrik, index) in wpmPromotion.distrikList"
+                :value="distrik.nm_distrik"
+                :key="index"
+              >
+                {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.tahun"
+              placeholder="Tahun"
+              show-search
+              class="w-100"
+              @change="handleChangeTahun"
+            >
+              <a-select-option disabled value="">Pilih Tahun</a-select-option>
+              <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
+                {{ tahun }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="wpmPromotion.params.bulan"
+              placeholder="Bulan"
+              show-search
+              class="w-100"
+              @change="handleChangeBulan"
+            >
+              <a-select-option disabled value="">Pilih Bulan</a-select-option>
+              <a-select-option
+                v-for="(bulan, index) in weeklyInput.data_bulan"
+                :value="bulan.id"
+                :key="index"
+              >
+                {{ bulan.name }}
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-md-6">
+            <a-tooltip placement="topLeft">
+              <template #title>
+                <span>Refresh Filter</span>
+              </template>
+              <a-button @click="refreshFilter()" type="primary" class="ml-auto">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </a-button>
+            </a-tooltip>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex">
+        <div class="align-self-center">
+          <span>Show :</span>
+        </div>
         <a-select
-          v-model:value="wpmPromotion.params.id_distrik_ret"
-          placeholder="Distrik"
-          show-search
-          class="w-100"
-          @change="handleChangeDistrik"
+          :default-value="wpmPromotion.itemsPerPage[1]"
+          class="mx-2"
+          @change="handlePaginationSize"
         >
-          <a-select-option disabled value="">Pilih Distrik</a-select-option>
-          <a-select-option
-            v-for="(distrik, index) in wpmPromotion.dataDistrikRET"
-            :value="`${distrik.ID} - ${distrik.NAMA_DISTRIK_RET}`"
-            :key="index"
-          >
-            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
+          <a-select-option v-for="itemPerPage in wpmPromotion.itemsPerPage" :key="itemPerPage">
+            {{ itemPerPage }}
           </a-select-option>
         </a-select>
-      </a-col>
-      <a-col :xs="24" :md="4">
-        <a-select
-          v-model:value="wpmPromotion.params.tahun"
-          placeholder="Tahun"
-          show-search
-          class="w-100"
-          @change="handleChangeTahun"
-        >
-          <a-select-option disabled value="">Pilih Tahun</a-select-option>
-          <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
-            {{ tahun }}
-          </a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="24" :md="4">
-        <a-select
-          v-model:value="wpmPromotion.params.bulan"
-          placeholder="Bulan"
-          show-search
-          class="w-100"
-          @change="handleChangeBulan"
-        >
-          <a-select-option disabled value="">Pilih Bulan</a-select-option>
-          <a-select-option
-            v-for="(bulan, index) in weeklyInput.data_bulan"
-            :value="bulan.id"
-            :key="index"
-          >
-            {{ bulan.name }}
-          </a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="24" :md="2">
-        <a-tooltip placement="topLeft">
-          <template #title>
-            <span>Refresh Filter</span>
-          </template>
-          <a-button @click="refreshFilter()" type="primary">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-          </a-button>
-        </a-tooltip>
-      </a-col>
-    </a-row>
-    <a-table
-      ref="table"
-      :columns="wpmPromotion.columns"
-      :data-source="wpmPromotion.dataTable"
-      :loading="wpmPromotion.isLoading"
-      :pagination="wpmPromotion.pagination"
-      :row-key="data => data"
-      :scroll="{ x: 2000 }"
-    >
-      <template #distrik="{ text }">
-        <span>{{ text.nm_distrik }}</span>
-      </template>
-      <template #tanggal_mulai="{ text }">
-        <span>{{ text.start_date }}</span>
-      </template>
-      <template #tanggal_selesai="{ text }">
-        <span>{{ text.end_date }}</span>
-      </template>
-      <template #brand="{ text }">
-        <span>{{ text.nm_brand }}</span>
-      </template>
-      <template #kategori="{ text }">
-        <span>{{ text.nm_kategori_promo }}</span>
-      </template>
-      <template #asal_program="{ text }">
-        <span>{{ text.program }}</span>
-      </template>
-      <template #nilai="{ text }">
-        <span>{{ text.nilai_zak }}</span>
-      </template>
-      <template #mekanisme="{ text }">
-        <span>{{ text.mekanisme }}</span>
-      </template>
-    </a-table>
+        <div class="align-self-center">
+          <span>entries</span>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <a-table
+        ref="table"
+        :columns="wpmPromotion.columns"
+        :data-source="wpmPromotion.dataTable"
+        :loading="wpmPromotion.isLoading"
+        :pagination="wpmPromotion.pagination"
+        :row-key="data => data"
+        :scroll="{ x: 2000 }"
+      >
+        <template #distrik="{ text }">
+          <span>{{ text.nm_distrik }}</span>
+        </template>
+        <template #tanggal_mulai="{ text }">
+          <span>{{ text.start_date }}</span>
+        </template>
+        <template #tanggal_selesai="{ text }">
+          <span>{{ text.end_date }}</span>
+        </template>
+        <template #brand="{ text }">
+          <span>{{ text.nm_brand }}</span>
+        </template>
+        <template #kategori="{ text }">
+          <span>{{ text.nm_kategori_promo }}</span>
+        </template>
+        <template #asal_program="{ text }">
+          <span>{{ text.program }}</span>
+        </template>
+        <template #nilai="{ text }">
+          <span>{{ text.nilai_zak }}</span>
+        </template>
+        <template #mekanisme="{ text }">
+          <span>{{ text.mekanisme }}</span>
+        </template>
+      </a-table>
+    </div>
   </a-card>
 
   <!-- Add Modal -->
@@ -231,9 +323,12 @@ export default {
     },
   },
   async mounted() {
+    await this.getRegion()
+    await this.getProvinsi()
     await this.getDistrikRET()
-    await this.getAllKategoriPromo()
-    await this.getAllBrand()
+    await this.getDistrik()
+    // await this.getAllKategoriPromo()
+    // await this.getAllBrand()
   },
   methods: {
     ...mapActions('wpmPromotion', [
@@ -244,6 +339,10 @@ export default {
       'getDataTable',
       'insertDataPromo',
       'deleteDataRow',
+      'getRegion',
+      'getProvinsi',
+      'getDistrik',
+      'refreshFilterData',
     ]),
 
     async showAddModal() {
@@ -279,7 +378,9 @@ export default {
         },
       })
     },
-
+    handlePaginationSize(size) {
+      this.wpmPromotion.pagination.pageSize = size
+    },
     showDeleteModal(value) {
       this.$confirm({
         title: 'Weekly Price Confirmation',
@@ -338,44 +439,63 @@ export default {
         })
       }
     },
+    async handleChangeRegion() {
+      let dataSource = [...this.wpmPromotion.regionList]
+      let filtered = dataSource.filter(x => x.nama_region == this.wpmPromotion.params.region_name)
 
+      this.wpmPromotion.params.id_region = filtered[0].id_region
+
+      await this.getProvinsi()
+    },
+
+    async handleChangeProvince() {
+      let dataSource = [...this.wpmPromotion.provinceList]
+      let filtered = dataSource.filter(
+        x => x.nama_provinsi == this.wpmPromotion.params.province_name,
+      )
+
+      this.wpmPromotion.params.id_provinsi = filtered[0].id_provinsi
+
+      await this.getDistrikRET()
+    },
+
+    async handleChangeDistrikRET() {
+      await this.getDistrik()
+    },
     async handleChangeDistrik() {
-      if (
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      let dataSource = [...this.wpmPromotion.distrikList]
+      let filtered = dataSource.filter(x => x.nm_distrik == this.wpmPromotion.params.distrik_name)
+      this.wpmPromotion.params.id_distrik = filtered[0].id_distrik
+      this.$store.commit('wpmPromotion/changeWPMPromotion', {
+        dataTable: [],
+      })
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
     },
 
     async handleChangeTahun() {
-      if (
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      this.$store.commit('wpmPromotion/changeWPMPromotion', {
+        dataTable: [],
+      })
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
     },
 
     async handleChangeBulan() {
-      if (
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      this.$store.commit('wpmPromotion/changeWPMPromotion', {
+        dataTable: [],
+      })
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
     },
-    refreshFilter() {
-      this.wpmPromotion.params.id_distrik_ret = null
-      this.wpmPromotion.params.tahun = ''
-      this.wpmPromotion.params.bulan = ''
-      this.wpmPromotion.dataTable = []
+    async refreshFilter() {
+      await this.refreshFilterData()
     },
   },
 }
