@@ -239,6 +239,9 @@ export default {
       await this.getDataTable()
     },
     async handleChangeDistrikRET() {
+      this.$store.commit('report/changeReport', {
+        distrikList: [],
+      })
       await this.getDistrik()
     },
     async handleChangeDistrik() {
