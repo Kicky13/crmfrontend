@@ -4,7 +4,7 @@
       <div>
         <a-button
           type="primary"
-          href="https://storage.googleapis.com/crm-asset/Template/Template%20Weekly%20Config.xlsx"
+          href="https://storage.googleapis.com/crm-asset/Template/weekly_config_template.xlsx"
           download
           class="mr-2"
         >
