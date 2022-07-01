@@ -198,11 +198,40 @@ export default {
     },
   },
   async mounted() {
-    await this.getAllDistrik()
+    await this.getRegion()
+    await this.getProvinsi()
+    await this.getDistrikRET()
+    await this.getDistrik()
   },
   methods: {
-    ...mapActions('priceMovement', ['getAllDistrik', 'getPriceMovementList', 'getDataWeekParams']),
+    ...mapActions('priceMovement', [
+      'getRegion',
+      'getProvinsi',
+      'getDistrik',
+      'getAllDistrik',
+      'getPriceMovementList',
+      'getDataWeekParams',
+    ]),
+    async handleChangeDistrikRET() {
+      await this.getDistrik()
+    },
+    async handleChangeDistrik() {
+      let dataSource = [...this.priceMovement.dataDistrikRET]
+      let filtered = dataSource.filter(x => x.nm_distrik == this.priceMovement.params.distrik_name)
+      this.priceMovement.params.id_distrik_ret = filtered[0].id_distrik
+      this.$store.commit('priceMovement/changePriceMovement', {
+        priceMovementList: [],
+      })
+      if (this.priceMovement.params.tahun != '' && this.wpPromotion.params.bulan != '') {
+        await this.getDataTable()
+      } else {
+      }
+    },
+
     async handleChangeTahun() {
+      this.$store.commit('priceMovement/changePriceMovement', {
+        priceMovementList: [],
+      })
       if (
         this.priceMovement.params.tahun != '' &&
         this.priceMovement.params.bulan != '' &&
@@ -218,6 +247,9 @@ export default {
       }
     },
     async handleChangeBulan() {
+      this.$store.commit('priceMovement/changePriceMovement', {
+        priceMovementList: [],
+      })
       if (
         this.priceMovement.params.tahun != '' &&
         this.priceMovement.params.bulan != '' &&
@@ -234,6 +266,9 @@ export default {
     },
 
     async handleChangeWeek() {
+      this.$store.commit('priceMovement/changePriceMovement', {
+        priceMovementList: [],
+      })
       if (
         this.priceMovement.params.tahun != '' &&
         this.priceMovement.params.bulan != '' &&

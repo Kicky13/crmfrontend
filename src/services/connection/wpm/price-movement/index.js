@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -201,31 +202,50 @@ const actions = {
     try {
       const result = await apiClient.post(`/wpm/price-movemnt`, formData)
 
-      if (result.data.status == false) {
+      if (result.data.status === false) {
         await commit('changePriceMovement', {
           isLoading: false,
         })
-        notification.error({
-          message: 'Gagal',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 1000,
         })
       } else {
+        if (result.data.data.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data price movement berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Tidak terdapat data price movement yang tersedia!',
+            showConfirmButton: false,
+            timer: 1000,
+          })
+        }
         await commit('changePriceMovement', {
           priceMovementList: result.data.data,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Sukses',
-          description: 'Data berhasil ditampilkan',
         })
       }
     } catch (err) {
       await commit('changePriceMovement', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 1000,
       })
     }
   },
@@ -276,7 +296,7 @@ const actions = {
       region_id.push(data.params.id_region)
     }
     const formData = {
-      id_region: JSON.stringify(region_id),
+      id_region: region_id.length > 0 ? JSON.stringify(region_id) : null,
       offset: data.params.offset,
       limit: data.params.limit,
     }
@@ -312,11 +332,12 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_region: data.params.id_region,
       id_provinsi: data.params.id_provinsi,
     }
 
     try {
-      const result = await apiClient.post(`/distrik/distrikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -347,11 +368,13 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_provinsi: data.params.id_provinsi,
+      id_region: data.params.id_region,
       id_distrik_ret: data.params.id_distrik_ret,
     }
 
     try {
-      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikFromDistrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({

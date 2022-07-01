@@ -117,9 +117,7 @@ const actions = {
         bulan: '',
         id_distrik_ret: null,
       },
-      dataDistrikRET: [],
-      provinceList: [],
-      distrikList: [],
+
       dataTable: [],
     })
   },
@@ -170,7 +168,7 @@ const actions = {
       region_id.push(data.params.id_region)
     }
     const formData = {
-      id_region: JSON.stringify(region_id),
+      id_region: region_id.length > 0 ? JSON.stringify(region_id) : null,
       offset: data.params.offset,
       limit: data.params.limit,
     }
@@ -206,11 +204,12 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_region: data.params.id_region,
       id_provinsi: data.params.id_provinsi,
     }
 
     try {
-      const result = await apiClient.post(`/distrik/distrikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -241,11 +240,13 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_provinsi: data.params.id_provinsi,
+      id_region: data.params.id_region,
       id_distrik_ret: data.params.id_distrik_ret,
     }
 
     try {
-      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikFromDistrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({

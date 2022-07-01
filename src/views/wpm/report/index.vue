@@ -205,27 +205,42 @@ export default {
     },
   },
   async mounted() {
+    await this.getRegion()
+    await this.getProvinsi()
     await this.getDistrikRET()
+    await this.getDistrik()
   },
   methods: {
-    ...mapActions('report', ['getDistrikRET', 'getDataTable', 'getDataWeekParams']),
-    refreshFilter() {
-      this.report.params.id_distrik_ret = null
-      this.report.params.tahun = ''
-      this.report.params.bulan = ''
-      this.report.params.week = ''
-      this.report.params.nm_distrik = ''
-      this.report.dataTable = []
+    ...mapActions('report', [
+      'getRegion',
+      'getProvinsi',
+      'getDistrik',
+      'refreshFilterData',
+      'getDistrikRET',
+      'getDataTable',
+      'getDataWeekParams',
+    ]),
+    async refreshFilter() {
+      await this.refreshFilterData()
     },
 
     async showReport() {
       await this.getDataTable()
     },
-
-    handleChangeDistrik() {
+    async handleChangeDistrikRET() {
+      await this.getDistrik()
+    },
+    async handleChangeDistrik() {
       let dataSource = [...this.report.dataDistrikRET]
-      let filtered = dataSource.filter(x => x.nama_distrik == this.report.params.nm_distrik)
+      let filtered = dataSource.filter(x => x.nm_distrik == this.report.params.distrik_name)
       this.report.params.id_distrik_ret = filtered[0].id_distrik
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
+      if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != '') {
+        await this.getDataTable()
+      } else {
+      }
     },
 
     async downloadReport() {
@@ -309,6 +324,9 @@ export default {
       this.report.pagination.pageSize = size
     },
     async handleChangeTahun() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
       if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&
@@ -324,6 +342,9 @@ export default {
       }
     },
     async handleChangeBulan() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
       if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&
@@ -340,6 +361,9 @@ export default {
     },
 
     async handleChangeWeek() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
       if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&

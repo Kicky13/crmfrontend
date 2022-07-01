@@ -48,12 +48,20 @@
               @change="handleChangeDistrikRET"
             >
               <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
+
+              <a-select-option
+                v-if="wpPromotion.dataDistrikRET && wpPromotion.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+
               <a-select-option
                 v-for="(distrik, index) in wpPromotion.dataDistrikRET"
-                :value="distrik.id_district_ret"
+                :value="distrik.id_distrik_ret"
                 :key="index"
               >
-                {{ distrik.id_district_ret }} - {{ distrik.nama_district_ret }}
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
               </a-select-option>
             </a-select>
           </div>
@@ -70,10 +78,10 @@
               <a-select-option disabled value="">Pilih Distrik</a-select-option>
               <a-select-option
                 v-for="(distrik, index) in wpPromotion.distrikList"
-                :value="distrik.nama_distrik"
+                :value="distrik.nm_distrik"
                 :key="index"
               >
-                {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+                {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
               </a-select-option>
             </a-select>
           </div>
@@ -113,7 +121,7 @@
       </div>
       <div class="col-md-3">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <a-tooltip placement="topLeft">
               <template #title>
                 <span>Refresh Filter</span>
@@ -123,7 +131,7 @@
               </a-button>
             </a-tooltip>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-8">
             <a-button type="primary" class="w-100" @click="showAddModal">
               <i class="fa fa-plus mr-2" />
               Tambah
@@ -355,6 +363,9 @@ export default {
   },
   async mounted() {
     await this.getRegion()
+    await this.getProvinsi()
+    await this.getDistrikRET()
+    await this.getDistrik()
     await this.getAllKategoriPromo()
     await this.getAllBrand()
   },
@@ -493,6 +504,10 @@ export default {
       this.wpPromotion.params.id_region = filtered[0].id_region
 
       await this.getProvinsi()
+
+      // if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != ``) {
+      //   await this.getDataTable()
+      // }
     },
 
     async handleChangeProvince() {
@@ -502,7 +517,9 @@ export default {
       )
 
       this.wpPromotion.params.id_provinsi = filtered[0].id_provinsi
-
+      this.$store.commit('wpPromotion/changePromotion', {
+        dataDistrikRET: [],
+      })
       await this.getDistrikRET()
     },
 
@@ -511,19 +528,12 @@ export default {
     },
     async handleChangeDistrik() {
       let dataSource = [...this.wpPromotion.distrikList]
-      let filtered = dataSource.filter(x => x.nama_distrik == this.wpPromotion.params.distrik_name)
+      let filtered = dataSource.filter(x => x.nm_distrik == this.wpPromotion.params.distrik_name)
       this.wpPromotion.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('wpPromotion/changePromotion', {
         dataTable: [],
       })
-      if (
-        this.wpPromotion.params.id_region != '' &&
-        this.wpPromotion.params.id_provinsi != '' &&
-        this.wpPromotion.params.id_distrik != '' &&
-        this.wpPromotion.params.id_distrik_ret != null &&
-        this.wpPromotion.params.tahun != '' &&
-        this.wpPromotion.params.bulan != ''
-      ) {
+      if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }

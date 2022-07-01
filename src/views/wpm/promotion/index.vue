@@ -70,10 +70,10 @@
               <a-select-option disabled value="">Pilih Distrik</a-select-option>
               <a-select-option
                 v-for="(distrik, index) in wpmPromotion.distrikList"
-                :value="distrik.nama_distrik"
+                :value="distrik.nm_distrik"
                 :key="index"
               >
-                {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+                {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
               </a-select-option>
             </a-select>
           </div>
@@ -318,6 +318,9 @@ export default {
   },
   async mounted() {
     await this.getRegion()
+    await this.getProvinsi()
+    await this.getDistrikRET()
+    await this.getDistrik()
     // await this.getAllKategoriPromo()
     // await this.getAllBrand()
   },
@@ -455,19 +458,12 @@ export default {
     },
     async handleChangeDistrik() {
       let dataSource = [...this.wpmPromotion.distrikList]
-      let filtered = dataSource.filter(x => x.nama_distrik == this.wpmPromotion.params.distrik_name)
+      let filtered = dataSource.filter(x => x.nm_distrik == this.wpmPromotion.params.distrik_name)
       this.wpmPromotion.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('wpmPromotion/changeWPMPromotion', {
         dataTable: [],
       })
-      if (
-        this.wpmPromotion.params.id_region != '' &&
-        this.wpmPromotion.params.id_provinsi != '' &&
-        this.wpmPromotion.params.id_distrik != '' &&
-        this.wpmPromotion.params.id_distrik_ret != null &&
-        this.wpmPromotion.params.tahun != '' &&
-        this.wpmPromotion.params.bulan != ''
-      ) {
+      if (this.wpmPromotion.params.tahun != '' && this.wpmPromotion.params.bulan != '') {
         await this.getDataTable()
       } else {
       }
