@@ -258,10 +258,17 @@ const actions = {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: 'Import weekly config berhasil',
-        })
+        if (!result.data.data.find(row => row.msg_error != 0)) {
+          notification.success({
+            message: 'Success',
+            description: 'Import weekly config berhasil',
+          })
+        } else {
+          notification.error({
+            message: 'Error',
+            description: 'Import weekly config gagal',
+          })
+        }
         await commit('changeWeeklyConfig', {
           listData: result.data.data,
           isLoading: false,
