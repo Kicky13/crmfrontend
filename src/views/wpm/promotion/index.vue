@@ -49,11 +49,17 @@
             >
               <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
               <a-select-option
+                v-if="wpmPromotion.dataDistrikRET && wpmPromotion.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+              <a-select-option
                 v-for="(distrik, index) in wpmPromotion.dataDistrikRET"
-                :value="distrik.id_district_ret"
+                :value="distrik.id_distrik_ret"
                 :key="index"
               >
-                {{ distrik.id_district_ret }} - {{ distrik.nama_district_ret }}
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
               </a-select-option>
             </a-select>
           </div>
