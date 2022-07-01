@@ -1,8 +1,11 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
+    itemsPerPage: [5, 10, 15, 20],
+    pagination: {},
     columns: [
       {
         title: 'Distrik',
@@ -58,7 +61,12 @@ const state = {
       },
     ],
     params: {
-      offset: 0,
+      region_name: '',
+      province_name: '',
+      distrik_name: '',
+      id_region: '',
+      id_provinsi: '',
+      id_distrik: '',
       limit: 2000,
       tahun: '',
       bulan: '',
@@ -74,7 +82,10 @@ const state = {
       nilai_zak: null,
       mekanisme: '',
     },
-      dataDistrikRET: [],
+    dataDistrikRET: [],
+    regionList: [],
+    provinceList: [],
+    distrikList: [],
     brandList: [],
     promoList: [],
     dataTable: [],
@@ -91,7 +102,26 @@ const mutations = {
 }
 
 const actions = {
-  async getDistrikRET({ commit, state }) {
+  async refreshFilterData({ commit }) {
+    await commit('changeWPMPromotion', {
+      params: {
+        region_name: '',
+        province_name: '',
+        distrik_name: '',
+        id_region: '',
+        id_provinsi: '',
+        id_distrik: '',
+        offset: 0,
+        limit: 2000,
+        tahun: '',
+        bulan: '',
+        id_distrik_ret: null,
+      },
+
+      dataTable: [],
+    })
+  },
+  async getRegion({ commit, state }) {
     commit('changeWPMPromotion', {
       isLoading: true,
     })
@@ -104,7 +134,82 @@ const actions = {
       limit: data.params.limit,
     }
     try {
-      const result = await apiClient.get('/wpm/master-data/distrikret', body)
+      const result = await apiClient.post('/filter/Region', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPMPromotion', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPMPromotion', {
+          regionList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getProvinsi({ commit, state }) {
+    commit('changeWPMPromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let region_id = []
+    if (data.params.id_region != ``) {
+      region_id.push(data.params.id_region)
+    }
+    const formData = {
+      id_region: region_id.length > 0 ? JSON.stringify(region_id) : null,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Provinsi', formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPMPromotion', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPMPromotion', {
+          provinceList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getDistrikRET({ commit, state }) {
+    commit('changeWPMPromotion', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    const formData = {
+      id_region: data.params.id_region,
+      id_provinsi: data.params.id_provinsi,
+    }
+
+    try {
+      const result = await apiClient.post(`/filter/DistrikRet`, formData)
 
       if (result.data.status == 'error') {
         notification.error({
@@ -127,7 +232,43 @@ const actions = {
       })
     }
   },
+  async getDistrik({ commit, state }) {
+    commit('changeWPMPromotion', {
+      isLoading: true,
+    })
 
+    const { data } = state
+
+    const formData = {
+      id_provinsi: data.params.id_provinsi,
+      id_region: data.params.id_region,
+      id_distrik_ret: data.params.id_distrik_ret,
+    }
+
+    try {
+      const result = await apiClient.post(`/filter/DistrikFromDistrikRet`, formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeWPMPromotion', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeWPMPromotion', {
+          distrikList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
   async getDataTable({ commit, state }, payload) {
     commit('changeWPMPromotion', {
       isLoading: true,
@@ -140,41 +281,63 @@ const actions = {
       limit: data.params.limit,
       tahun: data.params.tahun,
       bulan: data.params.bulan,
-      id_distrik_ret: data.params.id_distrik_ret.split('-')[0].trim(),
+      idDistrikRet: data.params.id_distrik_ret,
+      idDistrik: data.params.id_distrik,
+      idProvivinsi: data.params.id_provinsi,
+      idRegion: data.params.id_region,
     }
 
     try {
       const result = await apiClient.post(`/WPM/getPromo`, formData)
 
-      if (result.data.status == `false`) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+      if (result.data.status === false) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeWPMPromotion', {
           isLoading: false,
         })
       } else {
+        if (result.data.data.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data promo berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Tidak terdapat data promo yang tersedia!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
+
         await commit('changeWPMPromotion', {
           dataTable: result.data.data || 0,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
         })
       }
     } catch (error) {
       await commit('changeWPMPromotion', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 2000,
       })
     }
   },
-
   async deleteDataRow({ commit, state }, payload) {
     commit('changeWPMPromotion', {
       isLoading: true,

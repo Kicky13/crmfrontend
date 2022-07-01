@@ -195,7 +195,7 @@
                     <div
                       class="progress-bar progress-bar-striped bg-success"
                       role="progressbar"
-                      style="width: 10%"
+                      :style="`width: ${quest_detail.point > 0 ? 100 : 0}%`"
                       :aria-valuenow="quest_detail.point"
                       aria-valuemin="0"
                       aria-valuemax="100"
