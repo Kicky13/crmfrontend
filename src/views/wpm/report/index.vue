@@ -358,9 +358,6 @@ export default {
       this.report.params.id_provinsi = filtered[0].id_provinsi
       this.$store.commit('report/changeReport', {
         dataDistrikRET: [],
-        params: {
-          id_distrik_ret: null,
-        },
       })
       await this.getDistrikRET()
     },
