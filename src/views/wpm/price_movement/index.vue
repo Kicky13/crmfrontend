@@ -47,13 +47,19 @@
               class="w-100"
               @change="handleChangeDistrikRET"
             >
-              <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
+              <a-select-option disabled value="">priceMovement Distrik RET</a-select-option>
+              <a-select-option
+                v-if="priceMovement.dataDistrikRET && priceMovement.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
               <a-select-option
                 v-for="(distrik, index) in priceMovement.dataDistrikRET"
-                :value="distrik.id_district_ret"
+                :value="distrik.id_distrik_ret"
                 :key="index"
               >
-                {{ distrik.id_district_ret }} - {{ distrik.nama_district_ret }}
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
               </a-select-option>
             </a-select>
           </div>
@@ -74,7 +80,7 @@
     <div class="row mt-2 mb-4">
       <div class="col-md-3">
         <a-select
-          v-model:value="priceMovement.params.nm_distrik"
+          v-model:value="priceMovement.params.distrik_name"
           placeholder="Distrik"
           show-search
           class="w-100"
@@ -82,11 +88,11 @@
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
-            v-for="(distrik, index) in priceMovement.dataDistrikRET"
-            :value="distrik.nama_distrik"
+            v-for="(distrik, index) in priceMovement.distrikList"
+            :value="distrik.nm_distrik"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
           </a-select-option>
         </a-select>
       </div>
@@ -209,20 +215,49 @@ export default {
       'getProvinsi',
       'getDistrik',
       'getAllDistrik',
+      'getDistrikRET',
       'getPriceMovementList',
       'getDataWeekParams',
     ]),
     async handleChangeDistrikRET() {
       await this.getDistrik()
     },
+    async handleChangeRegion() {
+      let dataSource = [...this.priceMovement.regionList]
+      let filtered = dataSource.filter(x => x.nama_region == this.priceMovement.params.region_name)
+
+      this.priceMovement.params.id_region = filtered[0].id_region
+
+      await this.getProvinsi()
+
+      // if (this.report.params.tahun != '' && this.report.params.bulan != ``) {
+      //   await this.getDataTable()
+      // }
+    },
+    async handleChangeProvince() {
+      let dataSource = [...this.priceMovement.provinceList]
+      let filtered = dataSource.filter(
+        x => x.nama_provinsi == this.priceMovement.params.province_name,
+      )
+
+      this.priceMovement.params.id_provinsi = filtered[0].id_provinsi
+      this.$store.commit('priceMovement/changePriceMovement', {
+        dataDistrikRET: [],
+      })
+      await this.getDistrikRET()
+    },
     async handleChangeDistrik() {
-      let dataSource = [...this.priceMovement.dataDistrikRET]
+      let dataSource = [...this.priceMovement.distrikList]
       let filtered = dataSource.filter(x => x.nm_distrik == this.priceMovement.params.distrik_name)
-      this.priceMovement.params.id_distrik_ret = filtered[0].id_distrik
+      this.priceMovement.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('priceMovement/changePriceMovement', {
         priceMovementList: [],
       })
-      if (this.priceMovement.params.tahun != '' && this.wpPromotion.params.bulan != '') {
+      if (
+        this.priceMovement.params.tahun != '' &&
+        this.priceMovement.params.bulan != '' &&
+        this.priceMovement.params.week != ``
+      ) {
         await this.getDataTable()
       } else {
       }

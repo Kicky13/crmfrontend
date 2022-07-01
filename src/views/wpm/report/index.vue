@@ -245,7 +245,6 @@ export default {
       let dataSource = [...this.report.distrikList]
       let filtered = dataSource.filter(x => x.nm_distrik == this.report.params.distrik_name)
 
-      console.log(`filtered[0]`, filtered[0])
       this.report.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('report/changeReport', {
         dataTable: [],
