@@ -49,11 +49,18 @@
             >
               <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
               <a-select-option
+                v-if="report.dataDistrikRET && report.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+
+              <a-select-option
                 v-for="(distrik, index) in report.dataDistrikRET"
-                :value="distrik.id_district_ret"
+                :value="distrik.id_distrik_ret"
                 :key="index"
               >
-                {{ distrik.id_district_ret }} - {{ distrik.nama_district_ret }}
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
               </a-select-option>
             </a-select>
           </div>
@@ -88,7 +95,7 @@
     <div class="row mb-4">
       <div class="col-md-3">
         <a-select
-          v-model:value="report.params.nm_distrik"
+          v-model:value="report.params.distrik_name"
           placeholder="Distrik"
           show-search
           class="w-100"
@@ -96,11 +103,11 @@
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
-            v-for="(distrik, index) in report.dataDistrikRET"
-            :value="distrik.nama_distrik"
+            v-for="(distrik, index) in report.distrikList"
+            :value="distrik.nm_distrik"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
           </a-select-option>
         </a-select>
       </div>
@@ -222,6 +229,10 @@ export default {
     ]),
     async refreshFilter() {
       await this.refreshFilterData()
+      await this.getRegion()
+      await this.getProvinsi()
+      await this.getDistrikRET()
+      await this.getDistrik()
     },
 
     async showReport() {
@@ -231,13 +242,19 @@ export default {
       await this.getDistrik()
     },
     async handleChangeDistrik() {
-      let dataSource = [...this.report.dataDistrikRET]
+      let dataSource = [...this.report.distrikList]
       let filtered = dataSource.filter(x => x.nm_distrik == this.report.params.distrik_name)
-      this.report.params.id_distrik_ret = filtered[0].id_distrik
+
+      console.log(`filtered[0]`, filtered[0])
+      this.report.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('report/changeReport', {
         dataTable: [],
       })
-      if (this.wpPromotion.params.tahun != '' && this.wpPromotion.params.bulan != '') {
+      if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week != ``
+      ) {
         await this.getDataTable()
       } else {
       }
@@ -323,6 +340,32 @@ export default {
     handlePaginationSize(size) {
       this.report.pagination.pageSize = size
     },
+    async handleChangeRegion() {
+      let dataSource = [...this.report.regionList]
+      let filtered = dataSource.filter(x => x.nama_region == this.report.params.region_name)
+
+      this.report.params.id_region = filtered[0].id_region
+
+      await this.getProvinsi()
+
+      // if (this.report.params.tahun != '' && this.report.params.bulan != ``) {
+      //   await this.getDataTable()
+      // }
+    },
+    async handleChangeProvince() {
+      let dataSource = [...this.report.provinceList]
+      let filtered = dataSource.filter(x => x.nama_provinsi == this.report.params.province_name)
+
+      this.report.params.id_provinsi = filtered[0].id_provinsi
+      this.$store.commit('report/changeReport', {
+        dataDistrikRET: [],
+        params: {
+          id_distrik_ret: null,
+        },
+      })
+      await this.getDistrikRET()
+    },
+
     async handleChangeTahun() {
       this.$store.commit('report/changeReport', {
         dataTable: [],
