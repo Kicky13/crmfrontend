@@ -36,6 +36,9 @@
           </button>
         </div>
       </template>
+      <template #tanggal_dibuat="{ text }">
+        <span>{{ changeFormatDate(text.TANGGAL_DIBUAT) }}</span>
+      </template>
     </a-table>
   </a-card>
   
@@ -64,11 +67,13 @@
       placeholder="Kategori"
       class="mb-3"
       v-model:value="formState.kategori_baru"
+      @keyup.enter="saveKategori"
     />
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
       v-model:value="formState.keterangan"
+      @keyup.enter="saveKategori"
     />
   </a-modal>
 </template>
@@ -171,6 +176,11 @@ export default {
         this.formState.kategori_baru = ''
         this.formState.keterangan = ''
       }
+    },
+    changeFormatDate(dates) {
+      const [dateFormat, timeFormat] = dates.split(' ')
+      const [year, month, date] = dateFormat.split('-')
+      return `${date}-${month}-${year}`
     },
   },
 }

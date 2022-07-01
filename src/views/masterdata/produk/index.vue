@@ -69,17 +69,19 @@
       placeholder="Nama Produk"
       class="mb-3"
       v-model:value="formState.produk_baru"
+      @keyup.enter="saveProduk"
     />
     <a-select
       placeholder="Tipe"
       show-search
       class="w-100 mb-3"
       v-model:value="formState.id_tipe_semen"
+      @keyup.enter="saveProduk"
     >
       <a-select-option disabled value="">Pilih Tipe</a-select-option>
       <a-select-option
         v-for="(item, index) in tipe.tipeList"
-        :value="item.ID"
+        :value="`${item.ID} - ${item.NAMA_TIPE_SEMEN}`"
         :key="index"
         :title="item.NAMA_TIPE_SEMEN"
         data-toggle="tooltip"
@@ -93,11 +95,12 @@
       show-search
       class="w-100 mb-3"
       v-model:value="formState.id_brand"
+      @keyup.enter="saveProduk"
     >
       <a-select-option disabled value="">Pilih Brand</a-select-option>
       <a-select-option
         v-for="(item, index) in brand.brandList"
-        :value="item.ID"
+        :value="`${item.ID} - ${item.NAMA_BRAND}`"
         :key="index"
         :title="item.NAMA_BRAND"
         data-toggle="tooltip"
@@ -111,11 +114,12 @@
       show-search
       class="w-100 mb-3"
       v-model:value="formState.id_kemasan"
+      @keyup.enter="saveProduk"
     >
       <a-select-option disabled value="">Pilih Kemasan</a-select-option>
       <a-select-option
         v-for="(item, index) in kemasan.kemasanList"
-        :value="item.ID"
+        :value="`${item.ID} - ${item.NAMA_KEMASAN}`"
         :key="index"
         :title="item.NAMA_KEMASAN"
         data-toggle="tooltip"
@@ -129,11 +133,12 @@
       show-search
       class="w-100"
       v-model:value="formState.id_type_produk"
+      @keyup.enter="saveProduk"
     >
       <a-select-option disabled value="">Pilih Tipe Produk</a-select-option>
       <a-select-option
         v-for="(item, index) in produk.typeProdukList"
-        :value="item.ID"
+        :value="`${item.ID} - ${item.NAMA_TYPE_PRODUK}`"
         :key="index"
         :title="item.NAMA_TYPE_PRODUK"
         data-toggle="tooltip"
@@ -215,11 +220,12 @@ export default {
       this.produkModal = true
       this.formState.id = id
       const produkById = this.produk.produkList.find(element => element.ID == id)
+      console.log(produkById)
       this.formState.produk_baru = produkById.NAMA_PRODUK
-      this.formState.id_brand = produkById.ID_BRAND
-      this.formState.id_tipe_semen = produkById.ID_TIPE
-      this.formState.id_kemasan = produkById.ID_KEMASAN
-      this.formState.id_type_produk = produkById.ID_TYPE_PRODUK
+      this.formState.id_brand = `${produkById.ID_BRAND} - ${produkById.NAMA_BRAND}`
+      this.formState.id_tipe_semen = produkById.ID_TIPE == null ? null : `${produkById.ID_TIPE} - ${produkById.NAMA_TIPE}`
+      this.formState.id_kemasan = `${produkById.ID_KEMASAN} - ${produkById.NAMA_KEMASAN}`
+      this.formState.id_type_produk = `${produkById.ID_TYPE_PRODUK} - ${produkById.NM_TYPE_PRODUK}`
     },
     showDeleteModal(id) {
       this.formState.id = id
@@ -295,19 +301,19 @@ export default {
           id_produk: this.formState.id,
           id_user: this.formState.id_user,
           produk_baru: this.formState.produk_baru,
-          id_satuan: this.formState.id_kemasan,
-          id_brand: this.formState.id_brand,
-          id_type_produk: this.formState.id_type_produk,
-          id_tipe_semen: this.formState.id_tipe_semen,
+          id_satuan: this.getId(this.formState.id_kemasan),
+          id_brand: this.getId(this.formState.id_brand),
+          id_type_produk: this.getId(this.formState.id_type_produk),
+          id_tipe_semen: this.getId(this.formState.id_tipe_semen),
         })
       } else {
         await this.addProduk({
           id_user: this.formState.id_user,
           produk_baru: this.formState.produk_baru,
-          id_satuan: this.formState.id_kemasan,
-          id_brand: this.formState.id_brand,
-          id_type_produk: this.formState.id_type_produk,
-          id_tipe_semen: this.formState.id_tipe_semen,
+          id_satuan: this.getId(this.formState.id_kemasan),
+          id_brand: this.getId(this.formState.id_brand),
+          id_type_produk: this.getId(this.formState.id_type_produk),
+          id_tipe_semen: this.getId(this.formState.id_tipe_semen),
         })
       }
       this.modalStatus = false
@@ -329,6 +335,9 @@ export default {
       } else {
         this.dataList = this.produk.produkList
       }
+    },
+    getId(data) {
+      return data.split(' - ')[0]
     },
   },
 }

@@ -3,11 +3,11 @@
     <div class="row mb-2">
       <div class="col-md-4 col-xs-4">
         <a
-          @click="$router.push(`/reporting/supervisory-visit`)"
+          @click="$router.push(`/reporting/supervisory-visit-tso`)"
           class="font-weight-bold text-primary"
         >
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
-          Kembali ke Reporting Supervisory Visit
+          Kembali ke Reporting Supervisory Visit TSO
         </a>
       </div>
     </div>

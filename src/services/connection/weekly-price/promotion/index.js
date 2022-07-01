@@ -78,6 +78,7 @@ const state = {
       nilai_zak: null,
       mekanisme: '',
       edit_zak: null,
+      nama_brand: '',
     },
     dataDistrikRET: [],
     brandList: [],
@@ -326,7 +327,6 @@ const actions = {
           })
         }
       } else {
-
         let StartDateFormat = new Date(data.formData.start_date)
         let EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
 
