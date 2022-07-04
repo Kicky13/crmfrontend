@@ -38,6 +38,7 @@
 import { listPost } from '@/services/connection/program/api'
 import VbListProgram from './ListProgram'
 import { message } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 export default {
   components: {
@@ -85,8 +86,13 @@ export default {
     },
     deleteSuccess() {
       this.getListPost()
-
-      message.success('Program Name berhasil dihapus')
+      Swal.fire({
+        icon: 'success',
+        title: 'Success...',
+        text: 'Program Name berhasil dihapus!',
+        showConfirmButton: false,
+        timer: 2000,
+      })
     },
   },
 }

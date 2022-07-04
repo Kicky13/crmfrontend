@@ -81,6 +81,7 @@ import { useRouter } from 'vue-router'
 import { notification } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import VbHeadersCardHeader from '../header/Header'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   components: {
@@ -146,15 +147,21 @@ export default defineComponent({
           if (response) {
             console.log(response)
             if (response.status === 200) {
-              notification.success({
-                message: 'Tambah Program',
-                description: 'Program berhasil ditambah',
+              Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Program berhasil ditambahkan!',
+                showConfirmButton: false,
+                timer: 2000,
               })
               router.push('/marketing/program')
             } else {
-              notification.error({
-                message: 'Tambah Program',
-                description: 'Program Gagal Ditambah',
+              Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: 'Program Gagal Ditambah',
+                showConfirmButton: false,
+                timer: 2000,
               })
             }
           }
