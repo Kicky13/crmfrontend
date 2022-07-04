@@ -58,6 +58,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { notification } from 'ant-design-vue'
 import { quillEditor } from 'vue3-quill'
 import VbHeadersCardHeader from '../header/Header'
+import Swal from 'sweetalert2'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -133,18 +134,32 @@ export default defineComponent({
             if (response) {
               if (response.status === 200) {
                 router.push('/marketing/berita')
-                notification.success({
-                  message: 'Update Berita',
-                  description: 'Berita berhasil diupdate',
+
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success...',
+                  text: 'Berita berhasil diupdate!',
+                  showConfirmButton: false,
+                  timer: 2000,
                 })
               } else {
-                notification.warning({
-                  message: 'Update Berita',
-                  description: response.message[1].replace(
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning...',
+                  text: response.message[1].replace(
                     'image yang diperbolehkan adalah',
                     'Format gambar harus',
                   ),
+                  showConfirmButton: false,
+                  timer: 2000,
                 })
+                // notification.warning({
+                //   message: 'Update Berita',
+                //   description: response.message[1].replace(
+                //     'image yang diperbolehkan adalah',
+                //     'Format gambar harus',
+                //   ),
+                // })
               }
             }
           })
