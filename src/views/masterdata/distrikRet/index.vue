@@ -116,7 +116,7 @@
           data-toggle="tooltip"
           data-placement="top"
           :disabled="item.disabled"
-          :style="{color: !item.isred ? 'red' : item.disabled ? '#c8c4db' : 'black'}"
+          :style="{color: item.isred ? 'red' : item.disabled ? '#c8c4db' : 'black'}"
         >
           {{ item.id_distrik }} - {{ item.nama_distrik }}
         </a-select-option>
@@ -166,7 +166,7 @@ export default {
         id_distrik_ret: null,
       },
       selected_distrik: null,
-      id_provinsi_check: null,
+      id_provinsi_check: [],
     }
   },
   computed: {
@@ -236,10 +236,10 @@ export default {
     async showTambahDistrikModal(id) {
       this.selected_distrik = null
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
-      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList ? this.distrikRET.distrikByDistrikRetList[0].id_provinsi : null
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
       this.dataDistrik.id_distrik_ret = id
-      this.tambahDistrikModal = true
       await this.getAllDistrik()
+      this.tambahDistrikModal = true
       this.disabledDistrik()
       this.redDistrik()
     },
@@ -276,7 +276,6 @@ export default {
       }
     },
     async saveDistrik(){
-      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList ? this.distrikRET.distrikByDistrikRetList[0].id_provinsi : null
       const selectedIdProvinsi = this.selected_distrik ? this.distrikRET.distrikList.all.find(row => row.id_distrik == this.selected_distrik.split(' - ')[0]).id_provinsi : null
 
       if (this.selected_distrik == null) {
@@ -286,8 +285,8 @@ export default {
         })
         return
       }
-
-      if (this.id_provinsi_check != selectedIdProvinsi) {
+      const lengthCheck = this.id_provinsi_check.length != 0 ? this.id_provinsi_check[0].id_provinsi : selectedIdProvinsi
+      if (lengthCheck != selectedIdProvinsi) {
         notification.error({
           message: 'Gagal',
           description: 'Distrik berbeda provinsi',
@@ -303,6 +302,7 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
       await this.getAllDistrik()
       this.disabledDistrik()
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
       this.redDistrik()
     },
     async deleteDistrik(id) {
@@ -313,6 +313,7 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
       await this.getAllDistrik()
       this.disabledDistrik()
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
       this.redDistrik()
     },
     changeFormatDate(dates) {
@@ -330,10 +331,12 @@ export default {
     },
     redDistrik() {
       this.distrikRET.distrikList.all.map(obj => {
-        if (obj.id_provinsi == this.id_provinsi_check) {
-          obj.isred = true
-        } else {
+        if (this.id_provinsi_check.length == 0) {
           obj.isred = false
+        } else if (obj.id_provinsi == this.id_provinsi_check[0].id_provinsi) {
+          obj.isred = false
+        } else {
+          obj.isred = true
         }
       })
     },
