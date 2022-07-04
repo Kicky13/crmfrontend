@@ -218,6 +218,7 @@ export default {
       'getDistrikRET',
       'getPriceMovementList',
       'getDataWeekParams',
+      'refreshFilterData',
     ]),
     async handleChangeDistrikRET() {
       await this.getDistrik()
@@ -325,13 +326,8 @@ export default {
       return distrik.split('-')[0].trim()
     },
 
-    refreshFilter() {
-      this.formData = {
-        distrik: '',
-        tahun: '',
-        bulan: '',
-        week: '',
-      }
+    async refreshFilter() {
+      await this.refreshFilterData()
     },
   },
 }

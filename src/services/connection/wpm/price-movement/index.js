@@ -211,7 +211,7 @@ const actions = {
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
-          timer: 1000,
+          timer: 2000,
         })
       } else {
         if (result.data.data.length > 0) {
@@ -220,7 +220,7 @@ const actions = {
             title: 'Success...',
             text: 'Data price movement berhasil ditampilkan!',
             showConfirmButton: false,
-            timer: 1000,
+            timer: 2000,
           })
         } else {
           Swal.fire({
@@ -228,7 +228,7 @@ const actions = {
             title: 'Opps...',
             text: 'Tidak terdapat data price movement yang tersedia!',
             showConfirmButton: false,
-            timer: 1000,
+            timer: 2000,
           })
         }
         await commit('changePriceMovement', {
@@ -245,7 +245,7 @@ const actions = {
         title: 'Opps...',
         text: 'Mohon maaf terdapat kesalahan.',
         showConfirmButton: true,
-        timer: 1000,
+        timer: 2000,
       })
     }
   },
