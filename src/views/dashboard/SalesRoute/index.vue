@@ -714,6 +714,7 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 export default {
   components: {
@@ -927,6 +928,45 @@ export default {
       } else {
         await this.getDetailVisit()
         await this.getMerchantSurvey()
+        if (this.salesRoute.detailVisit.length > 0 && this.salesRoute.detailMerchant.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else if (
+          this.salesRoute.detailVisit.length > 0 &&
+          this.salesRoute.detailMerchant.length == 0
+        ) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else if (
+          this.salesRoute.detailMerchant.length > 0 &&
+          this.salesRoute.detailVisit.length == 0
+        ) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Opps...',
+            text: 'Data tidak tersedia!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
         await this.getMap()
         await this.markerMap()
       }
