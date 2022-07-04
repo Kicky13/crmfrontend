@@ -463,7 +463,7 @@ const actions = {
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
-          timer: 1000,
+          timer: 2000,
         })
         await commit('changeReport', {
           isLoading: false,
@@ -475,7 +475,7 @@ const actions = {
             title: 'Success...',
             text: 'Data report berhasil ditampilkan!',
             showConfirmButton: false,
-            timer: 1000,
+            timer: 2000,
           })
         } else {
           Swal.fire({
@@ -483,7 +483,7 @@ const actions = {
             title: 'Opps...',
             text: 'Tidak terdapat data report yang tersedia!',
             showConfirmButton: false,
-            timer: 1000,
+            timer: 2000,
           })
         }
 
@@ -501,7 +501,7 @@ const actions = {
         title: 'Opps...',
         text: 'Mohon maaf terdapat kesalahan.',
         showConfirmButton: true,
-        timer: 1000,
+        timer: 2000,
       })
     }
   },
