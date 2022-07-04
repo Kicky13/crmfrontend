@@ -99,12 +99,12 @@
           placeholder="Distrik"
           show-search
           class="w-100"
-          @change="handleChangeDistrik"
+          @change="handleChangeDistrik()"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(distrik, index) in report.distrikList"
-            :value="distrik.nm_distrik"
+            :value="distrik.id_distrik"
             :key="index"
           >
             {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
@@ -246,7 +246,7 @@ export default {
     },
     async handleChangeDistrik() {
       let dataSource = [...this.report.distrikList]
-      let filtered = dataSource.filter(x => x.nm_distrik == this.report.params.distrik_name)
+      let filtered = dataSource.filter(x => x.id_distrik == this.report.params.distrik_name)
 
       this.report.params.id_distrik = filtered[0].id_distrik
       this.$store.commit('report/changeReport', {
