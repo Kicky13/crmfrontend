@@ -85,7 +85,7 @@
           <a-table
             :columns="columns"
             :data-source="customers"
-            :row-key="(customers) => customers.id_customer"
+            :row-key="customers => customers.id_customer"
             :pagination="pagination"
             :scroll="{ x: 2000 }"
             :loading="tableLoading"
@@ -98,7 +98,7 @@
               </div>
             </template>
             <template #kordinat="{ text }">
-              <span>Lng: {{text.longitude}} | Ltd: {{ text.latitude }}</span>
+              <span>Lng: {{ text.longitude }} | Ltd: {{ text.latitude }}</span>
             </template>
           </a-table>
         </div>
@@ -113,6 +113,7 @@ import { message } from 'ant-design-vue'
 import { getRegionList, getTokoList } from '@/services/connection/koordinat-lock/api'
 import { _ } from 'vue-underscore'
 import { mapState, mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 
 const itemsPerPage = [5, 10, 15, 20]
 const columns = [
@@ -171,7 +172,7 @@ export default {
       onChange: (selectedRowKeys, selectedRows) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
       },
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -201,7 +202,7 @@ export default {
   },
   computed: {
     ...mapState({
-      koordinatLock: (state) => state.koordinatLock.data,
+      koordinatLock: state => state.koordinatLock.data,
     }),
   },
   mounted() {
@@ -214,26 +215,26 @@ export default {
     },
     handleRegionChange() {
       const dataSource = [...this.provinsiOption]
-      let filterProvince = dataSource.filter((item) => item.provinsi == this.selectedProvinsi)
+      let filterProvince = dataSource.filter(item => item.provinsi == this.selectedProvinsi)
       this.kabupatenOption = null
       this.selectedKabupaten = null
-      const filtered = dataSource.filter((a) => a.provinsi == filterProvince[0].provinsi)
+      const filtered = dataSource.filter(a => a.provinsi == filterProvince[0].provinsi)
       this.kabupatenOption = filtered[0].kabupatens
     },
     gotoDetail(id) {
       let data = this.getDetail(id)
       let dataSource = [...this.kabupatenOption]
-      let filterIdKabupaten = dataSource.filter((item) => item.kabupaten == this.selectedKabupaten)
+      let filterIdKabupaten = dataSource.filter(item => item.kabupaten == this.selectedKabupaten)
       let id_customer = JSON.stringify(data.id_customer)
       let id_distrik = filterIdKabupaten[0].id
       this.$router.push(`/koordinatlock/detail/${id_customer}/wilayah/${id_distrik}`)
     },
-    searchData: _.debounce(function () {
+    searchData: _.debounce(function() {
       this.fetchGetCustomers()
     }, 3000),
     getDetail(id) {
       const dataSource = [...this.customers]
-      const filtered = dataSource.filter((a) => a.id_customer == id.text)
+      const filtered = dataSource.filter(a => a.id_customer == id.text)
       const detailData = filtered[0]
 
       return detailData
@@ -251,13 +252,13 @@ export default {
     fetchGetRegion() {
       this.tableLoading = true
       getRegionList()
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             this.provinsiOption = response.data
           }
           this.tableLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -265,7 +266,7 @@ export default {
     async fetchGetCustomers() {
       this.tableLoading = true
       let dataSource = [...this.kabupatenOption]
-      let filterIdKabupaten = dataSource.filter((item) => item.kabupaten == this.selectedKabupaten)
+      let filterIdKabupaten = dataSource.filter(item => item.kabupaten == this.selectedKabupaten)
       let formData = {
         IDdistrik: filterIdKabupaten[0].id,
         offset: 0,
@@ -273,13 +274,20 @@ export default {
         q: this.searchText,
       }
       getTokoList(formData)
-        .then((response) => {
+        .then(response => {
           if (response.status) {
             this.customers = response.data
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: 'Data berhasil ditampilkan!',
+              showConfirmButton: false,
+              timer: 2000,
+            })
           }
           this.tableLoading = false
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
