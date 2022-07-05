@@ -121,7 +121,6 @@ const actions = {
       })
     }
   },
-
   async getDataWilayah({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
@@ -191,7 +190,6 @@ const actions = {
       })
     }
   },
-
   async postDataRadiusDistrik({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,

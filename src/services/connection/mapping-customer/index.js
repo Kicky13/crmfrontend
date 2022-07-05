@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -103,14 +104,20 @@ const actions = {
       const result = await apiClient.post('/customer/Mapping', formData, config)
 
       if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditampilkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeCustomerMapping', {
           listData: result.data.data,
@@ -118,9 +125,12 @@ const actions = {
         })
       }
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -171,20 +181,29 @@ const actions = {
       const result = await apiClient.post(`/customer/uploadTokoSales`, formData, config)
 
       if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil commit!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
