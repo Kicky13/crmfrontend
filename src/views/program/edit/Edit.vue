@@ -74,6 +74,7 @@ import { message } from 'ant-design-vue'
 import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
 import VbHeadersCardHeader from '../header/Header'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   components: {
@@ -159,14 +160,21 @@ export default defineComponent({
           if (response) {
             if (response.status === 200) {
               router.push('/marketing/program')
-              notification.success({
-                message: 'Update Program',
-                description: 'Program berhasil diupdate',
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Program berhasil diupdate!',
+                showConfirmButton: false,
+                timer: 2000,
               })
             } else {
-              notification.error({
-                message: 'Update Program',
-                description: 'Program Gagal diupdate',
+              Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: `Program Gagal diupdate`,
+                showConfirmButton: false,
+                timer: 2000,
               })
             }
           }

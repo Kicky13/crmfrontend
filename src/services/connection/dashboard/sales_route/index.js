@@ -379,7 +379,7 @@ const actions = {
             title: 'Success...',
             text: '"Toko belum dikunjungi" memiliki data yang ditampilkan!',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 6000,
           })
 
           await commit('changeSalesRoute', {
@@ -392,7 +392,7 @@ const actions = {
             title: 'Oops...',
             text: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan!',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 6000,
           })
 
           await commit('changeSalesRoute', {

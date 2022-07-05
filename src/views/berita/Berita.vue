@@ -53,6 +53,7 @@ import { postList } from '@/services/connection/berita/api'
 import VbListBerita from './listberita/ListBerita'
 import { notification } from 'ant-design-vue'
 import GuideNews from '@/components/main/Guide/News'
+import Swal from 'sweetalert2'
 
 export default {
   components: {
@@ -100,17 +101,24 @@ export default {
             }
           })
       } catch (error) {
-       notification.error({
-          message: 'Error',
-          description: error.message,
-        }) 
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: error.message,
+          showConfirmButton: false,
+          timer: 2000,
+        })
       }
     },
     deleteSuccess() {
       this.fetchPostList()
-      notification.success({
-        message: 'Hapus Berita',
-        description: 'Berita berhasil dihapus',
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Success...',
+        text: 'Berita berhasil dihapus!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     },
     quickGuideModalHandle() {

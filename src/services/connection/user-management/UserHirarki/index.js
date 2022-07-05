@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -578,26 +579,35 @@ const actions = {
     try {
       const result = await apiClient.get(`/usercrm/reset/${payload.uuid}`)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil direset`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data password berhasil direset!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 2000,
       })
     }
   },
