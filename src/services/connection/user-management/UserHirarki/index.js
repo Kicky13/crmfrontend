@@ -427,26 +427,35 @@ const actions = {
     try {
       result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditambahkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -466,26 +475,35 @@ const actions = {
     try {
       result = await apiClient.post(`/hirarki/tambahJabatan`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditambahkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -506,26 +524,35 @@ const actions = {
     try {
       result = await apiClient.post(`/hirarki/editJabatan`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil diubah!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -547,26 +574,35 @@ const actions = {
     try {
       const result = await apiClient.post(`/hirarki/removeUser`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil dihapus!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -698,26 +734,35 @@ const actions = {
     try {
       const result = await apiClient.post(`/hirarki/removeUser`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil dihapus!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -809,18 +854,24 @@ const actions = {
     try {
       const result = await apiClient.post(`/hirarki/addHirarkiDown`, formData)
       if (result.data.state == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagementCRM', {
           isLoading: false,
           modalVisibleHirarkiDown: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditambahkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagementCRM', {
           isLoading: false,
@@ -828,9 +879,12 @@ const actions = {
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -850,18 +904,24 @@ const actions = {
     try {
       const result = await apiClient.post(`/hirarki/replaceUser`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
           modalVisibleHirarkiDown: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil direplace`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil direplace!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
@@ -869,9 +929,12 @@ const actions = {
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -901,28 +964,38 @@ const actions = {
     try {
       const result = await apiClient.post(`/hirarki/assignUser`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeUserManagement', {
           isLoading: false,
           modalVisibleAssignUser: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil di assign `,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil di assign!',
+          showConfirmButton: false,
+          timer: 2000,
         })
+
         await commit('changeUserManagement', {
           isLoading: false,
           modalVisibleAssignUser: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
