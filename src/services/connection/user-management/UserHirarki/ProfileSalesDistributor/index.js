@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -62,7 +63,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/salesDistributor`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -100,7 +101,7 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/distributor/all`, formData)
-  
+
       if (result.data.status == false) {
         notification.error({
           message: 'Error',
@@ -147,28 +148,37 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/assignSalesDist`, formData)
-  
+
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message[0],
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message[0],
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeProfileSalesDistributor', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil ditambahkan`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditambahkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeProfileSalesDistributor', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -188,28 +198,37 @@ const actions = {
 
     try {
       const result = await apiClient.post(`/hirarki/removeSalesDist`, formData)
-  
+
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message[0],
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message[0],
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeProfileSalesDistributor', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil dihapus!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeProfileSalesDistributor', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
