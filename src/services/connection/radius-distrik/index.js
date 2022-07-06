@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -120,7 +121,6 @@ const actions = {
       })
     }
   },
-
   async getDataWilayah({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
@@ -190,7 +190,6 @@ const actions = {
       })
     }
   },
-
   async postDataRadiusDistrik({ commit, state }) {
     commit('changeRadiusDistrik', {
       isLoading: true,
@@ -209,24 +208,33 @@ const actions = {
     try {
       result = await apiClient.post('/RadiusWilayah/Insert_Radius', body)
       if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
         await commit('changeRadiusDistrik', {
           dataDistrik: result.data.data,
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil ditambahkan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -247,32 +255,44 @@ const actions = {
     }
 
     if (body.radius_lock >= 100000) {
-      notification.error({
-        message: 'Error',
-        description: 'radius lock tidak boleh lebih dari 100000',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Radius lock tidak boleh lebih dari 100000!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     } else {
       try {
         result = await apiClient.post('/RadiusWilayah/Update_Radius', body)
         if (result.data.status == 'error') {
-          notification.error({
-            message: 'Error',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
           })
         } else {
           await commit('changeRadiusDistrik', {
             dataDistrik: result.data.data,
             isLoading: false,
           })
-          notification.success({
-            message: 'Success',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil diupdate!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } catch (error) {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     }
@@ -291,24 +311,33 @@ const actions = {
       const result = await apiClient.post('/RadiusWilayah/Delete_Radius', body)
 
       if (result.data.status == 'error') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
         await commit('changeRadiusDistrik', {
           isLoading: false,
           listRadiusDistrik: result.data.data,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil dihapus!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },

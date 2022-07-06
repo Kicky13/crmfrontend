@@ -519,7 +519,6 @@ export default {
       )
     },
     openModal(item) {
-      console.log(`-----item`, item)
       this.modalTambahBawahan = true
 
       if (item.idJabatan) {

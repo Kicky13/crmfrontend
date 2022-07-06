@@ -482,6 +482,7 @@ import { notification, message } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
 import { _ } from 'vue-underscore'
 import VueDatepicker from 'vue3-datepicker'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'VbAntDesign',
@@ -592,9 +593,12 @@ export default {
     },
     async submitEditJabatan() {
       if (this.namaJabatan === this.selectedShorthand + ' - ' + this.newJabatan) {
-        notification.error({
-          message: 'Gagal Menyimpan',
-          description: 'Nama jabatan tidak boleh sama seperti sebelumnya.',
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: 'Nama jabatan tidak boleh sama seperti sebelumnya.',
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
         await this.editJabatanBawahan({
@@ -637,7 +641,7 @@ export default {
       this.userManagement.form_assign_bawahan.id_user = value
     },
     onFileChanged(event) {
-      console.log(`-----DATA`,this.$refs.file.files[0])
+      console.log(`-----DATA`, this.$refs.file.files[0])
       this.importExelHirarki.body.file = this.$refs.file.files[0]
       this.importExelHirarki.body.filename = event.target.files[0].name
     },
@@ -799,10 +803,6 @@ export default {
       this.dateBeforeLimit = null
     },
     async handleSubmitAssignUser() {
-      console.log(
-        ` this.userManagement.form_assign_bawahan.id_user `,
-        this.userManagement.form_assign_bawahan.id_user,
-      )
       if (
         this.userManagement.form_assign_bawahan.id_user &&
         this.userManagement.form_assign_bawahan.tgl_mulai
