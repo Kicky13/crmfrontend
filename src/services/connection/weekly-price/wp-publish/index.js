@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -334,9 +335,12 @@ const actions = {
           isLoading: false,
         })
       } else {
-        notification.error({
-          message: 'Opps',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeWPPublish', {
           wpPublishList: 0,
@@ -347,9 +351,12 @@ const actions = {
       await commit('changeWPPublish', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -375,9 +382,12 @@ const actions = {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeWPPublish', {
           isLoading: false,
@@ -386,18 +396,24 @@ const actions = {
         await commit('changeWPPublish', {
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: 'Data berhasil di Publish',
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil di publish!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
       await commit('changeWPPublish', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -423,9 +439,12 @@ const actions = {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeWPPublish', {
           isLoading: false,
@@ -434,18 +453,24 @@ const actions = {
         await commit('changeWPPublish', {
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: 'Data Berhasil di Reject',
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil di reject!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
       await commit('changeWPPublish', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -470,9 +495,12 @@ const actions = {
       const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeWPPublish', {
           isLoading: false,
@@ -483,9 +511,12 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil di update!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (error) {
@@ -493,9 +524,12 @@ const actions = {
         isLoading: false,
         status: 'gagal',
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -608,9 +642,12 @@ const actions = {
         })
       }
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
