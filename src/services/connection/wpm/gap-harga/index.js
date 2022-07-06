@@ -344,13 +344,13 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: 'Data gap harga berhasil ditampilkan!',
-            showConfirmButton: false,
-            timer: 2000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: 'Data gap harga berhasil ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 2000,
+          // })
         } else {
           Swal.fire({
             icon: 'error',
