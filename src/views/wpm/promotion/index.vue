@@ -152,42 +152,40 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive text-nowrap">
-      <a-table
-        ref="table"
-        :columns="wpmPromotion.columns"
-        :data-source="wpmPromotion.dataTable"
-        :loading="wpmPromotion.isLoading"
-        :pagination="wpmPromotion.pagination"
-        :row-key="data => data"
-        :scroll="{ x: 2000 }"
-      >
-        <template #distrik="{ text }">
-          <span>{{ text.nm_distrik }}</span>
-        </template>
-        <template #tanggal_mulai="{ text }">
-          <span>{{ text.start_date }}</span>
-        </template>
-        <template #tanggal_selesai="{ text }">
-          <span>{{ text.end_date }}</span>
-        </template>
-        <template #brand="{ text }">
-          <span>{{ text.nm_brand }}</span>
-        </template>
-        <template #kategori="{ text }">
-          <span>{{ text.nm_kategori_promo }}</span>
-        </template>
-        <template #asal_program="{ text }">
-          <span>{{ text.program }}</span>
-        </template>
-        <template #nilai="{ text }">
-          <span>{{ text.nilai_zak }}</span>
-        </template>
-        <template #mekanisme="{ text }">
-          <span>{{ text.mekanisme }}</span>
-        </template>
-      </a-table>
-    </div>
+    <a-table
+      ref="table"
+      :columns="wpmPromotion.columns"
+      :data-source="wpmPromotion.dataTable"
+      :loading="wpmPromotion.isLoading"
+      :pagination="wpmPromotion.pagination"
+      :row-key="data => data"
+      :scroll="{ x: 2000 }"
+    >
+      <template #distrik="{ text }">
+        <span>{{ text.nm_distrik }}</span>
+      </template>
+      <template #tanggal_mulai="{ text }">
+        <span>{{ text.start_date }}</span>
+      </template>
+      <template #tanggal_selesai="{ text }">
+        <span>{{ text.end_date }}</span>
+      </template>
+      <template #brand="{ text }">
+        <span>{{ text.nm_brand }}</span>
+      </template>
+      <template #kategori="{ text }">
+        <span>{{ text.nm_kategori_promo }}</span>
+      </template>
+      <template #asal_program="{ text }">
+        <span>{{ text.program }}</span>
+      </template>
+      <template #nilai="{ text }">
+        <span>{{ text.nilai_zak }}</span>
+      </template>
+      <template #mekanisme="{ text }">
+        <span>{{ text.mekanisme }}</span>
+      </template>
+    </a-table>
   </a-card>
 
   <!-- Add Modal -->

@@ -74,9 +74,15 @@ const state = {
         key: 'rsp',
       },
       {
+        title: 'Perubahan',
+        dataIndex: 'updated_by',
+        key: 'updated_by',
+      },
+      {
         title: 'Notes',
         dataIndex: 'notes',
         key: 'notes',
+        width: 150,
       },
     ],
     params: {
