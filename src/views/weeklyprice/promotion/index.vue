@@ -249,10 +249,10 @@
           <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
           <a-select-option
             v-for="(distrik, index) in wpPromotion.dataDistrikRET"
-            :value="distrik.ID"
+            :value="distrik.id_distrik_ret"
             :key="index"
           >
-            {{ distrik.ID }} - {{ distrik.NAMA_DISTRIK_RET }}
+            {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
           </a-select-option>
         </a-select>
       </a-col>
