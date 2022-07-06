@@ -464,9 +464,12 @@ export default {
     },
   },
   async mounted() {
-    await this.getDataTSO({
-      id_atasan: this.$store.state.user.idJabatan,
-    })
+    if (this.$store.state.user.idJabatan != "") {
+      await this.getDataTSO({
+        id_atasan: this.$store.state.user.idJabatan,
+      })
+    }
+
     await this.getMasterProduct()
     await this.refreshFilter()
   },

@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 import { _ } from 'vue-underscore'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -192,11 +193,12 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_provinsi: payload.id_provinsi,
       id_distrik_ret: payload.id_distrik_ret,
     }
 
     try {
-      const result = await apiClient.post(`/distrik/distrikByIdDistikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikFromDistrikRet`, formData)
 
       if (result.data.status == false) {
         await commit('changeGAPHarga', {
@@ -333,27 +335,46 @@ const actions = {
         await commit('changeGAPHarga', {
           isLoading: false,
         })
-        notification.error({
-          message: 'Gagal',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
+        if (result.data.data.length > 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data gap harga berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Tidak terdapat data gap harga yang tersedia!',
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
         await commit('changeGAPHarga', {
           row: result.data.data,
           isLoading: false,
-        })
-        notification.success({
-          message: 'Sukses',
-          description: 'Gap harga berhasil ditampilkan',
         })
       }
     } catch (err) {
       await commit('changeGAPHarga', {
         isLoading: false,
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Mohon maaf terdapat kesalahan.',
+        showConfirmButton: true,
+        timer: 2000,
       })
     }
   },

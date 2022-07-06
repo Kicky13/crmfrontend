@@ -162,34 +162,34 @@ export const getAdminMenuData = [
       },
     ],
   },
-  {
-    title: 'Weekly Price',
-    key: 'wepr02',
-    url: '/weekly_price',
-    icon: 'fa fa-tags',
-    children: [
-      {
-        title: 'Weekly Input',
-        key: 'wein01',
-        url: '/weekly_price/weekly_input',
-      },
-      {
-        title: 'WP Approval',
-        key: 'wpap03',
-        url: '/weekly_price/wp_approval',
-      },
-      {
-        title: 'WP Publish',
-        key: 'wppu04',
-        url: '/weekly_price/wp_publish',
-      },
-      {
-        title: 'Promotion',
-        key: 'prom02',
-        url: '/weekly_price/promotion',
-      },
-    ],
-  },
+  // {
+  //   title: 'Weekly Price',
+  //   key: 'wepr02',
+  //   url: '/weekly_price',
+  //   icon: 'fa fa-tags',
+  //   children: [
+  //     {
+  //       title: 'Weekly Input',
+  //       key: 'wein01',
+  //       url: '/weekly_price/weekly_input',
+  //     },
+  //     {
+  //       title: 'WP Approval',
+  //       key: 'wpap03',
+  //       url: '/weekly_price/wp_approval',
+  //     },
+  //     {
+  //       title: 'WP Publish',
+  //       key: 'wppu04',
+  //       url: '/weekly_price/wp_publish',
+  //     },
+  //     {
+  //       title: 'Promotion',
+  //       key: 'prom02',
+  //       url: '/weekly_price/promotion',
+  //     },
+  //   ],
+  // },
   {
     title: 'Weekly Price Monitoring',
     key: 'wpmo03',
