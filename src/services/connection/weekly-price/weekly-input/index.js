@@ -801,7 +801,7 @@ const actions = {
 
       if (result.data.state == 'false') {
         Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
