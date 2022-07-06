@@ -464,7 +464,7 @@ export default {
     },
   },
   async mounted() {
-    if (this.$store.state.user.idJabatan != "") {
+    if (this.$store.state.user.idJabatan != '') {
       await this.getDataTSO({
         id_atasan: this.$store.state.user.idJabatan,
       })
@@ -569,9 +569,15 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.submitApprove()
-          await this.getDataTable()
-          this.wpApproval.wpApprovalList = []
-          this.wpApproval.data_uuid = []
+          await this.$store.commit('wpApproval/changeWPApproval', {
+            wpApprovalList: [],
+            data_uuid: [],
+            params: {
+              week: '',
+            },
+          })
+          // await this.getDataTable()
+          // this.wpApproval.data_uuid = []
         },
         onCancel: () => {},
       })
@@ -587,9 +593,13 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.submitReject()
-          await this.getDataTable()
-          this.wpApproval.wpApprovalList = []
-          this.wpApproval.data_uuid = []
+          await this.$store.commit('wpApproval/changeWPApproval', {
+            wpApprovalList: [],
+            data_uuid: [],
+            params: {
+              week: '',
+            },
+          })
         },
         onCancel: () => {},
       })

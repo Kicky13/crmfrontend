@@ -587,9 +587,15 @@ export default {
         cancelText: 'Batal',
         onOk: async () => {
           await this.duplicateDataWeekly()
-          await this.getDataTable({
-            id_tso: this.$store.state.user.idJabatan,
+          await this.$store.commit('weeklyInput/changeWeeklyInput', {
+            dataTable: [],
+            params: {
+              week: '',
+            },
           })
+          // await this.getDataTable({
+          //   id_tso: this.$store.state.user.idJabatan,
+          // })
         },
         onCancel: () => {},
       })
