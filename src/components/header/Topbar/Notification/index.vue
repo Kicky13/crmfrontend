@@ -10,29 +10,35 @@
     </div>
     <template #overlay>
       <a-menu @click="selectLocale">
-        <a-menu-item key="en-US">
-          <span :class="$style.menuIcon">
-            <img lazy="loading" v-once :src="mapFlags.en" alt="English" />
+        <a-menu-item v-if="$store.state.user.levelHirarki.toLowerCase() === `asm`" key="approval">
+          <span class="mr-5">
+            Approval
           </span>
-          English
+
+          <a-badge count="5"> </a-badge>
         </a-menu-item>
-        <a-menu-item key="fr-FR">
+        <a-menu-item v-if="$store.state.user.levelHirarki.toLowerCase() === `mi`" key="publish">
           <span :class="$style.menuIcon">
             <img lazy="loading" v-once :src="mapFlags.ru" alt="French" />
           </span>
-          French
-        </a-menu-item>
-        <a-menu-item key="ru-RU">
-          <span :class="$style.menuIcon">
-            <img lazy="loading" v-once :src="mapFlags.fr" alt="Русский" />
+          <span class="mr-5">
+            Publish
           </span>
-          Русский
+
+          <a-badge count="5"> </a-badge>
         </a-menu-item>
-        <a-menu-item key="zh-CN">
-          <span :class="$style.menuIcon">
-            <img lazy="loading" v-once :src="mapFlags.zh" alt="简体中文" />
+        <a-menu-item
+          v-if="
+            $store.state.user.levelHirarki.toLowerCase() != `mi` &&
+              $store.state.user.levelHirarki.toLowerCase() != `asm`
+          "
+          key="notifikasi"
+        >
+          <span class="mr-5">
+            Notifikasi
           </span>
-          简体中文
+
+          <a-badge count="5"> </a-badge>
         </a-menu-item>
       </a-menu>
     </template>
