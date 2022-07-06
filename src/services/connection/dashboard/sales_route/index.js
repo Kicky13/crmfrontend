@@ -229,11 +229,28 @@ const actions = {
     const { data } = state
 
     try {
-      const result = await apiClient.get(
-        `/dashboard/getSalesman?idDistributor=${
-          payload.id_distributor ? payload.id_distributor : ''
-        }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
-      )
+      let result = ''
+      payload.role == `spc` ||
+      payload.role == `asm` ||
+      payload.role == `gsm` ||
+      payload.role == `mi` ||
+      payload.role == `admin dis`
+        ? (result = await await apiClient.get(
+            `/dashboard/getSalesman?idDistributor=${
+              payload.id_distributor ? payload.id_distributor : ''
+            }`,
+          ))
+        : (result = await await apiClient.get(
+            `/dashboard/getSalesman?idDistributor=${
+              payload.id_distributor ? payload.id_distributor : ''
+            }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
+          ))
+
+      // const result = await apiClient.get(
+      //   `/dashboard/getSalesman?idDistributor=${
+      //     payload.id_distributor ? payload.id_distributor : ''
+      //   }&idDistrik=${payload.id_distrik ? payload.id_distrik : ''}`,
+      // )
 
       if (result.data.status == 'error') {
         notification.error({
@@ -295,26 +312,26 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: '"Toko sudah dikunjungi" memiliki data yang ditampilkan!',
-            showConfirmButton: false,
-            timer: 4000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: '"Toko sudah dikunjungi" memiliki data yang ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 5000,
+          // })
 
           await commit('changeSalesRoute', {
             detailVisit: result.data.data,
             isLoading: false,
           })
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan!',
-            showConfirmButton: false,
-            timer: 4000,
-          })
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'Oops...',
+          //   text: '"Toko sudah dikunjungi" tidak memiliki data yang ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 5000,
+          // })
 
           await commit('changeSalesRoute', {
             detailVisit: result.data.data,
@@ -365,35 +382,35 @@ const actions = {
       //   }&tanggal=${dateFormat}`,
       // )
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
-        })
+        // notification.error({
+        //   message: 'Error',
+        //   description: result.data.message,
+        // })
         await commit('changeSalesRoute', {
           isLoading2: false,
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: '"Toko belum dikunjungi" memiliki data yang ditampilkan!',
-            showConfirmButton: false,
-            timer: 6000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: '"Toko belum dikunjungi" memiliki data yang ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 3000,
+          // })
 
           await commit('changeSalesRoute', {
             detailMerchant: result.data.data,
             isLoading2: false,
           })
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan!',
-            showConfirmButton: false,
-            timer: 6000,
-          })
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'Oops...',
+          //   text: '"Toko belum dikunjungi" tidak memiliki data yang ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 3000,
+          // })
 
           await commit('changeSalesRoute', {
             detailMerchant: result.data.data,

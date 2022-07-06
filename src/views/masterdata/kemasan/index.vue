@@ -91,7 +91,6 @@
       placeholder="Nilai"
       v-model:value="formState.nilai"
       class="mb-3"
-      type="number"
       @keyup.enter="saveKemasan"
     />
     <a-textarea

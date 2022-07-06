@@ -146,6 +146,7 @@ import {
   getASMMenuData,
   getSSMMenuData,
   getMarketIntelligenceMenuData,
+  getSPCMenuData,
 } from '@/services/menu'
 import SubMenu from './partials/submenu'
 import Item from './partials/item'
@@ -170,6 +171,8 @@ export default {
         ? getSSMMenuData
         : user.value.role.toLowerCase() === 'market intelligence'
         ? getMarketIntelligenceMenuData
+        : user.value.role.toLowerCase() === 'spc'
+        ? getSPCMenuData
         : getUserMenuData,
     )
     const selectedKeys = ref([])

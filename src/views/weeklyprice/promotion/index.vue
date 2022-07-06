@@ -558,7 +558,6 @@ export default {
       } else {
       }
     },
-
     async handleBrand() {
       let dataSourceBrand = [...this.wpPromotion.brandList]
       let filtered = dataSourceBrand.filter(
