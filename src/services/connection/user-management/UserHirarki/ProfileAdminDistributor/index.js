@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 import { moment } from 'moment'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -149,10 +150,13 @@ const actions = {
       const result = await apiClient.post(`/hirarki/assignAdminDistributor`, formData)
   
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message[0],
-        })
+         Swal.fire({
+           icon: 'error',
+           title: 'Opps...',
+           text: result.data.message[0],
+           showConfirmButton: false,
+           timer: 2000,
+         })
         await commit('changeProfileAdminDistributor', {
           isLoading: false,
         })

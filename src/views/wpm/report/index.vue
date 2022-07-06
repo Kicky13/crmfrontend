@@ -1,25 +1,117 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <a-row :gutter="[16, 16]" class="mb-3">
-      <a-col :xs="24" :md="6">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-4">
+            <a-select
+              v-model:value="report.params.region_name"
+              placeholder="Region"
+              show-search
+              class="w-100"
+              @change="handleChangeRegion"
+            >
+              <a-select-option disabled value="">Pilih Region</a-select-option>
+              <a-select-option
+                v-for="(region, index) in report.regionList"
+                :value="region.nama_region"
+                :key="index"
+              >
+                {{ region.id_region }} - {{ region.nama_region }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="report.params.province_name"
+              placeholder="Provinsi"
+              show-search
+              class="w-100"
+              @change="handleChangeProvince"
+            >
+              <a-select-option disabled value="">Pilih Provinsi</a-select-option>
+              <a-select-option
+                v-for="(provinsi, index) in report.provinceList"
+                :value="provinsi.nama_provinsi"
+                :key="index"
+              >
+                {{ provinsi.id_provinsi }} - {{ provinsi.nama_provinsi }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              v-model:value="report.params.id_distrik_ret"
+              placeholder="Distrik RET"
+              show-search
+              class="w-100"
+              @change="handleChangeDistrikRET"
+            >
+              <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
+              <a-select-option
+                v-if="report.dataDistrikRET && report.dataDistrikRET.length === 0"
+                disabled
+                value=""
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+
+              <a-select-option
+                v-for="(distrik, index) in report.dataDistrikRET"
+                :value="distrik.id_distrik_ret"
+                :key="index"
+              >
+                {{ distrik.id_distrik_ret }} - {{ distrik.nm_distrik_ret }}
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-md-4">
+            <a-tooltip placement="topLeft">
+              <template #title>
+                <span>Refresh Filter</span>
+              </template>
+              <a-button @click="refreshFilter()" type="primary">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </a-button>
+            </a-tooltip>
+          </div>
+          <div class="col-md-8">
+            <a-button
+              :disabled="report.dataTable.length == 0 ? true : false"
+              type="primary"
+              class="mb-3 float-right w-100"
+              @click="downloadReport()"
+            >
+              <i class="fa fa-download mr-2" />
+              Export
+            </a-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-md-3">
         <a-select
-          v-model:value="report.params.nm_distrik"
+          v-model:value="report.params.distrik_name"
           placeholder="Distrik"
           show-search
           class="w-100"
-          @change="handleChangeDistrik"
+          @change="handleChangeDistrik()"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
-            v-for="(distrik, index) in report.dataDistrikRET"
-            :value="distrik.nama_distrik"
+            v-for="(distrik, index) in report.distrikList"
+            :value="distrik.id_distrik"
             :key="index"
           >
-            {{ distrik.id_distrik }} - {{ distrik.nama_distrik }}
+            {{ distrik.id_distrik }} - {{ distrik.nm_distrik }}
           </a-select-option>
         </a-select>
-      </a-col>
-      <a-col :xs="24" :md="3">
+      </div>
+      <div class="col-md-3">
         <a-select
           v-model:value="report.params.tahun"
           placeholder="Tahun"
@@ -32,8 +124,8 @@
             {{ tahun }}
           </a-select-option>
         </a-select>
-      </a-col>
-      <a-col :xs="24" :md="4">
+      </div>
+      <div class="col-md-3">
         <a-select
           v-model:value="report.params.bulan"
           placeholder="Bulan"
@@ -50,14 +142,14 @@
             {{ bulan.name }}
           </a-select-option>
         </a-select>
-      </a-col>
-      <a-col :xs="24" :md="3">
+      </div>
+      <div class="col-md-3">
         <a-select
           v-model:value="report.params.week"
           placeholder="Week"
           show-search
           class="w-100"
-          :disabled="report.params.bulan != `` && report.params.tahun != `` ? false : true"
+          @change="handleChangeWeek()"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
           <a-select-option
@@ -68,54 +160,39 @@
             Week {{ weekly.week }}
           </a-select-option>
         </a-select>
-      </a-col>
-      <a-col :xs="24" :md="2">
-        <a-tooltip placement="topLeft">
-          <template #title>
-            <span>Refresh Filter</span>
-          </template>
-          <a-button @click="refreshFilter()" type="primary">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-          </a-button>
-        </a-tooltip>
-      </a-col>
-      <a-col :xs="24" :md="3">
-        <a-button
-          :disabled="
-            report.params.id_distrik_ret == null ||
-            report.params.tahun == `` ||
-            report.params.bulan == `` ||
-            report.params.week == ``
-              ? true
-              : false
-          "
-          type="primary"
-          @click="showReport"
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex">
+        <div class="align-self-center">
+          <span>Show :</span>
+        </div>
+        <a-select
+          :default-value="report.itemsPerPage[1]"
+          class="mx-2"
+          @change="handlePaginationSize"
         >
-          <i class="fa fa-eye mr-2" />
-          Tampilkan
-        </a-button>
-      </a-col>
-      <a-col :xs="24" :md="3">
-        <a-button
-          :disabled="report.dataTable.length == 0 ? true : false"
-          type="primary"
-          class="mb-3 float-right"
-          @click="downloadReport()"
-        >
-          <i class="fa fa-download mr-2" />
-          Export
-        </a-button>
-      </a-col>
-    </a-row>
-    <a-table
-      ref="table"
-      :columns="report.columns"
-      :data-source="report.dataTable"
-      :loading="report.isLoading"
-      :row-key="data => data"
-      :scroll="{ x: 2000 }"
-    />
+          <a-select-option v-for="itemPerPage in report.itemsPerPage" :key="itemPerPage">
+            {{ itemPerPage }}
+          </a-select-option>
+        </a-select>
+        <div class="align-self-center">
+          <span>entries</span>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <a-table
+        ref="table"
+        :columns="report.columns"
+        :data-source="report.dataTable"
+        :loading="report.isLoading"
+        :row-key="data => data"
+        :pagination="report.pagination"
+        :scroll="{ x: 2000 }"
+      />
+    </div>
   </a-card>
 </template>
 
@@ -135,27 +212,54 @@ export default {
     },
   },
   async mounted() {
+    await this.getRegion()
+    await this.getProvinsi()
     await this.getDistrikRET()
+    await this.getDistrik()
   },
   methods: {
-    ...mapActions('report', ['getDistrikRET', 'getDataTable', 'getDataWeekParams']),
-    refreshFilter() {
-      this.report.params.id_distrik_ret = null
-      this.report.params.tahun = ''
-      this.report.params.bulan = ''
-      this.report.params.week = ''
-      this.report.params.nm_distrik = ''
-      this.report.dataTable = []
+    ...mapActions('report', [
+      'getRegion',
+      'getProvinsi',
+      'getDistrik',
+      'refreshFilterData',
+      'getDistrikRET',
+      'getDataTable',
+      'getDataWeekParams',
+    ]),
+    async refreshFilter() {
+      await this.refreshFilterData()
+      await this.getRegion()
+      await this.getProvinsi()
+      await this.getDistrikRET()
+      await this.getDistrik()
     },
 
     async showReport() {
       await this.getDataTable()
     },
+    async handleChangeDistrikRET() {
+      this.$store.commit('report/changeReport', {
+        distrikList: [],
+      })
+      await this.getDistrik()
+    },
+    async handleChangeDistrik() {
+      let dataSource = [...this.report.distrikList]
+      let filtered = dataSource.filter(x => x.id_distrik == this.report.params.distrik_name)
 
-    handleChangeDistrik() {
-      let dataSource = [...this.report.dataDistrikRET]
-      let filtered = dataSource.filter(x => x.nama_distrik == this.report.params.nm_distrik)
-      this.report.params.id_distrik_ret = filtered[0].id_distrik
+      this.report.params.id_distrik = filtered[0].id_distrik
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
+      if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week != ``
+      ) {
+        await this.getDataTable()
+      } else {
+      }
     },
 
     async downloadReport() {
@@ -235,12 +339,42 @@ export default {
         }),
       )
     },
+    handlePaginationSize(size) {
+      this.report.pagination.pageSize = size
+    },
+    async handleChangeRegion() {
+      let dataSource = [...this.report.regionList]
+      let filtered = dataSource.filter(x => x.nama_region == this.report.params.region_name)
+
+      this.report.params.id_region = filtered[0].id_region
+
+      await this.getProvinsi()
+
+      // if (this.report.params.tahun != '' && this.report.params.bulan != ``) {
+      //   await this.getDataTable()
+      // }
+    },
+    async handleChangeProvince() {
+      let dataSource = [...this.report.provinceList]
+      let filtered = dataSource.filter(x => x.nama_provinsi == this.report.params.province_name)
+
+      this.report.params.id_provinsi = filtered[0].id_provinsi
+      this.$store.commit('report/changeReport', {
+        dataDistrikRET: [],
+      })
+      await this.getDistrikRET()
+    },
+
     async handleChangeTahun() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
       if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&
         this.report.params.week != ''
       ) {
+        await this.getDataTable()
       } else if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&
@@ -250,11 +384,34 @@ export default {
       }
     },
     async handleChangeBulan() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
       if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&
         this.report.params.week != ''
       ) {
+        await this.getDataTable()
+      } else if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week == ''
+      ) {
+        await this.getDataWeekParams()
+      }
+    },
+
+    async handleChangeWeek() {
+      this.$store.commit('report/changeReport', {
+        dataTable: [],
+      })
+      if (
+        this.report.params.tahun != '' &&
+        this.report.params.bulan != '' &&
+        this.report.params.week != ''
+      ) {
+        await this.getDataTable()
       } else if (
         this.report.params.tahun != '' &&
         this.report.params.bulan != '' &&

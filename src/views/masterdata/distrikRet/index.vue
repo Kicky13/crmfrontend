@@ -116,6 +116,7 @@
           data-toggle="tooltip"
           data-placement="top"
           :disabled="item.disabled"
+          :style="{color: item.isred ? 'red' : item.disabled ? '#c8c4db' : 'black'}"
         >
           {{ item.id_distrik }} - {{ item.nama_distrik }}
         </a-select-option>
@@ -165,6 +166,7 @@ export default {
         id_distrik_ret: null,
       },
       selected_distrik: null,
+      id_provinsi_check: [],
     }
   },
   computed: {
@@ -223,6 +225,7 @@ export default {
           })
           await this.getAllDistrikRET()
           this.disabledDistrik()
+          this.redDistrik()
           this.formState.id = null
         },
         onCancel: () => {
@@ -233,10 +236,12 @@ export default {
     async showTambahDistrikModal(id) {
       this.selected_distrik = null
       await this.getDistrikByDistrikRet({ id_distrik_ret: id })
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
       this.dataDistrik.id_distrik_ret = id
-      this.tambahDistrikModal = true
       await this.getAllDistrik()
+      this.tambahDistrikModal = true
       this.disabledDistrik()
+      this.redDistrik()
     },
     async saveDistrikRet() {
       const validation = this.formState.distrik_ret_baru.toString().trim()
@@ -271,10 +276,20 @@ export default {
       }
     },
     async saveDistrik(){
+      const selectedIdProvinsi = this.selected_distrik ? this.distrikRET.distrikList.all.find(row => row.id_distrik == this.selected_distrik.split(' - ')[0]).id_provinsi : null
+
       if (this.selected_distrik == null) {
         notification.error({
           message: 'Gagal',
           description: 'Silahkan pilih salah satu distrik',
+        })
+        return
+      }
+      const lengthCheck = this.id_provinsi_check.length != 0 ? this.id_provinsi_check[0].id_provinsi : selectedIdProvinsi
+      if (lengthCheck != selectedIdProvinsi) {
+        notification.error({
+          message: 'Gagal',
+          description: 'Distrik berbeda provinsi',
         })
         return
       }
@@ -287,6 +302,8 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
       await this.getAllDistrik()
       this.disabledDistrik()
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
+      this.redDistrik()
     },
     async deleteDistrik(id) {
       await this.deleteDistrikByDistrikRet({
@@ -296,7 +313,8 @@ export default {
       await this.getDistrikByDistrikRet({ id_distrik_ret: this.dataDistrik.id_distrik_ret })
       await this.getAllDistrik()
       this.disabledDistrik()
-
+      this.id_provinsi_check = this.distrikRET.distrikByDistrikRetList
+      this.redDistrik()
     },
     changeFormatDate(dates) {
       const [dateFormat, timeFormat] = dates.split(' ')
@@ -308,6 +326,17 @@ export default {
       this.distrikRET.distrikList.choosen.map(objChoosen => {
         if (this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik)) {
           this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik).disabled = true
+        }
+      })
+    },
+    redDistrik() {
+      this.distrikRET.distrikList.all.map(obj => {
+        if (this.id_provinsi_check.length == 0) {
+          obj.isred = false
+        } else if (obj.id_provinsi == this.id_provinsi_check[0].id_provinsi) {
+          obj.isred = false
+        } else {
+          obj.isred = true
         }
       })
     },

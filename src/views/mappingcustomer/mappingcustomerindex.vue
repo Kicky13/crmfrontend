@@ -127,6 +127,7 @@ import { message } from 'ant-design-vue'
 import { filter } from 'lodash'
 import { defineComponent, reactive, toRaw } from 'vue'
 import { mapState, mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   name: 'VbAntDesign',
@@ -213,6 +214,13 @@ export default defineComponent({
           autoWidth: this.autoWidth,
           bookType: this.bookType,
         })
+      })
+      Swal.fire({
+        icon: 'success',
+        title: 'Success...',
+        text: 'Data berhasil didownload!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     },
     formatJson(filterVal, jsonData) {

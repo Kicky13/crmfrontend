@@ -246,10 +246,21 @@ const actions = {
         dataCustomer: response.data.data,
         isLoading: false,
       })
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Success...',
+        text: 'Data berhasil ditampilkan!',
+        showConfirmButton: false,
+        timer: 2000,
+      })
     } else {
-      notification.error({
-        message: 'Error',
-        description: result.data.message,
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: result.data.message,
+        showConfirmButton: false,
+        timer: 2000,
       })
       await commit('changeKoordinat', {
         isLoading: false,
