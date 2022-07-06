@@ -147,6 +147,7 @@ import {
 import VbUserEditModal from './modals/UserEditModal'
 import { notification } from 'ant-design-vue'
 import { toRaw } from 'vue'
+import Swal from 'sweetalert2'
 
 const itemsPerPage = [5, 10, 15, 20]
 
@@ -291,14 +292,20 @@ export default {
         .then(response => {
           if (response) {
             this.fetchLevelUsers()
-            notification.success({
-              message: 'Tambah User',
-              description: 'User berhasil ditambah',
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: 'Data berhasil ditambahkan!',
+              showConfirmButton: false,
+              timer: 2000,
             })
           } else {
-            notification.warning({
-              message: 'Tambah User',
-              description: 'User sudah tersedia',
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning...',
+              text: 'User sudah tersedia!',
+              showConfirmButton: false,
+              timer: 2000,
             })
           }
         })
@@ -326,14 +333,20 @@ export default {
         .then(response => {
           if (response.status == 200) {
             this.fetchLevelUsers()
-            notification.success({
-              message: 'Update User',
-              description: 'User berhasil diupdate',
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: 'Data berhasil diupdate!',
+              showConfirmButton: false,
+              timer: 2000,
             })
           } else {
-            notification.error({
-              message: 'Update User',
-              description: response.message,
+            Swal.fire({
+              icon: 'error',
+              title: 'Opps...',
+              text: response.message,
+              showConfirmButton: false,
+              timer: 2000,
             })
           }
         })
@@ -353,9 +366,12 @@ export default {
         cancelText: 'Batal',
         onOk() {
           deleteMethod(id)
-          notification.success({
-            message: 'Hapus User',
-            description: 'User berhasil dihapus',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil dihapus!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         },
       })
@@ -370,21 +386,30 @@ export default {
         )
         if (!exist) {
           this.addNewLevelUser(dataForm)
-          notification.success({
-            message: 'Tambah User',
-            description: 'User berhasil ditambah',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditambahkan!',
+            showConfirmButton: false,
+            timer: 2000,
           })
           this.newUsername = ''
         } else {
-          notification.warning({
-            message: 'Tambah User',
-            description: 'User sudah tersedia',
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning...',
+            text: 'User sudah tersedia!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } else {
-        notification.error({
-          message: 'Tambah User',
-          description: 'Kolom tambah user masih kosong',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Kolom tambah user masih kosong!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         this.newUsername = ''
       }

@@ -22,10 +22,28 @@
         />
       </a-form-item>
     </a-form>
+    <a-form
+      :label-col="{ span: 5 }"
+      :wrapper-col="{ span: 19 }"
+    >
+      <a-form-item label="Jenis Isian">
+        <a-select
+          placeholder="Pilih jenis isian"
+          v-model:value="isNewIsian"
+        >
+          <a-select-option disabled value="">Pilih jenis isian</a-select-option>
+          <a-select-option value="0">Pilih salah satu</a-select-option>
+          <a-select-option value="1">Pilih beberapa</a-select-option>
+          <a-select-option value="2">Isian</a-select-option>
+        </a-select>
+      </a-form-item>
+    </a-form>
   </a-modal>
 </template>
 
 <script>
+import { notification } from 'ant-design-vue'
+
 export default {
   props: {
     modalVisible: Boolean,
@@ -35,6 +53,10 @@ export default {
       default: '',
     },
     newJawaban: {
+      type: String,
+      default: '',
+    },
+    newIsian: {
       type: String,
       default: '',
     },
@@ -51,6 +73,7 @@ export default {
     return {
       isNewJawaban: '',
       isNewPoin: '',
+      isNewIsian: '',
     }
   },
   watch: {
@@ -60,9 +83,39 @@ export default {
     newPoin() {
       this.isNewPoin = this.newPoin
     },
+    newIsian() {
+      this.isNewIsian = this.newIsian
+    },
   },
   methods: {
     handleOk() {
+      this.isNewJawaban = this.isNewJawaban.trim()
+      this.isNewPoin = this.isNewPoin.trim()
+
+      if (!this.isNewJawaban) {
+        notification.error({
+          message: 'Tambah Jawaban',
+          description: 'Kolom jawaban masih kosong',
+        })
+        return
+      }
+
+      if (!this.isNewPoin) {
+        notification.error({
+          message: 'Tambah Jawaban',
+          description: 'Kolom poin masih kosong',
+        })
+        return
+      }
+
+      if (!this.isNewIsian) {
+        notification.error({
+          message: 'Tambah Jawaban',
+          description: 'Kolom jenis isian masih kosong',
+        })
+        return
+      }
+
       const dataForm = {
         jawaban: this.isNewJawaban,
         poin: this.isNewPoin,
@@ -70,11 +123,13 @@ export default {
       this.$emit('handleOk', this.modalStatus, dataForm)
       this.isNewJawaban = ''
       this.isNewPoin = ''
+      this.isNewIsian = ''
     },
     handleCancel() {
       this.$emit('handleCancel')
       this.isNewJawaban = this.newJawaban
       this.isNewPoin = this.newPoin
+      this.isNewIsian = this.newIsian
     },
   },
 }

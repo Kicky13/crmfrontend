@@ -54,13 +54,13 @@
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
           <a-select-option
             v-for="(item, index) in gapHarga.distrikList"
-            :value="item.nama_distrik"
+            :value="item.nm_distrik"
             :key="index"
-            :title="item.nama_distrik"
+            :title="item.nm_distrik"
             data-toggle="tooltip"
             data-placement="top"
           >
-            {{ item.id_distrik }} - {{ item.nama_distrik }}
+            {{ item.id_distrik }} - {{ item.nm_distrik }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -290,11 +290,11 @@ export default {
       let dataSource = [...this.gapHarga.distrikRetList]
       let filtered = dataSource.filter(x => x.nama_district_ret == this.formData.nm_distrik_ret)
       let idDistrikRet = (this.formData.id_distrik_ret = filtered[0].id_district_ret)
-      this.getDistrik({ id_distrik_ret: idDistrikRet })
+      this.getDistrik({ id_distrik_ret: idDistrikRet, id_provinsi: this.formData.id_provinsi })
     },
     distrikHandler() {
       let dataSource = [...this.gapHarga.distrikList]
-      let filtered = dataSource.filter(x => x.nama_distrik == this.formData.nm_distrik)
+      let filtered = dataSource.filter(x => x.nm_distrik == this.formData.nm_distrik)
       this.formData.id_distrik = filtered[0].id_distrik
     },
     async handleChangeTahun() {
@@ -325,23 +325,21 @@ export default {
       }
     },
 
-    refreshFilter(){
-        this.formData.id_provinsi = null,
-        this.formData.nm_provinsi = '',
-        this.formData.id_distrik_ret = null,
-        this.formData.nm_distrik_ret = '',
-        this.formData.id_distrik = null,
-        this.formData.nm_distrik = '',
-        this.formData.tahun = '',
-        this.formData.bulan = '',
-        this.formData.week = '',
-        this.gapHarga.distrikRetList = [],
-        this.gapHarga.distrikList = [],
-        this.gapHarga.dataWeekParams = [],
-        this.filter.listProvinsi = [],
+    refreshFilter() {
+      ;(this.formData.id_provinsi = null),
+        (this.formData.nm_provinsi = ''),
+        (this.formData.id_distrik_ret = null),
+        (this.formData.nm_distrik_ret = ''),
+        (this.formData.id_distrik = null),
+        (this.formData.nm_distrik = ''),
+        (this.formData.tahun = ''),
+        (this.formData.bulan = ''),
+        (this.formData.week = ''),
+        (this.gapHarga.distrikRetList = []),
+        (this.gapHarga.distrikList = []),
+        (this.gapHarga.dataWeekParams = []),
+        (this.filter.listProvinsi = []),
         this.getAllProvinsi()
-
-
     },
   },
 }

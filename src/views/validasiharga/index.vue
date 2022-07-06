@@ -68,32 +68,32 @@
             <a-form-item label="Harga Beli Minimal">
               <a-input-number
                 v-model:value="formState.hargaBeliMin"
-                :formatter="(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
-                :parser="(value) => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
                 style="width: 100%"
               />
             </a-form-item>
             <a-form-item label="Harga Beli Maksimal">
               <a-input-number
                 v-model:value="formState.hargaBeliMax"
-                :formatter="(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
-                :parser="(value) => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
                 style="width: 100%"
               />
             </a-form-item>
             <a-form-item label="Harga Jual Minimal">
               <a-input-number
                 v-model:value="formState.hargaJualMin"
-                :formatter="(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
-                :parser="(value) => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
                 style="width: 100%"
               />
             </a-form-item>
             <a-form-item label="Harga Jual Maksimal">
               <a-input-number
                 v-model:value="formState.hargaJualMax"
-                :formatter="(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
-                :parser="(value) => value.replace(/[Rp.]\s?|(,*)/g, '')"
+                :formatter="value => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :parser="value => value.replace(/[Rp.]\s?|(,*)/g, '')"
                 style="width: 100%"
               />
             </a-form-item>
@@ -117,6 +117,7 @@ import {
 import { insertProduk, updateProduk } from '@/services/connection/validasiHargaProduk/api'
 import { Modal, notification } from 'ant-design-vue'
 import { add, forEach } from 'lodash'
+import Swal from 'sweetalert2'
 
 const columns = [
   {
@@ -163,7 +164,7 @@ export default {
   // },
   setup() {
     const rowSelection = {
-      getCheckboxProps: (record) => ({
+      getCheckboxProps: record => ({
         props: {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
@@ -217,9 +218,9 @@ export default {
       this.statusModal = true
       // showpost(id)
       getProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.id === id)
+            const post = response.data.find(post => post.id === id)
             this.formState.id = post.id
             this.formState.idproduk = post.idproduk
             this.formState.namaproduk = post.namaproduk
@@ -230,7 +231,7 @@ export default {
             this.pilihProdukOption = `${this.formState.idproduk} - ${this.formState.namaproduk}`
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -244,9 +245,12 @@ export default {
         this.formState.hargaJualMin == '' ||
         this.formState.hargaJualMax == ''
       ) {
-        notification.error({
-          message: 'Gagal!',
-          description: 'Field Tidak Boleh Kosong!!',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: `Field Tidak Boleh Kosong!`,
+          showConfirmButton: false,
+          timer: 2000,
         })
         setTimeout(() => {
           this.visible = false
@@ -257,35 +261,48 @@ export default {
       const formData = toRaw(this.formState)
       try {
         insertProduk(formData)
-          .then((response) => {
+          .then(response => {
             if (response.status == true) {
               this.fetchGetDataSource()
-              notification.success({
-                message: 'Berhasil',
-                description: response.message,
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: response.message,
+                showConfirmButton: false,
+                timer: 2000,
               })
             } else {
               let message = response.message
-              message.forEach((x) =>
-                notification.error({
-                  message: 'Gagal!',
-                  description: x,
+              message.forEach(x =>
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Opps...',
+                  text: x,
+                  showConfirmButton: false,
+                  timer: 2000,
                 }),
               )
             }
           })
-          .catch((err) => {
+          .catch(err => {
             if (err) {
-              notification.error({
-                message: 'Error',
-                description: 'Maaf, terjadi kesalahan',
+              Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: 'Maaf, terjadi kesalahan!',
+                showConfirmButton: false,
+                timer: 2000,
               })
             }
           })
       } catch (error) {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
 
@@ -303,9 +320,12 @@ export default {
         this.formState.hargaJualMin == '' ||
         this.formState.hargaJualMax == ''
       ) {
-        notification.error({
-          message: 'Gagal!',
-          description: 'Field Tidak Boleh Kosong!!',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Field Tidak Boleh Kosong!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         setTimeout(() => {
           this.visible = false
@@ -316,33 +336,46 @@ export default {
       const formData = toRaw(this.formState)
       try {
         updateProduk(this.formState.id, formData)
-          .then((response) => {
+          .then(response => {
             if (response == true) {
               this.fetchGetDataSource()
               this.fetchGetDataProduk()
-              notification.success({
-                message: 'Berhasil!',
-                description: 'Update Berhasil',
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data berhasil diupdate!',
+                showConfirmButton: false,
+                timer: 2000,
               })
             } else {
-              notification.error({
-                message: 'Gagal!',
-                description: 'Update Gagal',
+              Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: 'Data gagal diupdate',
+                showConfirmButton: false,
+                timer: 2000,
               })
             }
           })
-          .catch((err) => {
+          .catch(err => {
             if (err) {
-              notification.error({
-                message: 'Error',
-                description: 'Maaf, terjadi kesalahan',
+              Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: 'Maaf, terjadi kesalahan!',
+                showConfirmButton: false,
+                timer: 2000,
               })
             }
           })
       } catch (error) {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
       setTimeout(() => {
@@ -356,17 +389,20 @@ export default {
     },
     deleteDataById(id) {
       deleteData(id)
-        .then((response) => {
+        .then(response => {
           if (response) {
             const dataSource = [...this.dataSourceTable]
-            this.dataSourceTable = dataSource.filter((item) => item.id !== id)
-            notification.success({
-              message: 'Sukses!',
-              description: 'Data berhasil dihapus',
+            this.dataSourceTable = dataSource.filter(item => item.id !== id)
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: 'Data berhasil dihapus!',
+              showConfirmButton: false,
+              timer: 2000,
             })
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -387,14 +423,14 @@ export default {
     setSelectMethod(value) {
       const id = parseInt(value.split('-')[0])
       getSelectProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
-            const post = response.data.find((post) => post.id === id)
+            const post = response.data.find(post => post.id === id)
             this.formState.idproduk = id
             this.formState.namaproduk = post.namaproduk
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
@@ -408,34 +444,34 @@ export default {
     addFormatNumber(harga) {
       return harga
         .split('s/d')
-        .map((value) => `Rp. ${value.trim().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`)
+        .map(value => `Rp. ${value.trim().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`)
         .join(' s/d ')
     },
     fetchGetDataSource() {
       getProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.dataSourceTable = response.data
-            this.dataSourceTable.map((data) => {
+            this.dataSourceTable.map(data => {
               data.hargaBeli = this.addFormatNumber(data.hargaBeli)
               data.hargaJual = this.addFormatNumber(data.hargaJual)
             })
             this.resetFormState()
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })
     },
     fetchGetDataProduk() {
       getSelectProdukList()
-        .then((response) => {
+        .then(response => {
           if (response) {
             this.listProduk = response.data
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err) {
           }
         })

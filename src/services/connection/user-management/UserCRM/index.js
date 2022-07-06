@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -169,14 +170,20 @@ const actions = {
       try {
         result = await apiClient.put(`/usercrm/update/${data.formState.id}`, formData)
         if (result.data.status == false) {
-          notification.error({
-            message: 'Error',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
           })
         } else {
-          notification.success({
-            message: 'Success',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: `Data user berhasil diubah!`,
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } catch (err) {
@@ -192,20 +199,29 @@ const actions = {
       try {
         result = await apiClient.post(`/usercrm/add`, formData)
         if (result.data.status == false) {
-          notification.error({
-            message: 'Error',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
           })
         } else {
-          notification.success({
-            message: 'Success',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: `Data user berhasil ditambahkan!`,
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } catch (err) {
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
       await commit('changeUserManagementCRM', {
@@ -218,18 +234,24 @@ const actions = {
     try {
       const result = await apiClient.delete(`/usercrm/delete/${payload.data_id}`)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         commit('changeUserManagementCRM', {
           isLoading: false,
         })
         return false
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: `Data user berhasil dihapus!`,
+          showConfirmButton: false,
+          timer: 2000,
         })
         commit('changeUserManagementCRM', {
           isLoading: false,
@@ -237,9 +259,12 @@ const actions = {
         return true
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -306,20 +331,29 @@ const actions = {
     try {
       const result = await apiClient.post(`/usercrm/changepassword`, formData)
       if (result.data.status == false) {
-        notification.warning({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: `Password user berhasil diubah!`,
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },

@@ -148,7 +148,7 @@
           <a-table
             ref="table"
             :columns="reportingSupervisory.columns"
-            :data-source="reportingSupervisory.dataTable"
+            :data-source="reportingSupervisory.listReport"
             :loading="reportingSupervisory.isLoading"
             :row-key="data => data"
             :scroll="{ x: 2000 }"
@@ -175,7 +175,7 @@
               <span>{{ text.nilai }}</span>
             </template>
             <template #alamat="{ text }">
-              <span>{{ text.alamat }}</span>
+              <span>{{ text.alamat.slice(0, 100) + `...` }} </span>
             </template>
             <template #action="{ text }">
               <router-link

@@ -1,6 +1,7 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -79,9 +80,12 @@ const actions = {
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -103,9 +107,12 @@ const actions = {
     try {
       const result = await apiClient.post(`/ListCustomer`, formData)
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeSynCustomer', {
           isLoading: false,
@@ -113,9 +120,12 @@ const actions = {
       } else {
         if (data.bodyList.filter.length > 0) {
         } else {
-          notification.success({
-            message: 'Success',
-            description: 'Data berhasil ditampilkan',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
 
@@ -125,9 +135,12 @@ const actions = {
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -146,9 +159,12 @@ const actions = {
           `&access-token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDY4MzcxMzksInN1YiI6MTQ0OTgyMn0.sIBeo2CE45Zt3kAjsILPWP9TkHTkYzED_7Wd2HMOJ8w`,
       )
       if (result.data.status !== 200) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeSynCustomer', {
           isLoading: false,
@@ -157,9 +173,12 @@ const actions = {
       } else {
         if (data.bodyList.filter.length > 0) {
         } else {
-          notification.success({
-            message: 'Success',
-            description: 'Data berhasil ditampilkan',
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: 'Data berhasil ditampilkan!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
 
@@ -169,9 +188,12 @@ const actions = {
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -240,32 +262,41 @@ const actions = {
         timeout: 800000,
       })
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeSynCustomer', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description:
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text:
             result.data.message +
             ', ' +
             result.data.insert +
             ' Data berhasil ditambahkan & ' +
             result.data.update +
             ' Data berhasil diupdate',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changeSynCustomer', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
