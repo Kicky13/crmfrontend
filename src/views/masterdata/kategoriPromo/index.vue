@@ -90,15 +90,16 @@ export default {
       modalStatus: false,
     }
   },
-  async mounted() {
-    await this.getAllKategori()
-    this.getUserId()
-  },
   computed: {
     ...mapState({
       kategoriPromo: state => state.kategoriPromo.data,
     }),
   },
+  async mounted() {
+    await this.getAllKategori()
+    this.getUserId()
+  },
+
   methods: {
     ...mapActions('kategoriPromo', [
       'getAllKategori',
