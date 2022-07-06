@@ -1,10 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-end mb-3">
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
@@ -41,25 +38,14 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="kemasanModal"
-    title="Form Kemasan"
-  >
+  <a-modal v-model:visible="kemasanModal" title="Form Kemasan">
     <template #footer>
-      <a-button
-        key="back"
-        @click="kemasanModal = false"
-      >
+      <a-button key="back" @click="kemasanModal = false">
         Batal
       </a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        :loading="kemasan.isLoading"
-        @click="saveKemasan"
-      >
+      <a-button key="submit" type="primary" :loading="kemasan.isLoading" @click="saveKemasan">
         {{ modalStatus ? 'Update' : 'Simpan' }}
       </a-button>
     </template>
@@ -67,7 +53,11 @@
       placeholder="Kemasan"
       v-model:value="formState.kemasan_baru"
       @keyup.enter="saveKemasan"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.kemasan_baru.length }} / 50</span>
+    </div>
     <a-select
       placeholder="Satuan"
       show-search
@@ -133,7 +123,13 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions('kemasan', ['getAllGroupKemasan', 'getAllKemasan', 'addKemasan', 'deleteKemasan', 'editKemasan']),
+    ...mapActions('kemasan', [
+      'getAllGroupKemasan',
+      'getAllKemasan',
+      'addKemasan',
+      'deleteKemasan',
+      'editKemasan',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },

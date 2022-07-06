@@ -1,10 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-end mb-3">
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
@@ -41,17 +38,11 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="kategoriModal"
-    title="Form Kategori"
-  >
+  <a-modal v-model:visible="kategoriModal" title="Form Kategori">
     <template #footer>
-      <a-button
-        key="back"
-        @click="kategoriModal = false"
-      >
+      <a-button key="back" @click="kategoriModal = false">
         Batal
       </a-button>
       <a-button
@@ -65,10 +56,13 @@
     </template>
     <a-input
       placeholder="Kategori"
-      class="mb-3"
       v-model:value="formState.kategori_baru"
       @keyup.enter="saveKategori"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.kategori_baru.length }} / 50</span>
+    </div>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
@@ -96,17 +90,23 @@ export default {
       modalStatus: false,
     }
   },
-  async mounted() {
-    await this.getAllKategori()
-    this.getUserId()
-  },
   computed: {
     ...mapState({
       kategoriPromo: state => state.kategoriPromo.data,
     }),
   },
+  async mounted() {
+    await this.getAllKategori()
+    this.getUserId()
+  },
+
   methods: {
-    ...mapActions('kategoriPromo', ['getAllKategori', 'addKategori', 'deleteKategori', 'editKategori']),
+    ...mapActions('kategoriPromo', [
+      'getAllKategori',
+      'addKategori',
+      'deleteKategori',
+      'editKategori',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },

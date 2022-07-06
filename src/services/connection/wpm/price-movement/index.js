@@ -207,7 +207,7 @@ const actions = {
           isLoading: false,
         })
         Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
@@ -215,13 +215,13 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: 'Data price movement berhasil ditampilkan!',
-            showConfirmButton: false,
-            timer: 2000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: 'Data price movement berhasil ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 2000,
+          // })
         } else {
           Swal.fire({
             icon: 'error',
