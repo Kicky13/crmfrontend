@@ -95,6 +95,12 @@ const state = {
         name: 'Week 6',
       },
     ],
+    params: {
+      offset: 0,
+      limit: 2000,
+    },
+    regionList: [],
+    provinceList: [],
     dataWeekParams: [],
     distrikRetList: [],
     distrikList: [],
@@ -155,11 +161,11 @@ const actions = {
     const { data } = state
 
     const formData = {
+      id_region: payload.id_region,
       id_provinsi: payload.id_provinsi,
     }
-
     try {
-      const result = await apiClient.post(`/distrik/distrikRet`, formData)
+      const result = await apiClient.post(`/filter/DistrikRet`, formData)
 
       if (result.data.status == false) {
         await commit('changeGAPHarga', {
@@ -195,6 +201,7 @@ const actions = {
     const formData = {
       id_provinsi: payload.id_provinsi,
       id_distrik_ret: payload.id_distrik_ret,
+      id_region: payload.id_region,
     }
 
     try {
@@ -336,7 +343,7 @@ const actions = {
           isLoading: false,
         })
         Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
@@ -375,6 +382,81 @@ const actions = {
         text: 'Mohon maaf terdapat kesalahan.',
         showConfirmButton: true,
         timer: 2000,
+      })
+    }
+  },
+  async getRegion({ commit, state }) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+
+    const { data } = state
+
+    let body = {
+      //   id_area:data.formData.selectedArea,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Region', body)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeGAPHarga', {
+          regionList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
+      })
+    }
+  },
+  async getProvinsi({ commit, state }, payload) {
+    commit('changeGAPHarga', {
+      isLoading: true,
+    })
+
+    const { data } = state
+    let region_id = []
+    if (payload.id_region != ``) {
+      region_id.push(payload.id_region)
+    }
+    const formData = {
+      id_region: region_id.length > 0 ? JSON.stringify(region_id) : null,
+      offset: data.params.offset,
+      limit: data.params.limit,
+    }
+    try {
+      const result = await apiClient.post('/filter/Provinsi', formData)
+
+      if (result.data.status == 'error') {
+        notification.error({
+          message: 'Error',
+          description: result.data.message,
+        })
+        await commit('changeGAPHarga', {
+          isLoading: false,
+        })
+      } else {
+        await commit('changeGAPHarga', {
+          provinceList: result.data.data,
+          isLoading: false,
+        })
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Maaf, terjadi kesalahan',
       })
     }
   },
