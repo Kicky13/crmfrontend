@@ -182,17 +182,15 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive text-nowrap">
-      <a-table
-        ref="table"
-        :columns="report.columns"
-        :data-source="report.dataTable"
-        :loading="report.isLoading"
-        :row-key="data => data"
-        :pagination="report.pagination"
-        :scroll="{ x: 2000 }"
-      />
-    </div>
+    <a-table
+      ref="table"
+      :columns="report.columns"
+      :data-source="report.dataTable"
+      :loading="report.isLoading"
+      :row-key="data => data"
+      :pagination="report.pagination"
+      :scroll="{ x: 2000 }"
+    />
   </a-card>
 </template>
 

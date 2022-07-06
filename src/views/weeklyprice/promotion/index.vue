@@ -159,64 +159,62 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive text-nowrap">
-      <a-table
-        ref="table"
-        :columns="wpPromotion.columns"
-        :data-source="wpPromotion.dataTable"
-        :loading="wpPromotion.isLoading"
-        :pagination="wpPromotion.pagination"
-        :row-key="data => data"
-        :scroll="{ x: 2000 }"
-      >
-        <template #distrik="{ text }">
-          <span>{{ text.nm_distrik }}</span>
-        </template>
-        <template #tanggal_mulai="{ text }">
-          <span>{{ text.start_date }}</span>
-        </template>
-        <template #tanggal_selesai="{ text }">
-          <span>{{ text.end_date }}</span>
-        </template>
-        <template #brand="{ text }">
-          <span>{{ text.nm_brand }}</span>
-        </template>
-        <template #kategori="{ text }">
-          <span>{{ text.nm_kategori_promo }}</span>
-        </template>
-        <template #asal_program="{ text }">
-          <span>{{ text.program }}</span>
-        </template>
-        <template #nilai="{ text }">
-          <span>{{ text.nilai_zak }}</span>
-        </template>
-        <template #mekanisme="{ text }">
-          <span>{{ text.mekanisme }}</span>
-        </template>
-        <template #action="{ text }">
-          <div>
-            <button
-              type="button"
-              class="btn btn-success mr-1"
-              data-toggle="tooltip"
-              title="Sunting"
-              @click="showEditModal(text)"
-            >
-              <i class="fa fa-pencil-square-o" />
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-toggle="tooltip"
-              title="Hapus"
-              @click="showDeleteModal(text)"
-            >
-              <i class="fa fa-trash" />
-            </button>
-          </div>
-        </template>
-      </a-table>
-    </div>
+    <a-table
+      ref="table"
+      :columns="wpPromotion.columns"
+      :data-source="wpPromotion.dataTable"
+      :loading="wpPromotion.isLoading"
+      :pagination="wpPromotion.pagination"
+      :row-key="data => data"
+      :scroll="{ x: 2000 }"
+    >
+      <template #distrik="{ text }">
+        <span>{{ text.nm_distrik }}</span>
+      </template>
+      <template #tanggal_mulai="{ text }">
+        <span>{{ text.start_date }}</span>
+      </template>
+      <template #tanggal_selesai="{ text }">
+        <span>{{ text.end_date }}</span>
+      </template>
+      <template #brand="{ text }">
+        <span>{{ text.nm_brand }}</span>
+      </template>
+      <template #kategori="{ text }">
+        <span>{{ text.nm_kategori_promo }}</span>
+      </template>
+      <template #asal_program="{ text }">
+        <span>{{ text.program }}</span>
+      </template>
+      <template #nilai="{ text }">
+        <span>{{ text.nilai_zak }}</span>
+      </template>
+      <template #mekanisme="{ text }">
+        <span>{{ text.mekanisme }}</span>
+      </template>
+      <template #action="{ text }">
+        <div>
+          <button
+            type="button"
+            class="btn btn-success mr-1"
+            data-toggle="tooltip"
+            title="Sunting"
+            @click="showEditModal(text)"
+          >
+            <i class="fa fa-pencil-square-o" />
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-toggle="tooltip"
+            title="Hapus"
+            @click="showDeleteModal(text)"
+          >
+            <i class="fa fa-trash" />
+          </button>
+        </div>
+      </template>
+    </a-table>
   </a-card>
 
   <!-- Add Modal -->
