@@ -1,10 +1,7 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-end mb-3">
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
@@ -50,34 +47,26 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="distrikRetModal"
-    title="Form Distrik RET"
-  >
+  <a-modal v-model:visible="distrikRetModal" title="Form Distrik RET">
     <template #footer>
-      <a-button
-        key="back"
-        @click="distrikRetModal = false"
-      >
+      <a-button key="back" @click="distrikRetModal = false">
         Batal
       </a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        :loading="distrikRET.isLoading"
-        @click="saveDistrikRet"
-      >
+      <a-button key="submit" type="primary" :loading="distrikRET.isLoading" @click="saveDistrikRet">
         {{ modalStatus ? 'Update' : 'Simpan' }}
       </a-button>
     </template>
     <a-input
       placeholder="Distrik RET"
-      class="mb-3"
       v-model:value="formState.distrik_ret_baru"
       @keyup.enter="saveDistrikRet"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.distrik_ret_baru.length }} / 50</span>
+    </div>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"
@@ -87,16 +76,9 @@
   </a-modal>
 
   <!-- Add Distrik Modal -->
-  <a-modal
-    v-model:visible="tambahDistrikModal"
-    title="Tambah Distrik"
-  >
+  <a-modal v-model:visible="tambahDistrikModal" title="Tambah Distrik">
     <template #footer>
-      <a-button
-        danger
-        key="back"
-        @click="tambahDistrikModal = false"
-      >
+      <a-button danger key="back" @click="tambahDistrikModal = false">
         Kembali
       </a-button>
     </template>
@@ -116,7 +98,7 @@
           data-toggle="tooltip"
           data-placement="top"
           :disabled="item.disabled"
-          :style="{color: item.isred ? 'red' : item.disabled ? '#c8c4db' : 'black'}"
+          :style="{ color: item.isred ? 'red' : item.disabled ? '#c8c4db' : 'black' }"
         >
           {{ item.id_distrik }} - {{ item.nama_distrik }}
         </a-select-option>
@@ -126,22 +108,22 @@
       </a-button>
     </div>
     <a-list item-layout="horizontal" :data-source="distrikRET.distrikByDistrikRetList">
-    <template #renderItem="{ item }">
-      <a-list-item>
-        <template #actions>
-          <a class="fa fa-window-close" @click="deleteDistrik(item.id_mm_distrik_ret)" />
-        </template>
-        <a-list-item-meta>
-          <template #title>
-            <span>{{ item.nama_distrik }}</span>
+      <template #renderItem="{ item }">
+        <a-list-item>
+          <template #actions>
+            <a class="fa fa-window-close" @click="deleteDistrik(item.id_mm_distrik_ret)" />
           </template>
-          <template #avatar>
-            <i class="fa fa-map-pin" />
-          </template>
-        </a-list-item-meta>
-      </a-list-item>
-    </template>
-  </a-list>
+          <a-list-item-meta>
+            <template #title>
+              <span>{{ item.nama_distrik }}</span>
+            </template>
+            <template #avatar>
+              <i class="fa fa-map-pin" />
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
+      </template>
+    </a-list>
   </a-modal>
 </template>
 
@@ -180,19 +162,16 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions(
-      'distrikRET', 
-      [
-        'getAllDistrikRET',
-        'addDistrikRET',
-        'deleteDistrikRET',
-        'editDistrikRET',
-        'getAllDistrik',
-        'getDistrikByDistrikRet',
-        'addDistrikByDistrikRet',
-        'deleteDistrikByDistrikRet',
-      ],
-    ),
+    ...mapActions('distrikRET', [
+      'getAllDistrikRET',
+      'addDistrikRET',
+      'deleteDistrikRET',
+      'editDistrikRET',
+      'getAllDistrik',
+      'getDistrikByDistrikRet',
+      'addDistrikByDistrikRet',
+      'deleteDistrikByDistrikRet',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -275,8 +254,12 @@ export default {
         this.formState.keterangan = ''
       }
     },
-    async saveDistrik(){
-      const selectedIdProvinsi = this.selected_distrik ? this.distrikRET.distrikList.all.find(row => row.id_distrik == this.selected_distrik.split(' - ')[0]).id_provinsi : null
+    async saveDistrik() {
+      const selectedIdProvinsi = this.selected_distrik
+        ? this.distrikRET.distrikList.all.find(
+            row => row.id_distrik == this.selected_distrik.split(' - ')[0],
+          ).id_provinsi
+        : null
 
       if (this.selected_distrik == null) {
         notification.error({
@@ -285,7 +268,10 @@ export default {
         })
         return
       }
-      const lengthCheck = this.id_provinsi_check.length != 0 ? this.id_provinsi_check[0].id_provinsi : selectedIdProvinsi
+      const lengthCheck =
+        this.id_provinsi_check.length != 0
+          ? this.id_provinsi_check[0].id_provinsi
+          : selectedIdProvinsi
       if (lengthCheck != selectedIdProvinsi) {
         notification.error({
           message: 'Gagal',
@@ -322,10 +308,12 @@ export default {
       return `${date}-${month}-${year}`
     },
     disabledDistrik() {
-      this.distrikRET.distrikList.all.map(obj => obj.disabled = false)
+      this.distrikRET.distrikList.all.map(obj => (obj.disabled = false))
       this.distrikRET.distrikList.choosen.map(objChoosen => {
         if (this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik)) {
-          this.distrikRET.distrikList.all.find(obj => obj.id_distrik == objChoosen.id_distrik).disabled = true
+          this.distrikRET.distrikList.all.find(
+            obj => obj.id_distrik == objChoosen.id_distrik,
+          ).disabled = true
         }
       })
     },
