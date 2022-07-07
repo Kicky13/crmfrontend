@@ -50,7 +50,10 @@
         @change="changeActiveKey"
       >
         <template v-for="(question, i) in list.pertanyaan" :key="String(i)">
-          <a-collapse-panel :header="question.judul" :style="customStyle">
+          <a-collapse-panel
+            :header="question.judul + ` (` + jenisIsian(question.jenis_isian) + `)`"
+            :style="customStyle"
+          >
             <div class="d-flex justify-content-between mx-3 mt-3">
               <a @click="showTambahOpsionalJawabanModal(list, question)">
                 <i class="fa fa-plus-circle fa-lg text-main align-self-center mr-2" />
@@ -80,6 +83,9 @@
             >
               <template #name="{ text }">
                 <a href="javascript:;">{{ text }}</a>
+              </template>
+              <template #jenis_isian="{ text }">
+                <a href="javascript:;">{{ jenisIsian(text.jenis_isian) }}</a>
               </template>
               <template #action="{ text }">
                 <div>
@@ -154,6 +160,11 @@ const columns = [
     key: 'poin',
   },
   {
+    title: 'Jenis Isian',
+    slots: { customRender: 'jenis_isian' },
+    key: `jenis_isian`,
+  },
+  {
     title: 'Action',
     dataIndex: 'key',
     key: 'key',
@@ -170,7 +181,7 @@ export default {
   props: {
     list: {
       type: Object,
-      default: function () {
+      default: function() {
         return {}
       },
     },
@@ -244,7 +255,7 @@ export default {
       this.opsionalJawabanModalVisible = true
     },
     showEditOpsionalJawabanModal(listJawaban, key) {
-      const opsiJawaban = listJawaban.find((jawaban) => jawaban.key === key)
+      const opsiJawaban = listJawaban.find(jawaban => jawaban.key === key)
       this.idJawaban = opsiJawaban.key
       this.jawaban = opsiJawaban.judul
       this.poin = opsiJawaban.poin
@@ -257,7 +268,9 @@ export default {
       status ? this.tambahPertanyaanModalHandleOk(data) : this.editPertanyaanModalHandleOk(data)
     },
     opsionalJawabanModalHandleOk(status, data) {
-      status ? this.tambahOpsionalJawabanModalHandleOk(data) : this.editOpsionalJawabanModalHandleOk(data)
+      status
+        ? this.tambahOpsionalJawabanModalHandleOk(data)
+        : this.editOpsionalJawabanModalHandleOk(data)
     },
     tambahPertanyaanModalHandleOk(data) {
       const dataForm = {}
@@ -306,6 +319,7 @@ export default {
       dataForm.id_penilaian = this.idJenisPenilaian
       dataForm.id_pertanyaan = this.idPertanyaan
       dataForm.nm_jawaban = data.jawaban
+      dataForm.jenis_isian = data.jenis_isian
       dataForm.poin = data.poin
       dataForm.isian = data.isian
 
@@ -375,6 +389,16 @@ export default {
     // ========== End of Delete Modal ==========
     changeActiveKey(key) {
       this.activeKey = key
+    },
+    // ========== Validasi Jenis Isian =============
+    jenisIsian(text) {
+      if (text == `0`) {
+        return 'Pilih salah satu'
+      } else if (text == `1`) {
+        return 'Pilih beberapa'
+      } else {
+        return 'Isian'
+      }
     },
   },
 }
