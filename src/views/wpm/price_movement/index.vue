@@ -47,7 +47,7 @@
               class="w-100"
               @change="handleChangeDistrikRET"
             >
-              <a-select-option disabled value="">priceMovement Distrik RET</a-select-option>
+              <a-select-option disabled value="">Distrik RET</a-select-option>
               <a-select-option
                 v-if="priceMovement.dataDistrikRET && priceMovement.dataDistrikRET.length === 0"
                 disabled

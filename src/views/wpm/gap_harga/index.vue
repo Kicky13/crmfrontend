@@ -202,6 +202,12 @@
             >
               <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
               <a-select-option
+                v-if="gapHarga.distrikRetList && gapHarga.distrikRetList.length === 0"
+                disabled
+                value="null"
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+              <a-select-option
                 v-for="(item, index) in gapHarga.distrikRetList"
                 :value="item.nm_distrik_ret"
                 :key="index"
@@ -262,6 +268,12 @@
           @change="distrikHandler"
         >
           <a-select-option disabled value="">Pilih Distrik</a-select-option>
+          <a-select-option
+            v-if="gapHarga.distrikList && gapHarga.distrikList.length === 0"
+            disabled
+            value="null"
+            >Dikstrik tidak tersedia</a-select-option
+          >
           <a-select-option
             v-for="(item, index) in gapHarga.distrikList"
             :value="item.nm_distrik"
@@ -497,12 +509,20 @@ export default {
       let dataSource = [...this.gapHarga.provinceList]
       let filtered = dataSource.filter(x => x.nama_provinsi == this.formData.nm_provinsi)
       let idProvinsi = (this.formData.id_provinsi = filtered[0].id_provinsi)
+      this.formData.nm_distrik_ret = ''
+      this.$store.commit('gapHarga/changeGAPHarga', {
+        distrikRetList: [],
+      })
       this.getDistrikRET({ id_provinsi: idProvinsi })
     },
     distrikRetHandler() {
       let dataSource = [...this.gapHarga.distrikRetList]
       let filtered = dataSource.filter(x => x.nm_distrik_ret == this.formData.nm_distrik_ret)
       let idDistrikRet = (this.formData.id_distrik_ret = filtered[0].id_distrik_ret)
+      this.formData.nm_distrik = ''
+      this.$store.commit('gapHarga/changeGAPHarga', {
+        distrikList: [],
+      })
       this.getDistrik({ id_distrik_ret: idDistrikRet, id_provinsi: this.formData.id_provinsi })
     },
     distrikHandler() {
