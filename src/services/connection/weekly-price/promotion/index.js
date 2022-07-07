@@ -437,13 +437,24 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil ditambahkan!',
-          showConfirmButton: false,
-          timer: 2000,
-        })
+
+        if (result.data.message.indexOf('sudah') !== -1) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
       }
     } catch (error) {
       await commit('changePromotion', {
@@ -620,13 +631,13 @@ const actions = {
           isLoading: false,
           status: 'gagal',
         })
-       Swal.fire({
-         icon: 'error',
-         title: 'Opps...',
-         text: 'Maaf, terjadi kesalahan!',
-         showConfirmButton: false,
-         timer: 2000,
-       })
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan!',
+          showConfirmButton: false,
+          timer: 2000,
+        })
       }
     }
     // let StartDateFormat = new Date(data.formData.start_date + 3600 * 1000 * 24)

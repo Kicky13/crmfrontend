@@ -651,13 +651,23 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil ditambahkan!',
-          showConfirmButton: false,
-          timer: 2000,
-        })
+        if (result.data.message.indexOf('sudah') !== -1) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
       }
     } catch (error) {
       await commit('changeWeeklyInput', {

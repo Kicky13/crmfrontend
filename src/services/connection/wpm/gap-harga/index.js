@@ -171,10 +171,6 @@ const actions = {
         await commit('changeGAPHarga', {
           isLoading: false,
         })
-        notification.error({
-          message: 'Gagal',
-          description: result.data.message,
-        })
       } else {
         await commit('changeGAPHarga', {
           distrikRetList: result.data.data,
@@ -360,7 +356,7 @@ const actions = {
           // })
         } else {
           Swal.fire({
-            icon: 'error',
+            icon: 'warning',
             title: 'Opps...',
             text: 'Tidak terdapat data gap harga yang tersedia!',
             showConfirmButton: false,

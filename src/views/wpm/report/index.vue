@@ -275,6 +275,7 @@ export default {
         'PROMO',
         'RBP NET',
         'RSP',
+        'PERUBAHAN',
         'NOTES',
       ]
       const filterVal = [
@@ -291,6 +292,7 @@ export default {
         'promo',
         'rbpnett',
         'rsp',
+        'updated_by',
         'notes',
       ]
       this.exportToExcel(
