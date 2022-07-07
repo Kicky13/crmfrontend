@@ -6,11 +6,12 @@
     <div class="mr-auto mr-md-1">
       <!-- <vb-search /> -->
     </div>
+
     <div class="mr-3 d-none d-sm-block ml-auto">
       <vb-theme />
     </div>
     <div class="mr-3 d-none d-sm-block">
-      <!-- <vb-language-switcher /> -->
+      <vb-notification />
     </div>
     <div class="mr-auto mr-md-1">
       <vb-user-menu />
@@ -28,6 +29,7 @@ import VbUserMenu from './UserMenu'
 import VbFavPages from './FavPages'
 // import VbCart from './Cart'
 import VbTheme from './Theme'
+import VbNotification from './Notification'
 
 export default {
   components: {
@@ -35,6 +37,7 @@ export default {
     // VbLanguageSwitcher,
     VbUserMenu,
     // VbFavPages,
+    VbNotification,
     VbTheme,
   },
 

@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
+import { notification } from 'ant-design-vue'
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(
@@ -21,6 +22,10 @@ if (process.env.NODE_ENV === 'production') {
     },
     updated() {
       console.log('New content is available; please refresh.')
+      notification.warning({
+        message: 'Hello',
+        description: `New content is available; please refresh.`,
+      })
     },
     offline() {
       console.log('No internet connection found. App is running in offline mode.')
