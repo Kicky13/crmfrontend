@@ -60,7 +60,13 @@
               <button
                 :disabled="userManagement.detail_jabatan.idLevelJabatan == 10"
                 class="btn"
-                :class="`${userManagement.detail_jabatan.idLevelJabatan == 10 ? 'btn-secondary' : 'btn-success'}`"
+                :class="
+                  `${
+                    userManagement.detail_jabatan.idLevelJabatan == 10
+                      ? 'btn-secondary'
+                      : 'btn-success'
+                  }`
+                "
                 @click="lihatAtasan(userManagement.detail_jabatan.idJabatanAtasan)"
               >
                 <i class="fa fa-arrow-up mr-1" />
@@ -485,9 +491,6 @@ export default {
     await this.getListDownHirarki({
       id_jabatan: this.$route.params.id_jabatan,
     })
-    await this.getSalesNonBawahan({
-      id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
-    })
 
     await this.getListJenisUser()
 
@@ -709,20 +712,17 @@ export default {
     closeModalAssignUser() {
       this.userManagement.modalVisibleAssignUser = false
     },
-    assignUser(text) {
+    async assignUser(text) {
       this.userManagement.modalVisibleAssignUser = true
       this.userManagement.form_assign_bawahan.id_jabatan = text.idJabatan
       this.userManagement.form_assign_bawahan.id_user = null
       this.userManagement.form_assign_bawahan.tgl_mulai = null
-
-      // this.$store.commit('userManagement/changeUserManagement', {
-      //   form_assign_bawah  an: {
-      //     id_jabatan: text.idJabatan,
-      //     id_user: null,
-      //     tgl_mulai: '',
-      //     tgl_akhir: '',
-      //   },
-      // })
+      this.$store.commit('userManagement/changeUserManagement', {
+        sales_non_bawahan: [],
+      })
+      await this.getSalesNonBawahan({
+        id_jabatan: this.userManagement.detail_jabatan.levelJabatanBawahan,
+      })
     },
     openModalDelete(id) {
       this.modalDeleteView = true
