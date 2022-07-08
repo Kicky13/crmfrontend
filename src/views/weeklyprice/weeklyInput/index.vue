@@ -467,9 +467,9 @@ export default {
       await this.$store.commit('weeklyInput/changeWeeklyInput', {
         formData: {
           id_distrik: null,
-          tahun: '',
-          bulan: '',
-          week: '',
+          tahun: this.weeklyInput.params.tahun,
+          bulan: this.weeklyInput.params.bulan,
+          week: this.weeklyInput.params.week,
           id_produk: null,
           rbp_gross: null,
           promo: 0,
