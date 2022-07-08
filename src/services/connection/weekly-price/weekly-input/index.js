@@ -11,20 +11,25 @@ const state = {
         key: 'distrik',
       },
       {
-        title: 'Tahun',
-        slots: { customRender: 'tahun' },
-        key: 'tahun',
+        title: 'Periode',
+        slots: { customRender: 'periode' },
+        key: 'periode',
       },
-      {
-        title: 'Bulan',
-        slots: { customRender: 'bulan' },
-        key: 'bulan',
-      },
-      {
-        title: 'Week',
-        slots: { customRender: 'week' },
-        key: 'week',
-      },
+      // {
+      //   title: 'Tahun',
+      //   slots: { customRender: 'tahun' },
+      //   key: 'tahun',
+      // },
+      // {
+      //   title: 'Bulan',
+      //   slots: { customRender: 'bulan' },
+      //   key: 'bulan',
+      // },
+      // {
+      //   title: 'Week',
+      //   slots: { customRender: 'week' },
+      //   key: 'week',
+      // },
       {
         title: 'Status',
         slots: { customRender: 'status' },
@@ -166,6 +171,7 @@ const state = {
       rsp: null,
       brand: '',
       type: '',
+      kategori: '',
       kemasan: '',
       notes: '',
       id_brand: null,
@@ -300,12 +306,9 @@ const actions = {
           isLoading: false,
         })
       } else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           dataTable: 0,
@@ -316,12 +319,9 @@ const actions = {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },

@@ -76,6 +76,17 @@
             Duplicate Last Week
           </a-button>
           <a-button
+            :disabled="
+              weeklyInput.dataTable.length == 0 ? true : weeklyInput.dataTable == 0 ? true : false
+            "
+            type="primary"
+            @click="handleDownloadData()"
+            class="mr-2"
+          >
+            <i class="fa fa-download mr-2" />
+            Export
+          </a-button>
+          <a-button
             type="primary"
             :disabled="
               weeklyInput.dataTable.length == 0 ? true : weeklyInput.dataTable == 0 ? true : false
@@ -100,15 +111,10 @@
       <template #distrik="{ text }">
         <span>{{ text.nm_wilayah }}</span>
       </template>
-      <template #tahun="{ text }">
-        <span>{{ text.tahun }}</span>
+      <template #periode="{ text }">
+        <span>{{ `W` + text.week + ` ` + handleNamaBulan(text.bulan) + ` ` + text.tahun }}</span>
       </template>
-      <template #bulan="{ text }">
-        <span>{{ text.bulan }}</span>
-      </template>
-      <template #week="{ text }">
-        <span>{{ text.week }}</span>
-      </template>
+
       <template #status="{ text }">
         <span>{{ text.status }}</span>
       </template>
@@ -271,22 +277,6 @@
         </a-select>
       </a-col>
       <a-col :xs="24" :md="12" :lg="6">
-        <!-- <a-select
-          :disabled="true"
-          v-model:value="weeklyInput.formData.brand"
-          placeholder="brand"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option disabled value="">Pilih brand</a-select-option>
-          <a-select-option
-            v-for="(brand, index) in weeklyInput.brandList"
-            :value="brand.ID"
-            :key="index"
-          >
-            {{ brand.NAMA_BRAND }}
-          </a-select-option>
-        </a-select> -->
         <a-input
           :disabled="true"
           v-model:value="weeklyInput.formData.brand"
@@ -294,24 +284,15 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <!-- <a-select
+      <a-col :xs="24" :md="6" :lg="3">
+        <a-input
           :disabled="true"
-          v-model:value="weeklyInput.formData.type"
-          placeholder="Tipe"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option disabled value="">Pilih Tipe</a-select-option>
-          <a-select-option
-            v-for="(type, index) in weeklyInput.tipeList"
-            :value="type.ID"
-            :key="index"
-          >
-            {{ type.NAMA_TIPE_SEMEN }}
-          </a-select-option>
-        </a-select> -->
-
+          v-model:value="weeklyInput.formData.kategori"
+          placeholder="Kategori"
+          class=" mb-4 w-100"
+        />
+      </a-col>
+      <a-col :xs="24" :md="6" :lg="3">
         <a-input
           :disabled="true"
           v-model:value="weeklyInput.formData.type"
@@ -319,24 +300,8 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <!-- <a-select
-          :disabled="true"
-          v-model:value="weeklyInput.formData.kemasan"
-          placeholder="Kemasan"
-          class="w-100 mb-4"
-          show-search
-        >
-          <a-select-option disabled value="">Pilih Kemasan</a-select-option>
-          <a-select-option
-            v-for="(kemasan, index) in weeklyInput.kemasanList"
-            :value="kemasan.ID"
-            :key="index"
-          >
-            {{ kemasan.NAMA_KEMASAN }}
-          </a-select-option>
-        </a-select> -->
 
+      <a-col :xs="24" :md="12" :lg="6">
         <a-input
           :disabled="true"
           v-model:value="weeklyInput.formData.kemasan"
@@ -536,6 +501,7 @@ export default {
           promo: value.promo,
           rbp_net: value.rbp_net,
           rsp: value.rsp,
+          kategori: value.nm_tipe,
           notes: value.notes,
         },
       })
@@ -747,15 +713,7 @@ export default {
         await this.getDataTable({
           id_tso: this.$store.state.user.idJabatan,
         })
-        // notification.success({
-        //   message: 'Success',
-        //   description: 'Data berhasil ditampilkan.',
-        // })
       } else {
-        // notification.error({
-        //   message: 'Error',
-        //   description: 'Mohon Maaf. Data tahun, bulan dan week harap diisi.',
-        // })
       }
     },
     async handleProduct() {
@@ -766,6 +724,8 @@ export default {
       this.weeklyInput.formData.type = filtered[0].NM_TYPE_PRODUK
       this.weeklyInput.formData.kemasan = filtered[0].NAMA_KEMASAN
       this.weeklyInput.formData.id_brand = filtered[0].ID_BRAND
+      this.weeklyInput.formData.kategori =
+        filtered[0].NAMA_TIPE != null ? filtered[0].NAMA_TIPE : `Tidak tersedia`
       this.weeklyInput.promoDistrik = []
       await this.getPromotion()
     },
@@ -775,12 +735,110 @@ export default {
       let filtered = dataSource.filter(x => x.nm_wilayah == this.weeklyInput.formData.nama_distrik)
       this.weeklyInput.formData.id_distrik = filtered[0].id_reference_wilayah
     },
+    handleDownloadData() {
+      const header = [
+        'DISTRIK',
+        'TAHUN',
+        'BULAN',
+        'WEEK',
+        'STATUS',
+        'PRODUK',
+        'BRAND',
+        'TYPE',
+        'KEMASAN',
+        'RBP GROSS',
+        'PROMO',
+        'RBP NET',
+        'RSP',
+        'NOTES',
+      ]
+      const filterVal = [
+        'nm_wilayah',
+        'tahun',
+        'bulan',
+        'week',
+        'status',
+        'nm_produk',
+        'nm_brand',
+        'nm_type_produk',
+        'nm_satuan',
+        'rbp_gross',
+        'promo',
+        'rbp_net',
+        'rsp',
+        'notes',
+      ]
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.weeklyInput.dataTable,
+        'Data Weekly Input ' +
+          ` - ` +
+          this.weeklyInput.params.tahun +
+          `/` +
+          this.handleNamaBulan(this.weeklyInput.params.bulan) +
+          `/` +
+          `Week` +
+          this.weeklyInput.params.week,
+      )
+    },
+    exportToExcel(header, filterVal, list, filename) {
+      import('@/vendor/Export2Excel').then(excel => {
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header,
+          data,
+          filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
+    },
     refreshFilter() {
       this.weeklyInput.params.tahun = ''
       this.weeklyInput.params.bulan = ''
       this.weeklyInput.params.week = ''
       this.weeklyInput.dataTable = []
       this.weeklyInput.data_uuid = []
+    },
+
+    handleNamaBulan(text) {
+      if (text == `1`) {
+        return 'Januari'
+      } else if (text == `2`) {
+        return 'Februari'
+      } else if (text == `3`) {
+        return 'Maret'
+      } else if (text == `4`) {
+        return 'April'
+      } else if (text == `5`) {
+        return 'Mei'
+      } else if (text == `6`) {
+        return 'Juni'
+      } else if (text == `7`) {
+        return 'Juli'
+      } else if (text == `8`) {
+        return 'Agustus'
+      } else if (text == `9`) {
+        return 'September'
+      } else if (text == `10`) {
+        return 'Oktober'
+      } else if (text == `11`) {
+        return 'November'
+      } else if (text == `12`) {
+        return 'Desember'
+      }
     },
   },
 }
