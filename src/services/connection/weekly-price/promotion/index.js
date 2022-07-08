@@ -302,7 +302,7 @@ const actions = {
 
       if (result.data.status === false) {
         Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
@@ -313,16 +313,16 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: 'Data promo berhasil ditampilkan!',
-            showConfirmButton: false,
-            timer: 2000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: 'Data promo berhasil ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 2000,
+          // })
         } else {
           Swal.fire({
-            icon: 'error',
+            icon: 'warning',
             title: 'Opps...',
             text: 'Tidak terdapat data promo yang tersedia!',
             showConfirmButton: false,
@@ -363,26 +363,35 @@ const actions = {
       const result = await apiClient.post(`/WPM/DeletePromo`, formData)
 
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changePromotion', {
           isLoading: false,
         })
       } else {
-        notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+        Swal.fire({
+          icon: 'success',
+          title: 'Success...',
+          text: 'Data berhasil dihapus!',
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changePromotion', {
           isLoading: false,
         })
       }
     } catch (err) {
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -412,9 +421,12 @@ const actions = {
       const result = await apiClient.post(`/WPM/InsertPromo`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
-          description: result.data.message,
+        Swal.fire({
+          icon: 'warning',
+          title: 'Opps...',
+          text: result.data.message,
+          showConfirmButton: false,
+          timer: 2000,
         })
         await commit('changePromotion', {
           isLoading: false,
@@ -425,19 +437,36 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
-        })
+
+        if (result.data.message.indexOf('sudah') !== -1) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+        }
       }
     } catch (error) {
       await commit('changePromotion', {
         isLoading: false,
         status: 'gagal',
       })
-      notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan!',
+      Swal.fire({
+        icon: 'error',
+        title: 'Opps...',
+        text: 'Maaf, terjadi kesalahan!',
+        showConfirmButton: false,
+        timer: 2000,
       })
     }
   },
@@ -466,9 +495,12 @@ const actions = {
           const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
           if (result.data.state == 'false') {
-            notification.error({
-              message: 'Error',
-              description: result.data.message,
+            Swal.fire({
+              icon: 'warning',
+              title: 'Opps...',
+              text: result.data.message,
+              showConfirmButton: false,
+              timer: 2000,
             })
             await commit('changePromotion', {
               isLoading: false,
@@ -479,9 +511,12 @@ const actions = {
               isLoading: false,
               status: 'sukses',
             })
-            notification.success({
-              message: 'Success',
-              description: result.data.message,
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: 'Data berhasil diupdate!',
+              showConfirmButton: false,
+              timer: 2000,
             })
           }
         } catch (error) {
@@ -489,9 +524,12 @@ const actions = {
             isLoading: false,
             status: 'gagal',
           })
-          notification.error({
-            message: 'Error',
-            description: 'Maaf, terjadi kesalahan!',
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Maaf, terjadi kesalahan!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } else {
@@ -510,9 +548,12 @@ const actions = {
           const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
           if (result.data.state == 'false') {
-            notification.error({
-              message: 'Error',
-              description: result.data.message,
+            Swal.fire({
+              icon: 'warning',
+              title: 'Opps...',
+              text: result.data.message,
+              showConfirmButton: false,
+              timer: 2000,
             })
             await commit('changePromotion', {
               isLoading: false,
@@ -523,9 +564,13 @@ const actions = {
               isLoading: false,
               status: 'sukses',
             })
-            notification.success({
-              message: 'Success',
-              description: result.data.message,
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Success...',
+              text: result.data.message,
+              showConfirmButton: false,
+              timer: 2000,
             })
           }
         } catch (error) {
@@ -533,9 +578,12 @@ const actions = {
             isLoading: false,
             status: 'gagal',
           })
-          notification.error({
-            message: 'Error',
-            description: 'Maaf, terjadi kesalahan!',
+          Swal.fire({
+            icon: 'error',
+            title: 'Opps...',
+            text: 'Maaf, terjadi kesalahan!',
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       }
@@ -554,9 +602,12 @@ const actions = {
         const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
         if (result.data.state == 'false') {
-          notification.error({
-            message: 'Error',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'warning',
+            title: 'Opps...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
           })
           await commit('changePromotion', {
             isLoading: false,
@@ -567,9 +618,12 @@ const actions = {
             isLoading: false,
             status: 'sukses',
           })
-          notification.success({
-            message: 'Success',
-            description: result.data.message,
+          Swal.fire({
+            icon: 'success',
+            title: 'Success...',
+            text: result.data.message,
+            showConfirmButton: false,
+            timer: 2000,
           })
         }
       } catch (error) {
@@ -577,9 +631,12 @@ const actions = {
           isLoading: false,
           status: 'gagal',
         })
-        notification.error({
-          message: 'Error',
-          description: 'Maaf, terjadi kesalahan!',
+        Swal.fire({
+          icon: 'error',
+          title: 'Opps...',
+          text: 'Maaf, terjadi kesalahan!',
+          showConfirmButton: false,
+          timer: 2000,
         })
       }
     }

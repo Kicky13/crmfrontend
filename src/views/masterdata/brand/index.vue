@@ -1,24 +1,13 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-between mb-3">
-      <a-input-search
-        placeholder="Cari brand"
-        style="width: 200px"
-        @change="searchData"
-      />
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-input-search placeholder="Cari brand" style="width: 200px" @change="searchData" />
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
     </div>
-    <a-table
-      :columns="brand.columns"
-      :data-source="dataList"
-      :loading="brand.isLoading"
-    >
+    <a-table :columns="brand.columns" :data-source="dataList" :loading="brand.isLoading">
       <template #action="{ text }">
         <div>
           <button
@@ -46,25 +35,14 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="brandModal"
-    title="Form Brand"
-  >
+  <a-modal v-model:visible="brandModal" title="Form Brand">
     <template #footer>
-      <a-button
-        key="back"
-        @click="brandModal = false"
-      >
+      <a-button key="back" @click="brandModal = false">
         Batal
       </a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        :loading="brand.isLoading"
-        @click="saveBrand"
-      >
+      <a-button key="submit" type="primary" :loading="brand.isLoading" @click="saveBrand">
         {{ modalStatus ? 'Update' : 'Simpan' }}
       </a-button>
     </template>
@@ -72,7 +50,11 @@
       placeholder="Brand"
       v-model:value="formState.brand_baru"
       @keyup.enter="saveBrand"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.brand_baru.length }} / 50</span>
+    </div>
     <a-select
       placeholder="Company"
       show-search
@@ -132,7 +114,13 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions('brand', ['getAllCompany', 'getAllBrand', 'addBrand', 'deleteBrand', 'editBrand']),
+    ...mapActions('brand', [
+      'getAllCompany',
+      'getAllBrand',
+      'addBrand',
+      'deleteBrand',
+      'editBrand',
+    ]),
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
@@ -155,7 +143,9 @@ export default {
       this.formState.id = id
       const brand = this.brand.brandList.find(element => element.ID == id)
       this.formState.brand_baru = brand.NAMA_BRAND
-      this.formState.id_company = `${brand.ID_COMPANY} - ${this.brand.companyList.find(element => element.ID == brand.ID_COMPANY).DESKRIPSI}` 
+      this.formState.id_company = `${brand.ID_COMPANY} - ${
+        this.brand.companyList.find(element => element.ID == brand.ID_COMPANY).DESKRIPSI
+      }`
       this.formState.keterangan = brand.KETERANGAN
     },
     showDeleteModal(id) {

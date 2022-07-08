@@ -1,24 +1,13 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-between mb-3">
-      <a-input-search
-        placeholder="Cari produk"
-        style="width: 200px"
-        @change="searchData"
-      />
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-input-search placeholder="Cari produk" style="width: 200px" @change="searchData" />
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
     </div>
-    <a-table
-      :columns="produk.columns"
-      :data-source="dataList"
-      :loading="produk.isLoading"
-    >
+    <a-table :columns="produk.columns" :data-source="dataList" :loading="produk.isLoading">
       <template #action="{ text }">
         <div>
           <button
@@ -43,34 +32,27 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="produkModal"
-    title="Form Produk"
-  >
+  <a-modal v-model:visible="produkModal" title="Form Produk">
     <template #footer>
-      <a-button
-        key="back"
-        @click="produkModal = false"
-      >
+      <a-button key="back" @click="produkModal = false">
         Batal
       </a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        :loading="produk.isLoading"
-        @click="saveProduk"
-      >
+      <a-button key="submit" type="primary" :loading="produk.isLoading" @click="saveProduk">
         {{ modalStatus ? 'Update' : 'Simpan' }}
       </a-button>
     </template>
     <a-input
       placeholder="Nama Produk"
-      class="mb-3"
+      class=""
       v-model:value="formState.produk_baru"
       @keyup.enter="saveProduk"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.produk_baru.length }} / 50</span>
+    </div>
     <a-select
       placeholder="Tipe"
       show-search
@@ -186,7 +168,13 @@ export default {
     this.getUserId()
   },
   methods: {
-    ...mapActions('produk', ['getAllProduk', 'getAllTypeProduk', 'addProduk', 'deleteProduk', 'editProduk']),
+    ...mapActions('produk', [
+      'getAllProduk',
+      'getAllTypeProduk',
+      'addProduk',
+      'deleteProduk',
+      'editProduk',
+    ]),
     ...mapActions('brand', ['getAllBrand']),
     ...mapActions('tipe', ['getAllTipe']),
     ...mapActions('kemasan', ['getAllKemasan']),
@@ -223,7 +211,8 @@ export default {
       console.log(produkById)
       this.formState.produk_baru = produkById.NAMA_PRODUK
       this.formState.id_brand = `${produkById.ID_BRAND} - ${produkById.NAMA_BRAND}`
-      this.formState.id_tipe_semen = produkById.ID_TIPE == null ? null : `${produkById.ID_TIPE} - ${produkById.NAMA_TIPE}`
+      this.formState.id_tipe_semen =
+        produkById.ID_TIPE == null ? null : `${produkById.ID_TIPE} - ${produkById.NAMA_TIPE}`
       this.formState.id_kemasan = `${produkById.ID_KEMASAN} - ${produkById.NAMA_KEMASAN}`
       this.formState.id_type_produk = `${produkById.ID_TYPE_PRODUK} - ${produkById.NM_TYPE_PRODUK}`
     },

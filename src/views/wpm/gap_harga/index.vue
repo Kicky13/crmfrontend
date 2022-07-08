@@ -1,6 +1,6 @@
 <template>
   <a-card class="card card-top card-top-primary">
-    <a-row :gutter="[16, 16]" class="mb-3">
+    <!-- <a-row :gutter="[16, 16]" class="mb-3">
       <a-col :xs="24" :md="4">
         <a-select
           placeholder="Provinsi"
@@ -145,11 +145,205 @@
           "
           @click="showGapHarga"
         >
-          <!-- <i class="fa fa-eye mr-2" /> -->
           Tampilkan
         </a-button>
       </a-col>
-    </a-row>
+    </a-row> -->
+
+    <div class="row mb-2">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-4">
+            <a-select
+              v-model:value="formData.region_name"
+              placeholder="Region"
+              show-search
+              class="w-100"
+              @change="handleChangeRegion"
+            >
+              <a-select-option disabled value="">Pilih Region</a-select-option>
+              <a-select-option
+                v-for="(region, index) in gapHarga.regionList"
+                :value="region.nama_region"
+                :key="index"
+              >
+                {{ region.id_region }} - {{ region.nama_region }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              placeholder="Provinsi"
+              show-search
+              class="w-100"
+              v-model:value="formData.nm_provinsi"
+              @change="provinsiHandler"
+            >
+              <a-select-option disabled value="">Pilih Provinsi</a-select-option>
+              <a-select-option
+                v-for="(item, index) in gapHarga.provinceList"
+                :value="item.nama_provinsi"
+                :key="index"
+                :title="item.nama_provinsi"
+                data-toggle="tooltip"
+                data-placement="top"
+              >
+                {{ item.id_provinsi }} - {{ item.nama_provinsi }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="col-md-4">
+            <a-select
+              placeholder="Distrik RET"
+              show-search
+              class="w-100"
+              v-model:value="formData.nm_distrik_ret"
+              @change="distrikRetHandler"
+            >
+              <a-select-option disabled value="">Pilih Distrik RET</a-select-option>
+              <a-select-option
+                v-if="gapHarga.distrikRetList && gapHarga.distrikRetList.length === 0"
+                disabled
+                value="null"
+                >Dikstrik RET tidak tersedia</a-select-option
+              >
+              <a-select-option
+                v-for="(item, index) in gapHarga.distrikRetList"
+                :value="item.nm_distrik_ret"
+                :key="index"
+                :title="item.nm_distrik_ret"
+                data-toggle="tooltip"
+                data-placement="top"
+              >
+                {{ item.id_distrik_ret }} - {{ item.nm_distrik_ret }}
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-md-4">
+            <a-tooltip placement="topLeft">
+              <template #title>
+                <span>Refresh Filter</span>
+              </template>
+              <a-button @click="refreshFilter()" type="primary">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </a-button>
+            </a-tooltip>
+          </div>
+          <div class="col-md-8">
+            <a-button
+              :disabled="
+                formData.id_region == '' ||
+                formData.id_provinsi == null ||
+                formData.id_distrik_ret == null ||
+                formData.id_distrik == null ||
+                formData.tahun == '' ||
+                formData.week == '' ||
+                formData.bulan == ''
+                  ? true
+                  : false
+              "
+              type="primary"
+              class="float-right w-100"
+              @click="showGapHarga"
+            >
+              <!-- <i class="fa fa-eye mr-2" /> -->
+              Tampilkan
+            </a-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <a-select
+          placeholder="Distrik"
+          show-search
+          class="w-100"
+          v-model:value="formData.nm_distrik"
+          @change="distrikHandler"
+        >
+          <a-select-option disabled value="">Pilih Distrik</a-select-option>
+          <a-select-option
+            v-if="gapHarga.distrikList && gapHarga.distrikList.length === 0"
+            disabled
+            value="null"
+            >Dikstrik tidak tersedia</a-select-option
+          >
+          <a-select-option
+            v-for="(item, index) in gapHarga.distrikList"
+            :value="item.nm_distrik"
+            :key="index"
+            :title="item.nm_distrik"
+            data-toggle="tooltip"
+            data-placement="top"
+          >
+            {{ item.id_distrik }} - {{ item.nm_distrik }}
+          </a-select-option>
+        </a-select>
+      </div>
+      <div class="col-md-3">
+        <a-select
+          placeholder="Tahun"
+          class="w-100"
+          v-model:value="formData.tahun"
+          @change="handleChangeTahun"
+        >
+          <a-select-option disabled value="">Pilih Tahun</a-select-option>
+          <a-select-option
+            v-for="(item, index) in years"
+            :value="item"
+            :key="index"
+            :title="item"
+            data-toggle="tooltip"
+            data-placement="top"
+          >
+            {{ item }}
+          </a-select-option>
+        </a-select>
+      </div>
+      <div class="col-md-3">
+        <a-select
+          placeholder="Bulan"
+          class="w-100"
+          v-model:value="formData.bulan"
+          @change="handleChangeBulan"
+        >
+          <a-select-option disabled value="">Pilih Bulan</a-select-option>
+          <a-select-option
+            v-for="(item, index) in gapHarga.bulan"
+            :value="item.id"
+            :key="index"
+            :title="item.name"
+            data-toggle="tooltip"
+            data-placement="top"
+          >
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
+      </div>
+      <div class="col-md-3">
+        <a-select placeholder="Week" show-search class="w-100" v-model:value="formData.week">
+          <a-select-option disabled value="">Pilih Week</a-select-option>
+
+          <a-select-option
+            v-for="(weekly, index) in gapHarga.dataWeekParams"
+            :value="weekly.week"
+            :key="index"
+            data-toggle="tooltip"
+            data-placement="top"
+            :title="`Week` + weekly.week"
+          >
+            Week {{ weekly.week }}
+          </a-select-option>
+        </a-select>
+      </div>
+    </div>
+
     <a-row class="mb-3">
       <a-col :span="2">
         <span>Kolom :</span>
@@ -213,6 +407,12 @@ export default {
         week: '',
         row: [],
         column: [],
+        region_name: '',
+        province_name: '',
+        distrik_name: '',
+        id_region: '',
+        id_provinsi: '',
+        id_distrik: '',
       },
     }
   },
@@ -228,7 +428,20 @@ export default {
   },
   async mounted() {
     await this.getAllProduct()
-    await this.getAllProvinsi()
+    await this.getRegion()
+    await this.getProvinsi({
+      id_region: '',
+    })
+    await this.getDistrikRET({
+      id_region: '',
+      id_provinsi: '',
+    })
+    await this.getDistrik({
+      id_region: '',
+      id_provinsi: '',
+      id_distrik_ret: '',
+    })
+    // await this.getAllProvinsi()
     // this.columnHandler()
     // this.rowHandler()
   },
@@ -240,7 +453,19 @@ export default {
       'getDistrik',
       'getAllProduct',
       'getGapHarga',
+      'getRegion',
+      'getProvinsi',
     ]),
+    async handleChangeRegion() {
+      let dataSource = [...this.gapHarga.regionList]
+      let filtered = dataSource.filter(x => x.nama_region == this.formData.region_name)
+
+      this.formData.id_region = filtered[0].id_region
+
+      await this.getProvinsi({
+        id_region: this.formData.id_region,
+      })
+    },
     async showGapHarga() {
       await this.$store.commit('gapHarga/changeGAPHarga', {
         row: [],
@@ -260,7 +485,7 @@ export default {
         let dataRow = this.row.map(value =>
           this.gapHarga.row.find(row => row.key_brand == value.key_brand),
         )
-        this.row = []
+        // this.row = []
         this.row = dataRow
       }
 
@@ -281,15 +506,23 @@ export default {
       this.row = temp
     },
     provinsiHandler() {
-      let dataSource = [...this.filter.listProvinsi]
+      let dataSource = [...this.gapHarga.provinceList]
       let filtered = dataSource.filter(x => x.nama_provinsi == this.formData.nm_provinsi)
       let idProvinsi = (this.formData.id_provinsi = filtered[0].id_provinsi)
+      this.formData.nm_distrik_ret = ''
+      this.$store.commit('gapHarga/changeGAPHarga', {
+        distrikRetList: [],
+      })
       this.getDistrikRET({ id_provinsi: idProvinsi })
     },
     distrikRetHandler() {
       let dataSource = [...this.gapHarga.distrikRetList]
-      let filtered = dataSource.filter(x => x.nama_district_ret == this.formData.nm_distrik_ret)
-      let idDistrikRet = (this.formData.id_distrik_ret = filtered[0].id_district_ret)
+      let filtered = dataSource.filter(x => x.nm_distrik_ret == this.formData.nm_distrik_ret)
+      let idDistrikRet = (this.formData.id_distrik_ret = filtered[0].id_distrik_ret)
+      this.formData.nm_distrik = ''
+      this.$store.commit('gapHarga/changeGAPHarga', {
+        distrikList: [],
+      })
       this.getDistrik({ id_distrik_ret: idDistrikRet, id_provinsi: this.formData.id_provinsi })
     },
     distrikHandler() {
@@ -313,6 +546,10 @@ export default {
     async handleChangeBulan() {
       console.log()
       if (this.formData.tahun != '' && this.formData.bulan != '' && this.formData.week != '') {
+        await this.getDataWeekParams({
+          tahun: this.formData.tahun,
+          bulan: this.formData.bulan,
+        })
       } else if (
         this.formData.tahun != '' &&
         this.formData.bulan != '' &&
@@ -325,21 +562,35 @@ export default {
       }
     },
 
-    refreshFilter() {
-      ;(this.formData.id_provinsi = null),
-        (this.formData.nm_provinsi = ''),
-        (this.formData.id_distrik_ret = null),
-        (this.formData.nm_distrik_ret = ''),
-        (this.formData.id_distrik = null),
-        (this.formData.nm_distrik = ''),
-        (this.formData.tahun = ''),
-        (this.formData.bulan = ''),
-        (this.formData.week = ''),
-        (this.gapHarga.distrikRetList = []),
-        (this.gapHarga.distrikList = []),
-        (this.gapHarga.dataWeekParams = []),
-        (this.filter.listProvinsi = []),
-        this.getAllProvinsi()
+    async refreshFilter() {
+      this.formData.id_provinsi = null
+      this.formData.nm_provinsi = ''
+      this.formData.id_distrik_ret = null
+      this.formData.nm_distrik_ret = ''
+      this.formData.id_distrik = null
+      this.formData.nm_distrik = ''
+      this.formData.tahun = ''
+      this.formData.bulan = ''
+      this.formData.week = ''
+      this.gapHarga.distrikRetList = []
+      this.gapHarga.distrikList = []
+      this.gapHarga.dataWeekParams = []
+      this.filter.listProvinsi = []
+      this.formData.id_region = ''
+      this.formData.region_name = ''
+      await this.getRegion()
+      await this.getProvinsi({
+        id_region: '',
+      })
+      await this.getDistrikRET({
+        id_region: '',
+        id_provinsi: '',
+      })
+      await this.getDistrik({
+        id_region: '',
+        id_provinsi: '',
+        id_distrik_ret: '',
+      })
     },
   },
 }

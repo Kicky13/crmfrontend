@@ -182,17 +182,15 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive text-nowrap">
-      <a-table
-        ref="table"
-        :columns="report.columns"
-        :data-source="report.dataTable"
-        :loading="report.isLoading"
-        :row-key="data => data"
-        :pagination="report.pagination"
-        :scroll="{ x: 2000 }"
-      />
-    </div>
+    <a-table
+      ref="table"
+      :columns="report.columns"
+      :data-source="report.dataTable"
+      :loading="report.isLoading"
+      :row-key="data => data"
+      :pagination="report.pagination"
+      :scroll="{ x: 2000 }"
+    />
   </a-card>
 </template>
 
@@ -277,6 +275,7 @@ export default {
         'PROMO',
         'RBP NET',
         'RSP',
+        'PERUBAHAN',
         'NOTES',
       ]
       const filterVal = [
@@ -293,6 +292,7 @@ export default {
         'promo',
         'rbpnett',
         'rsp',
+        'updated_by',
         'notes',
       ]
       this.exportToExcel(

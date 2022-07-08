@@ -74,9 +74,15 @@ const state = {
         key: 'rsp',
       },
       {
+        title: 'Perubahan',
+        dataIndex: 'updated_by',
+        key: 'updated_by',
+      },
+      {
         title: 'Notes',
         dataIndex: 'notes',
         key: 'notes',
+        width: 150,
       },
     ],
     params: {
@@ -459,7 +465,7 @@ const actions = {
 
       if (result.data.status === false) {
         Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: 'Opps...',
           text: result.data.message,
           showConfirmButton: false,
@@ -470,13 +476,13 @@ const actions = {
         })
       } else {
         if (result.data.data.length > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: 'Data report berhasil ditampilkan!',
-            showConfirmButton: false,
-            timer: 2000,
-          })
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Success...',
+          //   text: 'Data report berhasil ditampilkan!',
+          //   showConfirmButton: false,
+          //   timer: 2000,
+          // })
         } else {
           Swal.fire({
             icon: 'error',

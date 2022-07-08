@@ -56,10 +56,13 @@
     </template>
     <a-input
       placeholder="Kategori"
-      class="mb-3"
       v-model:value="formState.kategori_baru"
       @keyup.enter="saveKategori"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.kategori_baru.length }} / 50</span>
+    </div>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"

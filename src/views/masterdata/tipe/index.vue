@@ -1,19 +1,12 @@
 <template>
   <a-card class="card card-top card-top-primary">
     <div class="d-flex justify-content-end mb-3">
-      <a-button
-        type="primary"
-        @click="showAddModal"
-      >
+      <a-button type="primary" @click="showAddModal">
         <i class="fa fa-plus mr-2" />
         Tambah
       </a-button>
     </div>
-    <a-table
-      :columns="tipe.columns"
-      :data-source="tipe.tipeList"
-      :loading="tipe.isLoading"
-    >
+    <a-table :columns="tipe.columns" :data-source="tipe.tipeList" :loading="tipe.isLoading">
       <template #action="{ text }">
         <div>
           <button
@@ -41,34 +34,26 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="tipeModal"
-    title="Form Tipe"
-  >
+  <a-modal v-model:visible="tipeModal" title="Form Tipe">
     <template #footer>
-      <a-button
-        key="back"
-        @click="tipeModal = false"
-      >
+      <a-button key="back" @click="tipeModal = false">
         Batal
       </a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        :loading="tipe.isLoading"
-        @click="saveTipe"
-      >
+      <a-button key="submit" type="primary" :loading="tipe.isLoading" @click="saveTipe">
         {{ modalStatus ? 'Update' : 'Simpan' }}
       </a-button>
     </template>
     <a-input
       placeholder="Tipe"
-      class="mb-3"
       v-model:value="formState.tipe_baru"
       @keyup.enter="saveTipe"
+      :maxlength="50"
     />
+    <div class="text-right">
+      <span class="text-muted">{{ formState.tipe_baru.length }} / 50</span>
+    </div>
     <a-textarea
       placeholder="Keterangan"
       :rows="5"

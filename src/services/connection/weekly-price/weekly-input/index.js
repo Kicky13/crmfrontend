@@ -1,5 +1,6 @@
 import apiClient from '@/services/axios/axios'
 import { notification } from 'ant-design-vue'
+import Swal from 'sweetalert2'
 
 const state = {
   data: {
@@ -10,20 +11,25 @@ const state = {
         key: 'distrik',
       },
       {
-        title: 'Tahun',
-        slots: { customRender: 'tahun' },
-        key: 'tahun',
+        title: 'Periode',
+        slots: { customRender: 'periode' },
+        key: 'periode',
       },
-      {
-        title: 'Bulan',
-        slots: { customRender: 'bulan' },
-        key: 'bulan',
-      },
-      {
-        title: 'Week',
-        slots: { customRender: 'week' },
-        key: 'week',
-      },
+      // {
+      //   title: 'Tahun',
+      //   slots: { customRender: 'tahun' },
+      //   key: 'tahun',
+      // },
+      // {
+      //   title: 'Bulan',
+      //   slots: { customRender: 'bulan' },
+      //   key: 'bulan',
+      // },
+      // {
+      //   title: 'Week',
+      //   slots: { customRender: 'week' },
+      //   key: 'week',
+      // },
       {
         title: 'Status',
         slots: { customRender: 'status' },
@@ -165,6 +171,7 @@ const state = {
       rsp: null,
       brand: '',
       type: '',
+      kategori: '',
       kemasan: '',
       notes: '',
       id_brand: null,
@@ -298,10 +305,9 @@ const actions = {
           dataTable: result.data.data || 0,
           isLoading: false,
         })
-        console.log(`result.data.data`, result)
       } else {
-        notification.error({
-          message: 'Opps',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -314,7 +320,7 @@ const actions = {
         isLoading: false,
       })
       notification.error({
-        message: 'Error',
+        message: 'Opps...',
         description: 'Maaf, terjadi kesalahan!',
       })
     }
@@ -571,8 +577,8 @@ const actions = {
       const result = await apiClient.post(`/WPM/DeleteWPM`, formData)
 
       if (result.data.status == false) {
-        notification.error({
-          message: 'Error',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -580,8 +586,8 @@ const actions = {
         })
       } else {
         notification.success({
-          message: 'Success',
-          description: `Data berhasil dihapus`,
+          message: 'Success...',
+          description: `Data berhasil dihapus!`,
         })
         await commit('changeWeeklyInput', {
           dataTable: 0,
@@ -590,8 +596,8 @@ const actions = {
       }
     } catch (err) {
       notification.error({
-        message: 'Error',
-        description: 'Maaf, terjadi kesalahan',
+        message: 'Opps...',
+        description: `Maaf, terjadi kesalahan!`,
       })
     }
   },
@@ -622,8 +628,8 @@ const actions = {
       const result = await apiClient.post(`/WPM/InsertWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -633,17 +639,25 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
-        notification.success({
-          message: 'Success',
-          description: result.data.message,
-        })
+        if (result.data.message.indexOf('sudah') !== -1) {
+          notification.warning({
+            message: 'Opps...',
+            description: result.data.message,
+          })
+        } else {
+          notification.success({
+            message: 'Success...',
+            description: result.data.message,
+          })
+        }
       }
     } catch (error) {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
+
       notification.error({
-        message: 'Error',
+        message: 'Opps...',
         description: 'Maaf, terjadi kesalahan!',
       })
     }
@@ -673,8 +687,8 @@ const actions = {
       const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -686,9 +700,10 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
+
         notification.success({
-          message: 'Success',
-          description: result.data.message,
+          message: 'Success...',
+          description: 'Data berhasil diupdate!',
         })
       }
     } catch (error) {
@@ -696,8 +711,9 @@ const actions = {
         isLoading: false,
         status: 'gagal',
       })
+
       notification.error({
-        message: 'Error',
+        message: 'Opps...',
         description: 'Maaf, terjadi kesalahan!',
       })
     }
@@ -721,8 +737,8 @@ const actions = {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -732,17 +748,19 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
+
         notification.success({
-          message: 'Success',
-          description: result.data.message,
+          message: 'Success...',
+          description: 'Data berhasil disubmit!',
         })
       }
     } catch (error) {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
+
       notification.error({
-        message: 'Error',
+        message: 'Opps...',
         description: 'Maaf, terjadi kesalahan!',
       })
     }
@@ -758,8 +776,8 @@ const actions = {
       const result = await apiClient.post(`/WPM/DuplicateLastWeekWPM`)
 
       if (result.data.state == 'false') {
-        notification.error({
-          message: 'Error',
+        notification.warning({
+          message: 'Opps...',
           description: result.data.message,
         })
         await commit('changeWeeklyInput', {
@@ -769,9 +787,10 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
+
         notification.success({
-          message: 'Success',
-          description: result.data.message,
+          message: 'Success...',
+          description: 'Data berhasil diduplikat!',
         })
       }
     } catch (error) {
@@ -779,7 +798,7 @@ const actions = {
         isLoading: false,
       })
       notification.error({
-        message: 'Error',
+        message: 'Opps...',
         description: 'Maaf, terjadi kesalahan!',
       })
     }
