@@ -522,6 +522,7 @@ export default {
           await this.deleteDataRow({
             uuid: value.uuid,
           })
+
           await this.getDataTable({
             id_tso: this.$store.state.user.idJabatan,
           })
@@ -586,6 +587,11 @@ export default {
           })
           if (this.weeklyInput.status == 'sukses') {
             await this.$store.commit('weeklyInput/changeWeeklyInput', {
+              params: {
+                tahun: this.weeklyInput.formData.tahun,
+                bulan: this.weeklyInput.formData.bulan,
+                week: this.weeklyInput.formData.week,
+              },
               formData: {
                 id_distrik: null,
                 tahun: '',
@@ -601,11 +607,6 @@ export default {
                 kemasan: null,
                 notes: '',
               },
-              params: {
-                tahun: '',
-                bulan: '',
-                week: '',
-              },
             })
           }
           await this.getDataTable({
@@ -616,9 +617,9 @@ export default {
           await this.insertDataWeekly()
           await this.$store.commit('weeklyInput/changeWeeklyInput', {
             params: {
-              tahun: '',
-              bulan: '',
-              week: '',
+              tahun: this.weeklyInput.formData.tahun,
+              bulan: this.weeklyInput.formData.bulan,
+              week: this.weeklyInput.formData.week,
             },
           })
           await this.getDataTable({
@@ -787,6 +788,10 @@ export default {
           `Week` +
           this.weeklyInput.params.week,
       )
+      notification.success({
+        message: 'Success',
+        description: 'Data berhasil didownload!',
+      })
     },
     exportToExcel(header, filterVal, list, filename) {
       import('@/vendor/Export2Excel').then(excel => {
