@@ -577,23 +577,17 @@ const actions = {
       const result = await apiClient.post(`/WPM/DeleteWPM`, formData)
 
       if (result.data.status == false) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
       } else {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil dihapus!',
-          showConfirmButton: false,
-          timer: 2000,
+        notification.success({
+          message: 'Success...',
+          description: `Data berhasil dihapus!`,
         })
         await commit('changeWeeklyInput', {
           dataTable: 0,
@@ -601,12 +595,9 @@ const actions = {
         })
       }
     } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+      notification.error({
+        message: 'Opps...',
+        description: `Maaf, terjadi kesalahan!`,
       })
     }
   },
@@ -637,12 +628,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/InsertWPM`, formData)
 
       if (result.data.state == 'false') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           isLoading: false,
@@ -652,20 +640,14 @@ const actions = {
           isLoading: false,
         })
         if (result.data.message.indexOf('sudah') !== -1) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Opps...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+          notification.warning({
+            message: 'Opps...',
+            description: result.data.message,
           })
         } else {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+          notification.success({
+            message: 'Success...',
+            description: result.data.message,
           })
         }
       }
@@ -673,12 +655,10 @@ const actions = {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
@@ -707,12 +687,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/UpdateWPM`, formData)
 
       if (result.data.state == 'false') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           isLoading: false,
@@ -723,12 +700,10 @@ const actions = {
           isLoading: false,
           status: 'sukses',
         })
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil diupdate!',
-          showConfirmButton: false,
-          timer: 2000,
+
+        notification.success({
+          message: 'Success...',
+          description: 'Data berhasil diupdate!',
         })
       }
     } catch (error) {
@@ -736,12 +711,10 @@ const actions = {
         isLoading: false,
         status: 'gagal',
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
@@ -764,12 +737,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/SubmitWPM`, formData)
 
       if (result.data.state == 'false') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           isLoading: false,
@@ -778,24 +748,20 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil disubmit!',
-          showConfirmButton: false,
-          timer: 2000,
+
+        notification.success({
+          message: 'Success...',
+          description: 'Data berhasil disubmit!',
         })
       }
     } catch (error) {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
@@ -810,12 +776,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/DuplicateLastWeekWPM`)
 
       if (result.data.state == 'false') {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changeWeeklyInput', {
           isLoading: false,
@@ -824,24 +787,19 @@ const actions = {
         await commit('changeWeeklyInput', {
           isLoading: false,
         })
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil diduplikat!',
-          showConfirmButton: false,
-          timer: 2000,
+
+        notification.success({
+          message: 'Success...',
+          description: 'Data berhasil diduplikat!',
         })
       }
     } catch (error) {
       await commit('changeWeeklyInput', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
