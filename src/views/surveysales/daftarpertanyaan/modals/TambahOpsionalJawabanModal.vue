@@ -1,36 +1,25 @@
 <template>
   <a-modal
-    :title="`${ modalStatus ? 'Tambah Opsional Jawaban [' + pertanyaanTitle + ']' : 'Edit Opsional Jawaban'}`"
+    :title="
+      `${
+        modalStatus ? 'Tambah Opsional Jawaban [' + pertanyaanTitle + ']' : 'Edit Opsional Jawaban'
+      }`
+    "
     :visible="modalVisible"
     @ok="handleOk"
     @cancel="handleCancel"
   >
-    <a-form
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 19 }"
-    >
+    <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
       <a-form-item label="Jawaban">
-        <a-input
-          placeholder="Masukkan opsi jawaban"
-          v-model:value="isNewJawaban"
-        />
+        <a-input placeholder="Masukkan opsi jawaban" v-model:value="isNewJawaban" />
       </a-form-item>
       <a-form-item label="Poin">
-        <a-input
-          placeholder="Masukkan poin"
-          v-model:value="isNewPoin"
-        />
+        <a-input placeholder="Masukkan poin" v-model:value="isNewPoin" />
       </a-form-item>
     </a-form>
-    <a-form
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 19 }"
-    >
+    <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
       <a-form-item label="Jenis Isian">
-        <a-select
-          placeholder="Pilih jenis isian"
-          v-model:value="isNewIsian"
-        >
+        <a-select placeholder="Pilih jenis isian" v-model:value="isNewIsian">
           <a-select-option disabled value="">Pilih jenis isian</a-select-option>
           <a-select-option value="0">Pilih salah satu</a-select-option>
           <a-select-option value="1">Pilih beberapa</a-select-option>
@@ -65,10 +54,7 @@ export default {
       default: '',
     },
   },
-  emits: [
-    'handleOk',
-    'handleCancel',
-  ],
+  emits: ['handleOk', 'handleCancel'],
   data() {
     return {
       isNewJawaban: '',
@@ -91,6 +77,7 @@ export default {
     handleOk() {
       this.isNewJawaban = this.isNewJawaban.trim()
       this.isNewPoin = this.isNewPoin.trim()
+      this.isNewIsian = this.isNewIsian.trim()
 
       if (!this.isNewJawaban) {
         notification.error({
@@ -119,6 +106,7 @@ export default {
       const dataForm = {
         jawaban: this.isNewJawaban,
         poin: this.isNewPoin,
+        jenis_isian: this.isNewIsian,
       }
       this.$emit('handleOk', this.modalStatus, dataForm)
       this.isNewJawaban = ''
