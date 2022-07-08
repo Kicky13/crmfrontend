@@ -45,6 +45,9 @@
           @change="handleSubmit"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
+          <a-select-option v-if="weeklyInput.dataWeekParams.length === 0" disabled value="0"
+            >Week tidak tersedia</a-select-option
+          >
           <a-select-option
             v-for="(weekly, index) in weeklyInput.dataWeekParams"
             :value="weekly.week"
@@ -662,6 +665,9 @@ export default {
         this.weeklyInput.params.bulan != '' &&
         this.weeklyInput.params.week == ''
       ) {
+        await this.$store.commit('weeklyInput/changeWeeklyInput', {
+          dataWeekParams: [],
+        })
         await this.getDataWeekParams()
       }
     },
