@@ -332,10 +332,8 @@
           class=" mb-4 w-100"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6">
-        <a-checkbox v-model:checked="wpPromotion.formData.status"
-          >Memotong nilai RBP Net</a-checkbox
-        >
+      <a-col :xs="24" :md="12" :lg="6" class="d-flex aligns-item-center">
+        <a-checkbox v-model:checked="checked">Memotong nilai RBP Net</a-checkbox>
       </a-col>
     </a-row>
     <a-textarea v-model:value="wpPromotion.formData.mekanisme" placeholder="Mekanisme" :rows="5" />
@@ -351,6 +349,7 @@ export default {
     return {
       addModal: false,
       editdata: false,
+      checked: 0,
     }
   },
   computed: {
@@ -471,6 +470,7 @@ export default {
         if (this.editdata == true) {
           await this.updateDataPromo({
             uuid: this.uuid,
+            status: this.checked,
           })
           if (this.weeklyInput.status == 'sukses') {
             await this.$store.commit('wpPromotion/changePromotion', {
@@ -487,7 +487,9 @@ export default {
             })
           }
         } else {
-          await this.insertDataPromo()
+          await this.insertDataPromo({
+            status: this.checked,
+          })
         }
         this.addModal = false
       } else {

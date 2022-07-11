@@ -88,7 +88,7 @@ const state = {
       mekanisme: '',
       edit_zak: null,
       nama_brand: '',
-      status: false,
+      status: 0,
     },
     dataDistrikRET: [],
     regionList: [],
@@ -301,12 +301,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/getPromo`, formData)
 
       if (result.data.status === false) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changePromotion', {
           isLoading: false,
@@ -321,12 +318,9 @@ const actions = {
           //   timer: 2000,
           // })
         } else {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Opps...',
-            text: 'Tidak terdapat data promo yang tersedia!',
-            showConfirmButton: false,
-            timer: 2000,
+          notification.warning({
+            message: 'Opps...',
+            description: 'Tidak terdapat data promo yang tersedia!',
           })
         }
 
@@ -339,12 +333,10 @@ const actions = {
       await commit('changePromotion', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Mohon maaf terdapat kesalahan.',
-        showConfirmButton: true,
-        timer: 2000,
+
+      notification.error({
+        message: 'Opps...',
+        description: 'Mohon maaf terdapat kesalahan.',
       })
     }
   },
@@ -392,29 +384,40 @@ const actions = {
     })
 
     const { data } = state
-
+    let EndDateFormat = ''
+    let formData = {}
     let StartDateFormat = new Date(data.formData.start_date).toISOString().slice(0, 10)
 
-    let EndDateFormat = ''
     if (data.formData.end_date != ``) {
       EndDateFormat = new Date(data.formData.end_date).toISOString().slice(0, 10)
-    }
-    let formData = {
-      id_distrik_ret: data.formData.id_distrik_ret,
-      start_date: StartDateFormat,
-      end_date: EndDateFormat,
-      id_brand: data.formData.id_brand,
-      id_kategori_promo: data.formData.id_kategori_promo,
-      program: data.formData.program,
-      nilai_zak: data.formData.nilai_zak,
-      mekanisme: data.formData.mekanisme,
-      status: data.formData.status,
+      formData = {
+        end_date: EndDateFormat,
+        id_distrik_ret: data.formData.id_distrik_ret,
+        start_date: StartDateFormat,
+        id_brand: data.formData.id_brand,
+        id_kategori_promo: data.formData.id_kategori_promo,
+        program: data.formData.program,
+        nilai_zak: data.formData.nilai_zak,
+        mekanisme: data.formData.mekanisme,
+        status: payload.status === false ? 0 : 1,
+      }
+    } else {
+      formData = {
+        id_distrik_ret: data.formData.id_distrik_ret,
+        start_date: StartDateFormat,
+        id_brand: data.formData.id_brand,
+        id_kategori_promo: data.formData.id_kategori_promo,
+        program: data.formData.program,
+        nilai_zak: data.formData.nilai_zak,
+        mekanisme: data.formData.mekanisme,
+        status: payload.status === false ? 0 : 1,
+      }
     }
 
     try {
       const result = await apiClient.post(`/WPM/InsertPromo`, formData)
 
-      if (result.data.state == 'false') {
+      if (result.data.status === false) {
         notification.warning({
           message: 'Error',
           description: result.data.message,
@@ -446,7 +449,6 @@ const actions = {
         isLoading: false,
         status: 'gagal',
       })
-
       notification.error({
         message: 'Error',
         description: `Maaf, terjadi kesalahan!`,
@@ -474,6 +476,7 @@ const actions = {
           end_date: EndDateFormat,
           nilai_zak: data.formData.nilai_zak,
           mekanisme: data.formData.mekanisme,
+          status: payload.status === false ? 0 : 1,
         }
 
         try {
@@ -524,7 +527,7 @@ const actions = {
           end_date: EndDateFormat,
           nilai_zak: data.formData.nilai_zak,
           mekanisme: data.formData.mekanisme,
-          status: data.formData.status,
+          status: payload.status === false ? 0 : 1,
         }
 
         try {
@@ -576,7 +579,7 @@ const actions = {
         end_date: EndDateFormat,
         nilai_zak: data.formData.nilai_zak,
         mekanisme: data.formData.mekanisme,
-        status: data.formData.status,
+        status: payload.status === false ? 0 : 1,
       }
 
       try {
