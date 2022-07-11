@@ -458,7 +458,6 @@ export default {
       if (
         this.wpPromotion.formData.id_distrik_ret != null &&
         this.wpPromotion.formData.start_date != '' &&
-        this.wpPromotion.formData.end_date != '' &&
         this.wpPromotion.formData.id_brand != null &&
         this.wpPromotion.formData.program != '' &&
         this.wpPromotion.formData.id_kategori_promo != null &&

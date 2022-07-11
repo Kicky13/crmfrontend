@@ -54,6 +54,9 @@ const state = {
     listData: [],
     statusCheck: false,
     isLoading: false,
+    params: {
+      tahun: '',
+    },
   },
 }
 
@@ -70,9 +73,11 @@ const actions = {
     })
 
     const { data } = state
-
+    let formData = {
+      tahun: data.params.tahun,
+    }
     try {
-      const result = await apiClient.get(`/wpm/master-data/weeklyConfig`)
+      const result = await apiClient.get(`/wpm/master-data/weeklyConfig`, formData)
 
       if (result.data.status == false) {
         await commit('changeWeeklyConfig', {

@@ -12,28 +12,39 @@
           Download Template Weekly Config
         </a-button>
         <a-tooltip title="Hapus">
-          <a-button
-            type="primary"
-            :disabled="!hasSelected"
-            @click="deleteSelectedRow"
-          >
+          <a-button type="primary" :disabled="!hasSelected" @click="deleteSelectedRow">
             <i class="fa fa-trash" />
           </a-button>
         </a-tooltip>
-      </div>
-      <div>
-        <a-button
-          type="primary"
-          class="mr-2"
-          @click="showPreviewModal"
+        <a-select
+          v-model:value="weeklyConfig.params.tahun"
+          placeholder="Tahun"
+          show-search
+          class=" ml-2"
+          style="width: 150px"
         >
+          <a-select-option disabled value="">Pilih Tahun</a-select-option>
+          <a-select-option v-for="(tahun, index) in years" :value="tahun" :key="index">
+            Tahun {{ tahun }}
+          </a-select-option>
+        </a-select>
+      </div>
+
+      <div>
+        <a-button type="primary" class="mr-2" @click="showPreviewModal">
           <i class="fa fa-download mr-2" />
           Upload
         </a-button>
         <a-button
+          :disabled="weeklyConfig.weeklyConfigList.length == 0 ? true : false"
           type="primary"
-          @click="showAddModal"
+          @click="handleDownloadData()"
+          class="mr-2"
         >
+          <i class="fa fa-download mr-2" />
+          Export
+        </a-button>
+        <a-button type="primary" @click="showAddModal">
           <i class="fa fa-plus mr-2" />
           Tambah
         </a-button>
@@ -75,28 +86,22 @@
       </template>
     </a-table>
   </a-card>
-  
+
   <!-- Add Modal -->
-  <a-modal
-    v-model:visible="weeklyConfigModal"
-    title="Form Weekly Config"
-  >
-  <template #footer>
-    <a-button
-      key="back"
-      @click="weeklyConfigModal = false"
-    >
-      Batal
-    </a-button>
-    <a-button
-      key="submit"
-      type="primary"
-      :loading="weeklyConfig.isLoading"
-      @click="saveWeeklyConfig"
-    >
-      {{ modalStatus ? 'Update' : 'Simpan' }}
-    </a-button>
-  </template>
+  <a-modal v-model:visible="weeklyConfigModal" title="Form Weekly Config">
+    <template #footer>
+      <a-button key="back" @click="weeklyConfigModal = false">
+        Batal
+      </a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="weeklyConfig.isLoading"
+        @click="saveWeeklyConfig"
+      >
+        {{ modalStatus ? 'Update' : 'Simpan' }}
+      </a-button>
+    </template>
     <a-input
       placeholder="Week Name"
       v-model:value="formState.weekly_config_baru"
@@ -127,10 +132,7 @@
     :style="{ padding: '0 75px' }"
   >
     <template #footer>
-      <a-button
-        key="back"
-        @click="previewModal = false"
-      >
+      <a-button key="back" @click="previewModal = false">
         Kembali
       </a-button>
       <a-button
@@ -165,9 +167,7 @@
       :scroll="{ x: 1000 }"
     >
       <template #icon="{ text }">
-        <div
-          v-if="text.msg_error == 0"
-        >
+        <div v-if="text.msg_error == 0">
           <a-tooltip :title="text.msg">
             <img lazy="loading" v-once src="@/assets/images/check.svg" alt="Benar" />
           </a-tooltip>
@@ -230,10 +230,6 @@ export default {
       selectedRowKeys: [],
     }
   },
-  async mounted() {
-    await this.fetchWeeklyConfig()
-    this.getUserId()
-  },
   computed: {
     ...mapState({
       weeklyConfig: state => state.weeklyConfig.data,
@@ -241,7 +237,22 @@ export default {
     hasSelected() {
       return this.selectedRowKeys.length > 0
     },
+    years() {
+      const year = new Date().getFullYear()
+      return Array.from({ length: year - 2021 }, (value, index) => 2022 + index)
+    },
   },
+  watch: {
+    'weeklyConfig.params.tahun': function() {
+      this.fetchWeeklyConfig()
+    },
+  },
+
+  async mounted() {
+    await this.fetchWeeklyConfig()
+    this.getUserId()
+  },
+
   methods: {
     ...mapActions('weeklyConfig', [
       'getAllWeeklyConfig',
@@ -253,14 +264,14 @@ export default {
     ]),
     async fetchWeeklyConfig() {
       await this.getAllWeeklyConfig()
-      this.weeklyConfig.weeklyConfigList.map(row => row.key = row.ID)
+      this.weeklyConfig.weeklyConfigList.map(row => (row.key = row.ID))
     },
     getUserId() {
       this.formState.id_user = store.state.user.userid
     },
     showAddModal() {
       this.modalStatus = false
-      this.weeklyConfigModal= true
+      this.weeklyConfigModal = true
       this.formState.weekly_config_baru = ''
       this.formState.tanggal_mulai = ''
       this.formState.tanggal_selesai = ''
@@ -347,7 +358,10 @@ export default {
         this.weeklyConfigModal = true
         return
       }
-      if (this.newDateGetTime(this.formState.tanggal_mulai) > this.newDateGetTime(this.formState.tanggal_selesai)) {
+      if (
+        this.newDateGetTime(this.formState.tanggal_mulai) >
+        this.newDateGetTime(this.formState.tanggal_selesai)
+      ) {
         notification.error({
           message: 'Gagal',
           description: 'Tanggal mulai harus sebelum tanggal selesai',
@@ -397,10 +411,16 @@ export default {
       return `${date}-${month}-${year}`
     },
     splitDate(dates) {
-      return new Date(dates).toLocaleDateString('en-GB').toString().replace('/', '-').replace('/', '-')
+      return new Date(dates)
+        .toLocaleDateString('en-GB')
+        .toString()
+        .replace('/', '-')
+        .replace('/', '-')
     },
     weeklyNameFormatting() {
-      this.formState.weekly_config_baru = this.formState.weekly_config_baru.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1')
+      this.formState.weekly_config_baru = this.formState.weekly_config_baru
+        .replace(/[^0-9]/g, '')
+        .replace(/(\..*?)\..*/g, '$1')
       var size = this.formState.weekly_config_baru.length
       if (size > 8) {
         this.formState.weekly_config_baru = this.formState.weekly_config_baru.slice(0, 8)
@@ -419,7 +439,7 @@ export default {
         user_id: this.formState.id_user,
       })
       this.weeklyConfig.listData.map(row => {
-        if (!(row.name_error == "1" && row.start_date_error == "1" && row.end_date_error == "1")) {
+        if (!(row.name_error == '1' && row.start_date_error == '1' && row.end_date_error == '1')) {
           this.previewData.push(row)
         }
       })
@@ -467,7 +487,13 @@ export default {
       if (savedDate.find(row => startDate >= row.start && endDate <= row.end)) {
         return true
       }
-      if (savedDate.find(row => (startDate >= row.start && startDate <= row.end) || (row.start >= startDate && row.start <= endDate))) {
+      if (
+        savedDate.find(
+          row =>
+            (startDate >= row.start && startDate <= row.end) ||
+            (row.start >= startDate && row.start <= endDate),
+        )
+      ) {
         return true
       }
       return false
@@ -492,6 +518,43 @@ export default {
         },
         onCancel: () => {},
       })
+    },
+    handleDownloadData() {
+      const header = ['WEEK_NAME', 'TANGGAL_MULAI', 'TANGGAL_SELESAI']
+      const filterVal = ['WEEK_NAME', 'TANGGAL_MULAI', 'TANGGAL_SELESAI']
+      this.exportToExcel(
+        header,
+        filterVal,
+        this.weeklyConfig.weeklyConfigList,
+        'Data Weekly Config' + ` - ` + this.weeklyConfig.params.tahun,
+      )
+      notification.success({
+        message: 'Success',
+        description: 'Data berhasil didownload!',
+      })
+    },
+    exportToExcel(header, filterVal, list, filename) {
+      import('@/vendor/Export2Excel').then(excel => {
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header,
+          data,
+          filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
     },
   },
 }
