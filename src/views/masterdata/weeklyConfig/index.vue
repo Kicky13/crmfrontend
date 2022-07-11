@@ -28,6 +28,14 @@
             Tahun {{ tahun }}
           </a-select-option>
         </a-select>
+        <a-tooltip placement="topLeft">
+          <template #title>
+            <span>Refresh Filter</span>
+          </template>
+          <a-button @click="refreshFilter()" type="primary" class="ml-2">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a-button>
+        </a-tooltip>
       </div>
 
       <div>
@@ -555,6 +563,11 @@ export default {
           }
         }),
       )
+    },
+
+    async refreshFilter() {
+      this.weeklyConfig.params.tahun = ''
+      await this.fetchWeeklyConfig()
     },
   },
 }

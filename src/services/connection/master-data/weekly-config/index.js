@@ -77,7 +77,7 @@ const actions = {
       tahun: data.params.tahun,
     }
     try {
-      const result = await apiClient.get(`/wpm/master-data/weeklyConfig`, formData)
+      const result = await apiClient.post(`/wpm/master-data/weeklyConfig`, formData)
 
       if (result.data.status == false) {
         await commit('changeWeeklyConfig', {
