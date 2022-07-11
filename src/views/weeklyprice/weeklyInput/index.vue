@@ -130,6 +130,9 @@
       <template #type="{ text }">
         <span>{{ text.nm_type_produk }}</span>
       </template>
+      <template #tipe_semen="{ text }">
+        <span>{{ text.nama_tipe_semen != null ? text.nama_tipe_semen : '-' }}</span>
+      </template>
       <template #kemasan="{ text }">
         <span>{{ text.nm_satuan }}</span>
       </template>
@@ -751,7 +754,8 @@ export default {
         'STATUS',
         'PRODUK',
         'BRAND',
-        'TYPE',
+        'TIPE PRODUK',
+        'TIPE SEMEN',
         'KEMASAN',
         'RBP GROSS',
         'PROMO',
@@ -768,6 +772,7 @@ export default {
         'nm_produk',
         'nm_brand',
         'nm_type_produk',
+        'nama_tipe_semen',
         'nm_satuan',
         'rbp_gross',
         'promo',

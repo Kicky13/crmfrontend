@@ -46,9 +46,14 @@ const state = {
         key: 'brand',
       },
       {
-        title: 'Type',
+        title: 'Tipe Produk',
         slots: { customRender: 'type' },
         key: 'type',
+      },
+      {
+        title: 'Tipe Semen',
+        slots: { customRender: 'tipe_semen' },
+        key: 'tipe_semen',
       },
       {
         title: 'Kemasan',
