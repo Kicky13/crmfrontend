@@ -253,6 +253,10 @@
           @change="handleChangeWeekForm()"
         >
           <a-select-option disabled value="">Pilih Week</a-select-option>
+          <a-select-option v-if="weeklyInput.dataWeekForm.length === 0" disabled value="0"
+            >Week tidak tersedia</a-select-option
+          >
+
           <a-select-option
             v-for="(weekly, index) in weeklyInput.dataWeekForm"
             :value="weekly.week"
@@ -612,6 +616,10 @@ export default {
               },
             })
           }
+          await this.handleChangeTahun()
+          await this.handleChangeBulan()
+          await this.getDataWeekParams()
+
           await this.getDataTable({
             id_tso: this.$store.state.user.idJabatan,
           })
@@ -625,6 +633,10 @@ export default {
               week: this.weeklyInput.formData.week,
             },
           })
+          await this.handleChangeTahun()
+          await this.handleChangeBulan()
+          await this.getDataWeekParams()
+
           await this.getDataTable({
             id_tso: this.$store.state.user.idJabatan,
           })
@@ -695,12 +707,20 @@ export default {
         this.weeklyInput.formData.bulan != '' &&
         this.weeklyInput.formData.week != ''
       ) {
+        this.weeklyInput.formData.week = ``
+        await this.$store.commit('weeklyInput/changeWeeklyInput', {
+          dataWeekForm: [],
+        })
         await this.getDataWeekForm()
       } else if (
         this.weeklyInput.formData.tahun != '' &&
         this.weeklyInput.formData.bulan != '' &&
         this.weeklyInput.formData.week == ''
       ) {
+        this.weeklyInput.formData.week = ``
+        await this.$store.commit('weeklyInput/changeWeeklyInput', {
+          dataWeekForm: [],
+        })
         await this.getDataWeekForm()
       }
     },
