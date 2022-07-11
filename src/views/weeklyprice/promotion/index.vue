@@ -240,7 +240,7 @@
         <a-select
           :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_distrik_ret"
-          placeholder="Distrik RET"
+          placeholder="Distrik"
           class="w-100 mb-4"
           show-search
         >
@@ -272,9 +272,6 @@
           :disabled-date="disabledEndDate"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6" />
-    </a-row>
-    <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata == true ? true : false"
@@ -294,6 +291,8 @@
           </a-select-option>
         </a-select>
       </a-col>
+    </a-row>
+    <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata == true ? true : false"
@@ -332,6 +331,11 @@
           v-model:value="wpPromotion.formData.nilai_zak"
           class=" mb-4 w-100"
         />
+      </a-col>
+      <a-col :xs="24" :md="12" :lg="6">
+        <a-checkbox v-model:checked="wpPromotion.formData.status"
+          >Memotong nilai RBP Net</a-checkbox
+        >
       </a-col>
     </a-row>
     <a-textarea v-model:value="wpPromotion.formData.mekanisme" placeholder="Mekanisme" :rows="5" />
@@ -485,7 +489,6 @@ export default {
         } else {
           await this.insertDataPromo()
         }
-        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({
