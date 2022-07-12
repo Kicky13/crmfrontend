@@ -240,7 +240,7 @@
         <a-select
           :disabled="editdata == true ? true : false"
           v-model:value="wpPromotion.formData.id_distrik_ret"
-          placeholder="Distrik RET"
+          placeholder="Distrik"
           class="w-100 mb-4"
           show-search
         >
@@ -272,9 +272,6 @@
           :disabled-date="disabledEndDate"
         />
       </a-col>
-      <a-col :xs="24" :md="12" :lg="6" />
-    </a-row>
-    <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata == true ? true : false"
@@ -294,6 +291,8 @@
           </a-select-option>
         </a-select>
       </a-col>
+    </a-row>
+    <a-row :gutter="[24]">
       <a-col :xs="24" :md="12" :lg="6">
         <a-select
           :disabled="editdata == true ? true : false"
@@ -333,6 +332,9 @@
           class=" mb-4 w-100"
         />
       </a-col>
+      <a-col :xs="24" :md="12" :lg="6" class="d-flex aligns-item-center">
+        <a-checkbox v-model:checked="checked">Memotong nilai RBP Net</a-checkbox>
+      </a-col>
     </a-row>
     <a-textarea v-model:value="wpPromotion.formData.mekanisme" placeholder="Mekanisme" :rows="5" />
   </a-modal>
@@ -347,6 +349,7 @@ export default {
     return {
       addModal: false,
       editdata: false,
+      checked: 0,
     }
   },
   computed: {
@@ -458,7 +461,6 @@ export default {
       if (
         this.wpPromotion.formData.id_distrik_ret != null &&
         this.wpPromotion.formData.start_date != '' &&
-        this.wpPromotion.formData.end_date != '' &&
         this.wpPromotion.formData.id_brand != null &&
         this.wpPromotion.formData.program != '' &&
         this.wpPromotion.formData.id_kategori_promo != null &&
@@ -468,6 +470,7 @@ export default {
         if (this.editdata == true) {
           await this.updateDataPromo({
             uuid: this.uuid,
+            status: this.checked,
           })
           if (this.weeklyInput.status == 'sukses') {
             await this.$store.commit('wpPromotion/changePromotion', {
@@ -484,9 +487,10 @@ export default {
             })
           }
         } else {
-          await this.insertDataPromo()
+          await this.insertDataPromo({
+            status: this.checked,
+          })
         }
-        await this.getDataTable()
         this.addModal = false
       } else {
         notification.error({

@@ -88,6 +88,7 @@ const state = {
       mekanisme: '',
       edit_zak: null,
       nama_brand: '',
+      status: 0,
     },
     dataDistrikRET: [],
     regionList: [],
@@ -278,7 +279,6 @@ const actions = {
       })
     }
   },
-
   async getDataTable({ commit, state }, payload) {
     commit('changePromotion', {
       isLoading: true,
@@ -301,12 +301,9 @@ const actions = {
       const result = await apiClient.post(`/WPM/getPromo`, formData)
 
       if (result.data.status === false) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changePromotion', {
           isLoading: false,
@@ -321,12 +318,9 @@ const actions = {
           //   timer: 2000,
           // })
         } else {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Opps...',
-            text: 'Tidak terdapat data promo yang tersedia!',
-            showConfirmButton: false,
-            timer: 2000,
+          notification.warning({
+            message: 'Opps...',
+            description: 'Tidak terdapat data promo yang tersedia!',
           })
         }
 
@@ -339,16 +333,13 @@ const actions = {
       await commit('changePromotion', {
         isLoading: false,
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Mohon maaf terdapat kesalahan.',
-        showConfirmButton: true,
-        timer: 2000,
+
+      notification.error({
+        message: 'Opps...',
+        description: 'Mohon maaf terdapat kesalahan.',
       })
     }
   },
-
   async deleteDataRow({ commit, state }, payload) {
     commit('changePromotion', {
       isLoading: true,
@@ -363,35 +354,26 @@ const actions = {
       const result = await apiClient.post(`/WPM/DeletePromo`, formData)
 
       if (result.data.status == false) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+        notification.warning({
+          message: 'Opps...',
+          description: result.data.message,
         })
         await commit('changePromotion', {
           isLoading: false,
         })
       } else {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success...',
-          text: 'Data berhasil dihapus!',
-          showConfirmButton: false,
-          timer: 2000,
+        notification.success({
+          message: 'Success...',
+          description: 'Data berhasil dihapus!',
         })
         await commit('changePromotion', {
           isLoading: false,
         })
       }
     } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+      notification.error({
+        message: 'Opps...',
+        description: 'Maaf, terjadi kesalahan!',
       })
     }
   },
@@ -402,31 +384,43 @@ const actions = {
     })
 
     const { data } = state
-
+    let EndDateFormat = ''
+    let formData = {}
     let StartDateFormat = new Date(data.formData.start_date).toISOString().slice(0, 10)
-    let EndDateFormat = new Date(data.formData.end_date).toISOString().slice(0, 10)
 
-    let formData = {
-      id_distrik_ret: data.formData.id_distrik_ret,
-      start_date: StartDateFormat,
-      end_date: EndDateFormat,
-      id_brand: data.formData.id_brand,
-      id_kategori_promo: data.formData.id_kategori_promo,
-      program: data.formData.program,
-      nilai_zak: data.formData.nilai_zak,
-      mekanisme: data.formData.mekanisme,
+    if (data.formData.end_date != ``) {
+      EndDateFormat = new Date(data.formData.end_date).toISOString().slice(0, 10)
+      formData = {
+        end_date: EndDateFormat,
+        id_distrik_ret: data.formData.id_distrik_ret,
+        start_date: StartDateFormat,
+        id_brand: data.formData.id_brand,
+        id_kategori_promo: data.formData.id_kategori_promo,
+        program: data.formData.program,
+        nilai_zak: data.formData.nilai_zak,
+        mekanisme: data.formData.mekanisme,
+        status: payload.status === false ? 0 : 1,
+      }
+    } else {
+      formData = {
+        id_distrik_ret: data.formData.id_distrik_ret,
+        start_date: StartDateFormat,
+        id_brand: data.formData.id_brand,
+        id_kategori_promo: data.formData.id_kategori_promo,
+        program: data.formData.program,
+        nilai_zak: data.formData.nilai_zak,
+        mekanisme: data.formData.mekanisme,
+        status: payload.status === false ? 0 : 1,
+      }
     }
 
     try {
       const result = await apiClient.post(`/WPM/InsertPromo`, formData)
 
-      if (result.data.state == 'false') {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Opps...',
-          text: result.data.message,
-          showConfirmButton: false,
-          timer: 2000,
+      if (result.data.status === false) {
+        notification.warning({
+          message: 'Error',
+          description: result.data.message,
         })
         await commit('changePromotion', {
           isLoading: false,
@@ -439,20 +433,14 @@ const actions = {
         })
 
         if (result.data.message.indexOf('sudah') !== -1) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Opps...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+          notification.warning({
+            message: 'Error',
+            description: result.data.message,
           })
         } else {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+          notification.succes({
+            message: 'Success',
+            description: result.data.message,
           })
         }
       }
@@ -461,12 +449,9 @@ const actions = {
         isLoading: false,
         status: 'gagal',
       })
-      Swal.fire({
-        icon: 'error',
-        title: 'Opps...',
-        text: 'Maaf, terjadi kesalahan!',
-        showConfirmButton: false,
-        timer: 2000,
+      notification.error({
+        message: 'Error',
+        description: `Maaf, terjadi kesalahan!`,
       })
     }
   },
@@ -481,26 +466,26 @@ const actions = {
     if (data.formData.start_date.length == 10) {
       if (data.formData.edit_zak != data.formData.nilai_zak) {
         let StartDateFormat = new Date(data.formData.start_date)
-        let EndDateFormat = new Date(data.formData.end_date)
-
+        let EndDateFormat = ''
+        if (data.formData.end_date != ``) {
+          EndDateFormat = new Date(data.formData.end_date)
+        }
         let formData = {
           uuid: payload.uuid,
           start_date: StartDateFormat,
           end_date: EndDateFormat,
           nilai_zak: data.formData.nilai_zak,
           mekanisme: data.formData.mekanisme,
+          status: payload.status === false ? 0 : 1,
         }
 
         try {
           const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
           if (result.data.state == 'false') {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Opps...',
-              text: result.data.message,
-              showConfirmButton: false,
-              timer: 2000,
+            notification.warning({
+              message: 'Error',
+              description: result.data.message,
             })
             await commit('changePromotion', {
               isLoading: false,
@@ -511,12 +496,10 @@ const actions = {
               isLoading: false,
               status: 'sukses',
             })
-            Swal.fire({
-              icon: 'success',
-              title: 'Success...',
-              text: 'Data berhasil diupdate!',
-              showConfirmButton: false,
-              timer: 2000,
+
+            notification.success({
+              message: 'Success',
+              description: 'Data berhasil diupdate!',
             })
           }
         } catch (error) {
@@ -524,17 +507,19 @@ const actions = {
             isLoading: false,
             status: 'gagal',
           })
-          Swal.fire({
-            icon: 'error',
-            title: 'Opps...',
-            text: 'Maaf, terjadi kesalahan!',
-            showConfirmButton: false,
-            timer: 2000,
+
+          notification.error({
+            message: 'Error',
+            description: 'Maaf, terjadi kesalahan!',
           })
         }
       } else {
         let StartDateFormat = new Date(data.formData.start_date)
-        let EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
+
+        let EndDateFormat = ''
+        if (data.formData.end_date != ``) {
+          EndDateFormat = new Date(data.formData.end_date + 3600 * 1000 * 24)
+        }
 
         let formData = {
           uuid: payload.uuid,
@@ -542,18 +527,16 @@ const actions = {
           end_date: EndDateFormat,
           nilai_zak: data.formData.nilai_zak,
           mekanisme: data.formData.mekanisme,
+          status: payload.status === false ? 0 : 1,
         }
 
         try {
           const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
           if (result.data.state == 'false') {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Opps...',
-              text: result.data.message,
-              showConfirmButton: false,
-              timer: 2000,
+            notification.warning({
+              message: 'Opps...',
+              description: result.data.message,
             })
             await commit('changePromotion', {
               isLoading: false,
@@ -565,12 +548,9 @@ const actions = {
               status: 'sukses',
             })
 
-            Swal.fire({
-              icon: 'success',
-              title: 'Success...',
-              text: result.data.message,
-              showConfirmButton: false,
-              timer: 2000,
+            notification.success({
+              message: 'Success...',
+              description: result.data.message,
             })
           }
         } catch (error) {
@@ -578,36 +558,37 @@ const actions = {
             isLoading: false,
             status: 'gagal',
           })
-          Swal.fire({
-            icon: 'error',
-            title: 'Opps...',
-            text: 'Maaf, terjadi kesalahan!',
-            showConfirmButton: false,
-            timer: 2000,
+
+          notification.error({
+            message: 'Error',
+            description: 'Maaf, terjadi kesalahan!',
           })
         }
       }
     } else if (data.formData.end_date.length == 10) {
       let StartDateFormat = new Date(data.formData.start_date + 3600 * 1000 * 24)
-      let EndDateFormat = new Date(data.formData.end_date)
+
+      let EndDateFormat = ''
+      if (data.formData.end_date != ``) {
+        EndDateFormat = new Date(data.formData.end_date)
+      }
+
       let formData = {
         uuid: payload.uuid,
         start_date: StartDateFormat,
         end_date: EndDateFormat,
         nilai_zak: data.formData.nilai_zak,
         mekanisme: data.formData.mekanisme,
+        status: payload.status === false ? 0 : 1,
       }
 
       try {
         const result = await apiClient.post(`/WPM/UpdatePromo`, formData)
 
         if (result.data.state == 'false') {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Opps...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+          notification.warning({
+            message: 'Opps...',
+            description: result.data.message,
           })
           await commit('changePromotion', {
             isLoading: false,
@@ -618,12 +599,10 @@ const actions = {
             isLoading: false,
             status: 'sukses',
           })
-          Swal.fire({
-            icon: 'success',
-            title: 'Success...',
-            text: result.data.message,
-            showConfirmButton: false,
-            timer: 2000,
+
+          notification.success({
+            message: 'Success...',
+            description: result.data.message,
           })
         }
       } catch (error) {
@@ -631,12 +610,10 @@ const actions = {
           isLoading: false,
           status: 'gagal',
         })
-        Swal.fire({
-          icon: 'error',
-          title: 'Opps...',
-          text: 'Maaf, terjadi kesalahan!',
-          showConfirmButton: false,
-          timer: 2000,
+
+        notification.error({
+          message: 'Opps...',
+          description: 'Maaf, terjadi kesalahan!',
         })
       }
     }
