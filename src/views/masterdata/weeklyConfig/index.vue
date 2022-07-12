@@ -25,9 +25,17 @@
         <a-button
           type="primary"
           class="mr-2"
-          @click="showPreviewModal"
+          @click="downloadWeeklyConfigHandle"
         >
           <i class="fa fa-download mr-2" />
+          Download
+        </a-button>
+        <a-button
+          type="primary"
+          class="mr-2"
+          @click="showPreviewModal"
+        >
+          <i class="fa fa-upload mr-2" />
           Upload
         </a-button>
         <a-button
@@ -66,12 +74,6 @@
             <i class="fa fa-trash" />
           </button>
         </div>
-      </template>
-      <template #tanggal_mulai="{ text }">
-        <span>{{ changeFormatDate(text.TANGGAL_MULAI) }}</span>
-      </template>
-      <template #tanggal_selesai="{ text }">
-        <span>{{ changeFormatDate(text.TANGGAL_SELESAI) }}</span>
       </template>
     </a-table>
   </a-card>
@@ -253,7 +255,11 @@ export default {
     ]),
     async fetchWeeklyConfig() {
       await this.getAllWeeklyConfig()
-      this.weeklyConfig.weeklyConfigList.map(row => row.key = row.ID)
+      this.weeklyConfig.weeklyConfigList.map(row => {
+        row.TANGGAL_MULAI = this.changeFormatDate(row.TANGGAL_MULAI)
+        row.TANGGAL_SELESAI = this.changeFormatDate(row.TANGGAL_SELESAI)
+        row.key = row.ID
+    })
     },
     getUserId() {
       this.formState.id_user = store.state.user.userid
@@ -492,6 +498,40 @@ export default {
         },
         onCancel: () => {},
       })
+    },
+    downloadWeeklyConfigHandle() {
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = [
+          'Week Name',
+          'Tanggal Mulai',
+          'Tanggal Selesai',
+        ]
+        const filterVal = [
+          'WEEK_NAME',
+          'TANGGAL_MULAI',
+          'TANGGAL_SELESAI',
+        ]
+        const list = this.weeklyConfig.weeklyConfigList
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'Data Weekly Config',
+          autoWidth: this.autoWidth,
+          bookType: this.bookType,
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }),
+      )
     },
   },
 }

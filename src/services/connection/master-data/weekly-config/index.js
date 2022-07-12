@@ -11,13 +11,13 @@ const state = {
       },
       {
         title: 'Tanggal Mulai',
+        dataIndex: 'TANGGAL_MULAI',
         key: 'TANGGAL_MULAI',
-        slots: { customRender: 'tanggal_mulai' },
       },
       {
         title: 'Tanggal Selesai',
+        dataIndex: 'TANGGAL_SELESAI',
         key: 'TANGGAL_SELESAI',
-        slots: { customRender: 'tanggal_selesai' },
       },
       {
         title: 'Action',
